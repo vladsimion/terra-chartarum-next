@@ -1,8 +1,12 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { registry } from './src/integrations/registry.ts';
 
 // Static output only (constitution Principle VII; ADR 0005).
+// TC_REGISTRY_DIR and TC_OUT_DIR let tests build against a temporary registry.
 export default defineConfig({
   site: 'https://terra-chartarum.org',
   output: 'static',
+  outDir: process.env.TC_OUT_DIR ?? './dist',
+  integrations: [registry({ dataDir: process.env.TC_REGISTRY_DIR ?? 'data/registry' })],
 });
