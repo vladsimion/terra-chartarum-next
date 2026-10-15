@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://terra-chartarum.org/schemas/integrity-report.schema.json",
+  "title": "Integrity report",
+  "description": "Output of the registry integrity gate (spec 001, FR-005/FR-006). Written to reports/integrity-report.json on every build and CI run.",
+  "type": "object",
+  "required": ["run_id", "generated_at", "status", "counts", "violations"],
+  "additionalProperties": false,
+  "properties": {
+    "run_id": { "type": "string" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "status": { "enum": ["pass", "fail"] },
+    "counts": {
+      "type": "object",
+      "required": ["entities", "references", "violations"],
+      "properties": {
+        "entities": { "type": "integer", "minimum": 0 },
+        "by_family": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 0 } },
+        "references": { "type": "integer", "minimum": 0 },
+        "violations": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "violations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message", "files"],
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "enum": [
+              "ID_SYNTAX", "ID_DUPLICATE", "REF_UNKNOWN", "REF_FAMILY", "ENUM_INVALID",
+              "PROVENANCE_MISSING", "LOCATOR_UNVERIFIED_SECURE", "LOCATOR_VERIFICATION_INCOMPLETE",
+              "ESSAY_LIFECYCLE_DECLARED", "SUPERSEDED_WITHOUT_SUCCESSOR", "COLLECTION_DEFAULTS",
+              "ASSET_MISSING", "EXTRACTION_UNADJUDICATED", "FINDING_AID_AS_SOURCE"
+            ]
+          },
+          "message": { "type": "string" },
+          "entity": { "type": "string", "description": "Qualified ID, when one can be formed" },
+          "field": { "type": "string", "description": "JSON-pointer-style path inside the record" },
+          "value": {},
+          "files": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+        }
+      }
+    }
+  }
+}

@@ -31,9 +31,9 @@ As a researcher reading a claim, I can see its source, locator, evidence type, d
 **Acceptance Scenarios**:
 1. **Given** a feature whose geometry is a scholarly reconstruction, **When** it is validated, **Then** `geometry_provenance = scholarly_reconstruction` is required and accepted.
 2. **Given** a locator marked `verified`, **When** validated, **Then** `verified_by` (a person), `verified_on` and `consulted_copy` (edition + scan URL or shelfmark) are all required; AI-proposed locators stay `pending` until a person confirms them (ADR 0003).
-5. **Given** a claim rated `secure`, **When** any of its locators is `pending`, **Then** validation fails.
 3. **Given** a publishable record missing rights/licence, **When** the build runs, **Then** it fails.
 4. **Given** a place absent from a source, **When** recorded, **Then** the absence carries one of the typed silence states rather than a null.
+5. **Given** a claim rated `secure`, **When** any of its locators is `pending`, **Then** validation fails.
 
 ### User Story 3 — One linked scholarly graph (Priority: P1)
 **Audience**: editor; GIS developers.
