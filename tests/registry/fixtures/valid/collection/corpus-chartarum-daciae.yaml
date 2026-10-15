@@ -1,0 +1,7 @@
+id: corpus-chartarum-daciae
+family: collection
+title: Corpus Chartarum Daciae (fixture)
+slug: corpus-chartarum-daciae
+question: How was Dacia mapped from antiquity to the early modern period?
+layer_ids: [layer:roman-roads, layer:roman-limes]
+default_layer_ids: [layer:roman-roads]

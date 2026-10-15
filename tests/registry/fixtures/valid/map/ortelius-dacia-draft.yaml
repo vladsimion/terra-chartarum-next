@@ -1,0 +1,5 @@
+id: ortelius-dacia-draft
+family: map
+title: Superseded draft record (fixture)
+slug: daciarum-draft
+superseded_by: map:ortelius-dacia

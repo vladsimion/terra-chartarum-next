@@ -1,0 +1,8 @@
+id: ortelius
+family: cartographer
+title: Abraham Ortelius
+slug: abraham-ortelius
+names: [Abraham Ortelius, Abraham Ortels]
+roles: [cartographer, publisher]
+maps: [map:ortelius-dacia]
+bibliography: [bibliography:ortelius-theatrum]

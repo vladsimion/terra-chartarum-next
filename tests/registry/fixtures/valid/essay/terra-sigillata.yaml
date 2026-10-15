@@ -1,0 +1,12 @@
+id: terra-sigillata
+family: essay
+title: Terra Sigillata (fixture)
+slug: terra-sigillata
+stage: draft
+question: How did maps fix Roman Dacia's frontiers in the early modern imagination?
+maps: [map:ortelius-dacia]
+layers: [layer:roman-roads]
+places: [place:apulum]
+sources: [source:ptolemy-geographia]
+bibliography: [bibliography:ortelius-theatrum]
+rooms: { primary: room:border, secondary: [room:archive] }

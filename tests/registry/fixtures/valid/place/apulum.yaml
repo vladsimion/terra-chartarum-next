@@ -1,0 +1,10 @@
+id: apulum
+family: place
+title: Apulum
+slug: apulum
+previous_slugs: [alba-iulia]
+names:
+  - { form: Apulum, language: la }
+  - { form: Alba Iulia, language: ro }
+sources: [source:ptolemy-geographia]
+rooms: { primary: room:border, secondary: [room:archive] }

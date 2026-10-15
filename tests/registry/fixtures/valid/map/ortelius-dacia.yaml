@@ -1,0 +1,9 @@
+id: ortelius-dacia
+family: map
+title: Daciarum, Moesiarumque Vetus Descriptio (fixture)
+slug: daciarum-moesiarumque
+cartographers: [cartographer:ortelius]
+places: [place:apulum]
+layers: [layer:roman-roads]
+bibliography: [bibliography:ortelius-theatrum]
+rooms: { primary: room:border }

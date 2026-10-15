@@ -1,0 +1,8 @@
+id: roman-roads
+family: layer
+title: Roman roads in Dacia (fixture)
+role: historical
+theme: networks-circulation
+asset: layers/roman-roads.fgb
+dataset: dataset:roman-dacia
+collections: [collection:corpus-chartarum-daciae]

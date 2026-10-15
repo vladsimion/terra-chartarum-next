@@ -1,0 +1,8 @@
+id: roman-dacia
+family: dataset
+title: Roman Dacia (fixture)
+question: Where did Roman roads and frontiers run in Dacia?
+crs: EPSG:4326
+format: flatgeobuf
+layers: [layer:roman-roads, layer:roman-limes]
+sources: [source:ptolemy-geographia]

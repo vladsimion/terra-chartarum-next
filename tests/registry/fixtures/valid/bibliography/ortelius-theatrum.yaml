@@ -1,0 +1,5 @@
+id: ortelius-theatrum
+family: bibliography
+title: Theatrum Orbis Terrarum (fixture)
+section: historical_maps
+citation: { type: book, title: Theatrum Orbis Terrarum, author: [{ family: Ortelius, given: Abraham }] }

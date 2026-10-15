@@ -110,6 +110,14 @@ describe('registry-check exit codes', () => {
     expect((await check('--nonsense')).code).toBe(2);
   }, 30_000);
 
+  test('exits 0 on the shared valid fixture, counting its references', async () => {
+    const result = await check('--data', join(ROOT, 'tests/registry/fixtures/valid'), '--report', 'out');
+
+    expect(result.code).toBe(0);
+    const report = await readJson(join(work, 'out/integrity-report.json'));
+    expect((report['counts'] as { references: number }).references).toBeGreaterThan(0);
+  }, 30_000);
+
   test('defaults to data/registry and reports/', async () => {
     await put('data/registry/place/apulum.yaml', VALID_PLACE);
 

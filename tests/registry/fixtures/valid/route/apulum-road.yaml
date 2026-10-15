@@ -1,0 +1,7 @@
+id: apulum-road
+family: route
+title: Road through Apulum (fixture)
+valid_from: "0106"
+valid_to: "0271"
+places: [place:apulum]
+sources: [source:ptolemy-geographia]

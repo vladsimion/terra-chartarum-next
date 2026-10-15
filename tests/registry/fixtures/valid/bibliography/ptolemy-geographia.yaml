@@ -1,0 +1,5 @@
+id: ptolemy-geographia
+family: bibliography
+title: Geographia (fixture)
+section: primary_sources
+citation: { type: book, title: Geographia, author: [{ family: Ptolemy }] }

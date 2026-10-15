@@ -1,0 +1,6 @@
+id: dacia-province
+family: event
+title: Dacia becomes a Roman province (fixture)
+valid_from: "0106"
+places: [place:apulum]
+sources: [source:ptolemy-geographia]

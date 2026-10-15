@@ -1,0 +1,9 @@
+id: apulum-ptolemy
+authority: cnd
+family: attestation
+title: Apulum in Ptolemy
+place: cnd:place:apulum
+source: source:ptolemy-geographia
+name_form: Apulon
+language: grc
+locator: "3.8.4"

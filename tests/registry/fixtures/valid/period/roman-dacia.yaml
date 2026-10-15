@@ -1,0 +1,7 @@
+id: roman-dacia
+family: period
+title: Roman Dacia (fixture)
+valid_from: "0106"
+valid_to: "0271"
+places: [place:apulum]
+sources: [source:ptolemy-geographia]
