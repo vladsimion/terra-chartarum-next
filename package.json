@@ -1,0 +1,33 @@
+{
+  "name": "terra-chartarum",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Terra Chartarum successor: spec-driven historical atlas and scholarly cartographic publication",
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "vitest run --project unit",
+    "test:watch": "vitest --project unit",
+    "test:bench": "vitest bench --run --project bench",
+    "registry:check": "tsx scripts/registry-check.ts"
+  },
+  "dependencies": {
+    "astro": "7.4.0",
+    "edtf": "4.11.1",
+    "yaml": "2.9.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@types/node": "22.20.5",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3",
+    "vitest": "5.0.5"
+  }
+}

@@ -26,11 +26,11 @@ description: "Task list for 001 — Scholarly Entity Registry & Integrity Gate"
 
 **Purpose**: Make the repository a buildable, testable TypeScript/Astro project.
 
-- [ ] T001 Initialise the Astro project at the repository root with TypeScript `strict`; pin Node LTS in `.nvmrc`; pin exact versions of `astro`, `typescript`, `zod` (v4), `yaml`, an EDTF parser and `vitest` in `package.json`
-- [ ] T002 [P] Add npm scripts in `package.json`: `test`, `test:bench`, `registry:check` (runs `scripts/registry-check.ts`), `build`, `check`
-- [ ] T003 [P] Configure Vitest in `vitest.config.ts` with `tests/` as root and a separate `bench` project for `tests/registry/bench/`
-- [ ] T004 [P] Add CI workflow `.github/workflows/ci.yml` running `npm ci`, `npm run check`, `npm test`, `npm run registry:check` and `npm run build` on every push and PR; `reports/` uploaded as an artifact
-- [ ] T005 [P] Create empty directories with `.gitkeep`: `data/registry/`, `data/vocab-mappings/`, `tests/registry/fixtures/valid/`, `tests/registry/fixtures/invalid/`, `reports/` (add `reports/` to `.gitignore`)
+- [x] T001 Initialise the Astro project at the repository root with TypeScript `strict`; pin Node LTS in `.nvmrc`; pin exact versions of `astro`, `typescript`, `zod` (v4), `yaml`, an EDTF parser and `vitest` in `package.json`
+- [x] T002 [P] Add npm scripts in `package.json`: `test`, `test:bench`, `registry:check` (runs `scripts/registry-check.ts`), `build`, `check`
+- [x] T003 [P] Configure Vitest in `vitest.config.ts` with `tests/` as root and a separate `bench` project for `tests/registry/bench/`
+- [x] T004 [P] Add CI workflow `.github/workflows/ci.yml` running `npm ci`, `npm run check`, `npm test`, `npm run registry:check` and `npm run build` on every push and PR; `reports/` uploaded as an artifact
+- [x] T005 [P] Create empty directories with `.gitkeep`: `data/registry/`, `data/vocab-mappings/`, `tests/registry/fixtures/valid/`, `tests/registry/fixtures/invalid/`, `reports/` (add `reports/` to `.gitignore`)
 
 **Checkpoint**: `npm test` runs (zero tests), and CI is green on an empty project.
 
@@ -42,10 +42,10 @@ description: "Task list for 001 — Scholarly Entity Registry & Integrity Gate"
 
 **⚠️ CRITICAL**: No user-story work begins until this phase is complete.
 
-- [ ] T006 Write failing tests in `tests/registry/vocab.test.ts` asserting each shared enum has exactly the ADR 0003 values: lifecycle `proposed · researching · verified · ready_for_build · in_build · qa · publishable · published · superseded · blocked`; confidence `secure · probable · possible · conjectural · unknown`; geometry provenance `source_geometry · georeferenced_trace · scholarly_reconstruction · generalized_editorial · modern_reference`; silence `non_survival · non_survey · non_request · alternative_naming · outside_frame · source_not_applicable · meaningful_silence`; families (14, per data-model.md: … `room`, `bibliography`); essay stages (9); rooms (Earth, Map, City, Border, Road, Archive, Theatre)
-- [ ] T007 Implement `src/registry/vocab.ts` as the single definition of every enum in T006 (make T006 pass)
-- [ ] T008 Write failing tests in `tests/registry/load.test.ts`: loads every `*.yaml` under a given directory into `{ record, file }` pairs; reports YAML parse errors with file path and line; rejects non-object documents
-- [ ] T009 Implement `src/registry/load.ts` (make T008 pass)
+- [x] T006 Write failing tests in `tests/registry/vocab.test.ts` asserting each shared enum has exactly the ADR 0003 values: lifecycle `proposed · researching · verified · ready_for_build · in_build · qa · publishable · published · superseded · blocked`; confidence `secure · probable · possible · conjectural · unknown`; geometry provenance `source_geometry · georeferenced_trace · scholarly_reconstruction · generalized_editorial · modern_reference`; silence `non_survival · non_survey · non_request · alternative_naming · outside_frame · source_not_applicable · meaningful_silence`; families (14, per data-model.md: … `room`, `bibliography`); essay stages (9); rooms (Earth, Map, City, Border, Road, Archive, Theatre)
+- [x] T007 Implement `src/registry/vocab.ts` as the single definition of every enum in T006 (make T006 pass)
+- [x] T008 Write failing tests in `tests/registry/load.test.ts`: loads every `*.yaml` under a given directory into `{ record, file }` pairs; reports YAML parse errors with file path and line; rejects non-object documents
+- [x] T009 Implement `src/registry/load.ts` (make T008 pass)
 
 **Checkpoint**: Vocabularies and loading are in place. Confirm the test seams with the user now.
 

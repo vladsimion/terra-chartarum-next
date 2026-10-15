@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      # The registry CLI arrives with task T020; until then this step is skipped.
+      - name: Registry integrity gate
+        run: |
+          if [ -f scripts/registry-check.ts ]; then npm run registry:check; else echo "registry CLI not yet implemented (T020)"; fi
+      - run: npm run build
+      - name: Upload integrity reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: reports/
+          if-no-files-found: ignore
