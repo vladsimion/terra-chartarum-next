@@ -57,13 +57,13 @@ description: "Task list for 001 — Scholarly Entity Registry & Integrity Gate"
 
 **Independent Test**: Add a record, rename its title and slug, run `npm run registry:check`: same ID, exit 0. A duplicate or malformed ID exits 1, naming the files and the rule.
 
-- [ ] T010 [P] [US1] Write failing tests in `tests/registry/ids.test.ts` for `parseRef`/`qualify`: local id matches `[a-z0-9][a-z0-9._-]{0,127}`; authority matches `[a-z][a-z0-9]{1,15}` and defaults to `tc`; `map:x` → (tc, map, x); `cnd:attestation:x` → (cnd, attestation, x); qualified form `tc:{authority}:{family}:{local-id}`; unknown family rejected
-- [ ] T011 [P] [US1] Implement `src/registry/ids.ts` (make T010 pass)
-- [ ] T012 [US1] Write failing tests in `tests/registry/schemas.test.ts › envelope`: required `id`, `family`, `title`; `slug` required for routable families; `previous_slugs` optional string[]; unknown top-level keys rejected; `private` accepted as an opaque object
-- [ ] T013 [US1] Implement the envelope schema in `src/registry/schemas/envelope.ts` (make T012 pass)
-- [ ] T014 [US1] Write failing test `tests/registry/integrity.test.ts › ID_SYNTAX` using fixture `tests/registry/fixtures/invalid/ID_SYNTAX/`: violation reports the offending value, the rule broken and the file
-- [ ] T015 [US1] Write failing test `integrity › ID_DUPLICATE` using fixture `invalid/ID_DUPLICATE/` (same authority, family and id in two files): one violation whose `files` lists both
-- [ ] T016 [US1] Implement `validateRegistry(records)` in `src/registry/integrity.ts` with ID_SYNTAX and ID_DUPLICATE (make T014–T015 pass)
+- [x] T010 [US1] Write failing tests in `tests/registry/integrity.test.ts › ID_SYNTAX` through seam 1 (`validateRegistry`): a local id not matching `[a-z0-9][a-z0-9._-]{0,127}`, an authority not matching `[a-z][a-z0-9]{1,15}` or an unknown family each yields ID_SYNTAX naming the value, the rule and the file; valid records yield none; violations name the entity in qualified form `tc:{authority}:{family}:{local-id}` (authority defaults to `tc`)
+- [x] T011 [US1] Implement `src/registry/ids.ts` and a first `validateRegistry({ records, loadErrors })` in `src/registry/integrity.ts` returning `{ status, counts, violations }` (make T010 pass)
+- [ ] T012 [US1] Write failing tests `integrity › SCHEMA_INVALID` through seam 1: missing `id`, `family` or `title`; missing `slug` on a routable family; an unknown top-level key; a `private` block is accepted as an opaque object; `previous_slugs` must be a list of strings
+- [ ] T013 [US1] Implement the envelope schema in `src/registry/schemas/envelope.ts` and report its failures as SCHEMA_INVALID with the field path (make T012 pass)
+- [ ] T014 [US1] Write failing test `integrity › FILE_UNREADABLE`: loader errors passed in as `loadErrors` appear as violations with file and line
+- [ ] T015 [US1] Write failing test `integrity › ID_DUPLICATE` (same authority, family and id in two files): one violation whose `files` lists both
+- [ ] T016 [US1] Implement FILE_UNREADABLE and ID_DUPLICATE in `src/registry/integrity.ts` (make T014–T015 pass)
 - [ ] T017 [P] [US1] Write failing test `tests/registry/report.test.ts`: the JSON report validates against `specs/001-scholarly-registry/contracts/integrity-report.schema.json`; the Markdown report lists violations grouped by code; output is deterministic apart from `run_id` and `generated_at`
 - [ ] T018 [P] [US1] Implement `src/registry/report.ts` (make T017 pass)
 - [ ] T019 [US1] Write failing test `tests/registry/cli.test.ts`: exit 0 on `fixtures/valid`, 1 on any invalid fixture, 2 on an unreadable `--data` path; writes `integrity-report.json` and `.md` to `--report`
@@ -171,7 +171,7 @@ description: "Task list for 001 — Scholarly Entity Registry & Integrity Gate"
 
 ### Parallel opportunities
 - Setup: T002–T005 together after T001.
-- US1: T010/T011 (ids) alongside T017/T018 (report).
+- US1: T017/T018 (report) alongside T010–T016 (integrity rules).
 - US3: T024/T025 (family schemas) while T026–T027 are drafted.
 - US2: T032 and T033 together.
 - US5: T039/T040 and T047 alongside the integrity rules.

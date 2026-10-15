@@ -103,7 +103,9 @@ tests/registry/
 
 **Structure Decision**: Single Astro project. Registry logic lives in `src/registry/` as framework-free TypeScript, so the CLI, the Astro integration and tests share one implementation. Later specs (003–008) depend on `ids`, `vocab`, `relations` and `public` only.
 
-## Proposed test seams (confirm at `/speckit-implement`, per the tdd skill)
+## Test seams (confirmed by Vlad, 2026-10-15)
+
+Tests live only at these five seams. ID parsing and record schemas are tested **through seam 1** (as violations in the report), not directly, so internals stay free to change. The vocabulary and loader tests written in T006/T008 before confirmation remain as fixed-contract tests.
 
 | Seam | Catches | Misses |
 |---|---|---|

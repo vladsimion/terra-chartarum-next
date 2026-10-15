@@ -78,6 +78,8 @@ Essay stage → lifecycle: Concept→proposed; Corpus, Research→researching; O
 
 | Code | Rule |
 |---|---|
+| `FILE_UNREADABLE` | a file is not one valid YAML mapping (syntax error, duplicate key, several documents) |
+| `SCHEMA_INVALID` | a required field is missing, a field has the wrong type, or an unknown field is present |
 | `ID_SYNTAX` | id, authority or family malformed |
 | `ID_DUPLICATE` | same (authority, family, id) declared twice; report lists every file |
 | `REF_UNKNOWN` | reference does not resolve |
