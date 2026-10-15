@@ -160,14 +160,16 @@ function schemaViolations(record: Record<string, unknown>, at: { entity?: string
 
   return parsed.error.issues.flatMap((issue): Violation[] => {
     if (issue.code === 'unrecognized_keys') {
-      return issue.keys.map((key) => ({
-        code: 'SCHEMA_INVALID',
-        message: `unknown field "${key}"`,
-        field: key,
-        ...at,
-      }));
+      return issue.keys.map((key) => {
+        const field = [...issue.path.map(String), key].join('.');
+        return { code: 'SCHEMA_INVALID', message: `unknown field "${field}"`, field, ...at };
+      });
     }
     const field = issue.path.map(String).join('.');
+    if (issue.code === 'invalid_value') {
+      const value = valueAt(record, issue.path);
+      return [{ code: 'ENUM_INVALID', message: `${field}: "${String(value)}" is not in the shared vocabulary`, field, value, ...at }];
+    }
     return [{ code: 'SCHEMA_INVALID', message: `${field}: ${issue.message}`, field, ...at }];
   });
 }
@@ -282,4 +284,13 @@ function entityOf(file: string, record: Record<string, unknown>): { entity?: str
   return typeof family === 'string' && typeof id === 'string'
     ? { entity: qualify(authority, family, id), files: [file] }
     : { files: [file] };
+}
+
+function valueAt(record: unknown, path: readonly PropertyKey[]): unknown {
+  let current: unknown = record;
+  for (const key of path) {
+    if (current === null || typeof current !== 'object') return undefined;
+    current = (current as Record<PropertyKey, unknown>)[key];
+  }
+  return current;
 }

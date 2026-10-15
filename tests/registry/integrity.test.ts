@@ -402,3 +402,148 @@ describe('COLLECTION_DEFAULTS', () => {
     ]);
   });
 });
+
+const bib = rec('bibliography/b.yaml', { id: 'b', family: 'bibliography', title: 'B' });
+const geographia = rec('source/geographia.yaml', {
+  id: 'geographia',
+  family: 'source',
+  title: 'Geographia',
+  kind: 'source',
+  bibliography: 'bibliography:b',
+});
+const placeWith = (extra: Record<string, unknown>) =>
+  rec('place/apulum.yaml', { id: 'apulum', family: 'place', title: 'Apulum', slug: 'apulum', ...extra });
+
+describe('evidence', () => {
+  const fullEvidence = {
+    source: 'source:geographia',
+    locator: '3.8.4',
+    locator_state: 'verified',
+    verified_by: 'Vlad Simion',
+    verified_on: '2026-10-01',
+    consulted_copy: 'Nobbe 1843 edition, scan at archive.org/details/x',
+    evidence_type: 'textual',
+    valid_from: '0106',
+    valid_to: '0271',
+    geometry_provenance: 'scholarly_reconstruction',
+    reconstruction: 'partial',
+    confidence: 'probable',
+    last_verified: '2026-10-01',
+  };
+
+  test('a fully described evidence entry is accepted', () => {
+    const result = validateRegistry({ records: [bib, geographia, placeWith({ evidence: [fullEvidence] })] });
+
+    expect(result.violations).toEqual([]);
+  });
+
+  test('a source-geometry claim and a reconstructed claim can sit side by side', () => {
+    const result = validateRegistry({
+      records: [
+        bib,
+        geographia,
+        placeWith({
+          evidence: [
+            { source: 'source:geographia', geometry_provenance: 'source_geometry', confidence: 'possible' },
+            { source: 'source:geographia', geometry_provenance: 'scholarly_reconstruction', confidence: 'conjectural' },
+          ],
+        }),
+      ],
+    });
+
+    expect(result.violations).toEqual([]);
+  });
+
+  test('an absence carries a typed silence state', () => {
+    const result = validateRegistry({
+      records: [bib, geographia, placeWith({ evidence: [{ source: 'source:geographia', silence_state: 'meaningful_silence' }] })],
+    });
+
+    expect(result.violations).toEqual([]);
+  });
+
+  test('evidence must name its source', () => {
+    const result = validateRegistry({ records: [placeWith({ evidence: [{ locator: '3.8.4' }] })] });
+
+    expect(codes(result, 'SCHEMA_INVALID')).toEqual([expect.objectContaining({ field: 'evidence.0.source' })]);
+  });
+
+  test.each([
+    ['evidence_type', 'oral'],
+    ['geometry_provenance', 'guess'],
+    ['reconstruction', 'some'],
+    ['confidence', 'high'],
+    ['silence_state', 'absent'],
+    ['locator_state', 'checked'],
+  ])('a %s outside the shared vocabulary is ENUM_INVALID', (field, value) => {
+    const result = validateRegistry({
+      records: [bib, geographia, placeWith({ evidence: [{ source: 'source:geographia', [field]: value }] })],
+    });
+
+    expect(codes(result, 'ENUM_INVALID')).toEqual([
+      expect.objectContaining({ field: `evidence.0.${field}`, value, files: ['place/apulum.yaml'] }),
+    ]);
+  });
+
+  test('date_precision is derived and may not be authored (ADR 0006)', () => {
+    const result = validateRegistry({
+      records: [bib, geographia, placeWith({ evidence: [{ source: 'source:geographia', date_precision: 'century' }] })],
+    });
+
+    expect(codes(result, 'SCHEMA_INVALID')).toEqual([expect.objectContaining({ field: 'evidence.0.date_precision' })]);
+  });
+
+  test('verification dates are calendar dates', () => {
+    const result = validateRegistry({
+      records: [bib, geographia, placeWith({ evidence: [{ source: 'source:geographia', last_verified: 'last week' }] })],
+    });
+
+    expect(codes(result, 'SCHEMA_INVALID')).toEqual([expect.objectContaining({ field: 'evidence.0.last_verified' })]);
+  });
+});
+
+describe('rights and extraction', () => {
+  test('rights keep text copyright and reproduction clearance separate', () => {
+    const result = validateRegistry({
+      records: [
+        placeWith({
+          rights: {
+            licence: 'CC-BY-4.0',
+            attribution: 'Terra Chartarum',
+            text_copyright_status: 'public_domain',
+            reproduction_cleared: false,
+          },
+        }),
+      ],
+    });
+
+    expect(result.violations).toEqual([]);
+  });
+
+  test('reproduction_cleared must be true or false', () => {
+    const result = validateRegistry({ records: [placeWith({ rights: { licence: 'CC-BY-4.0', reproduction_cleared: 'yes' } })] });
+
+    expect(codes(result, 'SCHEMA_INVALID')).toEqual([expect.objectContaining({ field: 'rights.reproduction_cleared' })]);
+  });
+
+  test('a manual extraction needs nothing more', () => {
+    const result = validateRegistry({ records: [placeWith({ extraction: { method: 'manual' } })] });
+
+    expect(result.violations).toEqual([]);
+  });
+
+  test('an automated extraction must keep its raw evidence and transformation log', () => {
+    const result = validateRegistry({ records: [placeWith({ extraction: { method: 'llm' } })] });
+
+    expect(codes(result, 'SCHEMA_INVALID').map((v) => v.field).sort()).toEqual([
+      'extraction.raw_evidence_ref',
+      'extraction.transformation_log_ref',
+    ]);
+  });
+
+  test('an unknown extraction method is ENUM_INVALID', () => {
+    const result = validateRegistry({ records: [placeWith({ extraction: { method: 'guesswork' } })] });
+
+    expect(codes(result, 'ENUM_INVALID')).toEqual([expect.objectContaining({ field: 'extraction.method' })]);
+  });
+});

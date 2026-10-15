@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { isFamily } from '../ids.ts';
+import { evidenceSchema, extractionSchema, rightsSchema } from './evidence.ts';
 import { familyShapes, refSchema } from './families.ts';
 
 /**
@@ -21,9 +22,9 @@ export const envelopeShape = {
   lifecycle: z.unknown().optional(),
   superseded_by: refSchema.optional(),
   rooms: z.strictObject({ primary: refSchema.optional(), secondary: z.array(refSchema).optional() }).optional(),
-  evidence: z.unknown().optional(),
-  rights: z.unknown().optional(),
-  extraction: z.unknown().optional(),
+  evidence: z.array(evidenceSchema).optional(),
+  rights: rightsSchema.optional(),
+  extraction: extractionSchema.optional(),
   /** Never public (FR-009); accepted as an opaque object. */
   private: z.record(z.string(), z.unknown()).optional(),
 };

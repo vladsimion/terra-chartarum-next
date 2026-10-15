@@ -74,3 +74,9 @@ export type EssayStage = (typeof ESSAY_STAGES)[number];
 
 export const ROOMS = ['earth', 'map', 'city', 'border', 'road', 'archive', 'theatre'] as const;
 export type Room = (typeof ROOMS)[number];
+
+/** Evidence vocabularies (data-model.md "Evidence"). */
+export const EVIDENCE_TYPES = ['textual', 'cartographic', 'archaeological', 'archival', 'epigraphic', 'other'] as const;
+export const RECONSTRUCTION = ['none', 'partial', 'full'] as const;
+export const LOCATOR_STATES = ['verified', 'pending'] as const;
+export const EXTRACTION_METHODS = ['manual', 'ocr', 'htr', 'llm'] as const;

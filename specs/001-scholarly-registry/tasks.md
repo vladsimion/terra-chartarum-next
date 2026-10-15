@@ -101,13 +101,13 @@ description: "Task list for 001 — Scholarly Entity Registry & Integrity Gate"
 
 **Independent Test**: A fixture with one `source_geometry` feature and one `scholarly_reconstruction` feature validates with distinguishable provenance; an invalid enum value fails.
 
-- [ ] T032 [P] [US2] Write failing tests `schemas › evidence`: fields and enums exactly as data-model.md "Evidence"; `valid_from`/`valid_to` must be EDTF level 0–1 with four-digit signed years (ADR 0006), e.g. `0106`, `-0106`, `159X`, `1595?`, `1595/1602`; `date_precision` is derived (day · month · year · decade · century · range · unknown, plus uncertain/approximate flags) and rejected if authored; `evidence_type` ∈ `textual · cartographic · archaeological · archival · epigraphic · other`; evidence also validates inside GeoJSON `properties.evidence` (US2-AS1, US2-AS4)
-- [ ] T033 [P] [US2] Write failing tests `schemas › rights` (`licence`, `attribution`, `text_copyright_status`, `reproduction_cleared: boolean`, kept separate) and `schemas › extraction` (`method: manual | ocr | htr | llm`; non-manual requires `raw_evidence_ref`, `transformation_log_ref`)
-- [ ] T034 [US2] Implement `src/registry/dates.ts` (EDTF parse + derived precision) and `src/registry/schemas/evidence.ts`, `rights.ts`, `extraction.ts` (make T032–T033 pass)
-- [ ] T035 [US2] Write failing tests `integrity › LOCATOR_VERIFICATION_INCOMPLETE` ("`verified` requires `verified_by`, `verified_on`, `consulted_copy`") and `› LOCATOR_UNVERIFIED_SECURE` ("`confidence = secure` ⇒ every locator in that evidence is `verified`") (US2-AS2, US2-AS5)
-- [ ] T036 [US2] Write failing tests `integrity › PROVENANCE_MISSING` (rights required when lifecycle ≥ `publishable`, US2-AS3), `› FINDING_AID_AS_SOURCE`, `› DATE_INVALID` and `› EXTRACTION_UNADJUDICATED` (non-manual extraction past `verified` without `adjudicated_by`/`adjudicated_on`, FR-008)
-- [ ] T037 [US2] Implement the six rules from T035–T036 in `src/registry/integrity.ts` (make T035–T036 pass)
-- [ ] T038 [US2] Add one invalid fixture per new code under `tests/registry/fixtures/invalid/` and extend `fixtures/valid/` with a source-geometry and a reconstructed feature
+- [x] T032 [US2] Write failing tests in `tests/registry/integrity.test.ts › evidence` through seam 1: evidence entries accept the data-model.md fields; `source` is required and is a reference; values outside a shared vocabulary (`evidence_type`, `geometry_provenance`, `reconstruction`, `confidence`, `silence_state`, `locator_state`) are ENUM_INVALID; an authored `date_precision` is SCHEMA_INVALID (it is derived, ADR 0006); `last_verified` and `verified_on` are calendar dates
+- [x] T033 [US2] Write failing tests `integrity › rights and extraction`: rights fields (`licence`, `attribution`, `text_copyright_status`, `reproduction_cleared: boolean`, kept separate); extraction `method: manual | ocr | htr | llm`, non-manual requires `raw_evidence_ref` and `transformation_log_ref`
+- [x] T034 [US2] Implement `src/registry/schemas/evidence.ts` (evidence, rights, extraction) and map vocabulary failures to ENUM_INVALID (make T032–T033 pass). The evidence schema is exported for reuse on GeoJSON feature properties by spec 005, which owns layer files.
+- [ ] T035 [US2] Write failing tests `integrity › LOCATOR_VERIFICATION_INCOMPLETE` ("`verified` requires `verified_by`, `verified_on`, `consulted_copy`") and `› LOCATOR_UNVERIFIED_SECURE` ("`confidence = secure` ⇒ the evidence's locator is `verified`") (US2-AS2, US2-AS5)
+- [ ] T036 [US2] Write failing tests `integrity › PROVENANCE_MISSING` (rights required when lifecycle is `publishable` or `published`, US2-AS3), `› FINDING_AID_AS_SOURCE`, `› DATE_INVALID` (EDTF level 0–1, four-digit signed years, in evidence, place names and dated families) and `› EXTRACTION_UNADJUDICATED` (non-manual extraction past `verified` without `adjudicated_by`/`adjudicated_on`, FR-008); evidence `source` references resolve like any other
+- [ ] T037 [US2] Implement the rules from T035–T036 in `src/registry/integrity.ts` with EDTF parsing in `src/registry/dates.ts` (make T035–T036 pass). Deriving `date_precision` waits for its first consumer (the public projection, US4).
+- [ ] T038 [US2] Extend `tests/registry/fixtures/valid/` with evidence carrying a `source_geometry` and a `scholarly_reconstruction` claim, a verified locator, rights on a publishable record and an adjudicated extraction
 
 **Checkpoint**: All P1 stories complete. This is the MVP of the gate.
 
@@ -172,7 +172,7 @@ description: "Task list for 001 — Scholarly Entity Registry & Integrity Gate"
 - Setup: T002–T005 together after T001.
 - US1: report and CLI (T017–T020) follow the integrity rules; redirects (T021–T022) can run in parallel with them.
 - US3: sequential (all tasks touch the registry check).
-- US2: T032 and T033 together.
+- US2: sequential (all tasks touch the registry check).
 - US5: T039/T040 and T047 alongside the integrity rules.
 - US4: relations (T048/T049) and public projection (T050/T051) in parallel.
 - Polish: T054, T057, T058 together.
