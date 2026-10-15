@@ -126,3 +126,29 @@ describe('registry-check exit codes', () => {
     expect(report['status']).toBe('pass');
   }, 30_000);
 });
+
+describe('registry-check vocabulary mappings', () => {
+  test.each(['planned', 'in-preparation', 'in-review'])(
+    'the shipped atlas mapping accepts the legacy layer term "%s"',
+    async (term) => {
+      await put(
+        'data/layer/legacy.yaml',
+        `id: legacy\nauthority: atlas\nfamily: layer\ntitle: Legacy layer\nlifecycle: ${term}\n`,
+      );
+
+      const result = await check('--data', 'data', '--report', 'out', '--mappings', join(ROOT, 'data/vocab-mappings'));
+
+      expect(result.code).toBe(0);
+    },
+    30_000,
+  );
+
+  test('without mappings the same legacy term is rejected', async () => {
+    await put('data/layer/legacy.yaml', 'id: legacy\nauthority: atlas\nfamily: layer\ntitle: Legacy layer\nlifecycle: planned\n');
+    await mkdir(join(work, 'empty-mappings'), { recursive: true });
+
+    const result = await check('--data', 'data', '--report', 'out', '--mappings', 'empty-mappings');
+
+    expect(result.code).toBe(1);
+  }, 30_000);
+});

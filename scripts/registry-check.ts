@@ -1,7 +1,7 @@
 /**
  * Registry integrity gate CLI (specs/001-scholarly-registry/contracts/relations-and-cli.md).
  *
- *   npm run registry:check [-- --data <dir>] [--assets <dir>] [--report <dir>]
+ *   npm run registry:check [-- --data <dir>] [--mappings <dir>] [--assets <dir>] [--report <dir>]
  *
  * Exit codes: 0 gate passed · 1 one or more violations (report written) · 2 could not run.
  */
@@ -10,12 +10,13 @@ import { parseArgs } from 'node:util';
 import { runGate } from '../src/registry/gate.ts';
 
 async function main(): Promise<number> {
-  let options: { data: string; report: string; assets?: string };
+  let options: { data: string; report: string; mappings: string; assets?: string };
   try {
     const { values } = parseArgs({
       options: {
         data: { type: 'string', default: 'data/registry' },
         report: { type: 'string', default: 'reports' },
+        mappings: { type: 'string', default: 'data/vocab-mappings' },
         assets: { type: 'string' },
       },
       strict: true,
@@ -24,6 +25,7 @@ async function main(): Promise<number> {
     options = {
       data: values.data,
       report: values.report,
+      mappings: values.mappings,
       ...(values.assets === undefined ? {} : { assets: values.assets }),
     };
   } catch (error) {
@@ -38,7 +40,11 @@ async function main(): Promise<number> {
     return 2;
   }
 
-  const { report, mdPath } = await runGate({ dataDir: options.data, reportDir: options.report });
+  const { report, mdPath } = await runGate({
+    dataDir: options.data,
+    reportDir: options.report,
+    mappingsDir: options.mappings,
+  });
 
   const summary = `${report.counts.entities} entities, ${report.counts.violations} violation(s)`;
   if (report.status === 'pass') {

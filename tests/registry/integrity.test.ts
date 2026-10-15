@@ -754,3 +754,87 @@ describe('essay lifecycle (derived from stage)', () => {
     expect(codes(result, 'EXTRACTION_UNADJUDICATED')).toEqual([]);
   });
 });
+
+describe('lifecycle and stage values (ESSAY_LIFECYCLE_DECLARED, SUPERSEDED_WITHOUT_SUCCESSOR, ENUM_INVALID)', () => {
+  test('an essay may not declare a lifecycle; it is derived from its stage', () => {
+    const result = validateRegistry({
+      records: [rec('essay/e.yaml', { id: 'e', family: 'essay', title: 'E', slug: 'e', stage: 'draft', lifecycle: 'published' })],
+    });
+
+    expect(codes(result, 'ESSAY_LIFECYCLE_DECLARED')).toEqual([expect.objectContaining({ field: 'lifecycle' })]);
+    expect(codes(result, 'SCHEMA_INVALID')).toEqual([]);
+  });
+
+  test('a superseded record must name its successor', () => {
+    const result = validateRegistry({ records: [placeWith({ lifecycle: 'superseded' })] });
+
+    expect(codes(result, 'SUPERSEDED_WITHOUT_SUCCESSOR')).toEqual([
+      expect.objectContaining({ entity: 'tc:tc:place:apulum', field: 'superseded_by' }),
+    ]);
+  });
+
+  test('a superseded record that names a successor passes', () => {
+    const result = validateRegistry({
+      records: [
+        placeWith({ lifecycle: 'superseded', superseded_by: 'place:apulum-2' }),
+        rec('place/apulum-2.yaml', { id: 'apulum-2', family: 'place', title: 'Apulum', slug: 'apulum-2' }),
+      ],
+    });
+
+    expect(result.violations).toEqual([]);
+  });
+
+  test('a lifecycle outside the shared vocabulary is ENUM_INVALID', () => {
+    const result = validateRegistry({ records: [placeWith({ lifecycle: 'draft' })] });
+
+    expect(codes(result, 'ENUM_INVALID')).toEqual([expect.objectContaining({ field: 'lifecycle', value: 'draft' })]);
+  });
+
+  test('an essay stage outside the nine editorial stages is ENUM_INVALID', () => {
+    const result = validateRegistry({
+      records: [rec('essay/e.yaml', { id: 'e', family: 'essay', title: 'E', slug: 'e', stage: 'writing' })],
+    });
+
+    expect(codes(result, 'ENUM_INVALID')).toEqual([expect.objectContaining({ field: 'stage', value: 'writing' })]);
+  });
+});
+
+describe('specialist vocabularies (FR-011, TC-D016)', () => {
+  const cndPlace = (extra: Record<string, unknown>) =>
+    rec('place/cnd.yaml', { id: 'apulum', authority: 'cnd', family: 'place', title: 'Apulum', slug: 'apulum-cnd', ...extra });
+  const vocabMappings = {
+    cnd: {
+      lifecycle: { candidate: 'researching', accepted: 'published' },
+      confidence: { A: 'secure', B: 'probable' },
+    },
+  };
+
+  test('a mapped specialist term is accepted', () => {
+    const result = validateRegistry({ records: [cndPlace({ lifecycle: 'candidate' })], vocabMappings });
+
+    expect(result.violations).toEqual([]);
+  });
+
+  test('the shared meaning of a specialist term drives every rule', () => {
+    const published = validateRegistry({ records: [cndPlace({ lifecycle: 'accepted' })], vocabMappings });
+    expect(codes(published, 'PROVENANCE_MISSING')).toHaveLength(1);
+
+    const secure = validateRegistry({
+      records: [bib, geographia, cndPlace({ evidence: [{ source: 'source:geographia', confidence: 'A' }] })],
+      vocabMappings,
+    });
+    expect(codes(secure, 'LOCATOR_UNVERIFIED_SECURE')).toHaveLength(1);
+  });
+
+  test('an unmapped specialist term is ENUM_INVALID, reported as written', () => {
+    const result = validateRegistry({ records: [cndPlace({ lifecycle: 'withdrawn' })], vocabMappings });
+
+    expect(codes(result, 'ENUM_INVALID')).toEqual([expect.objectContaining({ field: 'lifecycle', value: 'withdrawn' })]);
+  });
+
+  test('mappings apply only to their own authority', () => {
+    const result = validateRegistry({ records: [placeWith({ lifecycle: 'candidate' })], vocabMappings });
+
+    expect(codes(result, 'ENUM_INVALID')).toEqual([expect.objectContaining({ value: 'candidate' })]);
+  });
+});

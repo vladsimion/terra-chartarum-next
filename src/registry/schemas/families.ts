@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { REF_RULE, parseRef } from '../ids.ts';
-import type { Family } from '../vocab.ts';
+import { ESSAY_STAGES, type Family } from '../vocab.ts';
 
 /**
  * Family-specific fields (data-model.md "Family-specific fields").
@@ -20,7 +20,7 @@ const loose = z.unknown().optional();
 
 export const familyShapes = {
   essay: {
-    stage: z.string(),
+    stage: z.enum(ESSAY_STAGES),
     question: loose,
     dimensions: loose,
     maps: refs.optional(),

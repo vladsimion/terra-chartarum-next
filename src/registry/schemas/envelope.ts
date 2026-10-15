@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { LIFECYCLE } from '../vocab.ts';
 import { isFamily } from '../ids.ts';
 import { evidenceSchema, extractionSchema, rightsSchema } from './evidence.ts';
 import { familyShapes, refSchema } from './families.ts';
@@ -19,7 +20,7 @@ export const envelopeShape = {
   title: z.string().min(1, 'title must not be empty'),
   slug: z.string().min(1).optional(),
   previous_slugs: z.array(z.string().min(1)).optional(),
-  lifecycle: z.unknown().optional(),
+  lifecycle: z.enum(LIFECYCLE).optional(),
   superseded_by: refSchema.optional(),
   rooms: z.strictObject({ primary: refSchema.optional(), secondary: z.array(refSchema).optional() }).optional(),
   evidence: z.array(evidenceSchema).optional(),

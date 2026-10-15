@@ -1,0 +1,8 @@
+# Specialist vocabulary mapping for the legacy Terra Chartarum Atlas authority.
+# Maps legacy layer lifecycle terms to the shared lifecycle (ADR 0003; spec 001 FR-011).
+# Stored records keep their original terms; the mapping applies at validation.
+authority: atlas
+lifecycle:
+  planned: proposed
+  in-preparation: in_build
+  in-review: qa

@@ -3,11 +3,14 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { validateRegistry } from './integrity.ts';
 import { loadRecords } from './load.ts';
+import { loadVocabMappings } from './mappings.ts';
 import { buildReport, toMarkdown, type IntegrityReport } from './report.ts';
 
 export interface GateOptions {
   dataDir: string;
   reportDir: string;
+  /** Specialist vocabulary mappings; defaults to `data/vocab-mappings`. */
+  mappingsDir?: string;
 }
 
 export interface GateResult {
@@ -22,7 +25,8 @@ export interface GateResult {
  */
 export async function runGate(options: GateOptions): Promise<GateResult> {
   const loaded = await loadRecords(options.dataDir);
-  const check = validateRegistry({ records: loaded.records, loadErrors: loaded.errors });
+  const vocabMappings = await loadVocabMappings(options.mappingsDir ?? 'data/vocab-mappings');
+  const check = validateRegistry({ records: loaded.records, loadErrors: loaded.errors, vocabMappings });
   const report = buildReport(check, { runId: randomUUID(), generatedAt: new Date() });
 
   await mkdir(options.reportDir, { recursive: true });

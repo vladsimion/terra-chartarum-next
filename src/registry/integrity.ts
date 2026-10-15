@@ -10,6 +10,7 @@ import {
 } from './ids.ts';
 import { isEdtf } from './dates.ts';
 import { effectiveLifecycle } from './lifecycle.ts';
+import { applyMappings, type VocabMappings } from './mappings.ts';
 import type { LoadError, LoadedRecord } from './load.ts';
 import { schemaFor } from './schemas/envelope.ts';
 import { REFERENCE_FIELDS } from './schemas/families.ts';
@@ -60,13 +61,19 @@ export interface RegistryCheck {
 export interface RegistryInput {
   records: LoadedRecord[];
   loadErrors?: LoadError[];
+  /** Per-authority specialist vocabulary mappings (data/vocab-mappings). */
+  vocabMappings?: VocabMappings;
 }
 
 /**
  * The integrity gate (spec 001). Pure: same input, same output. Checks the whole
  * registry as one linked graph and returns every violation found, never only the first.
  */
-export function validateRegistry(input: RegistryInput): RegistryCheck {
+export function validateRegistry(rawInput: RegistryInput): RegistryCheck {
+  const input = {
+    ...rawInput,
+    records: rawInput.records.map(({ file, record }) => ({ file, record: applyMappings(record, rawInput.vocabMappings) })),
+  };
   const violations: Violation[] = [];
   const byFamily: Record<string, number> = {};
   const filesByIdentity = new Map<string, string[]>();
@@ -152,6 +159,7 @@ export function validateRegistry(input: RegistryInput): RegistryCheck {
       ...evidenceViolations(file, record, byIdentity),
       ...provenanceViolations(file, record),
       ...dateViolations(file, record),
+      ...lifecycleViolations(file, record),
     );
   }
 
@@ -424,4 +432,28 @@ function dateViolations(file: string, record: Record<string, unknown>): Violatio
       value: site.value,
       ...at,
     }));
+}
+
+/** Essays may not declare a lifecycle; superseded records must name a successor (ADR 0003). */
+function lifecycleViolations(file: string, record: Record<string, unknown>): Violation[] {
+  const at = entityOf(file, record);
+  const violations: Violation[] = [];
+  if (record['family'] === 'essay' && record['lifecycle'] !== undefined) {
+    violations.push({
+      code: 'ESSAY_LIFECYCLE_DECLARED',
+      message: 'an essay\'s lifecycle is derived from its stage and may not be declared',
+      field: 'lifecycle',
+      value: record['lifecycle'],
+      ...at,
+    });
+  }
+  if (effectiveLifecycle(record) === 'superseded' && record['superseded_by'] === undefined) {
+    violations.push({
+      code: 'SUPERSEDED_WITHOUT_SUCCESSOR',
+      message: 'a superseded record must name its successor in superseded_by',
+      field: 'superseded_by',
+      ...at,
+    });
+  }
+  return violations;
 }
