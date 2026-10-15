@@ -12,7 +12,7 @@ Every scholarly entity becomes one YAML record with an immutable local ID, valid
 
 **Language/Version**: TypeScript (strict), Node LTS pinned in `.nvmrc`
 
-**Primary Dependencies**: Astro (content collections), Zod v4, a YAML parser (`yaml`); no runtime dependencies in the browser for this feature
+**Primary Dependencies**: Astro (content collections), Zod v4, a YAML parser (`yaml`), an EDTF parser; no runtime dependencies in the browser for this feature
 
 **Storage**: Files in Git: `data/registry/<family>/*.yaml`, `data/vocab-mappings/*.yaml`
 
@@ -122,6 +122,7 @@ tests/registry/
 | US1-AS3 duplicate names both files | `integrity › ID_DUPLICATE` |
 | US1-AS4 bad syntax names value and rule | `integrity › ID_SYNTAX` |
 | US2-AS1 reconstruction provenance | `schemas › evidence` |
+| ADR 0006 EDTF dates | `schemas › evidence`, `integrity › DATE_INVALID` |
 | US2-AS2 verified locator fields | `integrity › LOCATOR_VERIFICATION_INCOMPLETE` |
 | US2-AS3 publishable without rights | `integrity › PROVENANCE_MISSING` |
 | US2-AS4 typed silence | `schemas › silence_state` |
@@ -137,11 +138,11 @@ tests/registry/
 | SC-003 / SC-004 | `mutation.test.ts`, `bench/registry.bench.ts` |
 
 ## Delivery slices (one per user story, in order)
-1. **US1** IDs, envelope schema, duplicate/syntax rules, CLI skeleton, report writer.
+1. **US1** IDs, envelope schema, duplicate/syntax rules, CLI skeleton, report writer, slug redirects and the rename regression.
 2. **US3** reference resolution, families, collections rule, Astro build hook.
-3. **US2** evidence, rights, extraction, locator and confidence rules.
-4. **US5** lifecycle enum, essay derivation, superseded rule, specialist mappings.
-5. **US4** relations index, public projection, leak scan, redirects.
+3. **US2** EDTF dates (ADR 0006), evidence, rights, extraction, locator and confidence rules.
+4. **US5** lifecycle enum, essay derivation, superseded rule and successor redirect, specialist mappings.
+5. **US4** relations index, public projection, leak scan.
 6. Scale: synthetic generator, mutation tests, benchmark.
 
 ## Complexity Tracking

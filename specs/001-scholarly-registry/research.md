@@ -58,5 +58,14 @@ No `NEEDS CLARIFICATION` items remained in the spec. This file records the techn
 ## R12. Performance verification
 - **Decision**: A deterministic generator produces a 5,000-entity synthetic registry across all families with realistic cross-references. A Vitest benchmark asserts the gate completes in under 60 s in CI (SC-004); the target is under 10 s locally. Mutation tests seed broken references and assert 100% detection (SC-003).
 
+## R13. Historical dates
+- **Decision**: EDTF levels 0–1 for every historical date; `date_precision` derived from the value (ADR 0006). Parsing uses a maintained EDTF library in TypeScript; R pipelines use an EDTF-aware parser so both sides read the same strings.
+- **Rationale**: testable, expresses uncertainty natively, shared by TypeScript and R.
+- **Alternatives**: integer years; free strings with an authored precision field (finding U1).
+
+## R14. Bibliography is the only home of citations
+- **Decision**: a `source` record classifies a work as evidence (or as a finding aid) and points to exactly one `bibliography` entry, which alone holds the CSL-JSON citation.
+- **Rationale**: Principle V; without it the same work's citation could drift between two records (finding F1).
+
 ## Versions
 Astro, TypeScript, Zod and Vitest use the latest stable releases at implementation time, pinned exactly in `package.json`; Zod v4's built-in JSON Schema output is preferred.

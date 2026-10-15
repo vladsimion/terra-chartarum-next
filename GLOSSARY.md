@@ -25,7 +25,7 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Source** | A primary or secondary work cited as evidence. A finding aid (a work used only to find sources) is not a source. |
 | **Attestation** | place × source × form: evidence that a source names or depicts a place. |
 | **Locator** | Page / folio / plate / record reference inside a source. `verified` only if read by this project; otherwise `pending`. |
-| **Bibliography entry** | Canonical citation record; essay bibliographies reference entries by ID. |
+| **Bibliography entry** | Canonical citation record (family `bibliography`) and the only place a citation lives. Essays and sources reference it by ID. |
 
 ## Evidence and uncertainty
 
@@ -33,7 +33,8 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 |---|---|
 | **Evidence type** | What kind of witness supports a claim (textual, cartographic, archaeological, archival, …). |
 | **Geometry provenance** | `source_geometry`, `georeferenced_trace`, `scholarly_reconstruction`, `generalized_editorial`, `modern_reference`. |
-| **Date precision** | Precision of a temporal claim, independent of geometry precision. |
+| **Date precision** | Precision of a temporal claim, independent of geometry precision. Derived from the EDTF value, never authored (ADR 0006). |
+| **EDTF** | Extended Date/Time Format (ISO 8601-2), levels 0–1: the only notation for historical dates, e.g. `-0106`, `159X`, `1595?`, `1595/1602`. |
 | **Reconstruction** | An editorial inference, always flagged as such and distinguished from documentary evidence. |
 | **Silence state** | Typed historical absence: non-survival, non-survey, non-request, alternative naming, outside frame, source-not-applicable, meaningful silence. |
 | **Confidence** | Ordinal: `secure` (direct, verified) · `probable` (strong indirect) · `possible` (thin or contested) · `conjectural` (editorial inference) · plus `unknown`, which is not a level. |

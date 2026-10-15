@@ -66,6 +66,7 @@ About states project identity, principles and authorship (without presenting the
 - **FR-008**: Pages MUST be statically generated and deployable to a CDN.
 - **FR-009**: Supported: last two versions of Chrome, Edge, Firefox, Safari (macOS + iOS) and Samsung Internet; viewports ≥ 360 px (ADR 0004).
 - **FR-010**: The site name remains Terra Chartarum (ADR 0001); the live site's logo, typography and core palette carry over, rebuilt as tokens (ADR 0004).
+- **FR-011**: The shell MUST provide a tombstone page for superseded entities (linking to the successor) and a not-found page for unknown or retired IDs and deep links; neither ever returns a server error (spec 001 edge case).
 
 ### Key Entities
 - **Design token set**: colour, type, spacing, motion, radius; light/dark; per-essay accent slots.

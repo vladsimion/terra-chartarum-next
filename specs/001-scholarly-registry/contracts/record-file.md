@@ -8,6 +8,8 @@ data/registry/<family>/<any-file-name>.yaml
 
 The file name is free; identity comes from `id` (+ `authority`, default `tc`). Field definitions are in `../data-model.md`; the machine-readable schema is generated from the Zod source at `schemas/registry.schema.json` during the build.
 
+Dates are EDTF strings (ADR 0006); quote them in YAML so `0106` is not read as a number.
+
 ## Reference syntax inside records
 | Form | Meaning |
 |---|---|
@@ -25,14 +27,13 @@ title: Apulum
 slug: apulum
 lifecycle: published
 names:
-  - { form: Apulum, language: la, valid_from: 106, valid_to: 271 }
+  - { form: Apulum, language: la, valid_from: "0106", valid_to: "0271~" }
   - { form: Alba Iulia, language: ro }
 evidence:
   - source: source:ptolemy-geographia
     locator: "3.8.4"
     locator_state: pending
     evidence_type: textual
-    date_precision: century
     geometry_provenance: modern_reference
     confidence: probable
 rights: { licence: CC-BY-4.0, attribution: "Terra Chartarum", reproduction_cleared: true }

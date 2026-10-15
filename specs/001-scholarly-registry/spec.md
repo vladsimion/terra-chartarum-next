@@ -26,7 +26,7 @@ As the editor, I add a map, place, source, cartographer, dataset or essay record
 **Audience**: historians of cartography; students and researchers; GIS developers.
 As a researcher reading a claim, I can see its source, locator, evidence type, date precision, geometry provenance, confidence, reconstruction state, rights and last-verified date.
 
-**Independent Test**: a fixture with one source-geometry feature and one reconstructed feature renders distinguishable provenance for each, and an invalid enumeration value fails validation.
+**Independent Test**: a fixture with one source-geometry feature and one reconstructed feature validates with distinguishable provenance for each, and an invalid enumeration value fails validation. (Displaying provenance to readers belongs to specs 003–005.)
 
 **Acceptance Scenarios**:
 1. **Given** a feature whose geometry is a scholarly reconstruction, **When** it is validated, **Then** `geometry_provenance = scholarly_reconstruction` is required and accepted.
@@ -57,7 +57,7 @@ As a reader on a map, source or place page, I see every released essay, layer an
 As the editor, every entity carries one shared lifecycle state (`proposed → researching → verified → ready_for_build → in_build → qa → publishable → published`, plus `superseded`/`blocked`), and only `published` entities appear publicly. Essay lifecycle is derived from editorial stage; layer availability is derived from asset existence (ADR 0003).
 
 ### Edge Cases
-- A retired entity still referenced by an old deep link: must degrade gracefully, never 500.
+- A retired entity still referenced by an old deep link: must degrade gracefully, never 500. This spec supplies the redirect to the successor; the tombstone and not-found pages are delivered by spec 002 (FR-011).
 - A legacy ID imported from the live Terra Chartarum: preserved locally and qualified at the boundary (`tc:{authority}:{family}:{local-id}`), never mass-renamed. Import is in scope (ADR 0001; spec 008).
 - An entity referenced only by a held essay: the reference is valid but must not surface publicly.
 - Specialist vocabularies stricter than the shared one: kept, with an explicit mapping to the shared semantic layer.
@@ -65,9 +65,9 @@ As the editor, every entity carries one shared lifecycle state (`proposed → re
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
-- **FR-001**: The system MUST support entity families: essay, map, cartographer, place, source, attestation, dataset, layer, collection, route, event, period, room, bibliography entry.
+- **FR-001**: The system MUST support entity families: essay, map, cartographer, place, source, attestation, dataset, layer, collection, route, event, period, room, bibliography. A `source` points to its `bibliography` entry, which is the only record holding the citation.
 - **FR-002**: IDs MUST be immutable, unique per family, syntax-validated and independent of titles and slugs.
-- **FR-003**: The system MUST record, per feature or claim where applicable: source ID, locator, locator verification state, evidence type, `valid_from`/`valid_to`, date precision, geometry provenance, confidence, reconstruction state, rights/licence/attribution, last verified date, related entity IDs.
+- **FR-003**: The system MUST record, per feature or claim where applicable: source ID, locator, locator verification state, evidence type, `valid_from`/`valid_to` (EDTF, ADR 0006), date precision (derived), geometry provenance, confidence, reconstruction state, rights/licence/attribution, last verified date, related entity IDs.
 - **FR-004**: Historical absence MUST use the typed silence vocabulary.
 - **FR-005**: The build MUST fail on duplicate IDs, unknown references, invalid enumeration values, and missing required provenance/rights fields on publishable records.
 - **FR-006**: The build MUST emit an integrity report (machine-readable and human-reviewable).
