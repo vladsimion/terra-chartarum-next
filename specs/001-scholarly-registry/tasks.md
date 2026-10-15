@@ -70,7 +70,7 @@ description: "Task list for 001 — Scholarly Entity Registry & Integrity Gate"
 - [x] T020 [US1] Complete `scripts/registry-check.ts`: exit codes, defaults (`--data data/registry`, `--report reports`), `--assets` accepted for later use, per `contracts/relations-and-cli.md` (make T019 pass)
 - [x] T021 [US1] Write failing tests in `tests/registry/redirects.test.ts` for `redirectsFor(records)`: one `301` line per entry in `previous_slugs` to the current slug (US1-AS2)
 - [x] T022 [US1] Implement `src/registry/redirects.ts` and a build step that writes `dist/_redirects` (make T021 pass)
-- [ ] T023 [US1] Write `tests/registry/rename.regression.test.ts` (SC-002): rewrite every title and slug in a fixture copy; assert IDs and references are unchanged and a redirect exists for every old slug (US1-AS2)
+- [x] T023 [US1] Write `tests/registry/rename.regression.test.ts` (SC-002): rewrite every title and slug in a fixture copy; assert IDs and references are unchanged and a redirect exists for every old slug (US1-AS2)
 
 **Checkpoint**: US1 is independently demonstrable from the CLI, and renames never break links.
 
