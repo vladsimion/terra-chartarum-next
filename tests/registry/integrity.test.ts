@@ -720,3 +720,37 @@ describe('EXTRACTION_UNADJUDICATED', () => {
     expect(codes(result, 'EXTRACTION_UNADJUDICATED')).toEqual([]);
   });
 });
+
+describe('essay lifecycle (derived from stage)', () => {
+  const essayAt = (stage: string, extra: Record<string, unknown> = {}) =>
+    rec('essay/e.yaml', { id: 'e', family: 'essay', title: 'E', slug: 'e', stage, ...extra });
+
+  test.each(['publish', 'cross_link'])('an essay at %s is published, so it needs a licence', (stage) => {
+    const result = validateRegistry({ records: [essayAt(stage)] });
+
+    expect(codes(result, 'PROVENANCE_MISSING')).toEqual([expect.objectContaining({ entity: 'tc:tc:essay:e', field: 'rights' })]);
+  });
+
+  test.each(['concept', 'corpus', 'research', 'outline', 'draft', 'build', 'design_qa'])(
+    'an essay at %s is not yet publishable, so it needs no licence',
+    (stage) => {
+      expect(codes(validateRegistry({ records: [essayAt(stage)] }), 'PROVENANCE_MISSING')).toEqual([]);
+    },
+  );
+
+  test('an essay at build with an unadjudicated automated extraction fails (in_build is past verified)', () => {
+    const result = validateRegistry({
+      records: [essayAt('build', { extraction: { method: 'ocr', raw_evidence_ref: 'r', transformation_log_ref: 'l' } })],
+    });
+
+    expect(codes(result, 'EXTRACTION_UNADJUDICATED')).toHaveLength(1);
+  });
+
+  test('an essay at draft with the same extraction passes (verified is not past verified)', () => {
+    const result = validateRegistry({
+      records: [essayAt('draft', { extraction: { method: 'ocr', raw_evidence_ref: 'r', transformation_log_ref: 'l' } })],
+    });
+
+    expect(codes(result, 'EXTRACTION_UNADJUDICATED')).toEqual([]);
+  });
+});

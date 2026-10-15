@@ -119,13 +119,13 @@ description: "Task list for 001 — Scholarly Entity Registry & Integrity Gate"
 
 **Independent Test**: An essay at stage `Draft` reports lifecycle `verified`; an essay that declares `lifecycle` fails; a `superseded` record without `superseded_by` fails.
 
-- [ ] T039 [P] [US5] Write failing tests in `tests/registry/lifecycle.test.ts` for `lifecycleForStage`: Concept→proposed; Corpus, Research→researching; Outline, Draft→verified; Build→in_build; Design QA→qa; Publish, Cross-link→published
-- [ ] T040 [P] [US5] Implement `src/registry/lifecycle.ts` (make T039 pass)
-- [ ] T041 [US5] Write failing tests `integrity › ESSAY_LIFECYCLE_DECLARED`, `› SUPERSEDED_WITHOUT_SUCCESSOR` and `› ENUM_INVALID` (including an unmapped specialist term)
-- [ ] T042 [US5] Write failing test `tests/registry/vocab-mappings.test.ts`: `data/vocab-mappings/<authority>.yaml` maps specialist terms to shared ones; boundary import mapping `planned→proposed`, `in-preparation→in_build`, `in-review→qa` (FR-011)
-- [ ] T043 [US5] Implement the three rules and specialist-mapping resolution in `src/registry/integrity.ts` and `src/registry/load.ts` (make T041–T042 pass)
-- [ ] T044 [US5] Write failing test `integrity › ASSET_MISSING`: a `published` layer whose asset path does not exist under `--assets` fails; non-published layers without assets pass
-- [ ] T045 [US5] Implement availability derivation and ASSET_MISSING (make T044 pass)
+- [x] T039 [US5] Write failing tests in `tests/registry/integrity.test.ts › essay lifecycle` through seam 1: an essay's lifecycle is derived from its stage (Concept→proposed; Corpus, Research→researching; Outline, Draft→verified; Build→in_build; Design QA→qa; Publish, Cross-link→published), observed through the rules that depend on it (an essay at Publish or Cross-link without a licence is PROVENANCE_MISSING; at Design QA or earlier it is not)
+- [x] T040 [US5] Implement `src/registry/lifecycle.ts` and use the effective lifecycle in every lifecycle-dependent rule (make T039 pass)
+- [ ] T041 [US5] Write failing tests `integrity › ESSAY_LIFECYCLE_DECLARED`, `› SUPERSEDED_WITHOUT_SUCCESSOR` and `› ENUM_INVALID` for `lifecycle` and essay `stage` values outside the shared vocabularies
+- [ ] T042 [US5] Write failing tests `integrity › specialist vocabularies`: a registry check given per-authority mappings accepts a specialist term (e.g. a CND lifecycle term) and applies its shared meaning to every rule; an unmapped specialist term is ENUM_INVALID; the shipped `data/vocab-mappings/atlas.yaml` maps the legacy layer terms `planned→proposed`, `in-preparation→in_build`, `in-review→qa` (FR-011); the CLI loads mappings from `--mappings` (default `data/vocab-mappings`)
+- [ ] T043 [US5] Implement the three rules from T041 and specialist-mapping resolution (make T041–T042 pass)
+- [ ] T044 [US5] Write failing tests `integrity › ASSET_MISSING` through seam 1 with the set of available asset paths as input: a `published` layer whose `asset` is not available fails; non-published layers without assets pass; the CLI builds that set from `--assets` (default `public`)
+- [ ] T045 [US5] Implement ASSET_MISSING and the CLI's asset listing (make T044 pass)
 - [ ] T046 [US5] Extend `redirectsFor` and its tests so a `superseded` entity's slug redirects to its `superseded_by` successor (the tombstone page itself is spec 002 FR-011)
 - [ ] T047 [P] [US5] Add optional `dimensions[]` to the essay schema (`Measure · Witness · Use · Cosmos · Power · Silence`) with a passing/failing pair in `schemas.test.ts` (FR-012)
 

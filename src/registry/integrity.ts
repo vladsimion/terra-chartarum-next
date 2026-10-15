@@ -9,6 +9,7 @@ import {
   qualify,
 } from './ids.ts';
 import { isEdtf } from './dates.ts';
+import { effectiveLifecycle } from './lifecycle.ts';
 import type { LoadError, LoadedRecord } from './load.ts';
 import { schemaFor } from './schemas/envelope.ts';
 import { REFERENCE_FIELDS } from './schemas/families.ts';
@@ -371,7 +372,7 @@ function evidenceViolations(
 
 /** Rights on publishable records and adjudication of automated extraction (FR-005, FR-008). */
 function provenanceViolations(file: string, record: Record<string, unknown>): Violation[] {
-  const lifecycle = typeof record['lifecycle'] === 'string' ? record['lifecycle'] : undefined;
+  const lifecycle = effectiveLifecycle(record);
   if (lifecycle === undefined) return [];
   const at = entityOf(file, record);
   const violations: Violation[] = [];
