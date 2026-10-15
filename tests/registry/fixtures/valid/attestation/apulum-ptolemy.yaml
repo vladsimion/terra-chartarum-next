@@ -7,3 +7,22 @@ source: source:ptolemy-geographia
 name_form: Apulon
 language: grc
 locator: "3.8.4"
+lifecycle: published
+rights: { licence: CC-BY-4.0, attribution: Terra Chartarum fixture, reproduction_cleared: true }
+extraction:
+  method: llm
+  raw_evidence_ref: raw/ptolemy-3-8.txt
+  transformation_log_ref: logs/ptolemy-3-8.md
+  adjudicated_by: Fixture Reader
+  adjudicated_on: "2026-10-01"
+evidence:
+  - source: source:ptolemy-geographia
+    locator: "3.8.4"
+    locator_state: verified
+    verified_by: Fixture Reader
+    verified_on: "2026-10-01"
+    consulted_copy: Fixture edition, page scan 214
+    evidence_type: textual
+    valid_from: "015X"
+    confidence: secure
+    last_verified: "2026-10-01"

@@ -8,3 +8,10 @@ names:
   - { form: Alba Iulia, language: ro }
 sources: [source:ptolemy-geographia]
 rooms: { primary: room:border, secondary: [room:archive] }
+evidence:
+  - source: source:ptolemy-geographia
+    locator: "3.8.4"
+    locator_state: pending
+    evidence_type: textual
+    geometry_provenance: source_geometry
+    confidence: probable

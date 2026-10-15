@@ -16,7 +16,7 @@ Expect exit 0 and `reports/integrity-report.json` with `"status": "pass"`.
 ```
 npm test -- registry
 ```
-Each fixture in `tests/registry/fixtures/invalid/<CODE>/` must produce exactly its violation code, naming the file(s). Expect all green.
+`tests/registry/integrity.test.ts` holds one `describe` block per violation code, each feeding small in-memory registries through the check (seam 1) and asserting the code, field and file(s). Expect all green.
 
 ## 3. Renames never move identity (US1-AS2, SC-002)
 Run the rename regression test: it rewrites every title and slug in a fixture copy and asserts that IDs, references and resolved links are unchanged and that redirects exist for every old slug.

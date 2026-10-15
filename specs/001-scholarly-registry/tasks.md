@@ -107,7 +107,7 @@ description: "Task list for 001 — Scholarly Entity Registry & Integrity Gate"
 - [x] T035 [US2] Write failing tests `integrity › LOCATOR_VERIFICATION_INCOMPLETE` ("`verified` requires `verified_by`, `verified_on`, `consulted_copy`") and `› LOCATOR_UNVERIFIED_SECURE` ("`confidence = secure` ⇒ the evidence's locator is `verified`") (US2-AS2, US2-AS5)
 - [x] T036 [US2] Write failing tests `integrity › PROVENANCE_MISSING` (rights required when lifecycle is `publishable` or `published`, US2-AS3), `› FINDING_AID_AS_SOURCE`, `› DATE_INVALID` (EDTF level 0–1, four-digit signed years, in evidence, place names and dated families) and `› EXTRACTION_UNADJUDICATED` (non-manual extraction past `verified` without `adjudicated_by`/`adjudicated_on`, FR-008); evidence `source` references resolve like any other
 - [x] T037 [US2] Implement the rules from T035–T036 in `src/registry/integrity.ts` with EDTF parsing in `src/registry/dates.ts` (make T035–T036 pass). Deriving `date_precision` waits for its first consumer (the public projection, US4).
-- [ ] T038 [US2] Extend `tests/registry/fixtures/valid/` with evidence carrying a `source_geometry` and a `scholarly_reconstruction` claim, a verified locator, rights on a publishable record and an adjudicated extraction
+- [x] T038 [US2] Extend `tests/registry/fixtures/valid/` with evidence carrying a `source_geometry` and a `scholarly_reconstruction` claim, a verified locator, rights on a publishable record and an adjudicated extraction
 
 **Checkpoint**: All P1 stories complete. This is the MVP of the gate.
 

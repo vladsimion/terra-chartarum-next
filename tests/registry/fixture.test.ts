@@ -46,3 +46,40 @@ describe('valid fixture', async () => {
     expect(records.some((r) => r['authority'] !== undefined && r['authority'] !== 'tc')).toBe(true);
   });
 });
+
+describe('valid fixture: evidence coverage (T038)', async () => {
+  const loaded = await loadRecords(VALID);
+  const evidence = loaded.records.flatMap(({ record }) =>
+    Array.isArray(record['evidence']) ? (record['evidence'] as Record<string, unknown>[]) : [],
+  );
+
+  test('includes a source-geometry claim and a scholarly reconstruction', () => {
+    const provenance = new Set(evidence.map((e) => e['geometry_provenance']));
+    expect(provenance.has('source_geometry')).toBe(true);
+    expect(provenance.has('scholarly_reconstruction')).toBe(true);
+  });
+
+  test('includes a secure claim on a fully verified locator', () => {
+    expect(
+      evidence.some(
+        (e) =>
+          e['confidence'] === 'secure' &&
+          e['locator_state'] === 'verified' &&
+          e['verified_by'] !== undefined &&
+          e['verified_on'] !== undefined &&
+          e['consulted_copy'] !== undefined,
+      ),
+    ).toBe(true);
+  });
+
+  test('includes a published record with rights and an adjudicated automated extraction', () => {
+    const records = loaded.records.map(({ record }) => record);
+    expect(records.some((r) => r['lifecycle'] === 'published' && r['rights'] !== undefined)).toBe(true);
+    expect(
+      records.some((r) => {
+        const x = r['extraction'] as Record<string, unknown> | undefined;
+        return x !== undefined && x['method'] !== 'manual' && x['adjudicated_by'] !== undefined;
+      }),
+    ).toBe(true);
+  });
+});
