@@ -26,7 +26,7 @@ Also settled: visual identity carries over, rebuilt as tokens.
 
 ## Delivery — DONE 2026-10-15 (TCX-12, ADR 0005)
 14. ~~Stack~~ → keep TC stack, rebuilt fresh; R allowed for data prep (testthat).
-15. ~~Hosting~~ → Cloudflare Pages; successor at terra-chartarum.org (to register); old pages.dev site becomes the frozen archive.
+15. ~~Hosting~~ → Cloudflare Pages; successor at terra-chartarum.org (registered); old pages.dev site becomes the frozen archive.
 16. ~~Repo / Jira~~ → vladsimion/terra-chartarum-next (private); Jira TCX.
 
 Settled leftovers: 5,000-entity integrity fixture; held-only bibliography entries hidden.
@@ -34,4 +34,3 @@ Settled leftovers: 5,000-entity integrity fixture; held-only bibliography entrie
 ## Still open
 - Spec 003: which Trench A test pits depend on CND attestations (needs the essay author).
 - Ratify the constitution as v1.0.0 with /speckit-constitution, then /speckit-analyze.
-- Register terra-chartarum.org before cutover.
