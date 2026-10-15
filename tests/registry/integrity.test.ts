@@ -838,3 +838,42 @@ describe('specialist vocabularies (FR-011, TC-D016)', () => {
     expect(codes(result, 'ENUM_INVALID')).toEqual([expect.objectContaining({ value: 'candidate' })]);
   });
 });
+
+describe('ASSET_MISSING', () => {
+  const layer = (extra: Record<string, unknown>) =>
+    rec('layer/roads.yaml', { id: 'roads', family: 'layer', title: 'Roads', asset: 'layers/roads.fgb', ...extra });
+  const licence = { rights: { licence: 'CC-BY-4.0' } };
+
+  test('a published layer whose asset is available passes', () => {
+    const result = validateRegistry({
+      records: [layer({ lifecycle: 'published', ...licence })],
+      assets: new Set(['layers/roads.fgb']),
+    });
+
+    expect(result.violations).toEqual([]);
+  });
+
+  test('a published layer whose asset is not available fails, naming the path', () => {
+    const result = validateRegistry({ records: [layer({ lifecycle: 'published', ...licence })], assets: new Set() });
+
+    expect(codes(result, 'ASSET_MISSING')).toEqual([
+      expect.objectContaining({ entity: 'tc:tc:layer:roads', field: 'asset', value: 'layers/roads.fgb' }),
+    ]);
+  });
+
+  test('a published layer with no asset at all fails', () => {
+    const result = validateRegistry({
+      records: [rec('layer/x.yaml', { id: 'x', family: 'layer', title: 'X', lifecycle: 'published', ...licence })],
+      assets: new Set(),
+    });
+
+    expect(codes(result, 'ASSET_MISSING')).toEqual([expect.objectContaining({ field: 'asset' })]);
+  });
+
+  test.each(['proposed', 'in_build', 'qa'])(
+    'a %s layer may lack its asset',
+    (lifecycle) => {
+      expect(codes(validateRegistry({ records: [layer({ lifecycle })], assets: new Set() }), 'ASSET_MISSING')).toEqual([]);
+    },
+  );
+});

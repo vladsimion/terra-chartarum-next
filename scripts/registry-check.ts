@@ -44,6 +44,7 @@ async function main(): Promise<number> {
     dataDir: options.data,
     reportDir: options.report,
     mappingsDir: options.mappings,
+    ...(options.assets === undefined ? {} : { assetsDir: options.assets }),
   });
 
   const summary = `${report.counts.entities} entities, ${report.counts.violations} violation(s)`;

@@ -63,6 +63,8 @@ export interface RegistryInput {
   loadErrors?: LoadError[];
   /** Per-authority specialist vocabulary mappings (data/vocab-mappings). */
   vocabMappings?: VocabMappings;
+  /** Asset paths available for publication (relative, `/`-separated). When absent, ASSET_MISSING is not checked. */
+  assets?: ReadonlySet<string>;
 }
 
 /**
@@ -160,6 +162,7 @@ export function validateRegistry(rawInput: RegistryInput): RegistryCheck {
       ...provenanceViolations(file, record),
       ...dateViolations(file, record),
       ...lifecycleViolations(file, record),
+      ...assetViolations(file, record, input.assets),
     );
   }
 
@@ -456,4 +459,23 @@ function lifecycleViolations(file: string, record: Record<string, unknown>): Vio
     });
   }
   return violations;
+}
+
+/** A published layer must have its asset available (layer availability is derived, never stored; ADR 0003). */
+function assetViolations(file: string, record: Record<string, unknown>, assets: ReadonlySet<string> | undefined): Violation[] {
+  if (assets === undefined || record['family'] !== 'layer' || effectiveLifecycle(record) !== 'published') return [];
+  const asset = record['asset'];
+  if (typeof asset === 'string' && assets.has(asset)) return [];
+  return [
+    {
+      code: 'ASSET_MISSING',
+      message:
+        typeof asset === 'string'
+          ? `published layer asset "${asset}" is not available`
+          : 'a published layer must name its asset',
+      field: 'asset',
+      ...(typeof asset === 'string' ? { value: asset } : {}),
+      ...entityOf(file, record),
+    },
+  ];
 }

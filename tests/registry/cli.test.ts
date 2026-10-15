@@ -152,3 +152,29 @@ describe('registry-check vocabulary mappings', () => {
     expect(result.code).toBe(1);
   }, 30_000);
 });
+
+describe('registry-check assets', () => {
+  const publishedLayer =
+    'id: roads\nfamily: layer\ntitle: Roads\nlifecycle: published\nasset: layers/roads.fgb\nrights: { licence: CC-BY-4.0 }\n';
+
+  test('reads available assets from --assets', async () => {
+    await put('data/layer/roads.yaml', publishedLayer);
+    await put('static/layers/roads.fgb', 'binary');
+
+    expect((await check('--data', 'data', '--report', 'out', '--assets', 'static')).code).toBe(0);
+  }, 30_000);
+
+  test('fails when a published layer\'s asset is absent from --assets', async () => {
+    await put('data/layer/roads.yaml', publishedLayer);
+    await mkdir(join(work, 'static'), { recursive: true });
+
+    expect((await check('--data', 'data', '--report', 'out', '--assets', 'static')).code).toBe(1);
+  }, 30_000);
+
+  test('defaults --assets to public/', async () => {
+    await put('data/layer/roads.yaml', publishedLayer);
+    await put('public/layers/roads.fgb', 'binary');
+
+    expect((await check('--data', 'data', '--report', 'out')).code).toBe(0);
+  }, 30_000);
+});
