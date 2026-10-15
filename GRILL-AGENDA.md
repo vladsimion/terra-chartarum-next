@@ -33,4 +33,5 @@ Settled leftovers: 5,000-entity integrity fixture; held-only bibliography entrie
 
 ## Still open
 - Spec 003: which Trench A test pits depend on CND attestations (needs the essay author).
-- Ratify the constitution as v1.0.0 with /speckit-constitution, then /speckit-analyze.
+
+Constitution ratified as v1.0.0 on 2026-10-15. /speckit-analyze runs per feature once tasks.md exists.

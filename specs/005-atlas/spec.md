@@ -54,7 +54,7 @@ As a reader, I overlay a georeferenced historical map with adjustable opacity an
 ### Edge Cases
 - No WebGL: a static map image and a full textual layer/feature list remain usable.
 - 200+ layers: discovery stays usable and performant (synthetic fixture).
-- Planned / in-preparation layers: shown in a data catalogue view, not as disabled rows in the live browser.
+- Layers not yet `published` (lifecycle `proposed` through `publishable`, ADR 0003): shown in a data catalogue view, not as disabled rows in the live browser.
 - Published layer with missing asset: build/release fails.
 - Collection with zero runnable public members: no activation action shown.
 - Held essay metadata: never present in Atlas payloads or URLs.
@@ -69,7 +69,7 @@ As a reader, I overlay a georeferenced historical map with adjustable opacity an
 - **FR-007**: Mobile MUST be map-first with drawers/sheets for catalogue, active layers and inspector.
 - **FR-008**: A keyboard-only user MUST be able to switch lens, activate collection defaults, inspect a layer, apply/reset a facet, remove a layer and copy the view.
 - **FR-009**: Historical place search MUST be available in v1 as exact and prefix match over historic and modern names, with results focusing the Atlas. Fuzzy matching and concordance views are deferred (ADR 0004).
-- **FR-010**: The v1 anchor collection MUST be Corpus Chartarum Daciae, with the Roman Dacia layers (limites, roads, principal sites) runnable. The CND attestation layer is registered as `in-preparation` and is not shown in the live browser until CND pilot acceptance (ADR 0002). Other migrated layers keep their imported lifecycle.
+- **FR-010**: The v1 anchor collection MUST be Corpus Chartarum Daciae, with the Roman Dacia layers (limites, roads, principal sites) runnable. The CND attestation layer is registered with lifecycle `in_build` (the shared equivalent of TC's `in-preparation`) and is not shown in the live browser until CND pilot acceptance (ADR 0002, ADR 0003). Other migrated layers keep their imported lifecycle, mapped to the shared vocabulary at import.
 
 ### Key Entities
 - **GeoLayer**, **GeoCollection**, **Theme**, **Room**, **Atlas view state** (year, lens, active IDs, focused ID, collection, facets).

@@ -4,7 +4,7 @@
 
 ## Decision
 1. v1 proves the stack end to end with **Terra Sigillata · Lapidarium Dacicum (Trench A)** and the **Corpus Chartarum Daciae Atlas collection**, using the Roman Dacia layers (limites, roads, principal sites).
-2. The **Corpus Nominum Daciae attestation layer is deferred** until CND pilot acceptance (KAN-334/335). CND is registered in v1 with lifecycle `in-preparation`, so it is visible in the data catalogue but not in the live Atlas browser.
+2. The **Corpus Nominum Daciae attestation layer is deferred** until CND pilot acceptance (KAN-334/335). CND is registered in v1 with lifecycle `in-preparation` (shared vocabulary: `in_build`, per ADR 0003), so it is visible in the data catalogue but not in the live Atlas browser.
 3. The **extended physical-object standard** (platemark, centre fold, verso, colour status/confidence, repairs, watermark, observation vs inference) is defined in the v1 schema as **optional fields**. Display and enrichment work come with Trench G (In Manibus).
 
 ## Alternatives considered

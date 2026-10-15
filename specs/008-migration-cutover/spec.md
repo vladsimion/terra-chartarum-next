@@ -47,7 +47,7 @@ As the editor, a cutover checklist (DNS/hosting switch, archive live, redirects 
 - **FR-002**: Imports MUST be deterministic and re-runnable.
 - **FR-003**: Every old public URL MUST have exactly one redirect rule.
 - **FR-004**: The archive MUST be the frozen terra-chartarum.pages.dev site: read-only, with an "archived edition" banner, `noindex`, and a link to terra-chartarum.org. Redirects for rebuilt essays live in the archive project's redirects file (ADR 0005).
-- **FR-008**: The successor MUST be served at terra-chartarum.org from a new Cloudflare Pages project connected to vladsimion/terra-chartarum-next (ADR 0005).
+- **FR-008**: The successor MUST be served at terra-chartarum.org from its own static hosting project built from vladsimion/terra-chartarum-next; hosting choice recorded in ADR 0005.
 - **FR-005**: Publishing a rebuilt essay MUST update its redirect rule in the same build.
 - **FR-006**: Imported private fields MUST be dropped before any public build.
 - **FR-007**: Before the freeze, the live site's key templates MUST be measured once with the ADR 0004 profile and the results recorded as a baseline.
