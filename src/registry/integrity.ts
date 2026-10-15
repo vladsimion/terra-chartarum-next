@@ -8,6 +8,7 @@ import {
   parseRef,
   qualify,
 } from './ids.ts';
+import { isEdtf } from './dates.ts';
 import type { LoadError, LoadedRecord } from './load.ts';
 import { schemaFor } from './schemas/envelope.ts';
 import { REFERENCE_FIELDS } from './schemas/families.ts';
@@ -134,11 +135,23 @@ export function validateRegistry(input: RegistryInput): RegistryCheck {
   }
 
   const known = new Set(filesByIdentity.keys());
+  const byIdentity = new Map<string, Record<string, unknown>>();
+  for (const { file, record } of input.records) {
+    const { entity } = entityOf(file, record);
+    if (entity !== undefined) byIdentity.set(entity, record);
+  }
+
   let references = 0;
   for (const { file, record } of input.records) {
     const found = referenceViolations(file, record, known);
     references += found.count;
-    violations.push(...found.violations, ...collectionViolations(file, record));
+    violations.push(
+      ...found.violations,
+      ...collectionViolations(file, record),
+      ...evidenceViolations(file, record, byIdentity),
+      ...provenanceViolations(file, record),
+      ...dateViolations(file, record),
+    );
   }
 
   return {
@@ -190,6 +203,12 @@ function referenceSites(family: Family, record: Record<string, unknown>): RefSit
 
   for (const [field, expected] of Object.entries(REFERENCE_FIELDS[family])) add(field, record[field], expected);
   add('superseded_by', record['superseded_by'], family);
+  const evidence = record['evidence'];
+  if (Array.isArray(evidence)) {
+    evidence.forEach((entry, i) => {
+      if (entry !== null && typeof entry === 'object') add(`evidence.${i}.source`, (entry as Record<string, unknown>)['source'], 'source');
+    });
+  }
   const rooms = record['rooms'];
   if (rooms !== null && typeof rooms === 'object') {
     add('rooms.primary', (rooms as Record<string, unknown>)['primary'], 'room');
@@ -293,4 +312,115 @@ function valueAt(record: unknown, path: readonly PropertyKey[]): unknown {
     current = (current as Record<PropertyKey, unknown>)[key];
   }
   return current;
+}
+
+/** Lifecycle states from which a record may be built or published (ADR 0003). */
+const PAST_VERIFIED = new Set(['ready_for_build', 'in_build', 'qa', 'publishable', 'published']);
+const PUBLISHABLE = new Set(['publishable', 'published']);
+
+function entries(value: unknown): Record<string, unknown>[] {
+  return Array.isArray(value) ? value.map((v) => (v !== null && typeof v === 'object' ? (v as Record<string, unknown>) : {})) : [];
+}
+
+/** Locator verification, secure claims and finding aids (spec 001 US2; ADR 0003; TC-D018). */
+function evidenceViolations(
+  file: string,
+  record: Record<string, unknown>,
+  byIdentity: ReadonlyMap<string, Record<string, unknown>>,
+): Violation[] {
+  const at = entityOf(file, record);
+  const violations: Violation[] = [];
+
+  entries(record['evidence']).forEach((evidence, i) => {
+    const field = `evidence.${i}`;
+    if (evidence['locator_state'] === 'verified') {
+      const missing = ['verified_by', 'verified_on', 'consulted_copy'].filter((k) => evidence[k] === undefined);
+      if (missing.length > 0) {
+        violations.push({
+          code: 'LOCATOR_VERIFICATION_INCOMPLETE',
+          message: `a verified locator must record ${missing.join(', ')}`,
+          field,
+          ...at,
+        });
+      }
+    }
+
+    if (evidence['confidence'] === 'secure' && evidence['locator_state'] !== 'verified') {
+      violations.push({
+        code: 'LOCATOR_UNVERIFIED_SECURE',
+        message: 'a secure claim must rest on a verified locator',
+        field,
+        ...at,
+      });
+    }
+
+    const source = typeof evidence['source'] === 'string' ? parseRef(evidence['source']) : undefined;
+    const target = source === undefined ? undefined : byIdentity.get(qualify(source.authority, source.family, source.id));
+    if (target?.['family'] === 'source' && target['kind'] === 'finding_aid') {
+      violations.push({
+        code: 'FINDING_AID_AS_SOURCE',
+        message: `${String(evidence['source'])} is a finding aid, not evidence`,
+        field: `${field}.source`,
+        value: evidence['source'],
+        ...at,
+      });
+    }
+  });
+  return violations;
+}
+
+/** Rights on publishable records and adjudication of automated extraction (FR-005, FR-008). */
+function provenanceViolations(file: string, record: Record<string, unknown>): Violation[] {
+  const lifecycle = typeof record['lifecycle'] === 'string' ? record['lifecycle'] : undefined;
+  if (lifecycle === undefined) return [];
+  const at = entityOf(file, record);
+  const violations: Violation[] = [];
+
+  if (PUBLISHABLE.has(lifecycle)) {
+    const rights = record['rights'];
+    if (rights === undefined || rights === null || typeof rights !== 'object') {
+      violations.push({ code: 'PROVENANCE_MISSING', message: `a ${lifecycle} record must declare its rights`, field: 'rights', ...at });
+    } else if ((rights as Record<string, unknown>)['licence'] === undefined) {
+      violations.push({ code: 'PROVENANCE_MISSING', message: `a ${lifecycle} record must declare a licence`, field: 'rights.licence', ...at });
+    }
+  }
+
+  const extraction = record['extraction'];
+  if (PAST_VERIFIED.has(lifecycle) && extraction !== null && typeof extraction === 'object') {
+    const e = extraction as Record<string, unknown>;
+    if (e['method'] !== 'manual' && (e['adjudicated_by'] === undefined || e['adjudicated_on'] === undefined)) {
+      violations.push({
+        code: 'EXTRACTION_UNADJUDICATED',
+        message: `${String(e['method'])} extraction must be adjudicated by a person before the record is ${lifecycle}`,
+        field: 'extraction',
+        ...at,
+      });
+    }
+  }
+  return violations;
+}
+
+/** Every historical date must be EDTF level 0–1 (ADR 0006). */
+function dateViolations(file: string, record: Record<string, unknown>): Violation[] {
+  const at = entityOf(file, record);
+  const sites: { field: string; value: unknown }[] = [];
+  const collect = (prefix: string, holder: Record<string, unknown>) => {
+    for (const key of ['valid_from', 'valid_to']) {
+      if (holder[key] !== undefined) sites.push({ field: `${prefix}${key}`, value: holder[key] });
+    }
+  };
+
+  collect('', record);
+  entries(record['evidence']).forEach((e, i) => collect(`evidence.${i}.`, e));
+  entries(record['names']).forEach((n, i) => collect(`names.${i}.`, n));
+
+  return sites
+    .filter((site) => typeof site.value !== 'string' || !isEdtf(site.value))
+    .map((site) => ({
+      code: 'DATE_INVALID',
+      message: `${site.field}: "${String(site.value)}" is not an EDTF level 0–1 date (e.g. 0106, -0106, 159X, 1595?, 1595/1602)`,
+      field: site.field,
+      value: site.value,
+      ...at,
+    }));
 }

@@ -547,3 +547,176 @@ describe('rights and extraction', () => {
     expect(codes(result, 'ENUM_INVALID')).toEqual([expect.objectContaining({ field: 'extraction.method' })]);
   });
 });
+
+describe('locators (LOCATOR_VERIFICATION_INCOMPLETE, LOCATOR_UNVERIFIED_SECURE)', () => {
+  const withEvidence = (evidence: Record<string, unknown>) =>
+    validateRegistry({ records: [bib, geographia, placeWith({ evidence: [{ source: 'source:geographia', ...evidence }] })] });
+
+  test('a verified locator names who read it, when, and which copy', () => {
+    const result = withEvidence({
+      locator: '3.8.4',
+      locator_state: 'verified',
+      verified_by: 'Vlad Simion',
+      verified_on: '2026-10-01',
+      consulted_copy: 'Nobbe 1843, archive.org scan',
+    });
+
+    expect(result.violations).toEqual([]);
+  });
+
+  test('a verified locator missing any of the three is incomplete, naming what is missing', () => {
+    const result = withEvidence({ locator: '3.8.4', locator_state: 'verified', verified_by: 'Vlad Simion' });
+
+    const violations = codes(result, 'LOCATOR_VERIFICATION_INCOMPLETE');
+    expect(violations).toEqual([expect.objectContaining({ field: 'evidence.0', files: ['place/apulum.yaml'] })]);
+    expect(violations[0]?.message).toContain('verified_on');
+    expect(violations[0]?.message).toContain('consulted_copy');
+  });
+
+  test('a pending locator needs no verification details', () => {
+    expect(withEvidence({ locator: '3.8.4', locator_state: 'pending', confidence: 'probable' }).violations).toEqual([]);
+  });
+
+  test('a secure claim may not rest on a pending locator', () => {
+    const result = withEvidence({ locator: '3.8.4', locator_state: 'pending', confidence: 'secure' });
+
+    expect(codes(result, 'LOCATOR_UNVERIFIED_SECURE')).toEqual([expect.objectContaining({ field: 'evidence.0' })]);
+  });
+
+  test('a secure claim with no locator at all is also unsupported', () => {
+    const result = withEvidence({ confidence: 'secure' });
+
+    expect(codes(result, 'LOCATOR_UNVERIFIED_SECURE')).toHaveLength(1);
+  });
+
+  test('a secure claim on a fully verified locator passes', () => {
+    const result = withEvidence({
+      locator: '3.8.4',
+      locator_state: 'verified',
+      verified_by: 'Vlad Simion',
+      verified_on: '2026-10-01',
+      consulted_copy: 'Nobbe 1843',
+      confidence: 'secure',
+    });
+
+    expect(result.violations).toEqual([]);
+  });
+});
+
+describe('PROVENANCE_MISSING', () => {
+  test.each(['publishable', 'published'])('a %s record without rights fails', (lifecycle) => {
+    const result = validateRegistry({ records: [placeWith({ lifecycle })] });
+
+    expect(codes(result, 'PROVENANCE_MISSING')).toEqual([
+      expect.objectContaining({ entity: 'tc:tc:place:apulum', field: 'rights' }),
+    ]);
+  });
+
+  test('a published record with a licence passes', () => {
+    const result = validateRegistry({ records: [placeWith({ lifecycle: 'published', rights: { licence: 'CC-BY-4.0' } })] });
+
+    expect(codes(result, 'PROVENANCE_MISSING')).toEqual([]);
+  });
+
+  test('rights without a licence still fail on a published record', () => {
+    const result = validateRegistry({ records: [placeWith({ lifecycle: 'published', rights: { attribution: 'X' } })] });
+
+    expect(codes(result, 'PROVENANCE_MISSING')).toEqual([expect.objectContaining({ field: 'rights.licence' })]);
+  });
+
+  test('records still in research need no rights yet', () => {
+    expect(codes(validateRegistry({ records: [placeWith({ lifecycle: 'researching' })] }), 'PROVENANCE_MISSING')).toEqual([]);
+  });
+});
+
+describe('FINDING_AID_AS_SOURCE', () => {
+  test('evidence citing a finding aid is rejected', () => {
+    const aid = rec('source/survey.yaml', {
+      id: 'survey',
+      family: 'source',
+      title: 'A survey',
+      kind: 'finding_aid',
+      bibliography: 'bibliography:b',
+    });
+    const result = validateRegistry({ records: [bib, aid, placeWith({ evidence: [{ source: 'source:survey' }] })] });
+
+    expect(codes(result, 'FINDING_AID_AS_SOURCE')).toEqual([
+      expect.objectContaining({ field: 'evidence.0.source', value: 'source:survey' }),
+    ]);
+  });
+
+  test('evidence sources must resolve like any other reference', () => {
+    const result = validateRegistry({ records: [placeWith({ evidence: [{ source: 'source:missing' }] })] });
+
+    expect(codes(result, 'REF_UNKNOWN')).toEqual([expect.objectContaining({ field: 'evidence.0.source' })]);
+  });
+});
+
+describe('DATE_INVALID', () => {
+  test.each(['0106', '-0106', '159X', '15XX', '1595?', '1595~', '1595%', '1595/1602', '1595-03', '1595-03-12'])(
+    '"%s" is valid EDTF',
+    (date) => {
+      const result = validateRegistry({
+        records: [bib, geographia, placeWith({ evidence: [{ source: 'source:geographia', valid_from: date }] })],
+      });
+
+      expect(codes(result, 'DATE_INVALID')).toEqual([]);
+    },
+  );
+
+  test.each(['106', '1595-13', 'c. 1595', '16th century', ''])('"%s" is not valid EDTF', (date) => {
+    const result = validateRegistry({
+      records: [bib, geographia, placeWith({ evidence: [{ source: 'source:geographia', valid_from: date }] })],
+    });
+
+    expect(codes(result, 'DATE_INVALID')).toEqual([
+      expect.objectContaining({ field: 'evidence.0.valid_from', value: date }),
+    ]);
+  });
+
+  test('dates on place names and on dated families are checked too', () => {
+    const result = validateRegistry({
+      records: [
+        placeWith({ names: [{ form: 'Apulum', valid_from: 'second century' }] }),
+        rec('period/p.yaml', { id: 'p', family: 'period', title: 'P', valid_from: '0106', valid_to: 'late' }),
+      ],
+    });
+
+    expect(codes(result, 'DATE_INVALID').map((v) => v.field).sort()).toEqual(['names.0.valid_from', 'valid_to']);
+  });
+});
+
+describe('EXTRACTION_UNADJUDICATED', () => {
+  const llm = { method: 'llm', raw_evidence_ref: 'raw/x.json', transformation_log_ref: 'logs/x.md' };
+
+  test.each(['ready_for_build', 'in_build', 'qa', 'publishable', 'published'])(
+    'an unadjudicated automated extraction may not be %s',
+    (lifecycle) => {
+      const result = validateRegistry({
+        records: [placeWith({ lifecycle, extraction: llm, rights: { licence: 'CC-BY-4.0' } })],
+      });
+
+      expect(codes(result, 'EXTRACTION_UNADJUDICATED')).toEqual([expect.objectContaining({ field: 'extraction' })]);
+    },
+  );
+
+  test('it may stay in research while awaiting adjudication', () => {
+    const result = validateRegistry({ records: [placeWith({ lifecycle: 'verified', extraction: llm })] });
+
+    expect(codes(result, 'EXTRACTION_UNADJUDICATED')).toEqual([]);
+  });
+
+  test('once a person has adjudicated it, it may be published', () => {
+    const result = validateRegistry({
+      records: [
+        placeWith({
+          lifecycle: 'published',
+          rights: { licence: 'CC-BY-4.0' },
+          extraction: { ...llm, adjudicated_by: 'Vlad Simion', adjudicated_on: '2026-10-02' },
+        }),
+      ],
+    });
+
+    expect(codes(result, 'EXTRACTION_UNADJUDICATED')).toEqual([]);
+  });
+});
