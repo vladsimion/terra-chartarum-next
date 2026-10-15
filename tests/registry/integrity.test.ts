@@ -114,7 +114,7 @@ describe('SCHEMA_INVALID', () => {
 
   test('a non-routable family needs no slug', () => {
     const result = validateRegistry({
-      records: [rec('source/s.yaml', { id: 's', family: 'source', title: 'S' })],
+      records: [rec('source/s.yaml', { id: 's', family: 'source', title: 'S', kind: 'source', bibliography: 'bibliography:b' })],
     });
 
     expect(codes(result, 'SCHEMA_INVALID')).toEqual([]);
@@ -208,4 +208,67 @@ describe('ID_DUPLICATE', () => {
       expect.objectContaining({ files: ['a.yaml', 'b.yaml', 'c.yaml'] }),
     ]);
   });
+});
+
+describe('family fields', () => {
+  const base = (family: string, extra: Record<string, unknown> = {}) =>
+    rec(`${family}/x.yaml`, { id: 'x', family, title: 'X', ...extra });
+
+  test.each([
+    ['essay', { slug: 'x', stage: 'draft', question: 'Q?', maps: ['map:m'], layers: [], places: [], sources: [], bibliography: [] }],
+    ['map', { slug: 'x', cartographers: ['cartographer:c'], places: [], layers: [], bibliography: [] }],
+    ['cartographer', { slug: 'x', names: ['Ortelius'], roles: ['cartographer'], maps: [], bibliography: [] }],
+    ['place', { slug: 'x', names: [{ form: 'Apulum', language: 'la' }], sources: [] }],
+    ['source', { kind: 'source', bibliography: 'bibliography:b' }],
+    ['attestation', { place: 'place:p', source: 'source:s', name_form: 'Apulon', language: 'grc', locator: '3.8.4' }],
+    ['dataset', { question: 'Q?', crs: 'EPSG:4326', format: 'geojson', layers: [], sources: [] }],
+    ['layer', { role: 'historical', theme: 'networks-circulation', dataset: 'dataset:d', collections: [], asset: 'layers/x.fgb' }],
+    ['collection', { slug: 'x', question: 'Q?', layer_ids: ['layer:l'], default_layer_ids: ['layer:l'] }],
+    ['route', { valid_from: '0106', valid_to: '0271', places: [], sources: [] }],
+    ['event', { valid_from: '0106', places: [], sources: [] }],
+    ['period', { valid_from: '0106', valid_to: '0271', places: [], sources: [] }],
+    ['room', { slug: 'x', order: 1, description: 'D' }],
+    ['bibliography', { section: 'primary_sources', citation: { type: 'book', title: 'Geographia' } }],
+  ])('a %s accepts its own fields', (family, extra) => {
+    const result = validateRegistry({ records: [base(family, extra)] });
+
+    expect(codes(result, 'SCHEMA_INVALID')).toEqual([]);
+  });
+
+  test('a field belonging to another family is rejected', () => {
+    const result = validateRegistry({ records: [base('place', { slug: 'x', layer_ids: [] })] });
+
+    expect(codes(result, 'SCHEMA_INVALID')).toEqual([expect.objectContaining({ field: 'layer_ids' })]);
+  });
+
+  test('a source must point to its bibliography entry and may not hold its own citation (Principle V)', () => {
+    const withoutBib = validateRegistry({ records: [base('source', { kind: 'source' })] });
+    expect(codes(withoutBib, 'SCHEMA_INVALID')).toEqual([expect.objectContaining({ field: 'bibliography' })]);
+
+    const withCitation = validateRegistry({
+      records: [base('source', { kind: 'source', bibliography: 'bibliography:b', citation: { title: 'X' } })],
+    });
+    expect(codes(withCitation, 'SCHEMA_INVALID')).toEqual([expect.objectContaining({ field: 'citation' })]);
+  });
+
+  test('an attestation needs a place and a source', () => {
+    const result = validateRegistry({ records: [base('attestation', { name_form: 'Apulon' })] });
+
+    expect(codes(result, 'SCHEMA_INVALID').map((v) => v.field).sort()).toEqual(['place', 'source']);
+  });
+
+  test('a collection needs layer_ids and default_layer_ids', () => {
+    const result = validateRegistry({ records: [base('collection', { slug: 'x' })] });
+
+    expect(codes(result, 'SCHEMA_INVALID').map((v) => v.field).sort()).toEqual(['default_layer_ids', 'layer_ids']);
+  });
+
+  test.each([['ptolemy'], ['Source:ptolemy'], ['source:'], ['a:b:c:d']])(
+    'a reference written as "%s" is malformed',
+    (ref) => {
+      const result = validateRegistry({ records: [base('source', { kind: 'source', bibliography: ref })] });
+
+      expect(codes(result, 'SCHEMA_INVALID')).toEqual([expect.objectContaining({ field: 'bibliography' })]);
+    },
+  );
 });

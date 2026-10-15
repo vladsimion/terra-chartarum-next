@@ -30,3 +30,21 @@ export function isFamily(value: string): value is Family {
 export function qualify(authority: string, family: string, localId: string): string {
   return `tc:${authority}:${family}:${localId}`;
 }
+
+/** A reference inside a record: `family:local-id` or `authority:family:local-id`. */
+export const REF_RULE = `(${AUTHORITY_RULE}:)?[a-z]+:${LOCAL_ID_RULE}`;
+const REF = new RegExp(`^(?:(${AUTHORITY_RULE}):)?([a-z]+):(${LOCAL_ID_RULE})$`);
+
+export interface Ref {
+  authority: string;
+  family: string;
+  id: string;
+}
+
+/** Parse a reference string; `undefined` when it is malformed. */
+export function parseRef(value: string): Ref | undefined {
+  const match = REF.exec(value);
+  if (match === null) return undefined;
+  const [, authority, family, id] = match;
+  return { authority: authority ?? DEFAULT_AUTHORITY, family: family!, id: id! };
+}

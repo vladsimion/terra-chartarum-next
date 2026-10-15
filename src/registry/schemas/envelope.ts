@@ -1,8 +1,9 @@
 import { z } from 'zod';
+import { isFamily } from '../ids.ts';
+import { familyShapes } from './families.ts';
 
 /**
  * Fields every registry record may carry (data-model.md "Common entity envelope").
- * Family-specific fields are added by the family schemas (spec 001 US3).
  * Value rules for lifecycle, evidence, rights and extraction arrive with their
  * user stories; here they are only allowed to be present.
  */
@@ -27,14 +28,23 @@ export const envelopeShape = {
   private: z.record(z.string(), z.unknown()).optional(),
 };
 
-export const envelopeSchema = z
-  .strictObject(envelopeShape)
-  .superRefine((record, ctx) => {
-    if ((ROUTABLE_FAMILIES as readonly string[]).includes(record.family) && record.slug === undefined) {
-      ctx.addIssue({
-        code: 'custom',
-        path: ['slug'],
-        message: `slug is required for routable family "${record.family}"`,
-      });
-    }
-  });
+const requireSlugWhenRoutable = (record: { family: string; slug?: string | undefined }, ctx: z.RefinementCtx) => {
+  if ((ROUTABLE_FAMILIES as readonly string[]).includes(record.family) && record.slug === undefined) {
+    ctx.addIssue({ code: 'custom', path: ['slug'], message: `slug is required for routable family "${record.family}"` });
+  }
+};
+
+const schemasByFamily = new Map(
+  Object.entries(familyShapes).map(([family, shape]) => [
+    family,
+    z.strictObject({ ...envelopeShape, ...shape }).superRefine(requireSlugWhenRoutable),
+  ]),
+);
+
+/** Records of an unknown family are checked against the envelope alone (ID_SYNTAX reports the family). */
+const envelopeOnly = z.strictObject(envelopeShape).superRefine(requireSlugWhenRoutable);
+
+/** The schema a record must satisfy, chosen by its family. */
+export function schemaFor(family: unknown) {
+  return (typeof family === 'string' && isFamily(family) && schemasByFamily.get(family)) || envelopeOnly;
+}

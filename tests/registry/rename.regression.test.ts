@@ -9,17 +9,33 @@ import { FAMILY_PATHS } from '../../src/registry/routes.ts';
 
 const ROUTABLE = Object.keys(FAMILY_PATHS);
 
+/** Fields some families require beyond the envelope. */
+const REQUIRED_FIELDS: Record<string, Record<string, unknown>> = {
+  essay: { stage: 'draft' },
+  collection: { layer_ids: [], default_layer_ids: [] },
+};
+
 function fixture(): LoadedRecord[] {
   const records: LoadedRecord[] = [];
   for (const family of ROUTABLE) {
     for (const n of [1, 2]) {
       records.push({
         file: `${family}/${family}-${n}.yaml`,
-        record: { id: `${family}-${n}`, family, title: `${family} ${n}`, slug: `${family}-slug-${n}` },
+        record: {
+          id: `${family}-${n}`,
+          family,
+          title: `${family} ${n}`,
+          slug: `${family}-slug-${n}`,
+          ...REQUIRED_FIELDS[family],
+        },
       });
     }
   }
-  records.push({ file: 'source/s.yaml', record: { id: 's', family: 'source', title: 'A source' } });
+  records.push({
+    file: 'source/s.yaml',
+    record: { id: 's', family: 'source', title: 'A source', kind: 'source', bibliography: 'bibliography:b' },
+  });
+  records.push({ file: 'bibliography/b.yaml', record: { id: 'b', family: 'bibliography', title: 'A work' } });
   records.push({
     file: 'place/cnd.yaml',
     record: { id: 'apulum', authority: 'cnd', family: 'place', title: 'Apulum', slug: 'apulum-cnd' },

@@ -8,7 +8,7 @@ import {
   qualify,
 } from './ids.ts';
 import type { LoadError, LoadedRecord } from './load.ts';
-import { envelopeSchema } from './schemas/envelope.ts';
+import { schemaFor } from './schemas/envelope.ts';
 
 /** Violation codes (data-model.md "Integrity rules"; contracts/integrity-report.schema.json). */
 export type ViolationCode =
@@ -144,7 +144,7 @@ export function validateRegistry(input: RegistryInput): RegistryCheck {
 
 /** Turn schema failures into SCHEMA_INVALID violations, one per offending field. */
 function schemaViolations(record: Record<string, unknown>, at: { entity?: string; files: string[] }): Violation[] {
-  const parsed = envelopeSchema.safeParse(record);
+  const parsed = schemaFor(record['family']).safeParse(record);
   if (parsed.success) return [];
 
   return parsed.error.issues.flatMap((issue): Violation[] => {
