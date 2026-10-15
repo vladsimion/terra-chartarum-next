@@ -84,9 +84,9 @@ description: "Task list for 001 — Scholarly Entity Registry & Integrity Gate"
 
 - [x] T024 [US3] Write failing tests in `tests/registry/integrity.test.ts › family fields` through seam 1: each family accepts its fields from data-model.md "Family-specific fields" and rejects unknown ones (SCHEMA_INVALID); reference values must use `family:id` or `authority:family:id`; collections require `layer_ids[]` and `default_layer_ids[]`; an attestation requires `place` and `source`; a `source` requires a `bibliography` reference and rejects embedded citation fields (Principle V)
 - [x] T025 [US3] Implement per-family schemas in `src/registry/schemas/<family>.ts` and an index `src/registry/schemas/index.ts` (make T024 pass)
-- [ ] T026 [US3] Write failing tests `integrity › REF_UNKNOWN` and `› REF_FAMILY` (fixtures `invalid/REF_UNKNOWN/`, `invalid/REF_FAMILY/`): violation names the entity, field path and missing or mismatched ID
-- [ ] T027 [US3] Write failing test `integrity › COLLECTION_DEFAULTS`: fails when `default_layer_ids ⊄ layer_ids` or members are duplicated
-- [ ] T028 [US3] Extend `src/registry/integrity.ts` with reference resolution across all families, REF_UNKNOWN, REF_FAMILY and COLLECTION_DEFAULTS (make T026–T027 pass)
+- [x] T026 [US3] Write failing tests `integrity › REF_UNKNOWN` and `› REF_FAMILY` (fixtures `invalid/REF_UNKNOWN/`, `invalid/REF_FAMILY/`): violation names the entity, field path and missing or mismatched ID
+- [x] T027 [US3] Write failing test `integrity › COLLECTION_DEFAULTS`: fails when `default_layer_ids ⊄ layer_ids` or members are duplicated
+- [x] T028 [US3] Extend `src/registry/integrity.ts` with reference resolution across all families, REF_UNKNOWN, REF_FAMILY and COLLECTION_DEFAULTS (make T026–T027 pass)
 - [ ] T029 [US3] Write failing test `tests/registry/build-hook.test.ts`: the Astro integration aborts the build before page generation when the gate fails, printing the report path
 - [ ] T030 [US3] Run the gate from the registry integration in `src/integrations/registry.ts` at build start, writing reports and aborting on failure (make T029 pass). Binding Astro content collections to registry schemas is deferred to the first spec whose pages read registry records (003/004): no speculative code.
 - [ ] T031 [US3] Build the valid fixture `tests/registry/fixtures/valid/` with at least one record per family and every reference type resolving; the CLI test from T019 exits 0 on it

@@ -5,10 +5,13 @@ import {
   isAuthority,
   isFamily,
   isLocalId,
+  parseRef,
   qualify,
 } from './ids.ts';
 import type { LoadError, LoadedRecord } from './load.ts';
 import { schemaFor } from './schemas/envelope.ts';
+import { REFERENCE_FIELDS } from './schemas/families.ts';
+import type { Family } from './vocab.ts';
 
 /** Violation codes (data-model.md "Integrity rules"; contracts/integrity-report.schema.json). */
 export type ViolationCode =
@@ -130,12 +133,20 @@ export function validateRegistry(input: RegistryInput): RegistryCheck {
     }
   }
 
+  const known = new Set(filesByIdentity.keys());
+  let references = 0;
+  for (const { file, record } of input.records) {
+    const found = referenceViolations(file, record, known);
+    references += found.count;
+    violations.push(...found.violations, ...collectionViolations(file, record));
+  }
+
   return {
     status: violations.length === 0 ? 'pass' : 'fail',
     counts: {
       entities: input.records.length,
       by_family: byFamily,
-      references: 0,
+      references,
       violations: violations.length,
     },
     violations,
@@ -159,4 +170,116 @@ function schemaViolations(record: Record<string, unknown>, at: { entity?: string
     const field = issue.path.map(String).join('.');
     return [{ code: 'SCHEMA_INVALID', message: `${field}: ${issue.message}`, field, ...at }];
   });
+}
+
+interface RefSite {
+  field: string;
+  value: unknown;
+  expected: Family;
+}
+
+/** Every reference a record makes, with the family it must point to. */
+function referenceSites(family: Family, record: Record<string, unknown>): RefSite[] {
+  const sites: RefSite[] = [];
+  const add = (field: string, value: unknown, expected: Family) => {
+    if (Array.isArray(value)) value.forEach((v, i) => sites.push({ field: `${field}.${i}`, value: v, expected }));
+    else if (value !== undefined) sites.push({ field, value, expected });
+  };
+
+  for (const [field, expected] of Object.entries(REFERENCE_FIELDS[family])) add(field, record[field], expected);
+  add('superseded_by', record['superseded_by'], family);
+  const rooms = record['rooms'];
+  if (rooms !== null && typeof rooms === 'object') {
+    add('rooms.primary', (rooms as Record<string, unknown>)['primary'], 'room');
+    add('rooms.secondary', (rooms as Record<string, unknown>)['secondary'], 'room');
+  }
+  return sites;
+}
+
+/** REF_FAMILY and REF_UNKNOWN. Malformed references are left to SCHEMA_INVALID. */
+function referenceViolations(
+  file: string,
+  record: Record<string, unknown>,
+  known: ReadonlySet<string>,
+): { count: number; violations: Violation[] } {
+  const family = record['family'];
+  if (typeof family !== 'string' || !isFamily(family)) return { count: 0, violations: [] };
+  const at = entityOf(file, record);
+
+  const violations: Violation[] = [];
+  let count = 0;
+  for (const site of referenceSites(family, record)) {
+    if (typeof site.value !== 'string') continue;
+    const ref = parseRef(site.value);
+    if (ref === undefined) continue;
+    count += 1;
+
+    if (ref.family !== site.expected) {
+      violations.push({
+        code: 'REF_FAMILY',
+        message: `${site.field} must point to a ${site.expected}, not a ${ref.family}`,
+        field: site.field,
+        value: site.value,
+        ...at,
+      });
+    } else if (!known.has(qualify(ref.authority, ref.family, ref.id))) {
+      violations.push({
+        code: 'REF_UNKNOWN',
+        message: `${site.field} points to ${site.value}, which is not in the registry`,
+        field: site.field,
+        value: site.value,
+        ...at,
+      });
+    }
+  }
+  return { count, violations };
+}
+
+/** A collection's defaults must be members, and no member may be listed twice. */
+function collectionViolations(file: string, record: Record<string, unknown>): Violation[] {
+  if (record['family'] !== 'collection') return [];
+  const members = record['layer_ids'];
+  const defaults = record['default_layer_ids'];
+  if (!Array.isArray(members) || !Array.isArray(defaults)) return [];
+  const at = entityOf(file, record);
+  const violations: Violation[] = [];
+
+  const seen = new Set<string>();
+  members.forEach((value, i) => {
+    const key = normalisedRef(value);
+    if (key === undefined) return;
+    if (seen.has(key)) {
+      violations.push({ code: 'COLLECTION_DEFAULTS', message: `${String(value)} is listed twice`, field: `layer_ids.${i}`, value, ...at });
+    }
+    seen.add(key);
+  });
+
+  defaults.forEach((value, i) => {
+    const key = normalisedRef(value);
+    if (key !== undefined && !seen.has(key)) {
+      violations.push({
+        code: 'COLLECTION_DEFAULTS',
+        message: `default ${String(value)} is not a member of layer_ids`,
+        field: `default_layer_ids.${i}`,
+        value,
+        ...at,
+      });
+    }
+  });
+  return violations;
+}
+
+function normalisedRef(value: unknown): string | undefined {
+  if (typeof value !== 'string') return undefined;
+  const ref = parseRef(value);
+  return ref === undefined ? undefined : qualify(ref.authority, ref.family, ref.id);
+}
+
+function entityOf(file: string, record: Record<string, unknown>): { entity?: string; files: string[] } {
+  const authority = typeof record['authority'] === 'string' ? record['authority'] : DEFAULT_AUTHORITY;
+  const family = record['family'];
+  const id = record['id'];
+  return typeof family === 'string' && typeof id === 'string'
+    ? { entity: qualify(authority, family, id), files: [file] }
+    : { files: [file] };
 }

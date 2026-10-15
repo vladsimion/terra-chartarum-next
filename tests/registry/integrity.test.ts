@@ -272,3 +272,133 @@ describe('family fields', () => {
     },
   );
 });
+
+describe('references (REF_UNKNOWN, REF_FAMILY)', () => {
+  const map = rec('map/ortelius.yaml', { id: 'ortelius', family: 'map', title: 'Daciarum', slug: 'daciarum' });
+  const essay = (refs: Record<string, unknown>) =>
+    rec('essay/terra-sigillata.yaml', {
+      id: 'terra-sigillata',
+      family: 'essay',
+      title: 'Terra Sigillata',
+      slug: 'terra-sigillata',
+      stage: 'draft',
+      ...refs,
+    });
+
+  test('references that resolve produce no violation and are counted', () => {
+    const result = validateRegistry({ records: [map, essay({ maps: ['map:ortelius'] })] });
+
+    expect(codes(result, 'REF_UNKNOWN')).toEqual([]);
+    expect(codes(result, 'REF_FAMILY')).toEqual([]);
+    expect(result.counts.references).toBe(1);
+  });
+
+  test('a reference to a map that does not exist names the entity, the field and the missing id', () => {
+    const result = validateRegistry({ records: [map, essay({ maps: ['map:ortelius', 'map:mercator'] })] });
+
+    expect(codes(result, 'REF_UNKNOWN')).toEqual([
+      expect.objectContaining({
+        entity: 'tc:tc:essay:terra-sigillata',
+        field: 'maps.1',
+        value: 'map:mercator',
+        files: ['essay/terra-sigillata.yaml'],
+      }),
+    ]);
+    expect(result.status).toBe('fail');
+  });
+
+  test('a reference with an explicit authority must match that authority', () => {
+    const result = validateRegistry({ records: [map, essay({ maps: ['cnd:map:ortelius'] })] });
+
+    expect(codes(result, 'REF_UNKNOWN')).toEqual([expect.objectContaining({ value: 'cnd:map:ortelius' })]);
+  });
+
+  test('a reference naming the wrong family for its field is REF_FAMILY', () => {
+    const place = rec('place/apulum.yaml', { id: 'apulum', family: 'place', title: 'Apulum', slug: 'apulum' });
+    const result = validateRegistry({ records: [map, place, essay({ maps: ['place:apulum'] })] });
+
+    expect(codes(result, 'REF_FAMILY')).toEqual([
+      expect.objectContaining({ field: 'maps.0', value: 'place:apulum' }),
+    ]);
+    expect(codes(result, 'REF_UNKNOWN')).toEqual([]);
+  });
+
+  test('single-valued reference fields are resolved too', () => {
+    const result = validateRegistry({
+      records: [rec('source/s.yaml', { id: 's', family: 'source', title: 'S', kind: 'source', bibliography: 'bibliography:none' })],
+    });
+
+    expect(codes(result, 'REF_UNKNOWN')).toEqual([expect.objectContaining({ field: 'bibliography' })]);
+  });
+
+  test('room assignments and superseded_by are references too', () => {
+    const result = validateRegistry({
+      records: [
+        rec('room/border.yaml', { id: 'border', family: 'room', title: 'The Border', slug: 'border' }),
+        rec('map/old.yaml', {
+          id: 'old',
+          family: 'map',
+          title: 'Old',
+          slug: 'old',
+          rooms: { primary: 'room:border', secondary: ['room:sea'] },
+          superseded_by: 'map:new',
+        }),
+      ],
+    });
+
+    expect(codes(result, 'REF_UNKNOWN').map((v) => v.field).sort()).toEqual(['rooms.secondary.0', 'superseded_by']);
+  });
+
+  test('superseded_by must point to the same family', () => {
+    const result = validateRegistry({
+      records: [
+        map,
+        rec('place/p.yaml', { id: 'p', family: 'place', title: 'P', slug: 'p', superseded_by: 'map:ortelius' }),
+      ],
+    });
+
+    expect(codes(result, 'REF_FAMILY')).toEqual([expect.objectContaining({ field: 'superseded_by' })]);
+  });
+});
+
+describe('COLLECTION_DEFAULTS', () => {
+  const layer = (id: string) =>
+    rec(`layer/${id}.yaml`, { id, family: 'layer', title: id });
+  const collection = (layer_ids: string[], default_layer_ids: string[]) =>
+    rec('collection/dacia.yaml', {
+      id: 'dacia',
+      family: 'collection',
+      title: 'Corpus Chartarum Daciae',
+      slug: 'dacia',
+      layer_ids,
+      default_layer_ids,
+    });
+
+  test('defaults drawn from the members are fine', () => {
+    const result = validateRegistry({
+      records: [layer('roads'), layer('limes'), collection(['layer:roads', 'layer:limes'], ['layer:roads'])],
+    });
+
+    expect(codes(result, 'COLLECTION_DEFAULTS')).toEqual([]);
+  });
+
+  test('a default that is not a member fails', () => {
+    const result = validateRegistry({
+      records: [layer('roads'), layer('limes'), collection(['layer:roads'], ['layer:limes'])],
+    });
+
+    expect(codes(result, 'COLLECTION_DEFAULTS')).toEqual([
+      expect.objectContaining({ entity: 'tc:tc:collection:dacia', field: 'default_layer_ids.0', value: 'layer:limes' }),
+    ]);
+  });
+
+  test('a member listed twice fails', () => {
+    const result = validateRegistry({
+      records: [layer('roads'), collection(['layer:roads', 'layer:roads'], [])],
+    });
+
+    expect(codes(result, 'COLLECTION_DEFAULTS')).toEqual([
+      expect.objectContaining({ field: 'layer_ids.1', value: 'layer:roads' }),
+    ]);
+  });
+});

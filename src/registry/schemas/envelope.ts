@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { isFamily } from '../ids.ts';
-import { familyShapes } from './families.ts';
+import { familyShapes, refSchema } from './families.ts';
 
 /**
  * Fields every registry record may carry (data-model.md "Common entity envelope").
@@ -19,8 +19,8 @@ export const envelopeShape = {
   slug: z.string().min(1).optional(),
   previous_slugs: z.array(z.string().min(1)).optional(),
   lifecycle: z.unknown().optional(),
-  superseded_by: z.unknown().optional(),
-  rooms: z.unknown().optional(),
+  superseded_by: refSchema.optional(),
+  rooms: z.strictObject({ primary: refSchema.optional(), secondary: z.array(refSchema).optional() }).optional(),
   evidence: z.unknown().optional(),
   rights: z.unknown().optional(),
   extraction: z.unknown().optional(),
