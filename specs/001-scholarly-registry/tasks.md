@@ -126,7 +126,7 @@ description: "Task list for 001 — Scholarly Entity Registry & Integrity Gate"
 - [x] T043 [US5] Implement the three rules from T041 and specialist-mapping resolution (make T041–T042 pass)
 - [x] T044 [US5] Write failing tests `integrity › ASSET_MISSING` through seam 1 with the set of available asset paths as input: a `published` layer whose `asset` is not available fails; non-published layers without assets pass; the CLI builds that set from `--assets` (default `public`)
 - [x] T045 [US5] Implement ASSET_MISSING and the CLI's asset listing (make T044 pass)
-- [ ] T046 [US5] Extend `redirectsFor` and its tests so a `superseded` entity's slug redirects to its `superseded_by` successor (the tombstone page itself is spec 002 FR-011)
+- [x] T046 [US5] Extend `redirectsFor` and its tests so a `superseded` entity keeps its own address (tombstone, spec 002 FR-011): its previous slugs lead to its tombstone and no rule ever redirects a live page path away. *Decided 2026-10-15: tombstone, not a redirect to the successor.*
 - [x] T047 [P] [US5] Add optional `dimensions[]` to the essay schema (`Measure · Witness · Use · Cosmos · Power · Silence`) with a passing/failing pair in `integrity.test.ts` (seam 1) (FR-012)
 
 **Checkpoint**: Lifecycle is consistent everywhere.

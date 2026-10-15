@@ -60,3 +60,39 @@ describe('toRedirectsFile', () => {
     expect(text).toBe('/places/old/ /places/new/ 301\n/essays/x/ /essays/y/ 301\n');
   });
 });
+
+// T046 (decided 2026-10-15): a superseded record keeps its own address as a
+// tombstone page linking to its successor (spec 002 FR-011, research R4); it
+// is never redirected away.
+describe('redirectsFor: superseded records keep their tombstone address', () => {
+  const old = rec({
+    id: 'apulum',
+    family: 'place',
+    title: 'Apulum',
+    slug: 'apulum',
+    previous_slugs: ['apoulon'],
+    lifecycle: 'superseded',
+    superseded_by: 'place:apulum-2',
+  });
+
+  test('previous slugs of a superseded record lead to its tombstone, not to the successor', () => {
+    const successor = rec({ id: 'apulum-2', family: 'place', title: 'Apulum', slug: 'apulum-colonia' });
+
+    expect(redirectsFor([old, successor])).toEqual([{ from: '/places/apoulon/', to: '/places/apulum/', status: 301 }]);
+  });
+
+  test('no rule ever redirects away a live page, even when another record lists its slug as previous', () => {
+    const successor = rec({
+      id: 'apulum-2',
+      family: 'place',
+      title: 'Apulum',
+      slug: 'apulum-colonia',
+      previous_slugs: ['apulum'],
+    });
+
+    const rules = redirectsFor([old, successor]);
+
+    expect(rules.map((r) => r.from)).not.toContain('/places/apulum/');
+    expect(rules).toEqual([{ from: '/places/apoulon/', to: '/places/apulum/', status: 301 }]);
+  });
+});
