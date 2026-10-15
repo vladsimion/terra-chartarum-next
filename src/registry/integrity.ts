@@ -64,6 +64,12 @@ export interface RegistryInput {
 export function validateRegistry(input: RegistryInput): RegistryCheck {
   const violations: Violation[] = [];
   const byFamily: Record<string, number> = {};
+  const filesByIdentity = new Map<string, string[]>();
+
+  for (const error of input.loadErrors ?? []) {
+    const where = error.line === undefined ? '' : ` (line ${error.line})`;
+    violations.push({ code: 'FILE_UNREADABLE', message: `${error.message}${where}`, files: [error.file] });
+  }
 
   for (const { file, record } of input.records) {
     const authority = typeof record['authority'] === 'string' ? record['authority'] : DEFAULT_AUTHORITY;
@@ -73,6 +79,10 @@ export function validateRegistry(input: RegistryInput): RegistryCheck {
     const at = entity === undefined ? { files: [file] } : { entity, files: [file] };
 
     violations.push(...schemaViolations(record, at));
+
+    if (entity !== undefined) {
+      filesByIdentity.set(entity, [...(filesByIdentity.get(entity) ?? []), file]);
+    }
 
     if (typeof id === 'string' && !isLocalId(id)) {
       violations.push({
@@ -106,6 +116,17 @@ export function validateRegistry(input: RegistryInput): RegistryCheck {
           ...at,
         });
       }
+    }
+  }
+
+  for (const [entity, files] of filesByIdentity) {
+    if (files.length > 1) {
+      violations.push({
+        code: 'ID_DUPLICATE',
+        message: `${entity} is declared in ${files.length} files`,
+        entity,
+        files: [...files].sort(),
+      });
     }
   }
 

@@ -154,3 +154,58 @@ describe('SCHEMA_INVALID', () => {
     expect(codes(result, 'SCHEMA_INVALID')[0]).toMatchObject({ field: 'previous_slugs' });
   });
 });
+
+describe('FILE_UNREADABLE', () => {
+  test('loader errors appear as violations with their file and line', () => {
+    const result = validateRegistry({
+      records: [apulum],
+      loadErrors: [{ file: 'place/broken.yaml', line: 3, message: 'Map keys must be unique' }],
+    });
+
+    const violations = codes(result, 'FILE_UNREADABLE');
+    expect(violations).toHaveLength(1);
+    expect(violations[0]).toMatchObject({ files: ['place/broken.yaml'] });
+    expect(violations[0]?.message).toContain('line 3');
+    expect(violations[0]?.message).toContain('Map keys must be unique');
+    expect(result.status).toBe('fail');
+  });
+});
+
+describe('ID_DUPLICATE', () => {
+  test('the same authority, family and id in two files is one violation listing both files', () => {
+    const result = validateRegistry({
+      records: [
+        rec('place/apulum.yaml', { id: 'apulum', family: 'place', title: 'Apulum', slug: 'apulum' }),
+        rec('place/apulum-copy.yaml', { id: 'apulum', family: 'place', title: 'Apulum again', slug: 'apulum-2' }),
+      ],
+    });
+
+    const violations = codes(result, 'ID_DUPLICATE');
+    expect(violations).toHaveLength(1);
+    expect(violations[0]).toMatchObject({
+      entity: 'tc:tc:place:apulum',
+      files: ['place/apulum-copy.yaml', 'place/apulum.yaml'],
+    });
+  });
+
+  test('the same local id in different families or authorities is not a duplicate', () => {
+    const result = validateRegistry({
+      records: [
+        rec('place/apulum.yaml', { id: 'apulum', family: 'place', title: 'Apulum', slug: 'apulum' }),
+        rec('source/apulum.yaml', { id: 'apulum', family: 'source', title: 'Apulum inscription' }),
+        rec('place/cnd-apulum.yaml', { id: 'apulum', authority: 'cnd', family: 'place', title: 'Apulum (CND)', slug: 'apulum-cnd' }),
+      ],
+    });
+
+    expect(codes(result, 'ID_DUPLICATE')).toEqual([]);
+  });
+
+  test('three copies produce one violation listing all three files', () => {
+    const copy = (file: string) => rec(file, { id: 'x', family: 'source', title: 'X' });
+    const result = validateRegistry({ records: [copy('a.yaml'), copy('b.yaml'), copy('c.yaml')] });
+
+    expect(codes(result, 'ID_DUPLICATE')).toEqual([
+      expect.objectContaining({ files: ['a.yaml', 'b.yaml', 'c.yaml'] }),
+    ]);
+  });
+});
