@@ -64,11 +64,10 @@ description: "Task list for 001 — Scholarly Entity Registry & Integrity Gate"
 - [x] T014 [US1] Write failing test `integrity › FILE_UNREADABLE`: loader errors passed in as `loadErrors` appear as violations with file and line
 - [x] T015 [US1] Write failing test `integrity › ID_DUPLICATE` (same authority, family and id in two files): one violation whose `files` lists both
 - [x] T016 [US1] Implement FILE_UNREADABLE and ID_DUPLICATE in `src/registry/integrity.ts` (make T014–T015 pass)
-- [ ] T017 [P] [US1] Write failing test `tests/registry/report.test.ts`: the JSON report validates against `specs/001-scholarly-registry/contracts/integrity-report.schema.json`; the Markdown report lists violations grouped by code; output is deterministic apart from `run_id` and `generated_at`
-- [ ] T018 [P] [US1] Implement `src/registry/report.ts` (make T017 pass)
-- [ ] T019 [US1] Write failing test `tests/registry/cli.test.ts`: exit 0 on `fixtures/valid`, 1 on any invalid fixture, 2 on an unreadable `--data` path; writes `integrity-report.json` and `.md` to `--report`
-- [ ] T020 [US1] Implement `scripts/registry-check.ts` with `--data`, `--assets` and `--report` flags per `contracts/relations-and-cli.md` (make T019 pass)
-
+- [x] T017 [US1] Write failing tests in `tests/registry/cli.test.ts` through seam 2 (the CLI): on a valid registry it writes `integrity-report.json` that validates against `specs/001-scholarly-registry/contracts/integrity-report.schema.json` with `status: pass`, and `integrity-report.md`; two runs on the same input produce identical reports apart from `run_id` and `generated_at`
+- [x] T018 [US1] Implement `src/registry/report.ts` (JSON + Markdown, violations grouped by code) and a first `scripts/registry-check.ts` that loads `--data`, runs the check and writes reports to `--report` (make T017 pass)
+- [x] T019 [US1] Write failing tests `cli › exit codes`: 0 on a valid registry, 1 when any violation exists (Markdown report lists it under its code), 2 on an unreadable `--data` path or an unknown flag
+- [x] T020 [US1] Complete `scripts/registry-check.ts`: exit codes, defaults (`--data data/registry`, `--report reports`), `--assets` accepted for later use, per `contracts/relations-and-cli.md` (make T019 pass)
 - [ ] T021 [US1] Write failing tests in `tests/registry/redirects.test.ts` for `redirectsFor(records)`: one `301` line per entry in `previous_slugs` to the current slug (US1-AS2)
 - [ ] T022 [US1] Implement `src/registry/redirects.ts` and a build step that writes `dist/_redirects` (make T021 pass)
 - [ ] T023 [US1] Write `tests/registry/rename.regression.test.ts` (SC-002): rewrite every title and slug in a fixture copy; assert IDs and references are unchanged and a redirect exists for every old slug (US1-AS2)
@@ -171,7 +170,7 @@ description: "Task list for 001 — Scholarly Entity Registry & Integrity Gate"
 
 ### Parallel opportunities
 - Setup: T002–T005 together after T001.
-- US1: T017/T018 (report) alongside T010–T016 (integrity rules).
+- US1: report and CLI (T017–T020) follow the integrity rules; redirects (T021–T022) can run in parallel with them.
 - US3: T024/T025 (family schemas) while T026–T027 are drafted.
 - US2: T032 and T033 together.
 - US5: T039/T040 and T047 alongside the integrity rules.
