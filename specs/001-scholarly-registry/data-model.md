@@ -10,7 +10,7 @@ Terms follow `GLOSSARY.md`; vocabularies are fixed by ADR 0003; dates by ADR 000
 | `authority` | string | default `tc`; `[a-z][a-z0-9]{1,15}` |
 | `family` | enum | essay · map · cartographer · place · source · attestation · dataset · layer · collection · route · event · period · room · bibliography |
 | `title` | string | required; free to change |
-| `slug` | string | required for routable families; free to change |
+| `slug` | string | required for routable families (those with their own public page: essay, map, cartographer, place, collection, room); free to change |
 | `previous_slugs` | string[] | generates redirects |
 | `lifecycle` | enum | `proposed · researching · verified · ready_for_build · in_build · qa · publishable · published · superseded · blocked`; **forbidden on essays** (derived) |
 | `superseded_by` | ref | required when `lifecycle = superseded` |

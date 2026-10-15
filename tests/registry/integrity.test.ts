@@ -83,3 +83,74 @@ describe('ID_SYNTAX', () => {
     ]);
   });
 });
+
+describe('SCHEMA_INVALID', () => {
+  test.each(['id', 'family', 'title'])('a record without "%s" is rejected, naming the field', (field) => {
+    const record: Record<string, unknown> = { id: 'apulum', family: 'place', title: 'Apulum', slug: 'apulum' };
+    delete record[field];
+
+    const result = validateRegistry({ records: [rec('place/apulum.yaml', record)] });
+
+    const violations = codes(result, 'SCHEMA_INVALID');
+    expect(violations).toHaveLength(1);
+    expect(violations[0]).toMatchObject({ field, files: ['place/apulum.yaml'] });
+  });
+
+  test('an empty title is rejected', () => {
+    const result = validateRegistry({
+      records: [rec('place/apulum.yaml', { id: 'apulum', family: 'place', title: '', slug: 'apulum' })],
+    });
+
+    expect(codes(result, 'SCHEMA_INVALID')[0]).toMatchObject({ field: 'title' });
+  });
+
+  test('a routable family without a slug is rejected', () => {
+    const result = validateRegistry({
+      records: [rec('map/m.yaml', { id: 'm', family: 'map', title: 'M' })],
+    });
+
+    expect(codes(result, 'SCHEMA_INVALID')[0]).toMatchObject({ field: 'slug', files: ['map/m.yaml'] });
+  });
+
+  test('a non-routable family needs no slug', () => {
+    const result = validateRegistry({
+      records: [rec('source/s.yaml', { id: 's', family: 'source', title: 'S' })],
+    });
+
+    expect(codes(result, 'SCHEMA_INVALID')).toEqual([]);
+  });
+
+  test('an unknown top-level field is rejected, so misspellings never pass silently', () => {
+    const result = validateRegistry({
+      records: [rec('place/apulum.yaml', { id: 'apulum', family: 'place', title: 'Apulum', slug: 'apulum', tittle: 'x' })],
+    });
+
+    const violations = codes(result, 'SCHEMA_INVALID');
+    expect(violations).toHaveLength(1);
+    expect(violations[0]).toMatchObject({ field: 'tittle' });
+  });
+
+  test('a private block is accepted as an opaque object', () => {
+    const result = validateRegistry({
+      records: [
+        rec('map/m.yaml', {
+          id: 'm',
+          family: 'map',
+          title: 'M',
+          slug: 'm',
+          private: { price_paid: 420, dealer: { name: 'X', notes: ['a', 'b'] } },
+        }),
+      ],
+    });
+
+    expect(codes(result, 'SCHEMA_INVALID')).toEqual([]);
+  });
+
+  test('previous_slugs must be a list of strings', () => {
+    const result = validateRegistry({
+      records: [rec('place/apulum.yaml', { id: 'apulum', family: 'place', title: 'Apulum', slug: 'apulum', previous_slugs: 'old' })],
+    });
+
+    expect(codes(result, 'SCHEMA_INVALID')[0]).toMatchObject({ field: 'previous_slugs' });
+  });
+});

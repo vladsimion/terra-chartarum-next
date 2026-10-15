@@ -59,8 +59,8 @@ description: "Task list for 001 — Scholarly Entity Registry & Integrity Gate"
 
 - [x] T010 [US1] Write failing tests in `tests/registry/integrity.test.ts › ID_SYNTAX` through seam 1 (`validateRegistry`): a local id not matching `[a-z0-9][a-z0-9._-]{0,127}`, an authority not matching `[a-z][a-z0-9]{1,15}` or an unknown family each yields ID_SYNTAX naming the value, the rule and the file; valid records yield none; violations name the entity in qualified form `tc:{authority}:{family}:{local-id}` (authority defaults to `tc`)
 - [x] T011 [US1] Implement `src/registry/ids.ts` and a first `validateRegistry({ records, loadErrors })` in `src/registry/integrity.ts` returning `{ status, counts, violations }` (make T010 pass)
-- [ ] T012 [US1] Write failing tests `integrity › SCHEMA_INVALID` through seam 1: missing `id`, `family` or `title`; missing `slug` on a routable family; an unknown top-level key; a `private` block is accepted as an opaque object; `previous_slugs` must be a list of strings
-- [ ] T013 [US1] Implement the envelope schema in `src/registry/schemas/envelope.ts` and report its failures as SCHEMA_INVALID with the field path (make T012 pass)
+- [x] T012 [US1] Write failing tests `integrity › SCHEMA_INVALID` through seam 1: missing `id`, `family` or `title`; missing `slug` on a routable family; an unknown top-level key; a `private` block is accepted as an opaque object; `previous_slugs` must be a list of strings
+- [x] T013 [US1] Implement the envelope schema in `src/registry/schemas/envelope.ts` and report its failures as SCHEMA_INVALID with the field path (make T012 pass)
 - [ ] T014 [US1] Write failing test `integrity › FILE_UNREADABLE`: loader errors passed in as `loadErrors` appear as violations with file and line
 - [ ] T015 [US1] Write failing test `integrity › ID_DUPLICATE` (same authority, family and id in two files): one violation whose `files` lists both
 - [ ] T016 [US1] Implement FILE_UNREADABLE and ID_DUPLICATE in `src/registry/integrity.ts` (make T014–T015 pass)

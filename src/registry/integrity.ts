@@ -8,6 +8,7 @@ import {
   qualify,
 } from './ids.ts';
 import type { LoadError, LoadedRecord } from './load.ts';
+import { envelopeSchema } from './schemas/envelope.ts';
 
 /** Violation codes (data-model.md "Integrity rules"; contracts/integrity-report.schema.json). */
 export type ViolationCode =
@@ -71,6 +72,8 @@ export function validateRegistry(input: RegistryInput): RegistryCheck {
     const entity = typeof family === 'string' && typeof id === 'string' ? qualify(authority, family, id) : undefined;
     const at = entity === undefined ? { files: [file] } : { entity, files: [file] };
 
+    violations.push(...schemaViolations(record, at));
+
     if (typeof id === 'string' && !isLocalId(id)) {
       violations.push({
         code: 'ID_SYNTAX',
@@ -116,4 +119,23 @@ export function validateRegistry(input: RegistryInput): RegistryCheck {
     },
     violations,
   };
+}
+
+/** Turn schema failures into SCHEMA_INVALID violations, one per offending field. */
+function schemaViolations(record: Record<string, unknown>, at: { entity?: string; files: string[] }): Violation[] {
+  const parsed = envelopeSchema.safeParse(record);
+  if (parsed.success) return [];
+
+  return parsed.error.issues.flatMap((issue): Violation[] => {
+    if (issue.code === 'unrecognized_keys') {
+      return issue.keys.map((key) => ({
+        code: 'SCHEMA_INVALID',
+        message: `unknown field "${key}"`,
+        field: key,
+        ...at,
+      }));
+    }
+    const field = issue.path.map(String).join('.');
+    return [{ code: 'SCHEMA_INVALID', message: `${field}: ${issue.message}`, field, ...at }];
+  });
 }
