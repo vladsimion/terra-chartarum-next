@@ -1,13 +1,13 @@
 import { z } from 'zod';
 import { REF_RULE, parseRef } from '../ids.ts';
-import { ESSAY_STAGES, type Family } from '../vocab.ts';
+import { ESSAY_STAGES, PORTAL_DIMENSIONS, type Family } from '../vocab.ts';
 
 /**
  * Family-specific fields (data-model.md "Family-specific fields").
  *
  * Reference fields are typed here and declared in REFERENCE_FIELDS so the
  * integrity check can resolve them. Value rules for other fields arrive with
- * the user story or spec that owns them (stage and dimensions: 001 US5;
+ * the user story or spec that owns them (stage and dimensions: 001 US5, now in place;
  * evidence and dates: 001 US2; map descriptive fields: spec 004); until then
  * they are only allowed to be present.
  */
@@ -22,7 +22,7 @@ export const familyShapes = {
   essay: {
     stage: z.enum(ESSAY_STAGES),
     question: loose,
-    dimensions: loose,
+    dimensions: z.array(z.enum(PORTAL_DIMENSIONS)).optional(),
     maps: refs.optional(),
     layers: refs.optional(),
     places: refs.optional(),

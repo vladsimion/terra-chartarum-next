@@ -72,6 +72,10 @@ export const ESSAY_STAGES = [
 ] as const;
 export type EssayStage = (typeof ESSAY_STAGES)[number];
 
+/** Optional, additive essay tags (FR-012; GLOSSARY "Portal dimension"). */
+export const PORTAL_DIMENSIONS = ['measure', 'witness', 'use', 'cosmos', 'power', 'silence'] as const;
+export type PortalDimension = (typeof PORTAL_DIMENSIONS)[number];
+
 export const ROOMS = ['earth', 'map', 'city', 'border', 'road', 'archive', 'theatre'] as const;
 export type Room = (typeof ROOMS)[number];
 

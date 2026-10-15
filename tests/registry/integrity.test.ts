@@ -877,3 +877,22 @@ describe('ASSET_MISSING', () => {
     },
   );
 });
+
+describe('portal dimensions (FR-012)', () => {
+  const essay = (extra: Record<string, unknown>) =>
+    rec('essay/e.yaml', { id: 'e', family: 'essay', title: 'E', slug: 'e', stage: 'draft', ...extra });
+
+  test('an essay may carry any of the six portal dimensions, or none', () => {
+    const all = ['measure', 'witness', 'use', 'cosmos', 'power', 'silence'];
+    expect(validateRegistry({ records: [essay({ dimensions: all })] }).violations).toEqual([]);
+    expect(validateRegistry({ records: [essay({})] }).violations).toEqual([]);
+  });
+
+  test('a dimension outside the six is ENUM_INVALID', () => {
+    const result = validateRegistry({ records: [essay({ dimensions: ['witness', 'theme'] })] });
+
+    expect(codes(result, 'ENUM_INVALID')).toEqual([
+      expect.objectContaining({ field: 'dimensions.1', value: 'theme' }),
+    ]);
+  });
+});

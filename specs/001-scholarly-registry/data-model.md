@@ -27,7 +27,7 @@ Terms follow `GLOSSARY.md`; vocabularies are fixed by ADR 0003; dates by ADR 000
 
 | Family | Key fields | References |
 |---|---|---|
-| essay | `stage` (9 values), `question`, `dimensions[]` (optional: Measure, Witness, Use, Cosmos, Power, Silence) | maps[], layers[], places[], sources[], bibliography[] |
+| essay | `stage` (9 values), `question`, `dimensions[]` (optional: `measure`, `witness`, `use`, `cosmos`, `power`, `silence`; displayed capitalised) | maps[], layers[], places[], sources[], bibliography[] |
 | map | per spec 004 FR-001; each descriptive field carries `{ value, status: recorded \| not_applicable \| not_yet_verified \| unknown }`; optional physical-object block (ADR 0002) | cartographers[], places[], layers[], bibliography[] |
 | cartographer | names[], roles[], dates (EDTF) | maps[], bibliography[] |
 | place | names[] (with language, script, `valid_from`/`valid_to` in EDTF), `geometry_ref?` | sources[] |
