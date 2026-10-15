@@ -5,13 +5,9 @@
  *
  * Exit codes: 0 gate passed · 1 one or more violations (report written) · 2 could not run.
  */
-import { randomUUID } from 'node:crypto';
-import { mkdir, stat, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { stat } from 'node:fs/promises';
 import { parseArgs } from 'node:util';
-import { validateRegistry } from '../src/registry/integrity.ts';
-import { loadRecords } from '../src/registry/load.ts';
-import { buildReport, toMarkdown } from '../src/registry/report.ts';
+import { runGate } from '../src/registry/gate.ts';
 
 async function main(): Promise<number> {
   let options: { data: string; report: string; assets?: string };
@@ -42,15 +38,7 @@ async function main(): Promise<number> {
     return 2;
   }
 
-  const loaded = await loadRecords(options.data);
-  const check = validateRegistry({ records: loaded.records, loadErrors: loaded.errors });
-  const report = buildReport(check, { runId: randomUUID(), generatedAt: new Date() });
-
-  await mkdir(options.report, { recursive: true });
-  const jsonPath = join(options.report, 'integrity-report.json');
-  const mdPath = join(options.report, 'integrity-report.md');
-  await writeFile(jsonPath, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
-  await writeFile(mdPath, toMarkdown(report), 'utf8');
+  const { report, mdPath } = await runGate({ dataDir: options.data, reportDir: options.report });
 
   const summary = `${report.counts.entities} entities, ${report.counts.violations} violation(s)`;
   if (report.status === 'pass') {
