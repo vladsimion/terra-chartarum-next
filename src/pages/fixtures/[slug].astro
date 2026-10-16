@@ -1,5 +1,5 @@
 ---
-import { FIXTURE_ESSAYS } from '../../shell/fixture-essays.js';
+import { FIXTURE_ESSAYS, LONG_TITLE_FIXTURE } from '../../shell/fixture-essays.js';
 import Base from '../../shell/layouts/Base.astro';
 
 /*
@@ -10,7 +10,7 @@ import Base from '../../shell/layouts/Base.astro';
 
 export function getStaticPaths() {
   if (process.env.SHELL_FIXTURES !== '1') return [];
-  return FIXTURE_ESSAYS.map((f) => ({ params: { slug: f.slug }, props: { fixture: f } }));
+  return [...FIXTURE_ESSAYS, LONG_TITLE_FIXTURE].map((f) => ({ params: { slug: f.slug }, props: { fixture: f } }));
 }
 
 const { fixture } = Astro.props;
