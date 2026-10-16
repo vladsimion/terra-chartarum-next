@@ -2,6 +2,7 @@
 import '../fonts.js';
 import '../styles/tokens.css';
 import '../styles/base.css';
+import { accentFor } from '../accents.js';
 import { breadcrumbs } from '../breadcrumbs.js';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Footer from '../components/Footer.astro';
@@ -14,9 +15,12 @@ interface Props {
   lang?: string;
   /** The page's name in the breadcrumb; defaults to the part of the title before " | ". */
   crumb?: string;
+  /** An accent slot name (ADR 0008); an unknown name fails the build where the page is generated. */
+  accent?: string;
 }
 
-const { title, description, lang = 'en', crumb } = Astro.props;
+const { title, description, lang = 'en', crumb, accent } = Astro.props;
+const slot = accentFor(accent);
 const trail = breadcrumbs(Astro.url.pathname, crumb ?? title.split(' | ')[0] ?? title);
 ---
 
@@ -29,7 +33,7 @@ const trail = breadcrumbs(Astro.url.pathname, crumb ?? title.split(' | ')[0] ?? 
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
   </head>
-  <body>
+  <body data-accent={slot}>
     <a class="skip-link" href="#main">Skip to content</a>
     <Header path={Astro.url.pathname} />
     <main id="main" tabindex="-1">

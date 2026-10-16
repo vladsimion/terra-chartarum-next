@@ -4,6 +4,12 @@ on:
   pull_request:
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      update_snapshots:
+        description: 'Regenerate the visual baselines and upload them as an artifact (run on the branch, then commit the images)'
+        type: boolean
+        default: false
 
 jobs:
   gate:
@@ -25,9 +31,25 @@ jobs:
       - name: Browsers for the end-to-end specs
         run: npx playwright install --with-deps chromium firefox webkit
       - name: End-to-end specs (Chromium dark and light, Firefox, WebKit, 360 px phone, no JavaScript)
-        run: npm run test:e2e
+        run: npm run test:e2e -- ${{ inputs.update_snapshots && '--update-snapshots' || '' }}
         env:
           CI: 'true'
+      - name: Visual baselines (only on an update run)
+        if: ${{ inputs.update_snapshots }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-snapshots
+          path: tests/shell/e2e/**/*-snapshots/
+          if-no-files-found: error
+      - name: Playwright report
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
       - name: Stub pages and draft copy left in the build (informational until cutover)
         run: npm run build && npm run shell:check
       - name: Integrity gate on canonical content

@@ -1,3 +1,4 @@
+import { ACCENT_SLOTS } from '../accents.js';
 import { contrastRatio } from '../contrast.js';
 
 /**
@@ -16,8 +17,6 @@ export interface Pair {
 
 /** WCAG AA: 4.5:1 for text, 3:1 for UI components and focus indicators. */
 export const MIN_RATIO: Record<PairKind, number> = { text: 4.5, ui: 3 };
-
-export const ACCENT_SLOTS = ['gold', 'verdigris', 'madder', 'indigo', 'umber', 'sage'] as const;
 
 const SURFACES = ['canvas', 'panel', 'panel-raised'] as const;
 

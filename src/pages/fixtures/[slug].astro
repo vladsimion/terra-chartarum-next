@@ -1,0 +1,57 @@
+---
+import { FIXTURE_ESSAYS } from '../../shell/fixture-essays.js';
+import Base from '../../shell/layouts/Base.astro';
+
+/*
+ * Test-only pages: two neutral "essays" with different accent slots, used by the snapshot and
+ * accessibility specs (spec 002 T027, T032). They are generated only when SHELL_FIXTURES=1 and are
+ * never part of a production build.
+ */
+
+export function getStaticPaths() {
+  if (process.env.SHELL_FIXTURES !== '1') return [];
+  return FIXTURE_ESSAYS.map((f) => ({ params: { slug: f.slug }, props: { fixture: f } }));
+}
+
+const { fixture } = Astro.props;
+---
+
+<Base title={`${fixture.title} | Terra Chartarum`} crumb={fixture.title} accent={fixture.accent}>
+  <article>
+    <h1>{fixture.title}</h1>
+    <p>
+      This is a neutral test page. It carries no scholarly claim. It exists so that the shell, its typography and its
+      accent can be checked in both colour schemes.
+    </p>
+    <h2>A second heading</h2>
+    <p>
+      Running text with a <a href="/essays/">link to the essays</a>, a very long unbroken word
+      (Pneumonoultramicroscopicsilicovolcanoconiosis) and Greek and extended Latin letters: Γεωγραφία, Ptolemaios, Alba Iulia, Ștefan.
+    </p>
+    <blockquote>
+      <p>A quotation, to see how the accent and the muted ink sit together.</p>
+    </blockquote>
+    <p class="note">A note in the muted ink, as a caption or metadata would be.</p>
+  </article>
+</Base>
+
+<style>
+  h1 {
+    padding-bottom: var(--space-3);
+    border-bottom: 3px solid var(--accent);
+  }
+
+  blockquote {
+    margin-inline: 0;
+    padding-inline-start: var(--space-4);
+    border-inline-start: 3px solid var(--accent);
+  }
+
+  .note {
+    color: var(--ink-muted);
+  }
+
+  a {
+    color: var(--accent);
+  }
+</style>

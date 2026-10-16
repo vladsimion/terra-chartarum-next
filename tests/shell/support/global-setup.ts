@@ -18,6 +18,8 @@ declare module 'vitest' {
 let outDir = '';
 
 export default async function setup(project: TestProject): Promise<() => void> {
+  // the test-only fixture pages (src/pages/fixtures) are built only when this is set
+  process.env.SHELL_FIXTURES = '1';
   outDir = mkdtempSync(path.join(tmpdir(), 'shell-dist-'));
   await build({ root: process.cwd(), outDir, logLevel: 'error' });
   project.provide('siteDir', outDir);
