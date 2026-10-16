@@ -9,9 +9,16 @@ import { FAMILY_PATHS } from '../../src/registry/routes.ts';
 
 const ROUTABLE = Object.keys(FAMILY_PATHS);
 
+/**
+ * Every routable record is released: "zero broken links" covers links that were
+ * ever public, and only publicly addressable records get redirects (decided 2026-10-16).
+ */
+const RELEASED = { lifecycle: 'published', rights: { licence: 'CC-BY-4.0' } };
+const RELEASED_ESSAY = { stage: 'publish', rights: { licence: 'CC-BY-4.0' } };
+
 /** Fields some families require beyond the envelope. */
 const REQUIRED_FIELDS: Record<string, Record<string, unknown>> = {
-  essay: { stage: 'draft' },
+  essay: RELEASED_ESSAY,
   collection: { layer_ids: [], default_layer_ids: [] },
 };
 
@@ -26,6 +33,7 @@ function fixture(): LoadedRecord[] {
           family,
           title: `${family} ${n}`,
           slug: `${family}-slug-${n}`,
+          ...(family === 'essay' ? {} : RELEASED),
           ...REQUIRED_FIELDS[family],
         },
       });
@@ -38,7 +46,7 @@ function fixture(): LoadedRecord[] {
   records.push({ file: 'bibliography/b.yaml', record: { id: 'b', family: 'bibliography', title: 'A work' } });
   records.push({
     file: 'place/cnd.yaml',
-    record: { id: 'apulum', authority: 'cnd', family: 'place', title: 'Apulum', slug: 'apulum-cnd' },
+    record: { id: 'apulum', authority: 'cnd', family: 'place', title: 'Apulum', slug: 'apulum-cnd', ...RELEASED },
   });
   return records;
 }

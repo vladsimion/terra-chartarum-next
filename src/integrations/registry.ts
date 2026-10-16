@@ -43,7 +43,7 @@ export function registry(options: RegistryIntegrationOptions): AstroIntegration 
         const vocabMappings = await loadVocabMappings(options.mappingsDir ?? 'data/vocab-mappings');
         const outDir = fileURLToPath(dir);
 
-        const rules = redirectsFor(records);
+        const rules = redirectsFor(records, { vocabMappings });
         await writeFile(join(outDir, '_redirects'), toRedirectsFile(rules), 'utf8');
         logger.info(`wrote ${rules.length} redirect rule(s)`);
 

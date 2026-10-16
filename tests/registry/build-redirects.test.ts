@@ -18,7 +18,8 @@ beforeAll(async () => {
   await mkdir(join(work, 'registry/place'), { recursive: true });
   await writeFile(
     join(work, 'registry/place/apulum.yaml'),
-    'id: apulum\nfamily: place\ntitle: Apulum\nslug: apulum\nprevious_slugs: [apulum-alba-iulia]\n',
+    'id: apulum\nfamily: place\ntitle: Apulum\nslug: apulum\nprevious_slugs: [apulum-alba-iulia]\n' +
+      'lifecycle: published\nrights: { licence: CC-BY-4.0 }\n',
   );
   await run(join(ROOT, 'node_modules/.bin/astro'), ['build'], {
     cwd: ROOT,

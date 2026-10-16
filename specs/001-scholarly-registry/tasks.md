@@ -144,7 +144,7 @@ description: "Task list for 001 — Scholarly Entity Registry & Integrity Gate"
 - [x] T050 [P] [US4] Write failing tests in `tests/registry/public.test.ts` for `toPublic(entity)`: drops `private`; throws on non-released entities; adds `qualified_id`
 - [x] T051 [P] [US4] Implement `src/registry/public.ts` (make T050 pass)
 - [x] T052 [US4] Emit `dist/data/relations.json` (released-only) and `reports/relations.full.json` from the Astro integration, per `contracts/relations-and-cli.md`
-- [ ] T053 [US4] Write `tests/registry/leak-scan.test.ts` (FR-009): build the fixture site (including `relations.json`); zero occurrences of held titles or `private:` fixture values anywhere in `dist/`
+- [x] T053 [US4] Write `tests/registry/leak-scan.test.ts` (FR-009): build the fixture site (including `relations.json`); zero occurrences of held titles or `private:` fixture values anywhere in `dist/`
 
 **Checkpoint**: All five stories complete and independently tested.
 

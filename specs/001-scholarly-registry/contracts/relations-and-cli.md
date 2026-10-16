@@ -36,3 +36,5 @@ npm run registry:check [-- --data <dir>] [--assets <dir>] [--report <dir>]
 
 ## Redirects
 `dist/_redirects` gains one line per previous slug → current slug, generated from `previous_slugs` (status 301).
+- Only publicly addressable records get redirects: released (`published`) and `superseded` (tombstone). A held record's previous and current paths never appear (decided 2026-10-16; glossary "Held / released"). Addressability is judged after specialist vocabulary mapping.
+- A previous slug that collides with any current page path, held or not, produces no rule.

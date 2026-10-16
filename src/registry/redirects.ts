@@ -1,5 +1,9 @@
+import { effectiveLifecycle } from './lifecycle.ts';
 import type { LoadedRecord } from './load.ts';
+import { applyMappings, type VocabMappings } from './mappings.ts';
 import { isRoutable, pagePath } from './routes.ts';
+
+const PUBLICLY_ADDRESSABLE = new Set(['published', 'superseded']);
 
 export interface RedirectRule {
   from: string;
@@ -13,9 +17,18 @@ export interface RedirectRule {
  *
  * A live page is never redirected away: a superseded record keeps its address
  * as a tombstone linking to its successor (spec 002 FR-011, research R4), so a
- * previous slug that collides with any current page path is dropped.
+ * previous slug that collides with any current page path, held or not, is dropped.
+ *
+ * Only publicly addressable records get redirects: released ones and
+ * superseded ones (their tombstone). A held record's paths are held metadata
+ * and never appear in a public URL (glossary "Held / released"; decided 2026-10-16).
  */
-export function redirectsFor(records: readonly LoadedRecord[]): RedirectRule[] {
+export interface RedirectOptions {
+  /** Specialist vocabulary mappings, so a mapped lifecycle term decides addressability. */
+  vocabMappings?: VocabMappings;
+}
+
+export function redirectsFor(records: readonly LoadedRecord[], options: RedirectOptions = {}): RedirectRule[] {
   const rules: RedirectRule[] = [];
   const live = new Set<string>();
   for (const { record } of records) {
@@ -31,6 +44,7 @@ export function redirectsFor(records: readonly LoadedRecord[]): RedirectRule[] {
     if (typeof family !== 'string' || !isRoutable(family) || typeof slug !== 'string' || !Array.isArray(previous)) {
       continue;
     }
+    if (!PUBLICLY_ADDRESSABLE.has(effectiveLifecycle(applyMappings(record, options.vocabMappings)) ?? '')) continue;
 
     const to = pagePath(family, slug);
     for (const old of previous) {
