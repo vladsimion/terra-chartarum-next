@@ -172,27 +172,27 @@ description: "Task list for 001 Scholarly Entity Registry & Integrity Gate"
 
 ### Preparation
 
-- [ ] T073 [US5] Close two gaps found while tasking: confirm the essay `stage` and `design_qa_passed` fields in data-model.md "Essay" and the derivation table of ADR 0003 §2; add `assetIndex` to the `validateRegistry` options in contracts/module-api.md
-- [ ] T073a [US5] `src/registry/schemas/essay.ts`: essay shape per data-model.md "Essay": `stage*` (nine stages), `design_qa_passed`, optional `portal_dimensions[]` (FR-012), and reference fields `evidence[]`, `maps[]`, `places[]`, `sources[]`; T074 and T079 depend on it
+- [X] T073 [US5] Close two gaps found while tasking: confirm the essay `stage` and `design_qa_passed` fields in data-model.md "Essay" and the derivation table of ADR 0003 §2; add `assetIndex` to the `validateRegistry` options in contracts/module-api.md
+- [X] T073a [US5] `src/registry/schemas/essay.ts`: essay shape per data-model.md "Essay": `stage*` (nine stages), `design_qa_passed`, optional `portal_dimensions[]` (FR-012), and reference fields `evidence[]`, `maps[]`, `places[]`, `sources[]`; T074 and T079 depend on it
 
 ### Tests for US5 (write first; confirm red)
 
-- [ ] T074 [P] [US5] `tests/registry/unit/lifecycle.test.ts`: `LIFE-VALUE` for unknown values; `LIFE-ESSAY-DERIVED` when an essay at stage Draft is not `verified` or sets lifecycle by hand (US5.4), covering every row of the stage→lifecycle table; `LIFE-AVAILABILITY` for a `published` layer whose `asset` path has no entry in `assetIndex` (US5.5); `LIFE-SUPERSEDED` for `superseded` with neither a resolving `superseded_by` nor a withdrawn marker
-- [ ] T075 [P] [US5] `tests/registry/unit/release.test.ts`: `REL-VALUE` for anything but `held | released`; a record with no release field defaults to `held`
-- [ ] T076 [P] [US5] `tests/registry/unit/strictness.test.ts` (US5.3): a record at `researching` missing provenance and rights passes with warnings; the same record at `ready_for_build` errors on provenance and at `publishable` errors on the full rule set; ID, family, lifecycle value and references error at every state; `blocked` and `superseded` severity follows the T011 assumption Rights: missing rights is a warning at `researching` and an error at `ready_for_build`; rights not cleared is a warning at `ready_for_build` and an error at `publishable`
-- [ ] T077 [P] [US5] `tests/registry/integration/projection.test.ts`: `projectPublic` returns exactly the `published` + `released` entities (US5.1, US5.2 and the independent test); a `published` entity left `held` is absent; a `released` entity at any other lifecycle is absent; fields outside the per-family allowlist, including the `private` block, never appear; a newly added field is excluded until allowlisted
-- [ ] T078 [P] [US5] `tests/registry/integration/leak-scan.test.ts` (FR-009): in a temp `dist/`, a private value or a held ID inside an HTML or JSON file yields `PRIV-LEAK`; a clean output passes; `registry scan` exits `1` on a leak and `0` when clean
+- [X] T074 [P] [US5] `tests/registry/unit/lifecycle.test.ts`: `LIFE-VALUE` for unknown values; `LIFE-ESSAY-DERIVED` when an essay at stage Draft is not `verified` or sets lifecycle by hand (US5.4), covering every row of the stage→lifecycle table; `LIFE-AVAILABILITY` for a `published` layer whose `asset` path has no entry in `assetIndex` (US5.5); `LIFE-SUPERSEDED` for `superseded` with neither a resolving `superseded_by` nor a withdrawn marker
+- [X] T075 [P] [US5] `tests/registry/unit/release.test.ts`: `REL-VALUE` for anything but `held | released`; a record with no release field defaults to `held`
+- [X] T076 [P] [US5] `tests/registry/unit/strictness.test.ts` (US5.3): a record at `researching` missing provenance and rights passes with warnings; the same record at `ready_for_build` errors on provenance and at `publishable` errors on the full rule set; ID, family, lifecycle value and references error at every state; `blocked` and `superseded` severity follows the T011 assumption Rights: missing rights is a warning at `researching` and an error at `ready_for_build`; rights not cleared is a warning at `ready_for_build` and an error at `publishable`
+- [X] T077 [P] [US5] `tests/registry/integration/projection.test.ts`: `projectPublic` returns exactly the `published` + `released` entities (US5.1, US5.2 and the independent test); a `published` entity left `held` is absent; a `released` entity at any other lifecycle is absent; fields outside the per-family allowlist, including the `private` block, never appear; a newly added field is excluded until allowlisted
+- [X] T078 [P] [US5] `tests/registry/integration/leak-scan.test.ts` (FR-009): in a temp `dist/`, a private value or a held ID inside an HTML or JSON file yields `PRIV-LEAK`; a clean output passes; `registry scan` exits `1` on a leak and `0` when clean
 
 ### Implementation for US5
 
-- [ ] T079 [P] [US5] `src/registry/stages.ts`: essay stage enum and the stage→lifecycle derivation (Concept→proposed; Corpus, Research→researching; Outline, Draft→verified; Build→in_build; Design QA→qa, or publishable once all Design QA checks pass; Publish, Cross-link→published)
-- [ ] T080 [P] [US5] `src/registry/rules/lifecycle.ts`: `LIFE-VALUE`, `LIFE-ESSAY-DERIVED`, `LIFE-AVAILABILITY` (threshold `published`), `LIFE-SUPERSEDED`
-- [ ] T081 [P] [US5] `src/registry/rules/release.ts`: `REL-VALUE`
-- [ ] T082 [US5] `src/registry/project.ts`: per-family allowlists as Zod `pick` shapes and `projectPublic(records)` that keeps only lifecycle `published` and release `released`
-- [ ] T083 [P] [US5] `src/registry/leak-scan.ts`: `scanOutput(distDir, records)` builds a manifest of private values and held IDs and searches text and JSON files in `dist/`; emits `PRIV-LEAK`
-- [ ] T084 [US5] Extend `src/registry/cli.ts` with `scan <distDir> [--dir content]` (exit `0` clean, `1` leak)
-- [ ] T085 [US5] Add mutation entries for `LIFE-VALUE`, `LIFE-ESSAY-DERIVED`, `LIFE-AVAILABILITY`, `LIFE-SUPERSEDED`, `REL-VALUE`; `PRIV-LEAK` is exercised by T078 because it is a scan, not a registry rule
-- [ ] T086 [US5] Run `npm test` and `npm run typecheck`; US5 scenarios 1–5 pass
+- [X] T079 [P] [US5] `src/registry/stages.ts`: essay stage enum and the stage→lifecycle derivation (Concept→proposed; Corpus, Research→researching; Outline, Draft→verified; Build→in_build; Design QA→qa, or publishable once all Design QA checks pass; Publish, Cross-link→published)
+- [X] T080 [P] [US5] `src/registry/rules/lifecycle.ts`: `LIFE-VALUE`, `LIFE-ESSAY-DERIVED`, `LIFE-AVAILABILITY` (threshold `published`), `LIFE-SUPERSEDED`
+- [X] T081 [P] [US5] `REL-VALUE` (lives in `src/registry/rules/lifecycle.ts`, with the other lifecycle rules)
+- [X] T082 [US5] `src/registry/project.ts`: per-family allowlists as Zod `pick` shapes and `projectPublic(records)` that keeps only lifecycle `published` and release `released`
+- [X] T083 [P] [US5] `src/registry/leak-scan.ts`: `scanOutput(distDir, records)` builds a manifest of private values and held IDs and searches text and JSON files in `dist/`; emits `PRIV-LEAK`
+- [X] T084 [US5] Extend `src/registry/cli.ts` with `scan <distDir> [--dir content]` (exit `0` clean, `1` leak)
+- [X] T085 [US5] Add mutation entries for `LIFE-VALUE`, `LIFE-ESSAY-DERIVED`, `LIFE-AVAILABILITY`, `LIFE-SUPERSEDED`, `REL-VALUE`; `PRIV-LEAK` is exercised by T078 because it is a scan, not a registry rule
+- [X] T086 [US5] Run `npm test` and `npm run typecheck`; US5 scenarios 1–5 pass
 
 **Checkpoint**: lifecycle, release, projection and leak scan are in place; reverse relationships can now filter correctly.
 

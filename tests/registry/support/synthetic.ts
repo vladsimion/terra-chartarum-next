@@ -114,6 +114,8 @@ export function generateRegistry(count: number, seed: number): RegistryRecord[] 
         record.place_type = 'settlement';
         break;
       case 'essay':
+        // an essay's lifecycle is derived from its stage, so pick the stage that yields it
+        record.stage = ({ proposed: 'Concept', researching: 'Corpus', verified: 'Draft' } as Record<string, string>)[String(record.lifecycle)];
         record.maps = unique(some('map', 2));
         record.places = unique(some('place', 3));
         record.sources = unique(some('source', 2));

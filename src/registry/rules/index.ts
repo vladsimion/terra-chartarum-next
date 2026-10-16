@@ -5,6 +5,7 @@ import { famRequired } from './family.js';
 import { refFeature } from './geometry.js';
 import { ID_RULES } from './id.js';
 import { IMPORT_RULES } from './import.js';
+import { LIFECYCLE_RULES } from './lifecycle.js';
 import { LOCATOR_RULES } from './locators.js';
 import { loadPath } from './path.js';
 import { PROVENANCE_RULES } from './provenance.js';
@@ -30,4 +31,5 @@ export const ALL_RULES: Rule[] = [
   ...IMPORT_RULES,
   refFeature,
   famRequired,
+  ...LIFECYCLE_RULES,
 ];

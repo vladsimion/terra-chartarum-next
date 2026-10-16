@@ -23,6 +23,10 @@ describe('family structure at load (types only; presence is FAM-REQUIRED)', () =
     ['place', 'place-000001', 'place_type: [port]\n', 'place_type'],
     ['source', 'source-000001', 'is_finding_aid: maybe\n', 'is_finding_aid'],
     ['layer', 'layer-000001', 'images: overview.jpg\n', 'images'],
+    ['essay', 'essay-000001', 'maps: tc:tc:map:map-000001\n', 'maps'],
+    ['essay', 'essay-000001', 'design_qa_passed: maybe\n', 'design_qa_passed'],
+    ['essay', 'essay-000001', 'portal_dimensions: Measure\n', 'portal_dimensions'],
+    ['essay', 'essay-000001', 'stage: [Draft]\n', 'stage'],
   ])('reports a mistyped %s field as a load error (%s)', async (family, local, body, field) => {
     const { records, loadErrors } = await loadRegistry(registryWith(family, local, body));
     expect(records).toEqual([]);

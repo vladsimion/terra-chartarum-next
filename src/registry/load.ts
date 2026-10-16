@@ -18,6 +18,8 @@ export interface LoadResult {
   provenanceIndex: Map<string, ProvenanceStep>;
   /** Feature ids per geometry file path, for the files records point to with `geometry`. */
   featureIndex: Map<string, Set<string>>;
+  /** Asset paths, among those layers name with `asset`, that exist under the registry root. */
+  assetIndex: Set<string>;
 }
 
 async function listYaml(dir: string): Promise<string[]> {
@@ -100,6 +102,18 @@ async function loadFeatureIndex(
   return index;
 }
 
+async function loadAssetIndex(root: string, records: readonly RegistryRecord[]): Promise<Set<string>> {
+  const index = new Set<string>();
+  const rootWithSep = root.endsWith(path.sep) ? root : root + path.sep;
+  for (const asset of new Set(records.map((r) => r.asset).filter((a): a is string => typeof a === 'string'))) {
+    const resolved = path.resolve(root, asset);
+    // asset paths may not leave the registry root
+    if (!resolved.startsWith(rootWithSep)) continue;
+    if ((await stat(resolved).catch(() => null))?.isFile()) index.add(asset);
+  }
+  return index;
+}
+
 /**
  * Seam 1: filesystem to records. Reads `<root>/content/**.yaml`, `<root>/provenance/**.yaml` and
  * the geometry files records point to. Checks structure only; what it cannot read comes back as
@@ -137,6 +151,7 @@ export async function loadRegistry(rootDir: string): Promise<LoadResult> {
   const provenanceIndex = new Map<string, ProvenanceStep>();
   await loadProvenance(root, provenanceIndex, loadErrors);
   const featureIndex = await loadFeatureIndex(root, records, loadErrors);
+  const assetIndex = await loadAssetIndex(root, records);
 
-  return { records, loadErrors, provenanceIndex, featureIndex };
+  return { records, loadErrors, provenanceIndex, featureIndex, assetIndex };
 }

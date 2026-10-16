@@ -4,6 +4,8 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs, promisify } from 'node:util';
 import { checkRegistry } from './check.js';
+import { scanOutput } from './leak-scan.js';
+import { loadRegistry } from './load.js';
 import { mintNext } from './mint.js';
 import { toJson, type IntegrityReport } from './report.js';
 import { renderHtml } from './report-html.js';
@@ -18,6 +20,7 @@ export interface Io {
 const USAGE = `Usage:
   registry check [--dir <root>] [--out <reportsDir>]   validate the registry and write the integrity report
   registry mint <family> [--dir <root>]                print the next unused local-id for a family
+  registry scan <distDir> [--dir <root>]               fail if built output holds a private value or the id of a non-public entity
 
 <root> is the registry root that contains content/ (default: .). Exit codes: 0 ok, 1 errors found, 2 tool failure.`;
 
@@ -60,12 +63,29 @@ async function mint(args: string[], io: Io): Promise<number> {
   return 0;
 }
 
+async function scan(args: string[], io: Io): Promise<number> {
+  const { values, positionals } = parseArgs({ args, allowPositionals: true, options: { dir: { type: 'string', default: '.' } } });
+  const distDir = positionals[0];
+  if (!distDir) {
+    io.stderr(`${USAGE}\n`);
+    return 2;
+  }
+  const { records } = await loadRegistry(values.dir);
+  const violations = await scanOutput(distDir, records);
+  const lines = [`registry scan: ${violations.length === 0 ? 'PASS' : 'FAIL'} - ${violations.length} leaks in ${distDir}`];
+  // the value is left out on purpose: a private value must not be repeated in a log or artefact
+  for (const v of violations) lines.push(`  ${v.severity} ${v.rule} ${v.entity ?? ''} [${v.file}] ${v.field ?? ''} - ${v.expected}`);
+  io.stdout(`${lines.join('\n')}\n`);
+  return violations.length === 0 ? 0 : 1;
+}
+
 /** Entry point, separated from process I/O so tests call it directly. */
 export async function main(argv: string[], io: Io): Promise<number> {
   const [command, ...rest] = argv;
   try {
     if (command === 'check') return await check(rest, io);
     if (command === 'mint') return await mint(rest, io);
+    if (command === 'scan') return await scan(rest, io);
     io.stderr(`${USAGE}\n`);
     return 2;
   } catch (error) {

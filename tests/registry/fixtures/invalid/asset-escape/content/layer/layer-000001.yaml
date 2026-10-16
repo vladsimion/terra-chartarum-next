@@ -1,0 +1,10 @@
+id: tc:tc:layer:layer-000001
+family: layer
+origin: minted
+title: A layer whose asset path tries to leave the registry
+slug: asset-escape
+lifecycle: researching
+release: held
+role: historical
+asset: ../../../fixtures/valid/data/roads.pmtiles
+dataset: tc:tc:dataset:dataset-000001

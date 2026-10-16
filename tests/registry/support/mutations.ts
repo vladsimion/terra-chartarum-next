@@ -20,13 +20,15 @@ export interface MutationResult {
   rules: string[];
 }
 
-function baseOptions(): ValidateOptions {
+function baseOptions(records: RegistryRecord[]): ValidateOptions {
   return {
     now: new Date('2026-10-16T12:00:00.000Z'),
     commit: 'mutation',
     completeness: true,
     provenanceIndex: generatedProvenance(),
     featureIndex: generatedFeatures(),
+    // every asset a generated layer names exists
+    assetIndex: new Set(records.map((r) => r.asset).filter((a): a is string => typeof a === 'string')),
   };
 }
 
@@ -37,13 +39,13 @@ export function baseRegistry(): RegistryRecord[] {
 
 export function runMutation(mutation: Mutation, flags: { allowNoop?: boolean } = {}): MutationResult {
   const base = baseRegistry();
-  const baseReport = validateRegistry(base, baseOptions());
+  const baseReport = validateRegistry(base, baseOptions(base));
   if (baseReport.counts.errors !== 0) {
     const first = baseReport.violations.filter((v) => v.severity === 'error').slice(0, 3).map((v) => `${v.rule} ${v.entity}`).join('; ');
     throw new Error(`base registry has ${baseReport.counts.errors} errors; fix the generator first (${first})`);
   }
   const mutated = mutation.apply(structuredClone(base));
-  const options = mutation.options ? mutation.options(baseOptions()) : baseOptions();
+  const options = mutation.options ? mutation.options(baseOptions(base)) : baseOptions(base);
   const mutatedReport = validateRegistry(mutated, options);
   const changedOptions = Boolean(mutation.options);
   if (!flags.allowNoop && !changedOptions && JSON.stringify(mutated) === JSON.stringify(base)) {
@@ -284,5 +286,22 @@ const US2_MUTATIONS: Mutation[] = [
   { name: 'a place loses its place type', rule: 'FAM-REQUIRED', apply: editOf('place', (r) => { delete r.place_type; r.lifecycle = READY; }) },
 ];
 
+/* PRIV-LEAK is a scan of built output, not a registry rule; leak-scan.test.ts covers it. */
+const US5_MUTATIONS: Mutation[] = [
+  { name: 'an unknown lifecycle value', rule: 'LIFE-VALUE', apply: editOf('place', (r) => { r.lifecycle = 'nonsense'; }) },
+  {
+    name: 'an essay lifecycle is set by hand',
+    rule: 'LIFE-ESSAY-DERIVED',
+    apply: editOf('essay', (r) => { r.lifecycle = 'published'; }),
+  },
+  {
+    name: 'a published layer has no asset',
+    rule: 'LIFE-AVAILABILITY',
+    apply: editOf('layer', (r) => { r.lifecycle = 'published'; r.asset = 'data/missing.pmtiles'; }),
+  },
+  { name: 'a superseded record has no successor', rule: 'LIFE-SUPERSEDED', apply: editOf('place', (r) => { r.lifecycle = 'superseded'; }) },
+  { name: 'an unknown release value', rule: 'REL-VALUE', apply: editOf('place', (r) => { r.release = 'public'; }) },
+];
+
 /** Each story adds its entries here. */
-export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS];
+export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS];

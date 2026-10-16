@@ -1,6 +1,7 @@
 import type { ZodType } from 'zod';
 import { AttestationSchema } from './attestation.js';
 import { EntityBase } from './entity.js';
+import { EssaySchema } from './essay.js';
 import { EvidenceSchema } from './evidence.js';
 import {
   BibliographyEntrySchema,
@@ -13,6 +14,7 @@ import {
 } from './families.js';
 
 const BY_FAMILY: Record<string, ZodType> = {
+  essay: EssaySchema,
   evidence: EvidenceSchema,
   attestation: AttestationSchema,
   map: MapSchema,
