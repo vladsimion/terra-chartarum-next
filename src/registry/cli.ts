@@ -7,6 +7,7 @@ import { checkRegistry } from './check.js';
 import { scanOutput } from './leak-scan.js';
 import { loadRegistry } from './load.js';
 import { mintNext } from './mint.js';
+import { writeSyntheticRegistry } from './synthetic.js';
 import { toJson, type IntegrityReport } from './report.js';
 import { renderHtml } from './report-html.js';
 
@@ -21,6 +22,7 @@ const USAGE = `Usage:
   registry check [--dir <root>] [--out <reportsDir>]   validate the registry and write the integrity report
   registry mint <family> [--dir <root>]                print the next unused local-id for a family
   registry scan <distDir> [--dir <root>]               fail if built output holds a private value or the id of a non-public entity
+  registry synth <count> --seed <n> --out <dir>        write a deterministic synthetic registry (count entities plus the seven rooms)
 
 <root> is the registry root that contains content/ (default: .). Exit codes: 0 ok, 1 errors found, 2 tool failure.`;
 
@@ -63,6 +65,23 @@ async function mint(args: string[], io: Io): Promise<number> {
   return 0;
 }
 
+async function synth(args: string[], io: Io): Promise<number> {
+  const { values, positionals } = parseArgs({
+    args,
+    allowPositionals: true,
+    options: { seed: { type: 'string' }, out: { type: 'string' } },
+  });
+  const count = Number(positionals[0]);
+  const seed = Number(values.seed);
+  if (!Number.isInteger(count) || count < 0 || !Number.isInteger(seed) || !values.out) {
+    io.stderr(`${USAGE}\n`);
+    return 2;
+  }
+  await writeSyntheticRegistry(values.out, count, seed);
+  io.stdout(`registry synth: wrote ${count} entities and the seven rooms to ${values.out} (seed ${seed})\n`);
+  return 0;
+}
+
 async function scan(args: string[], io: Io): Promise<number> {
   const { values, positionals } = parseArgs({ args, allowPositionals: true, options: { dir: { type: 'string', default: '.' } } });
   const distDir = positionals[0];
@@ -86,6 +105,7 @@ export async function main(argv: string[], io: Io): Promise<number> {
     if (command === 'check') return await check(rest, io);
     if (command === 'mint') return await mint(rest, io);
     if (command === 'scan') return await scan(rest, io);
+    if (command === 'synth') return await synth(rest, io);
     io.stderr(`${USAGE}\n`);
     return 2;
   } catch (error) {

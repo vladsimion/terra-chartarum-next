@@ -204,21 +204,21 @@ description: "Task list for 001 Scholarly Entity Registry & Integrity Gate"
 
 **Independent Test**: two essays reference one map; the map's reverse list contains both; a held essay is not listed.
 
-- [ ] T087 [US4] Write failing `tests/registry/unit/reverse.test.ts`: `reverseRelationships(records)` returns, for each referenced ID, the referrers that are `published` and `released` (FR-007); a held referrer and a `published` but `held` referrer are excluded; an entity referenced only by a held essay has an empty list yet the reference stays valid (spec edge case); results are sorted by ID for determinism
-- [ ] T088 [US4] Implement `src/registry/reverse.ts` as one pass over declared references using the index (research R4)
-- [ ] T089 [US4] Run `npm test` and `npm run typecheck`; US4 independent test passes
+- [X] T087 [US4] Write failing `tests/registry/unit/reverse.test.ts`: `reverseRelationships(records)` returns, for each referenced ID, the referrers that are `published` and `released` (FR-007); a held referrer and a `published` but `held` referrer are excluded; an entity referenced only by a held essay has an empty list yet the reference stays valid (spec edge case); results are sorted by ID for determinism
+- [X] T088 [US4] Implement `src/registry/reverse.ts` as one pass over declared references using the index (research R4)
+- [X] T089 [US4] Run `npm test` and `npm run typecheck`; US4 independent test passes
 
 ---
 
 ## Phase 8: Polish & Cross-Cutting Concerns
 
-- [ ] T090 Write `tests/registry/performance.test.ts` (SC-004): `generateRegistry(5000, 1)` validates in under 60 seconds; implement `registry synth <count> --seed <n>` in `src/registry/cli.ts` and `scripts/generate-synthetic-registry.ts`
-- [ ] T091 Write `tests/registry/unit/rule-coverage.test.ts`: every rule ID registered in `src/registry/rules/` appears in `contracts/rule-ids.md` and has a mutation in `mutations.test.ts` (exempting `PRIV-LEAK`, covered by T078); fails when a rule is added without both
-- [ ] T092 Run every command in `quickstart.md` end to end and fix any drift between the document and the code
-- [ ] T093 [P] Add a short "Registry" section to `README.md` linking to `specs/001-scholarly-registry/quickstart.md`
+- [X] T090 Write `tests/registry/performance.test.ts` (SC-004): `generateRegistry(5000, 1)` validates in under 60 seconds; implement `registry synth <count> --seed <n>` in `src/registry/cli.ts` and `scripts/generate-synthetic-registry.ts`
+- [X] T091 Write `tests/registry/unit/rule-coverage.test.ts`: every rule ID registered in `src/registry/rules/` appears in `contracts/rule-ids.md` and has a mutation in `mutations.test.ts` (exempting `PRIV-LEAK`, covered by T078); fails when a rule is added without both
+- [X] T092 Run every command in `quickstart.md` end to end and fix any drift between the document and the code
+- [X] T093 [P] Add a short "Registry" section to `README.md` linking to `specs/001-scholarly-registry/quickstart.md`
 - [ ] T094 Copy each story's task checklist (T-IDs) into the matching TCX story description under epic TCX-2; move stories to Done only when the PR is linked and the Definition of Done in `CLAUDE.md` holds (manual; no `/speckit-taskstoissues`)
 - [ ] T095 Make the `registry` workflow a required status check on `main` so a failing gate blocks merge (SC-001) (manual repository setting)
-- [ ] T096 Run `/speckit-analyze` and resolve any findings before `/speckit-implement`
+- [X] T096 Run `/speckit-analyze` and resolve any findings before `/speckit-implement` (run before implementation; F1-F7 applied, F8-F21 left as noted in the PR)
 
 ---
 

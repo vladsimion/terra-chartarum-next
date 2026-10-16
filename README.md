@@ -13,6 +13,9 @@ CLAUDE.md                         agent instructions: workflow, stack, Jira, v1 
 GRILL-AGENDA.md                   decisions settled and still open
 docs/adr/                         0001 successor & cutover · 0002 v1 anchor (Dacia)
                                   0003 shared contracts · 0004 experience · 0005 stack/hosting/repo
+                                  0006 registry identity & record model
+src/registry/                     the registry module and integrity gate (spec 001)
+tests/registry/                   unit, integration, fixtures, mutation and timing tests
 docs/vendor/                      licence + pinned commit for vendored skills
 specs/
   001-scholarly-registry/         IDs, evidence/provenance, lifecycle, integrity gate
@@ -49,6 +52,20 @@ specs/
 /speckit-tasks          then /speckit-analyze
 /speckit-implement      with the tdd skill, one user story at a time
 ```
+
+## Registry and integrity gate (spec 001)
+
+The scholarly registry is a framework-free TypeScript module in `src/registry/`: one file per entity under `content/<family>/`, validated by a pure `validateRegistry` and wrapped by the `registry` command.
+
+```bash
+npm ci                                     # Node 24, see .nvmrc
+npm test && npm run typecheck              # unit, integration, mutation and timing tests
+npm run registry -- check --dir <root>     # validate <root>/content, write reports/integrity-report.{json,html}
+npm run registry -- mint place             # next unused local-id for a family
+npm run registry -- scan dist              # fail if built output leaks a private value or a non-public id
+```
+
+Walkthrough: [`specs/001-scholarly-registry/quickstart.md`](specs/001-scholarly-registry/quickstart.md). Decisions: [ADR 0006](docs/adr/0006-registry-identity-and-record-model.md).
 
 ## Why each tool
 
