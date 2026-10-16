@@ -59,5 +59,17 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Inspector** | The single panel exposing a layer's provenance, licence, documentation, essays and facets. |
 | **Atlas Handbook** | The interpretive companion teaching readers how to *read* the Atlas. "Handbook", never "Help". |
 
+## Shell and design system
+
+| Term | Meaning | Not to be confused with |
+|---|---|---|
+| **Shell** | The shared frame every page sits in: header, footer, breadcrumbs, skip link and the visual language. It owns no scholarly content. | A page template for one essay; the Atlas interface |
+| **Lens** | One of the seven header destinations (Essays, Rooms, Atlas, Collection, Cartographers, Bibliography, About), each a way of entering the material. | Room (a curatorial path), Theme (a layer family) |
+| **Design token** | A named visual value (colour, type, spacing, motion, radius) defined once, with a value for each colour scheme. Components use tokens and never raw values. | A theme; a CSS class |
+| **Colour scheme** | The dark or light set of token values. Dark is the identity and the default; light is derived and served when the reader's system asks for it. | Theme (a family of layers, above); the spec's earlier "light and dark themes" |
+| **Accent slot** | A named accent colour in the token set, with a passing contrast pair in each colour scheme. An essay picks one by name. | A free colour value |
+| **Stub page** | A placeholder at a Lens or footer destination that a later spec owns, marked "in preparation" and replaced by its owner. None may remain at cutover. | A 404; a draft essay |
+| **Draft copy** | Placeholder prose for the home, About or Colophon pages, marked `draft: true` until the author writes the final text. None may remain at cutover. | A held record |
+
 ## Rule of thumb
 *The essay interprets; the Atlas spatialises; the Handbook documents; the dataset substantiates.*
