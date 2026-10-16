@@ -28,7 +28,7 @@ describe('rule coverage (SC-003)', () => {
   const registered = new Map(ALL_RULES.map((r) => [r.id, r.from] as const));
 
   it('reads the rule table (guards against a parser that matches nothing)', () => {
-    expect(documented.size).toBeGreaterThanOrEqual(40);
+    expect(documented.size).toBeGreaterThanOrEqual(ALL_RULES.length);
     expect(documented.get('ID-DUPLICATE')).toBe('always');
     expect(documented.get('RIGHTS-CLEARED')).toBe('publishable');
   });

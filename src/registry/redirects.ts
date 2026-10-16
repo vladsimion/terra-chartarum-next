@@ -1,3 +1,4 @@
+import { isPublic, isRetired } from './publication.js';
 import type { RegistryRecord } from './types.js';
 
 export interface Redirect {
@@ -16,24 +17,11 @@ export function pagePath(record: RegistryRecord, slug: string = String(record.sl
   return `/${record.family}/${slug}/`;
 }
 
-/** Only released entities are public, so nothing may be derived from held ones (FR-015). */
-function isReleased(record: RegistryRecord): boolean {
-  return record.release === 'released';
-}
-
-function isLive(record: RegistryRecord): boolean {
-  return isReleased(record) && record.lifecycle === 'published';
-}
-
-function isSuperseded(record: RegistryRecord): boolean {
-  return isReleased(record) && record.lifecycle === 'superseded';
-}
-
 /** Follow `superseded_by` to a live record, or null when the chain ends, loops or hits a held entity. */
 function successorOf(record: RegistryRecord, index: ReadonlyMap<string, RegistryRecord>): RegistryRecord | null {
   const seen = new Set<string>([record.id]);
   let current: RegistryRecord = record;
-  while (isSuperseded(current)) {
+  while (isRetired(current)) {
     const nextId = current.superseded_by;
     if (!nextId || seen.has(nextId)) return null;
     seen.add(nextId);
@@ -41,7 +29,7 @@ function successorOf(record: RegistryRecord, index: ReadonlyMap<string, Registry
     if (!next) return null;
     current = next;
   }
-  return isLive(current) ? current : null;
+  return isPublic(current) ? current : null;
 }
 
 /**
@@ -58,9 +46,9 @@ export function redirects(records: readonly RegistryRecord[]): { rules: Redirect
 
   for (const record of records) {
     const history = (record.slug_history ?? []).filter((s) => s !== record.slug);
-    if (isLive(record)) {
+    if (isPublic(record)) {
       for (const slug of history) rules.push({ from: pagePath(record, slug), to: pagePath(record), status: 301 });
-    } else if (isSuperseded(record)) {
+    } else if (isRetired(record)) {
       const successor = successorOf(record, index);
       if (successor) {
         for (const slug of [String(record.slug), ...history]) {
@@ -73,4 +61,23 @@ export function redirects(records: readonly RegistryRecord[]): { rules: Redirect
     }
   }
   return { rules, withdrawn };
+}
+
+/** Whitespace and control characters would split or inject lines in the `_redirects` file. */
+const UNSAFE_IN_REDIRECT = /[\s\u0000-\u001f\u007f]/;
+
+/**
+ * The Cloudflare Pages `_redirects` text for these rules: `from to 301`, one per line, sorted, with
+ * repeats and self-redirects dropped. A path with whitespace or a control character is refused
+ * rather than written, since it could inject extra rules (FR-013).
+ */
+export function renderRedirects(rules: readonly Redirect[]): string {
+  const lines = new Set<string>();
+  for (const { from, to, status } of rules) {
+    for (const path of [from, to]) {
+      if (UNSAFE_IN_REDIRECT.test(path)) throw new Error(`unsafe path in redirect: ${JSON.stringify(path)}`);
+    }
+    if (from !== to) lines.add(`${from} ${to} ${status}`);
+  }
+  return lines.size === 0 ? '' : `${[...lines].sort().join('\n')}\n`;
 }

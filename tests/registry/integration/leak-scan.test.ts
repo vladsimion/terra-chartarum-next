@@ -90,6 +90,66 @@ describe('scanOutput (FR-009)', () => {
     expect(await scanOutput(root, [heldShort, openLong])).toEqual([]);
   });
 
+  describe('escaped copies of a private value', () => {
+    const awkward = place(1, {
+      lifecycle: 'published',
+      release: 'released',
+      private: { dealer: 'Smith & Sons <Rare "Books">', note: "Bought in Café Müller's shop" },
+    });
+
+    it('finds an HTML-escaped copy', async () => {
+      const root = dist({ 'index.html': '<p>Smith &amp; Sons &lt;Rare &quot;Books&quot;&gt;</p>' });
+      expect((await scanOutput(root, [awkward])).map((v) => v.field)).toEqual(['private.dealer']);
+    });
+
+    it('finds a JSON-escaped copy', async () => {
+      const root = dist({ 'data/places.json': JSON.stringify({ note: awkward.private }) });
+      expect((await scanOutput(root, [awkward])).map((v) => v.field).sort()).toEqual(['private.dealer', 'private.note']);
+    });
+
+    it('finds a URL-encoded copy', async () => {
+      const root = dist({ 'sitemap.xml': `https://example.org/?q=${encodeURIComponent('Smith & Sons <Rare "Books">')}` });
+      expect((await scanOutput(root, [awkward])).map((v) => v.field)).toEqual(['private.dealer']);
+    });
+
+    it('still finds the plain value', async () => {
+      const root = dist({ 'a.txt': 'Smith & Sons <Rare "Books">' });
+      expect((await scanOutput(root, [awkward])).map((v) => v.field)).toEqual(['private.dealer']);
+    });
+
+    it('never repeats the value in any of its forms in the report', async () => {
+      const root = dist({ 'a.html': 'Smith &amp; Sons &lt;Rare &quot;Books&quot;&gt;' });
+      expect(JSON.stringify(await scanOutput(root, [awkward]))).not.toMatch(/Smith/);
+    });
+  });
+
+  describe('the address of a page that must not exist', () => {
+    const hiddenPlace = place(5, { lifecycle: 'published', release: 'held', slug: 'secret-place' });
+
+    it('fails when the page path of a non-public entity appears in the output', async () => {
+      const root = dist({ 'index.html': '<a href="/place/secret-place/">there</a>' });
+      const found = await scanOutput(root, [hiddenPlace]);
+      expect(found).toHaveLength(1);
+      expect(found[0]).toMatchObject({ rule: 'PRIV-LEAK', entity: hiddenPlace.id, field: 'slug', value: '/place/secret-place' });
+    });
+
+    it('finds the path without a trailing slash, and inside a query or sitemap', async () => {
+      const root = dist({ 'sitemap.xml': '<loc>https://example.org/place/secret-place</loc>' });
+      expect(await scanOutput(root, [hiddenPlace])).toHaveLength(1);
+    });
+
+    it('does not mistake a longer public slug for the hidden one', async () => {
+      const longer = place(6, { lifecycle: 'published', release: 'released', slug: 'secret-place-two' });
+      const root = dist({ 'index.html': '<a href="/place/secret-place-two/">ok</a>' });
+      expect(await scanOutput(root, [hiddenPlace, longer])).toEqual([]);
+    });
+
+    it('is family-aware: the same slug under another family is a different address', async () => {
+      const root = dist({ 'index.html': '<a href="/source/secret-place/">ok</a>' });
+      expect(await scanOutput(root, [hiddenPlace])).toEqual([]);
+    });
+  });
+
   it('finds nothing to complain about in an empty output directory', async () => {
     expect(await scanOutput(dist({}), REGISTRY)).toEqual([]);
   });

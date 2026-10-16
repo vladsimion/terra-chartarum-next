@@ -10,3 +10,5 @@ source: tc:tc:source:source-000001
 form: silence
 silence_state: non_survey
 confidence: possible
+rights:
+  licence: CC-BY-4.0

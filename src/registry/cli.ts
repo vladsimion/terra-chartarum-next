@@ -26,6 +26,12 @@ const USAGE = `Usage:
 
 <root> is the registry root that contains content/ (default: .). Exit codes: 0 ok, 1 errors found, 2 tool failure.`;
 
+/** Print the usage text and give the exit code for bad arguments. */
+function usage(io: Io): number {
+  io.stderr(`${USAGE}\n`);
+  return 2;
+}
+
 async function currentCommit(dir: string): Promise<string> {
   try {
     const { stdout } = await run('git', ['-C', dir, 'rev-parse', 'HEAD']);
@@ -58,8 +64,7 @@ async function mint(args: string[], io: Io): Promise<number> {
   const { values, positionals } = parseArgs({ args, allowPositionals: true, options: { dir: { type: 'string', default: '.' } } });
   const family = positionals[0];
   if (!family) {
-    io.stderr(`${USAGE}\n`);
-    return 2;
+    return usage(io);
   }
   io.stdout(`${await mintNext(family, values.dir)}\n`);
   return 0;
@@ -74,8 +79,7 @@ async function synth(args: string[], io: Io): Promise<number> {
   const count = Number(positionals[0]);
   const seed = Number(values.seed);
   if (!Number.isInteger(count) || count < 0 || !Number.isInteger(seed) || !values.out) {
-    io.stderr(`${USAGE}\n`);
-    return 2;
+    return usage(io);
   }
   await writeSyntheticRegistry(values.out, count, seed);
   io.stdout(`registry synth: wrote ${count} entities and the seven rooms to ${values.out} (seed ${seed})\n`);
@@ -86,8 +90,7 @@ async function scan(args: string[], io: Io): Promise<number> {
   const { values, positionals } = parseArgs({ args, allowPositionals: true, options: { dir: { type: 'string', default: '.' } } });
   const distDir = positionals[0];
   if (!distDir) {
-    io.stderr(`${USAGE}\n`);
-    return 2;
+    return usage(io);
   }
   const { records } = await loadRegistry(values.dir);
   const violations = await scanOutput(distDir, records);
@@ -106,8 +109,7 @@ export async function main(argv: string[], io: Io): Promise<number> {
     if (command === 'mint') return await mint(rest, io);
     if (command === 'scan') return await scan(rest, io);
     if (command === 'synth') return await synth(rest, io);
-    io.stderr(`${USAGE}\n`);
-    return 2;
+    return usage(io);
   } catch (error) {
     io.stderr(`registry: ${error instanceof Error ? error.message : String(error)}\n`);
     return 2;

@@ -1,21 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { severityFor } from '../../../src/registry/rules/framework.js';
+import { LIFECYCLE_VALUES } from '../../../src/registry/schemas/shared.js';
 
 describe('severityFor', () => {
-  it('is an error at every lifecycle for threshold "always"', () => {
-    for (const lifecycle of [
-      'proposed',
-      'researching',
-      'verified',
-      'ready_for_build',
-      'in_build',
-      'qa',
-      'publishable',
-      'published',
-      'superseded',
-      'blocked',
-    ]) {
-      expect(severityFor('always', lifecycle)).toBe('error');
+  it('is an error at every defined lifecycle for threshold "always"', () => {
+    for (const lifecycle of LIFECYCLE_VALUES) {
+      expect(severityFor('always', lifecycle), lifecycle).toBe('error');
     }
   });
 
@@ -41,13 +31,26 @@ describe('severityFor', () => {
     expect(severityFor('published', 'published')).toBe('error');
   });
 
-  it('treats blocked like proposed and superseded like published (assumption recorded in data-model.md)', () => {
-    expect(severityFor('ready_for_build', 'blocked')).toBe('warning');
-    expect(severityFor('ready_for_build', 'superseded')).toBe('error');
-    expect(severityFor('published', 'superseded')).toBe('error');
+  it('gives every defined lifecycle value a position: none silently falls back to proposed', () => {
+    // a value that fell back to the lowest rank would be a warning for every thresholded rule
+    const asStrictAsProposed = LIFECYCLE_VALUES.filter(
+      (lifecycle) => severityFor('ready_for_build', lifecycle) === 'warning',
+    );
+    expect(asStrictAsProposed).toEqual(['proposed', 'researching', 'verified', 'blocked']);
   });
 
-  it('is an error for thresholded rules when the lifecycle is missing or unknown only through "always"', () => {
+  it('treats blocked like proposed: it is not progressing, so it can wait with gaps', () => {
+    expect(severityFor('ready_for_build', 'blocked')).toBe('warning');
+    expect(severityFor('publishable', 'blocked')).toBe('warning');
+  });
+
+  it('treats superseded as ready_for_build: provenance and rights still bind a retired record, publication checks do not', () => {
+    expect(severityFor('ready_for_build', 'superseded')).toBe('error');
+    expect(severityFor('publishable', 'superseded')).toBe('warning');
+    expect(severityFor('published', 'superseded')).toBe('warning');
+  });
+
+  it('judges a missing or unknown lifecycle as the lowest rank, so a thresholded rule only warns', () => {
     expect(severityFor('always', undefined)).toBe('error');
     expect(severityFor('ready_for_build', 'nonsense')).toBe('warning');
     expect(severityFor('ready_for_build', undefined)).toBe('warning');

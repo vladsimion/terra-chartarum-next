@@ -1,4 +1,4 @@
-import { referenceFields } from '../schemas/references.js';
+import { expectedFamily, referenceFields } from '../schemas/references.js';
 import { chainOf } from './automated.js';
 import { refCollectionSubset } from './collections.js';
 import { defineRule, type Finding } from './framework.js';
@@ -38,4 +38,29 @@ export const refUnknown = defineRule({
   },
 });
 
-export const REFERENCE_RULES = [refUnknown, refCollectionSubset];
+/** A typed reference points at the right kind of entity: an essay's maps[] at maps, not at places. */
+export const refFamily = defineRule({
+  id: 'REF-FAMILY',
+  from: 'always',
+  check: ({ records, index }) => {
+    const findings: Finding[] = [];
+    for (const record of records) {
+      for (const ref of referenceFields(record)) {
+        const target = index.get(ref.id);
+        if (!target) continue; // REF-UNKNOWN's to report
+        const expected = expectedFamily(record.family, ref.field);
+        if (expected !== null && target.family !== expected) {
+          findings.push({
+            record,
+            field: ref.field,
+            value: ref.id,
+            expected: `a ${expected} (this is a ${target.family})`,
+          });
+        }
+      }
+    }
+    return findings;
+  },
+});
+
+export const REFERENCE_RULES = [refUnknown, refFamily, refCollectionSubset];

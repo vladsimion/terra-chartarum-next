@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { EntityBase } from './entity.js';
+import { RightsShape } from './evidence.js';
 
 /**
  * Essay structure (data-model.md "Essay"). An essay is a view over shared evidence: it holds
@@ -14,4 +15,5 @@ export const EssaySchema = EntityBase.extend({
   maps: z.array(z.string()).optional(),
   places: z.array(z.string()).optional(),
   sources: z.array(z.string()).optional(),
+  rights: RightsShape.optional(),
 });

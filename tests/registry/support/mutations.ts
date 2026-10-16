@@ -145,6 +145,21 @@ const US3_MUTATIONS: Mutation[] = [
   { name: 'attestation source points nowhere', rule: 'REF-UNKNOWN', apply: editOf('attestation', (r) => { r.source = MISSING_ID; }) },
   { name: 'provenance_chain names an unlogged step', rule: 'REF-UNKNOWN', apply: editOf('evidence', (r) => { r.provenance_chain = ['prov-9999']; }) },
   {
+    name: 'an essay cites a place as a map',
+    rule: 'REF-FAMILY',
+    apply: editOf('essay', (r, all) => { r.maps = [nth(all, 'place').id]; }),
+  },
+  {
+    name: 'a collection lists a place as a layer',
+    rule: 'REF-FAMILY',
+    apply: editOf('collection', (r, all) => { r.members = [nth(all, 'place').id]; r.default_layers = []; }),
+  },
+  {
+    name: 'a record is superseded by a record of another family',
+    rule: 'REF-FAMILY',
+    apply: editOf('place', (r, all) => { r.lifecycle = 'superseded'; r.superseded_by = nth(all, 'source').id; }),
+  },
+  {
     name: 'a default layer is not a member',
     rule: 'REF-COLLECTION-SUBSET',
     apply: editOf('collection', (r, all) => {
@@ -235,6 +250,11 @@ const US2_MUTATIONS: Mutation[] = [
     options: withStep((s) => { s.status = 'proposed'; }),
   },
   {
+    name: 'an llm_assisted import is published without adjudication',
+    rule: 'AUTO-UNADJUDICATED',
+    apply: editOf('place', (r) => { r.origin = 'legacy'; r.legacy_normalization_method = 'llm_assisted'; r.lifecycle = 'publishable'; }),
+  },
+  {
     name: 'a logged step has no tool',
     rule: 'AUTO-LOG',
     apply: editOf('evidence', (r) => { r.lifecycle = READY; }),
@@ -259,7 +279,12 @@ const US2_MUTATIONS: Mutation[] = [
   {
     name: 'an unconfirmed import skips ahead of researching',
     rule: 'IMPORT-REVIEW',
-    apply: editOf('place', (r) => { r.legacy_review_state = 'normalized'; r.lifecycle = 'verified'; }),
+    apply: editOf('place', (r) => { r.origin = 'legacy'; r.lifecycle = 'verified'; }),
+  },
+  {
+    name: 'an import is confirmed with a bare flag',
+    rule: 'IMPORT-CONFIRMED',
+    apply: editOf('place', (r) => { r.origin = 'legacy'; r.editor_confirmed = true; }),
   },
   {
     name: 'an imported layer ignores the lifecycle mapping',

@@ -6,14 +6,41 @@ import {
 } from '../schemas/import.js';
 import type { RegistryRecord } from '../types.js';
 import { defineRule, type Finding } from './framework.js';
+import { AUTOMATED } from './locators.js';
+
+const blank = (value: unknown) => typeof value !== 'string' || value.trim() === '';
 
 /*
- * `editor_confirmed: true` means the editor has accepted the import. Until then an imported record
- * must look exactly as the import rules say; after it, the record follows its own lifecycle and
- * these rules stop constraining it, so they never block later editing.
+ * An import is confirmed when the editor accepts it: `editor_confirmed: true`, with `confirmed_by`
+ * (a named person) and `confirmed_on`. Until then an imported record must look exactly as the
+ * import rules say; after it, the record follows its own lifecycle and these rules stop
+ * constraining it, so they never block later editing. A bare flag confirms nothing, so it cannot
+ * be used to switch the rules off (IMPORT-CONFIRMED reports it).
  */
-const unconfirmed = (r: RegistryRecord) => r.editor_confirmed !== true;
-const blank = (value: unknown) => typeof value !== 'string' || value.trim() === '';
+const confirmed = (r: RegistryRecord) =>
+  r.editor_confirmed === true && !blank(r.confirmed_by) && !AUTOMATED.test(String(r.confirmed_by)) && !blank(r.confirmed_on);
+const unconfirmed = (r: RegistryRecord) => !confirmed(r);
+
+/** A confirmation names the person and the date; an automated tool cannot confirm an import. */
+export const importConfirmed = defineRule({
+  id: 'IMPORT-CONFIRMED',
+  from: 'always',
+  check: ({ records }) => {
+    const findings: Finding[] = [];
+    for (const record of records) {
+      if (record.editor_confirmed !== true) continue;
+      for (const field of ['confirmed_by', 'confirmed_on'] as const) {
+        if (blank(record[field])) {
+          findings.push({ record, field, value: record[field] ?? null, expected: `${field} naming who confirmed the import and when` });
+        }
+      }
+      if (!blank(record.confirmed_by) && AUTOMATED.test(String(record.confirmed_by))) {
+        findings.push({ record, field: 'confirmed_by', value: record.confirmed_by, expected: 'a person; an automated tool cannot confirm an import' });
+      }
+    }
+    return findings;
+  },
+});
 
 /** `port` imports as a `place` with a port place type; `project` is not imported (ADR 0006 item 12). */
 export const importFamily = defineRule({
@@ -77,7 +104,7 @@ export const importReview = defineRule({
   check: ({ records }) => {
     const findings: Finding[] = [];
     for (const record of records) {
-      if (record.legacy_review_state === undefined || record.family === 'layer' || !unconfirmed(record)) continue;
+      if (record.origin !== 'legacy' || record.family === 'layer' || !unconfirmed(record)) continue;
       if (record.lifecycle !== 'researching') {
         findings.push({
           record,
@@ -145,4 +172,4 @@ export const importReviewer = defineRule({
   },
 });
 
-export const IMPORT_RULES = [importFamily, importConfidence, importReview, importLayerLifecycle, importReviewer];
+export const IMPORT_RULES = [importConfirmed, importFamily, importConfidence, importReview, importLayerLifecycle, importReviewer];

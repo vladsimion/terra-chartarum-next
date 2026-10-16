@@ -17,9 +17,10 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `LIFE-SUPERSEDED` | `superseded` has `superseded_by` resolving, or is withdrawn | FR-013 | always |
 | `REL-VALUE` | release is `held` or `released` | FR-015 | always |
 | `REF-UNKNOWN` | every declared reference resolves; names entity, field, missing ID | US3.1 | always |
+| `REF-FAMILY` | a typed reference points at the right family: an essay's `maps[]` at maps, a successor of the same family; `relations[]` and an evidence target are untyped | FR-002, data-model.md "Reference fields" | always |
 | `REF-FEATURE` | evidence `target.feature` exists in the geometry file | FR-003 | always |
 | `REF-COLLECTION-SUBSET` | `default_layers ⊆ members` | US3.2 | always |
-| `REF-FINDING-AID` | no evidence source is a finding aid | ADR 0003 §5 | `ready_for_build` |
+| `REF-FINDING-AID` | no evidence or attestation cites a source that is a finding aid | ADR 0003 §5 | `ready_for_build` |
 | `ENUM-INVALID` | any enumerated field holds a known value | FR-005 | always |
 | `FAM-REQUIRED` | the fields a family needs are present (data-model.md "Family fields") | FR-003 | `ready_for_build` |
 | `DATE-ORDER` | `valid_from ≤ valid_to` | FR-003 | always |
@@ -39,7 +40,7 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `AUTO-LOG` | automated step has tool, version, input, date | FR-008 | `ready_for_build` |
 | `AUTO-ARTEFACT-HASH` | large artefact reference carries a checksum | FR-008 | `ready_for_build` |
 | `ROOM-SET` | exactly the seven fixed rooms exist (registry-level: runs only with `completeness`, which `check` turns on) | ADR 0003 §7 | always |
-| `SLUG-UNIQUE` | live slugs are unique | FR-013 | always |
+| `SLUG-UNIQUE` | current slugs are unique per family, a superseded record's included (its redirect starts there) | FR-013 | always |
 | `SLUG-HISTORY-COLLISION` | a former slug equals a live slug | FR-013 | always |
 | `SAMEAS-SYNTAX` | `same_as` authority allowlisted and ID syntax valid | FR-003 | always |
 | `PRIV-LEAK` | private value or held ID found in built output (scan) | FR-009 | n/a (scan) |
@@ -47,6 +48,7 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `IMPORT-CONFIDENCE` | imported claim is not auto-`secure`; `legacy_confidence` kept | FR-014 | always |
 | `IMPORT-REVIEW` | imports start at `researching`; `legacy_review_state` kept | FR-014 | always |
 | `IMPORT-LAYER-LIFECYCLE` | an imported layer's lifecycle matches the FR-011 mapping of `legacy_layer_status`; unknown legacy terms fail | FR-011 | always |
+| `IMPORT-CONFIRMED` | a confirmed import names who confirmed it and when; an automated tool cannot confirm | FR-014 | always |
 | `IMPORT-REVIEWER` | `verified_by`/`verified_on` from legacy only when `editor_confirmed` | FR-014 | always |
 
 Adding a rule means adding its ID here, its test, and its mutation.

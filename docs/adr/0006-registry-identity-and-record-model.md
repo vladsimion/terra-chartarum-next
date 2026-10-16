@@ -28,3 +28,13 @@ Title-derived or hand-typed IDs; a database or single CSV registry; provenance e
 - Spec 001 FR-002, FR-003, FR-005, FR-007 and US1/US4 are sharpened accordingly.
 - The `registry mint` command and the ID allowlist become part of spec 001's scope.
 - GLOSSARY.md gains Authority, Slug history, Evidence record, Withdrawn entity and a revised Held / released.
+
+## Amendments
+
+### 2026-10-16 — code review of the first implementation (PR #1)
+- **Item 11 (ID syntax).** The family segment of the boundary form is `[a-z][a-z0-9_-]*`, not the legacy `[a-z][a-z0-9-]*`, so that `bibliography_entry` fits. It is a superset of the legacy pattern: every legacy ID still matches. Counter form is enforced for `origin: minted` whatever the authority; legacy IDs are never constrained beyond the pattern.
+- **Items 13–14 (legacy import).** An import is *confirmed* only by `editor_confirmed: true` together with `confirmed_by` (a person) and `confirmed_on`; a bare flag confirms nothing (`IMPORT-CONFIRMED`). Until confirmed, every `origin: legacy` record (not only those with a legacy review state) is held at `researching`. A row normalised with `legacy_normalization_method: llm_assisted` needs `adjudicated_by` and `adjudicated_on` before `publishable`.
+- **Lifecycle strictness (ADR 0003 §1 side states).** `superseded` ranks as `ready_for_build` for severity: provenance and rights still bind a retired record, publication-only checks do not.
+- **Rights scope.** `RIGHTS-MISSING` covers evidence, layer, dataset, map, attestation and essay. A place is an authority record; its rights ride on its sources and evidence.
+- **Item 5 (URL stability).** A superseded record's current slug stays claimed, so no live record can take the address its redirect starts from.
+- **Item 15 (public output).** The leak scan also matches HTML-, JSON- and URL-escaped copies of a private value and the page address of a non-public entity. Titles are not scanned: they are free text and would flag ordinary prose. Private values under five characters are not searched for, for the same reason.

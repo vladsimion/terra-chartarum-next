@@ -30,11 +30,18 @@ describe('RIGHTS-MISSING (US2.3)', () => {
     expect(hits([evidence(1, { lifecycle: 'published' })], 'RIGHTS-MISSING')).toEqual([]);
   });
 
-  it.each(['evidence', 'layer', 'dataset', 'map'])('applies to %s records', (family) => {
+  it.each(['evidence', 'layer', 'dataset', 'map', 'attestation', 'essay'])('applies to %s records', (family) => {
     expect(hits([record(family, 1, { lifecycle: 'published' })], 'RIGHTS-MISSING')).toHaveLength(1);
   });
 
-  it('does not ask a place for rights', () => {
+  it('fails a publishable attestation or essay with no rights (US2.3: a publishable record without rights fails)', () => {
+    for (const family of ['attestation', 'essay']) {
+      const report = validateRegistry([record(family, 1, { lifecycle: 'publishable', stage: 'Design QA', design_qa_passed: true })]);
+      expect(report.violations.some((v) => v.rule === 'RIGHTS-MISSING' && v.severity === 'error'), family).toBe(true);
+    }
+  });
+
+  it('does not ask a place for rights: it is an authority record, and rights ride on its sources and evidence', () => {
     expect(hits([place(1, { lifecycle: 'published' })], 'RIGHTS-MISSING')).toEqual([]);
   });
 });

@@ -18,6 +18,8 @@ export const LIFECYCLE_VALUES = [
   'superseded',
   'blocked',
 ] as const;
+/** Lifecycle values outside the main line, reachable from any state (ADR 0003 §1). */
+export const SIDE_STATES = ['superseded', 'blocked'] as const;
 export const RELEASE_VALUES = ['held', 'released'] as const;
 export const CONFIDENCE_VALUES = ['secure', 'probable', 'possible', 'conjectural', 'unknown'] as const;
 export const GEOMETRY_PROVENANCE_VALUES = [

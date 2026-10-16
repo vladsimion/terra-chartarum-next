@@ -16,8 +16,28 @@ const MIN_PRIVATE_LENGTH = 5;
 interface Needle {
   entity: string;
   field: string | null;
-  kind: 'private' | 'held-id';
+  kind: 'private' | 'held-id' | 'held-path';
+  /** What the report shows as the value; never the private value itself. */
+  shown: string;
   find(text: string): boolean;
+}
+
+/**
+ * The forms a value takes once a build has written it out: as is, HTML-escaped, JSON-escaped and
+ * URL-encoded. A leak that survived escaping is still a leak.
+ */
+function variantsOf(text: string): string[] {
+  const html = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return [
+    ...new Set([
+      text,
+      html,
+      html.replace(/'/g, '&#39;'),
+      html.replace(/'/g, '&#x27;'),
+      JSON.stringify(text).slice(1, -1),
+      encodeURIComponent(text),
+    ]),
+  ];
 }
 
 function leaves(value: unknown, prefix: string, out: { path: string; text: string }[]): void {
@@ -40,14 +60,27 @@ function buildNeedles(records: readonly RegistryRecord[]): Needle[] {
       leaves(record.private, 'private', found);
       for (const { path: field, text } of found) {
         if (text.trim().length >= MIN_PRIVATE_LENGTH) {
-          needles.push({ entity: record.id, field, kind: 'private', find: (haystack) => haystack.includes(text) });
+          const forms = variantsOf(text);
+          needles.push({
+            entity: record.id,
+            field,
+            kind: 'private',
+            shown: '[private value]',
+            find: (haystack) => forms.some((form) => haystack.includes(form)),
+          });
         }
       }
     }
     if (!publicIds.has(record.id)) {
       // not followed or preceded by an id character, so a longer public id is not mistaken for this one
       const pattern = new RegExp(`(?<![A-Za-z0-9._:-])${escapeRegExp(record.id)}(?![A-Za-z0-9._:-])`);
-      needles.push({ entity: record.id, field: null, kind: 'held-id', find: (haystack) => pattern.test(haystack) });
+      needles.push({ entity: record.id, field: null, kind: 'held-id', shown: record.id, find: (haystack) => pattern.test(haystack) });
+      // the address of the page it must not have, so a link or sitemap entry to it is caught too
+      if (typeof record.slug === 'string' && record.slug !== '') {
+        const address = `/${record.family}/${record.slug}`;
+        const onPath = new RegExp(`${escapeRegExp(address)}(?![A-Za-z0-9._-])`);
+        needles.push({ entity: record.id, field: 'slug', kind: 'held-path', shown: address, find: (haystack) => onPath.test(haystack) });
+      }
     }
   }
   return needles;
@@ -80,8 +113,13 @@ export async function scanOutput(distDir: string, records: readonly RegistryReco
         entity: needle.entity,
         file: rel,
         field: needle.field,
-        value: needle.kind === 'private' ? '[private value]' : needle.entity,
-        expected: needle.kind === 'private' ? 'output free of private values' : 'output free of ids of entities that are not public',
+        value: needle.shown,
+        expected:
+          needle.kind === 'private'
+            ? 'output free of private values'
+            : needle.kind === 'held-id'
+              ? 'output free of ids of entities that are not public'
+              : 'output with no address of a page for an entity that is not public',
       });
     }
   }

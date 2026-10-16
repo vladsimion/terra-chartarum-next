@@ -15,8 +15,11 @@ function groupBy(records: readonly RegistryRecord[], keys: (r: RegistryRecord) =
   return groups;
 }
 
-/** A superseded record's slug is retired and redirected, not live. */
-const liveKeys = (r: RegistryRecord) => (r.lifecycle === 'superseded' || !r.slug ? [] : [key(r.family, r.slug)]);
+/**
+ * Every record's current slug is claimed, a superseded record's included: that slug is where its
+ * redirect starts, so a live record reusing it would be shadowed by a 301 away from its own page.
+ */
+const liveKeys = (r: RegistryRecord) => (r.slug ? [key(r.family, r.slug)] : []);
 
 export const slugUnique = defineRule({
   id: 'SLUG-UNIQUE',

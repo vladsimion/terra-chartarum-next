@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { referenceFields } from '../../../src/registry/schemas/references.js';
 import { validateRegistry } from '../../../src/registry/validate.js';
-import { place, record, source } from '../support/builders.js';
+import { evidence, place, record, source } from '../support/builders.js';
 
 const MISSING = 'tc:tc:place:place-999999';
 
@@ -34,6 +34,69 @@ describe('referenceFields', () => {
 
   it('returns nothing for a record with no references', () => {
     expect(referenceFields(place(1))).toEqual([]);
+  });
+});
+
+describe('REF-FAMILY: a reference points at the right kind of entity', () => {
+  // one row per typed reference field: [description, family, field, value, the family it must point at]
+  const ROWS: [string, string, string, (target: string) => Record<string, unknown>, string][] = [
+    ['essay maps[]', 'essay', 'maps[0]', (t) => ({ maps: [t] }), 'map'],
+    ['essay places[]', 'essay', 'places[0]', (t) => ({ places: [t] }), 'place'],
+    ['essay sources[]', 'essay', 'sources[0]', (t) => ({ sources: [t] }), 'source'],
+    ['essay evidence[]', 'essay', 'evidence[0]', (t) => ({ evidence: [t] }), 'evidence'],
+    ['collection members[]', 'collection', 'members[0]', (t) => ({ members: [t] }), 'layer'],
+    ['collection default_layers[]', 'collection', 'default_layers[0]', (t) => ({ default_layers: [t] }), 'layer'],
+    ['map makers[]', 'map', 'makers[0]', (t) => ({ makers: [t] }), 'cartographer'],
+    ['layer dataset', 'layer', 'dataset', (t) => ({ dataset: t }), 'dataset'],
+    ['evidence source', 'evidence', 'source', (t) => ({ source: t }), 'source'],
+    ['attestation place', 'attestation', 'place', (t) => ({ place: t }), 'place'],
+    ['attestation source', 'attestation', 'source', (t) => ({ source: t }), 'source'],
+  ];
+
+  const WRONG = (right: string) => (right === 'cartographer' ? 'place' : 'cartographer');
+
+  it.each(ROWS)('fails when %s points at the wrong family', (_name, family, field, build, right) => {
+    const wrong = record(WRONG(right), 1);
+    const subject = record(family, 1, build(wrong.id));
+    const hit = validateRegistry([subject, wrong]).violations.find((v) => v.rule === 'REF-FAMILY');
+    expect(hit, `no REF-FAMILY on ${field}`).toMatchObject({ entity: subject.id, field, value: wrong.id, severity: 'error' });
+    expect(hit?.expected).toContain(right);
+  });
+
+  it.each(ROWS)('accepts %s pointing at the right family', (_name, family, _field, build, right) => {
+    const target = record(right, 1);
+    const subject = record(family, 1, build(target.id));
+    expect(validateRegistry([subject, target]).violations.filter((v) => v.rule === 'REF-FAMILY')).toEqual([]);
+  });
+
+  it('requires a successor of the same family', () => {
+    const successor = record('source', 1);
+    const retired = place(1, { lifecycle: 'superseded', superseded_by: successor.id });
+    const hit = validateRegistry([retired, successor]).violations.find((v) => v.rule === 'REF-FAMILY');
+    expect(hit).toMatchObject({ field: 'superseded_by', value: successor.id });
+    const sameFamily = place(2);
+    const ok = place(1, { lifecycle: 'superseded', superseded_by: sameFamily.id });
+    expect(validateRegistry([ok, sameFamily]).violations.filter((v) => v.rule === 'REF-FAMILY')).toEqual([]);
+  });
+
+  it('lets relations[] and an evidence target point at any family', () => {
+    const anything = record('map', 1);
+    const related = place(1, { relations: [anything.id] });
+    const claim = evidence(1, { target: { entity: anything.id } });
+    expect(validateRegistry([related, claim, anything]).violations.filter((v) => v.rule === 'REF-FAMILY')).toEqual([]);
+  });
+
+  it('leaves an unresolved reference to REF-UNKNOWN', () => {
+    const subject = record('essay', 1, { maps: [MISSING] });
+    const found = validateRegistry([subject]).violations;
+    expect(found.some((v) => v.rule === 'REF-FAMILY')).toBe(false);
+    expect(found.some((v) => v.rule === 'REF-UNKNOWN')).toBe(true);
+  });
+
+  it('is an error at every lifecycle', () => {
+    const wrong = record('place', 1);
+    const early = record('essay', 1, { lifecycle: 'proposed', maps: [wrong.id] });
+    expect(validateRegistry([early, wrong]).violations.find((v) => v.rule === 'REF-FAMILY')?.severity).toBe('error');
   });
 });
 
