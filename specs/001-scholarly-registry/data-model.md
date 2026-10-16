@@ -75,7 +75,7 @@ Typed references must point at the right family (`REF-FAMILY`): essay `maps[]` â
 
 ## Family fields
 
-Minimum fields per family beyond the Entity base. Everything not listed is optional or defined by a later spec.
+Minimum fields per family beyond the Entity base. Everything not listed is optional or defined by a later spec. A field that no schema defines for the family is an error (`FAM-UNKNOWN`), so a later spec adds its fields to the family's schema before records may carry them.
 
 | Family | Required | Optional |
 |---|---|---|
