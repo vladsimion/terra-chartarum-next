@@ -70,7 +70,7 @@ No `NEEDS CLARIFICATION` items remained in the spec. This file records the techn
 ## Versions
 Astro, TypeScript, Zod and Vitest use the latest stable releases at implementation time, pinned exactly in `package.json`; Zod v4's built-in JSON Schema output is preferred.
 
-## R11. Redirects for held records (decided 2026-10-16, US4)
+## R15. Redirects for held records (decided 2026-10-16, US4)
 - **Decision**: `redirectsFor` emits rules only for publicly addressable records (`published`, or `superseded` keeping its tombstone address). Held records get none.
 - **Rationale**: a redirect line puts both page paths into a public URL, and held metadata must never leak into URLs. The leak scan (T053) found this on the valid fixture. SC-002 ("breaks zero links") applies to links that were ever public; its regression test now uses released records.
 - **Alternatives considered**: keep redirects for held records and exempt `_redirects` from the leak scan (rejected: contradicts the glossary).
