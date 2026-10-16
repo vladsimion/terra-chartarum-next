@@ -38,6 +38,18 @@ Model decisions are in ADR 0006 (items 1–17). Plan-level decisions for `/speck
 - Scope and order: all five user stories in v1, built US1 → US3 → US2 → US5 → US4 (release filtering before reverse relationships).
 - Spec 008 inputs: legacy repo `vladsimion/terra-chartarum`; the 59 maps come from its collection registry; audit real `port` records before writing the import spec.
 
+## Spec 002 shell and design system — DONE 2026-10-16 (TCX-3, ADRs 0008, 0009)
+Thirteen decisions, all accepted as recommended:
+- Colour schemes: dark default, derived light by `prefers-color-scheme`, no toggle; contrast tested on the token file (AA); accents are named slots (ADR 0008).
+- Fonts cover Latin, Latin-extended and Greek; the logo is the text wordmark with ✦ and an SVG favicon; no site search in the header (place search is the Atlas's).
+- Mobile navigation is a no-JavaScript `<details>` disclosure; no client-side router in v1.
+- Lens and footer destinations owned by later specs ship as **stub pages**; a build check lists them and fails the cutover if any remain.
+- Home page: all published essays (title order), the seven rooms, Atlas and Handbook calls to action; no featured mechanism in v1.
+- Licences: code MIT, original prose and data CC BY 4.0, every image/dataset/layer shows its own registry licence (ADR 0009).
+- Breadcrumbs on every page except the home page and the seven lens landings.
+- Home, About and Colophon copy is draft placeholder text marked `draft: true`; the author writes the final text, and none may remain at cutover.
+- Plan-level: skip link and landmarks, a static 404, `lang` from the content, one CSS custom-properties token file, Stylelint for raw values.
+
 ## Still open
 - Spec 003: which Trench A test pits depend on CND attestations (needs the essay author).
 
