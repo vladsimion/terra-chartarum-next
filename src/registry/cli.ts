@@ -3,6 +3,7 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs, promisify } from 'node:util';
+import { buildSiteData } from './build.js';
 import { checkRegistry } from './check.js';
 import { scanOutput } from './leak-scan.js';
 import { loadRegistry } from './load.js';
@@ -20,6 +21,7 @@ export interface Io {
 
 const USAGE = `Usage:
   registry check [--dir <root>] [--out <reportsDir>]   validate the registry and write the integrity report
+  registry build --out <siteDir> [--dir <root>]        run the gate, and only if it passes write _redirects and data/relations.json for the site
   registry mint <family> [--dir <root>]                print the next unused local-id for a family
   registry scan <distDir> [--dir <root>]               fail if built output holds a private value or the id of a non-public entity
   registry synth <count> --seed <n> --out <dir>        write a deterministic synthetic registry (count entities plus the seven rooms)
@@ -58,6 +60,23 @@ async function check(args: string[], io: Io): Promise<number> {
   await writeFile(path.join(values.out, 'integrity-report.html'), renderHtml(report));
   io.stdout(summary(report));
   return report.pass ? 0 : 1;
+}
+
+async function build(args: string[], io: Io): Promise<number> {
+  const { values } = parseArgs({ args, options: { dir: { type: 'string', default: '.' }, out: { type: 'string' } } });
+  if (!values.out) return usage(io);
+  const { report, written, leaks } = await buildSiteData(values.dir, values.out, { commit: await currentCommit(values.dir) });
+  if (!report.pass) {
+    io.stdout(`${summary(report)}registry build: FAIL - the integrity gate failed, nothing was written\n`);
+    return 1;
+  }
+  if (leaks.length > 0) {
+    const lines = leaks.map((v) => `  ${v.severity} ${v.rule} ${v.entity ?? ''} [${v.file}] ${v.field ?? ''} - ${v.expected}`);
+    io.stdout(`registry build: FAIL - the output leaks, nothing was kept\n${lines.join('\n')}\n`);
+    return 1;
+  }
+  io.stdout(`${summary(report)}registry build: wrote ${written.join(', ')} to ${values.out}\n`);
+  return 0;
 }
 
 async function mint(args: string[], io: Io): Promise<number> {
@@ -106,6 +125,7 @@ export async function main(argv: string[], io: Io): Promise<number> {
   const [command, ...rest] = argv;
   try {
     if (command === 'check') return await check(rest, io);
+    if (command === 'build') return await build(rest, io);
     if (command === 'mint') return await mint(rest, io);
     if (command === 'scan') return await scan(rest, io);
     if (command === 'synth') return await synth(rest, io);
