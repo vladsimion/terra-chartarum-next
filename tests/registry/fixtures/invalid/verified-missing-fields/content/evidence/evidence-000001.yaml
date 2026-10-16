@@ -1,0 +1,20 @@
+id: tc:tc:evidence:evidence-000001
+family: evidence
+origin: minted
+title: A verified locator without the consulted copy
+slug: verified-missing-fields
+lifecycle: researching
+release: held
+target:
+  entity: tc:tc:evidence:evidence-000001
+source: tc:tc:evidence:evidence-000001
+locator:
+  value: p. 1
+  state: verified
+  proposed_by: person
+  verified_by: V. Simion
+  verified_on: 2026-10-01
+evidence_type: textual
+confidence: probable
+rights:
+  licence: CC-BY-4.0

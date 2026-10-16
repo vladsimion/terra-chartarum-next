@@ -1,0 +1,20 @@
+id: tc:tc:evidence:evidence-000001
+family: evidence
+origin: minted
+title: Publishable evidence resting on an unadjudicated OCR step
+slug: unadjudicated-evidence
+lifecycle: publishable
+release: held
+target:
+  entity: tc:tc:evidence:evidence-000001
+source: tc:tc:evidence:evidence-000001
+locator:
+  value: p. 1
+  state: pending
+  proposed_by: ai
+evidence_type: textual
+confidence: possible
+rights:
+  licence: CC-BY-4.0
+provenance_chain:
+  - prov-0001

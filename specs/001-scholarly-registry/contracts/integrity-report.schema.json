@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://terra-chartarum.org/schemas/integrity-report-1.json",
+  "title": "Integrity report",
+  "type": "object",
+  "required": ["schema_version", "run_id", "commit", "timestamp", "pass", "counts", "violations"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": 1 },
+    "run_id": { "type": "string" },
+    "commit": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "pass": { "type": "boolean", "description": "true when there are zero violations with severity \"error\"" },
+    "counts": {
+      "type": "object",
+      "required": ["entities", "errors", "warnings"],
+      "additionalProperties": false,
+      "properties": {
+        "entities": { "type": "integer", "minimum": 0 },
+        "errors": { "type": "integer", "minimum": 0 },
+        "warnings": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "violations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["rule", "severity", "entity", "file", "field", "value", "expected"],
+        "additionalProperties": false,
+        "properties": {
+          "rule": { "type": "string", "pattern": "^[A-Z]+(-[A-Z0-9]+)+$" },
+          "severity": { "enum": ["error", "warning"] },
+          "entity": { "type": ["string", "null"], "description": "Canonical StableId, or null when the file could not be parsed" },
+          "file": { "type": "string" },
+          "field": { "type": ["string", "null"] },
+          "value": {},
+          "expected": { "type": "string" }
+        }
+      }
+    }
+  }
+}

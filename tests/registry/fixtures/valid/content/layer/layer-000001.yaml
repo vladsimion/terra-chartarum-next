@@ -1,0 +1,14 @@
+id: tc:tc:layer:layer-000001
+family: layer
+origin: minted
+title: Roman roads of Dacia
+slug: roman-roads-of-dacia
+lifecycle: researching
+release: held
+role: historical
+asset: data/roads.pmtiles
+dataset: tc:tc:dataset:dataset-000001
+geometry_provenance: georeferenced_trace
+geometry: data/roads.geojson
+rights:
+  licence: CC-BY-4.0

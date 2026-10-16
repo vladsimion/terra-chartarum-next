@@ -1,0 +1,10 @@
+id: prov-0001
+tool: tesseract
+tool_version: 5.3.0
+input:
+  source: tc:tc:source:source-000001
+  locator: segm. VII
+ran_on: 2026-09-01
+status: adjudicated
+adjudicated_by: V. Simion
+adjudicated_on: 2026-09-02

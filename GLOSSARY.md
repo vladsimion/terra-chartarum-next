@@ -12,18 +12,22 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Room** | One of seven reader-facing conceptual paths: Earth, Map, City, Border, Road, Archive, Theatre. Membership is metadata, never a folder or a data taxonomy. | Theme, Collection |
 | **Portal dimension** | Optional additive essay tag: Measure, Witness, Use, Cosmos, Power, Silence. Never replaces an essay's native lenses. | Theme |
 | **Editorial stage** | One of: Concept, Corpus, Research, Outline, Draft, Build, Design QA, Publish, Cross-link. | Lifecycle state |
-| **Held / released** | Whether an essay is public. Held metadata must never leak into public pages, payloads or URLs. | Draft |
+| **Held / released** | Release state of any entity, separate from lifecycle. Everything starts held; only a released entity at lifecycle `published` is public. Held metadata must never leak into public pages, payloads or URLs. | Draft; lifecycle `published` |
 
 ## Scholarly entities
 
 | Term | Meaning |
 |---|---|
 | **Stable ID** | Immutable scholarly identifier, qualified at boundaries as `tc:{authority}:{family}:{local-id}`. Never a title or slug. |
+| **Authority** | The namespace that issued an ID: `tc` for records this project mints (and for legacy IDs, kept verbatim), or a registered external code such as `pleiades`. |
+| **Slug history** | The list of former public slugs of an entity; each keeps resolving to the entity's current page. |
+| **Evidence record** | A first-class entity, with its own stable ID, stating that a source supports a claim about a target (an entity, or a feature of a layer). Essays and layers cite evidence records and never embed provenance. |
+| **Withdrawn entity** | A retired entity with no successor; its old address shows a withdrawal notice, never an error. |
 | **Map object** | One physical or digital map witness (edition/state-specific). One canonical record. |
 | **Cartographer** | A maker (cartographer, engraver, publisher) with a profile record. |
 | **Place** | A historical place authority with alternate names and temporal validity. |
 | **Source** | A primary or secondary work cited as evidence. A finding aid (a work used only to find sources) is not a source. |
-| **Attestation** | place × source × form: evidence that a source names or depicts a place. |
+| **Attestation** | place × source × form: evidence that a source names or depicts a place. A source's silence about a place is also an Attestation (form `silence`) carrying one silence state. |
 | **Locator** | Page / folio / plate / record reference inside a source. `verified` only if read by this project; otherwise `pending`. |
 | **Bibliography entry** | Canonical citation record; essay bibliographies reference entries by ID. |
 

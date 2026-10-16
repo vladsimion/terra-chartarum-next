@@ -1,0 +1,12 @@
+id: tc:tc:attestation:attestation-000001
+family: attestation
+origin: minted
+title: Napoca is absent from the surveyed itinerary
+slug: napoca-absent-from-itinerary
+lifecycle: researching
+release: held
+place: tc:tc:place:place-000001
+source: tc:tc:source:source-000001
+form: silence
+silence_state: non_survey
+confidence: possible

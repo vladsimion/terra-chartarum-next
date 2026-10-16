@@ -1,0 +1,25 @@
+id: tc:tc:evidence:evidence-000001
+family: evidence
+origin: minted
+title: Road segment traced from the Tabula Peutingeriana
+slug: road-segment-traced
+lifecycle: researching
+release: held
+target:
+  entity: tc:tc:layer:layer-000001
+  feature: f-1
+source: tc:tc:source:source-000001
+locator:
+  value: segm. VII
+  state: pending
+  proposed_by: person
+evidence_type: cartographic
+geometry_provenance: source_geometry
+confidence: probable
+valid_from: 106
+valid_to: 271
+date_precision: century
+rights:
+  licence: CC-BY-4.0
+provenance_chain:
+  - prov-0001
