@@ -216,7 +216,7 @@ description: "Task list for 001 Scholarly Entity Registry & Integrity Gate"
 - [X] T091 Write `tests/registry/unit/rule-coverage.test.ts`: every rule ID registered in `src/registry/rules/` appears in `contracts/rule-ids.md` and has a mutation in `mutations.test.ts` (exempting `PRIV-LEAK`, covered by T078); fails when a rule is added without both
 - [X] T092 Run every command in `quickstart.md` end to end and fix any drift between the document and the code
 - [X] T093 [P] Add a short "Registry" section to `README.md` linking to `specs/001-scholarly-registry/quickstart.md`
-- [ ] T094 Copy each story's task checklist (T-IDs) into the matching TCX story description under epic TCX-2; move stories to Done only when the PR is linked and the Definition of Done in `CLAUDE.md` holds (manual; no `/speckit-taskstoissues`)
+- [X] T094 Copy each story's task checklist (T-IDs) into the matching TCX story description under epic TCX-2; move stories to Done only when the PR is linked and the Definition of Done in `CLAUDE.md` holds (done 2026-10-16 in TCX-13 to TCX-17 and TCX-2, appended below the other implementation's checklists; statuses unchanged; no `/speckit-taskstoissues`)
 - [X] T095 Make the `registry` workflow a required status check on `main` so a failing gate blocks merge (SC-001): done 2026-10-16 once the repository was public (branch protection on a private repo needs GitHub Pro); required check `gate`, admins not enforced, no review requirement
 - [X] T096 Run `/speckit-analyze` and resolve any findings before `/speckit-implement` (run before implementation; F1-F7 applied, F8-F21 left as noted in the PR)
 
