@@ -15,6 +15,10 @@ Astro + TypeScript strict + content collections/Zod; MapLibre; GeoJSON/FlatGeobu
 1. `/grill-with-docs` on any new idea or change before specifying. It updates `GLOSSARY.md` and adds ADRs to `docs/adr/` as decisions crystallise.
 2. `/speckit-specify` → `/speckit-clarify` (repeat until no `[NEEDS CLARIFICATION]`) → `/speckit-plan` → `/speckit-tasks` → `/speckit-analyze`.
 3. `/speckit-implement`, always with the `tdd` skill: agree the seams first, then one user story (vertical slice) at a time, red → green. Refactoring happens in review (`code-review`), not inside the loop.
+4. **Keep Jira and Confluence in step, every time, without being asked.** Whenever you implement anything tracked in Jira (a task, a story or an epic), update both in the same piece of work, and say what you changed in the report:
+   - **Jira:** move the ticket to the status the facts support (In Progress when started, In Review when a PR is open; Done only when the Definition of Done below is met and the PR is merged), tick or append its Spec Kit checklist, link the PR, and keep the parent epic's description current (merged PRs, counts, decisions, what is open).
+   - **Confluence:** update the programme's dossier (spec 001: page `36569092`, repository source `docs/confluence/<spec>.md`; keep the two identical), the Build Log for shipped work, and the Decision Log for cross-programme decisions. Counts (rules, mutations, tests) and open items must match `main`.
+   - State only what is true: do not mark a PR merged or a story Done before it is, and do not touch shared pages beyond the entries you add.
 
 Do not use Matt Pocock's `/to-spec`, `/to-tickets` or `/implement` here: Spec Kit owns specs, tasks and implementation. Vendored from mattpocock/skills (MIT, see `docs/vendor/`): `grill-with-docs`, `grilling`, `domain-modeling`, `tdd`, `codebase-design`, `code-review`.
 
@@ -33,3 +37,4 @@ Specs 001–005, 007-US1 (rooms) and 008, anchored on Terra Sigillata (Trench A)
 - Integrity gate, accessibility and performance checks pass.
 - No `[NEEDS CLARIFICATION]` left in the story's spec section.
 - Jira story moved to Done with the PR linked.
+- Jira board and Confluence dossier brought up to date (workflow step 4).
