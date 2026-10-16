@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
-import { DESTINATIONS, destinationProblems, footerLinks, headerDestinations, type Destination } from '../../../src/shell/destinations.js';
+import { DESTINATIONS, ariaCurrent, destinationProblems, footerLinks, headerDestinations, type Destination } from '../../../src/shell/destinations.js';
 
 describe('header destinations (FR-001)', () => {
   it('are exactly the seven lenses, in canonical order, each with its meaning', () => {
@@ -56,5 +56,14 @@ describe('destination invariants', () => {
       'built destination b has no page at /b/',
       'stub destination s already has a page at /s/',
     ]);
+  });
+});
+
+describe('ariaCurrent (US1 AC 1.2)', () => {
+  it('is "page" on the destination itself, "true" on a page inside its section, and nothing elsewhere', () => {
+    expect(ariaCurrent('/essays/', '/essays/')).toBe('page');
+    expect(ariaCurrent('/essays/terra-sigillata/', '/essays/')).toBe('true');
+    expect(ariaCurrent('/rooms/', '/essays/')).toBeUndefined();
+    expect(ariaCurrent('/', '/essays/')).toBeUndefined();
   });
 });

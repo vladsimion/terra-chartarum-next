@@ -1,0 +1,26 @@
+---
+import { DESTINATIONS, type Destination } from '../shell/destinations.js';
+import Base from '../shell/layouts/Base.astro';
+import StubPage from '../shell/components/StubPage.astro';
+
+/*
+ * One generated page for every destination another spec still owns (spec 002 FR-015). The owner
+ * replaces it by adding a real page and flipping the destination to `built` in the same change;
+ * `npm run shell:check` lists what is left, and spec 008's cutover fails if any remain.
+ */
+export function getStaticPaths() {
+  return DESTINATIONS.filter((d) => d.status === 'stub').map((destination) => ({
+    params: { stub: destination.href.replace(/^\/|\/$/g, '') },
+    props: { destination },
+  }));
+}
+
+interface Props {
+  destination: Destination;
+}
+const { destination } = Astro.props;
+---
+
+<Base title={`${destination.label} | Terra Chartarum`}>
+  <StubPage destination={destination} />
+</Base>

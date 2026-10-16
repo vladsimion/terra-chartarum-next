@@ -16,6 +16,10 @@
   --ink-muted: #c0ad88;
   --line: rgb(212 184 122 / 0.18);
 
+  /* Print is dark on light whatever the screen scheme */
+  --print-paper: #ffffff;
+  --print-ink: #000000;
+
   /* Accent slots: an essay picks one by name (ADR 0008); gold is the house default */
   --accent-gold: #d4b87a;
   --accent-verdigris: #6fb5a3;

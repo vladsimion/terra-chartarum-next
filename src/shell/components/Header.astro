@@ -1,0 +1,27 @@
+---
+import NavDisclosure from './NavDisclosure.astro';
+import Wordmark from './Wordmark.astro';
+
+interface Props {
+  path: string;
+}
+
+const { path } = Astro.props;
+---
+
+<header class="site-header">
+  <Wordmark />
+  <NavDisclosure path={path} />
+</header>
+
+<style>
+  .site-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3) var(--space-5);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--line);
+  }
+</style>

@@ -1,0 +1,14 @@
+---
+import type { Destination } from '../destinations.js';
+
+interface Props {
+  destination: Destination;
+}
+
+const { destination } = Astro.props;
+---
+
+<div data-stub={destination.id}>
+  <h1>{destination.label}</h1>
+  <p>This part of Terra Chartarum is in preparation.</p>
+</div>

@@ -29,6 +29,7 @@ export const PAIRS: readonly Pair[] = [
   ...on(['ink-muted'], 'text', 'captions, metadata'),
   ...on(['link', 'link-visited'], 'text', 'links'),
   ...on(['focus'], 'ui', 'visible focus ring'),
+  { fg: 'print-ink', bg: 'print-paper', kind: 'text', note: 'printed text' },
   ...on(ACCENT_SLOTS.map((s) => `accent-${s}`), 'text', 'accent text and marks on any surface'),
 ];
 

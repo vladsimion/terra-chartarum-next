@@ -15,7 +15,8 @@
     "preview": "astro preview",
     "lint:css": "stylelint \"src/**/*.{css,astro}\"",
     "test:e2e": "playwright test",
-    "lhci": "npx --yes @lhci/cli@0.15.1 autorun"
+    "lhci": "npx --yes @lhci/cli@0.15.1 autorun",
+    "shell:check": "tsx scripts/shell-check.ts"
   },
   "dependencies": {
     "@fontsource-variable/cinzel": "5.3.0",

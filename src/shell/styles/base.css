@@ -71,3 +71,23 @@ a:visited {
 main:focus {
   outline: none;
 }
+
+/* Print: the shell's chrome is hidden and the content stays (essays keep their citations). !important beats the components' scoped display rules. */
+@media print {
+  header,
+  footer,
+  .skip-link,
+  .breadcrumbs {
+    display: none !important;
+  }
+
+  html {
+    background: var(--print-paper);
+    color: var(--print-ink);
+  }
+
+  main {
+    max-width: none;
+    padding: 0;
+  }
+}
