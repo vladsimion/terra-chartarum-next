@@ -5,12 +5,13 @@ import { validateRegistry } from './validate.js';
 
 /** Load a registry from disk, validate it, and fold load errors into the same report. */
 export async function checkRegistry(rootDir: string, options: ValidateOptions = {}): Promise<IntegrityReport> {
-  const { records, loadErrors, provenanceIndex, featureIndex, assetIndex } = await loadRegistry(rootDir);
+  const { records, loadErrors, provenanceIndex, vocabularies, featureIndex, assetIndex } = await loadRegistry(rootDir);
   // A whole registry on disk is checked for completeness too (ROOM-SET) unless the caller opts out.
   const report = validateRegistry(records, {
     ...options,
     completeness: options.completeness ?? true,
     provenanceIndex,
+    vocabularies,
     featureIndex,
     assetIndex,
   });

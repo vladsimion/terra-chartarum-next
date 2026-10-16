@@ -3,6 +3,8 @@ import path from 'node:path';
 import { parse as parseYaml } from 'yaml';
 import { schemaFor } from './schemas/index.js';
 import { ProvenanceStepSchema, type ProvenanceStep } from './schemas/provenance-step.js';
+import { VocabMappingSchema } from './schemas/vocab-mapping.js';
+import type { Vocabulary } from './vocab-map.js';
 import type { RegistryRecord } from './types.js';
 
 export interface LoadError {
@@ -16,6 +18,8 @@ export interface LoadResult {
   loadErrors: LoadError[];
   /** Logged automated steps from `provenance/`, by id. */
   provenanceIndex: Map<string, ProvenanceStep>;
+  /** Specialist vocabularies from `vocab-mappings/`, by name (TC-D016). */
+  vocabularies: Map<string, Vocabulary>;
   /** Feature ids per geometry file path, for the files records point to with `geometry`. */
   featureIndex: Map<string, Set<string>>;
   /** Asset paths, among those layers name with `asset`, that exist under the registry root. */
@@ -57,6 +61,35 @@ async function loadProvenance(
         loadErrors.push({ file: rel, message: `duplicate provenance step id ${parsed.data.id}` });
       } else {
         index.set(parsed.data.id, parsed.data as ProvenanceStep);
+      }
+    } catch (error) {
+      loadErrors.push({ file: rel, message: errorMessage(error) });
+    }
+  }
+}
+
+async function loadVocabularies(
+  root: string,
+  vocabularies: Map<string, Vocabulary>,
+  loadErrors: LoadError[],
+): Promise<void> {
+  const dir = path.join(root, 'vocab-mappings');
+  if (!(await isDirectory(dir))) return;
+  for (const file of await listYaml(dir)) {
+    const rel = relative(root, file);
+    try {
+      const parsed = VocabMappingSchema.safeParse(parseYaml(await readFile(file, 'utf8')));
+      if (!parsed.success) {
+        loadErrors.push({ file: rel, message: parsed.error.issues.map((i) => `${i.path.join('.') || '(root)'}: ${i.message}`).join('; ') });
+        continue;
+      }
+      const { vocabulary: name, ...tables } = parsed.data;
+      if (path.parse(file).name !== name) {
+        loadErrors.push({ file: rel, message: `the file is named ${path.parse(file).name} but declares vocabulary ${name}` });
+      } else if (vocabularies.has(name)) {
+        loadErrors.push({ file: rel, message: `duplicate vocabulary ${name}` });
+      } else {
+        vocabularies.set(name, { name, file: rel, tables });
       }
     } catch (error) {
       loadErrors.push({ file: rel, message: errorMessage(error) });
@@ -193,9 +226,11 @@ export async function loadRegistry(rootDir: string): Promise<LoadResult> {
 
   const provenanceIndex = new Map<string, ProvenanceStep>();
   await loadProvenance(root, provenanceIndex, loadErrors);
+  const vocabularies = new Map<string, Vocabulary>();
+  await loadVocabularies(root, vocabularies, loadErrors);
   const realRoot = await realpath(root);
   const featureIndex = await loadFeatureIndex(realRoot, records, loadErrors);
   const assetIndex = await loadAssetIndex(realRoot, records, loadErrors);
 
-  return { records, loadErrors, provenanceIndex, featureIndex, assetIndex };
+  return { records, loadErrors, provenanceIndex, vocabularies, featureIndex, assetIndex };
 }

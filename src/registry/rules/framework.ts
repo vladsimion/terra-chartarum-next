@@ -1,6 +1,7 @@
 import type { Severity, Violation } from '../report.js';
 import type { ProvenanceStep } from '../schemas/provenance-step.js';
 import type { LifecycleValue } from '../schemas/shared.js';
+import type { Vocabulary } from '../vocab-map.js';
 import type { RegistryRecord } from '../types.js';
 
 /** Lowest lifecycle at which a rule is an error; below it the same finding is a warning (research R6). */
@@ -80,6 +81,8 @@ export interface ValidateOptions {
   featureIndex?: ReadonlyMap<string, ReadonlySet<string>>;
   /** asset paths that exist, for `LIFE-AVAILABILITY`. */
   assetIndex?: ReadonlySet<string>;
+  /** Specialist vocabularies by name, for records that carry `vocabulary` (TC-D016). */
+  vocabularies?: ReadonlyMap<string, Vocabulary>;
 }
 
 export interface Rule {

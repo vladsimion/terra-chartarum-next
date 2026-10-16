@@ -24,6 +24,7 @@ export const EntityBase = z.looseObject({
   legacy_layer_status: z.string().optional(),
   // Membership only: the rules that read these (IMPORT-*, AUTO-*, LIFE-SUPERSEDED) judge their values.
   withdrawn: z.unknown().optional(),
+  vocabulary: z.string().optional(),
   legacy_family: z.unknown().optional(),
   legacy_reviewer: z.unknown().optional(),
   legacy_review_date: z.unknown().optional(),

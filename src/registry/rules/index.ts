@@ -15,6 +15,7 @@ import { roomSet } from './rooms.js';
 import { RIGHTS_RULES } from './rights.js';
 import { SILENCE_RULES } from './silence.js';
 import { SLUG_RULES } from './slug.js';
+import { VOCAB_RULES } from './vocab-map.js';
 
 /** Every registered rule. Each story adds its rule modules here. */
 export const ALL_RULES: Rule[] = [
@@ -35,4 +36,5 @@ export const ALL_RULES: Rule[] = [
   famRequired,
   famUnknown,
   ...LIFECYCLE_RULES,
+  ...VOCAB_RULES,
 ];
