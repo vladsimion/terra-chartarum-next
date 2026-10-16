@@ -139,11 +139,11 @@ description: "Task list for 001 — Scholarly Entity Registry & Integrity Gate"
 
 **Independent Test**: Two essays reference one map, one released and one held. Public `relations.json` lists only the released essay.
 
-- [ ] T048 [P] [US4] Write failing tests in `tests/registry/relations.test.ts` for `buildRelations(records, { releasedOnly })`: output shape per `contracts/relations-and-cli.md`; held sources excluded when `releasedOnly`; a target referenced only by held content has empty arrays
-- [ ] T049 [P] [US4] Implement `src/registry/relations.ts` (make T048 pass)
-- [ ] T050 [P] [US4] Write failing tests in `tests/registry/public.test.ts` for `toPublic(entity)`: drops `private`; throws on non-released entities; adds `qualified_id`
-- [ ] T051 [P] [US4] Implement `src/registry/public.ts` (make T050 pass)
-- [ ] T052 [US4] Emit `dist/data/relations.json` (released-only) and `reports/relations.full.json` from the Astro integration, per `contracts/relations-and-cli.md`
+- [x] T048 [P] [US4] Write failing tests in `tests/registry/relations.test.ts` for `buildRelations(records, { releasedOnly })`: output shape per `contracts/relations-and-cli.md`; held sources excluded when `releasedOnly`; a target referenced only by held content has empty arrays
+- [x] T049 [P] [US4] Implement `src/registry/relations.ts` (make T048 pass)
+- [x] T050 [P] [US4] Write failing tests in `tests/registry/public.test.ts` for `toPublic(entity)`: drops `private`; throws on non-released entities; adds `qualified_id`
+- [x] T051 [P] [US4] Implement `src/registry/public.ts` (make T050 pass)
+- [x] T052 [US4] Emit `dist/data/relations.json` (released-only) and `reports/relations.full.json` from the Astro integration, per `contracts/relations-and-cli.md`
 - [ ] T053 [US4] Write `tests/registry/leak-scan.test.ts` (FR-009): build the fixture site (including `relations.json`); zero occurrences of held titles or `private:` fixture values anywhere in `dist/`
 
 **Checkpoint**: All five stories complete and independently tested.

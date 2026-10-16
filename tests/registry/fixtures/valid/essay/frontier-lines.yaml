@@ -1,0 +1,8 @@
+id: frontier-lines
+family: essay
+title: Frontier Lines (released fixture essay)
+slug: frontier-lines
+stage: cross_link
+question: Which Roman frontiers did early modern maps of Dacia choose to draw?
+maps: [map:ortelius-dacia]
+rights: { licence: CC-BY-4.0, attribution: Terra Chartarum fixture, reproduction_cleared: true }

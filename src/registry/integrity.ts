@@ -199,14 +199,14 @@ function schemaViolations(record: Record<string, unknown>, at: { entity?: string
   });
 }
 
-interface RefSite {
+export interface RefSite {
   field: string;
   value: unknown;
   expected: Family;
 }
 
 /** Every reference a record makes, with the family it must point to. */
-function referenceSites(family: Family, record: Record<string, unknown>): RefSite[] {
+export function referenceSites(family: Family, record: Record<string, unknown>): RefSite[] {
   const sites: RefSite[] = [];
   const add = (field: string, value: unknown, expected: Family) => {
     if (Array.isArray(value)) value.forEach((v, i) => sites.push({ field: `${field}.${i}`, value: v, expected }));

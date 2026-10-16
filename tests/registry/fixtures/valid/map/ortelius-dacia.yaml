@@ -7,3 +7,8 @@ places: [place:apulum]
 layers: [layer:roman-roads]
 bibliography: [bibliography:ortelius-theatrum]
 rooms: { primary: room:border }
+lifecycle: published
+rights: { licence: public-domain, attribution: Terra Chartarum fixture, reproduction_cleared: true }
+private:
+  acquired_from: Fixture Antiquariat Sentinel
+  price: GBP 1,850 (fixture sentinel)

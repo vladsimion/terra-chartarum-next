@@ -10,3 +10,5 @@ places: [place:apulum]
 sources: [source:ptolemy-geographia]
 bibliography: [bibliography:ortelius-theatrum]
 rooms: { primary: room:border, secondary: [room:archive] }
+private:
+  working_note: Unpublished argument about the Porolissum gate (fixture sentinel)

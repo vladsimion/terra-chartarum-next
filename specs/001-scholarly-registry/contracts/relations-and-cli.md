@@ -13,7 +13,10 @@ Built at `dist/data/relations.json` (public, released-only) and `reports/relatio
 ```
 
 - Keys and values are qualified IDs.
-- In the public file, a source appears only if it is released. A target referenced only by held content appears with empty arrays.
+- `cited_in` lists essays; `used_by` lists every other family. A source referencing a target through several fields is listed once; values are sorted.
+- `superseded_by` is lineage, not use: it creates no relation.
+- In the public file, only released entities appear, as keys or as values: a held entity is never a key, even when released content references it. A released target referenced only by held content appears with empty arrays.
+- Release is judged after specialist vocabulary mapping (data/vocab-mappings).
 
 ## CLI
 

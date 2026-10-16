@@ -48,3 +48,12 @@ export function parseRef(value: string): Ref | undefined {
   const [, authority, family, id] = match;
   return { authority: authority ?? DEFAULT_AUTHORITY, family: family!, id: id! };
 }
+
+/** A record's qualified ID, or `undefined` when it lacks a family or id. */
+export function qualifiedIdOf(record: Record<string, unknown>): string | undefined {
+  const family = record['family'];
+  const id = record['id'];
+  if (typeof family !== 'string' || typeof id !== 'string') return undefined;
+  const authority = typeof record['authority'] === 'string' ? record['authority'] : DEFAULT_AUTHORITY;
+  return qualify(authority, family, id);
+}
