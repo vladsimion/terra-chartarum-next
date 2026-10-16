@@ -5,13 +5,13 @@ Programme dossier created against the fourteen-point contract in [Programme Doss
 | | |
 |---|---|
 | Programme type | Platform foundation: build-time scholarly registry and integrity gate for the Terra Chartarum successor build |
-| Status | **Implemented on `main`** (merged through PR #7, `gate` green). Parallel implementation: decided to keep `main`; the branch is retired once the remaining ports are done (§10). |
+| Status | **Implemented on `main`** (merged through PR #10, `gate` green). Parallel implementation: decided to keep `main`; the branch is retired once the remaining ports are done (§10). |
 | Jira | **TCX-2** epic; stories **TCX-13** (US1), **TCX-15** (US3), **TCX-14** (US2), **TCX-17** (US5), **TCX-16** (US4). Project TCX is the successor; KAN is the original site. |
 | Canonical parent | **None: a standalone page at the root of the space**, moved out from under Projects at Vlad's request on 2026-10-16. The contract (§7) places dossiers under Projects — Active Research & Implementation Programmes and its harmonisation DoD wants every programme linked from that index; this page is therefore not listed there. |
 | Primary canonical ownership | Volume VIII (software and data contracts); Volume VI (provenance, uncertainty, rights); Volume IV (research-to-publication workflow) |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). Spec `specs/001-scholarly-registry/`; code `src/registry/`; decisions `docs/adr/0006`, `0007` |
 | Successor relationship | Supersedes the registry code of terra-chartarum.pages.dev at cutover (ADR 0001); legacy IDs are preserved (ADR 0006 items 11–14) |
-| Last reconciliation | 2026-10-16 (dossier creation; refreshed after PR #3, then again after PR #6 and #7 merged: 49 rules, 613 tests) |
+| Last reconciliation | 2026-10-16 (dossier creation; refreshed after PR #3, then again after PR #6 and #7 merged: 49 rules, 613 tests on `main`; T118 in review as PR #11) |
 
 ## 2. Purpose / thesis
 
@@ -190,7 +190,8 @@ Within the programme, the **story order is TCX-13 → TCX-15 → TCX-14 → TCX-
 | F. Port | EDTF dates and tombstones from the parallel branch | 2026-10-16 | PR #3 merged: 607 tests |
 | G. Record | Build Log section U (PR #1 to #3), Decision Log TC-D019 to TC-D024, this dossier | 2026-10-16 | Confluence |
 | H. Cross-check | The branch's fixtures through the gate (T117, `cross-check/branch-fixtures.md`); unknown fields rejected (T122, rule `FAM-UNKNOWN`) | 2026-10-16 | PR #6 and #7 merged: 613 tests |
-| I. Remaining | Specialist vocabulary mappings (T118), Astro build gate and `relations.json` (T119, with spec 002), the `rooms` field and the branch-fixture fields (T123, T124) | next | not started |
+| I. Vocabularies | Specialist vocabulary mappings (T118, Decision Log TC-D016): `vocab-mappings/`, `vocabulary` field, rules `VOCAB-UNKNOWN`, `VOCAB-TARGET`, `VOCAB-SHADOW` | 2026-10-16 | PR #11 **in review**: 634 tests, 52 rules, 69 mutations on the branch (`main` is unchanged until it merges) |
+| J. Remaining | Astro build gate and `relations.json` (T119, with spec 002), the `rooms` field and the branch-fixture fields (T123, T124) | next | not started |
 
 ## 10. Jira hierarchy and reconciliation history
 
@@ -221,7 +222,7 @@ While this programme was built, a **second, complete implementation of spec 001*
 | Dates | EDTF | EDTF |
 | Superseded record | tombstone | tombstone |
 
-**Decision (2026-10-16, Vlad):** keep `main` as the base, retire the branch as a line of work, and port what it got right. It was right about two things, now merged to `main` in PR #3: **EDTF dates** (integer years with a separate precision field can contradict themselves and cannot express uncertainty) and **tombstones** (spec 002 FR-011). The cross-check of the branch's fixtures is done (T117): all 17 of its rule codes have a counterpart on `main`, and it found one bug, fixed in PR #7 (unknown fields were accepted silently, which the branch rejected). Still to port: the Astro build gate, `relations.json` and specialist vocabulary mappings. The branch should be tagged `archive/001-parallel-implementation` once that is done; deleting it needs an explicit decision. **[VERIFY]** the comparison was by measurement and search (size, tests, rule codes, minting), not a line-by-line audit of the branch.
+**Decision (2026-10-16, Vlad):** keep `main` as the base, retire the branch as a line of work, and port what it got right. It was right about two things, now merged to `main` in PR #3: **EDTF dates** (integer years with a separate precision field can contradict themselves and cannot express uncertainty) and **tombstones** (spec 002 FR-011). The cross-check of the branch's fixtures is done (T117): all 17 of its rule codes have a counterpart on `main`, and it found one bug, fixed in PR #7 (unknown fields were accepted silently, which the branch rejected). Specialist vocabulary mappings are in review (PR #11, T118). Still to port: the Astro build gate and `relations.json`. The branch should be tagged `archive/001-parallel-implementation` once that is done; deleting it needs an explicit decision. **[VERIFY]** the comparison was by measurement and search (size, tests, rule codes, minting), not a line-by-line audit of the branch.
 
 ### 10.3 Other reconciliation notes
 - Cross-check (T117): the branch's fixtures differ from `main` in 12 modelling choices, each recorded with its basis in `specs/001-scholarly-registry/cross-check/branch-fixtures.md`; the one defect found, silent acceptance of unknown fields, is fixed by the `FAM-UNKNOWN` rule (T122).
@@ -278,6 +279,6 @@ This dossier retains only programme-specific rationale, the reconciliation recor
 
 ## 14. Current checkpoint and delivery authority
 
-**Checkpoint (2026-10-16).** `main` is at the merge of PR #6 (`59d5869`): the registry, all five stories, the review fixes, EDTF dates, tombstones and rejection of unknown fields; 613 tests, 49 rules, `gate` green and required. The Jira stories are In Review. This page's source is `docs/confluence/spec-001-registry.md`. Open: retiring branch `001-scholarly-registry` (decided: keep `main`; tag and delete after the remaining ports); where `rooms` and the branch-fixture fields live (T123, T124); specialist vocabulary mappings; the Astro build gate (with spec 002); the `consulted_copy` shape; adding or declining `Blocks` links among the stories.
+**Checkpoint (2026-10-16).** `main` is at the merge of PR #6 (`59d5869`): the registry, all five stories, the review fixes, EDTF dates, tombstones and rejection of unknown fields; 613 tests, 49 rules, `gate` green and required. The Jira stories are In Review. This page's source is `docs/confluence/spec-001-registry.md`. Open: retiring branch `001-scholarly-registry` (decided: keep `main`; tag and delete after the remaining ports); where `rooms` and the branch-fixture fields live (T123, T124); specialist vocabulary mappings (T118, PR #11 in review); the Astro build gate (with spec 002); the `consulted_copy` shape; adding or declining `Blocks` links among the stories.
 
 **Authority.** Jira `Blocks` links are authoritative for executable dependencies; Jira and Volume IX are authoritative for current delivery state; the Build Log records only work actually shipped. This page is not the delivery record.
