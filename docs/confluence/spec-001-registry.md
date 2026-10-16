@@ -5,13 +5,13 @@ Programme dossier created against the fourteen-point contract in [Programme Doss
 | | |
 |---|---|
 | Programme type | Platform foundation: build-time scholarly registry and integrity gate for the Terra Chartarum successor build |
-| Status | **Implemented on `main`** (merged through PR #7, `gate` green). Parallel implementation: decided to keep `main`; the branch is retired once the remaining ports are done (§10). |
+| Status | **Implemented on `main`** (merged through PR #11, `gate` green). Parallel implementation: decided to keep `main`; the branch is retired once the remaining ports are done (§10). |
 | Jira | **TCX-2** epic; stories **TCX-13** (US1), **TCX-15** (US3), **TCX-14** (US2), **TCX-17** (US5), **TCX-16** (US4). Project TCX is the successor; KAN is the original site. |
 | Canonical parent | **None: a standalone page at the root of the space**, moved out from under Projects at Vlad's request on 2026-10-16. The contract (§7) places dossiers under Projects — Active Research & Implementation Programmes and its harmonisation DoD wants every programme linked from that index; this page is therefore not listed there. |
 | Primary canonical ownership | Volume VIII (software and data contracts); Volume VI (provenance, uncertainty, rights); Volume IV (research-to-publication workflow) |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). Spec `specs/001-scholarly-registry/`; code `src/registry/`; decisions `docs/adr/0006`, `0007` |
 | Successor relationship | Supersedes the registry code of terra-chartarum.pages.dev at cutover (ADR 0001); legacy IDs are preserved (ADR 0006 items 11–14) |
-| Last reconciliation | 2026-10-16 (dossier creation; refreshed after PR #3, then again after PR #6 and #7 merged: 49 rules, 613 tests) |
+| Last reconciliation | 2026-10-16 (dossier creation; refreshed after PR #3, again after PR #6 and #7, and again after PR #11 merged: 52 rules, 634 tests on `main`) |
 
 ## 2. Purpose / thesis
 
@@ -40,7 +40,7 @@ The falsifiable claim the programme has to defend: **a broken reference, a claim
 | Output | State |
 |---|---|
 | `src/registry/` module (loader, pure validator, rules, projection, reverse relationships, redirects and tombstones, leak scan, minting, synthetic registry, CLI) | On `main` |
-| 49 rule IDs, each with a threshold and a named mutation | On `main` |
+| 52 rule IDs, each with a threshold and a named mutation | On `main` |
 | Integrity report: versioned JSON (schema in `contracts/`) and accessible static HTML | On `main` |
 | ADR 0006 (identity and record model, with amendments) and ADR 0007 (EDTF dates) | On `main` |
 | Spec, plan, research, data model, contracts, quickstart, tasks (Phases 1–10) | On `main` |
@@ -85,7 +85,7 @@ Each rule declares the lowest lifecycle at which it is an error; below that it i
 Bulk geometry stays in GeoJSON files that records reference by path. Evidence about a single feature must name a feature that exists in the file (`REF-FEATURE`) and must say where the geometry came from (`PROV-GEOMETRY`). Reconstructions are always flagged (`PROV-RECONSTRUCTION`). **Modern reference geometry is never historical evidence** (`PROV-MODERN-AS-EVIDENCE`, Constitution III). Paths a record names are resolved on their real path inside the registry root; `../` and symlink escapes are refused and reported.
 
 ### 6.4 Rules reference
-Every rule has a stable ID, a threshold ("From": the lowest lifecycle at which it is an error) and a named mutation. `PRIV-LEAK` is raised by the output scan and `LOAD-PARSE` by the loader; the rest run in the validator. This is the table in `specs/001-scholarly-registry/contracts/rule-ids.md` (49 rules).
+Every rule has a stable ID, a threshold ("From": the lowest lifecycle at which it is an error) and a named mutation. `PRIV-LEAK` is raised by the output scan and `LOAD-PARSE` by the loader; the rest run in the validator. This is the table in `specs/001-scholarly-registry/contracts/rule-ids.md` (52 rules).
 
 | Rule ID | Checks | Spec | From |
 |---|---|---|---|
@@ -109,6 +109,9 @@ Every rule has a stable ID, a threshold ("From": the lowest lifecycle at which i
 | `ENUM-INVALID` | any enumerated field holds a known value | FR-005 | always |
 | `FAM-REQUIRED` | the fields a family needs are present (data-model.md "Family fields") | FR-003 | `ready_for_build` |
 | `FAM-UNKNOWN` | no field outside the fields the family's schema defines; a misspelt field is otherwise dropped silently (T122) | FR-003 | always |
+| `VOCAB-UNKNOWN` | a record's `vocabulary` names a mapping file in `vocab-mappings/` (TC-D016, T118) | FR-011 | always |
+| `VOCAB-TARGET` | every mapping lands on a term the shared vocabulary has | FR-011 | always |
+| `VOCAB-SHADOW` | a specialist term that is also a shared term maps to itself | FR-011 | always |
 | `DATE-INVALID` | `valid_from` and `valid_to` are EDTF level 0-1 with four-digit signed years (ADR 0007) | FR-003 | always |
 | `DATE-ORDER` | the start is not definitely later than the end (earliest start vs latest end, so imprecise dates that may overlap pass) | FR-003 | always |
 | `DATE-PRECISION-AUTHORED` | `date_precision` is derived from the date and never authored (ADR 0007) | FR-003 | always |
@@ -188,9 +191,10 @@ Within the programme, the **story order is TCX-13 → TCX-15 → TCX-14 → TCX-
 | D. Review | Two-axis code review (17 spec findings, 7 standards smells) | 2026-10-16 | PR #2 merged: 535 tests |
 | E. Reconcile | Parallel implementation found and compared | 2026-10-16 | §10 |
 | F. Port | EDTF dates and tombstones from the parallel branch | 2026-10-16 | PR #3 merged: 607 tests |
-| G. Record | Build Log section U (PR #1 to #3), Decision Log TC-D019 to TC-D024, this dossier | 2026-10-16 | Confluence |
+| G. Record | Build Log section U (PR #1 to #11), Decision Log TC-D019 to TC-D024, this dossier | 2026-10-16 | Confluence |
 | H. Cross-check | The branch's fixtures through the gate (T117, `cross-check/branch-fixtures.md`); unknown fields rejected (T122, rule `FAM-UNKNOWN`) | 2026-10-16 | PR #6 and #7 merged: 613 tests |
-| I. Remaining | Specialist vocabulary mappings (T118), Astro build gate and `relations.json` (T119, with spec 002), the `rooms` field and the branch-fixture fields (T123, T124) | next | not started |
+| I. Vocabularies | Specialist vocabulary mappings (T118, Decision Log TC-D016): `vocab-mappings/`, `vocabulary` field, rules `VOCAB-UNKNOWN`, `VOCAB-TARGET`, `VOCAB-SHADOW` | 2026-10-16 | PR #11 merged (`acc8712`): 634 tests, 52 rules, 69 mutations |
+| J. Remaining | Astro build gate and `relations.json` (T119, with spec 002), the `rooms` field and the branch-fixture fields (T123, T124) | next | not started |
 
 ## 10. Jira hierarchy and reconciliation history
 
@@ -213,15 +217,15 @@ While this programme was built, a **second, complete implementation of spec 001*
 
 | | `main` | `001-scholarly-registry` |
 |---|---|---|
-| Tests | 613 | 205 (its own `npm test`) |
-| Rule codes | 49 | 17 |
+| Tests | 634 | 205 (its own `npm test`) |
+| Rule codes | 52 | 17 |
 | Source size at the comparison | about 3,100 lines | about 1,350 lines |
 | Astro and build wiring | none yet | build gate that aborts the site build, `relations.json`, leak scan on the built site |
 | ID minting | yes | not found |
 | Dates | EDTF | EDTF |
 | Superseded record | tombstone | tombstone |
 
-**Decision (2026-10-16, Vlad):** keep `main` as the base, retire the branch as a line of work, and port what it got right. It was right about two things, now merged to `main` in PR #3: **EDTF dates** (integer years with a separate precision field can contradict themselves and cannot express uncertainty) and **tombstones** (spec 002 FR-011). The cross-check of the branch's fixtures is done (T117): all 17 of its rule codes have a counterpart on `main`, and it found one bug, fixed in PR #7 (unknown fields were accepted silently, which the branch rejected). Still to port: the Astro build gate, `relations.json` and specialist vocabulary mappings. The branch should be tagged `archive/001-parallel-implementation` once that is done; deleting it needs an explicit decision. **[VERIFY]** the comparison was by measurement and search (size, tests, rule codes, minting), not a line-by-line audit of the branch.
+**Decision (2026-10-16, Vlad):** keep `main` as the base, retire the branch as a line of work, and port what it got right. It was right about two things, now merged to `main` in PR #3: **EDTF dates** (integer years with a separate precision field can contradict themselves and cannot express uncertainty) and **tombstones** (spec 002 FR-011). The cross-check of the branch's fixtures is done (T117): all 17 of its rule codes have a counterpart on `main`, and it found one bug, fixed in PR #7 (unknown fields were accepted silently, which the branch rejected). Specialist vocabulary mappings are ported (T118, PR #11). Still to port: the Astro build gate and `relations.json`. The branch should be tagged `archive/001-parallel-implementation` once that is done; deleting it needs an explicit decision. **[VERIFY]** the comparison was by measurement and search (size, tests, rule codes, minting), not a line-by-line audit of the branch.
 
 ### 10.3 Other reconciliation notes
 - Cross-check (T117): the branch's fixtures differ from `main` in 12 modelling choices, each recorded with its basis in `specs/001-scholarly-registry/cross-check/branch-fixtures.md`; the one defect found, silent acceptance of unknown fields, is fixed by the `FAM-UNKNOWN` rule (T122).
@@ -237,7 +241,7 @@ The per-story merge bar is the repository's Definition of Done (`CLAUDE.md`): ev
 |---|---|
 | SC-001: 100% of publishable records pass the gate on `main`; a violation blocks merge | Gate runs in CI and is a required check; no real `content/` exists yet. **[VERIFY]** blocking behaviour (§8.5) |
 | SC-002: renaming a title or slug changes zero IDs and breaks zero links | Met: regression test over every fixture record |
-| SC-003: every seeded breakage is caught | Met: 66 named mutations, each must fail as an error |
+| SC-003: every seeded breakage is caught | Met: 69 named mutations, each must fail as an error |
 | SC-004: gate under 60 s on 5,000 entities | Met: 5,007 entities in about 80 ms in memory and about 2.2 s from disk |
 | Stories Done with PR linked | **Not met by design**: stories stay In Review until the branch decision and the remaining ports (§10.2) |
 
@@ -245,7 +249,7 @@ The per-story merge bar is the repository's Definition of Done (`CLAUDE.md`): ev
 
 | Claim | State | Owner |
 |---|---|---|
-| 613 tests pass on `main` (`59d5869`, the merge of PR #6, which includes PR #7) | Verified 2026-10-16 | — |
+| 634 tests pass on `main` (`acc8712`, the merge of PR #11) | Verified 2026-10-16 | — |
 | Strict typecheck clean; `npm audit` reports 0 vulnerabilities | Verified 2026-10-16 | — |
 | `registry check` passes on the valid fixture (18 entities) and on generated 1,007- and 2,007-entity registries | Verified 2026-10-16 | — |
 | SC-004 timing (about 80 ms in memory, about 2.2 s from disk, 5,007 entities) | Verified 2026-10-16 | — |
@@ -270,14 +274,14 @@ The per-story merge bar is the repository's Definition of Done (`CLAUDE.md`): ev
 | Roadmap, dependencies, current delivery state | Volume IX |
 | Cross-programme decisions: ADR 0006 (identity, record model, release vs lifecycle), ADR 0007 (EDTF dates), tombstones for superseded records | Decision Log |
 | Cross-programme risks: two implementations of one spec; a public repository holding scholarly records | Programme Risk Register |
-| Shipped work: PR #1 and PR #2 (green CI) | Build Log |
+| Shipped work: PR #1 to #11 (green CI) | Build Log |
 
-**Propagated 2026-10-16.** The Build Log has a new **section U** (the successor build, PR #1 to #3) and a header pointer; it is scoped to the successor repository and does not claim to reconcile the original one. The Decision Log has **TC-D019 to TC-D024**: release state separate from lifecycle, EDTF dates, minted IDs with legacy IDs verbatim, tombstones, private-by-default public output, and import confirmation. **Not yet propagated:** the Programme Risk Register (two implementations of one spec; a public repository holding scholarly records) and the reconciliation entry in the Programme Dossier Contract register §3. Both are existing shared pages and were left untouched.
+**Propagated 2026-10-16.** The Build Log has a new **section U** (the successor build, now PR #1 to #11) and a header pointer; it is scoped to the successor repository and does not claim to reconcile the original one. The Decision Log has **TC-D019 to TC-D024**: release state separate from lifecycle, EDTF dates, minted IDs with legacy IDs verbatim, tombstones, private-by-default public output, and import confirmation. **Not yet propagated:** the Programme Risk Register (two implementations of one spec; a public repository holding scholarly records) and the reconciliation entry in the Programme Dossier Contract register §3. Both are existing shared pages and were left untouched.
 
 This dossier retains only programme-specific rationale, the reconciliation record and the rule reference. The full text of the decisions is in the repository's ADRs, and the working specification in `specs/001-scholarly-registry/`.
 
 ## 14. Current checkpoint and delivery authority
 
-**Checkpoint (2026-10-16).** `main` is at the merge of PR #6 (`59d5869`): the registry, all five stories, the review fixes, EDTF dates, tombstones and rejection of unknown fields; 613 tests, 49 rules, `gate` green and required. The Jira stories are In Review. This page's source is `docs/confluence/spec-001-registry.md`. Open: retiring branch `001-scholarly-registry` (decided: keep `main`; tag and delete after the remaining ports); where `rooms` and the branch-fixture fields live (T123, T124); specialist vocabulary mappings; the Astro build gate (with spec 002); the `consulted_copy` shape; adding or declining `Blocks` links among the stories.
+**Checkpoint (2026-10-16).** `main` is at the merge of PR #11 (`acc8712`): the registry, all five stories, the review fixes, EDTF dates, tombstones, rejection of unknown fields and specialist vocabulary mappings; 634 tests, 52 rules, `gate` green and required. The Jira stories are In Review. This page's source is `docs/confluence/spec-001-registry.md`. Open: retiring branch `001-scholarly-registry` (decided: keep `main`; tag and delete after the remaining ports); where `rooms` and the branch-fixture fields live (T123, T124); applying vocabulary mappings before the public projection and the Astro build gate (with spec 002); the `consulted_copy` shape; adding or declining `Blocks` links among the stories.
 
 **Authority.** Jira `Blocks` links are authoritative for executable dependencies; Jira and Volume IX are authoritative for current delivery state; the Build Log records only work actually shipped. This page is not the delivery record.
