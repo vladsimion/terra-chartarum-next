@@ -23,7 +23,8 @@ export default defineConfig({
   use: { baseURL, trace: 'on-first-retry' },
   webServer: {
     command: `npm run build && npm run preview -- --port ${port}`,
-    url: baseURL,
+    // a page that always exists: Playwright treats a 404 as "not ready", and the home page arrives with US4
+    url: `${baseURL}/essays/`,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
   },
