@@ -1,0 +1,101 @@
+/*
+ * The single token source (spec 002 FR-003, contracts/tokens.md). Every colour, type, space,
+ * motion and shape value of the shell is defined here and nowhere else; Stylelint rejects raw
+ * values elsewhere. Dark is the identity and the default (carried over from the live site's
+ * palette); the light scheme is derived from the same hues and chosen by the reader's system
+ * preference. Contrast of every declared pair is tested in tests/shell/unit/contrast.test.ts.
+ */
+:root {
+  color-scheme: dark light;
+
+  /* Surfaces and ink (dark) */
+  --canvas: #0a0806;
+  --panel: #0e0c08;
+  --panel-raised: #141008;
+  --ink: #e8dec5;
+  --ink-muted: #c0ad88;
+  --line: rgb(212 184 122 / 0.18);
+
+  /* Accent slots: an essay picks one by name (ADR 0008); gold is the house default */
+  --accent-gold: #d4b87a;
+  --accent-verdigris: #6fb5a3;
+  --accent-madder: #e08a7a;
+  --accent-indigo: #8fa3e0;
+  --accent-umber: #c49a6c;
+  --accent-sage: #9cbf8a;
+  --accent: var(--accent-gold);
+
+  /* State */
+  --link: #d4b87a;
+  --link-visited: #b9a2d0;
+  --focus: #e8c76a;
+
+  /* Type: self-hosted faces (Latin, Latin-extended, Greek) */
+  --font-display: 'Cinzel Variable', 'Cinzel', 'IM Fell English', Georgia, serif;
+  --font-body: 'Crimson Pro Variable', 'Crimson Pro', 'EB Garamond Variable', 'EB Garamond', Georgia, serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --step--2: clamp(0.69rem, 0.66rem + 0.15vw, 0.78rem);
+  --step--1: clamp(0.83rem, 0.79rem + 0.2vw, 0.94rem);
+  --step-0: clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
+  --step-1: clamp(1.2rem, 1.1rem + 0.5vw, 1.5rem);
+  --step-2: clamp(1.44rem, 1.28rem + 0.8vw, 2rem);
+  --step-3: clamp(1.73rem, 1.48rem + 1.25vw, 2.66rem);
+  --step-4: clamp(2.07rem, 1.7rem + 1.85vw, 3.55rem);
+  --step-5: clamp(2.49rem, 1.94rem + 2.75vw, 4.74rem);
+
+  /* Space and layout */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --shell-max: 1200px;
+  --content-max: var(--shell-max);
+  --prose-max: 68ch;
+  --target-min: 44px;
+
+  /* Shape and motion */
+  --radius: 4px;
+  --motion-fast: 150ms;
+  --motion-slow: 400ms;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --canvas: #f6f0e1;
+    --panel: #efe6d0;
+    --panel-raised: #e7dcc0;
+    --ink: #1c1710;
+    --ink-muted: #5b4d33;
+    --line: rgb(122 90 20 / 0.28);
+
+    --accent-gold: #7a5a14;
+    --accent-verdigris: #1f6b5c;
+    --accent-madder: #9b3a2a;
+    --accent-indigo: #3d4f9e;
+    --accent-umber: #7a4e22;
+    --accent-sage: #3f6b2e;
+
+    --link: #7a5a14;
+    --link-visited: #5d3f7a;
+    --focus: #7a5a14;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0s;
+    --motion-slow: 0s;
+  }
+}
+
+/* An essay chooses its accent by slot name (spec 003); an unknown name fails the build where the page is generated */
+[data-accent='gold'] { --accent: var(--accent-gold); }
+[data-accent='verdigris'] { --accent: var(--accent-verdigris); }
+[data-accent='madder'] { --accent: var(--accent-madder); }
+[data-accent='indigo'] { --accent: var(--accent-indigo); }
+[data-accent='umber'] { --accent: var(--accent-umber); }
+[data-accent='sage'] { --accent: var(--accent-sage); }

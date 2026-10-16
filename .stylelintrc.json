@@ -1,0 +1,28 @@
+{
+  "rules": {
+    "color-no-hex": true,
+    "color-named": "never",
+    "function-disallowed-list": ["rgb", "rgba", "hsl", "hsla", "hwb", "lab", "lch", "oklab", "oklch"],
+    "property-disallowed-list": ["filter"],
+    "declaration-property-value-disallowed-list": {
+      "/^(margin|padding|gap|row-gap|column-gap|inset|top|right|bottom|left|width|height|min-width|max-width|min-height|max-height|border-radius|font-size)/": [
+        "/(^|[\\s(,])-?\\d*\\.?\\d+(px|rem|em|ch|vw|vh|vmin|vmax)\\b/"
+      ]
+    }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.astro", "**/*.html"],
+      "customSyntax": "postcss-html"
+    },
+    {
+      "files": ["**/tokens.css"],
+      "rules": {
+        "color-no-hex": null,
+        "color-named": null,
+        "function-disallowed-list": null,
+        "declaration-property-value-disallowed-list": null
+      }
+    }
+  ]
+}
