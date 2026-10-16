@@ -29,15 +29,6 @@ export const GEOMETRY_PROVENANCE_VALUES = [
   'generalized_editorial',
   'modern_reference',
 ] as const;
-export const DATE_PRECISION_VALUES = [
-  'day',
-  'month',
-  'year',
-  'decade',
-  'quarter_century',
-  'century',
-  'unknown',
-] as const;
 export const EVIDENCE_TYPE_VALUES = ['textual', 'cartographic', 'archaeological', 'archival', 'other'] as const;
 export const SILENCE_STATE_VALUES = [
   'non_survival',
@@ -60,7 +51,6 @@ export const Lifecycle = z.enum(LIFECYCLE_VALUES);
 export const Release = z.enum(RELEASE_VALUES).default('held');
 export const Confidence = z.enum(CONFIDENCE_VALUES);
 export const GeometryProvenance = z.enum(GEOMETRY_PROVENANCE_VALUES);
-export const DatePrecision = z.enum(DATE_PRECISION_VALUES);
 export const EvidenceType = z.enum(EVIDENCE_TYPE_VALUES);
 export const SilenceState = z.enum(SILENCE_STATE_VALUES);
 export const LocatorState = z.enum(LOCATOR_STATE_VALUES);

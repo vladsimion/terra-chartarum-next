@@ -18,7 +18,7 @@
 13. **Legacy confidence** maps `high → probable`, `medium → possible`, `low → conjectural`; never auto-`secure`. The original is kept as `legacy_confidence` and each imported claim is flagged for editor review.
 14. **Legacy review state** is not lifecycle. Imports enter at `researching`; `llm_assisted` rows count as unadjudicated automated steps (item 8). The original is kept as `legacy_review_state`. Legacy reviewer and review date become `verified_by`/`verified_on` only after the editor confirms them in the import report.
 15. **Private fields** (acquisition, price, etc.) live in a separate private block. Public output is projected from a per-family allowlist, so new fields are private by default. A post-build scan of `dist/` fails the build on any private value or held ID.
-16. **Dates** are signed integer years (negative for BCE) in `valid_from`/`valid_to`, with a separate closed `date_precision` (`day, month, year, decade, quarter_century, century, unknown`) and an optional free-text `date_label`.
+16. **Dates** — superseded by [ADR 0007](0007-historical-dates-use-edtf.md): `valid_from`/`valid_to` are EDTF level 0-1 strings, `date_precision` is derived and never authored, `date_label` stays optional free text. (Originally: signed integer years with an authored closed `date_precision`.)
 17. **External authority links** are a `same_as[]` list of `{authority, id}` validated by syntax against the authority allowlist; the gate never touches the network.
 
 ## Alternatives considered
@@ -30,6 +30,9 @@ Title-derived or hand-typed IDs; a database or single CSV registry; provenance e
 - GLOSSARY.md gains Authority, Slug history, Evidence record, Withdrawn entity and a revised Held / released.
 
 ## Amendments
+
+### 2026-10-16 — dates
+- **Item 16 is superseded by [ADR 0007](0007-historical-dates-use-edtf.md)** (EDTF). The decision was made first on the parallel branch `001-scholarly-registry`, whose own ADR 0006 (`0006-edtf-historical-dates`) is renumbered 0007 on `main`, so that two ADRs do not share a number.
 
 ### 2026-10-16 — code review of the first implementation (PR #1)
 - **Item 11 (ID syntax).** The family segment of the boundary form is `[a-z][a-z0-9_-]*`, not the legacy `[a-z][a-z0-9-]*`, so that `bibliography_entry` fits. It is a superset of the legacy pattern: every legacy ID still matches. Counter form is enforced for `origin: minted` whatever the authority; legacy IDs are never constrained beyond the pattern.

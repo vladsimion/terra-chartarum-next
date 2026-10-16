@@ -37,7 +37,8 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 |---|---|
 | **Evidence type** | What kind of witness supports a claim (textual, cartographic, archaeological, archival, …). |
 | **Geometry provenance** | `source_geometry`, `georeferenced_trace`, `scholarly_reconstruction`, `generalized_editorial`, `modern_reference`. |
-| **Date precision** | Precision of a temporal claim, independent of geometry precision. |
+| **Historical date** | A date written in EDTF levels 0-1 with four-digit signed years (`0106`, `-0106`, `159X`, `1595?`, `1595/1602`); uncertainty and approximation are part of the value (ADR 0007). |
+| **Date precision** | Precision of a temporal claim (day, month, year, decade, century, range), derived from the date and never authored; independent of geometry precision. |
 | **Reconstruction** | An editorial inference, always flagged as such and distinguished from documentary evidence. |
 | **Silence state** | Typed historical absence: non-survival, non-survey, non-request, alternative naming, outside frame, source-not-applicable, meaningful silence. |
 | **Confidence** | Ordinal: `secure` (direct, verified) · `probable` (strong indirect) · `possible` (thin or contested) · `conjectural` (editorial inference) · plus `unknown`, which is not a level. |
