@@ -37,8 +37,8 @@ No `NEEDS CLARIFICATION` remained after `/grill-with-docs` and `/speckit-clarify
 - **Rationale**: matches the accepted collision rule; no shared state or lock file.
 - **Alternatives**: random suffix, per-branch ranges (rejected in clarify).
 
-## R8 — Redirects and withdrawn pages
-- **Decision**: `redirects.ts` returns a list of `{from, to, status}` rules and withdrawn-page descriptors; spec 002 renders them to Cloudflare `_redirects` and static pages. The gate checks collisions and dangling successors.
+## R8 — Redirects and tombstones
+- **Decision**: `redirects.ts` returns `{from, to, status}` rules and tombstone descriptors `{path, id, successor}`; spec 002 renders them to Cloudflare `_redirects` and static pages. A superseded record keeps its address as a tombstone (a `null` successor is a withdrawal); its former slugs redirect to the tombstone. The gate checks collisions and dangling successors.
 - **Rationale**: keeps hosting-specific output outside the registry while making the logic testable.
 - **Alternatives**: write `_redirects` inside the gate (couples to hosting).
 

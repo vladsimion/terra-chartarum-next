@@ -7,9 +7,17 @@ export interface Redirect {
   status: 301;
 }
 
-export interface Withdrawn {
+
+/**
+ * The page a superseded record keeps at its own address (spec 002 FR-011). It links to the live
+ * record that replaced it, or to nothing when there is no public successor; the shell renders it,
+ * and an old citation of the retired record still resolves.
+ */
+export interface Tombstone {
   path: string;
   id: string;
+  /** Page path of the live successor, or null when there is none. */
+  successor: string | null;
 }
 
 /** Public page of a record. The family is part of the url, so slugs only need to be unique per family. */
@@ -33,35 +41,31 @@ function successorOf(record: RegistryRecord, index: ReadonlyMap<string, Registry
 }
 
 /**
- * One 301 per former slug (FR-013). A superseded entity redirects, under its current and former
- * slugs, to its successor; a retired entity with no successor gets a withdrawn page and its former
- * slugs redirect to it. Held entities produce nothing.
+ * What keeps old addresses working (FR-013). A live record: one 301 per former slug to its current
+ * page. A superseded record keeps its own address as a tombstone linking to the live successor (or
+ * to nothing), and its former slugs redirect to that tombstone, never past it, so an old citation
+ * lands on the record it cited. Nothing redirects away from a retired address. Held records, and
+ * held successors, produce nothing and are never named.
  */
-export function redirects(records: readonly RegistryRecord[]): { rules: Redirect[]; withdrawn: Withdrawn[] } {
+export function redirects(records: readonly RegistryRecord[]): { rules: Redirect[]; tombstones: Tombstone[] } {
   const index = new Map<string, RegistryRecord>();
   for (const r of records) if (!index.has(r.id)) index.set(r.id, r);
 
   const rules: Redirect[] = [];
-  const withdrawn: Withdrawn[] = [];
+  const tombstones: Tombstone[] = [];
 
   for (const record of records) {
-    const history = (record.slug_history ?? []).filter((s) => s !== record.slug);
-    if (isPublic(record)) {
-      for (const slug of history) rules.push({ from: pagePath(record, slug), to: pagePath(record), status: 301 });
-    } else if (isRetired(record)) {
+    if (!isPublic(record) && !isRetired(record)) continue;
+    const formerSlugs = (record.slug_history ?? []).filter((s) => s !== record.slug);
+    for (const slug of formerSlugs) rules.push({ from: pagePath(record, slug), to: pagePath(record), status: 301 });
+    if (isRetired(record)) {
       const successor = successorOf(record, index);
-      if (successor) {
-        for (const slug of [String(record.slug), ...history]) {
-          rules.push({ from: pagePath(record, slug), to: pagePath(successor), status: 301 });
-        }
-      } else {
-        withdrawn.push({ path: pagePath(record), id: record.id });
-        for (const slug of history) rules.push({ from: pagePath(record, slug), to: pagePath(record), status: 301 });
-      }
+      tombstones.push({ path: pagePath(record), id: record.id, successor: successor ? pagePath(successor) : null });
     }
   }
-  return { rules, withdrawn };
+  return { rules, tombstones };
 }
+
 
 /** Whitespace and control characters would split or inject lines in the `_redirects` file. */
 const UNSAFE_IN_REDIRECT = /[\s\u0000-\u001f\u007f]/;

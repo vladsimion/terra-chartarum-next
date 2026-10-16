@@ -7,7 +7,7 @@
 2. **Storage**: one file per entity in an Astro content collection, validated by Zod. The filename is the `local-id`, so renames never move files. Bulk geometry stays in GeoJSON/FlatGeobuf files that records reference by path; no database, no monolithic CSV.
 3. **Release state**: `held | released` is a flag separate from lifecycle, default `held`. Public output requires lifecycle `published` and `released`. Reverse relationships and held-leak scans filter on it.
 4. **Evidence records** are first-class entities with their own IDs, pointing at a target and a source. Essays and layers cite them by ID and never embed provenance.
-5. **URL stability**: each entity keeps a slug history. The build generates the `_redirects` rules, fails on collisions with live slugs, redirects superseded entities to their successor and shows a withdrawn page when none exists.
+5. **URL stability**: each entity keeps a slug history. The build generates the `_redirects` rules and fails on collisions with current slugs. A superseded entity keeps its own address as a tombstone linking to its live successor (see the 2026-10-16 amendment: this replaced a redirect to the successor), and its former slugs redirect to the tombstone.
 6. **Progressive strictness**: ID, family, lifecycle and reference resolution are errors at every lifecycle state. Provenance, rights and locator rules are errors from `ready_for_build` upward and warnings below it. `publishable` and `published` fail on the full rule set.
 7. **Silence** is an Attestation with `form = silence` and exactly one typed silence state. It is source-bound and citable, and cannot be rated `secure` unless the source's coverage is verified. Silence states are invalid on anything that is not an Attestation.
 8. **Automated extractions** keep small raw extractions and a transformation log (tool, version, input, date, parameters) under `provenance/` beside the evidence they feed. Large raw artefacts stay out of git, referenced by checksummed URL or shelfmark. A step stays `proposed` until a named person adjudicates it; the gate fails any publishable record whose chain contains an unadjudicated automated step.
@@ -33,6 +33,9 @@ Title-derived or hand-typed IDs; a database or single CSV registry; provenance e
 
 ### 2026-10-16 — dates
 - **Item 16 is superseded by [ADR 0007](0007-historical-dates-use-edtf.md)** (EDTF). The decision was made first on the parallel branch `001-scholarly-registry`, whose own ADR 0006 (`0006-edtf-historical-dates`) is renumbered 0007 on `main`, so that two ADRs do not share a number.
+
+### 2026-10-16 — tombstones
+- **Item 5 (URL stability) now uses tombstones instead of redirecting a superseded record to its successor.** A superseded record keeps its own address as a tombstone that links to its live successor, or to nothing when there is none; its former slugs redirect to the tombstone, never past it. This follows spec 002 FR-011 and the decision recorded on the parallel branch (2026-10-15): an old citation must land on the record it cited. The GLOSSARY term "Withdrawn entity" became "Tombstone"; a tombstone with no successor is a withdrawal.
 
 ### 2026-10-16 — code review of the first implementation (PR #1)
 - **Item 11 (ID syntax).** The family segment of the boundary form is `[a-z][a-z0-9_-]*`, not the legacy `[a-z][a-z0-9-]*`, so that `bibliography_entry` fits. It is a superset of the legacy pattern: every legacy ID still matches. Counter form is enforced for `origin: minted` whatever the authority; legacy IDs are never constrained beyond the pattern.

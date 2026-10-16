@@ -112,7 +112,7 @@ Exactly seven, fixed IDs: `tc:tc:room:earth`, `map`, `city`, `border`, `road`, `
 - **Essay lifecycle**: from editorial stage (ADR 0003 §2).
 - **Reverse relationships**: for each declared reference, the referring entities that are `published` and `released` (FR-007). Only public targets get an entry, so a held entity's id is never handed out.
 - **Public record**: the allowlist projection of an entity that is `published` and `released` (FR-009, FR-015).
-- **Redirects**: one per former slug; superseded → successor; none → withdrawn page (FR-013). Every record's current slug stays claimed, a superseded record's included, so no live record can reuse the address a redirect starts from. `renderRedirects` writes the Cloudflare `_redirects` text and refuses a path that could inject extra rules.
+- **Redirects and tombstones**: one 301 per former slug to the current page; a superseded record keeps its own address as a tombstone linking to its live successor (null when there is none), and its former slugs redirect to the tombstone, never past it (FR-013, spec 002 FR-011). Every record's current slug stays claimed, a superseded record's included, so no live record can reuse the address a redirect starts from. `renderRedirects` writes the Cloudflare `_redirects` text and refuses a path that could inject extra rules.
 
 ## Lifecycle behaviour
 

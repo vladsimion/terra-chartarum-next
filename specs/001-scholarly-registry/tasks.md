@@ -271,3 +271,20 @@ Knowingly deferred (not fixed here):
 - [ ] T110 Withdrawn pages: `redirects()` yields the descriptors, spec 002 renders them; `withdrawn: true` on a record without a successor is accepted by `LIFE-SUPERSEDED` but redirects already treat any retired record without a public successor as withdrawn
 - [ ] T111 CI: run `registry scan dist` once a site build exists (spec 002); the gate step is skipped while `content/` is absent
 - [ ] T112 Low priority: a shared helper for the per-record rule loop, the one-line `tests/registry/support/synthetic.ts` re-export, `registry mint room`, and `REF-FINDING-AID` also covering attestations (kept: an attestation cites a source the same way)
+
+---
+
+## Phase 10: Decisions ported from the parallel branch `001-scholarly-registry` (2026-10-16)
+
+Branch `edtf-dates-and-tombstones`. See the comparison in the recommendation on the branch question; steps 2 and 3 of that plan.
+
+- [X] T113 EDTF historical dates ([ADR 0007](../../docs/adr/0007-historical-dates-use-edtf.md)): `src/registry/dates.ts` (`parseDate`, `isEdtf`, `datePrecision`) on the `edtf` package, accepting only the forms the ADR lists; precision derived, never authored
+- [X] T114 Rules: `DATE-INVALID`, `DATE-PRECISION-AUTHORED`, and `DATE-ORDER` comparing the earliest start with the latest end (48 rules in all); mutations, fixtures and the public allowlist updated; the `date_precision` vocabulary removed
+- [X] T115 Tombstones for superseded records (spec 002 FR-011): `redirects()` returns `{ rules, tombstones }`; former slugs of a retired record redirect to its tombstone; nothing redirects away from a retired address; a held or missing successor is never named
+- [X] T116 Docs: ADR 0007 (the branch's ADR, renumbered), ADR 0006 item 16 superseded and item 5 amended, GLOSSARY (Historical date, Tombstone), data model, spec 001 (FR-003, FR-013, edge case, clarifications), module API, research R8
+
+Still to port (step 4, with spec 002): the Astro build gate that aborts a site build, `relations.json` and the public projection emitted at build time, a leak scan run on the built site, and specialist vocabulary mappings (review item F13). The branch's fixtures should be run through this gate as a cross-check.
+
+- [ ] T117 Run the branch's fixtures through this gate and list every disagreement as a bug or a decision
+- [ ] T118 Specialist vocabulary mappings (spec 001 edge case; review item F13)
+- [ ] T119 Astro integration: build gate, `relations.json`, `registry scan dist` in CI (with spec 002)

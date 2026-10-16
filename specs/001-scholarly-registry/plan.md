@@ -95,7 +95,7 @@ src/registry/
 ├── rules/                   # one module per rule group
 ├── report.ts                # report model, JSON + HTML rendering
 ├── mint.ts                  # next local-id
-├── redirects.ts             # slug history → _redirects, withdrawn pages
+├── redirects.ts             # slug history → _redirects, tombstones
 ├── project.ts               # allowlist projection, reverse relationships
 ├── leak-scan.ts             # post-build scan of dist/
 └── cli.ts

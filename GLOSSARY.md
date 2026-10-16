@@ -22,7 +22,7 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Authority** | The namespace that issued an ID: `tc` for records this project mints (and for legacy IDs, kept verbatim), or a registered external code such as `pleiades`. |
 | **Slug history** | The list of former public slugs of an entity; each keeps resolving to the entity's current page. |
 | **Evidence record** | A first-class entity, with its own stable ID, stating that a source supports a claim about a target (an entity, or a feature of a layer). Essays and layers cite evidence records and never embed provenance. |
-| **Withdrawn entity** | A retired entity with no successor; its old address shows a withdrawal notice, never an error. |
+| **Tombstone** | The page a superseded entity keeps at its own address, linking to its live successor when there is one. A tombstone with no successor is a withdrawal: the old address shows a notice, never an error. |
 | **Map object** | One physical or digital map witness (edition/state-specific). One canonical record. |
 | **Cartographer** | A maker (cartographer, engraver, publisher) with a profile record. |
 | **Place** | A historical place authority with alternate names and temporal validity. |

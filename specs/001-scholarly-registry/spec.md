@@ -15,7 +15,7 @@ Resolved in `/grill-with-docs` (decisions recorded in ADR 0006; `GRILL-AGENDA.md
 - Q: How are records stored? → A: One Zod-validated content-collection file per entity, filename = local-id; bulk geometry referenced by path.
 - Q: How do lifecycle, held and released relate? → A: Held/released is a separate flag (default held); public output needs lifecycle `published` and `released`.
 - Q: What is an evidence record? → A: A first-class entity with its own ID, pointing at a target and a source; essays and layers cite it by ID.
-- Q: How do old URLs keep working? → A: Slug history generates redirects; superseded redirects to successor; no successor shows a withdrawn page.
+- Q: How do old URLs keep working? → A: Slug history generates redirects for former slugs; a superseded entity keeps its own address as a tombstone page that links to its live successor (or to nothing), and its former slugs redirect to that tombstone (spec 002 FR-011, decided on the parallel branch and ported; it replaces the earlier redirect-to-successor).
 - Q: How strict is validation by lifecycle? → A: ID, family, lifecycle and references always errors; provenance, rights and locators errors from `ready_for_build`; everything else below that warns.
 - Q: How is silence recorded? → A: As an Attestation with form `silence` and one typed silence state; never `secure` without verified source coverage.
 - Q: How are automated extractions handled? → A: Raw snippets and a transformation log under `provenance/`; large artefacts by checksummed reference; a named person must adjudicate before publication.
@@ -90,7 +90,7 @@ As the editor, every entity carries one shared lifecycle state (`proposed → re
 5. **Given** a `published` layer with no runnable asset, **When** the build runs, **Then** it fails.
 
 ### Edge Cases
-- A retired entity still referenced by an old deep link: must degrade gracefully, never 500. A `superseded` entity redirects to its successor; a retired entity with no successor serves a withdrawn page.
+- A retired entity still referenced by an old deep link: must degrade gracefully, never 500. A `superseded` entity keeps its address as a tombstone linking to its live successor, or to nothing when there is none; it is never redirected away from.
 - A former slug that collides with a live slug: the build fails.
 - A legacy ID imported from the live Terra Chartarum: preserved locally and qualified at the boundary (`tc:{authority}:{family}:{local-id}`), never mass-renamed. Import is in scope (ADR 0001; spec 008).
 - An entity referenced only by a held essay: the reference is valid but must not surface publicly.
@@ -111,7 +111,7 @@ As the editor, every entity carries one shared lifecycle state (`proposed → re
 - **FR-010**: Confidence MUST use the ordinal scale `secure | probable | possible | conjectural`, plus `unknown`, with written criteria (ADR 0003).
 - **FR-011**: Imported layer lifecycle terms MUST map at the boundary: planned→proposed, in-preparation→in_build, in-review→qa, published→published (the layer stays `held` until the editor releases it). The original term is kept as `legacy_layer_status`.
 - **FR-012**: Essays MAY carry optional portal-dimension tags (Measure, Witness, Use, Cosmos, Power, Silence); no UI in v1.
-- **FR-013**: Each entity MUST keep a slug history. The build MUST generate a redirect rule for every former slug, fail on collision with a live slug, redirect `superseded` entities to their successor and serve a withdrawn page for retired entities with no successor.
+- **FR-013**: Each entity MUST keep a slug history. The build MUST generate a redirect rule for every former slug, fail on collision with any record's current slug (a superseded record's included), and give every `superseded` entity a tombstone at its own address that links to its live successor or, when there is none, to nothing. Former slugs of a retired entity redirect to its tombstone. Nothing redirects away from a retired address.
 - **FR-014**: Legacy import MUST preserve IDs verbatim; fold `port` records into `place` with a port place type (logged as the one family exception) and not import `project`; map confidence high→probable, medium→possible, low→conjectural (never `secure`, original kept as `legacy_confidence`); start non-layer imports at `researching` (imported layers follow FR-011); keep `legacy_review_state`; and carry reviewer data over as `verified_by`/`verified_on` only after editor confirmation.
 - **FR-015**: Every record MUST carry a release state (`held | released`, default `held`); public output requires lifecycle `published` and `released`.
 

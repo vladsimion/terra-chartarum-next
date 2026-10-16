@@ -27,7 +27,7 @@ checkRegistry(rootDir: string, options?: ValidateOptions): Promise<IntegrityRepo
 // Derived outputs (pure)
 projectPublic(records): PublicRecord[]                 // project.ts
 reverseRelationships(records): Map<string, string[]>   // reverse.ts
-redirects(records): { rules: Redirect[]; withdrawn: Withdrawn[] }   // redirects.ts
+redirects(records): { rules: Redirect[]; tombstones: Tombstone[] }   // redirects.ts; a tombstone is { path, id, successor: string | null }
 renderRedirects(rules): string                         // redirects.ts, the Cloudflare _redirects text
 isPublic(record) / isReleased(record) / isRetired(record)           // publication.ts, the one definition of "public"
 parseDate(value): ParsedDate | null                    // dates.ts, EDTF level 0-1 (ADR 0007): precision, uncertain, approximate, earliest, latest
