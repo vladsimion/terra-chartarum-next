@@ -286,5 +286,7 @@ Branch `edtf-dates-and-tombstones`. See the comparison in the recommendation on 
 Still to port (step 4, with spec 002): the Astro build gate that aborts a site build, `relations.json` and the public projection emitted at build time, a leak scan run on the built site, and specialist vocabulary mappings (review item F13). The branch's fixtures should be run through this gate as a cross-check.
 
 - [ ] T117 Run the branch's fixtures through this gate and list every disagreement as a bug or a decision
-- [ ] T118 Specialist vocabulary mappings (spec 001 edge case; review item F13)
+- [ ] T118 Specialist vocabulary mappings (spec 001 edge case; review item F13). Decision Log TC-D016 requires them: specialist vocabularies stay authoritative where stricter, with an explicit mapping at the interoperability boundary
 - [ ] T119 Astro integration: build gate, `relations.json`, `registry scan dist` in CI (with spec 002)
+- [X] T120 Confluence programme dossier, written against the fourteen-point Programme Dossier Contract: https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/36569092 (a standalone page at the root of the space, not under Projects, at Vlad's request; source in `docs/confluence/spec-001-registry.md`)
+- [X] T121 Confluence records: Build Log section U (the successor build, PR #1 to #3, scoped to the successor repository) and Decision Log TC-D019 to TC-D024 (release state, EDTF dates, minted IDs, tombstones, private-by-default output, import confirmation). Not yet written: the Programme Risk Register entries and the reconciliation entry in the Programme Dossier Contract register §3
