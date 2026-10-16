@@ -19,6 +19,17 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm test
+      - name: Production dependencies have no known vulnerabilities
+        run: npm audit --omit=dev
+      - run: npm run lint:css
+      - name: Browsers for the end-to-end specs
+        run: npx playwright install --with-deps chromium firefox webkit
+      - name: End-to-end specs (Chromium dark and light, Firefox, WebKit, 360 px phone, no JavaScript)
+        run: npm run test:e2e
+        env:
+          CI: 'true'
+      - name: Stub pages and draft copy left in the build (informational until cutover)
+        run: npm run build && npm run shell:check
       - name: Integrity gate on canonical content
         run: |
           if [ -d content ]; then

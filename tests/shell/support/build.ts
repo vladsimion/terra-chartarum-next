@@ -1,23 +1,15 @@
-import { mkdtempSync, readdirSync, readFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { build } from 'astro';
 import { parse, type HTMLElement } from 'node-html-parser';
+import { inject } from 'vitest';
 
 /**
- * Builds the site once per test process into a temporary directory and shares the result. Static
- * facts of the built HTML (landmarks, attributes, document order) are asserted on it without a
- * browser; behaviour that needs a browser (focus, layout, axe) is in the Playwright specs.
+ * The folder of the site built once for the whole test run (tests/shell/support/global-setup.ts).
+ * Static facts of the built HTML (landmarks, attributes, document order) are asserted on it without
+ * a browser; behaviour that needs a browser (focus, layout, axe) is in the Playwright specs.
  */
-let built: Promise<string> | undefined;
-
 export function builtSite(): Promise<string> {
-  built ??= (async () => {
-    const outDir = mkdtempSync(path.join(tmpdir(), 'shell-dist-'));
-    await build({ root: process.cwd(), outDir, logLevel: 'error' });
-    return outDir;
-  })();
-  return built;
+  return Promise.resolve(inject('siteDir'));
 }
 
 /** Every built HTML file, relative to the output directory, in a stable order. */

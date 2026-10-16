@@ -1,0 +1,36 @@
+---
+import { footerLinks } from '../destinations.js';
+---
+
+<footer class="site-footer">
+  <ul>
+    {footerLinks().map((l) => (
+      <li><a href={l.href}>{l.label}</a></li>
+    ))}
+  </ul>
+</footer>
+
+<style>
+  .site-footer {
+    padding: var(--space-3) var(--space-4);
+    border-top: 1px solid var(--line);
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--target-min);
+    min-height: var(--target-min);
+    padding-inline: var(--space-2);
+  }
+</style>

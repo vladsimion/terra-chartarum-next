@@ -1,0 +1,62 @@
+---
+import type { BreadcrumbItem } from '../breadcrumbs.js';
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+---
+
+{items.length > 0 && (
+  <nav aria-label="Breadcrumb" class="breadcrumbs">
+    <ol>
+      {items.map((item) => (
+        <li aria-current={item.href === null ? 'page' : undefined}>
+          {item.href === null ? <span>{item.label}</span> : <a href={item.href}>{item.label}</a>}
+        </li>
+      ))}
+    </ol>
+  </nav>
+)}
+
+<style>
+  .breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--step--1);
+  }
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    min-height: var(--target-min);
+  }
+
+  /* Separator drawn by CSS so it is not read out; the full title stays in the page and is cut visually only */
+  li + li::before {
+    content: '›';
+    margin-inline-end: var(--space-2);
+    color: var(--ink-muted);
+  }
+
+  li span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--target-min);
+    min-height: var(--target-min);
+  }
+</style>

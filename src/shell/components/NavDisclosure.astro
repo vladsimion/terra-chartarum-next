@@ -1,0 +1,81 @@
+---
+import { ariaCurrent, headerDestinations } from '../destinations.js';
+
+interface Props {
+  /** The path of the page being rendered, for aria-current. */
+  path: string;
+}
+
+const { path } = Astro.props;
+---
+
+<nav aria-label="Primary">
+  <details class="nav-disclosure">
+    <summary>Menu</summary>
+    <ul>
+      {headerDestinations().map((d) => (
+        <li><a href={d.href} aria-current={ariaCurrent(path, d.href)}>{d.label}</a></li>
+      ))}
+    </ul>
+  </details>
+</nav>
+
+<style>
+  /* Narrow widths: a native disclosure, operable by keyboard and screen reader with no script (FR-014) */
+  summary {
+    display: inline-flex;
+    align-items: center;
+    min-width: var(--target-min);
+    min-height: var(--target-min);
+    padding-inline: var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin: var(--space-2) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--target-min);
+    min-height: var(--target-min);
+    padding-inline: var(--space-2);
+    color: var(--ink);
+  }
+
+  /* The current section is marked by weight and underline as well as colour (FR-005) */
+  a[aria-current] {
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+    color: var(--accent);
+  }
+
+  /* Wide widths: the list is simply shown. Where ::details-content is not supported the menu stays a disclosure, still operable. */
+  @media (min-width: 48rem) {
+    summary {
+      display: none;
+    }
+
+    @supports selector(::details-content) {
+      .nav-disclosure::details-content {
+        content-visibility: visible;
+      }
+    }
+
+    ul {
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin: 0;
+    }
+  }
+</style>

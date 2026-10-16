@@ -30,6 +30,15 @@ export function headerDestinations(): Destination[] {
   return DESTINATIONS.filter((d) => d.placement === 'header');
 }
 
+/**
+ * The aria-current value for a navigation item: "page" on the destination itself, "true" on a page
+ * inside its section, nothing elsewhere (US1 AC 1.2). The visible cue is not colour alone (FR-005).
+ */
+export function ariaCurrent(path: string, href: string): 'page' | 'true' | undefined {
+  if (path === href) return 'page';
+  return path.startsWith(href) ? 'true' : undefined;
+}
+
 export interface FooterLink {
   label: string;
   href: string;
