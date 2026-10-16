@@ -1,0 +1,12 @@
+.card {
+  color: var(--ink);
+  background: var(--panel);
+  margin: 0;
+  width: 100%;
+  padding: var(--space-4);
+  max-width: min(100%, var(--content-max));
+  gap: calc(var(--space-2) * 2);
+  border-radius: var(--radius);
+  font-size: var(--step-0);
+  line-height: 1.5;
+}
