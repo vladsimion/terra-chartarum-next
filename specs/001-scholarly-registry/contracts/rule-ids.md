@@ -20,7 +20,7 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `REF-FAMILY` | a typed reference points at the right family: an essay's `maps[]` at maps, a successor of the same family; `relations[]` and an evidence target are untyped | FR-002, data-model.md "Reference fields" | always |
 | `REF-FEATURE` | evidence `target.feature` exists in the geometry file | FR-003 | always |
 | `REF-COLLECTION-SUBSET` | `default_layers ⊆ members` | US3.2 | always |
-| `REF-FINDING-AID` | no evidence source is a finding aid | ADR 0003 §5 | `ready_for_build` |
+| `REF-FINDING-AID` | no evidence or attestation cites a source that is a finding aid | ADR 0003 §5 | `ready_for_build` |
 | `ENUM-INVALID` | any enumerated field holds a known value | FR-005 | always |
 | `FAM-REQUIRED` | the fields a family needs are present (data-model.md "Family fields") | FR-003 | `ready_for_build` |
 | `DATE-ORDER` | `valid_from ≤ valid_to` | FR-003 | always |
@@ -40,7 +40,7 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `AUTO-LOG` | automated step has tool, version, input, date | FR-008 | `ready_for_build` |
 | `AUTO-ARTEFACT-HASH` | large artefact reference carries a checksum | FR-008 | `ready_for_build` |
 | `ROOM-SET` | exactly the seven fixed rooms exist (registry-level: runs only with `completeness`, which `check` turns on) | ADR 0003 §7 | always |
-| `SLUG-UNIQUE` | live slugs are unique | FR-013 | always |
+| `SLUG-UNIQUE` | current slugs are unique per family, a superseded record's included (its redirect starts there) | FR-013 | always |
 | `SLUG-HISTORY-COLLISION` | a former slug equals a live slug | FR-013 | always |
 | `SAMEAS-SYNTAX` | `same_as` authority allowlisted and ID syntax valid | FR-003 | always |
 | `PRIV-LEAK` | private value or held ID found in built output (scan) | FR-009 | n/a (scan) |

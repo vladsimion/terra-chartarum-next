@@ -62,3 +62,22 @@ export function redirects(records: readonly RegistryRecord[]): { rules: Redirect
   }
   return { rules, withdrawn };
 }
+
+/** Whitespace and control characters would split or inject lines in the `_redirects` file. */
+const UNSAFE_IN_REDIRECT = /[\s\u0000-\u001f\u007f]/;
+
+/**
+ * The Cloudflare Pages `_redirects` text for these rules: `from to 301`, one per line, sorted, with
+ * repeats and self-redirects dropped. A path with whitespace or a control character is refused
+ * rather than written, since it could inject extra rules (FR-013).
+ */
+export function renderRedirects(rules: readonly Redirect[]): string {
+  const lines = new Set<string>();
+  for (const { from, to, status } of rules) {
+    for (const path of [from, to]) {
+      if (UNSAFE_IN_REDIRECT.test(path)) throw new Error(`unsafe path in redirect: ${JSON.stringify(path)}`);
+    }
+    if (from !== to) lines.add(`${from} ${to} ${status}`);
+  }
+  return lines.size === 0 ? '' : `${[...lines].sort().join('\n')}\n`;
+}

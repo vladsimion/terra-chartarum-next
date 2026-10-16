@@ -245,3 +245,29 @@ description: "Task list for 001 Scholarly Entity Registry & Integrity Gate"
 - **Increment 3 = US2**: evidence and uncertainty; unlocks the legacy import in spec 008.
 - **Increment 4 = US5 then US4**: release state, projection and leak scan, then reverse relationships.
 - One user story per PR, one Jira story each, each ending green on its own acceptance scenarios (Definition of Done).
+
+---
+
+## Phase 9: Review follow-ups (code review of PR #1, 2026-10-16)
+
+Branch `review-fixes-spec-001`. Each fix was test-first; findings are from the Standards and Spec reviews.
+
+- [X] T097 Standards 1: one `isPublic` / `isReleased` / `isRetired` in `src/registry/publication.ts`, used by projection, reverse relationships and redirects
+- [X] T098 Standards 2 and spec 6: lifecycle rank table typed against the vocabulary; `superseded` ranks as `ready_for_build`, so retired records are not failed on publication-only checks
+- [X] T099 Spec 1 (FR-013): a superseded record's slug stays claimed (`SLUG-UNIQUE`, `SLUG-HISTORY-COLLISION`), so its redirect cannot shadow a live page
+- [X] T100 Spec 2 (FR-014): new `IMPORT-CONFIRMED` (a confirmation names a person and a date); `IMPORT-REVIEW` keys on `origin: legacy`; `llm_assisted` rows need adjudication before `publishable`
+- [X] T101 Spec 3 (FR-009): leak scan matches HTML-, JSON- and URL-escaped private values and the page address of a non-public entity
+- [X] T102 Spec 4 (US2.3): `RIGHTS-MISSING` covers attestations and essays (a place is deliberately excluded)
+- [X] T103 Spec 5: named paths resolve on their real path inside the registry root; symlinks and `../` are refused and reported as load errors
+- [X] T104 Spec 7: ADR 0006 amended (family segment pattern, import confirmation, strictness, rights scope, scan limits)
+- [X] T105 Spec 8: new `REF-FAMILY` (typed references and same-family successors)
+- [X] T106 Spec 9: `reverseRelationships` has entries for public targets only
+- [X] T107 Spec (missing, FR-013): `renderRedirects` writes the `_redirects` text and refuses unsafe paths
+- [X] T108 Smaller standards items: one `usage()` in the CLI, severity test title and iteration over `LIFECYCLE_VALUES`, no magic number in the coverage test
+
+Knowingly deferred (not fixed here):
+
+- [ ] T109 `consulted_copy` is a non-blank check only; "edition + scan URL or shelfmark" needs a decision on structured fields versus free text
+- [ ] T110 Withdrawn pages: `redirects()` yields the descriptors, spec 002 renders them; `withdrawn: true` on a record without a successor is accepted by `LIFE-SUPERSEDED` but redirects already treat any retired record without a public successor as withdrawn
+- [ ] T111 CI: run `registry scan dist` once a site build exists (spec 002); the gate step is skipped while `content/` is absent
+- [ ] T112 Low priority: a shared helper for the per-record rule loop, the one-line `tests/registry/support/synthetic.ts` re-export, `registry mint room`, and `REF-FINDING-AID` also covering attestations (kept: an attestation cites a source the same way)

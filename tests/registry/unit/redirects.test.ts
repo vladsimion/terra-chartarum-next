@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { redirects } from '../../../src/registry/redirects.js';
+import { redirects, renderRedirects } from '../../../src/registry/redirects.js';
 import { validateRegistry } from '../../../src/registry/validate.js';
 import { place, record } from '../support/builders.js';
 
@@ -65,6 +65,38 @@ describe('redirects', () => {
     const missing = publicPlace(3, { lifecycle: 'superseded', slug: 'c', superseded_by: 'tc:tc:place:place-999999' });
     const { withdrawn } = redirects([a, b, missing]);
     expect(withdrawn.map((w) => w.path).sort()).toEqual(['/place/a/', '/place/b/', '/place/c/']);
+  });
+});
+
+describe('renderRedirects: the _redirects file (FR-013, US1.2)', () => {
+  it('writes one "from to 301" line per rule, sorted, ending with a newline', () => {
+    const text = renderRedirects([
+      { from: '/place/b-old/', to: '/place/b/', status: 301 },
+      { from: '/place/a-old/', to: '/place/a/', status: 301 },
+    ]);
+    expect(text).toBe('/place/a-old/ /place/a/ 301\n/place/b-old/ /place/b/ 301\n');
+  });
+
+  it('is the file for the rules redirects() derived, so an old url keeps resolving', () => {
+    const p = publicPlace(1, { slug: 'napoca', slug_history: ['colonia-napoca'] });
+    expect(renderRedirects(redirects([p]).rules)).toBe('/place/colonia-napoca/ /place/napoca/ 301\n');
+  });
+
+  it('is empty when there is nothing to redirect', () => {
+    expect(renderRedirects([])).toBe('');
+  });
+
+  it('writes a repeated rule once and drops a rule that redirects a url to itself', () => {
+    const rule = { from: '/place/a-old/', to: '/place/a/', status: 301 as const };
+    const loop = { from: '/place/a/', to: '/place/a/', status: 301 as const };
+    expect(renderRedirects([rule, rule, loop])).toBe('/place/a-old/ /place/a/ 301\n');
+  });
+
+  it('refuses a path with whitespace or a control character, which could inject extra rules', () => {
+    for (const bad of ['/place/a b/', '/place/a\n/other /x 301\n', '/place/a\tb/', '/place/a\u0000/']) {
+      expect(() => renderRedirects([{ from: bad, to: '/place/a/', status: 301 }]), JSON.stringify(bad)).toThrow(/unsafe/);
+      expect(() => renderRedirects([{ from: '/place/a-old/', to: bad, status: 301 }]), JSON.stringify(bad)).toThrow(/unsafe/);
+    }
   });
 });
 
