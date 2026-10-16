@@ -12,7 +12,7 @@ A framework-free TypeScript module, `src/registry/`, that loads canonical entity
 
 **Language/Version**: TypeScript (strict), Node 24 (the version in use on the maintainer's machine; recorded in `.nvmrc`).
 
-**Primary Dependencies**: `zod` (schemas), `yaml` (record parsing), `fast-glob` (file discovery), `tsx` (run the CLI). No framework. Versions are the latest stable at implementation time, pinned by the lockfile.
+**Primary Dependencies**: `zod` (schemas), `yaml` (record parsing), `tsx` (run the CLI). No framework. Versions are the latest stable at implementation time, pinned by the lockfile.
 
 **Storage**: Files in the repository. One YAML file per entity at `content/<family>/<local-id>.yaml` (essays also carry an `.mdx` body, spec 003). Provenance logs under `provenance/`. No database (Constitution VII).
 
