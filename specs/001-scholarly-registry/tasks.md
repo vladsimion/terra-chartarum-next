@@ -95,26 +95,26 @@ description: "Task list for 001 Scholarly Entity Registry & Integrity Gate"
 
 ### Tests for US3 (write first; confirm red)
 
-- [ ] T035 [P] [US3] `tests/registry/unit/references.test.ts`: `REF-UNKNOWN` for a `relations[]` entry that does not resolve; the violation names entity, field and missing ID (US3.1); a resolving reference passes Add one case per row of data-model.md "Reference fields" (`relations[]`, `superseded_by`, evidence `target.entity`/`source`/`provenance_chain[]`, attestation `place`/`source`, collection `members[]`/`default_layers[]`, map `makers[]`, layer `dataset`, essay `evidence[]`/`maps[]`/`places[]`/`sources[]`)
-- [ ] T036 [P] [US3] `tests/registry/unit/collections.test.ts`: `REF-COLLECTION-SUBSET` when `default_layers` is not a subset of `members` (US3.2); equal and strict-subset cases pass
-- [ ] T037 [P] [US3] `tests/registry/unit/rooms.test.ts`: `ROOM-SET` when any of the seven fixed rooms (`tc:tc:room:earth, map, city, border, road, archive, theatre`) is missing or an eighth exists
-- [ ] T038 [P] [US3] `tests/registry/integration/report.test.ts`: on the valid fixture the gate passes and writes `integrity-report.json` that validates against `contracts/integrity-report.schema.json` (via `ajv`) and an `integrity-report.html`; on the unknown-reference fixture the JSON lists the violation (US3.3)
-- [ ] T039 [P] [US3] `tests/registry/unit/report-html.test.ts`: the HTML uses a real `<table>` with header cells, shows severity as text (not colour alone), loads no external assets, and escapes entity values
+- [X] T035 [P] [US3] `tests/registry/unit/references.test.ts`: `REF-UNKNOWN` for a `relations[]` entry that does not resolve; the violation names entity, field and missing ID (US3.1); a resolving reference passes Add one case per row of data-model.md "Reference fields" (`relations[]`, `superseded_by`, evidence `target.entity`/`source`/`provenance_chain[]`, attestation `place`/`source`, collection `members[]`/`default_layers[]`, map `makers[]`, layer `dataset`, essay `evidence[]`/`maps[]`/`places[]`/`sources[]`)
+- [X] T036 [P] [US3] `tests/registry/unit/collections.test.ts`: `REF-COLLECTION-SUBSET` when `default_layers` is not a subset of `members` (US3.2); equal and strict-subset cases pass
+- [X] T037 [P] [US3] `tests/registry/unit/rooms.test.ts`: `ROOM-SET` when any of the seven fixed rooms (`tc:tc:room:earth, map, city, border, road, archive, theatre`) is missing or an eighth exists
+- [X] T038 [P] [US3] `tests/registry/integration/report.test.ts`: on the valid fixture the gate passes and writes `integrity-report.json` that validates against `contracts/integrity-report.schema.json` (via `ajv`) and an `integrity-report.html`; on the unknown-reference fixture the JSON lists the violation (US3.3)
+- [X] T039 [P] [US3] `tests/registry/unit/report-html.test.ts`: the HTML uses a real `<table>` with header cells, shows severity as text (not colour alone), loads no external assets, and escapes entity values
 
 ### Fixtures for US3
 
-- [ ] T040 [P] [US3] Add the seven room files to `fixtures/valid/content/room/`, a `collection` and `layer` pair to `fixtures/valid`, and `fixtures/invalid/{unknown-map-ref,collection-not-subset,missing-room}/`
+- [X] T040 [P] [US3] Add the seven room files to `fixtures/valid/content/room/`, a `collection` and `layer` pair to `fixtures/valid`, and `fixtures/invalid/{unknown-map-ref,collection-not-subset,missing-room}/`
 
 ### Implementation for US3
 
-- [ ] T041 [P] [US3] `src/registry/schemas/collection.ts` (`members[]`, `default_layers[]`) and `src/registry/schemas/room.ts` (fixed IDs)
-- [ ] T042 [US3] `src/registry/rules/references.ts`: `REF-UNKNOWN` over `referenceFields(record)` for every record, using the index (O(n + references), research R4)
-- [ ] T043 [P] [US3] `src/registry/rules/collections.ts`: `REF-COLLECTION-SUBSET`
-- [ ] T044 [P] [US3] `src/registry/rules/rooms.ts`: `ROOM-SET`
-- [ ] T045 [P] [US3] `src/registry/report-html.ts`: `renderHtml(report)` per T039
-- [ ] T046 [US3] Extend `src/registry/cli.ts` `check` to write `integrity-report.html` beside the JSON
-- [ ] T047 [US3] Add mutation entries for `REF-UNKNOWN`, `REF-COLLECTION-SUBSET`, `ROOM-SET`; extend `synthetic.ts` to include rooms, layers and collections Add one `REF-UNKNOWN` mutation per row of data-model.md "Reference fields" so removing the target of each field kind is caught
-- [ ] T048 [US3] Run `npm test` and `npm run typecheck`; US3 scenarios 1–3 pass
+- [X] T041 [P] [US3] (not needed: `EntityBase` is loose, so `members[]`, `default_layers[]` and the fixed room ids are read directly by their rules; per-family schemas arrive with spec 002 and the Astro collections) ~~`src/registry/schemas/collection.ts` and `room.ts`~~
+- [X] T042 [US3] `src/registry/rules/references.ts`: `REF-UNKNOWN` over `referenceFields(record)` for every record, using the index (O(n + references), research R4)
+- [X] T043 [P] [US3] `src/registry/rules/collections.ts`: `REF-COLLECTION-SUBSET`
+- [X] T044 [P] [US3] `src/registry/rules/rooms.ts`: `ROOM-SET`
+- [X] T045 [P] [US3] `src/registry/report-html.ts`: `renderHtml(report)` per T039
+- [X] T046 [US3] Extend `src/registry/cli.ts` `check` to write `integrity-report.html` beside the JSON
+- [X] T047 [US3] Add mutation entries for `REF-UNKNOWN`, `REF-COLLECTION-SUBSET`, `ROOM-SET`; extend `synthetic.ts` to include rooms, layers and collections Add one `REF-UNKNOWN` mutation per row of data-model.md "Reference fields" so removing the target of each field kind is caught
+- [X] T048 [US3] Run `npm test` and `npm run typecheck`; US3 scenarios 1–3 pass
 
 **Checkpoint**: US1 + US3 give a working linked-graph gate with reports.
 

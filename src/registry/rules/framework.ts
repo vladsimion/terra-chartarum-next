@@ -39,10 +39,19 @@ export function severityFor(from: Threshold, lifecycle: string | undefined): Sev
   return rankOf(lifecycle) >= THRESHOLD_RANK[from] ? 'error' : 'warning';
 }
 
+/**
+ * What a finding is about. Usually a record; for a record that should exist but does not (a
+ * missing room), just the id and the file it was expected in.
+ */
+export interface Subject {
+  id: string | null;
+  file: string;
+  lifecycle?: string;
+}
+
 /** What a rule reports; the framework turns it into a Violation with the right severity. */
 export interface Finding {
-  /** The record the finding is about. */
-  record: RegistryRecord;
+  record: Subject;
   field: string | null;
   value: unknown;
   expected: string;
@@ -58,6 +67,8 @@ export interface RuleContext {
 export interface ValidateOptions {
   now?: Date;
   commit?: string;
+  /** Also run registry-level completeness rules such as `ROOM-SET`. The CLI turns this on. */
+  completeness?: boolean;
   /** feature ids per geometry file path, for `REF-FEATURE`. */
   featureIndex?: ReadonlyMap<string, ReadonlySet<string>>;
   /** asset paths that exist, for `LIFE-AVAILABILITY`. */
@@ -67,6 +78,8 @@ export interface ValidateOptions {
 export interface Rule {
   id: string;
   from: Threshold;
+  /** Registry-level rule that needs the whole registry to be present; skipped unless requested. */
+  completeness?: boolean;
   check(ctx: RuleContext): Finding[];
 }
 

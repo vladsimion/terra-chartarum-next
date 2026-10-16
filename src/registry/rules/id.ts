@@ -18,7 +18,11 @@ export const idSyntax = defineRule({
           value: record.id,
           expected: `${BOUNDARY_FORM} (authority [a-z0-9][a-z0-9-]*, family [a-z][a-z0-9_-]*, local-id [A-Za-z0-9][A-Za-z0-9._:-]*)`,
         });
-      } else if (record.origin === 'minted' && !isCounterLocalId(parsed.family, parsed.localId)) {
+      } else if (
+        record.origin === 'minted' &&
+        parsed.family !== 'room' && // the seven rooms have fixed, permanent ids rather than counters
+        !isCounterLocalId(parsed.family, parsed.localId)
+      ) {
         findings.push({
           record,
           field: 'id',

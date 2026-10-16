@@ -37,7 +37,7 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `AUTO-UNADJUDICATED` | publishable record with an unadjudicated automated step | FR-008 | `publishable` |
 | `AUTO-LOG` | automated step has tool, version, input, date | FR-008 | `ready_for_build` |
 | `AUTO-ARTEFACT-HASH` | large artefact reference carries a checksum | FR-008 | `ready_for_build` |
-| `ROOM-SET` | exactly the seven fixed rooms exist | ADR 0003 §7 | always |
+| `ROOM-SET` | exactly the seven fixed rooms exist (registry-level: runs only with `completeness`, which `check` turns on) | ADR 0003 §7 | always |
 | `SLUG-UNIQUE` | live slugs are unique | FR-013 | always |
 | `SLUG-HISTORY-COLLISION` | a former slug equals a live slug | FR-013 | always |
 | `SAMEAS-SYNTAX` | `same_as` authority allowlisted and ID syntax valid | FR-003 | always |

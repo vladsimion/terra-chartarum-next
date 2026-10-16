@@ -6,7 +6,8 @@ import { validateRegistry } from './validate.js';
 /** Load a registry from disk, validate it, and fold load errors into the same report. */
 export async function checkRegistry(rootDir: string, options: ValidateOptions = {}): Promise<IntegrityReport> {
   const { records, loadErrors } = await loadRegistry(rootDir);
-  const report = validateRegistry(records, options);
+  // A whole registry on disk is checked for completeness too (ROOM-SET) unless the caller opts out.
+  const report = validateRegistry(records, { ...options, completeness: options.completeness ?? true });
   const loadViolations: Violation[] = loadErrors.map((e) => ({
     rule: 'LOAD-PARSE',
     severity: 'error',

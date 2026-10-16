@@ -7,7 +7,7 @@ The seams (Q18). Tests are written against these signatures first.
 loadRegistry(rootDir: string): Promise<{ records: Record[]; loadErrors: LoadError[] }>
 
 // Seam 2 — all rules, pure, no I/O
-validateRegistry(records: Record[], options?: { now?: Date; commit?: string; featureIndex?: FeatureIndex; assetIndex?: AssetIndex }): IntegrityReport
+validateRegistry(records: Record[], options?: { now?: Date; commit?: string; completeness?: boolean; featureIndex?: FeatureIndex; assetIndex?: AssetIndex }): IntegrityReport
 
 // Derived outputs (pure)
 projectPublic(records: Record[]): PublicRecord[]

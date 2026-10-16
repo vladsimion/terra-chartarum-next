@@ -11,9 +11,18 @@ describe('loadRegistry', () => {
     const { records, loadErrors } = await loadRegistry(fixture('valid'));
     expect(loadErrors).toEqual([]);
     expect(records.map((r) => r.id).sort()).toEqual([
+      'tc:tc:collection:collection-000001',
+      'tc:tc:layer:layer-000001',
       'tc:tc:map:plc-legacy-map',
       'tc:tc:place:place-000001',
       'tc:tc:place:place-000002',
+      'tc:tc:room:archive',
+      'tc:tc:room:border',
+      'tc:tc:room:city',
+      'tc:tc:room:earth',
+      'tc:tc:room:map',
+      'tc:tc:room:road',
+      'tc:tc:room:theatre',
       'tc:tc:source:source-000001',
     ]);
     const napoca = records.find((r) => r.id === 'tc:tc:place:place-000001');
@@ -43,7 +52,7 @@ describe('checkRegistry (load + validate)', () => {
     const report = await checkRegistry(fixture('valid'), OPTIONS);
     expect(report.violations).toEqual([]);
     expect(report.pass).toBe(true);
-    expect(report.counts.entities).toBe(4);
+    expect(report.counts.entities).toBe(13);
   });
 
   it('LOAD-PARSE: unparseable YAML becomes an error violation with no entity', async () => {
@@ -68,7 +77,8 @@ describe('checkRegistry (load + validate)', () => {
   });
 
   it('ID-SYNTAX: a bad id fails with the offending value and does not add a path error', async () => {
-    const report = await checkRegistry(fixture('invalid/bad-syntax'), OPTIONS);
+    // completeness off: this fixture has no rooms, and the test is about the id rule alone
+    const report = await checkRegistry(fixture('invalid/bad-syntax'), { ...OPTIONS, completeness: false });
     expect(report.violations.map((v) => v.rule)).toEqual(['ID-SYNTAX']);
     expect(report.violations[0]?.value).toBe('place-000001');
   });

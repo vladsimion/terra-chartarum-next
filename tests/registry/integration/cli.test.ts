@@ -22,7 +22,7 @@ describe('registry check', () => {
     expect(out).toMatch(/PASS/);
     const report = JSON.parse(readFileSync(path.join(outDir, 'integrity-report.json'), 'utf8'));
     expect(report.pass).toBe(true);
-    expect(report.counts.entities).toBe(4);
+    expect(report.counts.entities).toBe(13);
   });
 
   it('exits 1 on the duplicate-id fixture and names the rule', async () => {

@@ -6,6 +6,7 @@ import { parseArgs, promisify } from 'node:util';
 import { checkRegistry } from './check.js';
 import { mintNext } from './mint.js';
 import { toJson, type IntegrityReport } from './report.js';
+import { renderHtml } from './report-html.js';
 
 const run = promisify(execFile);
 
@@ -43,6 +44,7 @@ async function check(args: string[], io: Io): Promise<number> {
   const report = await checkRegistry(values.dir, { commit: await currentCommit(values.dir) });
   await mkdir(values.out, { recursive: true });
   await writeFile(path.join(values.out, 'integrity-report.json'), toJson(report));
+  await writeFile(path.join(values.out, 'integrity-report.html'), renderHtml(report));
   io.stdout(summary(report));
   return report.pass ? 0 : 1;
 }

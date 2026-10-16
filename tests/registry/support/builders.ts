@@ -35,6 +35,24 @@ export function record(family: string, n = 1, overrides: Partial<RegistryRecord>
   return merged;
 }
 
-export const place = (n = 1, o: Partial<RegistryRecord> = {}) => record('place', n, o);
+export const ROOM_NAMES = ['earth', 'map', 'city', 'border', 'road', 'archive', 'theatre'] as const;
+
+/** The seven fixed rooms (ADR 0003 §7): permanent ids, not counters. */
+export function rooms(): RegistryRecord[] {
+  return ROOM_NAMES.map((name) => ({
+    id: `tc:tc:room:${name}`,
+    family: 'room',
+    origin: 'minted',
+    title: name.charAt(0).toUpperCase() + name.slice(1),
+    slug: name,
+    slug_history: [],
+    lifecycle: 'researching',
+    release: 'held',
+    relations: [],
+    file: `content/room/${name}.yaml`,
+  }));
+}
+
+export const place =(n = 1, o: Partial<RegistryRecord> = {}) => record('place', n, o);
 export const source = (n = 1, o: Partial<RegistryRecord> = {}) => record('source', n, o);
 export const map = (n = 1, o: Partial<RegistryRecord> = {}) => record('map', n, o);

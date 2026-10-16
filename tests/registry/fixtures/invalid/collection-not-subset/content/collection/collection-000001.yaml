@@ -1,0 +1,12 @@
+id: tc:tc:collection:collection-000001
+family: collection
+origin: minted
+title: Defaults outside the members
+slug: bad-collection
+lifecycle: researching
+release: held
+members:
+  - tc:tc:layer:layer-000001
+default_layers:
+  - tc:tc:layer:layer-000001
+  - tc:tc:layer:layer-000002

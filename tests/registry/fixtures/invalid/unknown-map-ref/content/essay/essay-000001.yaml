@@ -1,0 +1,9 @@
+id: tc:tc:essay:essay-000001
+family: essay
+origin: minted
+title: An essay citing a map that does not exist
+slug: broken-essay
+lifecycle: researching
+release: held
+maps:
+  - tc:tc:map:map-000404

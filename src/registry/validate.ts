@@ -19,6 +19,7 @@ export function validateRegistry(records: readonly RegistryRecord[], options: Va
   const ctx: RuleContext = { records, index: buildIndex(records), options };
   const violations: Violation[] = [];
   for (const rule of ALL_RULES) {
+    if (rule.completeness && !options.completeness) continue;
     for (const finding of rule.check(ctx)) violations.push(toViolation(rule, finding));
   }
   return buildReport(violations, records.length, { now: options.now, commit: options.commit });
