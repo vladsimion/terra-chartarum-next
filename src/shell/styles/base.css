@@ -38,6 +38,7 @@ h3 {
 
 a {
   color: var(--link);
+  transition: color var(--motion-fast) ease;
 }
 
 a:visited {
