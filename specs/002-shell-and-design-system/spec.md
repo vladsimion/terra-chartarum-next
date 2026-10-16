@@ -72,7 +72,7 @@ As a first-time visitor, the home page explains what the site is, offers entry t
 About states project identity, principles and authorship (without presenting the author as a professional historian); the Colophon (footer) documents production, data licences and technology.
 
 ### Edge Cases
-- Long scholarly titles in the header area and breadcrumbs: must truncate gracefully without losing accessible names.
+- Long scholarly titles in breadcrumbs and page headings (the header itself holds only the wordmark and the seven fixed labels): must truncate or wrap gracefully without losing accessible names.
 - Print view of an essay: shell chrome hidden, citations retained.
 - Dark colour scheme and high-detail map imagery: images are not colour-inverted.
 - Greek and extended-Latin names (for example Ptolemy's, Romanian place names) render in the body face, not a fallback.

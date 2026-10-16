@@ -116,6 +116,8 @@ tests/shell/
 | FR-004 touch targets | | `e2e/touch-targets.spec.ts` at 360 px |
 | FR-005 not by colour alone | | `e2e/not-colour-alone.spec.ts` (current item also carries text or shape) |
 | FR-008 static output | | `unit/static-output.test.ts` (build emits HTML only, no server entry) |
+| FR-009 browsers and viewports | | Playwright projects on Chromium, Firefox, WebKit and a 360 px phone (`playwright.config.ts`) |
+| Edge case: print | | `e2e/print.spec.ts` |
 | FR-013 fonts | | `e2e/fonts.spec.ts` (Greek and extended-Latin sample renders from a shell face) |
 | FR-015 stubs and drafts | | `unit/shell-check.test.ts` |
 | FR-016 breadcrumbs | | `unit/breadcrumbs.test.ts`, `e2e/breadcrumbs.spec.ts` |
