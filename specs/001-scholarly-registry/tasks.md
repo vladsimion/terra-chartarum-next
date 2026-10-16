@@ -217,7 +217,7 @@ description: "Task list for 001 Scholarly Entity Registry & Integrity Gate"
 - [X] T092 Run every command in `quickstart.md` end to end and fix any drift between the document and the code
 - [X] T093 [P] Add a short "Registry" section to `README.md` linking to `specs/001-scholarly-registry/quickstart.md`
 - [ ] T094 Copy each story's task checklist (T-IDs) into the matching TCX story description under epic TCX-2; move stories to Done only when the PR is linked and the Definition of Done in `CLAUDE.md` holds (manual; no `/speckit-taskstoissues`)
-- [ ] T095 Make the `registry` workflow a required status check on `main` so a failing gate blocks merge (SC-001) (manual repository setting)
+- [X] T095 Make the `registry` workflow a required status check on `main` so a failing gate blocks merge (SC-001): done 2026-10-16 once the repository was public (branch protection on a private repo needs GitHub Pro); required check `gate`, admins not enforced, no review requirement
 - [X] T096 Run `/speckit-analyze` and resolve any findings before `/speckit-implement` (run before implementation; F1-F7 applied, F8-F21 left as noted in the PR)
 
 ---
