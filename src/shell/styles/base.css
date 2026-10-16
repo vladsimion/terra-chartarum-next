@@ -48,3 +48,26 @@ a:visited {
   outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
+
+/* Skip link: off-screen until it takes focus, then the first thing a keyboard user sees (FR-018) */
+.skip-link {
+  position: absolute;
+  inset-inline-start: var(--space-4);
+  top: calc(-1 * var(--space-8));
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-min);
+  padding-inline: var(--space-4);
+  background: var(--panel-raised);
+  color: var(--ink);
+  border-radius: var(--radius);
+}
+
+.skip-link:focus {
+  top: var(--space-2);
+}
+
+main:focus {
+  outline: none;
+}

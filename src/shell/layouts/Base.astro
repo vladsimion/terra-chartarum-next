@@ -2,6 +2,7 @@
 import '../fonts.js';
 import '../styles/tokens.css';
 import '../styles/base.css';
+import { footerLinks, headerDestinations } from '../destinations.js';
 
 interface Props {
   title: string;
@@ -22,8 +23,66 @@ const { title, description, lang = 'en' } = Astro.props;
     {description && <meta name="description" content={description} />}
   </head>
   <body>
-    <main id="main">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href="/">Terra Chartarum</a>
+      <nav aria-label="Primary">
+        <ul>
+          {headerDestinations().map((d) => (
+            <li><a href={d.href}>{d.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </header>
+    <main id="main" tabindex="-1">
       <slot />
     </main>
+    <footer class="site-footer">
+      <ul>
+        {footerLinks().map((l) => (
+          <li><a href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+    </footer>
   </body>
 </html>
+
+<style>
+  .site-header,
+  .site-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3) var(--space-5);
+    padding: var(--space-3) var(--space-4);
+    border-color: var(--line);
+    border-style: solid;
+    border-width: 0;
+  }
+
+  .site-header {
+    border-bottom-width: 1px;
+  }
+
+  .site-footer {
+    border-top-width: 1px;
+  }
+
+  .wordmark {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+</style>
