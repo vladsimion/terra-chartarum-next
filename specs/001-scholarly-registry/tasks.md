@@ -285,7 +285,9 @@ Branch `edtf-dates-and-tombstones`. See the comparison in the recommendation on 
 
 Still to port (step 4, with spec 002): the Astro build gate that aborts a site build, `relations.json` and the public projection emitted at build time, a leak scan run on the built site, and specialist vocabulary mappings (review item F13). The branch's fixtures should be run through this gate as a cross-check.
 
-- [ ] T117 Run the branch's fixtures through this gate and list every disagreement as a bug or a decision
+- [X] T117 Run the branch's fixtures through this gate and list every disagreement as a bug or a decision. Result in `cross-check/branch-fixtures.md`: all 17 branch rule codes covered, one bug (B1, unknown fields accepted silently), the rest model decisions; D10 (`rooms` field) needs a decision
+- [ ] T122 Reject unknown fields (B1 from T117): per-family field lists from `data-model.md`, allowing the `legacy_*` import fields and `private`; a new rule or `LOAD-PARSE` extension, with a named mutation (a misspelt `slug_history` must fail). Test first
+- [ ] T123 Decide where `rooms: {primary, secondary}` lives (D10 from T117): a registry envelope field, the essay schema only, or spec 007
 - [ ] T118 Specialist vocabulary mappings (spec 001 edge case; review item F13). Decision Log TC-D016 requires them: specialist vocabularies stay authoritative where stricter, with an explicit mapping at the interoperability boundary
 - [ ] T119 Astro integration: build gate, `relations.json`, `registry scan dist` in CI (with spec 002)
 - [X] T120 Confluence programme dossier, written against the fourteen-point Programme Dossier Contract: https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/36569092 (a standalone page at the root of the space, not under Projects, at Vlad's request; source in `docs/confluence/spec-001-registry.md`)
