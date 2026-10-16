@@ -9,3 +9,6 @@ reports/
 .Rhistory
 _targets/
 *.log
+playwright-report/
+test-results/
+.lighthouseci/
