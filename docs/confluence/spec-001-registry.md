@@ -1,108 +1,91 @@
-# Terra Chartarum Next — Spec 001: Scholarly Registry & Integrity Gate
+Programme dossier created against the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169/Programme+Dossier+Contract+Reconciliation+Register) §1, per its §7 maintenance rule. Facts below were checked on **2026-10-16** against the repository, Jira and CI; claims marked **[VERIFY]** have not been checked and say what would check them.
+
+## 1. Programme metadata
 
 | | |
 |---|---|
-| **Status** | Implemented on `main` (PR #1, PR #2). Dates and tombstones in review (PR #3). As of 2026-10-16. |
-| **Repository** | https://github.com/vladsimion/terra-chartarum-next (public) |
-| **Jira** | Epic TCX-2; stories TCX-13 (US1), TCX-15 (US3), TCX-14 (US2), TCX-17 (US5), TCX-16 (US4) |
-| **Spec and design** | `specs/001-scholarly-registry/` (spec, plan, research, data model, contracts, quickstart, tasks) |
-| **Decisions** | ADR 0006 (registry identity and record model), ADR 0007 (historical dates use EDTF); ADRs 0001–0005 are the shared contracts |
-| **Stack** | TypeScript (strict), Zod, YAML files, Vitest; no framework yet (Astro arrives with spec 002) |
+| Programme type | Platform foundation: build-time scholarly registry and integrity gate for the Terra Chartarum successor build |
+| Status | **Implemented on `main`** (PR #1 and PR #2 merged, `gate` green). Dates and tombstones in review (PR #3). Parallel implementation unresolved (§10). |
+| Jira | **TCX-2** epic; stories **TCX-13** (US1), **TCX-15** (US3), **TCX-14** (US2), **TCX-17** (US5), **TCX-16** (US4). Project TCX is the successor; KAN is the original site. |
+| Canonical parent | Projects — Active Research & Implementation Programmes |
+| Primary canonical ownership | Volume VIII (software and data contracts); Volume VI (provenance, uncertainty, rights); Volume IV (research-to-publication workflow) |
+| Repository | https://github.com/vladsimion/terra-chartarum-next (public). Spec `specs/001-scholarly-registry/`; code `src/registry/`; decisions `docs/adr/0006`, `0007` |
+| Successor relationship | Supersedes the registry code of terra-chartarum.pages.dev at cutover (ADR 0001); legacy IDs are preserved (ADR 0006 items 11–14) |
+| Last reconciliation | 2026-10-16 (dossier creation) |
 
-## 1. What this is, in one paragraph
+## 2. Purpose / thesis
 
-Every scholarly entity on the site (a map, a place, a source, an essay, a piece of evidence) has **one immutable ID and one canonical record**, stored as a file. The records form **one linked graph**. A command, the **integrity gate**, reads them all, checks hundreds of rules, and **fails the build** when a reference is broken, a claim has no provenance, a secret would leak, or a rule about uncertainty is broken. It is the foundation every other spec builds on: essays, the Atlas, the catalogue and the bibliography only ever *refer* to records; they never copy them.
+Every claim on the site must be traceable to the evidence that supports it, at the level of detail the evidence allows (the spec's historical question, Constitution I). That is only possible if every scholarly entity has **one immutable ID and one canonical record**, if the records form **one linked graph**, and if **uncertainty is data** (dates, geometry provenance, confidence, reconstruction, silence) and not prose.
 
-The historical question it serves (Constitution I): *How can every claim on the site be traced to the evidence that supports it, at the level of detail the evidence allows?*
+The falsifiable claim the programme has to defend: **a broken reference, a claim with no provenance, a leaked private value, or a rule about uncertainty that is silently skipped, cannot reach the published site.** The integrity gate fails the build instead. The test of that claim is the mutation suite (§12): every rule is exercised by a seeded breakage that must fail as an error.
 
-## 2. How we got here
+## 3. Scope and non-goals
 
-| Step | What happened | Output |
-|---|---|---|
-| Grill | `/grill-with-docs`: 20 questions in four rounds, every recommendation accepted | ADR 0006, GLOSSARY, `GRILL-AGENDA.md` |
-| Clarify | Decisions written into the spec; one more question (how two branches minting the same ID collide) | spec 001 Clarifications |
-| Plan | Constitution check passed; 11 research decisions; data model and contracts | `plan.md`, `research.md`, `data-model.md`, `contracts/` |
-| Tasks | 98 tasks, test-first, one phase per user story | `tasks.md` |
-| Analyze | 21 findings, 0 critical; the 7 high ones fixed before implementing | tasks and contracts amended |
-| Implement | Vertical slices US1 → US3 → US2 → US5 → US4, red then green | `src/registry/`, `tests/registry/` |
-| PR #1 | Merged 2026-10-16: 453 tests | `main` |
-| Code review | Two axes (Standards, Spec): 17 spec findings, 7 standards smells (one defended as deliberate) | PR #2 |
-| PR #2 | Review fixes, merged: 535 tests | `main` |
-| Discovery | A second, parallel implementation of the same spec existed on `001-scholarly-registry` | comparison, section 9 |
-| PR #3 | Ports the parallel branch's EDTF dates and tombstones: 607 tests | open |
+### In scope
+- Entity families (15, a closed list), stable IDs and minting, one YAML file per entity, slug history and tombstones.
+- Evidence and uncertainty as data: locators and verification, confidence, geometry provenance, EDTF dates, silence, rights, automated-extraction chains.
+- A linked graph with typed references, build-time integrity checking, a versioned report (JSON and HTML), lifecycle and release rules, public projection, reverse relationships, a leak scan.
+- The CLI (`check`, `mint`, `scan`, `synth`) and the CI gate.
 
-## 3. Decisions
+### Non-goals
+- **No site, no UI, no Astro.** Display of any of this to readers belongs to specs 002–005. The module is framework-free so the shell can import its schemas.
+- **No import adapters.** Reading the live site's data is spec 008; this spec owns only what an imported record must look like (ADR 0006 items 11–14).
+- **No bibliography authoring.** CSL-JSON entries and citation export are spec 006.
+- **No database, no network.** The gate is deterministic and offline (Constitution VII). External links (`same_as`) are checked by syntax only.
+- **No essay prose.** Essays are views over shared evidence; the registry holds only their stage, references and rights.
+- **Not two implementations to maintain.** The recommendation (§10.2) is to retire the parallel branch after porting; that decision is pending.
 
-Full text in `docs/adr/`. Summary of ADR 0006 (identity and record model) and ADR 0007 (dates):
+## 4. Outputs / deliverables
 
-| # | Decision | Why |
-|---|---|---|
-| 1 | **IDs**: `tc:{authority}:{family}:{local-id}`. New IDs are opaque counters (`place-000123`) minted by `registry mint`; legacy IDs are kept verbatim. Two branches that mint the same number are caught by the duplicate rule; an ID is immutable only once on `main`. | IDs must never depend on a title; legacy IDs must survive migration |
-| 2 | **Storage**: one YAML file per entity, `content/<family>/<local-id>.yaml`; the filename is the ID, so a rename never moves a file. Geometry stays in GeoJSON files referenced by path. | Readable diffs, no database (Constitution VII) |
-| 3 | **Release is separate from lifecycle**: `held` (default) or `released`. Public means *published and released*. | A finished record can still be kept private |
-| 4 | **Evidence records are first-class entities** with their own ID, pointing at a target and a source. Essays and layers cite them; they never embed provenance. | One canonical home per fact (Constitution V) |
-| 5 | **URL stability**: slug history gives one 301 per former slug; a superseded record keeps its address as a *tombstone* linking to its live successor. | An old citation must land on the record it cited |
-| 6 | **Progressive strictness**: ID, family, lifecycle and references are always errors; provenance, rights and locators are errors from `ready_for_build`, warnings below. | Early research can be registered without being blocked |
-| 7 | **Silence is an attestation** (`form = silence`) with exactly one typed state; never `secure` without verified source coverage. | Absence is evidence, not a null |
-| 8 | **Automated extractions** (OCR/HTR/LLM) keep a logged transformation chain and need a named person's adjudication before publication. | Constitution VI |
-| 9 | **Integrity report**: versioned JSON plus an accessible HTML page, stable rule IDs, warnings counted but never failing. | Tests and CI assert on rule IDs, not message text |
-| 10 | **Closed family list**: essay, map, cartographer, place, source, attestation, dataset, layer, collection, route, event, period, room, bibliography_entry, evidence. The seven rooms are fixed entities. | A new family needs a spec amendment |
-| 11–14 | **Legacy import**: legacy ID pattern preserved; `port` imports as a `place`; legacy confidence maps high→probable, medium→possible, low→conjectural and is never auto-`secure`; imports start at `researching` and are held until an editor *confirms* them by name and date. | Nothing is silently promoted |
-| 15 | **Private fields** live in a separate block; public output is projected from a per-family allowlist, so a new field is private by default; a post-build scan checks the output. | Constitution (private acquisition details) |
-| 16 | **Dates are EDTF** (ADR 0007): levels 0–1, four-digit signed years; precision is *derived*, never authored. | Uncertainty is data (Constitution III); one standard in TypeScript and R |
-| 17 | **External links** (`same_as`) are `{authority, id}`, validated by syntax only; the gate never touches the network. | Deterministic, offline builds |
+| Output | State |
+|---|---|
+| `src/registry/` module (loader, pure validator, rules, projection, reverse relationships, redirects and tombstones, leak scan, minting, synthetic registry, CLI) | On `main` |
+| 46 rule IDs on `main` (48 with PR #3), each with a threshold and a named mutation | On `main`; PR #3 adds two |
+| Integrity report: versioned JSON (schema in `contracts/`) and accessible static HTML | On `main` |
+| ADR 0006 (identity and record model, with amendments) and ADR 0007 (EDTF dates) | 0006 on `main`; 0007 in PR #3 |
+| Spec, plan, research, data model, contracts, quickstart, tasks (Phases 1–10) | On `main`; Phase 10 in PR #3 |
+| CI workflow `registry`; `gate` is a required status check on `main` | Done |
+| Confluence dossier (this page) | This page |
 
-### Amendments made after review (2026-10-16)
-- The ID family segment allows `_` (so `bibliography_entry` fits); every legacy ID still matches.
-- An import is confirmed only by `editor_confirmed: true` **with** `confirmed_by` (a person) and `confirmed_on`. A bare flag confirms nothing.
-- `superseded` records rank as `ready_for_build` for severity: provenance and rights still bind them; publication-only checks do not.
-- `RIGHTS-MISSING` covers evidence, layer, dataset, map, attestation and essay. A place is an authority record; its rights ride on its sources and evidence.
-- The leak scan also matches HTML-, JSON- and URL-escaped copies of a private value and the page address of a non-public entity. Titles are not scanned (free text, too many false hits).
+## 5. Research, sources and rights framework
 
-## 4. How it works
+### 5.1 Where the rules come from
+The rules implement the project's own contracts, not outside research: the Constitution (principles II, III, V, VI, X), ADR 0003 (lifecycle, confidence, locator verification, stage gates, rooms), the grill of 2026-10-16 (ADR 0006) and the parallel branch's EDTF decision (ADR 0007). The historical vocabularies (silence states, confidence levels, geometry provenance) are those in `GLOSSARY.md`.
 
-### 4.1 Layout
-```
-content/<family>/<local-id>.yaml     canonical records, one per entity
-provenance/<step>.yaml               logged automated steps (OCR/HTR/LLM)
-src/registry/
-  load.ts          files -> records (structure only)           seam 1
-  validate.ts      records -> report, pure, no I/O              seam 2
-  check.ts         load + validate + load errors in one report
-  rules/           one module per rule group (registered in rules/index.ts)
-  schemas/         Zod shapes per family, reference-field table
-  dates.ts         EDTF parsing, derived precision, ordering
-  publication.ts   the one definition of "public"
-  project.ts       allowlist projection of public records
-  reverse.ts       "Cited in" / "Used by"
-  redirects.ts     slug history -> 301 rules, tombstones, _redirects text
-  leak-scan.ts     post-build scan of the built output
-  mint.ts          next local-id
-  synthetic.ts     deterministic synthetic registry (tests and timing)
-  cli.ts           registry check | mint | scan | synth       seam 3
-tests/registry/    unit, integration, fixtures, mutations, timing
-```
+### 5.2 Locators and provenance
+- A locator is `verified` only when a **person** has read the page: `verified_by`, `verified_on` and `consulted_copy` are all required. A locator found or proposed by AI, or taken from another scholar's citation, stays `pending`; a claim rated `secure` cannot rest on a pending locator.
+- This is the same rule as the Decision Log's **TC-D018** (a locator may not be recorded from a secondary citation), as summarised in the Programme Dossier Contract register §3. **[VERIFY]** against the TC-D018 text itself, which has not been read for this dossier.
+- Automated (OCR/HTR/LLM) output is never evidence: a logged chain of steps and a named person's adjudication are required before a record is publishable (Constitution VI; rules `AUTO-*`).
+- Legacy `llm_assisted` rows count as unadjudicated automated steps until a person adjudicates them.
 
-### 4.2 The three seams (where tests live)
-1. `loadRegistry(root)`: reads files, checks **structure only**, returns records plus load errors and three indexes (logged steps, GeoJSON feature ids, existing assets). Anything it cannot read comes back as a load error instead of throwing.
-2. `validateRegistry(records, options)`: **pure**: no disk, no network, deterministic. Every rule runs here. Enumerated values are checked by the rules, so a record built in a test and a record loaded from disk are judged the same way.
-3. The CLI: a thin wrapper that sets the exit code (`0` ok, `1` errors found, `2` tool failure) and writes the reports.
+### 5.3 Rights
+- Records that carry content (evidence, layers, datasets, maps, attestations, essays) need a licence from `ready_for_build`; images need cleared **reproduction** rights from `publishable`. Out-of-copyright text and reproduction rights are separate facts (Constitution VI).
+- A place is an authority record: its rights ride on its sources and evidence.
+- Private acquisition and price details live in a separate `private` block, are excluded by an allowlist projection, and are scanned for in built output (including HTML-, JSON- and URL-escaped copies).
+- **The repository is public.** Real records with `private:` fields must not be committed to it. The leak scan covers built output, not source files. **[VERIFY]** where real content will live before the first real record is added.
 
-### 4.3 Severity
-Each rule declares the lowest lifecycle at which it is an **error**; below that the same finding is a **warning**. Lifecycle order: proposed, researching, verified, ready_for_build, in_build, qa, publishable, published. `blocked` ranks as `proposed`; `superseded` ranks as `ready_for_build`. The rank table is typed against the vocabulary, so a new lifecycle value cannot silently rank as `proposed`.
+### 5.4 Legacy source
+Imports come from `vladsimion/terra-chartarum`. Its identifier contract (`data/contracts/terra-chartarum.json`) is the origin of the ID pattern; its `high/medium/low` confidence maps to probable/possible/conjectural and is never auto-`secure`.
 
-### 4.4 What "public" means
-Public = lifecycle `published` **and** release `released` (`publication.ts`). Projection, reverse relationships and redirects all decide through that one function. Public output is built from an allowlist per family; references to non-public records are dropped; evidence about a non-public entity is left out entirely.
+## 6. Evidence and data architecture
 
-### 4.5 Dates (ADR 0007)
-`valid_from` / `valid_to` are EDTF: `0106`, `-0106`, `1595-03`, `159X` (decade), `15XX` (century), `1595?` (uncertain), `1595~` (approximate), `1595/1602` (range). Precision (day, month, year, decade, century, range) is derived from the value. Times of day, seasons, long years and millennia are rejected. `DATE-ORDER` fails only when the start is *definitely* later than the end, so imprecise dates that might overlap pass.
+### 6.1 Record model
+- **ID**: `tc:{authority}:{family}:{local-id}`. Authority is `tc` or an allowlisted external code. New local-ids are opaque counters minted by `registry mint` (`place-000123`); legacy ids are kept verbatim. The filename is the local-id, so a rename never moves a file.
+- **Families (closed)**: essay, map, cartographer, place, source, attestation, dataset, layer, collection, route, event, period, room, bibliography_entry, evidence. The seven rooms are fixed entities.
+- **Lifecycle** (proposed … published, plus superseded and blocked) and **release** (`held` by default, or `released`) are separate. Public means published **and** released.
+- **Evidence records** are first-class entities (own ID, target, source, locator, confidence, geometry provenance, rights); essays and layers cite them and never embed provenance.
+- **Silence** is an attestation (`form = silence`) with exactly one typed state; never `secure` without verified source coverage.
+- **Dates** are EDTF levels 0–1 with four-digit signed years (ADR 0007); precision is derived, never authored.
+- **References** are typed (`REF-FAMILY`): an essay's `maps[]` point at maps, a successor is of the same family.
 
-### 4.6 Superseded records and tombstones
-A superseded record keeps its own address as a tombstone page that links to its live successor (or to nothing). Its former slugs redirect to the tombstone, never past it. Nothing redirects away from a retired address. A held or missing successor is never named.
+### 6.2 Progressive strictness
+Each rule declares the lowest lifecycle at which it is an error; below that it is a warning. ID, family, lifecycle value and reference rules are always errors; provenance, rights and locator rules are errors from `ready_for_build`; publication checks from `publishable` or `published`. `blocked` ranks as `proposed`; `superseded` ranks as `ready_for_build`.
 
-## 5. Rules reference
+### 6.3 Geometry
+Bulk geometry stays in GeoJSON files that records reference by path. Evidence about a single feature must name a feature that exists in the file (`REF-FEATURE`) and must say where the geometry came from (`PROV-GEOMETRY`). Reconstructions are always flagged (`PROV-RECONSTRUCTION`). **Modern reference geometry is never historical evidence** (`PROV-MODERN-AS-EVIDENCE`, Constitution III). Paths a record names are resolved on their real path inside the registry root; `../` and symlink escapes are refused and reported.
 
-Every rule has a stable ID, a lifecycle threshold ("From": the lowest lifecycle at which it is an error) and a named mutation test. `PRIV-LEAK` is raised by the output scan and `LOAD-PARSE` by the loader; the other rules run in the validator.
+### 6.4 Rules reference
+Every rule has a stable ID, a threshold ("From": the lowest lifecycle at which it is an error) and a named mutation. `PRIV-LEAK` is raised by the output scan and `LOAD-PARSE` by the loader; the rest run in the validator. This is the table in `specs/001-scholarly-registry/contracts/rule-ids.md` (48 rules, as in PR #3).
 
 | Rule ID | Checks | Spec | From |
 |---|---|---|---|
@@ -155,108 +138,141 @@ Every rule has a stable ID, a lifecycle threshold ("From": the lowest lifecycle 
 | `IMPORT-CONFIRMED` | a confirmed import names who confirmed it and when; an automated tool cannot confirm | FR-014 | always |
 | `IMPORT-REVIEWER` | `verified_by`/`verified_on` from legacy only when `editor_confirmed` | FR-014 | always |
 
-**Adding a rule** takes three things, and a test fails if any is missing: the rule registered in `rules/index.ts`, a row in `contracts/rule-ids.md` (with the same threshold), and a named mutation in `tests/registry/support/mutations.ts` that must trigger it *as an error*.
+## 7. Essay and editorial architecture
 
-## 6. Running it
+Applies in a limited way: this spec does not own essay prose, but it fixes how an essay appears in the graph.
 
-```bash
-npm ci                                                   # Node 24, see .nvmrc
-npm test && npm run typecheck                            # all tests, strict TypeScript
-npm run registry -- check --dir <root> --out reports     # validate <root>/content
-                                                         #   -> reports/integrity-report.json and .html
-npm run registry -- mint place                           # next unused local-id, e.g. place-000124
-npm run registry -- scan dist --dir <root>               # fail if built output leaks a private value
-npm run registry -- synth 5000 --seed 1 --out /tmp/s     # deterministic synthetic registry
+- An essay's **lifecycle is derived from its editorial stage**, never set by hand: Concept → proposed; Corpus, Research → researching; Outline, Draft → verified; Build → in_build; Design QA → qa (publishable once the checks pass); Publish, Cross-link → published (`LIFE-ESSAY-DERIVED`).
+- An essay references maps, places, sources and evidence by ID, and may carry optional portal-dimension tags (Measure, Witness, Use, Cosmos, Power, Silence; no UI in v1).
+- An essay must not own private geometry, place authorities or object descriptions (Constitution V). **[VERIFY]** this is not yet enforced by a strict essay schema (deferred review item).
+- The reader-facing essay framework is spec 003.
+
+## 8. Interaction and technical implementation
+
+### 8.1 Three seams (where tests live)
+1. `loadRegistry(root)`: files to records; checks structure only; returns load errors and three indexes (logged steps, GeoJSON feature ids, existing assets).
+2. `validateRegistry(records, options)`: **pure**, no disk, no network, deterministic. Every rule runs here, on plain strings, so a record built in a test and a record loaded from disk are judged the same way.
+3. The CLI: thin; exit code `0` ok, `1` errors found, `2` tool failure.
+
+### 8.2 Commands
+```
+npm ci                                                 # Node 24, see .nvmrc
+npm test && npm run typecheck                          # all tests, strict TypeScript
+npm run registry -- check --dir <root> --out reports   # validate <root>/content -> integrity-report.json and .html
+npm run registry -- mint place                         # next unused local-id
+npm run registry -- scan dist --dir <root>             # fail if built output leaks a private value or a non-public id
+npm run registry -- synth 5000 --seed 1 --out /tmp/s   # deterministic synthetic registry
 ```
 
-- **CI** (`.github/workflows/registry.yml`): typecheck, tests, then the gate on `content/` when it exists; the report is uploaded as an artefact.
-- **`main` is protected**: the `gate` check is required (admins are not enforced, no review requirement).
-- The repository is **public**: never commit real records with `private:` fields. The leak scan covers built output, not the source files.
+### 8.3 Public output
+`projectPublic` builds the public face from a per-family allowlist: a new field is private by default; references to non-public records are dropped; evidence about a non-public entity is left out. `reverseRelationships` ("Cited in", "Used by") lists only public referrers of public targets. `publication.ts` is the one definition of "public".
 
-## 7. Verification
+### 8.4 Superseded records and URLs
+Each entity keeps a slug history; each former slug is one 301 to the current page, written as a Cloudflare `_redirects` file by `renderRedirects`. A superseded record keeps its own address as a **tombstone** linking to its live successor (or to nothing); its former slugs redirect to the tombstone, never past it (spec 002 FR-011; PR #3).
 
-| Check | Result |
-|---|---|
-| Tests | 607 in 42 files (535 on `main` until PR #3 merges) |
-| Strict typecheck, `npm audit` | clean, 0 vulnerabilities |
-| SC-002: rename a title and slug | no ID changes, no broken link, one redirect per former slug |
-| SC-003: seeded broken records | 65 named mutations, each must trigger its rule as an error; a no-op or silent mutation fails the suite |
-| SC-004: 5,000 entities in under 60 s | 5,007 entities: about 80 ms in memory, about 2.2 s from disk including load |
-| Rule table, code and mutations | kept in step by a meta-test |
-| Symlink and `../` escapes | tested with a real symlink |
+### 8.5 CI and repository
+`.github/workflows/registry.yml` runs typecheck, tests and the gate on `content/` when it exists, and uploads the report. `main` is protected: `gate` is a required check (admins not enforced, no review requirement). **[VERIFY]** that a red `gate` actually blocks a merge; only the setting was read back, no failing PR has been tried.
 
-## 8. Code review (two axes) and what came of it
+## 9. Implementation phases and dependency model
 
-**Standards**: no hard breaches; seven judgement smells (one, plain-string fields on records, is deliberate and documented). The rest were fixed: the "public" test was written three times (now one function), the lifecycle rank table could silently mis-rank a typo, the CLI repeated its usage guard, and some test names and numbers were weak.
+Jira `Blocks` links are authoritative. Recorded chain: **TCX-1 → TCX-2**, and **TCX-2 blocks TCX-4 (003 essays), TCX-5 (004 catalogue), TCX-6 (005 Atlas), TCX-7 (006 bibliography) and TCX-44 (008 migration)**.
 
-**Spec**: 9 implemented-but-weak or wrong, 5 missing, 3 small scope items. Fixed in PR #2:
+Within the programme, the **story order is TCX-13 → TCX-15 → TCX-14 → TCX-17 → TCX-16**, which is the order they were built in (release filtering, US5, precedes reverse relationships, US4). **The five stories have no `Blocks` links between them; the order exists only as text in the epic.** Under this register's rule that Jira links are authoritative, either the links should be added or the text accepted as the record. **[VERIFY]** which Vlad prefers; nothing was changed.
 
-| Finding | Fix |
-|---|---|
-| A live record could take a superseded record's slug; its redirect then shadowed the new page | A superseded record's slug stays claimed |
-| `editor_confirmed` was a hand-set flag that switched the import rules off | A confirmation needs a named person and a date (new rule) |
-| `llm_assisted` rows were never treated as unadjudicated | They need adjudication before they can be publishable |
-| The leak scan missed escaped copies and non-public page addresses | Both are matched |
-| Attestations and essays could be published without rights | Rights are required there too |
-| A symlink inside the root could read a file outside it; `../` was skipped silently | Real-path containment; escapes are reported |
-| An essay's `maps[]` could point at a place | New typed-reference rule |
-| The reverse map's keys could be held IDs | Public targets only |
-| No `_redirects` output | Renderer that refuses paths that could inject rules |
+| Phase | What | Date | Result |
+|---|---|---|---|
+| A. Decide | Grill (20 questions, four rounds), clarify, plan | 2026-10-16 | ADR 0006, clarified spec, plan |
+| B. Specify the work | 98 test-first tasks; analysis (21 findings, 0 critical, 7 high fixed) | 2026-10-16 | `tasks.md` |
+| C. Build | Setup and foundation; US1 → US3 → US2 → US5 → US4; polish | 2026-10-16 | PR #1 merged: 453 tests |
+| D. Review | Two-axis code review (17 spec findings, 7 standards smells) | 2026-10-16 | PR #2 merged: 535 tests |
+| E. Reconcile | Parallel implementation found and compared | 2026-10-16 | §10 |
+| F. Port | EDTF dates and tombstones from the parallel branch | 2026-10-16 | PR #3 open: 607 tests |
+| G. Remaining | Cross-check of the branch's fixtures (T117), specialist vocabulary mappings (T118), Astro build gate and `relations.json` (T119, with spec 002) | next | not started |
 
-**Deliberately deferred**: the exact shape of `consulted_copy` (edition plus scan URL or shelfmark), withdrawn-page rendering (spec 002), running the leak scan in CI once a build exists, and a few low-priority tidy-ups.
+## 10. Jira hierarchy and reconciliation history
 
-## 9. Two implementations of the same spec
+Actual keys, not planning identifiers.
 
-While this was being built, a **second, complete implementation of spec 001** was being written on branch `001-scholarly-registry` (24 commits, Astro-based, its checklists already in Jira). This side found out when it read the Jira stories. The two were compared read-only:
+| Key | Issue | Status (2026-10-16) | Note |
+|---|---|---|---|
+| TCX-2 | Epic: 001 scholarly entity registry & integrity gate | In Progress | Blocked by TCX-1 (Done); blocks TCX-4, 5, 6, 7, 44 |
+| TCX-13 | US1 register an entity with a stable identity | In Review | |
+| TCX-15 | US3 one linked scholarly graph | In Review | |
+| TCX-14 | US2 record evidence and uncertainty as data | In Review | |
+| TCX-17 | US5 shared lifecycle and publication authority | In Review | |
+| TCX-16 | US4 reverse relationships | In Review | |
+
+### 10.1 Two checklists per story
+Each story and the epic carry **two** task checklists. The upper one belongs to the parallel branch `001-scholarly-registry` (tasks T010–T060, all ticked, commits on that branch). The lower one, appended 2026-10-16, belongs to `main` and uses `main`'s `tasks.md` numbering. They are numbered independently and describe different code. **No story has been moved to Done**: the upper ticks describe work that is not all on `main`.
+
+### 10.2 Reconciliation: two implementations of one spec
+While this programme was built, a **second, complete implementation of spec 001** was being written on branch `001-scholarly-registry` (24 commits, Astro-based). It was found when the Jira stories were read, and compared read-only on 2026-10-16:
 
 | | `main` | `001-scholarly-registry` |
 |---|---|---|
-| Tests | 535 → 607 with PR #3 | 205 (its own `npm test`) |
-| Rule codes | 46 → 48 | 17 |
-| Source size (at the time of the comparison) | about 3,100 lines | about 1,350 lines |
+| Tests | 535 (607 with PR #3) | 205 (its own `npm test`) |
+| Rule codes | 46 (48 with PR #3) | 17 |
+| Source size at the comparison | about 3,100 lines | about 1,350 lines |
 | Astro and build wiring | none yet | build gate that aborts the site build, `relations.json`, leak scan on the built site |
 | ID minting | yes | not found |
 | Dates | EDTF (after PR #3) | EDTF |
 | Superseded record | tombstone (after PR #3) | tombstone |
 
-**Recommendation (made 2026-10-16):** keep `main` as the base, retire the branch as a line of work, and port what it got right. It was right about two things, now ported in PR #3: **EDTF dates** (it showed that integer years with a separate precision field can contradict themselves and cannot express uncertainty) and **tombstones** (spec 002 FR-011). Still to port: the Astro build gate, `relations.json`, specialist vocabulary mappings, and a cross-check of its fixtures against this gate. The branch should be tagged `archive/001-parallel-implementation` once that is done; deleting it needs an explicit decision.
+**Recommendation (2026-10-16):** keep `main` as the base, retire the branch as a line of work, and port what it got right. It was right about two things, now in PR #3: **EDTF dates** (integer years with a separate precision field can contradict themselves and cannot express uncertainty) and **tombstones** (spec 002 FR-011). Still to port: the Astro build gate, `relations.json`, specialist vocabulary mappings, and a cross-check of the branch's fixtures. The branch should be tagged `archive/001-parallel-implementation` once that is done; deleting it needs an explicit decision. **[VERIFY]** the comparison was by measurement and search (size, tests, rule codes, minting), not a line-by-line audit of the branch.
 
-## 10. Jira
+### 10.3 Other reconciliation notes
+- The ADR number collided: both branches added an ADR 0006. The branch's EDTF ADR is renumbered **0007** on `main`.
+- The integer-year date model decided in the grill was weaker than the branch's EDTF; ADR 0006 item 16 is superseded.
+- A redirect-to-successor behaviour in `main` contradicted spec 002 FR-011 and was replaced by tombstones.
 
-| Key | Story | Status | Note |
-|---|---|---|---|
-| TCX-2 | Epic: registry and integrity gate | In Progress | Both implementations' checklists are on it |
-| TCX-13 | US1 stable identity | In Review | |
-| TCX-15 | US3 linked graph | In Review | |
-| TCX-14 | US2 evidence and uncertainty | In Review | |
-| TCX-17 | US5 lifecycle and publication authority | In Review | |
-| TCX-16 | US4 reverse relationships | In Review | |
+## 11. Programme acceptance criteria
 
-Each story has two checklists: the parallel branch's original one, and below it the one for `main` (numbered independently). **No story is Done**: the existing ticks describe work that is not all on `main`. They move to Done after the branch decision and the remaining ports.
+The per-story merge bar is the repository's Definition of Done (`CLAUDE.md`): every acceptance scenario covered by a passing test written first; integrity gate, accessibility and performance checks pass; no `[NEEDS CLARIFICATION]` left; Jira story Done with the PR linked. Programme-level success criteria from the spec:
 
-## 11. Open items
-
-| Item | Owner / next step |
+| Criterion | State |
 |---|---|
-| Decide the fate of branch `001-scholarly-registry` | Vlad: tag and retire after the ports (recommended) |
-| Merge PR #3 (EDTF dates and tombstones) | Vlad |
-| Cross-check the branch's fixtures against this gate (T117) | next |
-| Specialist vocabulary mappings (T118; spec edge case) | next |
-| Astro build gate, `relations.json`, scan in CI (T119) | with spec 002 |
-| `consulted_copy` structure | needs a decision |
-| Move TCX-13 to TCX-17 to Done | after the branch decision |
+| SC-001: 100% of publishable records pass the gate on `main`; a violation blocks merge | Gate runs in CI and is a required check; no real `content/` exists yet. **[VERIFY]** blocking behaviour (§8.5) |
+| SC-002: renaming a title or slug changes zero IDs and breaks zero links | Met: regression test over every fixture record |
+| SC-003: every seeded breakage is caught | Met: 63 named mutations on `main` (65 with PR #3), each must fail as an error |
+| SC-004: gate under 60 s on 5,000 entities | Met: 5,007 entities in about 80 ms in memory and about 2.2 s from disk |
+| Stories Done with PR linked | **Not met by design**: stories stay In Review until the branch decision and the remaining ports (§10.2) |
 
-## 12. Lessons
+## 12. Verification ledger
 
-- **Check for parallel work before starting.** Two efforts implemented the same spec on the same day. A remote branch with that spec number already existed, and the Jira epic named it; listing remote branches and reading the epic first would have caught it.
-- **Recommendations get better when two designs meet.** The grill's integer-year dates were weaker than the parallel branch's EDTF; comparing exposed that.
-- **Mutations beat coverage.** Requiring every rule to fail *as an error* under a named mutation found rules that fired only as warnings, and a meta-test keeps the rule table honest.
+| Claim | State | Owner |
+|---|---|---|
+| 607 tests pass on the PR #3 branch; 535 on `main` | Verified 2026-10-16 | — |
+| Strict typecheck clean; `npm audit` reports 0 vulnerabilities | Verified 2026-10-16 | — |
+| `registry check` passes on the valid fixture (18 entities) and on generated 1,007- and 2,007-entity registries | Verified 2026-10-16 | — |
+| SC-004 timing (about 80 ms in memory, about 2.2 s from disk, 5,007 entities) | Verified 2026-10-16 | — |
+| Rule table, registered rules and mutations are kept in step by a meta-test | Verified 2026-10-16 | — |
+| Symlink and `../` escapes refused | Verified with a real symlink 2026-10-16 | — |
+| `gate` is a required check on `main` | Setting read back 2026-10-16 | — |
+| A red `gate` blocks a merge | **Unverified** | Vlad |
+| The branch comparison (§10.2) holds line by line | **Unverified**: measured and searched, not audited | next: T117 |
+| Alignment with Decision Log TC-D018 | **Unverified**: summary only | Vlad |
+| The Programme Dossier Contract's items 6–8 "where applicable" reading (§7 is limited) is acceptable | **Unverified** | Vlad |
+| Where real content, and its private fields, will live given a public repository | **Unverified** | Vlad |
+| Essay strictness (no geometry or object descriptions of its own) | **Unverified**: not enforced | deferred review item |
 
-## 13. Where to look
+## 13. Canonical ownership and propagation
 
-- Spec: `specs/001-scholarly-registry/spec.md` · plan, research, data model: same folder · rule contract: `contracts/rule-ids.md`
-- Decisions: `docs/adr/0006-registry-identity-and-record-model.md`, `docs/adr/0007-historical-dates-use-edtf.md`
-- Shared language: `GLOSSARY.md` · principles: `.specify/memory/constitution.md`
-- Tasks and what is deferred: `specs/001-scholarly-registry/tasks.md` (Phases 9 and 10)
-- Walkthrough: `specs/001-scholarly-registry/quickstart.md`
-- PRs: #1 (implementation), #2 (review fixes), #3 (EDTF dates and tombstones)
+| Knowledge | Canonical home |
+|---|---|
+| Registry software and data contracts (record model, rule IDs, CLI, module API) | Volume VIII |
+| Provenance, uncertainty, locator verification, rights, EDTF dates | Volume VI |
+| Research-to-publication workflow; essay stage to lifecycle mapping | Volume IV |
+| Roadmap, dependencies, current delivery state | Volume IX |
+| Cross-programme decisions: ADR 0006 (identity, record model, release vs lifecycle), ADR 0007 (EDTF dates), tombstones for superseded records | Decision Log |
+| Cross-programme risks: two implementations of one spec; a public repository holding scholarly records | Programme Risk Register |
+| Shipped work: PR #1 and PR #2 (green CI) | Build Log |
+
+**Not yet propagated.** Nothing on this list has been written to those pages; they are existing, shared pages and were left untouched. The findings most worth propagating are the three decisions above and the process lesson that two efforts implemented one spec on the same day (a remote branch with that spec number already existed, and the Jira epic named it).
+
+This dossier retains only programme-specific rationale, the reconciliation record and the rule reference. The full text of the decisions is in the repository's ADRs, and the working specification in `specs/001-scholarly-registry/`.
+
+## 14. Current checkpoint and delivery authority
+
+**Checkpoint (2026-10-16).** `main` is at the merge of PR #2 (`78cd093`): the registry, all five stories, and the review fixes, 535 tests, `gate` green and required. PR #3 (EDTF dates and tombstones, 607 tests, `gate` green) is open and awaiting review; it also holds the Confluence source for this page. The Jira stories are In Review. Open: the fate of branch `001-scholarly-registry`; the cross-check of its fixtures; specialist vocabulary mappings; the Astro build gate (with spec 002); the `consulted_copy` shape; adding or declining `Blocks` links among the stories.
+
+**Authority.** Jira `Blocks` links are authoritative for executable dependencies; Jira and Volume IX are authoritative for current delivery state; the Build Log records only work actually shipped. This page is not the delivery record.
