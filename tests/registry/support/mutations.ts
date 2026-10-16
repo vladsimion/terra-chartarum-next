@@ -297,7 +297,13 @@ const US2_MUTATIONS: Mutation[] = [
     apply: editOf('place', (r) => { r.legacy_reviewer = 'A. Reviewer'; r.verified_by = 'A. Reviewer'; }),
   },
   { name: 'an unknown confidence', rule: 'ENUM-INVALID', apply: editOf('evidence', (r) => { r.confidence = 'certain'; }, PLAIN) },
-  { name: 'valid_from after valid_to', rule: 'DATE-ORDER', apply: editOf('evidence', (r) => { r.valid_from = 200; r.valid_to = 100; }, PLAIN) },
+  { name: 'valid_from after valid_to', rule: 'DATE-ORDER', apply: editOf('evidence', (r) => { r.valid_from = '0200'; r.valid_to = '0100'; }, PLAIN) },
+  { name: 'a date that is not EDTF (an integer year)', rule: 'DATE-INVALID', apply: editOf('evidence', (r) => { r.valid_from = 106; }, PLAIN) },
+  {
+    name: 'date precision is authored instead of derived',
+    rule: 'DATE-PRECISION-AUTHORED',
+    apply: editOf('evidence', (r) => { r.valid_from = '1595'; r.date_precision = 'year'; }, PLAIN),
+  },
   {
     name: 'an unlisted same_as authority',
     rule: 'SAMEAS-SYNTAX',

@@ -9,7 +9,6 @@ describe('ENUM-INVALID', () => {
   it.each([
     ['confidence', 'evidence', { confidence: 'certain' }],
     ['geometry_provenance', 'evidence', { geometry_provenance: 'guessed' }],
-    ['date_precision', 'evidence', { date_precision: 'hour' }],
     ['evidence_type', 'evidence', { evidence_type: 'rumour' }],
     ['silence_state', 'attestation', { form: 'silence', silence_state: 'forgotten' }],
     ['form', 'attestation', { form: 'whisper' }],
@@ -39,7 +38,6 @@ describe('ENUM-INVALID', () => {
     const evidence = record('evidence', 2, {
       confidence: 'unknown',
       geometry_provenance: 'modern_reference',
-      date_precision: 'quarter_century',
       evidence_type: 'archival',
       locator: { value: 'p. 1', state: 'pending', proposed_by: 'ai' },
     });
@@ -49,32 +47,6 @@ describe('ENUM-INVALID', () => {
   it('is an error whatever the lifecycle', () => {
     const early = record('evidence', 1, { lifecycle: 'proposed', confidence: 'certain' });
     expect(rules([early], 'ENUM-INVALID')[0]?.severity).toBe('error');
-  });
-});
-
-describe('DATE-ORDER', () => {
-  it('fails when valid_from is after valid_to', () => {
-    const hits = rules([record('evidence', 1, { valid_from: 200, valid_to: 100 })], 'DATE-ORDER');
-    expect(hits).toHaveLength(1);
-    expect(hits[0]?.severity).toBe('error');
-  });
-
-  it('accepts signed years, so BCE spans work, and equal years', () => {
-    expect(rules([record('evidence', 1, { valid_from: -101, valid_to: 106 })], 'DATE-ORDER')).toEqual([]);
-    expect(rules([record('evidence', 2, { valid_from: 106, valid_to: 106 })], 'DATE-ORDER')).toEqual([]);
-  });
-
-  it('requires integer years', () => {
-    const hits = rules([record('evidence', 1, { valid_from: 100.5, valid_to: '200' })], 'DATE-ORDER');
-    expect(hits.map((h) => h.field).sort()).toEqual(['valid_from', 'valid_to']);
-  });
-
-  it('applies to any family that carries the dates (route, event, period)', () => {
-    expect(rules([record('period', 1, { valid_from: 50, valid_to: 10 })], 'DATE-ORDER')).toHaveLength(1);
-  });
-
-  it('is fine when the dates are absent', () => {
-    expect(rules([record('evidence', 1)], 'DATE-ORDER')).toEqual([]);
   });
 });
 

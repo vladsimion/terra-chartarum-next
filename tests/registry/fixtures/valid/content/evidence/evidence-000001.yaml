@@ -16,9 +16,8 @@ locator:
 evidence_type: cartographic
 geometry_provenance: source_geometry
 confidence: probable
-valid_from: 106
-valid_to: 271
-date_precision: century
+valid_from: '0106'
+valid_to: '0271'
 rights:
   licence: CC-BY-4.0
 provenance_chain:

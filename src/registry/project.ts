@@ -19,7 +19,7 @@ interface Allow {
   scalarRefs?: string[];
 }
 
-const DATES = ['valid_from', 'valid_to', 'date_precision', 'date_label'];
+const DATES = ['valid_from', 'valid_to', 'date_label'];
 
 const BY_FAMILY: Record<string, Allow> = {
   place: { fields: ['place_type', 'location_status', ...DATES] },

@@ -26,7 +26,7 @@ A framework-free TypeScript module, `src/registry/`, that loads canonical entity
 
 **Constraints**: Deterministic and offline (no network in the gate); read-only on content except `mint`; public output is allowlist-projected; strict TypeScript; no `any` at module boundaries.
 
-**Scale/Scope**: ≈ 60 maps today, a 5,000-entity ceiling by design; 15 families; 46 rules (see [contracts/rule-ids.md](./contracts/rule-ids.md)).
+**Scale/Scope**: ≈ 60 maps today, a 5,000-entity ceiling by design; 15 families; 48 rules (see [contracts/rule-ids.md](./contracts/rule-ids.md)).
 
 ## Constitution Check
 
@@ -95,7 +95,7 @@ src/registry/
 ├── rules/                   # one module per rule group
 ├── report.ts                # report model, JSON + HTML rendering
 ├── mint.ts                  # next local-id
-├── redirects.ts             # slug history → _redirects, withdrawn pages
+├── redirects.ts             # slug history → _redirects, tombstones
 ├── project.ts               # allowlist projection, reverse relationships
 ├── leak-scan.ts             # post-build scan of dist/
 └── cli.ts

@@ -2,7 +2,6 @@ import { AUTHORITIES } from '../families.js';
 import {
   ATTESTATION_FORM_VALUES,
   CONFIDENCE_VALUES,
-  DATE_PRECISION_VALUES,
   EVIDENCE_TYPE_VALUES,
   GEOMETRY_PROVENANCE_VALUES,
   LAYER_ROLE_VALUES,
@@ -32,7 +31,6 @@ function at(record: RegistryRecord, dotted: string): unknown {
 const ENUM_FIELDS: { path: string; values: readonly string[] }[] = [
   { path: 'confidence', values: CONFIDENCE_VALUES },
   { path: 'geometry_provenance', values: GEOMETRY_PROVENANCE_VALUES },
-  { path: 'date_precision', values: DATE_PRECISION_VALUES },
   { path: 'evidence_type', values: EVIDENCE_TYPE_VALUES },
   { path: 'silence_state', values: SILENCE_STATE_VALUES },
   { path: 'form', values: ATTESTATION_FORM_VALUES },
@@ -72,30 +70,6 @@ export const enumInvalid = defineRule({
   },
 });
 
-export const dateOrder = defineRule({
-  id: 'DATE-ORDER',
-  from: 'always',
-  check: ({ records }) => {
-    const findings: Finding[] = [];
-    for (const record of records) {
-      const { valid_from: from, valid_to: to } = record;
-      let bothInts = true;
-      for (const [field, value] of [['valid_from', from], ['valid_to', to]] as const) {
-        if (value === undefined) {
-          bothInts = false;
-        } else if (!Number.isInteger(value)) {
-          bothInts = false;
-          findings.push({ record, field, value, expected: 'a signed integer year (negative for BCE)' });
-        }
-      }
-      if (bothInts && (from as number) > (to as number)) {
-        findings.push({ record, field: 'valid_from', value: from, expected: `a year no later than valid_to (${String(to)})` });
-      }
-    }
-    return findings;
-  },
-});
-
 const SAME_AS_ID = /^[A-Za-z0-9][A-Za-z0-9._:-]*$/;
 
 export const sameAsSyntax = defineRule({
@@ -122,4 +96,4 @@ export const sameAsSyntax = defineRule({
   },
 });
 
-export const ENUM_RULES = [enumInvalid, dateOrder, sameAsSyntax];
+export const ENUM_RULES = [enumInvalid, sameAsSyntax];

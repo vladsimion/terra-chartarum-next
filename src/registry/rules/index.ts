@@ -1,5 +1,6 @@
 import type { Rule } from './framework.js';
 import { AUTOMATED_RULES } from './automated.js';
+import { DATE_RULES } from './dates.js';
 import { ENUM_RULES } from './enums.js';
 import { famRequired } from './family.js';
 import { refFeature } from './geometry.js';
@@ -23,6 +24,7 @@ export const ALL_RULES: Rule[] = [
   ...REFERENCE_RULES,
   roomSet,
   ...ENUM_RULES,
+  ...DATE_RULES,
   ...PROVENANCE_RULES,
   ...LOCATOR_RULES,
   ...SILENCE_RULES,

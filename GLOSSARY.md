@@ -22,7 +22,7 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Authority** | The namespace that issued an ID: `tc` for records this project mints (and for legacy IDs, kept verbatim), or a registered external code such as `pleiades`. |
 | **Slug history** | The list of former public slugs of an entity; each keeps resolving to the entity's current page. |
 | **Evidence record** | A first-class entity, with its own stable ID, stating that a source supports a claim about a target (an entity, or a feature of a layer). Essays and layers cite evidence records and never embed provenance. |
-| **Withdrawn entity** | A retired entity with no successor; its old address shows a withdrawal notice, never an error. |
+| **Tombstone** | The page a superseded entity keeps at its own address, linking to its live successor when there is one. A tombstone with no successor is a withdrawal: the old address shows a notice, never an error. |
 | **Map object** | One physical or digital map witness (edition/state-specific). One canonical record. |
 | **Cartographer** | A maker (cartographer, engraver, publisher) with a profile record. |
 | **Place** | A historical place authority with alternate names and temporal validity. |
@@ -37,7 +37,8 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 |---|---|
 | **Evidence type** | What kind of witness supports a claim (textual, cartographic, archaeological, archival, …). |
 | **Geometry provenance** | `source_geometry`, `georeferenced_trace`, `scholarly_reconstruction`, `generalized_editorial`, `modern_reference`. |
-| **Date precision** | Precision of a temporal claim, independent of geometry precision. |
+| **Historical date** | A date written in EDTF levels 0-1 with four-digit signed years (`0106`, `-0106`, `159X`, `1595?`, `1595/1602`); uncertainty and approximation are part of the value (ADR 0007). |
+| **Date precision** | Precision of a temporal claim (day, month, year, decade, century, range), derived from the date and never authored; independent of geometry precision. |
 | **Reconstruction** | An editorial inference, always flagged as such and distinguished from documentary evidence. |
 | **Silence state** | Typed historical absence: non-survival, non-survey, non-request, alternative naming, outside frame, source-not-applicable, meaningful silence. |
 | **Confidence** | Ordinal: `secure` (direct, verified) · `probable` (strong indirect) · `possible` (thin or contested) · `conjectural` (editorial inference) · plus `unknown`, which is not a level. |

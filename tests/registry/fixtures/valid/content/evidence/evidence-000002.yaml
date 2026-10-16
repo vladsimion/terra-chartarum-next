@@ -17,8 +17,7 @@ evidence_type: textual
 geometry_provenance: scholarly_reconstruction
 reconstruction: true
 confidence: conjectural
-valid_from: -101
-valid_to: 106
-date_precision: decade
+valid_from: '-0101'
+valid_to: '0106'
 rights:
   licence: CC-BY-4.0

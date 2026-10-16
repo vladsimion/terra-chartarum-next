@@ -12,7 +12,7 @@ Terms follow `GLOSSARY.md`. Rules cite the spec (FR-/US-) and ADR 0006. `*` mark
 | `Release` | `held` \| `released`, default `held` |
 | `Confidence` | `secure, probable, possible, conjectural, unknown` |
 | `GeometryProvenance` | `source_geometry, georeferenced_trace, scholarly_reconstruction, generalized_editorial, modern_reference` |
-| `DatePrecision` | `day, month, year, decade, quarter_century, century, unknown` |
+| `HistoricalDate` | An EDTF level 0-1 string with four-digit signed years: `0106`, `-0106`, `1595-03`, `159X`, `15XX`, `1595?`, `1595/1602` (ADR 0007). Precision (`day, month, year, decade, century, range`; `unknown` when missing) is **derived** from it, never authored. |
 | `EvidenceType` | `textual, cartographic, archaeological, archival, other` (extensible only by ADR) |
 | `SilenceState` | `non_survival, non_survey, non_request, alternative_naming, outside_frame, source_not_applicable, meaningful_silence` |
 | `LocatorState` | `verified, pending` |
@@ -44,8 +44,8 @@ Terms follow `GLOSSARY.md`. Rules cite the spec (FR-/US-) and ADR 0006. `*` mark
 | `source*` | `StableId` of a source; finding aids are rejected (stage-5 rule) |
 | `locator` | `{ value*, state*: LocatorState, proposed_by*: person | ai, verified_by?, verified_on?, consulted_copy? }`; `verified` requires all three of `verified_by`, `verified_on`, `consulted_copy` (US2.2); a locator with `proposed_by = ai` cannot be `verified` unless `verified_by` names a person |
 | `evidence_type*` | `EvidenceType` |
-| `valid_from`, `valid_to` | signed integer years; `valid_from ≤ valid_to` |
-| `date_precision`, `date_label` | `DatePrecision` / free text |
+| `valid_from`, `valid_to` | `HistoricalDate`; the start is not definitely later than the end (`DATE-INVALID`, `DATE-ORDER`) |
+| `date_label` | free text for display; `date_precision` is derived and a record that sets it fails (`DATE-PRECISION-AUTHORED`) |
 | `geometry_provenance` | required when the target is a feature; `scholarly_reconstruction` also requires `reconstruction: true` (US2.1) |
 | `reconstruction` | boolean; reconstructions are always flagged |
 | `confidence*` | `Confidence`; `secure` forbidden if any supporting locator is `pending` (US2.5) |
@@ -85,7 +85,7 @@ Minimum fields per family beyond the Entity base. Everything not listed is optio
 | source | `is_finding_aid` (boolean, default `false`) | `source_kind` |
 | dataset | `version` | `licence` |
 | layer | `role` (`context, historical, evidence, map-overlay`), `asset` (path), `dataset` | `geometry_provenance` |
-| route, event, period | none | `valid_from`, `valid_to`, `date_precision` |
+| route, event, period | none | `valid_from`, `valid_to`, `date_label` |
 | bibliography_entry | `csl` (path to CSL-JSON) | none |
 
 Modern reference geometry is context only: a layer whose `geometry_provenance` is `modern_reference` MUST have role `context`, and an evidence record MUST NOT have geometry provenance `modern_reference` (`PROV-MODERN-AS-EVIDENCE`, Constitution III).
@@ -112,7 +112,7 @@ Exactly seven, fixed IDs: `tc:tc:room:earth`, `map`, `city`, `border`, `road`, `
 - **Essay lifecycle**: from editorial stage (ADR 0003 §2).
 - **Reverse relationships**: for each declared reference, the referring entities that are `published` and `released` (FR-007). Only public targets get an entry, so a held entity's id is never handed out.
 - **Public record**: the allowlist projection of an entity that is `published` and `released` (FR-009, FR-015).
-- **Redirects**: one per former slug; superseded → successor; none → withdrawn page (FR-013). Every record's current slug stays claimed, a superseded record's included, so no live record can reuse the address a redirect starts from. `renderRedirects` writes the Cloudflare `_redirects` text and refuses a path that could inject extra rules.
+- **Redirects and tombstones**: one 301 per former slug to the current page; a superseded record keeps its own address as a tombstone linking to its live successor (null when there is none), and its former slugs redirect to the tombstone, never past it (FR-013, spec 002 FR-011). Every record's current slug stays claimed, a superseded record's included, so no live record can reuse the address a redirect starts from. `renderRedirects` writes the Cloudflare `_redirects` text and refuses a path that could inject extra rules.
 
 ## Lifecycle behaviour
 

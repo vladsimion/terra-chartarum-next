@@ -6,15 +6,16 @@ import { place, record } from '../support/builders.js';
 const publicPlace = (n: number, o: Record<string, unknown> = {}) =>
   place(n, { lifecycle: 'published', release: 'released', ...o });
 
+
 describe('redirects', () => {
   it('creates one 301 per former slug, pointing at the current page (US1.2)', () => {
     const p = publicPlace(1, { slug: 'napoca', slug_history: ['colonia-napoca', 'napuca'] });
-    const { rules, withdrawn } = redirects([p]);
+    const { rules, tombstones } = redirects([p]);
     expect(rules).toEqual([
       { from: '/place/colonia-napoca/', to: '/place/napoca/', status: 301 },
       { from: '/place/napuca/', to: '/place/napoca/', status: 301 },
     ]);
-    expect(withdrawn).toEqual([]);
+    expect(tombstones).toEqual([]);
   });
 
   it('creates nothing for an entity with no former slugs', () => {
@@ -24,47 +25,74 @@ describe('redirects', () => {
   it('creates nothing for an entity that is not published and released (no leak of held slugs)', () => {
     const held = place(1, { lifecycle: 'published', release: 'held', slug_history: ['old'] });
     const unreleased = place(2, { lifecycle: 'verified', release: 'released', slug_history: ['old-2'] });
-    expect(redirects([held, unreleased]).rules).toEqual([]);
+    const heldRetired = place(3, { lifecycle: 'superseded', release: 'held', slug: 'was-held', superseded_by: 'tc:tc:place:place-000001' });
+    const result = redirects([held, unreleased, heldRetired]);
+    expect(result.rules).toEqual([]);
+    expect(result.tombstones).toEqual([]);
+  });
+});
+
+describe('tombstones: a superseded record keeps its address (spec 002 FR-011)', () => {
+  const retired = (n: number, o: Record<string, unknown> = {}) => publicPlace(n, { lifecycle: 'superseded', ...o });
+
+  it('gives a superseded record a tombstone at its own address, linking to the successor', () => {
+    const old = retired(1, { slug: 'napoca-old', superseded_by: 'tc:tc:place:place-000002' });
+    const { rules, tombstones } = redirects([old, publicPlace(2, { slug: 'napoca' })]);
+    expect(tombstones).toEqual([{ path: '/place/napoca-old/', id: 'tc:tc:place:place-000001', successor: '/place/napoca/' }]);
+    // nothing redirects away from the retired address: that is where the tombstone lives
+    expect(rules.some((r) => r.from === '/place/napoca-old/')).toBe(false);
   });
 
-  it('sends a superseded entity (current and former slugs) to its successor', () => {
-    const old = publicPlace(1, {
-      lifecycle: 'superseded',
-      slug: 'napoca-old',
-      slug_history: ['napoca-older'],
-      superseded_by: 'tc:tc:place:place-000002',
-    });
-    const successor = publicPlace(2, { slug: 'napoca' });
-    const { rules, withdrawn } = redirects([old, successor]);
-    expect(rules).toEqual([
-      { from: '/place/napoca-old/', to: '/place/napoca/', status: 301 },
-      { from: '/place/napoca-older/', to: '/place/napoca/', status: 301 },
-    ]);
-    expect(withdrawn).toEqual([]);
+  it('sends the former slugs of a retired record to its tombstone, not past it', () => {
+    const old = retired(1, { slug: 'napoca-old', slug_history: ['napoca-older'], superseded_by: 'tc:tc:place:place-000002' });
+    const { rules } = redirects([old, publicPlace(2, { slug: 'napoca' })]);
+    expect(rules).toEqual([{ from: '/place/napoca-older/', to: '/place/napoca-old/', status: 301 }]);
   });
 
-  it('follows a chain of successors to the end', () => {
-    const a = publicPlace(1, { lifecycle: 'superseded', slug: 'a', superseded_by: 'tc:tc:place:place-000002' });
-    const b = publicPlace(2, { lifecycle: 'superseded', slug: 'b', superseded_by: 'tc:tc:place:place-000003' });
+  it('links a tombstone to the live record at the end of a chain of successors', () => {
+    const a = retired(1, { slug: 'a', superseded_by: 'tc:tc:place:place-000002' });
+    const b = retired(2, { slug: 'b', superseded_by: 'tc:tc:place:place-000003' });
     const c = publicPlace(3, { slug: 'c' });
-    const { rules } = redirects([a, b, c]);
-    expect(rules).toContainEqual({ from: '/place/a/', to: '/place/c/', status: 301 });
-    expect(rules).toContainEqual({ from: '/place/b/', to: '/place/c/', status: 301 });
+    const { tombstones } = redirects([a, b, c]);
+    expect(tombstones.map((t) => [t.path, t.successor])).toEqual([
+      ['/place/a/', '/place/c/'],
+      ['/place/b/', '/place/c/'],
+    ]);
   });
 
-  it('gives a retired entity with no successor a withdrawn page, never a missing one', () => {
-    const gone = publicPlace(1, { lifecycle: 'superseded', slug: 'gone', slug_history: ['gone-old'] });
-    const { rules, withdrawn } = redirects([gone]);
-    expect(withdrawn).toEqual([{ path: '/place/gone/', id: 'tc:tc:place:place-000001' }]);
+  it('still gives a retired record with no successor a tombstone, with nothing to link to', () => {
+    const gone = retired(1, { slug: 'gone', slug_history: ['gone-old'] });
+    const { rules, tombstones } = redirects([gone]);
+    expect(tombstones).toEqual([{ path: '/place/gone/', id: 'tc:tc:place:place-000001', successor: null }]);
     expect(rules).toEqual([{ from: '/place/gone-old/', to: '/place/gone/', status: 301 }]);
   });
 
-  it('treats an unresolved or circular successor as withdrawn instead of looping', () => {
-    const a = publicPlace(1, { lifecycle: 'superseded', slug: 'a', superseded_by: 'tc:tc:place:place-000002' });
-    const b = publicPlace(2, { lifecycle: 'superseded', slug: 'b', superseded_by: 'tc:tc:place:place-000001' });
-    const missing = publicPlace(3, { lifecycle: 'superseded', slug: 'c', superseded_by: 'tc:tc:place:place-999999' });
-    const { withdrawn } = redirects([a, b, missing]);
-    expect(withdrawn.map((w) => w.path).sort()).toEqual(['/place/a/', '/place/b/', '/place/c/']);
+  it('links to nothing rather than loop or point at a missing or held successor', () => {
+    const a = retired(1, { slug: 'a', superseded_by: 'tc:tc:place:place-000002' });
+    const b = retired(2, { slug: 'b', superseded_by: 'tc:tc:place:place-000001' });
+    const missing = retired(3, { slug: 'c', superseded_by: 'tc:tc:place:place-999999' });
+    const toHeld = retired(4, { slug: 'd', superseded_by: 'tc:tc:place:place-000005' });
+    const held = place(5, { lifecycle: 'published', release: 'held', slug: 'held-successor' });
+    const { tombstones } = redirects([a, b, missing, toHeld, held]);
+    expect(tombstones.map((t) => [t.path, t.successor])).toEqual([
+      ['/place/a/', null],
+      ['/place/b/', null],
+      ['/place/c/', null],
+      ['/place/d/', null],
+    ]);
+  });
+
+  it('never exposes the id or address of a held successor', () => {
+    const toHeld = retired(1, { slug: 'd', superseded_by: 'tc:tc:place:place-000002' });
+    const held = place(2, { lifecycle: 'published', release: 'held', slug: 'secret-successor' });
+    expect(JSON.stringify(redirects([toHeld, held]))).not.toContain('secret-successor');
+  });
+
+  it('keeps a live record untouched by the tombstone of its predecessor', () => {
+    const old = retired(1, { slug: 'napoca-old', superseded_by: 'tc:tc:place:place-000002' });
+    const live = publicPlace(2, { slug: 'napoca', slug_history: ['napuca'] });
+    const { rules } = redirects([old, live]);
+    expect(rules).toEqual([{ from: '/place/napuca/', to: '/place/napoca/', status: 301 }]);
   });
 });
 
