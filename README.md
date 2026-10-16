@@ -61,6 +61,7 @@ The scholarly registry is a framework-free TypeScript module in `src/registry/`:
 npm ci                                     # Node 24, see .nvmrc
 npm test && npm run typecheck              # unit, integration, mutation and timing tests
 npm run registry -- check --dir <root>     # validate <root>/content, write reports/integrity-report.{json,html}
+npm run registry -- build --out dist       # run the gate; only if it passes, write _redirects and data/relations.json for the site
 npm run registry -- mint place             # next unused local-id for a family
 npm run registry -- scan dist              # fail if built output leaks a private value or a non-public id
 ```

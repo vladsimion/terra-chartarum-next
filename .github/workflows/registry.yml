@@ -26,6 +26,14 @@ jobs:
           else
             echo "No content/ directory yet; skipping gate."
           fi
+      - name: Site data and leak scan on canonical content
+        run: |
+          if [ -d content ]; then
+            npm run registry -- build --dir . --out build-site-data
+            npm run registry -- scan build-site-data --dir .
+          else
+            echo "No content/ directory yet; skipping site data."
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
