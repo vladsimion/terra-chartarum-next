@@ -8,7 +8,7 @@ New rules added to `specs/001-scholarly-registry/contracts/rule-ids.md` when the
 | `ESSAY-ROOMS` | `rooms.primary` present and a room; at most two secondary rooms, each a room, none equal to the primary | FR-014 | Concept |
 | `ESSAY-HISTORY` | `stage_history` is contiguous from Concept, each stage once, in order, with `on` and `by`; the last entry equals `stage` | FR-003 | Concept |
 | `ESSAY-ACCENT` | `accent`, when present, is a name in `accent-slots.ts` | FR-008 | Concept |
-| `ESSAY-CORPUS` | every ID in `maps[]` resolves and its record carries rights | FR-002 | Corpus |
+| `ESSAY-CORPUS` | every ID in `maps[]` resolves and its record has a rights state: a `rights` object with a `licence`, or an explicit `reproduction_cleared` value | FR-002 | Corpus |
 | `ESSAY-RESEARCH` | `evidence[]` present with locators; `open_questions` key present | FR-002 | Research |
 | `ESSAY-OUTLINE` | `thesis` present | FR-001 | Outline |
 | `ESSAY-INTERACTION` | each declaration has `question`, `interpretation` and at least one resolving evidence ID; every `<Interaction id>` in the body is declared; from Build, every declaration is used | FR-007 | Outline |

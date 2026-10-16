@@ -33,7 +33,7 @@ Extends the Essay section of spec 001's data model. Fields are those of the clar
 | Stage | Derived lifecycle | Exit check added at this stage | Rule |
 |---|---|---|---|
 | Concept | proposed | `question`, `rooms.primary`, `authors`, a one-entry `stage_history` | `ESSAY-QUESTION`, `ESSAY-ROOMS`, `ESSAY-HISTORY` |
-| Corpus | researching | every ID in `maps[]` resolves; a rights state for each (the map's `rights` exists) | `ESSAY-CORPUS` |
+| Corpus | researching | every ID in `maps[]` resolves; a rights state for each (the map has a `rights` object with a `licence`, or an explicit `reproduction_cleared` value) | `ESSAY-CORPUS` |
 | Research | researching | `sources[]` with locators on the evidence; `open_questions` key present | `ESSAY-RESEARCH` |
 | Outline | verified | `thesis`; every planned interaction declared with question, evidence, interpretation | `ESSAY-OUTLINE`, `ESSAY-INTERACTION` |
 | Draft | verified | the body exists; every citation resolves; no finding aid cited; body props are literals | `ESSAY-DRAFT`, `ESSAY-BODY-DYNAMIC`, `REF-FINDING-AID` |

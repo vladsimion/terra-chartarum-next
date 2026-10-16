@@ -91,13 +91,13 @@ As the editor, I can declare alternative publication paths that depend on a rese
 - **FR-008**: Essays MUST support per-essay accent and layout without forking shared contracts.
 - **FR-009**: Each essay MUST display citations in Chicago notes-bibliography and offer export of itself as BibTeX, RIS and CSL-JSON (ADR 0004), generated at build time.
 - **FR-010**: A claim-level citation MUST reference an Evidence record and show source, locator and verification state; a pending locator is visibly marked and never carries a `secure` claim.
-- **FR-017**: Publish MUST fail if anything the essay body embeds or cites is not public (published and released); metadata-only references to held entities remain valid and are never shown.
 - **FR-011**: Sign-offs (historical, cartographic, data QA) MUST each name a person and a date; an automated tool cannot sign.
-- **FR-012**: Accessibility and performance at Publish MUST be proved by CI: the essay's page type is in the CI template list and the required `gate` check is green on the pull request that sets Publish.
+- **FR-012**: Accessibility and performance at Publish MUST be proved by CI: the CI template list has an `essay` template entry (checked by `registry promote`) and the required `gate` check is green on the pull request that sets Publish.
 - **FR-013**: A rebuilt essay MUST record `legacy_url`, and reaching Cross-link MUST require `redirect_switched` (a person and a date).
 - **FR-014**: `rooms` MUST be an essay-only field; the primary room is required from Concept; at most two secondary rooms.
 - **FR-015**: A new essay MUST be scaffoldable at Concept with one command, `registry new essay`, and pass validation.
 - **FR-016**: Trench A cells that would consume CND attestations MUST be the essay's local data marked `corpus: none` and shown as not yet corpus-backed; a later `attestation` ID MUST be the only change a retrofit makes to a cell.
+- **FR-017**: Publish MUST fail if anything the essay body embeds or cites is not public (published and released); metadata-only references to held entities remain valid and are never shown.
 
 ### Key Entities
 - **Essay**: see FR-001.

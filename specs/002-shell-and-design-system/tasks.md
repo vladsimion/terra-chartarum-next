@@ -11,6 +11,8 @@ description: "Task list for 002 Publication Shell, Navigation & Design System"
 
 **Tests**: REQUIRED (Constitution X). Every acceptance scenario has an automated test written first, and each story is built red → green with the `tdd` skill: in every phase the test tasks come first and must be seen failing before the task that makes them pass. Refactoring happens in review, not inside the loop.
 
+**Working rule**: the task list groups the tests of a phase together for readability, but they are worked one slice at a time: write one test, see it fail, make it pass, then the next (tdd skill). Never write a phase's tests all first.
+
 **Seams** (to confirm with Vlad before T006's tests are written): (1) pure modules `destinations`, `breadcrumbs`, `contrast` and the token file, tested with Vitest; (2) the built site, tested with Playwright and axe through the browser; (3) the `shell:check` command, tested as a process. No test reaches inside a component.
 
 **Organization**: Grouped by user story. Phases follow the slice order **Foundation → US1 → US2 → US3 → US4 → US5**, not priority number: the token, destination and layout foundations come first because every story renders through them; US3 (the gates) follows US1 and US2 so it has pages to measure; US4 needs the registry integration (spec 001 T119b); US5 is last because it is mostly copy.
