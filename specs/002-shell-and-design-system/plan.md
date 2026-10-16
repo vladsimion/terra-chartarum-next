@@ -12,7 +12,7 @@ The first reader-facing code in the repository: an Astro static site containing 
 
 **Language/Version**: TypeScript strict, Node 24 (`.nvmrc`), Astro 7 (latest 7.x at scaffold time; the task pins the exact version and checks it is at least two weeks old).
 
-**Primary Dependencies**: `astro`, `@astrojs/check`; self-hosted fonts from `@fontsource-variable/{cinzel,crimson-pro,eb-garamond}` and `@fontsource/ibm-plex-mono`; dev only: `stylelint` (with `postcss-html` for `.astro` styles), `postcss` (to read the token file), `@playwright/test`, `@axe-core/playwright`, `@lhci/cli`. No UI framework, no client-side JavaScript library.
+**Primary Dependencies**: `astro` (7.3.5 pinned at T001; `@astrojs/check` is deferred because it does not yet support TypeScript 7); self-hosted fonts from `@fontsource-variable/{cinzel,crimson-pro,eb-garamond}` and `@fontsource/ibm-plex-mono`; dev only: `stylelint` (with `postcss-html` for `.astro` styles), `postcss` (to read the token file), `@playwright/test`, `@axe-core/playwright`; Lighthouse CI runs through a pinned `npx @lhci/cli`, not as a dependency (its tree carries audit findings). No UI framework, no client-side JavaScript library.
 
 **Storage**: Files. Page copy in an Astro content collection (`src/content/pages/*.md`, Zod schema); records come from the existing `content/` registry through `src/registry/`.
 
