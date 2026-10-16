@@ -31,6 +31,13 @@ Also settled: visual identity carries over, rebuilt as tokens.
 
 Settled leftovers: 5,000-entity integrity fixture; held-only bibliography entries hidden.
 
+## Spec 001 registry — DONE 2026-10-16 (TCX-2, ADR 0006)
+Model decisions are in ADR 0006 (items 1–17). Plan-level decisions for `/speckit-plan`:
+- Seams: `loadRegistry(dir)`, pure `validateRegistry(records) → IntegrityReport`, thin CLI; tests assert on stable rule IDs.
+- Fixtures: committed hand-written valid/invalid sets; the 5,000-entity registry is generated from a fixed seed, not committed; SC-003 is a named-mutation suite (one rule ID each, a no-op mutation fails); SC-004 is a timed test.
+- Scope and order: all five user stories in v1, built US1 → US3 → US2 → US5 → US4 (release filtering before reverse relationships).
+- Spec 008 inputs: legacy repo `vladsimion/terra-chartarum`; the 59 maps come from its collection registry; audit real `port` records before writing the import spec.
+
 ## Still open
 - Spec 003: which Trench A test pits depend on CND attestations (needs the essay author).
 
