@@ -1,3 +1,4 @@
+import { isPublic } from './publication.js';
 import { referenceFields } from './schemas/references.js';
 import type { RegistryRecord } from './types.js';
 
@@ -10,7 +11,7 @@ import type { RegistryRecord } from './types.js';
 export function reverseRelationships(records: readonly RegistryRecord[]): Map<string, string[]> {
   const referrers = new Map<string, Set<string>>();
   for (const record of records) {
-    if (record.release !== 'released' || record.lifecycle !== 'published') continue;
+    if (!isPublic(record)) continue;
     for (const { id } of referenceFields(record)) {
       if (id === record.id) continue;
       const set = referrers.get(id);

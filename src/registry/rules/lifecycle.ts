@@ -1,4 +1,4 @@
-import { LIFECYCLE_VALUES, RELEASE_VALUES } from '../schemas/shared.js';
+import { LIFECYCLE_VALUES, RELEASE_VALUES, SIDE_STATES } from '../schemas/shared.js';
 import { ESSAY_STAGES, isEssayStage, lifecycleFor } from '../stages.js';
 import { defineRule, type Finding } from './framework.js';
 
@@ -31,7 +31,7 @@ export const lifeEssayDerived = defineRule({
     for (const record of records) {
       if (record.family !== 'essay') continue;
       // blocked and superseded are side states reachable from any stage
-      if (record.lifecycle === 'blocked' || record.lifecycle === 'superseded') continue;
+      if ((SIDE_STATES as readonly string[]).includes(String(record.lifecycle))) continue;
       if (!isEssayStage(record.stage)) {
         findings.push({ record, field: 'stage', value: record.stage ?? null, expected: `one of ${ESSAY_STAGES.join(' | ')}` });
         continue;

@@ -1,3 +1,4 @@
+import { isPublic } from './publication.js';
 import type { RegistryRecord } from './types.js';
 
 export type PublicRecord = { id: string; family: string } & Record<string, unknown>;
@@ -44,8 +45,6 @@ const BY_FAMILY: Record<string, Allow> = {
 /** The parts of a locator that readers may see. */
 const LOCATOR_FIELDS = ['value', 'state', 'consulted_copy', 'verified_by', 'verified_on'];
 
-const isCandidate = (r: RegistryRecord) => r.release === 'released' && r.lifecycle === 'published';
-
 function pick(source: Record<string, unknown>, keys: string[]): Record<string, unknown> {
   const out: Record<string, unknown> = {};
   for (const key of keys) if (source[key] !== undefined) out[key] = structuredClone(source[key]);
@@ -62,7 +61,7 @@ function targetEntity(record: RegistryRecord): unknown {
  * an entity that is not public is left out rather than describing a held entity.
  */
 export function projectPublic(records: readonly RegistryRecord[]): PublicRecord[] {
-  let candidates = records.filter(isCandidate);
+  let candidates = records.filter(isPublic);
   // evidence needs a public target; dropping it may in turn remove what only it linked to
   for (;;) {
     const ids = new Set(candidates.map((r) => r.id));

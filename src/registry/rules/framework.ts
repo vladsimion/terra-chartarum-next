@@ -1,12 +1,21 @@
 import type { Severity, Violation } from '../report.js';
 import type { ProvenanceStep } from '../schemas/provenance-step.js';
+import type { LifecycleValue } from '../schemas/shared.js';
 import type { RegistryRecord } from '../types.js';
 
 /** Lowest lifecycle at which a rule is an error; below it the same finding is a warning (research R6). */
 export type Threshold = 'always' | 'ready_for_build' | 'publishable' | 'published';
 
-/** Order of the main lifecycle line (ADR 0003). */
-const RANK: Record<string, number> = {
+/*
+ * Position of every lifecycle value, typed against the vocabulary so that adding or misspelling a
+ * value is a compile error rather than a silent fall back to the lowest rank.
+ *
+ * Side states have no place on the main line. `blocked` is not progressing, so it ranks as
+ * `proposed`. `superseded` was public: provenance and rights still bind it (rank of
+ * `ready_for_build`), but publication checks such as asset availability do not. Recorded in
+ * data-model.md "Lifecycle behaviour".
+ */
+const RANK: Record<LifecycleValue, number> = {
   proposed: 0,
   researching: 1,
   verified: 2,
@@ -15,14 +24,9 @@ const RANK: Record<string, number> = {
   qa: 5,
   publishable: 6,
   published: 7,
+  blocked: 0,
+  superseded: 3,
 };
-
-/*
- * Side states have no place on the main line. `blocked` is not progressing, so it is treated as
- * `proposed`; `superseded` was public, so it keeps the strictness of `published`. Assumption
- * recorded in data-model.md "Lifecycle behaviour".
- */
-const SIDE_STATE_RANK: Record<string, number> = { blocked: 0, superseded: 7 };
 
 const THRESHOLD_RANK: Record<Threshold, number> = {
   always: Number.NEGATIVE_INFINITY,
@@ -31,9 +35,9 @@ const THRESHOLD_RANK: Record<Threshold, number> = {
   published: 7,
 };
 
+/** A missing or unknown lifecycle ranks lowest; LIFE-VALUE reports it as an error of its own. */
 function rankOf(lifecycle: string | undefined): number {
-  if (lifecycle === undefined) return 0;
-  return RANK[lifecycle] ?? SIDE_STATE_RANK[lifecycle] ?? 0;
+  return lifecycle !== undefined && Object.hasOwn(RANK, lifecycle) ? RANK[lifecycle as LifecycleValue] : 0;
 }
 
 export function severityFor(from: Threshold, lifecycle: string | undefined): Severity {
