@@ -235,6 +235,11 @@ const US2_MUTATIONS: Mutation[] = [
     options: withStep((s) => { s.status = 'proposed'; }),
   },
   {
+    name: 'an llm_assisted import is published without adjudication',
+    rule: 'AUTO-UNADJUDICATED',
+    apply: editOf('place', (r) => { r.origin = 'legacy'; r.legacy_normalization_method = 'llm_assisted'; r.lifecycle = 'publishable'; }),
+  },
+  {
     name: 'a logged step has no tool',
     rule: 'AUTO-LOG',
     apply: editOf('evidence', (r) => { r.lifecycle = READY; }),
@@ -259,7 +264,12 @@ const US2_MUTATIONS: Mutation[] = [
   {
     name: 'an unconfirmed import skips ahead of researching',
     rule: 'IMPORT-REVIEW',
-    apply: editOf('place', (r) => { r.legacy_review_state = 'normalized'; r.lifecycle = 'verified'; }),
+    apply: editOf('place', (r) => { r.origin = 'legacy'; r.lifecycle = 'verified'; }),
+  },
+  {
+    name: 'an import is confirmed with a bare flag',
+    rule: 'IMPORT-CONFIRMED',
+    apply: editOf('place', (r) => { r.origin = 'legacy'; r.editor_confirmed = true; }),
   },
   {
     name: 'an imported layer ignores the lifecycle mapping',

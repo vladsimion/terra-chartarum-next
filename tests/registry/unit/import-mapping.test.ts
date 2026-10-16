@@ -67,7 +67,7 @@ describe('IMPORT-CONFIDENCE (FR-014)', () => {
     const confirmed = imported(evidence(1), {
       legacy_confidence: 'high',
       confidence: 'secure',
-      editor_confirmed: true,
+      editor_confirmed: true, confirmed_by: 'V. Simion', confirmed_on: '2026-10-16',
       locator: { value: 'p. 1', state: 'verified', proposed_by: 'person', verified_by: 'V. Simion', verified_on: '2026-10-01', consulted_copy: 'Venice 1548' },
     });
     expect(hits([confirmed], 'IMPORT-CONFIDENCE')).toEqual([]);
@@ -88,7 +88,7 @@ describe('IMPORT-REVIEW (FR-014)', () => {
   });
 
   it('lets a confirmed import move on', () => {
-    const moved = imported(place(1, { lifecycle: 'ready_for_build' }), { legacy_review_state: 'normalized', editor_confirmed: true });
+    const moved = imported(place(1, { lifecycle: 'ready_for_build' }), { legacy_review_state: 'normalized', editor_confirmed: true, confirmed_by: 'V. Simion', confirmed_on: '2026-10-16' });
     expect(hits([moved], 'IMPORT-REVIEW')).toEqual([]);
   });
 
@@ -128,7 +128,7 @@ describe('IMPORT-LAYER-LIFECYCLE (FR-011)', () => {
   });
 
   it('lets a confirmed layer follow its own lifecycle', () => {
-    const confirmed = imported(layer(1, { lifecycle: 'qa', release: 'released' }), { legacy_layer_status: 'planned', editor_confirmed: true });
+    const confirmed = imported(layer(1, { lifecycle: 'qa', release: 'released' }), { legacy_layer_status: 'planned', editor_confirmed: true, confirmed_by: 'V. Simion', confirmed_on: '2026-10-16' });
     expect(hits([confirmed], 'IMPORT-LAYER-LIFECYCLE')).toEqual([]);
   });
 });
@@ -163,7 +163,7 @@ describe('IMPORT-REVIEWER (FR-014)', () => {
       legacy_reviewer: 'A. Reviewer',
       verified_by: 'A. Reviewer',
       verified_on: '2025-05-01',
-      editor_confirmed: true,
+      editor_confirmed: true, confirmed_by: 'V. Simion', confirmed_on: '2026-10-16',
     });
     expect(hits([ok], 'IMPORT-REVIEWER')).toEqual([]);
   });

@@ -47,6 +47,7 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `IMPORT-CONFIDENCE` | imported claim is not auto-`secure`; `legacy_confidence` kept | FR-014 | always |
 | `IMPORT-REVIEW` | imports start at `researching`; `legacy_review_state` kept | FR-014 | always |
 | `IMPORT-LAYER-LIFECYCLE` | an imported layer's lifecycle matches the FR-011 mapping of `legacy_layer_status`; unknown legacy terms fail | FR-011 | always |
+| `IMPORT-CONFIRMED` | a confirmed import names who confirmed it and when; an automated tool cannot confirm | FR-014 | always |
 | `IMPORT-REVIEWER` | `verified_by`/`verified_on` from legacy only when `editor_confirmed` | FR-014 | always |
 
 Adding a rule means adding its ID here, its test, and its mutation.

@@ -76,6 +76,18 @@ describe('SLUG-UNIQUE', () => {
     expect(hits[0]?.severity).toBe('error');
   });
 
+  it('does not let a live record take the slug of a superseded one: its redirect would shadow the new page', () => {
+    const retired = publicPlace(1, { lifecycle: 'superseded', slug: 'napoca', superseded_by: 'tc:tc:place:place-000002' });
+    const successor = publicPlace(2, { slug: 'napoca' });
+    const hits = validateRegistry([retired, successor]).violations.filter((v) => v.rule === 'SLUG-UNIQUE');
+    expect(hits.map((v) => v.entity).sort()).toEqual(['tc:tc:place:place-000001', 'tc:tc:place:place-000002']);
+  });
+
+  it('allows a superseded record to keep its own slug when nothing else uses it', () => {
+    const retired = publicPlace(1, { lifecycle: 'superseded', slug: 'napoca-old', superseded_by: 'tc:tc:place:place-000002' });
+    expect(validateRegistry([retired, publicPlace(2, { slug: 'napoca' })]).violations.filter((v) => v.rule === 'SLUG-UNIQUE')).toEqual([]);
+  });
+
   it('allows the same slug in different families (the family is part of the url)', () => {
     const report = validateRegistry([place(1, { slug: 'napoca' }), record('source', 1, { slug: 'napoca' })]);
     expect(report.violations.filter((v) => v.rule === 'SLUG-UNIQUE')).toEqual([]);
@@ -101,6 +113,13 @@ describe('SLUG-HISTORY-COLLISION', () => {
       place(2, { slug: 'b', slug_history: ['shared-old'] }),
     ]);
     expect(report.violations.filter((v) => v.rule === 'SLUG-HISTORY-COLLISION')).toHaveLength(2);
+  });
+
+  it("fails when a former slug equals a superseded record's slug, which already redirects", () => {
+    const retired = publicPlace(1, { lifecycle: 'superseded', slug: 'napoca', superseded_by: 'tc:tc:place:place-000003' });
+    const other = publicPlace(2, { slug: 'other', slug_history: ['napoca'] });
+    const hit = validateRegistry([retired, other, publicPlace(3, { slug: 'third' })]).violations.find((v) => v.rule === 'SLUG-HISTORY-COLLISION');
+    expect(hit?.entity).toBe('tc:tc:place:place-000002');
   });
 
   it('passes when former slugs are unique and do not clash with any live slug', () => {

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { EntityBase } from './entity.js';
-import { LocatorShape } from './evidence.js';
+import { LocatorShape, RightsShape } from './evidence.js';
 
 /**
  * place x source x form (GLOSSARY.md). `silence_state` accepts a list on purpose: SIL-STATE
@@ -14,4 +14,5 @@ export const AttestationSchema = EntityBase.extend({
   source_coverage_verified: z.unknown().optional(),
   confidence: z.string().optional(),
   locator: LocatorShape.optional(),
+  rights: RightsShape.optional(),
 });

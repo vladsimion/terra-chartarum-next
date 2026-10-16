@@ -45,7 +45,7 @@ export const locVerifiedFields = defineRule({
  * Words that identify an automated verifier. The gate cannot know who a person is, so this is a
  * guard against the obvious mistake of recording the tool that proposed a locator as its verifier.
  */
-const AUTOMATED = /\b(ai|llm|gpt|claude|gemini|copilot|chatbot|bot)\b/i;
+export const AUTOMATED = /\b(ai|llm|gpt|claude|gemini|copilot|chatbot|bot)\b/i;
 
 /** Locators found or proposed by AI stay pending until a person confirms them against the page. */
 export const locAiVerified = defineRule({

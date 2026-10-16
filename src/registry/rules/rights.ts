@@ -2,7 +2,7 @@ import type { RegistryRecord } from '../types.js';
 import { defineRule, type Finding } from './framework.js';
 
 /** Families whose records need rights and licence information (Constitution VI). */
-const NEEDS_RIGHTS = new Set(['evidence', 'layer', 'dataset', 'map']);
+const NEEDS_RIGHTS = new Set(['evidence', 'layer', 'dataset', 'map', 'attestation', 'essay']);
 
 function rightsOf(record: RegistryRecord): Record<string, unknown> | null {
   const rights = record.rights;

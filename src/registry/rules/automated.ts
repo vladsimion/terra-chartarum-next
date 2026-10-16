@@ -28,6 +28,18 @@ export const autoUnadjudicated = defineRule({
   from: 'publishable',
   check: (ctx) => {
     const findings: Finding[] = [];
+    // Legacy rows normalised by an LLM count as unadjudicated automated steps until a person
+    // has adjudicated them (ADR 0006 item 14), whether or not a step was logged for them.
+    for (const record of ctx.records) {
+      if (record.legacy_normalization_method === 'llm_assisted' && (blank(record.adjudicated_by) || blank(record.adjudicated_on))) {
+        findings.push({
+          record,
+          field: 'adjudicated_by',
+          value: record.adjudicated_by ?? null,
+          expected: 'adjudicated_by and adjudicated_on: a person must adjudicate an llm_assisted import',
+        });
+      }
+    }
     for (const { record, field, step } of stepsOf(ctx)) {
       const adjudicated = step.status === 'adjudicated' && !blank(step.adjudicated_by) && !blank(step.adjudicated_on);
       if (!adjudicated) {
