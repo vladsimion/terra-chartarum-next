@@ -22,7 +22,7 @@ jobs:
       - name: Integrity gate on canonical content
         run: |
           if [ -d content ]; then
-            npm run registry -- check --dir content --out reports
+            npm run registry -- check --dir . --out reports
           else
             echo "No content/ directory yet; skipping gate."
           fi

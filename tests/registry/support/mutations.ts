@@ -38,5 +38,48 @@ export function runMutation(mutation: Mutation, flags: { allowNoop?: boolean } =
   return { baseErrors: baseReport.counts.errors, rules };
 }
 
+/** Replace the record at `index` (cloned input, so mutating in place is safe). */
+function edit(records: RegistryRecord[], index: number, change: (r: RegistryRecord) => void): RegistryRecord[] {
+  const target = records[index];
+  if (!target) throw new Error(`no record at index ${index}`);
+  change(target);
+  return records;
+}
+
+/*
+ * Index 0 and index 8 are both places (the generator cycles 8 families), so they share a family
+ * for the slug mutations.
+ */
+const US1_MUTATIONS: Mutation[] = [
+  { name: 'id loses its tc prefix', rule: 'ID-SYNTAX', apply: (rs) => edit(rs, 0, (r) => { r.id = 'not-an-id'; }) },
+  {
+    name: 'two records declare one id',
+    rule: 'ID-DUPLICATE',
+    apply: (rs) => [...rs, { ...(rs[0] as RegistryRecord), file: 'content/place/duplicate-copy.yaml' }],
+  },
+  {
+    name: 'unlisted authority',
+    rule: 'ID-AUTHORITY',
+    apply: (rs) => edit(rs, 0, (r) => { r.id = r.id.replace('tc:tc:', 'tc:nope:'); }),
+  },
+  { name: 'unknown family', rule: 'ID-FAMILY', apply: (rs) => edit(rs, 0, (r) => { r.family = 'ghost'; }) },
+  { name: 'origin removed', rule: 'ID-ORIGIN', apply: (rs) => edit(rs, 0, (r) => { delete r.origin; }) },
+  {
+    name: 'file name differs from local-id',
+    rule: 'LOAD-PATH',
+    apply: (rs) => edit(rs, 0, (r) => { r.file = 'content/place/renamed-file.yaml'; }),
+  },
+  {
+    name: 'two places share a live slug',
+    rule: 'SLUG-UNIQUE',
+    apply: (rs) => edit(rs, 8, (r) => { r.slug = (rs[0] as RegistryRecord).slug; }),
+  },
+  {
+    name: 'a former slug equals another record\'s live slug',
+    rule: 'SLUG-HISTORY-COLLISION',
+    apply: (rs) => edit(rs, 0, (r) => { r.slug_history = [String((rs[8] as RegistryRecord).slug)]; }),
+  },
+];
+
 /** Each story adds its entries here. */
-export const MUTATIONS: Mutation[] = [];
+export const MUTATIONS: Mutation[] = [...US1_MUTATIONS];

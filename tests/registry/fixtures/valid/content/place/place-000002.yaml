@@ -1,0 +1,9 @@
+id: tc:tc:place:place-000002
+family: place
+origin: minted
+title: Sarmizegetusa
+slug: sarmizegetusa
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:source:source-000001

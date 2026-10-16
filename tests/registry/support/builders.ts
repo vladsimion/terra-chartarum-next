@@ -14,7 +14,7 @@ export function stableId(family: string, n: number, authority = 'tc'): string {
  */
 export function record(family: string, n = 1, overrides: Partial<RegistryRecord> = {}): RegistryRecord {
   const local = localId(family, n);
-  return {
+  const merged: RegistryRecord = {
     id: `tc:tc:${family}:${local}`,
     family,
     origin: 'minted',
@@ -24,9 +24,15 @@ export function record(family: string, n = 1, overrides: Partial<RegistryRecord>
     lifecycle: 'researching',
     release: 'held',
     relations: [],
-    file: `content/${family}/${local}.yaml`,
+    file: '',
     ...overrides,
   };
+  // The file follows the id unless a test sets it, so path rules stay quiet in unrelated tests.
+  if (overrides.file === undefined) {
+    const m = /^tc:[^:]*:([^:]*):(.*)$/.exec(merged.id);
+    merged.file = m ? `content/${m[1]}/${m[2]}.yaml` : `content/${family}/${local}.yaml`;
+  }
+  return merged;
 }
 
 export const place = (n = 1, o: Partial<RegistryRecord> = {}) => record('place', n, o);

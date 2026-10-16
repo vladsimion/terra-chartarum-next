@@ -1,0 +1,23 @@
+import { loadRegistry } from './load.js';
+import { buildReport, type IntegrityReport, type Violation } from './report.js';
+import type { ValidateOptions } from './rules/framework.js';
+import { validateRegistry } from './validate.js';
+
+/** Load a registry from disk, validate it, and fold load errors into the same report. */
+export async function checkRegistry(rootDir: string, options: ValidateOptions = {}): Promise<IntegrityReport> {
+  const { records, loadErrors } = await loadRegistry(rootDir);
+  const report = validateRegistry(records, options);
+  const loadViolations: Violation[] = loadErrors.map((e) => ({
+    rule: 'LOAD-PARSE',
+    severity: 'error',
+    entity: null,
+    file: e.file,
+    field: null,
+    value: e.message,
+    expected: 'a YAML file that parses and matches the entity structure',
+  }));
+  return buildReport([...report.violations, ...loadViolations], records.length, {
+    now: options.now,
+    commit: options.commit,
+  });
+}

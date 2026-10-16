@@ -6,7 +6,7 @@ Terms follow `GLOSSARY.md`. Rules cite the spec (FR-/US-) and ADR 0006. `*` mark
 
 | Type | Definition |
 |---|---|
-| `StableId` | Boundary form `tc:{authority}:{family}:{local-id}`. Authority `[a-z0-9][a-z0-9-]*`, family from the closed list, local-id `[A-Za-z0-9][A-Za-z0-9._:-]*` (imports) or `{family}-{6 digits}` (minted). Unique per family. |
+| `StableId` | Boundary form `tc:{authority}:{family}:{local-id}`. Authority `[a-z0-9][a-z0-9-]*`, family from the closed list (segment pattern `[a-z][a-z0-9_-]*`, a superset of the legacy pattern so `bibliography_entry` fits), local-id `[A-Za-z0-9][A-Za-z0-9._:-]*` (imports) or `{family}-{6 digits}` (minted). Unique per family. |
 | `Origin` | `legacy` \| `minted` |
 | `Lifecycle` | `proposed, researching, verified, ready_for_build, in_build, qa, publishable, published, superseded, blocked` (ADR 0003) |
 | `Release` | `held` \| `released`, default `held` |
