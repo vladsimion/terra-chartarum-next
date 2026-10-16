@@ -1,4 +1,4 @@
-import { readdir, readFile, stat } from 'node:fs/promises';
+import { readdir, readFile, realpath, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { parse as parseYaml } from 'yaml';
 import { schemaFor } from './schemas/index.js';
@@ -76,22 +76,65 @@ function featureIds(geojson: unknown): Set<string> {
   return ids;
 }
 
+type Resolved = { kind: 'inside'; real: string } | { kind: 'missing' } | { kind: 'escapes' };
+
+const isInside = (realRoot: string, candidate: string) =>
+  candidate === realRoot || candidate.startsWith(realRoot.endsWith(path.sep) ? realRoot : realRoot + path.sep);
+
+/**
+ * Resolve a path a record names, and only if it stays inside the registry root. The check is made
+ * on the real path, so neither `../` nor a symlink (to a file or to a directory) can lead out. A
+ * path that does not exist is just missing, which the rules that need it report.
+ */
+async function resolveWithin(realRoot: string, rel: string): Promise<Resolved> {
+  if (!isInside(realRoot, path.resolve(realRoot, rel))) return { kind: 'escapes' };
+  let real: string;
+  try {
+    real = await realpath(path.resolve(realRoot, rel));
+  } catch {
+    return { kind: 'missing' };
+  }
+  return isInside(realRoot, real) ? { kind: 'inside', real } : { kind: 'escapes' };
+}
+
+/** For each distinct path a record names in `field`, resolve it once and report every record that escapes. */
+async function resolveNamedPaths(
+  realRoot: string,
+  records: readonly RegistryRecord[],
+  field: 'geometry' | 'asset',
+  loadErrors: LoadError[],
+): Promise<Map<string, string>> {
+  const inside = new Map<string, string>();
+  const verdicts = new Map<string, Resolved>();
+  for (const record of records) {
+    const named = record[field];
+    if (typeof named !== 'string') continue;
+    let verdict = verdicts.get(named);
+    if (!verdict) {
+      verdict = await resolveWithin(realRoot, named);
+      verdicts.set(named, verdict);
+    }
+    if (verdict.kind === 'escapes') {
+      loadErrors.push({ file: record.file, message: `${field} path ${named} leaves the registry root and was not read` });
+    } else if (verdict.kind === 'inside') {
+      inside.set(named, verdict.real);
+    }
+  }
+  return inside;
+}
+
 async function loadFeatureIndex(
-  root: string,
+  realRoot: string,
   records: readonly RegistryRecord[],
   loadErrors: LoadError[],
 ): Promise<Map<string, Set<string>>> {
   const index = new Map<string, Set<string>>();
-  const rootWithSep = root.endsWith(path.sep) ? root : root + path.sep;
-  for (const geometry of new Set(records.map((r) => r.geometry).filter((g): g is string => typeof g === 'string'))) {
-    const resolved = path.resolve(root, geometry);
-    // geometry paths may not leave the registry root
-    if (!resolved.startsWith(rootWithSep)) continue;
+  for (const [geometry, real] of await resolveNamedPaths(realRoot, records, 'geometry', loadErrors)) {
     let text: string;
     try {
-      text = await readFile(resolved, 'utf8');
+      text = await readFile(real, 'utf8');
     } catch {
-      continue; // a missing file is reported by REF-FEATURE where a feature needs it
+      continue; // unreadable (a directory, say): REF-FEATURE reports it where a feature needs it
     }
     try {
       index.set(geometry, featureIds(JSON.parse(text)));
@@ -102,14 +145,14 @@ async function loadFeatureIndex(
   return index;
 }
 
-async function loadAssetIndex(root: string, records: readonly RegistryRecord[]): Promise<Set<string>> {
+async function loadAssetIndex(
+  realRoot: string,
+  records: readonly RegistryRecord[],
+  loadErrors: LoadError[],
+): Promise<Set<string>> {
   const index = new Set<string>();
-  const rootWithSep = root.endsWith(path.sep) ? root : root + path.sep;
-  for (const asset of new Set(records.map((r) => r.asset).filter((a): a is string => typeof a === 'string'))) {
-    const resolved = path.resolve(root, asset);
-    // asset paths may not leave the registry root
-    if (!resolved.startsWith(rootWithSep)) continue;
-    if ((await stat(resolved).catch(() => null))?.isFile()) index.add(asset);
+  for (const [asset, real] of await resolveNamedPaths(realRoot, records, 'asset', loadErrors)) {
+    if ((await stat(real).catch(() => null))?.isFile()) index.add(asset);
   }
   return index;
 }
@@ -150,8 +193,9 @@ export async function loadRegistry(rootDir: string): Promise<LoadResult> {
 
   const provenanceIndex = new Map<string, ProvenanceStep>();
   await loadProvenance(root, provenanceIndex, loadErrors);
-  const featureIndex = await loadFeatureIndex(root, records, loadErrors);
-  const assetIndex = await loadAssetIndex(root, records);
+  const realRoot = await realpath(root);
+  const featureIndex = await loadFeatureIndex(realRoot, records, loadErrors);
+  const assetIndex = await loadAssetIndex(realRoot, records, loadErrors);
 
   return { records, loadErrors, provenanceIndex, featureIndex, assetIndex };
 }

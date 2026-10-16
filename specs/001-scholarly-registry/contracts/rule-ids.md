@@ -17,6 +17,7 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `LIFE-SUPERSEDED` | `superseded` has `superseded_by` resolving, or is withdrawn | FR-013 | always |
 | `REL-VALUE` | release is `held` or `released` | FR-015 | always |
 | `REF-UNKNOWN` | every declared reference resolves; names entity, field, missing ID | US3.1 | always |
+| `REF-FAMILY` | a typed reference points at the right family: an essay's `maps[]` at maps, a successor of the same family; `relations[]` and an evidence target are untyped | FR-002, data-model.md "Reference fields" | always |
 | `REF-FEATURE` | evidence `target.feature` exists in the geometry file | FR-003 | always |
 | `REF-COLLECTION-SUBSET` | `default_layers ⊆ members` | US3.2 | always |
 | `REF-FINDING-AID` | no evidence source is a finding aid | ADR 0003 §5 | `ready_for_build` |

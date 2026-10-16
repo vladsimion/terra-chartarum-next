@@ -25,6 +25,27 @@ const LISTS: Record<string, string[]> = {
   essay: ['evidence', 'maps', 'places', 'sources'],
 };
 
+/*
+ * The family a typed reference must point at. `relations[]` and an evidence `target.entity` are
+ * deliberately untyped: they may point at anything. A successor (`superseded_by`) must be of the
+ * record's own family, which `expectedFamilies` returns as that family.
+ */
+const POINTS_AT: Record<string, Record<string, string>> = {
+  essay: { maps: 'map', places: 'place', sources: 'source', evidence: 'evidence' },
+  collection: { members: 'layer', default_layers: 'layer' },
+  map: { makers: 'cartographer' },
+  layer: { dataset: 'dataset' },
+  evidence: { source: 'source' },
+  attestation: { place: 'place', source: 'source' },
+};
+
+/** The family a reference field must point at, or null when it may point at any. */
+export function expectedFamily(recordFamily: string, field: string): string | null {
+  const base = field.replace(/\[\d+\]$/, '');
+  if (base === 'superseded_by') return recordFamily;
+  return POINTS_AT[recordFamily]?.[base] ?? null;
+}
+
 /** Every entity reference a record declares, in a stable order. */
 export function referenceFields(record: RegistryRecord): RefField[] {
   const refs: RefField[] = [];
