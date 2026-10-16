@@ -87,7 +87,7 @@ describe('ID-FAMILY', () => {
   });
 
   it('accepts a family with an underscore (bibliography_entry)', () => {
-    expect(rulesOf([record('bibliography_entry', 1)])).toEqual([]);
+    expect(rulesOf([record('bibliography_entry', 1, { csl: 'bibliography/entry-1.json' })])).toEqual([]);
   });
 });
 

@@ -49,6 +49,10 @@ export const SILENCE_STATE_VALUES = [
 export const LOCATOR_STATE_VALUES = ['verified', 'pending'] as const;
 export const PORTAL_DIMENSION_VALUES = ['Measure', 'Witness', 'Use', 'Cosmos', 'Power', 'Silence'] as const;
 
+export const LAYER_ROLE_VALUES = ['context', 'historical', 'evidence', 'map-overlay'] as const;
+export const ATTESTATION_FORM_VALUES = ['name', 'depiction', 'silence'] as const;
+export const PROPOSED_BY_VALUES = ['person', 'ai'] as const;
+
 export const Origin = z.enum(ORIGIN_VALUES);
 export const Lifecycle = z.enum(LIFECYCLE_VALUES);
 export const Release = z.enum(RELEASE_VALUES).default('held');

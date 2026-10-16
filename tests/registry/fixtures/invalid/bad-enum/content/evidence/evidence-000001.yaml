@@ -1,0 +1,18 @@
+id: tc:tc:evidence:evidence-000001
+family: evidence
+origin: minted
+title: An evidence record with an unknown confidence
+slug: bad-enum
+lifecycle: researching
+release: held
+target:
+  entity: tc:tc:evidence:evidence-000001
+source: tc:tc:evidence:evidence-000001
+locator:
+  value: p. 1
+  state: pending
+  proposed_by: person
+evidence_type: textual
+confidence: certain
+rights:
+  licence: CC-BY-4.0

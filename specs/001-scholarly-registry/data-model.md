@@ -34,7 +34,7 @@ Terms follow `GLOSSARY.md`. Rules cite the spec (FR-/US-) and ADR 0006. `*` mark
 | `relations[]` | declared references, each a `StableId`; every one must resolve (FR-005) |
 | `superseded_by` | `StableId`, required when `lifecycle = superseded` and a successor exists (FR-013) |
 | `private` | optional block of private fields; never projected (FR-009) |
-| `legacy_confidence`, `legacy_review_state`, `legacy_layer_status` | optional, imports only (FR-014, FR-011) |
+| `legacy_family`, `legacy_confidence`, `legacy_review_state`, `legacy_layer_status`, `legacy_reviewer`, `legacy_review_date`, `editor_confirmed` | optional, imports only (FR-014, FR-011). The `IMPORT-*` rules constrain a record only while `editor_confirmed` is not `true`; afterwards it follows its own lifecycle. |
 
 ## Evidence record (`family = evidence`)
 

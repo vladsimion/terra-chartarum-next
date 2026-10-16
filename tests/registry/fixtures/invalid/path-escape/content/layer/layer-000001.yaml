@@ -1,0 +1,11 @@
+id: tc:tc:layer:layer-000001
+family: layer
+origin: minted
+title: A layer whose geometry path tries to leave the registry
+slug: path-escape
+lifecycle: researching
+release: held
+role: historical
+geometry: ../../../fixtures/valid/data/roads.geojson
+rights:
+  licence: CC-BY-4.0

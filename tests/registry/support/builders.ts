@@ -53,6 +53,26 @@ export function rooms(): RegistryRecord[] {
   }));
 }
 
-export const place =(n = 1, o: Partial<RegistryRecord> = {}) => record('place', n, o);
+/** An evidence record that satisfies every evidence rule at `researching`. */
+export const evidence = (n = 1, o: Partial<RegistryRecord> = {}) =>
+  record('evidence', n, {
+    target: { entity: 'tc:tc:map:map-000001' },
+    source: 'tc:tc:source:source-000001',
+    locator: { value: 'p. 12', state: 'pending', proposed_by: 'person' },
+    evidence_type: 'textual',
+    confidence: 'probable',
+    rights: { licence: 'CC-BY-4.0' },
+    ...o,
+  });
+
+export const layer = (n = 1, o: Partial<RegistryRecord> = {}) =>
+  record('layer', n, {
+    role: 'context',
+    asset: 'data/roads.pmtiles',
+    dataset: 'tc:tc:dataset:dataset-000001',
+    ...o,
+  });
+
+export const place = (n = 1, o: Partial<RegistryRecord> = {}) => record('place', n, { place_type: 'settlement', ...o });
 export const source = (n = 1, o: Partial<RegistryRecord> = {}) => record('source', n, o);
 export const map = (n = 1, o: Partial<RegistryRecord> = {}) => record('map', n, o);

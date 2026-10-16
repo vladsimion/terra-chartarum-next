@@ -11,7 +11,12 @@ describe('loadRegistry', () => {
     const { records, loadErrors } = await loadRegistry(fixture('valid'));
     expect(loadErrors).toEqual([]);
     expect(records.map((r) => r.id).sort()).toEqual([
+      'tc:tc:attestation:attestation-000001',
+      'tc:tc:cartographer:cartographer-000001',
       'tc:tc:collection:collection-000001',
+      'tc:tc:dataset:dataset-000001',
+      'tc:tc:evidence:evidence-000001',
+      'tc:tc:evidence:evidence-000002',
       'tc:tc:layer:layer-000001',
       'tc:tc:map:plc-legacy-map',
       'tc:tc:place:place-000001',
@@ -52,7 +57,7 @@ describe('checkRegistry (load + validate)', () => {
     const report = await checkRegistry(fixture('valid'), OPTIONS);
     expect(report.violations).toEqual([]);
     expect(report.pass).toBe(true);
-    expect(report.counts.entities).toBe(13);
+    expect(report.counts.entities).toBe(18);
   });
 
   it('LOAD-PARSE: unparseable YAML becomes an error violation with no entity', async () => {

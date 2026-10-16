@@ -1,0 +1,7 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    { "type": "Feature", "id": "f-1", "properties": {}, "geometry": { "type": "LineString", "coordinates": [[23.3, 45.6], [23.9, 45.8]] } },
+    { "type": "Feature", "properties": { "id": "f-2" }, "geometry": { "type": "LineString", "coordinates": [[23.9, 45.8], [24.4, 46.1]] } }
+  ]
+}

@@ -21,6 +21,7 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `REF-COLLECTION-SUBSET` | `default_layers ⊆ members` | US3.2 | always |
 | `REF-FINDING-AID` | no evidence source is a finding aid | ADR 0003 §5 | `ready_for_build` |
 | `ENUM-INVALID` | any enumerated field holds a known value | FR-005 | always |
+| `FAM-REQUIRED` | the fields a family needs are present (data-model.md "Family fields") | FR-003 | `ready_for_build` |
 | `DATE-ORDER` | `valid_from ≤ valid_to` | FR-003 | always |
 | `PROV-GEOMETRY` | geometry provenance present for feature targets | US2.1 | `ready_for_build` |
 | `PROV-RECONSTRUCTION` | `scholarly_reconstruction` carries `reconstruction: true` | US2.1 | `ready_for_build` |

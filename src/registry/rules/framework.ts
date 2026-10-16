@@ -1,4 +1,5 @@
 import type { Severity, Violation } from '../report.js';
+import type { ProvenanceStep } from '../schemas/provenance-step.js';
 import type { RegistryRecord } from '../types.js';
 
 /** Lowest lifecycle at which a rule is an error; below it the same finding is a warning (research R6). */
@@ -69,6 +70,8 @@ export interface ValidateOptions {
   commit?: string;
   /** Also run registry-level completeness rules such as `ROOM-SET`. The CLI turns this on. */
   completeness?: boolean;
+  /** Logged automated steps by id, for the AUTO-* rules. Without it a provenance_chain cannot be judged. */
+  provenanceIndex?: ReadonlyMap<string, ProvenanceStep>;
   /** feature ids per geometry file path, for `REF-FEATURE`. */
   featureIndex?: ReadonlyMap<string, ReadonlySet<string>>;
   /** asset paths that exist, for `LIFE-AVAILABILITY`. */

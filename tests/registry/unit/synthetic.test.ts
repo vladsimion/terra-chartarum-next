@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { validateRegistry } from '../../../src/registry/validate.js';
-import { generateRegistry } from '../support/synthetic.js';
+import { generatedFeatures, generatedProvenance, generateRegistry } from '../support/synthetic.js';
 
 describe('generateRegistry', () => {
   it('is deterministic: the same seed yields deep-equal output', () => {
@@ -19,8 +19,16 @@ describe('generateRegistry', () => {
   });
 
   it('produces a registry with zero errors', () => {
-    const report = validateRegistry(generateRegistry(200, 1));
+    const report = validateRegistry(generateRegistry(200, 1), {
+      provenanceIndex: generatedProvenance(),
+      featureIndex: generatedFeatures(),
+    });
     expect(report.counts.errors).toBe(0);
+  });
+
+  it('produces records that use every generated family, evidence and attestations included', () => {
+    const families = new Set(generateRegistry(200, 1).map((r) => r.family));
+    for (const family of ['evidence', 'attestation', 'layer', 'collection', 'essay']) expect(families.has(family)).toBe(true);
   });
 
   it('gives every record a unique id and file', () => {

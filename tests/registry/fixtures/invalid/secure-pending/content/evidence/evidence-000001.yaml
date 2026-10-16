@@ -1,0 +1,18 @@
+id: tc:tc:evidence:evidence-000001
+family: evidence
+origin: minted
+title: A secure claim on a pending locator
+slug: secure-pending
+lifecycle: researching
+release: held
+target:
+  entity: tc:tc:evidence:evidence-000001
+source: tc:tc:evidence:evidence-000001
+locator:
+  value: p. 1
+  state: pending
+  proposed_by: person
+evidence_type: textual
+confidence: secure
+rights:
+  licence: CC-BY-4.0

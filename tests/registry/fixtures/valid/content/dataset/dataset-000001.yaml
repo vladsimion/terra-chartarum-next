@@ -1,0 +1,10 @@
+id: tc:tc:dataset:dataset-000001
+family: dataset
+origin: minted
+title: Roman roads of Dacia (data)
+slug: roman-roads-of-dacia-data
+lifecycle: researching
+release: held
+version: 1.0.0
+rights:
+  licence: CC-BY-4.0

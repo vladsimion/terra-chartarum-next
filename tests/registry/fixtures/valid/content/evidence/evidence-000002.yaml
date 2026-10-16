@@ -1,0 +1,24 @@
+id: tc:tc:evidence:evidence-000002
+family: evidence
+origin: minted
+title: Road segment reconstructed between two stations
+slug: road-segment-reconstructed
+lifecycle: researching
+release: held
+target:
+  entity: tc:tc:layer:layer-000001
+  feature: f-2
+source: tc:tc:source:source-000001
+locator:
+  value: bk. III, ch. 8
+  state: pending
+  proposed_by: person
+evidence_type: textual
+geometry_provenance: scholarly_reconstruction
+reconstruction: true
+confidence: conjectural
+valid_from: -101
+valid_to: 106
+date_precision: decade
+rights:
+  licence: CC-BY-4.0

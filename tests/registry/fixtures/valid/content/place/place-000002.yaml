@@ -5,5 +5,6 @@ title: Sarmizegetusa
 slug: sarmizegetusa
 lifecycle: researching
 release: held
+place_type: archaeological_site
 relations:
   - tc:tc:source:source-000001
