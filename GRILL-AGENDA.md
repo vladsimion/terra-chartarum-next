@@ -50,7 +50,16 @@ Thirteen decisions, all accepted as recommended:
 - Home, About and Colophon copy is draft placeholder text marked `draft: true`; the author writes the final text, and none may remain at cutover.
 - Plan-level: skip link and landmarks, a static 404, `lang` from the content, one CSS custom-properties token file, Stylelint for raw values.
 
+## Spec 003 essay framework — DONE 2026-10-16 (TCX-4, ADR 0010)
+Thirteen decisions, all accepted as recommended:
+- Essay record: `rooms` is essay-only (primary plus up to two secondary); new essay fields `question`, `thesis` (required from Outline), `layers`, `bibliography`, `accent`, `authors`, `published_on`, `legacy_url`, `jira` (never public), `open_questions`, `interactions`, `signoffs`, `redirect_switched`, `stage_history` (ADR 0006 amendment).
+- `registry promote` runs the cumulative exit checks, then rewrites `stage` and appends to `stage_history`; the gate re-checks the recorded stage. Sign-offs name a person and a date; accessibility and performance are proved by CI on the pull request; Cross-link needs `redirect_switched` (ADR 0010).
+- Interaction declarations live in the record, referenced by id from the MDX body. A claim citation points at an Evidence record; Chicago notes and BibTeX, RIS and CSL-JSON are built at build time.
+- v1 components: the declaration contract, the citation/export control and the evidence panel; the others when an essay needs them. US5 (research-gated publication) is out of v1. No section-level room tags.
+- Trench A: all four Sondaje pits consume CND (48 cells); in v1 they are the essay's local data, `corpus: none`, additive retrofit later (ADR 0002 amendment).
+- Spec 003 delivers the framework plus one fixture essay; the Terra Sigillata rebuild is its own Jira epic.
+
 ## Still open
-- Spec 003: which Trench A test pits depend on CND attestations (needs the essay author).
+- Specs 004 to 008 are not yet grilled (004 collection catalogue, 005 Atlas, 006 bibliography, 007 rooms, 008 migration and cutover).
 
 Constitution ratified as v1.0.0 on 2026-10-15. /speckit-analyze runs per feature once tasks.md exists.

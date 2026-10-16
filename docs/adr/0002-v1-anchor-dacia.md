@@ -18,3 +18,6 @@ Dacia is the deepest Corpus Chartarum implementation and the strongest test of t
 - Spec 004 FR-007/008 resolved: all 59 records migrate; physical fields optional, no UI in v1.
 - Trench A's essay must render correctly without CND; when CND lands, the retrofit is an additive change.
 - Risk: Trench A was conceived as consuming CND beneath the essay. Confirm during spec 003 clarify which test pits depend on attestations and give each a non-CND fallback.
+
+## Amendment (spec 003 grill, 2026-10-16): which Trench A test pits depend on CND
+All four Sondaje test pits do. Each holds 13 name cells (one per stratum): 12 are attestation-shaped and were migrated into CND, and stratum 0 (the Present Survey) is local and never migrates. That is 48 cells that consume CND attestations. Without CND in v1, the cells live as the essay's own local data file, each marked `corpus: none`, rendered with the cell's own editorial note and a visible "not yet corpus-backed" state. The CND retrofit adds an `attestation` ID to a cell and changes nothing else. Registering the 48 cells as hand-made attestation records now was rejected: CND would later duplicate them (Constitution V).

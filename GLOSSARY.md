@@ -12,6 +12,10 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Room** | One of seven reader-facing conceptual paths: Earth, Map, City, Border, Road, Archive, Theatre. Membership is metadata, never a folder or a data taxonomy. | Theme, Collection |
 | **Portal dimension** | Optional additive essay tag: Measure, Witness, Use, Cosmos, Power, Silence. Never replaces an essay's native lenses. | Theme |
 | **Editorial stage** | One of: Concept, Corpus, Research, Outline, Draft, Build, Design QA, Publish, Cross-link. | Lifecycle state |
+| **Stage history** | The recorded sequence of an essay's editorial stages, each with a date and the person who promoted it. It must be contiguous. | The version-control log; Lifecycle |
+| **Sign-off** | A named person's confirmation, with a date, that a quality check (historical, cartographic or data QA, or a switched redirect) is done. A tool cannot sign. | A passing automated check |
+| **Interaction declaration** | An essay's statement, before Build, of what a bespoke interaction asks, which evidence it rests on, and the interpretation it expects. | The interaction's code |
+| **Claim citation** | A citation in an essay that points at an Evidence record, so the reader sees source, locator and verification state. | A bibliography entry (general reading) |
 | **Held / released** | Release state of any entity, separate from lifecycle. Everything starts held; only a released entity at lifecycle `published` is public. Held metadata must never leak into public pages, payloads or URLs. | Draft; lifecycle `published` |
 
 ## Scholarly entities
