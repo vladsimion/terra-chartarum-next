@@ -34,7 +34,7 @@ Terms follow `GLOSSARY.md`. Rules cite the spec (FR-/US-) and ADR 0006. `*` mark
 | `relations[]` | declared references, each a `StableId`; every one must resolve (FR-005) |
 | `superseded_by` | `StableId`, required when `lifecycle = superseded` and a successor exists (FR-013) |
 | `private` | optional block of private fields; never projected (FR-009) |
-| `legacy_confidence`, `legacy_review_state` | optional, imports only (FR-014) |
+| `legacy_confidence`, `legacy_review_state`, `legacy_layer_status` | optional, imports only (FR-014, FR-011) |
 
 ## Evidence record (`family = evidence`)
 
@@ -42,7 +42,7 @@ Terms follow `GLOSSARY.md`. Rules cite the spec (FR-/US-) and ADR 0006. `*` mark
 |---|---|
 | `target*` | `{ entity: StableId, feature?: string }`; entity must resolve; `feature` must exist in the referenced geometry file when given |
 | `source*` | `StableId` of a source; finding aids are rejected (stage-5 rule) |
-| `locator` | `{ value*, state*: LocatorState, verified_by?, verified_on?, consulted_copy? }`; `verified` requires all three of `verified_by`, `verified_on`, `consulted_copy` (US2.2) |
+| `locator` | `{ value*, state*: LocatorState, proposed_by*: person | ai, verified_by?, verified_on?, consulted_copy? }`; `verified` requires all three of `verified_by`, `verified_on`, `consulted_copy` (US2.2); a locator with `proposed_by = ai` cannot be `verified` unless `verified_by` names a person |
 | `evidence_type*` | `EvidenceType` |
 | `valid_from`, `valid_to` | signed integer years; `valid_from ≤ valid_to` |
 | `date_precision`, `date_label` | `DatePrecision` / free text |
@@ -56,6 +56,41 @@ Terms follow `GLOSSARY.md`. Rules cite the spec (FR-/US-) and ADR 0006. `*` mark
 ## Attestation (`family = attestation`)
 
 place × source × form. `place*`, `source*` (StableIds), `form*` (`name, depiction, silence`, extensible by ADR). When `form = silence`, exactly one `silence_state*` is required and `confidence = secure` additionally requires `source_coverage_verified: true` (FR-004). `silence_state` on any other form or family is a violation.
+
+## Reference fields
+
+Every field that points at another record. `referenceFields(record)` returns them all and `REF-UNKNOWN` checks each one.
+
+| Family | Reference fields |
+|---|---|
+| all | `relations[]`, `superseded_by` |
+| evidence | `target.entity`, `source`, `provenance_chain[]` (resolves to provenance steps) |
+| attestation | `place`, `source` |
+| collection | `members[]`, `default_layers[]` |
+| map | `makers[]` (cartographer IDs) |
+| layer | `dataset` |
+| essay | `evidence[]`, `maps[]`, `places[]`, `sources[]` |
+
+## Family fields
+
+Minimum fields per family beyond the Entity base. Everything not listed is optional or defined by a later spec.
+
+| Family | Required | Optional |
+|---|---|---|
+| map | `makers[]` | `edition_state`, `repository`, physical-object fields (schema-only in v1, ADR 0002) |
+| cartographer | none | `life_dates` |
+| place | `place_type` (a port is `port`) | `location_status` |
+| source | `is_finding_aid` (boolean, default `false`) | `source_kind` |
+| dataset | `version` | `licence` |
+| layer | `role` (`context, historical, evidence, map-overlay`), `asset` (path), `dataset` | `geometry_provenance` |
+| route, event, period | none | `valid_from`, `valid_to`, `date_precision` |
+| bibliography_entry | `csl` (path to CSL-JSON) | none |
+
+Modern reference geometry is context only: a layer whose `geometry_provenance` is `modern_reference` MUST have role `context`, and an evidence record MUST NOT have geometry provenance `modern_reference` (`PROV-MODERN-AS-EVIDENCE`, Constitution III).
+
+## Essay (`family = essay`)
+
+`stage*` (the nine editorial stages) and `design_qa_passed` (boolean, used only to tell `qa` from `publishable`, ADR 0003 §2); optional `portal_dimensions[]`, each one of `Measure, Witness, Use, Cosmos, Power, Silence` (FR-012, no UI in v1); references `evidence[]`, `maps[]`, `places[]`, `sources[]`.
 
 ## Collection (`family = collection`)
 

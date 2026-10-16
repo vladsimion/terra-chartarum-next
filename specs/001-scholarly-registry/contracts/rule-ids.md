@@ -25,10 +25,11 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `PROV-GEOMETRY` | geometry provenance present for feature targets | US2.1 | `ready_for_build` |
 | `PROV-RECONSTRUCTION` | `scholarly_reconstruction` carries `reconstruction: true` | US2.1 | `ready_for_build` |
 | `PROV-SOURCE` | evidence has a source and evidence type | FR-003 | `ready_for_build` |
+| `PROV-MODERN-AS-EVIDENCE` | no evidence record, and no layer with role `historical`, `evidence` or `map-overlay`, has geometry provenance `modern_reference` | Constitution III | always |
 | `LOC-VERIFIED-FIELDS` | `verified` requires `verified_by`, `verified_on`, `consulted_copy` | US2.2 | always |
 | `LOC-SECURE-PENDING` | `secure` claim with a `pending` locator | US2.5 | always |
 | `LOC-AI-VERIFIED` | AI-proposed locator cannot be `verified` without a person | FR-008 | always |
-| `RIGHTS-MISSING` | rights/licence present | US2.3 | `publishable` |
+| `RIGHTS-MISSING` | rights/licence present | US2.3 | `ready_for_build` |
 | `RIGHTS-CLEARED` | reproduction rights cleared for images | ADR 0003 §5 | `publishable` |
 | `SIL-STATE` | silence attestation has exactly one silence state | US2.4 | always |
 | `SIL-MISPLACED` | silence state only on a silence attestation | FR-004 | always |
@@ -44,6 +45,7 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `IMPORT-FAMILY` | `port` imports only as `place` with a port type | FR-014 | always |
 | `IMPORT-CONFIDENCE` | imported claim is not auto-`secure`; `legacy_confidence` kept | FR-014 | always |
 | `IMPORT-REVIEW` | imports start at `researching`; `legacy_review_state` kept | FR-014 | always |
+| `IMPORT-LAYER-LIFECYCLE` | an imported layer's lifecycle matches the FR-011 mapping of `legacy_layer_status`; unknown legacy terms fail | FR-011 | always |
 | `IMPORT-REVIEWER` | `verified_by`/`verified_on` from legacy only when `editor_confirmed` | FR-014 | always |
 
 Adding a rule means adding its ID here, its test, and its mutation.
