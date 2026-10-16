@@ -2,7 +2,7 @@ import type { Rule } from './framework.js';
 import { AUTOMATED_RULES } from './automated.js';
 import { DATE_RULES } from './dates.js';
 import { ENUM_RULES } from './enums.js';
-import { famRequired } from './family.js';
+import { famRequired, famUnknown } from './family.js';
 import { refFeature } from './geometry.js';
 import { ID_RULES } from './id.js';
 import { IMPORT_RULES } from './import.js';
@@ -33,5 +33,6 @@ export const ALL_RULES: Rule[] = [
   ...IMPORT_RULES,
   refFeature,
   famRequired,
+  famUnknown,
   ...LIFECYCLE_RULES,
 ];

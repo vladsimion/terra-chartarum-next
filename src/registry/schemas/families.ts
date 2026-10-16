@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { EntityBase } from './entity.js';
+import { DATE_FIELDS, EntityBase } from './entity.js';
 import { RightsShape } from './evidence.js';
 
 /*
@@ -20,6 +20,7 @@ export const CartographerSchema = EntityBase.extend({ life_dates: z.string().opt
 export const PlaceSchema = EntityBase.extend({
   place_type: z.string().optional(),
   location_status: z.string().optional(),
+  ...DATE_FIELDS,
 });
 
 export const SourceSchema = EntityBase.extend({
@@ -44,3 +45,11 @@ export const LayerSchema = EntityBase.extend({
 });
 
 export const BibliographyEntrySchema = EntityBase.extend({ csl: z.string().optional() });
+
+export const CollectionSchema = EntityBase.extend({
+  members: z.unknown().optional(),
+  default_layers: z.unknown().optional(),
+});
+
+/** Route, event and period carry dates and nothing else beyond the entity base. */
+export const DatedSchema = EntityBase.extend({ ...DATE_FIELDS });

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { EntityBase } from './entity.js';
+import { DATE_FIELDS, EntityBase } from './entity.js';
 
 /** Rights, loosely typed: whether a licence is present is RIGHTS-MISSING's call, by lifecycle. */
 export const RightsShape = z.looseObject({
@@ -31,4 +31,5 @@ export const EvidenceSchema = EntityBase.extend({
   rights: RightsShape.optional(),
   last_verified: z.string().optional(),
   provenance_chain: z.array(z.string()).optional(),
+  ...DATE_FIELDS,
 });

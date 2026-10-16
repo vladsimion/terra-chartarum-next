@@ -23,6 +23,7 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `REF-FINDING-AID` | no evidence or attestation cites a source that is a finding aid | ADR 0003 §5 | `ready_for_build` |
 | `ENUM-INVALID` | any enumerated field holds a known value | FR-005 | always |
 | `FAM-REQUIRED` | the fields a family needs are present (data-model.md "Family fields") | FR-003 | `ready_for_build` |
+| `FAM-UNKNOWN` | no field outside the fields the family's schema defines; a misspelt field is otherwise dropped silently (T122) | FR-003 | always |
 | `DATE-INVALID` | `valid_from` and `valid_to` are EDTF level 0-1 with four-digit signed years (ADR 0007) | FR-003 | always |
 | `DATE-ORDER` | the start is not definitely later than the end (earliest start vs latest end, so imprecise dates that may overlap pass) | FR-003 | always |
 | `DATE-PRECISION-AUTHORED` | `date_precision` is derived from the date and never authored (ADR 0007) | FR-003 | always |

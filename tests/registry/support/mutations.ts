@@ -315,6 +315,7 @@ const US2_MUTATIONS: Mutation[] = [
     apply: editOf('evidence', (r) => { r.target = { entity: (r.target as { entity: string }).entity, feature: 'f-404' }; }, 1),
   },
   { name: 'a place loses its place type', rule: 'FAM-REQUIRED', apply: editOf('place', (r) => { delete r.place_type; r.lifecycle = READY; }) },
+  { name: 'a place misspells slug_history', rule: 'FAM-UNKNOWN', apply: editOf('place', (r) => { r.slug_histroy = ['former-slug']; }) },
 ];
 
 /* PRIV-LEAK is a scan of built output, not a registry rule; leak-scan.test.ts covers it. */

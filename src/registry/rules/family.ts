@@ -1,3 +1,4 @@
+import { knownFields } from '../schemas/index.js';
 import { defineRule, type Finding } from './framework.js';
 
 /**
@@ -27,6 +28,29 @@ export const famRequired = defineRule({
       for (const field of REQUIRED[record.family] ?? []) {
         if (!present(record[field])) {
           findings.push({ record, field, value: null, expected: `${field} on every ${record.family} record` });
+        }
+      }
+    }
+    return findings;
+  },
+});
+
+/**
+ * A field no schema defines for the family. Left alone it is dropped without a trace, so a
+ * misspelt `slug_history` loses a redirect while everything stays green. `file` is where the
+ * loader says the record came from, not a field of the file.
+ */
+export const famUnknown = defineRule({
+  id: 'FAM-UNKNOWN',
+  from: 'always',
+  check: ({ records }) => {
+    const findings: Finding[] = [];
+    for (const record of records) {
+      const known = knownFields(record.family);
+      if (!known) continue;
+      for (const field of Object.keys(record)) {
+        if (field !== 'file' && !known.has(field)) {
+          findings.push({ record, field, value: record[field], expected: `a field defined for ${record.family} records` });
         }
       }
     }
