@@ -7,7 +7,7 @@ Programme dossier created against the fourteen-point contract in [Programme Doss
 | Programme type | Platform foundation: build-time scholarly registry and integrity gate for the Terra Chartarum successor build |
 | Status | **Implemented on `main`** (PR #1 and PR #2 merged, `gate` green). Dates and tombstones in review (PR #3). Parallel implementation unresolved (§10). |
 | Jira | **TCX-2** epic; stories **TCX-13** (US1), **TCX-15** (US3), **TCX-14** (US2), **TCX-17** (US5), **TCX-16** (US4). Project TCX is the successor; KAN is the original site. |
-| Canonical parent | Projects — Active Research & Implementation Programmes |
+| Canonical parent | **None: a standalone page at the root of the space**, moved out from under Projects at Vlad's request on 2026-10-16. The contract (§7) places dossiers under Projects — Active Research & Implementation Programmes and its harmonisation DoD wants every programme linked from that index; this page is therefore not listed there. |
 | Primary canonical ownership | Volume VIII (software and data contracts); Volume VI (provenance, uncertainty, rights); Volume IV (research-to-publication workflow) |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). Spec `specs/001-scholarly-registry/`; code `src/registry/`; decisions `docs/adr/0006`, `0007` |
 | Successor relationship | Supersedes the registry code of terra-chartarum.pages.dev at cutover (ADR 0001); legacy IDs are preserved (ADR 0006 items 11–14) |
