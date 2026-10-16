@@ -24,6 +24,9 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `ENUM-INVALID` | any enumerated field holds a known value | FR-005 | always |
 | `FAM-REQUIRED` | the fields a family needs are present (data-model.md "Family fields") | FR-003 | `ready_for_build` |
 | `FAM-UNKNOWN` | no field outside the fields the family's schema defines; a misspelt field is otherwise dropped silently (T122) | FR-003 | always |
+| `VOCAB-UNKNOWN` | a record's `vocabulary` names a mapping file in `vocab-mappings/` (TC-D016, T118) | FR-011 | always |
+| `VOCAB-TARGET` | every mapping lands on a term the shared vocabulary has | FR-011 | always |
+| `VOCAB-SHADOW` | a specialist term that is also a shared term maps to itself | FR-011 | always |
 | `DATE-INVALID` | `valid_from` and `valid_to` are EDTF level 0-1 with four-digit signed years (ADR 0007) | FR-003 | always |
 | `DATE-ORDER` | the start is not definitely later than the end (earliest start vs latest end, so imprecise dates that may overlap pass) | FR-003 | always |
 | `DATE-PRECISION-AUTHORED` | `date_precision` is derived from the date and never authored (ADR 0007) | FR-003 | always |

@@ -34,6 +34,7 @@ Terms follow `GLOSSARY.md`. Rules cite the spec (FR-/US-) and ADR 0006. `*` mark
 | `relations[]` | declared references, each a `StableId`; every one must resolve (FR-005) |
 | `superseded_by` | `StableId`, required when `lifecycle = superseded` and a successor exists (FR-013) |
 | `private` | optional block of private fields; never projected (FR-009) |
+| `vocabulary` | optional name of a specialist vocabulary (`vocab-mappings/<name>.yaml`); the record's `lifecycle`, `confidence`, `evidence_type` and `geometry_provenance` may then use that corpus's own terms (TC-D016) |
 | `legacy_family`, `legacy_confidence`, `legacy_review_state`, `legacy_layer_status`, `legacy_reviewer`, `legacy_review_date`, `legacy_normalization_method`, `editor_confirmed`, `confirmed_by`, `confirmed_on` | optional, imports only (FR-014, FR-011). The `IMPORT-*` rules constrain a record only until the import is **confirmed**: `editor_confirmed: true` with `confirmed_by` (a person, never an automated tool) and `confirmed_on`. A bare flag confirms nothing and is reported by `IMPORT-CONFIRMED`; afterwards the record follows its own lifecycle. A row with `legacy_normalization_method: llm_assisted` needs `adjudicated_by` and `adjudicated_on` before it is `publishable` (`AUTO-UNADJUDICATED`). |
 
 ## Evidence record (`family = evidence`)
@@ -101,6 +102,23 @@ Modern reference geometry is context only: a layer whose `geometry_provenance` i
 ## Room (`family = room`)
 
 Exactly seven, fixed IDs: `tc:tc:room:earth`, `map`, `city`, `border`, `road`, `archive`, `theatre`, in that order. A missing or extra room is a violation (ADR 0003 §7).
+
+## Specialist vocabulary (`vocab-mappings/`)
+
+A corpus whose evidence or lifecycle terms are stricter than the shared ones (the legacy Atlas's `in-preparation`, say) keeps them. A mapping file `vocab-mappings/<name>.yaml` says what each term means in the shared vocabularies; records opt in with `vocabulary: <name>`.
+
+```yaml
+vocabulary: atlas            # must equal the file name
+lifecycle: { in-preparation: in_build, planned: proposed }
+confidence: { high: probable }   # also: evidence_type, geometry_provenance
+```
+
+- Stored records are never rewritten. `validateRegistry` swaps each mapped term for its shared meaning before the rules run, so severity follows the mapped lifecycle.
+- A term with no mapping is left as written and fails the ordinary rule (`LIFE-VALUE`, `ENUM-INVALID`).
+- The file is strict: a misspelt table name, a name that differs from the file, or two files declaring one vocabulary is a load error (`LOAD-PARSE`).
+- `VOCAB-UNKNOWN` (no such mapping file), `VOCAB-TARGET` (maps to a term the shared vocabulary lacks), `VOCAB-SHADOW` (a specialist term that is also a shared term must map to itself, so no corpus's `published` can mean something else).
+- Not mapped: `silence_state`, `locator.state` and other enumerations, `release`, and `origin`. Only the four fields above.
+- The public projection and reverse relationships read stored records and recognise shared terms only. A record that still uses a specialist `lifecycle` term is therefore never public until it is normalised, which is the safe direction. Applying the mapping before projection is part of the site build (T119).
 
 ## Provenance step (`provenance/`)
 

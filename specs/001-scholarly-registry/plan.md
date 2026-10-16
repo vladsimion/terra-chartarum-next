@@ -86,6 +86,7 @@ package.json  tsconfig.json  vitest.config.ts  .nvmrc
 content/                     # canonical records, one file per entity
 └── <family>/<local-id>.yaml
 provenance/                  # raw extractions + transformation logs (FR-008)
+vocab-mappings/              # specialist vocabulary mappings, one file per corpus (TC-D016)
 src/registry/
 ├── families.ts              # closed family list, authority allowlist
 ├── ids.ts                   # parse / format / validate stable IDs

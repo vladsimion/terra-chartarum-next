@@ -316,6 +316,19 @@ const US2_MUTATIONS: Mutation[] = [
   },
   { name: 'a place loses its place type', rule: 'FAM-REQUIRED', apply: editOf('place', (r) => { delete r.place_type; r.lifecycle = READY; }) },
   { name: 'a place misspells slug_history', rule: 'FAM-UNKNOWN', apply: editOf('place', (r) => { r.slug_histroy = ['former-slug']; }) },
+  { name: 'a place names a vocabulary with no mapping file', rule: 'VOCAB-UNKNOWN', apply: editOf('place', (r) => { r.vocabulary = 'cnd'; }) },
+  {
+    name: 'a mapping lands on a lifecycle term the shared vocabulary lacks',
+    rule: 'VOCAB-TARGET',
+    apply: (records) => records,
+    options: (base) => ({ ...base, vocabularies: new Map([['atlas', { name: 'atlas', file: 'vocab-mappings/atlas.yaml', tables: { lifecycle: { planned: 'nonsense' } } }]]) }),
+  },
+  {
+    name: 'a mapping gives the shared term published another meaning',
+    rule: 'VOCAB-SHADOW',
+    apply: (records) => records,
+    options: (base) => ({ ...base, vocabularies: new Map([['atlas', { name: 'atlas', file: 'vocab-mappings/atlas.yaml', tables: { lifecycle: { published: 'qa' } } }]]) }),
+  },
 ];
 
 /* PRIV-LEAK is a scan of built output, not a registry rule; leak-scan.test.ts covers it. */
