@@ -25,6 +25,7 @@ const { path } = Astro.props;
   summary {
     display: inline-flex;
     align-items: center;
+    min-width: var(--target-min);
     min-height: var(--target-min);
     padding-inline: var(--space-4);
     border: 1px solid var(--line);
@@ -44,6 +45,8 @@ const { path } = Astro.props;
   a {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    min-width: var(--target-min);
     min-height: var(--target-min);
     padding-inline: var(--space-2);
     color: var(--ink);

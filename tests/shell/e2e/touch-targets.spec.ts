@@ -14,7 +14,7 @@ test('standalone controls measure at least 44 x 44 px at 360 px width @phone', a
     const box = await control.boundingBox();
     const name = (await control.textContent())?.trim() ?? `control ${i}`;
     expect(box, name).not.toBeNull();
-    expect(box!.height, `${name} height`).toBeGreaterThanOrEqual(44);
-    expect(box!.width, `${name} width`).toBeGreaterThanOrEqual(44);
+    expect.soft(box!.height, `${name} height`).toBeGreaterThanOrEqual(44);
+    expect.soft(box!.width, `${name} width`).toBeGreaterThanOrEqual(44);
   }
 });
