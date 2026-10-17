@@ -2,6 +2,8 @@
   "schemes": ["dark", "light"],
   "templates": [
     { "name": "home", "path": "/" },
+    { "name": "about", "path": "/about/" },
+    { "name": "colophon", "path": "/colophon/" },
     { "name": "stub", "path": "/essays/" },
     { "name": "404", "path": "/404.html" },
     { "name": "content-with-breadcrumb", "path": "/fixtures/long-title/" },

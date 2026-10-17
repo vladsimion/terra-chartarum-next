@@ -130,10 +130,10 @@ description: "Task list for 002 Publication Shell, Navigation & Design System"
 
 **Independent Test**: About states identity, principles and authorship; the Colophon documents production, data licences and technology.
 
-- [ ] T043 [P] [US5] Write failing `tests/shell/unit/licences.test.ts`: `LICENSE` exists at the repository root and is MIT; `RightsLine` renders the licence and attribution of a `rights` object and renders nothing when `rights` is absent or has no licence; the Colophon source contains the licence split (code MIT, original prose and data CC BY 4.0, per-item rights) (FR-017, ADR 0009)
-- [ ] T044 [P] [US5] Write failing `tests/shell/e2e/about-colophon.spec.ts`: About and Colophon render with the shell and a `#licences` section, are marked `data-draft` while their copy is draft, and the footer's licences link goes to `/colophon/#licences`
-- [ ] T045 [US5] Add `LICENSE` (MIT), `src/shell/components/RightsLine.astro`, `src/content/pages/{about,colophon}.md` (neutral placeholder copy, `draft: true`; the authorship statement is left for the author) and `src/pages/about.astro`, `src/pages/colophon.astro`; make T043 and T044 pass
-- [ ] T046 [US5] Jira: copy this phase's checklist into the TCX story for US5 and update the epic
+- [x] T043 [P] [US5] Write failing `tests/shell/unit/licences.test.ts`: `LICENSE` exists at the repository root and is MIT; `RightsLine` renders the licence and attribution of a `rights` object and renders nothing when `rights` is absent or has no licence; the Colophon source contains the licence split (code MIT, original prose and data CC BY 4.0, per-item rights) (FR-017, ADR 0009) (done: `tests/shell/unit/licences.test.ts`, 7 tests; the pure `rightsLine` in `src/shell/rights-line.ts` is the seam, `RightsLine.astro` wraps it)
+- [x] T044 [P] [US5] Write failing `tests/shell/e2e/about-colophon.spec.ts`: About and Colophon render with the shell and a `#licences` section, are marked `data-draft` while their copy is draft, and the footer's licences link goes to `/colophon/#licences` (done: `tests/shell/e2e/about-colophon.spec.ts` CI-verified, plus `tests/shell/build/about-colophon.test.ts` which runs locally; `about` and `colophon` added to the CI template list and `lighthouserc.json`)
+- [x] T045 [US5] Add `LICENSE` (MIT), `src/shell/components/RightsLine.astro`, `src/content/pages/{about,colophon}.md` (neutral placeholder copy, `draft: true`; the authorship statement is left for the author) and `src/pages/about.astro`, `src/pages/colophon.astro`; make T043 and T044 pass (done: `LICENSE` MIT with a note on the prose and data licences, About and Colophon copy as `draft: true`, both destinations flipped to `built`; the authorship statement is a one-line placeholder for the author)
+- [x] T046 [US5] Jira: copy this phase's checklist into the TCX story for US5 and update the epic (done: Jira TCX-22 and epic TCX-3 updated)
 
 ---
 

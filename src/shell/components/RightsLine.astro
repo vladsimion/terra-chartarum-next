@@ -1,0 +1,19 @@
+---
+import { rightsLine, type RightsInput } from '../rights-line.js';
+
+interface Props {
+  rights?: RightsInput | undefined;
+}
+
+const line = rightsLine(Astro.props.rights);
+---
+
+{line && <p class="rights-line">{line}</p>}
+
+<style>
+  .rights-line {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: var(--step--1);
+  }
+</style>
