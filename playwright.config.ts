@@ -26,6 +26,8 @@ export default defineConfig({
     // a page that always exists: Playwright treats a 404 as "not ready", and the home page arrives with US4
     url: `${baseURL}/essays/`,
     reuseExistingServer: !process.env.CI,
+    // the test-only fixture essays (src/pages/fixtures) exist only in a build made with this set
+    env: { SHELL_FIXTURES: '1' },
     timeout: 180_000,
   },
   projects: [
