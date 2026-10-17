@@ -1,6 +1,6 @@
-# Pending Confluence entry: Decision Log (page 12648509)
+# Confluence entry: Decision Log (page 12648509)
 
-Append after TC-D029 (published; see `decision-log-tc-d029.md`). TC-D028 is published too. Not yet published: the session that wrote it had no Confluence write tool.
+Published 2026-10-17 in page version 12, directly after TC-D029 and together with TC-D031; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
 ### TC-D030 — The Atlas lists only public layers, keeps its state in the address, and derives rooms from essays
 

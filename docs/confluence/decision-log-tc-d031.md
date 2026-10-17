@@ -1,6 +1,6 @@
-# Pending Confluence entry: Decision Log (page 12648509)
+# Confluence entry: Decision Log (page 12648509)
 
-Append after TC-D030 (see `decision-log-tc-d030.md`, also pending; TC-D028 and TC-D029 are already published). Not yet published: the session that wrote it had no Confluence write tool.
+Published 2026-10-17 in page version 12, directly after TC-D030; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
 ### TC-D031 — A Source points at one bibliography entry, citations are derived, and an entry is public only when a public record cites it
 
