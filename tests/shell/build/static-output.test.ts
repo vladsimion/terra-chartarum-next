@@ -49,6 +49,7 @@ describe('the built site', () => {
   }, 180_000);
 
   it('is static files only, with no client JavaScript and no image filter', () => {
-    expect(staticOutputProblems(dir)).toEqual([]);
+    // the over-budget fixture ships a script on purpose, to prove the Lighthouse budget fails
+    expect(staticOutputProblems(dir, ['fixtures/budget/'])).toEqual([]);
   });
 });

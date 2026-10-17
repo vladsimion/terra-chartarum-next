@@ -1,0 +1,26 @@
+{
+  "ci": {
+    "collect": {
+      "url": [
+        "http://localhost:4322/essays/",
+        "http://localhost:4322/404.html",
+        "http://localhost:4322/fixtures/long-title/",
+        "http://localhost:4322/fixtures/essay-a/",
+        "http://localhost:4322/fixtures/essay-b/"
+      ],
+      "numberOfRuns": 1,
+      "startServerCommand": "npm run preview -- --port 4322",
+      "startServerReadyPattern": "localhost:4322",
+      "settings": { "chromeFlags": "--no-sandbox --headless=new" }
+    },
+    "assert": {
+      "assertions": {
+        "categories:accessibility": ["error", { "minScore": 1 }],
+        "largest-contentful-paint": ["error", { "maxNumericValue": 2500 }],
+        "cumulative-layout-shift": ["error", { "maxNumericValue": 0.1 }],
+        "total-blocking-time": ["error", { "maxNumericValue": 200 }],
+        "resource-summary:script:size": ["error", { "maxNumericValue": 102400 }]
+      }
+    }
+  }
+}

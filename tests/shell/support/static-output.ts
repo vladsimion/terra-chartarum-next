@@ -12,8 +12,8 @@ function files(dir: string, rel = ''): string[] {
  * (including a server entry such as _worker.js), a script tag in a page, and a `filter` in any
  * stylesheet. Sorted, relative to the build folder; empty when the output is clean.
  */
-export function staticOutputProblems(dir: string): string[] {
-  const all = files(dir);
+export function staticOutputProblems(dir: string, ignore: readonly string[] = []): string[] {
+  const all = files(dir).filter((f) => !ignore.some((prefix) => f.startsWith(prefix)));
   const scriptFiles = all.filter((f) => /\.(m?js|cjs)$/.test(f)).map((f) => `script file ${f}`);
   const scriptTags = all.filter((f) => f.endsWith('.html') && /<script[\s>]/i.test(readFileSync(path.join(dir, f), 'utf8'))).map((f) => `script tag in ${f}`);
   const filters = all.filter((f) => f.endsWith('.css') && /(^|[^-\w])filter\s*:/.test(readFileSync(path.join(dir, f), 'utf8'))).map((f) => `filter in ${f}`);

@@ -1,5 +1,5 @@
 ---
-import { FIXTURE_ESSAYS, LONG_TITLE_FIXTURE } from '../../shell/fixture-essays.js';
+import { FIXTURE_ESSAYS, LONG_TITLE_FIXTURE, TEST_ONLY_FIXTURES } from '../../shell/fixture-essays.js';
 import Base from '../../shell/layouts/Base.astro';
 
 /*
@@ -10,13 +10,41 @@ import Base from '../../shell/layouts/Base.astro';
 
 export function getStaticPaths() {
   if (process.env.SHELL_FIXTURES !== '1') return [];
-  return [...FIXTURE_ESSAYS, LONG_TITLE_FIXTURE].map((f) => ({ params: { slug: f.slug }, props: { fixture: f } }));
+  const essays = [...FIXTURE_ESSAYS, LONG_TITLE_FIXTURE].map((f) => ({ params: { slug: f.slug }, props: { fixture: f as { slug: string; title: string; accent: string } } }));
+  const testOnly = TEST_ONLY_FIXTURES.map((slug) => ({ params: { slug }, props: { fixture: { slug, title: slug, accent: 'gold' } } }));
+  return [...essays, ...testOnly];
 }
 
 const { fixture } = Astro.props;
+const kind = fixture.slug;
+
+// a deterministic ~480 KB payload that does not compress away: the "page over the JavaScript budget"
+let seed = 123456789;
+let payload = '';
+if (kind === 'budget') {
+  for (let i = 0; i < 80000; i++) {
+    seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+    payload += (seed >>> 8).toString(16).padStart(6, '0');
+  }
+}
 ---
 
 <Base title={`${fixture.title} | Terra Chartarum`} crumb={fixture.title} accent={fixture.accent}>
+  {kind === 'bad-a11y' && (
+    <article>
+      <h1>Inaccessible test page</h1>
+      <button></button>
+      <img src="/favicon.svg" />
+    </article>
+  )}
+  {kind === 'budget' && (
+    <article>
+      <h1>Over-budget test page</h1>
+      <p>This page ships far more JavaScript than the budget allows.</p>
+      <script is:inline set:html={`window.__payload="${payload}";`}></script>
+    </article>
+  )}
+  {kind !== 'bad-a11y' && kind !== 'budget' && (
   <article>
     <h1>{fixture.title}</h1>
     <p>
@@ -33,6 +61,7 @@ const { fixture } = Astro.props;
     </blockquote>
     <p class="note">A note in the muted ink, as a caption or metadata would be.</p>
   </article>
+  )}
 </Base>
 
 <style>

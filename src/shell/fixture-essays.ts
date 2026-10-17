@@ -4,6 +4,9 @@ export const FIXTURE_ESSAYS = [
   { slug: 'essay-b', title: 'Fixture essay B: what a road map leaves out', accent: 'madder' },
 ] as const;
 
+/** Pages that exist only to prove a gate can fail: an inaccessible page, and a page over the JavaScript budget. Never measured as templates. */
+export const TEST_ONLY_FIXTURES = ['bad-a11y', 'budget'] as const;
+
 /** A page whose title is far longer than any breadcrumb can show (spec 002 edge case); not in the snapshot set. */
 export const LONG_TITLE_FIXTURE = {
   slug: 'long-title',

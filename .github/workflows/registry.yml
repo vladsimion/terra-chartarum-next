@@ -50,8 +50,25 @@ jobs:
             playwright-report/
             test-results/
           if-no-files-found: ignore
-      - name: Stub pages and draft copy left in the build (informational until cutover)
+      - name: Stub pages and draft copy left in the production build (informational until cutover)
         run: npm run build && npm run shell:check
+      - name: Lighthouse CI budgets on the listed templates (ADR 0004, mobile profile)
+        run: |
+          SHELL_FIXTURES=1 npm run build
+          npm run lhci
+      - name: Budget guard proof (a page over the JavaScript budget must fail the same assertions)
+        run: |
+          if npm run lhci -- --collect.url=http://localhost:4322/fixtures/budget/; then
+            echo "the over-budget fixture passed the budget, so the budget would not catch a regression"
+            exit 1
+          fi
+      - name: Lighthouse report
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse
+          path: .lighthouseci/
+          if-no-files-found: ignore
       - name: Integrity gate on canonical content
         run: |
           if [ -d content ]; then
