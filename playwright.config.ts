@@ -23,11 +23,11 @@ export default defineConfig({
   use: { baseURL, trace: 'on-first-retry' },
   webServer: {
     command: `npm run build && npm run preview -- --port ${port}`,
-    // a page that always exists: Playwright treats a 404 as "not ready", and the home page arrives with US4
-    url: `${baseURL}/essays/`,
+    // the home page; Playwright treats a 404 as "not ready"
+    url: `${baseURL}/`,
     reuseExistingServer: !process.env.CI,
     // the test-only fixture essays (src/pages/fixtures) exist only in a build made with this set
-    env: { SHELL_FIXTURES: '1' },
+    env: { SHELL_FIXTURES: '1', REGISTRY_ROOT: 'tests/shell/fixtures/registry' },
     timeout: 180_000,
   },
   projects: [

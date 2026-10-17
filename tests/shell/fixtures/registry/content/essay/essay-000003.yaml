@@ -1,0 +1,10 @@
+id: tc:tc:essay:essay-000003
+family: essay
+origin: minted
+title: Zulu, a held test essay
+slug: zulu-held
+stage: Publish
+lifecycle: published
+release: held
+rights:
+  licence: CC-BY-4.0

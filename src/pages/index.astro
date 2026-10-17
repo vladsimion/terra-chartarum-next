@@ -1,0 +1,99 @@
+---
+import { getEntry, render } from 'astro:content';
+import { ROOM_IDS } from '../registry/families.js';
+import Base from '../shell/layouts/Base.astro';
+import { loadPublicRecords, registryRoot } from '../shell/public-records.js';
+
+/*
+ * The front door (spec 002 US4): what the site is, the public essays, the seven rooms and the Atlas.
+ * Essays come from the registry's public records only, so a held or draft essay can never appear.
+ * The introduction is draft copy until the author sets `draft: false` in src/content/pages/home.md.
+ */
+const home = await getEntry('pages', 'home');
+if (!home) throw new Error('src/content/pages/home.md is missing');
+const { Content } = await render(home);
+
+const essays = (await loadPublicRecords(registryRoot()))
+  .filter((r) => r.family === 'essay')
+  .sort((a, b) => a.title.localeCompare(b.title, 'en'));
+const rooms = ROOM_IDS.map((id) => ({ id, label: id[0]!.toUpperCase() + id.slice(1) }));
+---
+
+<Base title={`${home.data.title} | Terra Chartarum`} description={home.data.description} lang={home.data.lang} crumb="Home">
+  <h1>{home.data.title}</h1>
+  <div class="intro" data-draft={home.data.draft ? '' : undefined}>
+    <Content />
+  </div>
+  <p class="calls">
+    <a class="primary" href="/atlas/">Explore the Atlas</a>
+    <a class="secondary" href="/atlas/handbook/">Read the Handbook</a>
+  </p>
+  <section class="essays" aria-labelledby="essays-heading">
+    <h2 id="essays-heading">Essays</h2>
+    {essays.length === 0 ? (
+      <p>The first essays are in preparation.</p>
+    ) : (
+      <ul>
+        {essays.map((e) => (
+          <li><a href={`/essays/${e.slug}/`}>{e.title}</a></li>
+        ))}
+      </ul>
+    )}
+  </section>
+  <section class="rooms" aria-labelledby="rooms-heading">
+    <h2 id="rooms-heading">Rooms</h2>
+    <ul>
+      {rooms.map((r) => (
+        <li><a href={`/rooms/#${r.id}`}>{r.label}</a></li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .essays ul {
+    flex-direction: column;
+  }
+
+  .calls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-block: var(--space-5);
+  }
+
+  .calls a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+    min-width: var(--target-min);
+    padding-inline: var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  .calls .primary {
+    background: var(--panel-raised);
+    font-weight: 600;
+  }
+
+  section {
+    margin-block: var(--space-6);
+  }
+
+  section a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+    min-width: var(--target-min);
+  }
+</style>

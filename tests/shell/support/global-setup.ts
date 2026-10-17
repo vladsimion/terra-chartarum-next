@@ -20,6 +20,8 @@ let outDir = '';
 export default async function setup(project: TestProject): Promise<() => void> {
   // the test-only fixture pages (src/pages/fixtures) are built only when this is set
   process.env.SHELL_FIXTURES = '1';
+  // the registry the home page reads: two public essays, one held and one draft (tests/shell/fixtures/registry)
+  process.env.REGISTRY_ROOT = 'tests/shell/fixtures/registry';
   outDir = mkdtempSync(path.join(tmpdir(), 'shell-dist-'));
   await build({ root: process.cwd(), outDir, logLevel: 'error' });
   project.provide('siteDir', outDir);
