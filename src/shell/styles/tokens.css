@@ -35,8 +35,8 @@
   --focus: #e8c76a;
 
   /* Type: self-hosted faces (Latin, Latin-extended, Greek) */
-  --font-display: 'Cinzel Variable', 'Cinzel', 'IM Fell English', Georgia, serif;
-  --font-body: 'Crimson Pro Variable', 'Crimson Pro', 'EB Garamond Variable', 'EB Garamond', Georgia, serif;
+  --font-display: 'Cinzel Variable', 'Cinzel Fallback', 'Cinzel', 'IM Fell English', Georgia, serif;
+  --font-body: 'Crimson Pro Variable', 'Crimson Pro Fallback', 'Crimson Pro', 'EB Garamond Variable', 'EB Garamond Fallback', 'EB Garamond', Georgia, serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
   --step--2: clamp(0.69rem, 0.66rem + 0.15vw, 0.78rem);
   --step--1: clamp(0.83rem, 0.79rem + 0.2vw, 0.94rem);

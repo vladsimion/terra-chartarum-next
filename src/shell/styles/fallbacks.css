@@ -1,0 +1,36 @@
+/*
+ * Size-adjusted fallback faces, one per web face (ADR 0004: CLS <= 0.1). Until a web font arrives
+ * the text is set in Times New Roman (Liberation Serif on Linux, which has the same metrics),
+ * scaled so lines and letters take the room the web font will take, so swapping does not move the
+ * page. The percentages come from the fonts' published metrics; tests/shell/unit/font-fallbacks.test.ts
+ * holds the worked values. Each covers Latin only, so Greek still falls through to EB Garamond.
+ */
+@font-face {
+  font-family: 'Cinzel Fallback';
+  src: local('Times New Roman'), local('Liberation Serif'), local('Tinos');
+  size-adjust: 136.86%;
+  ascent-override: 71.31%;
+  descent-override: 27.18%;
+  line-gap-override: 0%;
+  unicode-range: U+0020-007F, U+00A0-024F, U+1E00-1EFF, U+2000-206F;
+}
+
+@font-face {
+  font-family: 'Crimson Pro Fallback';
+  src: local('Times New Roman'), local('Liberation Serif'), local('Tinos');
+  size-adjust: 98.56%;
+  ascent-override: 90.96%;
+  descent-override: 21.8%;
+  line-gap-override: 0%;
+  unicode-range: U+0020-007F, U+00A0-024F, U+1E00-1EFF, U+2000-206F;
+}
+
+@font-face {
+  font-family: 'EB Garamond Fallback';
+  src: local('Times New Roman'), local('Liberation Serif'), local('Tinos');
+  size-adjust: 94.77%;
+  ascent-override: 106.26%;
+  descent-override: 31.44%;
+  line-gap-override: 0%;
+  unicode-range: U+0020-007F, U+00A0-024F, U+1E00-1EFF, U+2000-206F;
+}
