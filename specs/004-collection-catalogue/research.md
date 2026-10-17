@@ -19,7 +19,7 @@ Decisions not already settled by the grill (ADR 0011), ADR 0004 or ADR 0005.
 - **Alternatives**: exact-year match only (excludes uncertain maps); midpoint (invents precision).
 
 ## R4. Room facet without a stored room
-- **Decision**: a map's rooms are derived from `rooms.primary` and `rooms.secondary[]` of the public essays that list the map in `maps[]`. No room is stored on a map. Assumed during the grill; see spec FR-019.
+- **Decision**: a map's rooms are derived from `rooms.primary` and `rooms.secondary[]` of the public essays that list the map in `maps[]`. No room is stored on a map. Assumed during the grill; see spec FR-019. The derivation itself lives in spec 007's `src/rooms/membership.ts` (ADR 0015); `index-data.ts` calls `roomsOf`.
 - **Rationale**: spec 003 made `rooms` essay-only and Constitution II forbids a second copy; the derived value updates itself when an essay is released.
 - **Alternatives**: a `rooms` field on the map (a second place to keep in step); dropping the facet (the spec asks for it).
 

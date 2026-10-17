@@ -9,7 +9,7 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Essay** | A long-form visual argument answering one historical question, composed over shared evidence. Owns its narrative and local bibliography, never private data. | A blog post; a layer description |
 | **Trench** | An essay inside a Corpus programme, each a separate "excavation" with its own lens. | A chapter |
 | **Corpus (programme)** | A deep research programme (pattern: Corpus Chartarum) with several essays sharing one evidence corpus, GIS, object records and bibliography. | A collection of layers |
-| **Room** | One of seven reader-facing conceptual paths: Earth, Map, City, Border, Road, Archive, Theatre. Membership is metadata, never a folder or a data taxonomy. | Theme, Collection |
+| **Room** | One of seven reader-facing conceptual paths: Earth, Map, City, Border, Road, Archive, Theatre. Membership is metadata, never a folder or a data taxonomy: an essay declares its rooms, and a map or layer is in a room only through the public essays that use it. All seven rooms are always public; each has its own page. | Theme, Collection |
 | **Portal dimension** | Optional additive essay tag: Measure, Witness, Use, Cosmos, Power, Silence. Never replaces an essay's native lenses. | Theme |
 | **Editorial stage** | One of: Concept, Corpus, Research, Outline, Draft, Build, Design QA, Publish, Cross-link. | Lifecycle state |
 | **Stage history** | The recorded sequence of an essay's editorial stages, each with a date and the person who promoted it. It must be contiguous. | The version-control log; Lifecycle |
@@ -87,7 +87,7 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Colour scheme** | The dark or light set of token values. Dark is the identity and the default; light is derived and served when the reader's system asks for it. | Theme (a family of layers, above); the spec's earlier "light and dark themes" |
 | **Accent slot** | A named accent colour in the token set, with a passing contrast pair in each colour scheme. An essay picks one by name. | A free colour value |
 | **Stub page** | A placeholder at a Lens or footer destination that a later spec owns, marked "in preparation" and replaced by its owner. None may remain at cutover. | A 404; a draft essay |
-| **Draft copy** | Placeholder prose for the home, About or Colophon pages, marked `draft: true` until the author writes the final text. None may remain at cutover. | A held record |
+| **Draft copy** | Placeholder prose for the home, About or Colophon pages, the Handbook topics and the seven room introductions, marked `draft: true` (or `copy_status: draft` on a room) until the author writes the final text. None may remain at cutover. | A held record |
 
 ## Rule of thumb
 *The essay interprets; the Atlas spatialises; the Handbook documents; the dataset substantiates.*

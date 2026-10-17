@@ -84,7 +84,7 @@ description: "Task list for 005 Historical Atlas"
 
 **Goal**: browse by lens and search, activate a collection's defaults, without discovery ever changing the map.
 
-- [ ] T034 [P] [US2] Write failing `tests/atlas/unit/index-data.test.ts`: the index holds only public layers and the contract's fields; a layer's collections are derived from public collections; its rooms are derived from public essays' `layers[]` (a layer no public essay lists has none); a held layer, collection or essay contributes nothing; a collection with no runnable public member has no activation action flag; `index-data.size.test.ts` — 200 layers compress below 40 KB
+- [ ] T034 [P] [US2] Write failing `tests/atlas/unit/index-data.test.ts`: the index holds only public layers and the contract's fields; a layer's collections are derived from public collections; its rooms come from `roomsOf` in `src/rooms/membership.ts` (spec 007, ADR 0015), which derives them from public essays' `layers[]` (a layer no public essay lists has none); a held layer, collection or essay contributes nothing; a collection with no runnable public member has no activation action flag; `index-data.size.test.ts` — 200 layers compress below 40 KB
 - [ ] T035 [US2] Implement `src/atlas/index-data.ts` and write `atlas-index.json`
 - [ ] T036 [P] [US2] Write failing `tests/atlas/unit/rank.test.ts`: exact title → title prefix → tag or synonym → collection, theme or room → description, ties by title; case and diacritics ignored; a query that matches nothing returns an empty list
 - [ ] T037 [US2] Implement `src/atlas/rank.ts`
@@ -162,7 +162,7 @@ description: "Task list for 005 Historical Atlas"
 
 - Setup → Foundation → US1 → US2 → US3 → US4 → US7 → US5 → US6 → cross-cutting → Polish. Foundation blocks everything; T021 to T026 (pure modules) need only Foundation.
 - The site half needs spec 002's shell and registry integration (merged). T004 decides how T032 loads the map.
-- US2's derived rooms and US3's related essays need spec 003's `layers[]`; until spec 003 ships, fixtures supply it and real lists are empty.
+- US2's derived rooms call `roomsOf` from spec 007's `src/rooms/membership.ts` (ADR 0015) and, with US3's related essays, need spec 003's `layers[]`; until spec 003 ships, fixtures supply it and real lists are empty.
 - `viewUrl` (T047) is consumed by spec 003's "Open in Atlas" link; spec 005 does not build that component.
 - Spec 008's importer targets this schema; nothing here imports legacy data. CND stays held and unlisted.
 
