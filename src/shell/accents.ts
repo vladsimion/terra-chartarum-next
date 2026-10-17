@@ -3,8 +3,10 @@
  * not accepted, because it could not be guaranteed to pass the contrast test in both colour
  * schemes. The values live in tokens.css; a test keeps that file and this list identical.
  */
-export const ACCENT_SLOTS = ['gold', 'verdigris', 'madder', 'indigo', 'umber', 'sage'] as const;
-export type AccentSlot = (typeof ACCENT_SLOTS)[number];
+import { ACCENT_SLOTS, type AccentSlot } from '../registry/accent-slots.js';
+
+// The list is owned by the registry (it checks `ESSAY-ACCENT` against it); the shell re-exports it.
+export { ACCENT_SLOTS, type AccentSlot };
 
 export const DEFAULT_ACCENT: AccentSlot = 'gold';
 

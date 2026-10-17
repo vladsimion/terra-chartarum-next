@@ -95,6 +95,8 @@ Modern reference geometry is context only: a layer whose `geometry_provenance` i
 
 `stage*` (the nine editorial stages) and `design_qa_passed` (boolean, used only to tell `qa` from `publishable`, ADR 0003 §2); optional `portal_dimensions[]`, each one of `Measure, Witness, Use, Cosmos, Power, Silence` (FR-012, no UI in v1); references `evidence[]`, `maps[]`, `places[]`, `sources[]`.
 
+Spec 003 extends the essay with `question`, `thesis`, `rooms`, `layers[]`, `bibliography[]`, `accent`, `authors`, `published_on`, `stage_history`, `open_questions[]`, `interactions[]`, `signoffs`, `legacy_url`, `redirect_switched` and `jira`, and a bibliography entry with `section`; see [spec 003's data model](../003-essay-framework/data-model.md). An essay's body is the `.mdx` beside its record, attached in memory by the loader as `body` and never a field of the YAML.
+
 ## Collection (`family = collection`)
 
 `members[]` (layer IDs), `default_layers[]`; `default_layers ⊆ members` (US3.2). A collection owns defaults, never geometry.

@@ -29,7 +29,11 @@ const BY_FAMILY: Record<string, Allow> = {
   dataset: { fields: ['version', 'licence', 'rights'] },
   layer: { fields: ['role', 'asset', 'geometry', 'geometry_provenance', 'images', 'rights'], scalarRefs: ['dataset'] },
   collection: { listRefs: ['members', 'default_layers'] },
-  essay: { listRefs: ['evidence', 'maps', 'places', 'sources'] },
+  essay: {
+    // only what the page shows (spec 003 research R11); jira, signoffs, stage_history, open_questions, legacy_url and redirect_switched stay private
+    fields: ['question', 'thesis', 'authors', 'accent', 'published_on'],
+    listRefs: ['evidence', 'maps', 'places', 'sources', 'layers', 'bibliography'],
+  },
   route: { fields: DATES },
   event: { fields: DATES },
   period: { fields: DATES },
@@ -87,6 +91,23 @@ export function projectPublic(records: readonly RegistryRecord[]): PublicRecord[
       projected.target = pick(target as Record<string, unknown>, ['entity', 'feature']);
       if (record.locator && typeof record.locator === 'object') {
         projected.locator = pick(record.locator as Record<string, unknown>, LOCATOR_FIELDS);
+      }
+    }
+    if (record.family === 'essay') {
+      const rooms = record.rooms as { primary?: unknown; secondary?: unknown } | undefined;
+      if (rooms && typeof rooms === 'object') {
+        const projectedRooms: Record<string, unknown> = {};
+        if (typeof rooms.primary === 'string' && publicIds.has(rooms.primary)) projectedRooms.primary = rooms.primary;
+        projectedRooms.secondary = Array.isArray(rooms.secondary) ? rooms.secondary.filter((id) => typeof id === 'string' && publicIds.has(id)) : [];
+        projected.rooms = projectedRooms;
+      }
+      if (Array.isArray(record.interactions)) {
+        projected.interactions = record.interactions
+          .filter((i): i is Record<string, unknown> => i !== null && typeof i === 'object')
+          .map((i) => ({
+            ...pick(i, ['id', 'component', 'question', 'interpretation']),
+            evidence: Array.isArray(i.evidence) ? i.evidence.filter((id) => typeof id === 'string' && publicIds.has(id)) : [],
+          }));
       }
     }
     if (record.family === 'attestation' && record.locator && typeof record.locator === 'object') {

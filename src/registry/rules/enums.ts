@@ -1,4 +1,5 @@
 import { AUTHORITIES } from '../families.js';
+import { BIBLIOGRAPHY_SECTIONS } from '../schemas/bibliography-section.js';
 import {
   ATTESTATION_FORM_VALUES,
   CONFIDENCE_VALUES,
@@ -37,6 +38,7 @@ const ENUM_FIELDS: { path: string; values: readonly string[] }[] = [
   { path: 'role', values: LAYER_ROLE_VALUES },
   { path: 'locator.state', values: LOCATOR_STATE_VALUES },
   { path: 'locator.proposed_by', values: PROPOSED_BY_VALUES },
+  { path: 'section', values: BIBLIOGRAPHY_SECTIONS },
 ];
 
 export const enumInvalid = defineRule({
