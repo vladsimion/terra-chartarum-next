@@ -59,7 +59,19 @@ Thirteen decisions, all accepted as recommended:
 - Trench A: all four Sondaje pits consume CND (48 cells); in v1 they are the essay's local data, `corpus: none`, additive retrofit later (ADR 0002 amendment).
 - Spec 003 delivers the framework plus one fixture essay; the Terra Sigillata rebuild is its own Jira epic.
 
+## Collection catalogue (spec 004) — DONE 2026-10-17 (TCX-5, ADR 0011)
+- One Map object record per witness (`witness_kind: held | institutional`); image sources are embedded in the record; spec 004 amends spec 001's data model in its Foundation phase.
+- `field_status` per displayed field (recorded, not_applicable, not_yet_verified, unknown): empty and unstated is a warning from `ready_for_build`, an error at `publishable`; held provenance and atlas context carry `basis: observed | inferred`.
+- No price, vendor or negotiation data is ever committed (public repository); a gate rule rejects those field names.
+- Generic family makers are `workshop` cartographers, `attribution: unresolved`; biography is released prose beside the record. A public map's makers must be public (`MAP-MAKER-HELD`).
+- Viewer: OpenSeadragon loads on activation, static image first and as fallback, institutional IIIF endpoints, image withheld unless `reproduction_cleared`; authored `alt`; keyboard, touch, reduced motion, no-JS link out.
+- Browse: static HTML list plus a build-time JSON index, filters in the query string, date overlap on EDTF, region from `coverage[]` places, sort by date (default), title or maker, no pagination, no text search in v1.
+- Citation: the shared generator and control from spec 003, with a map-record input (CSL type `map`). Where used: derived at build, public referrers only.
+- Verification: `unverified | checked_online | inspected` (held only), `last_verified` as an ISO date. Dealer or auction support alone fails at `publishable`.
+- Enrichment queue: an editor CLI report and CI artefact, scored 1 to 3 on impact, risk and reuse, never published.
+- Spec 004 is accepted on fixtures (generated 60 and 500 records, plus about six hand-authored ones); spec 008 maps the 59 legacy records and the editor releases them deliberately.
+
 ## Still open
-- Specs 004 to 008 are not yet grilled (004 collection catalogue, 005 Atlas, 006 bibliography, 007 rooms, 008 migration and cutover).
+- Specs 005 to 008 are not yet grilled (005 Atlas, 006 bibliography, 007 rooms, 008 migration and cutover).
 
 Constitution ratified as v1.0.0 on 2026-10-15. /speckit-analyze runs per feature once tasks.md exists.

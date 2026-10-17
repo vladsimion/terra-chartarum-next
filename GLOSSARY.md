@@ -27,7 +27,12 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Slug history** | The list of former public slugs of an entity; each keeps resolving to the entity's current page. |
 | **Evidence record** | A first-class entity, with its own stable ID, stating that a source supports a claim about a target (an entity, or a feature of a layer). Essays and layers cite evidence records and never embed provenance. |
 | **Tombstone** | The page a superseded entity keeps at its own address, linking to its live successor when there is one. A tombstone with no successor is a withdrawal: the old address shows a notice, never an error. |
-| **Map object** | One physical or digital map witness (edition/state-specific). One canonical record. |
+| **Map object** | One witness of a map (edition/state-specific), held or institutional. One canonical record per witness. |
+| **Witness** | One concrete copy of a map that a record describes: **held** (an object this project owns) or **institutional** (an institution's copy, known through its scan). Each witness is its own Map object record. Not the edition, and not the abstract map. |
+| **Workshop** | A Cartographer record for a family or firm (for example "Visscher") whose individual maker is not established. A map attributed to one is marked unresolved. Not an individual Cartographer. |
+| **Field status** | The explicit state of one displayed field of a record: recorded, not applicable, not yet verified or unknown. A blank is never presented as complete. Not Lifecycle, not Confidence. |
+| **Verification** | How far a map record has been checked: unverified, checked online or inspected (held witnesses only), with the date last checked. Not Field status, not Confidence. |
+| **Enrichment queue** | The editor-only ranked list of records that most need work (publication impact × scholarly risk × reuse value). Never published. Not a to-do list on the site. |
 | **Cartographer** | A maker (cartographer, engraver, publisher) with a profile record. |
 | **Place** | A historical place authority with alternate names and temporal validity. |
 | **Source** | A primary or secondary work cited as evidence. A finding aid (a work used only to find sources) is not a source. |
