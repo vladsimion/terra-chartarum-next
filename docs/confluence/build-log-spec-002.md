@@ -4,7 +4,7 @@ Published 2026-10-17 as section V, directly after section U and before "2. In pr
 
 ## V. The successor build: publication shell and design system (spec 002)
 
-Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 16 to 17 October 2026. Jira epic TCX-3. Like section U, this section records only what has merged to the successor's `main` and is not part of the reconciliation of the other sections of this page. It was reconciled on 17 October 2026 against `main` at `2d79296`, the merge of PR #32. Working detail is in the [spec 002 programme dossier](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/36569092).
+Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 16 to 17 October 2026. Jira epic TCX-3. Like section U, this section records only what has merged to the successor's `main` and is not part of the reconciliation of the other sections of this page. It was reconciled on 17 October 2026 against `main` at `2d79296`, the merge of PR #32. Working detail is in the [spec 002 programme dossier](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/37617686).
 
 | PR | Scope | Jira |
 |---|---|---|
