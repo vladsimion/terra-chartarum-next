@@ -21,3 +21,6 @@ One record with several witnesses (makes "held or institutional" a property of a
 - The map and cartographer rows of the ADR 0006 family-fields table grow; `FAM-UNKNOWN` stays strict.
 - Imported records arrive held; releasing the 59 is a deliberate editor act.
 - A reverse "where used" list is derived at build time from one-way references and shows public referrers only.
+
+## Amendment (spec 008 grill, 2026-10-17): record scope and unlocated objects
+The legacy catalogue has 59 records, some of which are not a single object: explicit `recordScope` values are `object` (3), `work` (6) and `concept` (2), the rest default to `object`, and one object's custody is `unlocated`. IDs must be preserved, so none can be dropped, and none fits "one record per witness" with only `held | institutional`. The model gains `record_scope` (`object` by default, `work`, `concept`) and widens `witness_kind` to `held | institutional | unlocated`. `witness_kind` is required only when the scope is `object`; a `work` or `concept` record is labelled as such, has no viewer or images, and counts as no witness in the held/institutional filter. A witness is still one concrete copy; a `work` is the literature's edition, a `concept` is an idea. See [ADR 0016](0016-migration.md).

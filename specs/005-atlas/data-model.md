@@ -16,6 +16,7 @@ Extends the layer and place rows of spec 001's data model ("Family fields"). Fie
 | `envelope*` | an EDTF interval `from/to` (four-digit signed years) covering the whole layer; required from `ready_for_build` (`LAYER-TIME`) |
 | `time_mode*` | `per_feature` or `envelope_only`; required from `ready_for_build` (`LAYER-TIME`) |
 | `facets[]` | list of `{ property*, label*, kind* }`; `kind` is `category` or `range`; `property` unique within the layer (`LAYER-FACET`) |
+| `documentation[]` | optional list of `{ label*, url* }` (`https` URLs): methodology and documentation links shown in the inspector; added by the spec 008 grill because the legacy layers carry `documentationLinks` |
 | `georef` | present only when `role = map-overlay` and required then (`LAYER-GEOREF`): `{ map*, annotation*, transformation*, residual_error_m*, control_points*, confidence* }` |
 
 The seven themes, in order, with their stored values: `territories-boundaries` (Territories & Boundaries), `networks-circulation` (Networks & Circulation), `places-settlements` (Places & Settlements), `names-peoples-attestations` (Names, Peoples & Attestations), `conflict-campaigns-frontiers` (Conflict, Campaigns & Frontiers), `cartographic-evidence` (Cartographic Evidence), `historical-map-overlays` (Historical Map Overlays).

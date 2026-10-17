@@ -27,12 +27,13 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Slug history** | The list of former public slugs of an entity; each keeps resolving to the entity's current page. |
 | **Evidence record** | A first-class entity, with its own stable ID, stating that a source supports a claim about a target (an entity, or a feature of a layer). Essays and layers cite evidence records and never embed provenance. |
 | **Tombstone** | The page a superseded entity keeps at its own address, linking to its live successor when there is one. A tombstone with no successor is a withdrawal: the old address shows a notice, never an error. |
-| **Map object** | One witness of a map (edition/state-specific), held or institutional. One canonical record per witness. |
-| **Witness** | One concrete copy of a map that a record describes: **held** (an object this project owns) or **institutional** (an institution's copy, known through its scan). Each witness is its own Map object record. Not the edition, and not the abstract map. |
+| **Map object** | One witness of a map (edition/state-specific), held, institutional or unlocated, when its record scope is `object`; one canonical record per witness. A `work` or `concept` record is not a witness. |
+| **Witness** | One concrete copy of a map that a record describes: **held** (an object this project owns) or **institutional** (an institution's copy, known through its scan). Each witness is its own Map object record. Not the edition, and not the abstract map. A record is a witness only when its scope is `object`; an **unlocated** witness is an object whose location is not known. |
 | **Workshop** | A Cartographer record for a family or firm (for example "Visscher") whose individual maker is not established. A map attributed to one is marked unresolved. Not an individual Cartographer. |
 | **Field status** | The explicit state of one displayed field of a record: recorded, not applicable, not yet verified or unknown. A blank is never presented as complete. Not Lifecycle, not Confidence. |
 | **Verification** | How far a map record has been checked: unverified, checked online or inspected (held witnesses only), with the date last checked. Not Field status, not Confidence. |
 | **Enrichment queue** | The editor-only ranked list of records that most need work (publication impact × scholarly risk × reuse value). Never published. Not a to-do list on the site. |
+| **Record scope** | What a Map object record stands for: an `object` (a concrete witness), a `work` (an edition known from the literature) or a `concept` (an idea with no artefact). Not a lifecycle state. |
 | **Cartographer** | A maker (cartographer, engraver, publisher) with a profile record. |
 | **Place** | A historical place authority with alternate names and temporal validity. |
 | **Source** | A primary or secondary work cited as evidence, pointing at one Bibliography entry. A finding aid (a work used only to find sources) is recorded as a Source flagged as a finding aid and is never cited as evidence. |
@@ -88,6 +89,15 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Accent slot** | A named accent colour in the token set, with a passing contrast pair in each colour scheme. An essay picks one by name. | A free colour value |
 | **Stub page** | A placeholder at a Lens or footer destination that a later spec owns, marked "in preparation" and replaced by its owner. None may remain at cutover. | A 404; a draft essay |
 | **Draft copy** | Placeholder prose for the home, About or Colophon pages, the Handbook topics and the seven room introductions, marked `draft: true` (or `copy_status: draft` on a room) until the author writes the final text. None may remain at cutover. | A held record |
+
+## Migration
+
+| Term | Meaning | Not to be confused with |
+|---|---|---|
+| **Legacy site** | The live terra-chartarum.pages.dev site before cutover, whose repository is the source of the import. | The successor |
+| **Frozen archive** | The legacy site after cutover: read-only, with an "archived edition" banner and `noindex`. Called the frozen archive to keep it apart from the Archive room. | The Archive room (one of the seven rooms) |
+| **Import snapshot** | The pinned checkout of the legacy repository, at a recorded commit, that the importer reads. | A backup |
+| **Redirect inventory** | Every old URL with its one outcome: served in place by the frozen archive, or one redirect rule. | The redirect file (which is generated from it) |
 
 ## Rule of thumb
 *The essay interprets; the Atlas spatialises; the Handbook documents; the dataset substantiates.*

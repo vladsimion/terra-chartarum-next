@@ -10,7 +10,7 @@
 ## Clarifications
 
 ### Session 2026-10-17 (grill, ADR 0011)
-- Q: What is one Map object record? → A: One witness: `witness_kind: held | institutional`, required. Two witnesses of one edition are two records joined by a relation (ADR 0011).
+- Q: What is one Map object record? → A: One witness: `witness_kind: held | institutional | unlocated`, required when the record's `record_scope` is `object` (the default). Two witnesses of one edition are two records joined by a relation (ADR 0011). *Amended 2026-10-17 by the spec 008 grill (ADR 0016): `record_scope` is `object`, `work` or `concept`; a `work` or `concept` record (an edition known from the literature, or an idea with no artefact) carries no `witness_kind`, is labelled as such on its page, has no viewer, and counts as no witness in the held/institutional filter. `unlocated` is an object whose location is not known.*
 - Q: Does spec 004 change the registry schema? → A: Yes. Its Foundation phase amends spec 001's data model with the FR-001 fields and the cartographer fields. Image sources are embedded in the map record (`images[]`), not a new family.
 - Q: How is "not established" shown? → A: A `field_status` map (`recorded`, `not_applicable`, `not_yet_verified`, `unknown`); a field with a value is `recorded`; empty and unstated is a warning from `ready_for_build` and an error at `publishable`. Held provenance and atlas context also carry `basis: observed | inferred`.
 - Q: What about private purchase data? → A: Never committed. The repository is public, so a gate rule rejects field names such as `price`, `paid` and `negotiation`.
@@ -74,11 +74,13 @@ As the editor, the build emits a completeness report per record and a ranked enr
 - Private purchase/price/negotiation data: never public, and never committed to the repository.
 - A public map whose maker is held: not publishable until the maker is released.
 - An institutional witness marked `inspected`: rejected.
+- A `work` or `concept` record: shown with its scope label, no viewer and no witness label; it is not offered in the "held" or "institutional" filter values.
+- An `unlocated` object: shown with a "location not known" label and the field status for its repository.
 
 ## Requirements *(mandatory)*
-- **FR-001**: Each map record MUST include, where applicable: ID, `witness_kind`, original and normalised title, cartographer/engraver/publisher IDs, place and date of publication (EDTF), edition/state, atlas context, dimensions/format, language, coverage (place IDs), significance, provenance and collection status, `images[]` (type IIIF/DeepZoom/static, URL, rights, attribution, `alt`), rights/licence, georeferencing status, related entity IDs, bibliography IDs, `verification`, `last_verified`.
+- **FR-001**: Each map record MUST include, where applicable: ID, `witness_kind`, original and normalised title, cartographer/engraver/publisher IDs, place and date of publication (EDTF), edition/state, atlas context, dimensions/format, language, coverage (place IDs), significance, provenance and collection status, `images[]` (type IIIF/DeepZoom/static, URL, rights, attribution, `alt`), rights/licence, georeferencing status, related entity IDs, bibliography IDs, `verification`, `last_verified`, `record_scope`, `open_questions[]` (field, question, what would resolve it).
 - **FR-002**: Each displayed field MUST carry a status of `recorded`, `not_applicable`, `not_yet_verified` or `unknown` (`field_status`); held provenance and atlas context MUST also carry `basis: observed | inferred`.
-- **FR-003**: Held and institutional witnesses MUST be distinguishable everywhere a map is shown.
+- **FR-003**: Held, institutional and unlocated witnesses MUST be distinguishable everywhere a map is shown, and a `work` or `concept` record MUST be labelled as not a single object.
 - **FR-004**: Deep-zoom imagery MUST load only on activation, show a static image first, and degrade gracefully when unavailable.
 - **FR-005**: Image attribution and rights MUST be shown with every image instance (thumbnail and full), generated from the record (ADR 0009).
 - **FR-006**: Citation display and export MUST come from canonical record metadata through the shared generator of spec 003.

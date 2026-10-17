@@ -12,6 +12,7 @@ New rules added to `specs/001-scholarly-registry/contracts/rule-ids.md` when the
 | `MAP-DEALER-ONLY` | `attribution_evidence[]` is not made up only of Evidence records whose source has `source_kind` `dealer` or `auction`; at `publishable` at least one entry exists | FR-016 | `ready_for_build` | `publishable` |
 | `MAP-MAKER-HELD` | every maker of a public map is public (published and released) | FR-012 | `ready_for_build` | `publishable` |
 | `MAP-PRIVATE-FIELD` | no key at any depth, in any family, is a private acquisition word (`price`, `paid`, `cost`, `negotiation`, `vendor`, `dealer_contact`, `invoice`, `receipt`) | FR-010 | | any |
+| `MAP-SCOPE` | `record_scope` is `object`, `work` or `concept`; an `object` has `witness_kind` (warn from `ready_for_build`, error at `publishable`); a `work` or `concept` has no `witness_kind`, no `images[]`, no `verification` of `inspected` and no `basis` | FR-003 | `ready_for_build` | `publishable` |
 | `CART-KIND` | `kind` is `person` or `workshop`; `roles[]` values are from the three; a `workshop` has no `life_dates` | FR-001, FR-011 | | `ready_for_build` |
 
 Existing rules that now also apply: `FAM-REQUIRED` (the map family's required list gains `witness_kind`, the cartographer's gains `kind`), `FAM-UNKNOWN`, `REF-UNKNOWN` and `REF-FAMILY` for `publication_place`, `coverage[]` (place), `attribution_evidence[]` (evidence) and `bibliography[]` (bibliography entry), `RIGHTS-CLEARED` for images, `DATE-*` for `date_published`, and the held-leak scan.
