@@ -16,13 +16,14 @@ const SCALARS: Record<string, string[]> = {
   evidence: ['source'],
   attestation: ['place', 'source'],
   layer: ['dataset'],
+  essay: ['rooms.primary'],
 };
 
 const LISTS: Record<string, string[]> = {
   '*': ['relations'],
   collection: ['members', 'default_layers'],
   map: ['makers'],
-  essay: ['evidence', 'maps', 'places', 'sources'],
+  essay: ['evidence', 'maps', 'places', 'sources', 'layers', 'bibliography', 'rooms.secondary'],
 };
 
 /*
@@ -31,7 +32,16 @@ const LISTS: Record<string, string[]> = {
  * record's own family, which `expectedFamilies` returns as that family.
  */
 const POINTS_AT: Record<string, Record<string, string>> = {
-  essay: { maps: 'map', places: 'place', sources: 'source', evidence: 'evidence' },
+  essay: {
+    maps: 'map',
+    places: 'place',
+    sources: 'source',
+    evidence: 'evidence',
+    layers: 'layer',
+    bibliography: 'bibliography_entry',
+    'rooms.primary': 'room',
+    'rooms.secondary': 'room',
+  },
   collection: { members: 'layer', default_layers: 'layer' },
   map: { makers: 'cartographer' },
   layer: { dataset: 'dataset' },
@@ -46,6 +56,16 @@ export function expectedFamily(recordFamily: string, field: string): string | nu
   return POINTS_AT[recordFamily]?.[base] ?? null;
 }
 
+/** A value at a dotted path (`rooms.primary`), or undefined. */
+function valueAt(record: RegistryRecord, dotted: string): unknown {
+  let current: unknown = record;
+  for (const part of dotted.split('.')) {
+    if (current === null || typeof current !== 'object') return undefined;
+    current = (current as Record<string, unknown>)[part];
+  }
+  return current;
+}
+
 /** Every entity reference a record declares, in a stable order. */
 export function referenceFields(record: RegistryRecord): RefField[] {
   const refs: RefField[] = [];
@@ -53,14 +73,14 @@ export function referenceFields(record: RegistryRecord): RefField[] {
   const scalarFields = [...(SCALARS['*'] ?? []), ...(SCALARS[record.family] ?? [])];
 
   for (const field of listFields) {
-    const raw = record[field];
+    const raw = valueAt(record, field);
     if (!Array.isArray(raw)) continue;
     raw.forEach((value, i) => {
       if (typeof value === 'string') refs.push({ field: `${field}[${i}]`, id: value });
     });
   }
   for (const field of scalarFields) {
-    const value = record[field];
+    const value = valueAt(record, field);
     if (typeof value === 'string') refs.push({ field, id: value });
   }
   if (record.family === 'evidence') {

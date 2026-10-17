@@ -44,7 +44,7 @@ export const LayerSchema = EntityBase.extend({
   rights: RightsShape.optional(),
 });
 
-export const BibliographyEntrySchema = EntityBase.extend({ csl: z.string().optional() });
+export const BibliographyEntrySchema = EntityBase.extend({ csl: z.string().optional(), section: z.string().optional() });
 
 export const CollectionSchema = EntityBase.extend({
   members: z.unknown().optional(),

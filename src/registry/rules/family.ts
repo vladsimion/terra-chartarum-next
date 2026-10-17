@@ -49,7 +49,8 @@ export const famUnknown = defineRule({
       const known = knownFields(record.family);
       if (!known) continue;
       for (const field of Object.keys(record)) {
-        if (field !== 'file' && !known.has(field)) {
+        // `file` and an essay's `body` are attached by the loader; neither is a field of the YAML
+        if (field !== 'file' && !(field === 'body' && record.family === 'essay') && !known.has(field)) {
           findings.push({ record, field, value: record[field], expected: `a field defined for ${record.family} records` });
         }
       }

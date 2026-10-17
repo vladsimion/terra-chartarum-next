@@ -1,6 +1,7 @@
 import { readdir, readFile, realpath, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { parse as parseYaml } from 'yaml';
+import { scanEssayBody } from './essay-body.js';
 import { schemaFor } from './schemas/index.js';
 import { ProvenanceStepSchema, type ProvenanceStep } from './schemas/provenance-step.js';
 import { VocabMappingSchema } from './schemas/vocab-mapping.js';
@@ -94,6 +95,15 @@ async function loadVocabularies(
     } catch (error) {
       loadErrors.push({ file: rel, message: errorMessage(error) });
     }
+  }
+}
+
+/** The text of the .mdx beside an essay's YAML file, or null when there is none. */
+async function readBody(yamlFile: string): Promise<string | null> {
+  try {
+    return await readFile(yamlFile.replace(/\.ya?ml$/, '.mdx'), 'utf8');
+  } catch {
+    return null;
   }
 }
 
@@ -221,7 +231,16 @@ export async function loadRegistry(rootDir: string): Promise<LoadResult> {
       loadErrors.push({ file: rel, message });
       continue;
     }
-    records.push({ ...(parsed.data as Record<string, unknown>), file: rel } as RegistryRecord);
+    const record = { ...(parsed.data as Record<string, unknown>), file: rel } as RegistryRecord;
+    if (family === 'essay') {
+      // The body is the .mdx beside the record, read and scanned here; it is never a field of the YAML.
+      if ('body' in record) {
+        loadErrors.push({ file: rel, message: `body is not a field of an essay record; it is read from ${path.basename(file).replace(/\.ya?ml$/, '.mdx')}` });
+        continue;
+      }
+      record.body = scanEssayBody(await readBody(file));
+    }
+    records.push(record);
   }
 
   const provenanceIndex = new Map<string, ProvenanceStep>();
