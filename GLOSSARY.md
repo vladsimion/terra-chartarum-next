@@ -35,10 +35,13 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Enrichment queue** | The editor-only ranked list of records that most need work (publication impact × scholarly risk × reuse value). Never published. Not a to-do list on the site. |
 | **Cartographer** | A maker (cartographer, engraver, publisher) with a profile record. |
 | **Place** | A historical place authority with alternate names and temporal validity. |
-| **Source** | A primary or secondary work cited as evidence. A finding aid (a work used only to find sources) is not a source. |
+| **Source** | A primary or secondary work cited as evidence, pointing at one Bibliography entry. A finding aid (a work used only to find sources) is recorded as a Source flagged as a finding aid and is never cited as evidence. |
 | **Attestation** | place × source × form: evidence that a source names or depicts a place. A source's silence about a place is also an Attestation (form `silence`) carrying one silence state. |
 | **Locator** | Page / folio / plate / record reference inside a source. `verified` only if read by this project; otherwise `pending`. |
-| **Bibliography entry** | Canonical citation record; essay bibliographies reference entries by ID. |
+| **Bibliography entry** | The canonical citation record, whose CSL-JSON holds the citation fields. Essays, maps, cartographers, datasets and layers list entries by ID. |
+| **Cited as evidence** | The route by which an entry is cited through a claim citation: essay → Evidence record → Source → entry, with the locator and its verification state. Not merely listed. |
+| **Listed in bibliography** | The route by which a record names an entry in its `bibliography[]`, without a locator. Not a claim citation. |
+| **Edition relation** | A link from one Bibliography entry to another that it is an edition of (`edition_of`) or a translation of (`translation_of`). Not a version of a record. |
 
 ## Evidence and uncertainty
 
