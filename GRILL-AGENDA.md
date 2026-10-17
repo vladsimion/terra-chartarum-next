@@ -94,7 +94,18 @@ Thirteen decisions, all accepted as recommended:
 - `edition_of` and `translation_of` (entry to entry, acyclic, `BIB-EDITION`); entries and Sources carry no `rights` in v1, with an optional external `digital_copy` URL; identifiers and keywords live only in the CSL-JSON.
 - Spec 006 is accepted on fixtures (a seeded generator plus a small hand-authored set including import samples); spec 008 imports the live bibliography, mapping its section types to the seven, held.
 
+## Rooms (spec 007) — DONE 2026-10-17 (TCX-8, ADR 0015)
+- The room record gains `order` (1 to 7), `short_description` and `copy_status` (`draft` or `final`, default `draft`); the name is `title`; the long description is Markdown in `content/room/<id>.md`. A draft room renders `data-draft`, so the cutover check fails until all seven are final.
+- Rooms are public by rule: `ROOM-PUBLIC` errors whenever a room is not published and released; unfinished prose is marked by `copy_status`, not by being held.
+- One page per room: `/rooms/` and `/rooms/<slug>/`; the home page and essay pages link there (the home page's `/rooms/#<id>` links change); breadcrumbs Rooms › Earth.
+- One pure module, `src/rooms/membership.ts`, derives a room's essays (primary then secondary), maps and layers (through public essays, either role); specs 004 and 005 call it instead of deriving rooms themselves.
+- A room page shows its introduction, then Essays, Maps and Layers (each hidden when empty, title order); a room with no public essay shows "Essays for this room are in preparation." and no link; layers link to an Atlas view built by the shared view-address module; no per-room accent or imagery in v1.
+- A site-wide internal link and fragment check over the built output (Vitest, external links ignored) answers SC-002 for the whole site.
+- US2 (Rooms as an Atlas lens) is delivered by spec 005; spec 007 adds a cross-test that a room page's layers equal the Atlas index's layers for that room.
+- Room prose is written fresh as draft placeholders; no importer for room text.
+- Spec 007 is accepted on fixtures; real essays arrive as they are rebuilt and real maps and layers via spec 008.
+
 ## Still open
-- Specs 007 and 008 are not yet grilled (007 rooms, 008 migration and cutover).
+- Spec 008 (migration and cutover) is not yet grilled.
 
 Constitution ratified as v1.0.0 on 2026-10-15. /speckit-analyze runs per feature once tasks.md exists.
