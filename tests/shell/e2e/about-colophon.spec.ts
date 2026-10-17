@@ -19,5 +19,6 @@ test('the footer licences link goes to the Colophon licences section', async ({ 
   await page.locator('footer').getByRole('link', { name: 'Licences' }).click();
   await expect(page).toHaveURL(/\/colophon\/#licences$/);
   await expect(page.locator('#licences')).toBeInViewport();
-  await expect(page.locator('#licences')).toContainText('CC BY 4.0');
+  await expect(page.locator('#licences')).toHaveText('Licences'); // the id is on the section's heading
+  await expect(page.locator('main')).toContainText('CC BY 4.0');
 });
