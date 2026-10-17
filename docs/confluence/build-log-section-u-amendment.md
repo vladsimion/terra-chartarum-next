@@ -1,6 +1,6 @@
 # Build Log section U: amendment of 17 October 2026 (page 2490370)
 
-Section U ("The successor build: scholarly registry and integrity gate") was written on 16 October 2026 against `main` at `acc8712`. Later merges made four of its statements untrue. They were amended in place on 17 October 2026, each marked *Amended 17 October 2026*, and a sentence was added to the section's opening paragraph saying so. Nothing else in section U, and nothing elsewhere on the page, was changed.
+Section U ("The successor build: scholarly registry and integrity gate") was written on 16 October 2026 against `main` at `acc8712`. Later merges made four of its statements untrue. They were amended in place on 17 October 2026 (page version 126), each marked *Amended 17 October 2026*, and a sentence was added to the section's opening paragraph saying so. Nothing else in section U, and nothing elsewhere on the page, was changed.
 
 | Was | Now |
 |---|---|

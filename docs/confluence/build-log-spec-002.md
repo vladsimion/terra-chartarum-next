@@ -1,6 +1,6 @@
 # Confluence entry: Build Log (page 2490370)
 
-Published 2026-10-17 as section V, directly after section U and before "2. In progress"; the header pointer "recorded in section U" became "sections U and V". The rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
+Published 2026-10-17 as section V (page version 125; the note on section U updated in version 126), directly after section U and before "2. In progress"; the header pointer "recorded in section U" became "sections U and V". The rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
 ## V. The successor build: publication shell and design system (spec 002)
 
