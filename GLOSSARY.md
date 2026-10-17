@@ -67,6 +67,12 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Active Layers** | The reader's current map composition, distinct from any discovery lens. |
 | **Inspector** | The single panel exposing a layer's provenance, licence, documentation, essays and facets. |
 | **Atlas Handbook** | The interpretive companion teaching readers how to *read* the Atlas. "Handbook", never "Help". |
+| **Atlas view** | The complete state a reader can share: year, active layers, focused layer, lens, collection context and per-layer facets. It lives in the address and nowhere else. Not a saved map; not Active Layers (one part of it). |
+| **Temporal envelope** | The span of years a layer as a whole covers. A layer with no per-feature dates shows while the year is inside it. Not a feature's own dates. |
+| **Time mode** | Whether a layer's features carry their own dates (`per_feature`) or only the envelope applies (`envelope_only`). Not date precision. |
+| **Facet** | A feature property a layer declares as filterable (a category or a range), applied and reset per layer. Not Theme; not lens. |
+| **Out of range** | An active layer whose envelope does not include the chosen year. It stays active and is marked, never removed. Not inactive; not hidden. |
+| **Present-day reference** | Modern geography shown as context, labelled as such and never styled as historical evidence. Not a historical layer. |
 
 ## Shell and design system
 
