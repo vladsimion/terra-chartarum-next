@@ -1,6 +1,6 @@
-# Pending Confluence entry: Decision Log (page 12648509)
+# Confluence entry: Decision Log (page 12648509)
 
-Append after TC-D027, before nothing else. Not yet published: the session that wrote it had no Confluence write tool.
+Published 2026-10-17 as page version 10, directly after TC-D027; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
 ### TC-D028 — A map record describes one witness; every displayed field has a status; the public repository holds no private acquisition data
 
