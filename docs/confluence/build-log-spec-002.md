@@ -24,5 +24,5 @@ State on `main`: 741 Vitest tests; Playwright suites run in CI across chromium (
 ### Since section U was written
 
 - [PR #13](https://github.com/vladsimion/terra-chartarum-next/pull/13), merged 16 October 2026 (`1f1adfc`): `registry build`, the registry's part of a site build (spec 001 T119a).
-- [PR #25](https://github.com/vladsimion/terra-chartarum-next/pull/25), merged 17 October 2026 (`e848e35`): the Astro hook that runs the integrity gate before any page is built and writes the site data afterwards (spec 001 T119b). Section U's "not started: the Astro build gate" is therefore out of date; the spec 001 dossier is current.
+- [PR #25](https://github.com/vladsimion/terra-chartarum-next/pull/25), merged 17 October 2026 (`e848e35`): the Astro hook that runs the integrity gate before any page is built and writes the site data afterwards (spec 001 T119b). Section U is amended to match (17 October 2026; see `build-log-section-u-amendment.md`).
 - [PR #27](https://github.com/vladsimion/terra-chartarum-next/pull/27), merged 17 October 2026 (`194d531`): the successor is hosted as a Cloudflare Worker serving static assets (ADR 0012, Decision Log TC-D029).
