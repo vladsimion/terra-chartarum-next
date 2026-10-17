@@ -58,8 +58,15 @@ jobs:
           npm run lhci
       - name: Budget guard proof (a page over the JavaScript budget must fail the same assertions)
         run: |
-          if npm run lhci -- --collect.url=http://localhost:4322/fixtures/budget/; then
+          if out=$(npm run lhci -- --collect.url=http://localhost:4322/fixtures/budget/ 2>&1); then
+            echo "$out"
             echo "the over-budget fixture passed the budget, so the budget would not catch a regression"
+            exit 1
+          fi
+          echo "$out"
+          # it must fail on the JavaScript budget itself, not on a timing metric that a slow runner happens to miss
+          if ! grep -q "script.size failure" <<<"$out"; then
+            echo "the over-budget fixture failed, but not on the JavaScript budget"
             exit 1
           fi
       - name: Lighthouse report
