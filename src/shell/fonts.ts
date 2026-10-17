@@ -9,3 +9,4 @@ import '@fontsource-variable/cinzel/wght.css';
 import '@fontsource-variable/crimson-pro/wght.css';
 import '@fontsource-variable/eb-garamond/wght.css';
 import '@fontsource/ibm-plex-mono/400.css';
+import './styles/fallbacks.css';
