@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import AxeBuilder from '@axe-core/playwright';
+import { AxeBuilder } from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 
 /*
@@ -10,8 +10,15 @@ import { expect, test, type Page } from '@playwright/test';
  */
 const list = JSON.parse(readFileSync('tests/shell/ci-templates.json', 'utf8')) as { schemes: ('dark' | 'light')[]; templates: { name: string; path: string }[] };
 
-async function seriousViolations(page: Page) {
-  const { violations } = await new AxeBuilder({ page }).analyze();
+interface Violation {
+  id: string;
+  impact?: string | null;
+  help: string;
+  nodes: unknown[];
+}
+
+async function seriousViolations(page: Page): Promise<Violation[]> {
+  const { violations } = (await new AxeBuilder({ page }).analyze()) as { violations: Violation[] };
   return violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
 }
 
