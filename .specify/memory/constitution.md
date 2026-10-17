@@ -62,7 +62,8 @@ Every spec MUST state which of these audiences each user story serves.
   TypeScript integrity gate, and they are tested with `testthat` under Principle X.
 - Shared vocabularies (lifecycle, confidence, geometry provenance, silence states) are defined once
   in ADR 0003 and `GLOSSARY.md`; unknown values fail validation.
-- Hosting: Cloudflare Pages, static output only, unless an ADR satisfies Principle VII.
+- Hosting: Cloudflare (Workers static assets for the successor; Pages for the frozen archive),
+  static output only, unless an ADR satisfies Principle VII (ADR 0012).
 
 ## Development Workflow
 
@@ -93,4 +94,4 @@ after `/speckit-tasks` for every feature.
 
 Ratification basis: ADRs 0001–0005 (2026-10-15) resolved every item left open in the draft.
 
-**Version**: 1.0.0 | **Ratified**: 2026-10-15 | **Last Amended**: 2026-10-15
+**Version**: 1.0.1 | **Ratified**: 2026-10-15 | **Last Amended**: 2026-10-17
