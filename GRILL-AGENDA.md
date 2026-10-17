@@ -84,7 +84,17 @@ Thirteen decisions, all accepted as recommended:
 - Handbook as a content collection with stable anchors and draft skeleton copy; no UI framework, a typed store, a build-time catalogue index with a hand-written ranker, MapLibre measured first against the 350 KB budget; essay links via the shared view-URL module.
 - Spec 005 is accepted on fixtures (a seeded 200-layer generator plus a small hand-authored set); spec 008 imports the real Roman Dacia layers.
 
+## Bibliography (spec 006) — DONE 2026-10-17 (TCX-7, ADR 0014)
+- A Source points at exactly one Bibliography entry (`entry`, required from `ready_for_build`, `SRC-ENTRY`); many Sources may share an entry; an entry no Source points at is further reading; a finding aid stays a Source flagged `is_finding_aid` and is never cited as evidence.
+- Citations are derived, not stored: listed (`bibliography[]` on essays, maps, cartographers, and, added here, datasets and layers) or cited as evidence (essay → Evidence → Source → entry, with locator and verification state); "Cited in" labels the two routes.
+- An entry is public only when published, released and cited by at least one public record; held-only and uncited entries are not listed; "Cited in" lists public records only.
+- Pages: `/bibliography/` grouped by the seven sections (spec 003's keys, label "Historical maps" replacing "cartographic witnesses"), an entry page at `/bibliography/<slug>/` with Chicago form, identifiers, other editions, "Cited in" and exports; filters by section and essay; search over author, title, year and keywords from a build-time index; query-string state; complete without JavaScript.
+- `registry import-bib <file>` reads BibTeX, RIS or CSL-JSON, writes held entries and CSL files with minted IDs and no `section`, matches duplicates on DOI, then ISBN, then normalised first author + year + title, reports matches and never overwrites.
+- Exports reuse spec 003's generator with entry, dataset (CSL type `dataset`) and layer inputs and a "Cite this site" statement; the stable URL is the canonical page address (slug history keeps old citations resolving); the access date is the build date from `BUILD_DATE` (default today, UTC) for deterministic tests.
+- `edition_of` and `translation_of` (entry to entry, acyclic, `BIB-EDITION`); entries and Sources carry no `rights` in v1, with an optional external `digital_copy` URL; identifiers and keywords live only in the CSL-JSON.
+- Spec 006 is accepted on fixtures (a seeded generator plus a small hand-authored set including import samples); spec 008 imports the live bibliography, mapping its section types to the seven, held.
+
 ## Still open
-- Specs 006 to 008 are not yet grilled (006 bibliography, 007 rooms, 008 migration and cutover).
+- Specs 007 and 008 are not yet grilled (007 rooms, 008 migration and cutover).
 
 Constitution ratified as v1.0.0 on 2026-10-15. /speckit-analyze runs per feature once tasks.md exists.
