@@ -11,7 +11,7 @@
         "http://localhost:4322/fixtures/essay-a/",
         "http://localhost:4322/fixtures/essay-b/"
       ],
-      "numberOfRuns": 1,
+      "numberOfRuns": 3,
       "startServerCommand": "npm run preview -- --port 4322",
       "startServerReadyPattern": "localhost:4322",
       "settings": { "chromeFlags": "--no-sandbox --headless=new" }
@@ -19,9 +19,9 @@
     "assert": {
       "assertions": {
         "categories:accessibility": ["error", { "minScore": 1 }],
-        "largest-contentful-paint": ["error", { "maxNumericValue": 2500 }],
-        "cumulative-layout-shift": ["error", { "maxNumericValue": 0.1 }],
-        "total-blocking-time": ["error", { "maxNumericValue": 200 }],
+        "largest-contentful-paint": ["error", { "maxNumericValue": 2500, "aggregationMethod": "median" }],
+        "cumulative-layout-shift": ["error", { "maxNumericValue": 0.1, "aggregationMethod": "median" }],
+        "total-blocking-time": ["error", { "maxNumericValue": 200, "aggregationMethod": "median" }],
         "resource-summary:script:size": ["error", { "maxNumericValue": 102400 }]
       }
     }

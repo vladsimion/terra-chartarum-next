@@ -17,16 +17,6 @@ export function getStaticPaths() {
 
 const { fixture } = Astro.props;
 const kind = fixture.slug;
-
-// a deterministic ~480 KB payload that does not compress away: the "page over the JavaScript budget"
-let seed = 123456789;
-let payload = '';
-if (kind === 'budget') {
-  for (let i = 0; i < 80000; i++) {
-    seed = (seed * 1103515245 + 12345) & 0x7fffffff;
-    payload += (seed >>> 8).toString(16).padStart(6, '0');
-  }
-}
 ---
 
 <Base title={`${fixture.title} | Terra Chartarum`} crumb={fixture.title} accent={fixture.accent}>
@@ -41,7 +31,8 @@ if (kind === 'budget') {
     <article>
       <h1>Over-budget test page</h1>
       <p>This page ships far more JavaScript than the budget allows.</p>
-      <script is:inline set:html={`window.__payload="${payload}";`}></script>
+      {/* a separate script file (payload.js), so Lighthouse counts it against the script budget */}
+      <script is:inline src="/fixtures/budget/payload.js"></script>
     </article>
   )}
   {kind !== 'bad-a11y' && kind !== 'budget' && (
