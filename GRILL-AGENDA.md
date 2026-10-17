@@ -71,7 +71,20 @@ Thirteen decisions, all accepted as recommended:
 - Enrichment queue: an editor CLI report and CI artefact, scored 1 to 3 on impact, risk and reuse, never published.
 - Spec 004 is accepted on fixtures (generated 60 and 500 records, plus about six hand-authored ones); spec 008 maps the 59 legacy records and the editor releases them deliberately.
 
+## Atlas (spec 005) — DONE 2026-10-17 (TCX-6, ADR 0013)
+- Public means published and released, with no data-catalogue exception; amends the spec edge case and ADR 0002 (CND is mentioned only in prose).
+- Spec 005's Foundation amends spec 001's data model: layers gain `theme`, `tags[]`, `synonyms[]`, `envelope`, `time_mode`, `facets[]` (collections derived; names follow the registry: `members`, `default_layers`); places gain `names[]` (historic or modern, with language and optional validity) and `location` (a WGS84 point); map-overlay layers gain `georef`.
+- Rooms of a layer are derived from the public essays that list it; curated membership is spec 007's.
+- Time: a feature shows when the year is inside its earliest-start to latest-end interval; possibly-valid features are flagged "date uncertain"; undated features inherit the envelope; an out-of-envelope active layer stays active and is marked; BCE supported.
+- Data: sources in the repository, converted at build to FlatGeobuf or PMTiles, with a file-size gate and no bucket in v1; basemap and present-day reference from self-hosted Natural Earth PMTiles, no third-party tile services.
+- View address: query string of `/atlas/` with public slugs, slug-history resolution, no `localStorage`; one shared view-URL module, also used by "Open in Atlas" links.
+- Facets declared in the layer record, values computed at build, filtering per layer. Provenance shown by line and fill pattern plus legend and inspector text, never colour alone; confidence in the inspector only.
+- No WebGL: a build-time SVG overview, text lists and feature tables, detected before MapLibre loads.
+- Place search over names with a build-time index; a result recentres and shows a labelled marker, never changing Active Layers. Georeferenced overlays are built last, tested with a fixture, with quality fields in the inspector.
+- Handbook as a content collection with stable anchors and draft skeleton copy; no UI framework, a typed store, a build-time catalogue index with a hand-written ranker, MapLibre measured first against the 350 KB budget; essay links via the shared view-URL module.
+- Spec 005 is accepted on fixtures (a seeded 200-layer generator plus a small hand-authored set); spec 008 imports the real Roman Dacia layers.
+
 ## Still open
-- Specs 005 to 008 are not yet grilled (005 Atlas, 006 bibliography, 007 rooms, 008 migration and cutover).
+- Specs 006 to 008 are not yet grilled (006 bibliography, 007 rooms, 008 migration and cutover).
 
 Constitution ratified as v1.0.0 on 2026-10-15. /speckit-analyze runs per feature once tasks.md exists.

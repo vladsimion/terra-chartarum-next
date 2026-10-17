@@ -21,3 +21,6 @@ Dacia is the deepest Corpus Chartarum implementation and the strongest test of t
 
 ## Amendment (spec 003 grill, 2026-10-16): which Trench A test pits depend on CND
 All four Sondaje test pits do. Each holds 13 name cells (one per stratum): 12 are attestation-shaped and were migrated into CND, and stratum 0 (the Present Survey) is local and never migrates. That is 48 cells that consume CND attestations. Without CND in v1, the cells live as the essay's own local data file, each marked `corpus: none`, rendered with the cell's own editorial note and a visible "not yet corpus-backed" state. The CND retrofit adds an `attestation` ID to a cell and changes nothing else. Registering the 48 cells as hand-made attestation records now was rejected: CND would later duplicate them (Constitution V).
+
+## Amendment (spec 005 grill, 2026-10-17): CND is not listed publicly while in preparation
+Decision 2 said CND is "visible in the data catalogue". TC-D019 makes only a record that is both `published` and `released` public, so a layer at `in_build` appears nowhere public: not in the Atlas, its catalogue index, or any payload. CND is mentioned only in prose (for example the Handbook). It stays registered, held, so the leak scan protects it. See [ADR 0013](0013-atlas-contracts.md).
