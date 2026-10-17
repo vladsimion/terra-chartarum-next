@@ -1,0 +1,10 @@
+id: tc:tc:essay:essay-000002
+family: essay
+origin: minted
+title: Alpha, another public test essay
+slug: alpha
+stage: Publish
+lifecycle: published
+release: released
+rights:
+  licence: CC-BY-4.0

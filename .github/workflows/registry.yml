@@ -54,7 +54,7 @@ jobs:
         run: npm run build && npm run shell:check
       - name: Lighthouse CI budgets on the listed templates (ADR 0004, mobile profile)
         run: |
-          SHELL_FIXTURES=1 npm run build
+          SHELL_FIXTURES=1 REGISTRY_ROOT=tests/shell/fixtures/registry npm run build
           npm run lhci
       - name: Budget guard proof (a page over the JavaScript budget must fail the same assertions)
         run: |
