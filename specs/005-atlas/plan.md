@@ -73,7 +73,7 @@ src/atlas/                     # pure modules (no DOM, no framework)
 ├── time.ts                    # EDTF → [fromMin, fromMax, toMin, toMax]; featureState(year)
 ├── view-state.ts              # the typed state, defaults, reducers (the store's logic)
 ├── view-url.ts                # parse and serialise the address; slug resolution (shared with essays)
-├── index-data.ts              # public layers → atlas-index.json; derived collections and rooms
+├── index-data.ts              # public layers → atlas-index.json; derived collections; rooms via spec 007's roomsOf
 ├── rank.ts                    # search ranking (US2 order)
 ├── facets.ts                  # facet values from features; applying and resetting
 ├── place-index.ts             # normalised names → prefix and exact lookup

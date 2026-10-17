@@ -83,7 +83,7 @@ description: "Task list for 004 Map Collection & Cartographers Catalogue"
 
 **Independent Test**: the 60-record generated fixture filters correctly on each facet and on combinations.
 
-- [ ] T031 [P] [US2] Write failing `tests/collection/unit/index-data.test.ts`: the index holds only the contract's fields for public maps; the year interval comes from the EDTF value (`1595?`, `159X`, `1595/1602`, a BCE year); rooms derive from the public essays that cite the map (FR-019) and a held essay contributes none; regions come from `coverage[]` places of type region or country
+- [ ] T031 [P] [US2] Write failing `tests/collection/unit/index-data.test.ts`: the index holds only the contract's fields for public maps; the year interval comes from the EDTF value (`1595?`, `159X`, `1595/1602`, a BCE year); rooms come from `roomsOf` in `src/rooms/membership.ts` (spec 007, ADR 0015), which derives them from the public essays that cite the map (FR-019) and a held essay contributes none; regions come from `coverage[]` places of type region or country
 - [ ] T032 [US2] Implement `src/collection/index-data.ts` (pure) and `src/pages/data/collection-index.json.ts`
 - [ ] T033 [P] [US2] Write failing `tests/collection/unit/filter.test.ts`: each facet alone; facets combined; an uncertain date matches any overlapping range and an undated record matches no date filter (US2.1); sort by date (undated last), title, maker, stable on ties (US2.3); an unknown query key or value is ignored; and `filter.perf.test.ts` — the 500-record generated fixture filters in under 200 ms (SC-004)
 - [ ] T034 [US2] Implement `src/collection/filter.ts` (pure, with query-string parse and serialise)
