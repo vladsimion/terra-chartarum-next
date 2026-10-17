@@ -38,7 +38,7 @@ description: "Task list for 005 Historical Atlas"
 
 **Goal**: the schemas, the seven rules, the public allowlist and spec 001's documents brought in step (FR-023).
 
-- [ ] T006 [P] Write failing `tests/registry/unit/atlas-schema.test.ts`: a layer with every clarified field loads and types correctly; `time_mode`, `theme` and facet `kind` take only their sets; a place with `names[]` and `location` loads; `georef.map` resolves through `REF-UNKNOWN` and `REF-FAMILY`; `FAM-UNKNOWN` still rejects an unlisted field
+- [ ] T006 [P] Write failing `tests/registry/unit/atlas-schema.test.ts`: a layer with every clarified field loads and types correctly; `time_mode`, `theme` and facet `kind` take only their sets; `documentation[]` takes `{ label, url }` with `https` URLs; a place with `names[]` and `location` loads; `georef.map` resolves through `REF-UNKNOWN` and `REF-FAMILY`; `FAM-UNKNOWN` still rejects an unlisted field
 - [ ] T007 Implement `src/registry/schemas/atlas-values.ts`, the extended `LayerSchema` and `PlaceSchema` with the `Facet`, `Georef` and `PlaceName` values in `src/registry/schemas/families.ts`, and the `georef.map` reference field in `schemas/references.ts`; update existing fixtures
 - [ ] T008 [P] Write failing `tests/registry/unit/layer-theme-time.test.ts` for `LAYER-THEME` and `LAYER-TIME` (a theme outside the seven; a malformed or reversed envelope; a missing `time_mode`; severity warns at `ready_for_build`, errors at `publishable`) with a named mutation for each
 - [ ] T009 Implement `LAYER-THEME` and `LAYER-TIME` in `src/registry/rules/atlas.ts` and register them

@@ -3,7 +3,7 @@
 Prerequisites: Node 24, `npm ci`; for the site side, spec 002's shell, spec 003's citation generator and Playwright browsers.
 
 ```bash
-npm test                                              # Vitest: map and cartographer schema, nine rules, view-model, filter, index, where-used, enrichment
+npm test                                              # Vitest: map and cartographer schema, ten rules, view-model, filter, index, where-used, enrichment
 npm run registry -- check --dir tests/collection/fixtures/registry --out reports   # the hand-authored fixtures pass
 npm run registry -- completeness --dir tests/collection/fixtures/registry --out reports   # completeness.json and the enrichment queue
 npm run build                                         # collection list, record pages, cartographer pages, /data/collection-index.json (fixtures on)

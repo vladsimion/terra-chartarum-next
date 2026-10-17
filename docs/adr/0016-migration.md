@@ -1,0 +1,28 @@
+# ADR 0016 — Migration: a pinned snapshot, an import that never overwrites, redirects only for moved content
+
+**Status**: Accepted · **Date**: 2026-10-17 · **Jira**: TCX-44 · **Spec**: 008 · **Extends**: ADR 0001, ADR 0005 §4, ADR 0006 items 11 to 14, ADR 0010; **Amends**: ADR 0011 (record scope)
+
+## Context
+ADR 0001 says canonical data migrates with stable IDs preserved, essays are rebuilt, and the old site is frozen at an archive address. The legacy repository (github.com/vladsimion/terra-chartarum) holds five authorities (`atlas`, `vmn`, `cnd`, `ccd`, `hse`) in TypeScript arrays that import Astro modules, CSV and JSON. Its catalogue has 59 records, of which only some are a single object; its "bibliography" is typed as a Source; its maps carry inline citations, images served from the old site with unestablished rights, and legacy room fields. ADR 0005 §4 makes the archive the old site itself, so an old URL whose content has not moved keeps working in place.
+
+## Decision
+- **Adapters and profiles.** The importer is one adapter per legacy registry, run as a named profile. The v1 profile covers the `atlas` authority (maps, cartographers, bibliography, toponyms, layers, collections, geo release assets) and the Dacia records the anchor needs (the Roman Dacia layers and the CND places and sources Trench A uses). Other programmes stay in the archive and arrive as their own profile when their essays are rebuilt. Every imported record is `held` (TC-D024).
+- **A pinned snapshot, read statically.** The input is a checkout of the legacy repository at a recorded commit; the SHA is written to an import manifest committed with the records. Legacy TypeScript registries are read by static extraction from the syntax tree, never executed; a non-literal value fails the import. Nothing is fetched from the live site.
+- **The import never overwrites.** It writes to a staging directory; `--apply` copies into `content/` only records that do not already exist. A re-run with no upstream change is byte-identical and applies nothing; changed upstream records are listed for a manual merge, because after the first import the successor's records are hand-edited.
+- **Slug equals legacy local-id**, so old paths map predictably and slug history starts empty.
+- **Legacy bibliography maps to a Source plus an entry** (ADR 0014): the Source keeps the legacy ID verbatim, the entry is minted, inline citations on maps become entries through the `import-bib` duplicate matcher, and an entry with no mappable section is not public until the editor sets one.
+- **Record scope.** The legacy `recordScope` (`object`, `work`, `concept`) and `custody` map to `record_scope` and a widened `witness_kind` (`held | institutional | unlocated`), required only for objects (ADR 0011 amended).
+- **Images are referenced, not copied.** Each image points at its address on the frozen archive with `reproduction_cleared` false, so the viewer withholds it until the editor clears it; nothing with unestablished rights is republished in this public repository.
+- **Dropped at import:** private acquisition and price fields, and the legacy room fields on maps (rooms are derived); both are reported by field name and count. The legacy essay and room links are written to `migration/essay-links.json` to seed the rebuild of each essay.
+- **Redirects exist only for content that moved.** The redirect inventory lists every old URL, built from the snapshot's routes, with exactly one outcome: served in place by the archive, or one rule (a migrated record page or a rebuilt essay). The successor generates the rule file; the editor applies it to the archive project by pull request with a named `redirect_switched` sign-off (ADR 0010). Old Atlas deep links redirect to `/atlas/?from=legacy`, which shows a notice; parameters are not translated in v1.
+- **The archive change is a patch plus a check.** The banner, the `noindex` header and the link to terra-chartarum.org are held here as a patch for the archive project, with `npm run archive:check -- <url>` run by hand at cutover.
+- **Cutover is one automated check and a signed list.** `npm run cutover:check` runs the integrity gate, `shell:check --cutover`, the site-wide link check, the inventory-against-redirect-file zero-404 check and the Lighthouse budgets; the manual steps (redirect file applied, archive check, DNS and custom domain) are a numbered list in `docs/cutover.md` with a named sign-off each. A one-off `npm run baseline` records the live site's key templates before the freeze, as a comparison and not a gate.
+
+## Considered
+Importing every authority for v1 (thousands of held records to validate with no v1 page to show them); executing the legacy TypeScript (needs Astro and the old toolchain, and is not deterministic against its environment); a re-runnable importer that overwrites (would erase the editor's corrections); copying the images (republishes works whose rights are unestablished); redirect rules for every old URL (the archive is the old site, so most URLs need none); translating old Atlas parameters in a static redirect file (not possible, and no known demand); dropping `work` and `concept` records (changes stable IDs).
+
+## Consequences
+- ADR 0011's rule "one record per witness" now applies to records of scope `object`; spec 004 gains `record_scope`, `unlocated`, `open_questions[]` and the rule `MAP-SCOPE`.
+- Legacy uncertainties on maps become `open_questions[]` and the legacy `year` becomes a four-digit signed EDTF year, with lossy conversions logged.
+- Every imported image is withheld on day one; clearing rights is an editor task per image.
+- The archive project's repository is changed once at cutover and once per rebuilt essay, always by a signed-off pull request.

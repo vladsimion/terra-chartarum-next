@@ -15,7 +15,7 @@ Append after TC-D027, before nothing else. Not yet published: the session that w
 
 **Consequences:**
 
-- spec 004 amends spec 001's data model in its Foundation phase and adds nine rules (field status, basis, verification, image, attribution, dealer-only support, held maker, private field names, cartographer kind);
+- spec 004 amends spec 001's data model in its Foundation phase and adds ten rules (field status, basis, verification, record scope, image, attribution, dealer-only support, held maker, private field names, cartographer kind);
 - the spec 008 adapter maps each legacy catalogue record to one witness record, sets `not_yet_verified` for missing fields, and imports them held; releasing the 59 is a deliberate editor act (extends TC-D024);
 - a public map requires its makers to be public; "where used" is derived and lists public referrers only (extends TC-D019).
 

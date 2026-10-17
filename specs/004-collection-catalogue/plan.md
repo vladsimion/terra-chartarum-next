@@ -6,7 +6,7 @@
 
 ## Summary
 
-The catalogue of map objects and their makers, built so that nothing unestablished looks established. Two halves. **Registry side** (framework-free, in `src/registry/`): the map and cartographer schemas grow the clarified FR-001 fields (an amendment to spec 001's data model, FR-009), nine new rules check field status, basis, verification, images, attribution, dealer-only support, held makers and private-field names, and an editor-only report ranks an enrichment queue. **Site side** (Astro, on spec 002's shell): a collection list with a build-time filter index, a map record page with a lazily loaded deep-zoom viewer, cartographer profiles, a derived "where used" list, and citation through spec 003's shared generator. Spec 004 is accepted on fixtures; the 59 legacy records arrive through spec 008.
+The catalogue of map objects and their makers, built so that nothing unestablished looks established. Two halves. **Registry side** (framework-free, in `src/registry/`): the map and cartographer schemas grow the clarified FR-001 fields (an amendment to spec 001's data model, FR-009), ten new rules check field status, basis, verification, images, attribution, dealer-only support, held makers and private-field names, and an editor-only report ranks an enrichment queue. **Site side** (Astro, on spec 002's shell): a collection list with a build-time filter index, a map record page with a lazily loaded deep-zoom viewer, cartographer profiles, a derived "where used" list, and citation through spec 003's shared generator. Spec 004 is accepted on fixtures; the 59 legacy records arrive through spec 008.
 
 ## Technical Context
 
@@ -16,7 +16,7 @@ The catalogue of map objects and their makers, built so that nothing unestablish
 
 **Storage**: Files. Maps at `content/map/<id>.yaml`, cartographers at `content/cartographer/<id>.yaml` with an optional `<id>.md` biography beside the record, as essays have an `.mdx` body.
 
-**Testing**: Vitest for the schema, the nine rules, the pure view-model, filter, index, where-used and enrichment modules (valid and invalid fixtures, a named mutation per rule); Playwright and axe for the pages and the viewer through spec 002's setup; build-output tests with `node-html-parser` as in spec 002.
+**Testing**: Vitest for the schema, the ten rules, the pure view-model, filter, index, where-used and enrichment modules (valid and invalid fixtures, a named mutation per rule); Playwright and axe for the pages and the viewer through spec 002's setup; build-output tests with `node-html-parser` as in spec 002.
 
 **Target Platform**: Build time and CI for the registry side; static HTML plus one small JSON index for Cloudflare Pages on the site side.
 
@@ -26,7 +26,7 @@ The catalogue of map objects and their makers, built so that nothing unestablish
 
 **Constraints**: Deterministic and offline (no network at build); the gate stays pure; held essays, held makers and private acquisition data leak nothing; catalogue browsing fetches no layer binaries (ADR 0004); no dynamic infrastructure.
 
-**Scale/Scope**: 60 and 500 generated records plus about six hand-authored fixtures; the real 59 arrive in spec 008; 9 new rules (see [contracts/map-rule-ids.md](./contracts/map-rule-ids.md)); 1 new command.
+**Scale/Scope**: 60 and 500 generated records plus about six hand-authored fixtures; the real 59 arrive in spec 008; 10 new rules (see [contracts/map-rule-ids.md](./contracts/map-rule-ids.md)); 1 new command.
 
 ## Constitution Check
 
@@ -53,7 +53,7 @@ specs/004-collection-catalogue/
 ├── data-model.md
 ├── quickstart.md
 ├── contracts/
-│   ├── map-rule-ids.md        # the nine rules, thresholds, spec links
+│   ├── map-rule-ids.md        # the ten rules, thresholds, spec links
 │   ├── collection-pages.md    # list, record, cartographer pages, the JSON index, query-string state
 │   └── cli-additions.md       # registry completeness
 └── tasks.md                   # /speckit-tasks
@@ -65,7 +65,7 @@ specs/004-collection-catalogue/
 src/registry/
 ├── schemas/families.ts        # MapSchema, CartographerSchema extended; ImageSource and Physical value objects
 ├── schemas/map-values.ts      # field-status, basis, verification, witness, georeferencing and image-type values
-├── rules/map.ts               # the nine rules
+├── rules/map.ts               # the ten rules
 ├── enrichment.ts              # completeness per record and the ranked enrichment queue (pure)
 ├── project.ts                 # public allowlist grows (map and cartographer fields; never physical or private)
 └── cli.ts                     # + completeness

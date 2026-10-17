@@ -105,7 +105,19 @@ Thirteen decisions, all accepted as recommended:
 - Room prose is written fresh as draft placeholders; no importer for room text.
 - Spec 007 is accepted on fixtures; real essays arrive as they are rebuilt and real maps and layers via spec 008.
 
+## Migration and cutover (spec 008) — DONE 2026-10-17 (TCX-44, ADR 0016)
+- The importer is one adapter per legacy registry, run as a named profile; the v1 profile is the `atlas` authority plus the Dacia anchor (Roman Dacia layers, the CND places and sources Trench A uses); other programmes (VMN, HSE, Antarctica, Crusades, the rest of CND) stay in the frozen archive and arrive as their own profile when their essays are rebuilt. Everything imported is held.
+- Input is a pinned snapshot of the legacy repository (commit SHA in a committed import manifest); legacy TypeScript registries are read by static extraction, never executed; nothing is fetched from the live site.
+- The import never overwrites: a staging directory, `--apply` adds only records that do not exist, changed upstream records are listed for a manual merge; a re-run with no change is byte-identical.
+- Slug equals the legacy local-id. The legacy bibliography becomes a Source (legacy ID kept) plus a minted entry; inline map citations become entries through the `import-bib` matcher.
+- Record scope: legacy `recordScope` (object, work, concept) and `custody` become `record_scope` and a widened `witness_kind` (held, institutional, unlocated), required only for objects; ADR 0011 and spec 004 amended (`MAP-SCOPE`, `open_questions[]`).
+- Legacy fields: `year` becomes a four-digit signed EDTF year; `blurb` becomes `significance`; free-text engraver/publisher stay as text; related maps become relations; uncertainties become `open_questions[]`; essay and room links go to `migration/essay-links.json`; private fields and legacy map rooms are dropped and reported (the current catalogue has no private values).
+- Images are referenced at their archive address, not copied, all with `reproduction_cleared` false until the editor clears them.
+- Redirects only for content that moved, from an inventory built from the snapshot; the successor generates the rule file and the editor applies it to the archive project by a signed-off pull request; old Atlas deep links go to `/atlas/?from=legacy`.
+- The archive banner, `noindex` header and link are a patch for the archive project with a hand-run `archive:check`; `cutover:check` automates the gate, shell check, link check, inventory zero-404 check and budgets, with a signed manual list in `docs/cutover.md`; a one-off `baseline` script measures the live site before the freeze.
+- Specialist vocabulary mapping files ship for the Dacia profile and an unmapped term fails the import.
+
 ## Still open
-- Spec 008 (migration and cutover) is not yet grilled.
+- All eight specs are now grilled. Remaining before implementation: Confluence publication of the drafted entries (no write tool yet), and `/speckit-implement` per spec.
 
 Constitution ratified as v1.0.0 on 2026-10-15. /speckit-analyze runs per feature once tasks.md exists.

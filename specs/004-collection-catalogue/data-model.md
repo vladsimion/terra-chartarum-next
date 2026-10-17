@@ -7,7 +7,9 @@ Extends the map and cartographer rows of spec 001's data model ("Family fields")
 | Field | Rule |
 |---|---|
 | Entity base | `id`, `family: map`, `origin`, `title` (the normalised title), `slug`, `slug_history`, `lifecycle`, `release`, `relations[]` (a second witness of the same edition is joined here), `private`, `rights` |
-| `witness_kind*` | `held` or `institutional` (ADR 0011); required from `ready_for_build` (`FAM-REQUIRED`) |
+| `record_scope` | `object` (default), `work` or `concept` (ADR 0016); `work` and `concept` are not a single witness |
+| `witness_kind` | `held`, `institutional` or `unlocated` (ADR 0011, widened by ADR 0016); required from `ready_for_build` when `record_scope` is `object`, and absent otherwise (`MAP-SCOPE`) |
+| `open_questions[]` | list of `{ field, question, would_resolve }`: what a record has been looked at for and still cannot answer; shown on the page |
 | `makers[]*` | cartographer IDs (existing); required |
 | `title_original` | the title as printed |
 | `date_published` | EDTF date; precision derived (ADR 0007) |
@@ -41,7 +43,7 @@ Extends the map and cartographer rows of spec 001's data model ("Family fields")
 | `attribution*` | text shown with the image, naming the holder |
 | `licence` | the licence line shown with the image; defaults to the record's `rights.licence` (ADR 0009) |
 | `alt` | authored description; required from `publishable` (`MAP-IMAGE`) |
-| `witness_kind*` | `held` or `institutional`; equals the record's (`MAP-IMAGE`) |
+| `witness_kind*` | `held`, `institutional` or `unlocated`; equals the record's (`MAP-IMAGE`); an image on a `work` or `concept` record is rejected |
 
 An image is shown only when the record's `rights.reproduction_cleared` is true. Otherwise the page shows the metadata and says the image is withheld (US1.5); this is behaviour, not a gate error.
 
