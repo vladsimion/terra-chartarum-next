@@ -1,6 +1,7 @@
 ---
 import { getEntry, render } from 'astro:content';
 import { ROOM_IDS } from '../registry/families.js';
+import { byId } from '../shell/destinations.js';
 import Base from '../shell/layouts/Base.astro';
 import { loadPublicRecords, registryRoot } from '../shell/public-records.js';
 
@@ -25,8 +26,8 @@ const rooms = ROOM_IDS.map((id) => ({ id, label: id[0]!.toUpperCase() + id.slice
     <Content />
   </div>
   <p class="calls">
-    <a class="primary" href="/atlas/">Explore the Atlas</a>
-    <a class="secondary" href="/atlas/handbook/">Read the Handbook</a>
+    <a class="primary" href={byId('atlas').href}>Explore the Atlas</a>
+    <a class="secondary" href={byId('handbook').href}>Read the Handbook</a>
   </p>
   <section class="essays" aria-labelledby="essays-heading">
     <h2 id="essays-heading">Essays</h2>
@@ -35,7 +36,7 @@ const rooms = ROOM_IDS.map((id) => ({ id, label: id[0]!.toUpperCase() + id.slice
     ) : (
       <ul>
         {essays.map((e) => (
-          <li><a href={`/essays/${e.slug}/`}>{e.title}</a></li>
+          <li><a href={`${byId('essays').href}${e.slug}/`}>{e.title}</a></li>
         ))}
       </ul>
     )}
@@ -44,7 +45,7 @@ const rooms = ROOM_IDS.map((id) => ({ id, label: id[0]!.toUpperCase() + id.slice
     <h2 id="rooms-heading">Rooms</h2>
     <ul>
       {rooms.map((r) => (
-        <li><a href={`/rooms/#${r.id}`}>{r.label}</a></li>
+        <li><a href={`${byId('rooms').href}#${r.id}`}>{r.label}</a></li>
       ))}
     </ul>
   </section>

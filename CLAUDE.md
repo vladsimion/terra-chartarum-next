@@ -6,7 +6,7 @@ Terra Chartarum successor: a fresh, spec-driven build of the digital historical 
 ## Read first
 - `.specify/memory/constitution.md`: non-negotiable principles. Every plan must pass its Constitution Check.
 - `GLOSSARY.md`: shared domain language. Use these terms exactly in code, tests, specs and tickets.
-- `docs/adr/`: decisions 0001–0005 (successor and cutover, v1 anchor, shared contracts, experience contract, stack/hosting/repo).
+- `docs/adr/`: decisions 0001–0011 (successor and cutover, v1 anchor, shared contracts, experience contract, stack/hosting/repo, registry identity and record model, EDTF dates, colour schemes and accents, licensing, the editorial pipeline, the map record model).
 
 ## Stack (ADR 0005)
 Astro + TypeScript strict + content collections/Zod; MapLibre; GeoJSON/FlatGeobuf/PMTiles/COG; IIIF + OpenSeadragon; Allmaps. Tests: Vitest, Playwright, axe, Lighthouse CI against the ADR 0004 budgets. Data-prep pipelines may be R (`sf`, `targets`) with `testthat`; their outputs are validated by the TypeScript integrity gate.

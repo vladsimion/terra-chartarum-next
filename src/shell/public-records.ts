@@ -10,9 +10,11 @@ import { applyVocabularies } from '../registry/vocab-map.js';
  * then projected through the one public allowlist. The shell never reads `content/` files itself.
  * With no `content/` directory yet (the shell builds before real content exists) there are none.
  */
+export const hasContentDir = (root: string): Promise<boolean> =>
+  stat(path.join(root, 'content')).then((s) => s.isDirectory(), () => false);
+
 export async function loadPublicRecords(root: string): Promise<PublicRecord[]> {
-  const hasContent = await stat(path.join(root, 'content')).then((s) => s.isDirectory(), () => false);
-  if (!hasContent) return [];
+  if (!(await hasContentDir(root))) return [];
   const { records, vocabularies } = await loadRegistry(root);
   return projectPublic(applyVocabularies(records, vocabularies));
 }
