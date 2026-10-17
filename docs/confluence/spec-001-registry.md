@@ -1,17 +1,17 @@
-Programme dossier created against the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169/Programme+Dossier+Contract+Reconciliation+Register) §1, per its §7 maintenance rule. Facts below were checked on **2026-10-16** against the repository, Jira and CI; claims marked **[VERIFY]** have not been checked and say what would check them.
+Programme dossier created against the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169/Programme+Dossier+Contract+Reconciliation+Register) §1, per its §7 maintenance rule. Facts below were checked on **2026-10-17** against the repository, Jira and CI; claims marked **[VERIFY]** have not been checked and say what would check them.
 
 ## 1. Programme metadata
 
 | | |
 |---|---|
 | Programme type | Platform foundation: build-time scholarly registry and integrity gate for the Terra Chartarum successor build |
-| Status | **Implemented on `main`** (merged through PR #11, `gate` green). Parallel implementation: decided to keep `main`; the branch is retired once the remaining ports are done (§10). |
+| Status | **Implemented on `main`**, including the site-build wiring (PR #13 and PR #25); `gate` green. Parallel implementation: decided to keep `main`; every port from the branch is now done, and the branch is still to be tagged (§10.2). |
 | Jira | **TCX-2** epic; stories **TCX-13** (US1), **TCX-15** (US3), **TCX-14** (US2), **TCX-17** (US5), **TCX-16** (US4). Project TCX is the successor; KAN is the original site. |
 | Canonical parent | **None: a standalone page at the root of the space**, moved out from under Projects at Vlad's request on 2026-10-16. The contract (§7) places dossiers under Projects — Active Research & Implementation Programmes and its harmonisation DoD wants every programme linked from that index; this page is therefore not listed there. |
 | Primary canonical ownership | Volume VIII (software and data contracts); Volume VI (provenance, uncertainty, rights); Volume IV (research-to-publication workflow) |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). Spec `specs/001-scholarly-registry/`; code `src/registry/`; decisions `docs/adr/0006`, `0007` |
 | Successor relationship | Supersedes the registry code of terra-chartarum.pages.dev at cutover (ADR 0001); legacy IDs are preserved (ADR 0006 items 11–14) |
-| Last reconciliation | 2026-10-16 (dossier creation; refreshed after PR #3, again after PR #6 and #7, and again after PR #11 merged: 52 rules, 634 tests on `main`) |
+| Last reconciliation | 2026-10-16 (dossier creation; refreshed after PR #3, again after PR #6 and #7, and again after PR #11 merged; refreshed 2026-10-17 after PR #13 and #25: 52 rules, 69 mutations, 639 registry tests and 738 in the repository on `main`) |
 
 ## 2. Purpose / thesis
 
@@ -25,15 +25,15 @@ The falsifiable claim the programme has to defend: **a broken reference, a claim
 - Entity families (15, a closed list), stable IDs and minting, one YAML file per entity, slug history and tombstones.
 - Evidence and uncertainty as data: locators and verification, confidence, geometry provenance, EDTF dates, silence, rights, automated-extraction chains.
 - A linked graph with typed references, build-time integrity checking, a versioned report (JSON and HTML), lifecycle and release rules, public projection, reverse relationships, a leak scan.
-- The CLI (`check`, `mint`, `scan`, `synth`) and the CI gate.
+- The CLI (`check`, `mint`, `build`, `scan`, `synth`) and the CI gate.
 
 ### Non-goals
-- **No site, no UI, no Astro.** Display of any of this to readers belongs to specs 002–005. The module is framework-free so the shell can import its schemas.
+- **No site, no UI, no Astro in the registry module.** Display of any of this to readers belongs to specs 002–005. The module is framework-free so the shell can import its schemas; the Astro hook that runs it during a site build belongs to spec 002 (`src/integrations/registry.ts`, PR #25).
 - **No import adapters.** Reading the live site's data is spec 008; this spec owns only what an imported record must look like (ADR 0006 items 11–14).
 - **No bibliography authoring.** CSL-JSON entries and citation export are spec 006.
 - **No database, no network.** The gate is deterministic and offline (Constitution VII). External links (`same_as`) are checked by syntax only.
 - **No essay prose.** Essays are views over shared evidence; the registry holds only their stage, references and rights.
-- **Not two implementations to maintain.** Decided 2026-10-16 (§10.2): keep `main` and retire the parallel branch after porting; the branch is not yet tagged or deleted.
+- **Not two implementations to maintain.** Decided 2026-10-16 (§10.2): keep `main` and retire the parallel branch after porting. The porting is done; on 2026-10-17 the branch was still live and untagged.
 
 ## 4. Outputs / deliverables
 
@@ -44,8 +44,10 @@ The falsifiable claim the programme has to defend: **a broken reference, a claim
 | Integrity report: versioned JSON (schema in `contracts/`) and accessible static HTML | On `main` |
 | ADR 0006 (identity and record model, with amendments) and ADR 0007 (EDTF dates) | On `main` |
 | Spec, plan, research, data model, contracts, quickstart, tasks (Phases 1–10) | On `main` |
+| `registry build`: the registry's part of a site build (T119a): runs the gate and, only if it passes, applies vocabulary mappings and writes `_redirects` and `data/relations.json`, then scans its own output | On `main` (PR #13) |
+| Astro integration (T119b, built in spec 002 US4): the gate runs before any page is generated and stops the build on an error; after the build the site data is written and a leak fails the build; both steps skip while `content/` is absent | On `main` (PR #25) |
 | CI workflow `registry`; `gate` is a required status check on `main` | Done |
-| Confluence dossier (this page); Build Log section U; Decision Log TC-D019 to TC-D024 | Published 2026-10-16; source in `docs/confluence/spec-001-registry.md` |
+| Confluence dossier (this page); Build Log section U; Decision Log TC-D019 to TC-D024 | Published 2026-10-16, dossier refreshed 2026-10-17; source in `docs/confluence/spec-001-registry.md` |
 
 ## 5. Research, sources and rights framework
 
@@ -77,6 +79,7 @@ Imports come from `vladsimion/terra-chartarum`. Its identifier contract (`data/c
 - **Silence** is an attestation (`form = silence`) with exactly one typed state; never `secure` without verified source coverage.
 - **Dates** are EDTF levels 0–1 with four-digit signed years (ADR 0007); precision is derived, never authored.
 - **References** are typed (`REF-FAMILY`): an essay's `maps[]` point at maps, a successor is of the same family.
+- **Coming from spec 004** (ADR 0011, Decision Log TC-D028): a map record describes one witness, every displayed field carries a status, and nine further rules. Spec 004 amends this data model in its Foundation phase; none of it is on `main` yet, so the counts on this page do not include it.
 
 ### 6.2 Progressive strictness
 Each rule declares the lowest lifecycle at which it is an error; below that it is a warning. ID, family, lifecycle value and reference rules are always errors; provenance, rights and locator rules are errors from `ready_for_build`; publication checks from `publishable` or `published`. `blocked` ranks as `proposed`; `superseded` ranks as `ready_for_build`.
@@ -164,6 +167,7 @@ npm ci                                                 # Node 24, see .nvmrc
 npm test && npm run typecheck                          # all tests, strict TypeScript
 npm run registry -- check --dir <root> --out reports   # validate <root>/content -> integrity-report.json and .html
 npm run registry -- mint place                         # next unused local-id
+npm run registry -- build --out <siteDir> --dir <root> # gate, then _redirects and data/relations.json; nothing written on failure
 npm run registry -- scan dist --dir <root>             # fail if built output leaks a private value or a non-public id
 npm run registry -- synth 5000 --seed 1 --out /tmp/s   # deterministic synthetic registry
 ```
@@ -175,7 +179,7 @@ npm run registry -- synth 5000 --seed 1 --out /tmp/s   # deterministic synthetic
 Each entity keeps a slug history; each former slug is one 301 to the current page, written as a Cloudflare `_redirects` file by `renderRedirects`. A superseded record keeps its own address as a **tombstone** linking to its live successor (or to nothing); its former slugs redirect to the tombstone, never past it (spec 002 FR-011; PR #3).
 
 ### 8.5 CI and repository
-`.github/workflows/registry.yml` runs typecheck, tests and the gate on `content/` when it exists, and uploads the report. `main` is protected: `gate` is a required check (admins not enforced, no review requirement). **[VERIFY]** that a red `gate` actually blocks a merge; only the setting was read back, no failing PR has been tried.
+`.github/workflows/registry.yml` runs typecheck, tests and the gate on `content/` when it exists, then `registry build` and `registry scan` over the site data it writes, and uploads the report. A site build (`npm run build`) also runs the gate through the Astro hook. `registry scan` over the real built `dist` is not yet in CI (T111). `main` is protected: `gate` is a required check (admins not enforced, no review requirement). **[VERIFY]** that a red `gate` actually blocks a merge; only the setting was read back, no failing PR has been tried.
 
 ## 9. Implementation phases and dependency model
 
@@ -194,13 +198,15 @@ Within the programme, the **story order is TCX-13 → TCX-15 → TCX-14 → TCX-
 | G. Record | Build Log section U (PR #1 to #11), Decision Log TC-D019 to TC-D024, this dossier | 2026-10-16 | Confluence |
 | H. Cross-check | The branch's fixtures through the gate (T117, `cross-check/branch-fixtures.md`); unknown fields rejected (T122, rule `FAM-UNKNOWN`) | 2026-10-16 | PR #6 and #7 merged: 613 tests |
 | I. Vocabularies | Specialist vocabulary mappings (T118, Decision Log TC-D016): `vocab-mappings/`, `vocabulary` field, rules `VOCAB-UNKNOWN`, `VOCAB-TARGET`, `VOCAB-SHADOW` | 2026-10-16 | PR #11 merged (`acc8712`): 634 tests, 52 rules, 69 mutations |
-| J. Remaining | Astro build gate and `relations.json` (T119, with spec 002), the `rooms` field and the branch-fixture fields (T123, T124) | next | not started |
+| J. Site data | The registry's part of a site build, framework-free (T119a): `registry build --out`; CI step added | 2026-10-16 | PR #13 merged: 639 registry tests |
+| K. Astro hook | T119b, built in spec 002 US4: `astro:build:start` runs the gate and stops the site build on an error; `astro:build:done` writes the site data and fails on a leak | 2026-10-17 | PR #25 merged (`e848e35`) |
+| L. Remaining | Withdrawn pages (T110, with spec 002); `registry scan` over the real `dist` in CI (T111); the `rooms` field and the branch-fixture fields (T123, T124); spec 004's amendments to the data model | next | not started |
 
 ## 10. Jira hierarchy and reconciliation history
 
 Actual keys, not planning identifiers.
 
-| Key | Issue | Status (2026-10-16) | Note |
+| Key | Issue | Status (2026-10-17) | Note |
 |---|---|---|---|
 | TCX-2 | Epic: 001 scholarly entity registry & integrity gate | In Progress | Blocked by TCX-1 (Done); blocks TCX-4, 5, 6, 7, 44 |
 | TCX-13 | US1 register an entity with a stable identity | In Review | |
@@ -225,7 +231,7 @@ While this programme was built, a **second, complete implementation of spec 001*
 | Dates | EDTF | EDTF |
 | Superseded record | tombstone | tombstone |
 
-**Decision (2026-10-16, Vlad):** keep `main` as the base, retire the branch as a line of work, and port what it got right. It was right about two things, now merged to `main` in PR #3: **EDTF dates** (integer years with a separate precision field can contradict themselves and cannot express uncertainty) and **tombstones** (spec 002 FR-011). The cross-check of the branch's fixtures is done (T117): all 17 of its rule codes have a counterpart on `main`, and it found one bug, fixed in PR #7 (unknown fields were accepted silently, which the branch rejected). Specialist vocabulary mappings are ported (T118, PR #11). Still to port: the Astro build gate and `relations.json`. The branch should be tagged `archive/001-parallel-implementation` once that is done; deleting it needs an explicit decision. **[VERIFY]** the comparison was by measurement and search (size, tests, rule codes, minting), not a line-by-line audit of the branch.
+**Decision (2026-10-16, Vlad):** keep `main` as the base, retire the branch as a line of work, and port what it got right. It was right about two things, now merged to `main` in PR #3: **EDTF dates** (integer years with a separate precision field can contradict themselves and cannot express uncertainty) and **tombstones** (spec 002 FR-011). The cross-check of the branch's fixtures is done (T117): all 17 of its rule codes have a counterpart on `main`, and it found one bug, fixed in PR #7 (unknown fields were accepted silently, which the branch rejected). Specialist vocabulary mappings are ported (T118, PR #11). The build gate and `relations.json` are ported too: the framework-free `registry build` in PR #13 (T119a) and the Astro hook in PR #25 (T119b). **Every port is done**, so the branch is due to be tagged `archive/001-parallel-implementation`; on 2026-10-17 it was still live and untagged. Deleting it needs an explicit decision. **[VERIFY]** the comparison was by measurement and search (size, tests, rule codes, minting), not a line-by-line audit of the branch.
 
 ### 10.3 Other reconciliation notes
 - Cross-check (T117): the branch's fixtures differ from `main` in 12 modelling choices, each recorded with its basis in `specs/001-scholarly-registry/cross-check/branch-fixtures.md`; the one defect found, silent acceptance of unknown fields, is fixed by the `FAM-UNKNOWN` rule (T122).
@@ -243,20 +249,23 @@ The per-story merge bar is the repository's Definition of Done (`CLAUDE.md`): ev
 | SC-002: renaming a title or slug changes zero IDs and breaks zero links | Met: regression test over every fixture record |
 | SC-003: every seeded breakage is caught | Met: 69 named mutations, each must fail as an error |
 | SC-004: gate under 60 s on 5,000 entities | Met: 5,007 entities in about 80 ms in memory and about 2.2 s from disk |
-| Stories Done with PR linked | **Not met by design**: stories stay In Review until the branch decision and the remaining ports (§10.2) |
+| Stories Done with PR linked | **Not met**: the five stories are still In Review. The ports that kept them there are done (§10.2); the remaining open items are in §14 |
 
 ## 12. Verification ledger
 
 | Claim | State | Owner |
 |---|---|---|
-| 634 tests pass on `main` (`acc8712`, the merge of PR #11) | Verified 2026-10-16 | — |
-| Strict typecheck clean; `npm audit` reports 0 vulnerabilities | Verified 2026-10-16 | — |
-| `registry check` passes on the valid fixture (18 entities) and on generated 1,007- and 2,007-entity registries | Verified 2026-10-16 | — |
+| 639 registry tests, and 738 in the repository, pass on `main` (`d3b1631`, the merge of PR #26) | Verified 2026-10-17 | — |
+| 52 rules and 69 named mutations on `main`; unchanged since PR #11 | Verified 2026-10-17 | — |
+| Strict typecheck clean; `npm audit --omit=dev` reports 0 vulnerabilities | Verified 2026-10-17 | — |
+| `registry check` passes on the valid fixture (18 entities) | Verified 2026-10-17 | — |
+| `registry check` passes on generated 1,007- and 2,007-entity registries | Verified 2026-10-16 | — |
+| The Astro hook stops a site build on a failed gate, writes nothing on failure, and skips without `content/` | Covered by unit tests in `tests/shell/unit/registry-integration.test.ts` (PR #25) | — |
 | SC-004 timing (about 80 ms in memory, about 2.2 s from disk, 5,007 entities) | Verified 2026-10-16 | — |
 | Rule table, registered rules and mutations are kept in step by a meta-test | Verified 2026-10-16 | — |
 | Symlink and `../` escapes refused | Verified with a real symlink 2026-10-16 | — |
 | `gate` is a required check on `main` | Setting read back 2026-10-16 | — |
-| Build Log and Decision Log updates contain only my insertions | Verified 2026-10-16: each page equals its original plus the insertions; Confluence normalised only the quotation marks in the new text | — |
+| Build Log and Decision Log updates contain only my insertions | Verified 2026-10-16: each page equals its original plus the insertions; Confluence normalised only the quotation marks in the new text. Verified again 2026-10-17 for Decision Log TC-D028 and TC-D029 (page versions 10 and 11) | — |
 | A red `gate` blocks a merge | **Unverified** | Vlad |
 | The branch comparison (§10.2) holds line by line | **Partly verified**: rule codes mapped and fixtures run through the gate (T117); sizes and minting by measurement and search, not a line audit | — |
 | Alignment with Decision Log TC-D018 | Verified 2026-10-16 against the TC-D018 text | — |
@@ -274,14 +283,14 @@ The per-story merge bar is the repository's Definition of Done (`CLAUDE.md`): ev
 | Roadmap, dependencies, current delivery state | Volume IX |
 | Cross-programme decisions: ADR 0006 (identity, record model, release vs lifecycle), ADR 0007 (EDTF dates), tombstones for superseded records | Decision Log |
 | Cross-programme risks: two implementations of one spec; a public repository holding scholarly records | Programme Risk Register |
-| Shipped work: PR #1 to #11 (green CI) | Build Log |
+| Shipped work: PR #1 to #11 (green CI); PR #13 and #25 not yet recorded | Build Log |
 
-**Propagated 2026-10-16.** The Build Log has a new **section U** (the successor build, now PR #1 to #11) and a header pointer; it is scoped to the successor repository and does not claim to reconcile the original one. The Decision Log has **TC-D019 to TC-D024**: release state separate from lifecycle, EDTF dates, minted IDs with legacy IDs verbatim, tombstones, private-by-default public output, and import confirmation. **Not yet propagated:** the Programme Risk Register (two implementations of one spec; a public repository holding scholarly records) and the reconciliation entry in the Programme Dossier Contract register §3. Both are existing shared pages and were left untouched.
+**Propagated 2026-10-16.** The Build Log has a new **section U** (the successor build, now PR #1 to #11) and a header pointer; it is scoped to the successor repository and does not claim to reconcile the original one. The Decision Log has **TC-D019 to TC-D024**: release state separate from lifecycle, EDTF dates, minted IDs with legacy IDs verbatim, tombstones, private-by-default public output, and import confirmation. **Propagated 2026-10-17.** The Decision Log has **TC-D028** (the map record model from spec 004, which extends TC-D019, TC-D023 and TC-D024 and will amend this programme's data model) and **TC-D029** (hosting as a Worker serving static assets). **Not yet propagated:** Build Log entries for PR #13 and #25; the Programme Risk Register (two implementations of one spec; a public repository holding scholarly records) and the reconciliation entry in the Programme Dossier Contract register §3. All three are existing shared pages and were left untouched.
 
 This dossier retains only programme-specific rationale, the reconciliation record and the rule reference. The full text of the decisions is in the repository's ADRs, and the working specification in `specs/001-scholarly-registry/`.
 
 ## 14. Current checkpoint and delivery authority
 
-**Checkpoint (2026-10-16).** `main` is at the merge of PR #11 (`acc8712`): the registry, all five stories, the review fixes, EDTF dates, tombstones, rejection of unknown fields and specialist vocabulary mappings; 634 tests, 52 rules, `gate` green and required. The Jira stories are In Review. This page's source is `docs/confluence/spec-001-registry.md`. Open: retiring branch `001-scholarly-registry` (decided: keep `main`; tag and delete after the remaining ports); where `rooms` and the branch-fixture fields live (T123, T124); applying vocabulary mappings before the public projection and the Astro build gate (with spec 002); the `consulted_copy` shape; adding or declining `Blocks` links among the stories.
+**Checkpoint (2026-10-17).** `main` is at `d3b1631` (the merge of PR #26). For this programme it holds the registry, all five stories, the review fixes, EDTF dates, tombstones, rejection of unknown fields, specialist vocabulary mappings, `registry build` (PR #13) and the Astro hook that runs the gate in every site build (PR #25); 52 rules, 69 mutations, 639 registry tests, `gate` green and required. The Jira epic is In Progress and its five stories In Review. This page's source is `docs/confluence/spec-001-registry.md`. Open: tagging branch `001-scholarly-registry` now that every port is done (deleting it needs a separate decision); withdrawn pages (T110) and `registry scan` over the real `dist` in CI (T111); where `rooms` and the branch-fixture fields live (T123, T124); spec 004's amendments to the data model; the `consulted_copy` shape; adding or declining `Blocks` links among the stories; Build Log entries for PR #13 and #25.
 
 **Authority.** Jira `Blocks` links are authoritative for executable dependencies; Jira and Volume IX are authoritative for current delivery state; the Build Log records only work actually shipped. This page is not the delivery record.

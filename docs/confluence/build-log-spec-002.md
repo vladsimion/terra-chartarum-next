@@ -1,10 +1,10 @@
-# Pending Confluence entry: Build Log (page 2490370)
+# Confluence entry: Build Log (page 2490370)
 
-Add as a new section (next letter after the last section, "U" per the task note) recording shipped work only. Not yet published: the session that wrote it had no Confluence write tool.
+Published 2026-10-17 as section V (page version 125; the note on section U updated in version 126), directly after section U and before "2. In progress"; the header pointer "recorded in section U" became "sections U and V". The rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
-## Spec 002 — publication shell and design system (successor repository)
+## V. The successor build: publication shell and design system (spec 002)
 
-Merged to `main` of github.com/vladsimion/terra-chartarum-next, 2026-10-16 to 2026-10-17. Jira epic TCX-3.
+Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 16 to 17 October 2026. Jira epic TCX-3. Like section U, this section records only what has merged to the successor's `main` and is not part of the reconciliation of the other sections of this page. It was reconciled on 17 October 2026 against `main` at `2d79296`, the merge of PR #32. Working detail is in the [spec 002 programme dossier](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/37617686).
 
 | PR | Scope | Jira |
 |---|---|---|
@@ -16,5 +16,13 @@ Merged to `main` of github.com/vladsimion/terra-chartarum-next, 2026-10-16 to 20
 | #23 | US3: CI template list, axe in both schemes, no-JS and font specs, Lighthouse CI budgets with a guard proof; size-adjusted fallback fonts (layout shift was 0.12 to 0.28) | TCX-20 |
 | #25 | US4: home page, content collection, registry integration in the build (completes spec 001 T119b) | TCX-21 |
 | #26 | US5: `LICENSE` (MIT), `rightsLine`, About and Colophon with draft copy | TCX-22 |
+| #28 | Polish (T047 to T050): README shell section, quickstart walked and corrected, the cutover check named in spec 008 (FR-009), code-review fixes | TCX-3 |
+| #32 | Lighthouse takes three samples and judges LCP, CLS and TBT on the median (thresholds unchanged); the budget guard now fails on script size itself | TCX-20 |
 
-State on `main`: 738 Vitest tests; Playwright suites run in CI across chromium (dark, light), firefox, webkit, a 360 px phone and no-JavaScript; `gate` green. `shell:check` lists 7 stub pages and 3 draft pages, as expected before cutover. Polish (README, quickstart walk, spec 008 cutover requirement, code review) follows in a further PR.
+State on `main`: 741 Vitest tests; Playwright suites run in CI across chromium (dark, light), firefox, webkit, a 360 px phone and no JavaScript; `gate` green. Stories TCX-18 to TCX-22 are Done; the epic TCX-3 is In Progress. `shell:check` lists 7 stub pages and 3 draft pages, as expected before cutover; `npm run shell:check -- --cutover` must pass before the domain moves.
+
+### Since section U was written
+
+- [PR #13](https://github.com/vladsimion/terra-chartarum-next/pull/13), merged 16 October 2026 (`1f1adfc`): `registry build`, the registry's part of a site build (spec 001 T119a).
+- [PR #25](https://github.com/vladsimion/terra-chartarum-next/pull/25), merged 17 October 2026 (`e848e35`): the Astro hook that runs the integrity gate before any page is built and writes the site data afterwards (spec 001 T119b). Section U is amended to match; the amended points are marked.
+- [PR #27](https://github.com/vladsimion/terra-chartarum-next/pull/27), merged 17 October 2026 (`194d531`): the successor is hosted as a Cloudflare Worker serving static assets (ADR 0012, Decision Log TC-D029).

@@ -1,23 +1,23 @@
-# Pending Confluence entry: Decision Log (page 12648509)
+# Confluence entry: Decision Log (page 12648509)
 
-Append after TC-D029 (see `decision-log-tc-d029.md`; TC-D028 is also pending). Not yet published: the session that wrote it had no Confluence write tool.
+Published 2026-10-17 in page version 12, directly after TC-D029 and together with TC-D031; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
-### TC-D030 — A Source points at one bibliography entry, citations are derived, and an entry is public only when a public record cites it
+### TC-D030 — The Atlas lists only public layers, keeps its state in the address, and derives rooms from essays
 
 **Date:** 17 October 2026    
 **Status:** Accepted
 
-**Decision:** every Source points at exactly one bibliography entry (a finding aid is a Source flagged as one and is never cited as evidence). Citations are derived and never stored, by two routes: a record **lists** an entry in its `bibliography[]`, or **cites it as evidence** through essay → Evidence → Source → entry, carrying the locator and its verification state. An entry is public only when it is published, released and cited by at least one public record. Citation fields live only in the entry's CSL-JSON.
+**Decision:** the Atlas, its catalogue index and every payload list only layers that are both `published` and `released` with a runnable asset; there is no public "in preparation" listing. An Atlas view (year, active layers, focused layer, lens, collection, facets) is saved only in the query string of `/atlas/`, using public slugs resolved through slug history, and nothing in `localStorage`. A layer's rooms are derived from the public essays that list it. Layer assets are built from sources kept in the repository, with a file-size gate and no storage bucket in v1.
 
-**Context:** spec 003 renders a claim citation from "the source's bibliography entry", but a Source had no link to an entry; the spec 006 draft proposed a stored Citation entity that overlapped spec 003's Evidence-based citations; and spec 006 required entries cited only by held content to stay hidden, which is stricter than "published and released" (TC-D019).
+**Context:** spec 005 described a "data catalogue view" of unpublished layers and ADR 0002 said CND would be "visible in the data catalogue", which contradicts TC-D019 (public means published and released). The spec also needs shareable views on a static host, room browsing for layers (spec 003 made rooms essay-only), and a way to serve layer data from Workers static assets (ADR 0012).
 
-**Alternatives considered:** a stored Citation entity; merging Source and entry; listing every published entry regardless of citation; duplicating identifiers in the YAML.
+**Alternatives considered:** a public listing of unpublished layers; view state in `localStorage` or a fragment; stable IDs in view addresses (would expose the ID of a held layer); rooms stored on layers; a storage bucket from the start.
 
 **Consequences:**
 
-- spec 006 amends spec 001's data model (Source `entry`, `bibliography[]` on datasets and layers, edition links) and adds four rules;
-- the bibliography can never show an entry that nothing public cites, and "Cited in" lists public records only;
-- the spec 008 adapter maps each legacy source to a Source with its `entry`, and legacy section types onto the seven sections; everything arrives held (extends TC-D024);
-- the glossary no longer says a finding aid is not a source.
+- ADR 0002 is amended: CND stays held and appears nowhere public until it is published;
+- a shared Atlas address survives a layer being renamed and degrades to the remaining layers when one is retired;
+- a layer no public essay uses has no room, and browsing by Room shows nothing for it;
+- when a layer outgrows the repository, a bucket becomes a decision with its own ADR.
 
-**Evidence:** [ADR 0014](https://github.com/vladsimion/terra-chartarum-next/blob/main/docs/adr/0014-bibliography-model.md); spec 006; Jira TCX-7. Extends TC-D003, TC-D018 and TC-D019.
+**Evidence:** [ADR 0013](https://github.com/vladsimion/terra-chartarum-next/blob/main/docs/adr/0013-atlas-contracts.md); spec 005; Jira TCX-6. Extends TC-D019 and TC-D023; amends the consequence of ADR 0002.

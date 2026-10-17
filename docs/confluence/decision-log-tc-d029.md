@@ -1,23 +1,23 @@
-# Pending Confluence entry: Decision Log (page 12648509)
+# Confluence entry: Decision Log (page 12648509)
 
-Append after TC-D028 (see `decision-log-tc-d028.md`, also pending). Not yet published: the session that wrote it had no Confluence write tool.
+Published 2026-10-17 as page version 11, directly after TC-D028; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
-### TC-D029 — The Atlas lists only public layers, keeps its state in the address, and derives rooms from essays
+### TC-D029 — The successor is hosted as a Cloudflare Worker serving static assets only; the archive stays on Pages
 
 **Date:** 17 October 2026    
 **Status:** Accepted
 
-**Decision:** the Atlas, its catalogue index and every payload list only layers that are both `published` and `released` with a runnable asset; there is no public "in preparation" listing. An Atlas view (year, active layers, focused layer, lens, collection, facets) is saved only in the query string of `/atlas/`, using public slugs resolved through slug history, and nothing in `localStorage`. A layer's rooms are derived from the public essays that list it. Layer assets are built from sources kept in the repository, with a file-size gate and no storage bucket in v1.
+**Decision:** the successor site is deployed as a Cloudflare Worker serving static assets only (no Worker script, no server adapter, no bindings), configured by a `wrangler.jsonc` that serves `./dist` with `404.html` for unmatched paths and built with a pinned `wrangler`; the frozen archive stays a Pages project at terra-chartarum.pages.dev.
 
-**Context:** spec 005 described a "data catalogue view" of unpublished layers and ADR 0002 said CND would be "visible in the data catalogue", which contradicts TC-D019 (public means published and released). The spec also needs shareable views on a static host, room browsing for layers (spec 003 made rooms essay-only), and a way to serve layer data from Workers static assets (ADR 0012).
+**Context:** ADR 0005 chose a new Cloudflare Pages project. The project was created as a Worker with Workers Builds instead, and its deploy step, finding no Wrangler configuration, tried to install a server-rendering adapter and failed. Cloudflare now steers new projects to Workers with static assets; Pages remains supported.
 
-**Alternatives considered:** a public listing of unpublished layers; view state in `localStorage` or a fragment; stable IDs in view addresses (would expose the ID of a held layer); rooms stored on layers; a storage bucket from the start.
+**Alternatives considered:** recreating the project as Pages, as ADR 0005 was written; letting Wrangler install the Cloudflare adapter, which adds server rendering the site does not need.
 
 **Consequences:**
 
-- ADR 0002 is amended: CND stays held and appears nowhere public until it is published;
-- a shared Atlas address survives a layer being renamed and degrades to the remaining layers when one is retired;
-- a layer no public essay uses has no room, and browsing by Room shows nothing for it;
-- when a layer outgrows the repository, a bucket becomes a decision with its own ADR.
+- the site stays static output only; a Worker script, bindings or any runtime logic is dynamic infrastructure and needs its own decision (extends TC-D013);
+- `_headers` and `_redirects` are honoured as before; the `*.workers.dev` address must carry `noindex` until cutover (spec 008);
+- at cutover terra-chartarum.org is attached as a custom domain on the Worker; archive redirects still live in the archive project;
+- the constitution moves to 1.0.1 (hosting line reworded).
 
-**Evidence:** [ADR 0013](https://github.com/vladsimion/terra-chartarum-next/blob/main/docs/adr/0013-atlas-contracts.md); spec 005; Jira TCX-6. Extends TC-D019 and TC-D023; amends the consequence of ADR 0002.
+**Evidence:** [ADR 0012](https://github.com/vladsimion/terra-chartarum-next/blob/main/docs/adr/0012-hosting-workers-static-assets.md) (amends ADR 0005 §3); Jira TCX-44; [PR #27](https://github.com/vladsimion/terra-chartarum-next/pull/27). Extends TC-D013.
