@@ -1,0 +1,12 @@
+// Cloudflare Workers static-assets deployment (ADR 0012).
+// The site is static output only: no Worker script, no server adapter.
+// Wrangler uploads ./dist as-is; _headers and _redirects in public/ are honoured.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "terra-chartarum-next",
+  "compatibility_date": "2026-10-17",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

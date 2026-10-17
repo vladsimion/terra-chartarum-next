@@ -1,6 +1,6 @@
 # ADR 0005 — Stack, data-prep language, hosting, domain and repository
 
-**Status**: Accepted · **Date**: 2026-10-15 · **Jira**: TCX-12 · **Amends**: ADR 0001 (archive mechanism)
+**Status**: Accepted · **Date**: 2026-10-15 · **Jira**: TCX-12 · **Amends**: ADR 0001 (archive mechanism) · **Amended by**: ADR 0012 (§3 hosting: Workers static assets)
 
 ## 1. Stack (for every plan.md)
 Rebuilt fresh, no fork, but on TC's proven choices:
