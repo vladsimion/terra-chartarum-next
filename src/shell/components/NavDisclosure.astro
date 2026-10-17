@@ -60,13 +60,17 @@ const { path } = Astro.props;
     color: var(--accent);
   }
 
-  /* Wide widths: the list is simply shown. Where ::details-content is not supported the menu stays a disclosure, still operable. */
+  /*
+   * Wide widths: the list is simply shown. Hiding the summary and forcing the list visible go
+   * together, only where ::details-content is supported; elsewhere the menu stays a disclosure
+   * with its summary showing, so the navigation can always be opened (FR-009, FR-014).
+   */
   @media (min-width: 48rem) {
-    summary {
-      display: none;
-    }
-
     @supports selector(::details-content) {
+      summary {
+        display: none;
+      }
+
       .nav-disclosure::details-content {
         content-visibility: visible;
       }

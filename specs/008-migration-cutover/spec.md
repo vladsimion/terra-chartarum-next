@@ -35,7 +35,9 @@ As the editor, every old URL has a redirect rule: rebuilt essays and migrated re
 
 ### User Story 4 — Cutover checklist (Priority: P2)
 **Audience**: editor.
-As the editor, a cutover checklist (DNS/hosting switch, archive live, redirects verified, integrity gate green, v1 anchor essay published) must pass before the domain moves.
+As the editor, a cutover checklist (DNS/hosting switch, archive live, redirects verified, integrity gate green, v1 anchor essay published, no stub page or draft copy left) must pass before the domain moves.
+
+**Acceptance Scenario**: **Given** a production build in which any destination is still a stub page or any page still carries draft copy, **When** the cutover checklist runs `npm run shell:check -- --cutover`, **Then** it exits 1 and names each remaining page, and the domain does not move (spec 002 FR-015 and FR-016).
 
 ### Edge Cases
 - Old URL patterns with query strings (Atlas deep links): mapped to the new view-state contract where possible, otherwise to the Atlas landing with a notice.
@@ -47,6 +49,7 @@ As the editor, a cutover checklist (DNS/hosting switch, archive live, redirects 
 - **FR-002**: Imports MUST be deterministic and re-runnable.
 - **FR-003**: Every old public URL MUST have exactly one redirect rule.
 - **FR-004**: The archive MUST be the frozen terra-chartarum.pages.dev site: read-only, with an "archived edition" banner, `noindex`, and a link to terra-chartarum.org. Redirects for rebuilt essays live in the archive project's redirects file (ADR 0005).
+- **FR-009**: The cutover checklist MUST include `npm run shell:check -- --cutover` over the production build, so no stub page or draft copy ships.
 - **FR-008**: The successor MUST be served at terra-chartarum.org from its own static hosting project built from vladsimion/terra-chartarum-next; hosting choice recorded in ADR 0005.
 - **FR-005**: Publishing a rebuilt essay MUST update its redirect rule in the same build.
 - **FR-006**: Imported private fields MUST be dropped before any public build.

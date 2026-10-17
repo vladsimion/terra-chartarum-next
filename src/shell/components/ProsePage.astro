@@ -1,0 +1,26 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+interface Props {
+  /** The entry in the `pages` collection (src/content/pages/<id>.md). */
+  id: string;
+}
+
+/*
+ * A page whose body is site prose from the `pages` collection: About and Colophon (spec 002 US5).
+ * While `draft` is true the body is marked `data-draft`, which `shell:check` lists and the cutover
+ * check fails on.
+ */
+const { id } = Astro.props;
+const page = await getEntry('pages', id);
+if (!page) throw new Error(`src/content/pages/${id}.md is missing`);
+const { Content } = await render(page);
+---
+
+<Base title={`${page.data.title} | Terra Chartarum`} description={page.data.description} lang={page.data.lang}>
+  <h1>{page.data.title}</h1>
+  <div class="prose" data-draft={page.data.draft ? '' : undefined}>
+    <Content />
+  </div>
+</Base>

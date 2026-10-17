@@ -139,11 +139,11 @@ description: "Task list for 002 Publication Shell, Navigation & Design System"
 
 ## Phase 8: Polish & cross-cutting
 
-- [ ] T047 [P] Add a README section for the shell (commands from the quickstart, the token and destination rules) and update `CLAUDE.md`'s "Read first" list to include ADRs 0006 to 0009
-- [ ] T048 Walk [quickstart.md](./quickstart.md) end to end and correct it where it differs
-- [ ] T049 Add the cutover check to spec 008: in `specs/008-migration-cutover/spec.md` (acceptance) name `npm run shell:check -- --cutover` as a required step, so no stub or draft copy ships
-- [ ] T050 Run the `code-review` skill against `main` and resolve the findings
-- [ ] T051 Update the Confluence records (workflow step 4): a programme dossier for spec 002 written to the fourteen-point contract, Build Log section U for the shipped work, and the Decision Log if a cross-programme decision was made during implementation; set the TCX-3 epic description to match `main`
+- [x] T047 [P] Add a README section for the shell (commands from the quickstart, the token and destination rules) and update `CLAUDE.md`'s "Read first" list to include ADRs 0006 to 0009 (done: README gains a shell section and the repository map lists ADRs 0006 to 0011; `CLAUDE.md` Read-first now says 0001–0011)
+- [x] T048 Walk [quickstart.md](./quickstart.md) end to end and correct it where it differs (done: walked on a fresh checkout; corrected the expected output (seven stubs including the Handbook, three draft pages, 10 findings, the home shows an in-preparation line until records exist) and documented `SHELL_FIXTURES` and `REGISTRY_ROOT`; `test:e2e` and `lhci` need browsers and were verified by CI instead)
+- [x] T049 Add the cutover check to spec 008: in `specs/008-migration-cutover/spec.md` (acceptance) name `npm run shell:check -- --cutover` as a required step, so no stub or draft copy ships (done: spec 008 US4 gains an acceptance scenario and FR-009 naming `npm run shell:check -- --cutover`)
+- [x] T050 Run the `code-review` skill against `main` and resolve the findings (done: `code-review` against 57f6d73, standards and spec axes. Fixed: the wide-width navigation had no way to open without `::details-content` support (hiding the summary is now inside the same `@supports`, with a regression test); the home page takes its destination links from `destinations.ts` through the exported `byId`; the duplicated `content/` check is one `hasContentDir`; About and Colophon share `ProsePage.astro`. Left as recorded decisions: see the review notes below)
+- [ ] T051 (drafted in `docs/confluence/spec-002-shell.md` and `docs/confluence/build-log-spec-002.md`; Jira TCX-3 is current; publishing to Confluence is waiting for a Confluence write tool) Update the Confluence records (workflow step 4): a programme dossier for spec 002 written to the fourteen-point contract, Build Log section U for the shipped work, and the Decision Log if a cross-programme decision was made during implementation; set the TCX-3 epic description to match `main`
 
 ---
 
@@ -164,3 +164,13 @@ description: "Task list for 002 Publication Shell, Navigation & Design System"
 - **MVP**: Foundation + US1 (a navigable shell with stubs) is the first demonstrable slice; US2 and US3 make it a gated publication; US4 connects the registry; US5 finishes the copy.
 - Build one story at a time, red then green, update Jira and Confluence at each story's end, and open a pull request per story.
 - Open items to watch: the light-scheme values and accent values are set against the contrast test (T011) and may need design review; the visual baselines can only be generated on the CI image (T029).
+
+## Code-review notes (T050, 2026-10-17)
+
+Open points the review raised that need a decision rather than a code change:
+
+- **SC-003 at 360 px.** "Under 10 key presses" holds at desktop width (skip link, wordmark, seven links = nine). At 360 px the menu summary and opening it add two presses (eleven). `keyboard.spec.ts` tests desktop only. Either amend SC-003 to say the count is at desktop width, or put the destinations ahead of the wordmark in the narrow layout.
+- **SC-004 lint breadth.** Stylelint checks colours, `filter` and lengths in a fixed property list. Raw values elsewhere (`outline: 3px`, `border: 1px`, `letter-spacing`, `line-height`, transition and animation durations, the `48rem` media query) are not linted. Widening the rules will flag existing code; decide how far US2 AC1 ("colours, type, spacing and motion come only from tokens") should reach.
+- **FR-017 is a seam.** `rightsLine` and `RightsLine.astro` exist and are tested, but no page uses them yet; the first image, dataset or layer page (specs 003 to 005) must render it.
+- **FR-004 coverage.** The touch-target spec measures `/atlas/handbook/` only (the home page has its own check). The skip link is not measured.
+- **Judgement calls left as they are:** the 44 px block repeated across five components (a shared class), `accent` typed as `string` in `Base.astro`, the 'Home' crumb label typed in two places, room labels derived by capitalising the id, `registry.yml` carrying the whole shell pipeline, injectable parameters used only by tests, and essays sorted by title on the home page (a spec-decided order may be wanted).

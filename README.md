@@ -13,9 +13,14 @@ CLAUDE.md                         agent instructions: workflow, stack, Jira, v1 
 GRILL-AGENDA.md                   decisions settled and still open
 docs/adr/                         0001 successor & cutover · 0002 v1 anchor (Dacia)
                                   0003 shared contracts · 0004 experience · 0005 stack/hosting/repo
-                                  0006 registry identity & record model
+                                  0006 registry identity & record model · 0007 EDTF dates
+                                  0008 colour schemes & accents · 0009 licensing
+                                  0010 editorial pipeline · 0011 map record model
 src/registry/                     the registry module and integrity gate (spec 001)
+src/shell/, src/pages/            the shell, design tokens and pages (spec 002)
+src/integrations/                 the Astro integration that runs the gate in the build
 tests/registry/                   unit, integration, fixtures, mutation and timing tests
+tests/shell/                      unit, build-output and Playwright tests for the shell
 docs/vendor/                      licence + pinned commit for vendored skills
 specs/
   001-scholarly-registry/         IDs, evidence/provenance, lifecycle, integrity gate
@@ -67,6 +72,28 @@ npm run registry -- scan dist              # fail if built output leaks a privat
 ```
 
 Walkthrough: [`specs/001-scholarly-registry/quickstart.md`](specs/001-scholarly-registry/quickstart.md). Decisions: [ADR 0006](docs/adr/0006-registry-identity-and-record-model.md).
+
+## The shell and design system (spec 002)
+
+An Astro static site (`output: 'static'`, no adapter): every page is generated at build time. The shell is the header, footer, breadcrumbs and skip link in `src/shell/layouts/Base.astro`; it reads only the registry's public projection, never `content/` directly.
+
+```bash
+npm test && npm run typecheck && npm run lint:css   # Vitest, TypeScript, Stylelint
+npm run build                                       # registry gate, pages, then _redirects and data/relations.json
+npm run shell:check                                 # lists stub pages and draft copy left in the build
+npm run shell:check -- --cutover                    # exits 1 while any remain (a required step of spec 008)
+npm run test:e2e                                    # Playwright and axe; Lighthouse CI is `npm run lhci`
+```
+
+Rules that tests enforce:
+
+- **One token file.** `src/shell/styles/tokens.css` is the only place for colours, type sizes, spacing and motion; Stylelint rejects raw values anywhere else. Dark is the default, light follows the reader's system, and contrast is tested on every declared pair in both schemes (ADR 0008).
+- **One destination list.** `src/shell/destinations.ts` drives the header, footer, breadcrumbs, stub pages and the build check. A spec that builds a destination flips its status from `stub` to `built` in the same change.
+- **Stub pages and draft copy** are marked (`data-stub`, `data-draft`), listed by `shell:check` and must be gone at cutover.
+- **Licences.** Code is MIT (`LICENSE`), original prose and data CC BY 4.0, and every image, dataset and layer shows its own licence from its registry `rights` (ADR 0009).
+- **Set `REGISTRY_ROOT`** to read a registry other than the repository root; the tests use `tests/shell/fixtures/registry`.
+
+Walkthrough: [`specs/002-shell-and-design-system/quickstart.md`](specs/002-shell-and-design-system/quickstart.md).
 
 ## Why each tool
 

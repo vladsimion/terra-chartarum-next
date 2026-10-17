@@ -44,7 +44,8 @@ export interface FooterLink {
   href: string;
 }
 
-const byId = (id: string): Destination => {
+/** A destination by id; pages that link to another spec's destination go through this so a moved address changes in one place. */
+export const byId = (id: string): Destination => {
   const found = DESTINATIONS.find((d) => d.id === id);
   if (!found) throw new Error(`no destination ${id}`);
   return found;
