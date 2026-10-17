@@ -1,0 +1,23 @@
+# ADR 0011 — Map record model: a record per witness, a status for every field, and what the public repository never holds
+
+**Status**: Accepted · **Date**: 2026-10-17 · **Jira**: TCX-5 · **Spec**: 004 · **Amends**: ADR 0006 (map and cartographer family fields)
+
+## Context
+Spec 004 asks for a rich map record (titles, makers, edition and state, atlas context, dimensions, coverage, provenance, images, rights, verification) in which "a blank is never presented as complete", and in which held objects and institutional digital copies are told apart everywhere. The registry rejects any field its schema does not define (`FAM-UNKNOWN`) and the family list is closed, so the shape has to be decided before the schema grows. The repository is public, so "never public" cannot rest on a display rule alone.
+
+## Decision
+- **One record per witness.** A Map object record describes one witness of a map: `witness_kind: held | institutional`, required. Two witnesses of the same edition are two records joined by a relation. Held versus institutional is then a plain fact on the record, shown everywhere (spec 004 FR-003).
+- **Every displayed field has a status.** A `field_status` map, keyed by field name, holds `recorded | not_applicable | not_yet_verified | unknown`. A field with a value is `recorded`. An empty field with no status is a warning from `ready_for_build` and an error at `publishable`. Provenance and atlas-context fields of a held witness also carry `basis: observed | inferred`; the physical-object fields stay schema-only in v1 (ADR 0002).
+- **Image sources are embedded, not a family.** `images[]` on the map record holds type (IIIF, DeepZoom, static), URL, rights, attribution, authored `alt` text, and `witness_kind`. The family list stays closed (ADR 0006 item 10).
+- **Cartographers include workshops.** A `workshop` cartographer stands for a family or firm whose individual maker is not established; a map attributed to one is marked `attribution: unresolved` and never counts as an exact maker.
+- **The public repository never holds private acquisition data.** No price, vendor contact or negotiation is committed, in any file or in history; the registry keeps only public provenance. A gate rule rejects field names such as `price`, `paid` and `negotiation` as a safety net.
+- **The spec 004 schema work amends spec 001's data model** as its Foundation phase, with its own tests, rather than being slipped in as record content.
+
+## Considered
+One record with several witnesses (makes "held or institutional" a property of a list, so every view has to unpick it); a sentinel string in each empty field such as "unknown" (indistinguishable from a real value, cannot be validated); an `image_source` family (reopens the closed list for a value that has no identity of its own); keeping price data in a private branch or file (still in a public repository's history once pushed).
+
+## Consequences
+- The spec 008 adapter maps each legacy record to one witness record and sets `field_status: not_yet_verified` for anything the legacy data lacks.
+- The map and cartographer rows of the ADR 0006 family-fields table grow; `FAM-UNKNOWN` stays strict.
+- Imported records arrive held; releasing the 59 is a deliberate editor act.
+- A reverse "where used" list is derived at build time from one-way references and shows public referrers only.
