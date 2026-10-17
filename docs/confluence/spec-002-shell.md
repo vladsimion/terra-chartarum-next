@@ -1,17 +1,17 @@
-Programme dossier for spec 002, written against the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169/P). **Not yet published to Confluence**: the session that wrote it had no Confluence write tool. Publish as a standalone page at the root of the space, like the spec 001 dossier (page 36569092), and keep this file and the page identical.
+Programme dossier for spec 002, written against the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169/P). A standalone page at the root of the space, like the [spec 001 dossier](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/36569092); its source is `docs/confluence/spec-002-shell.md` and the two are kept identical. Facts below were checked on **2026-10-17** against `main` (`2d79296`), Jira and CI.
 
 ## 1. Programme metadata
 
 | | |
 |---|---|
 | Programme type | Platform foundation: the publication shell, design system and CI gates for the Terra Chartarum successor build |
-| Status | **Implemented on `main`** through PR #26 (User Stories 1 to 5). Polish (T047 to T051) is in progress. |
-| Jira | **TCX-3** epic; stories **TCX-18** (US1 header), **TCX-19** (US2 tokens and accents), **TCX-20** (US3 accessibility and performance gates), **TCX-21** (US4 home page), **TCX-22** (US5 About and Colophon) |
+| Status | **Implemented on `main`**: User Stories 1 to 5 through PR #26, polish T047 to T050 in PR #28, steadier Lighthouse sampling in PR #32. T051 (these Confluence records) was published on 2026-10-17. |
+| Jira | **TCX-3** epic (In Progress); stories **TCX-18** (US1 header), **TCX-19** (US2 tokens and accents), **TCX-20** (US3 accessibility and performance gates), **TCX-21** (US4 home page), **TCX-22** (US5 About and Colophon), all Done |
 | Canonical parent | A standalone page at the root of the space, as for spec 001 |
 | Primary canonical ownership | Volume VIII (software contracts, experience contract); Volume IX (delivery) |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). Spec `specs/002-shell-and-design-system/`; code `src/shell/`, `src/pages/`, `src/integrations/`; decisions `docs/adr/0008`, `0009` |
 | Successor relationship | Replaces the live site's header, styles and pages at cutover (ADR 0001); stub pages and draft copy must be gone by then |
-| Last reconciliation | 2026-10-17 (dossier creation; 738 Vitest tests on `main`) |
+| Last reconciliation | 2026-10-17 (dossier creation; 741 Vitest tests on `main` at `2d79296`) |
 
 ## 2. Purpose / thesis
 
@@ -61,7 +61,7 @@ None here. The shell offers the layout every essay uses (`Base.astro`, with an a
 - Layout shift is held to 0.1 with size-adjusted fallback faces for each web font.
 
 ### 8.3 CI and repository
-One required `gate` job: audit (production dependencies), Stylelint, TypeScript, Vitest, the Playwright suite, a production build with `shell:check`, Lighthouse CI on the fixture build plus a guard proof that an over-budget page fails. Browser tests cannot run on the author's macOS 12, so they are verified in CI; snapshot baselines come from a manual "update snapshots" run.
+One required `gate` job: audit (production dependencies), Stylelint, TypeScript, Vitest, the Playwright suite, a production build with `shell:check`, Lighthouse CI on the fixture build (three samples per page; LCP, CLS and TBT judged on the median since PR #32, with the ADR 0004 thresholds unchanged) plus a guard proof that a page over the script budget fails on script size itself. Browser tests cannot run on the author's macOS 12, so they are verified in CI; snapshot baselines come from a manual "update snapshots" run.
 
 ## 9. Implementation phases and dependency model
 
@@ -91,8 +91,8 @@ TCX-3 holds the five stories above; each story's description carries its Spec Ki
 
 ## 13. Canonical ownership and propagation
 
-The destination list, token file and CI template list are owned here; later specs extend them in their own changes (a spec flips its destination from `stub` to `built` and adds its page types to `ci-templates.json`). The Build Log carries shipped work; the Decision Log carries TC-D025 (design system) and TC-D026 (licensing).
+The destination list, token file and CI template list are owned here; later specs extend them in their own changes (a spec flips its destination from `stub` to `built` and adds its page types to `ci-templates.json`). The Build Log carries shipped work in section V; the Decision Log carries TC-D025 (design system) and TC-D026 (licensing).
 
 ## 14. Current checkpoint and delivery authority
 
-User Stories 1 to 5 are merged (PRs #20 to #23, #25 and #26, with the plan in PR #15 and the grill in PR #14). Next: finish Polish, then spec 003's site half and spec 004 build on this shell. `main` and the TCX board are the delivery authority; this page summarises them.
+User Stories 1 to 5 are merged (PRs #20 to #23, #25 and #26, with the plan in PR #15 and the grill in PR #14), polish in PR #28 and the Lighthouse sampling change in PR #32; 741 Vitest tests and `gate` green on `main` (`2d79296`). Stories TCX-18 to TCX-22 are Done and the epic TCX-3 is In Progress. Open: removing the 7 stub pages and 3 draft pages before cutover (`npm run shell:check -- --cutover`, spec 008 FR-009). Next: spec 003's site half and spec 004 build on this shell. `main` and the TCX board are the delivery authority; this page summarises them.
