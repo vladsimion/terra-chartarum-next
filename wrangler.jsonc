@@ -8,5 +8,8 @@
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page"
-  }
+  },
+  // Required by `wrangler preview`, which Workers Builds runs for non-production
+  // branches. Empty: Previews inherit assets and compatibility settings from the top level.
+  "previews": {}
 }
