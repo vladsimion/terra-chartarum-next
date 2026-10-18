@@ -1,0 +1,79 @@
+---
+import type { ListItem } from '../list-view.js';
+
+interface Props {
+  items: ListItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<ol class="map-list">
+  {items.map((item) => (
+    <li data-id={item.id}>
+      {item.thumbnail && (
+        <figure class="thumb">
+          <img src={item.thumbnail.url} alt={item.thumbnail.alt} loading="lazy" decoding="async" width="96" height="72" />
+          <figcaption>{item.thumbnail.attribution}{item.thumbnail.licence && <>, {item.thumbnail.licence}</>}</figcaption>
+        </figure>
+      )}
+      <div class="text">
+        <a class="title" href={item.href}>{item.title}</a>
+        <p class="makers">{item.makers.join(', ')}</p>
+        <p class="meta"><span class="date">{item.dateLabel}</span> · <span class="witness">{item.witnessLabel}</span></p>
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .map-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: flex;
+    gap: var(--space-4);
+    padding-block: var(--space-3);
+    border-bottom: 1px solid var(--line);
+  }
+
+  li[hidden] {
+    display: none;
+  }
+
+  .thumb {
+    flex: none;
+    width: var(--thumb-width);
+    margin: 0;
+    font-size: var(--step--1);
+    color: var(--ink-muted);
+  }
+
+  .thumb img {
+    display: block;
+    width: var(--thumb-width);
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: var(--bg);
+  }
+
+  .title {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .makers,
+  .meta {
+    color: var(--ink-muted);
+  }
+</style>

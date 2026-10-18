@@ -1,0 +1,118 @@
+---
+import type { Facets } from '../list-view.js';
+
+interface Props {
+  facets: Facets;
+}
+
+const { facets } = Astro.props;
+const groups = [
+  { name: 'cartographer', legend: 'Cartographer', choices: facets.cartographers },
+  { name: 'region', legend: 'Region', choices: facets.regions },
+  { name: 'room', legend: 'Room', choices: facets.rooms },
+];
+---
+
+<form class="filters" method="get" action="/collection/">
+  <div class="years">
+    <label for="from">From year</label>
+    <input id="from" name="from" type="number" inputmode="numeric" />
+    <label for="to">To year</label>
+    <input id="to" name="to" type="number" inputmode="numeric" />
+  </div>
+
+  {groups.filter((g) => g.choices.length > 0).map((group) => (
+    <fieldset>
+      <legend>{group.legend}</legend>
+      {group.choices.map((choice) => (
+        <label class="choice"><input type="checkbox" name={group.name} value={choice.id} /> {choice.label}</label>
+      ))}
+    </fieldset>
+  ))}
+
+  <div class="selects">
+    <label for="witness">Witness</label>
+    <select id="witness" name="witness">
+      <option value="">Any</option>
+      <option value="held">Held by this project</option>
+      <option value="institutional">Institutional copy</option>
+    </select>
+    <label for="sort">Sort by</label>
+    <select id="sort" name="sort">
+      <option value="date">Date</option>
+      <option value="title">Title</option>
+      <option value="maker">Maker</option>
+    </select>
+  </div>
+
+  <div class="actions">
+    <button type="submit">Apply filters</button>
+    <a class="clear" href="/collection/">Clear filters</a>
+  </div>
+</form>
+
+<style>
+  .filters {
+    display: grid;
+    gap: var(--space-4);
+    margin: var(--space-5) 0;
+    padding: var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+  }
+
+  fieldset {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    margin: 0;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  .choice,
+  .years,
+  .selects,
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+  }
+
+  .choice {
+    min-height: var(--target-min);
+  }
+
+  input[type='number'],
+  select {
+    min-height: var(--target-min);
+    padding-inline: var(--space-2);
+    font: inherit;
+  }
+
+  input[type='checkbox'] {
+    width: var(--space-5);
+    height: var(--space-5);
+  }
+
+  button {
+    min-height: var(--target-min);
+    padding-inline: var(--space-4);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--accent);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .clear {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+    color: var(--accent);
+  }
+</style>

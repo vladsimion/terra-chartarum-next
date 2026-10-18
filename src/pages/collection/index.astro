@@ -1,0 +1,29 @@
+---
+import CollectionList from '../../collection/components/CollectionList.astro';
+import FilterBar from '../../collection/components/FilterBar.astro';
+import { buildIndex } from '../../collection/index-data.js';
+import { facets, listItems } from '../../collection/list-view.js';
+import { loadEssaySite } from '../../essays/site-data.js';
+import Base from '../../shell/layouts/Base.astro';
+
+/*
+ * The collection (spec 004 US2): every public map as static HTML, so the list is complete without
+ * scripts. The form submits as GET to this page; with scripts the filters apply in place and the
+ * view is written to the address. Held records are not in `records`, so they cannot be listed.
+ */
+const { records } = await loadEssaySite();
+const index = buildIndex(records);
+const items = listItems(records, index);
+---
+
+<Base title="Collection | Terra Chartarum" description="Every map in the collection, with filters by cartographer, date, region, room and witness.">
+  <h1>Collection</h1>
+  <p class="intro">Each record stands for one map witness: a copy held by this project or one held by an institution.</p>
+  <FilterBar facets={facets(records, index)} />
+  <p role="status" data-result-count>{items.length} of {items.length} maps</p>
+  <CollectionList items={items} />
+</Base>
+
+<script>
+  import '../../collection/filters.client.js';
+</script>
