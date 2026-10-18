@@ -24,6 +24,7 @@ const layer = (slug: string, from: string, to: string, over: Partial<IndexLayer>
   title: slug.toUpperCase(),
   role: 'historical',
   theme: 'territories-boundaries',
+  provenance: 'georeferenced_trace',
   collections: [],
   rooms: [],
   tags: [],

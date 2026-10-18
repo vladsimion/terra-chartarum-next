@@ -8,6 +8,8 @@ export interface IndexLayer {
   title: string;
   role: string;
   theme: string;
+  /** The layer-level geometry provenance: what the legend and the present-day label read. */
+  provenance: string;
   /** Slugs of the public collections that list the layer. */
   collections: string[];
   /** Names of the rooms of the public essays that list the layer (ADR 0015). */

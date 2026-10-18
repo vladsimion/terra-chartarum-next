@@ -32,6 +32,7 @@ export function buildIndex(records: readonly PublicRecord[]): AtlasIndex {
     title: str(layer.title),
     role: str(layer.role),
     theme: str(layer.theme),
+    provenance: str(layer.geometry_provenance),
     collections: collections.filter((c) => list(c.members).includes(layer.id)).map((c) => str(c.slug)),
     rooms: roomsOf(layer, records),
     tags: list(layer.tags),

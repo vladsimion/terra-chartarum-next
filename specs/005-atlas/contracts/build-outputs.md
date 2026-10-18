@@ -18,7 +18,7 @@ The Atlas build is an Astro integration (`src/integrations/atlas.ts`) that runs 
 
 ## `atlas-index.json`
 
-`{ layers: [ { slug, title, role, theme, collections: [slug], rooms: [room id], tags, synonyms, envelope: { from, to }, time_mode, description } ], collections: [ { slug, title, description, members: [slug], default_layers: [slug] } ] }`, ordered by title. Nothing else: no stable id of a layer, no source path, no field of a held entity. The description is the plain first paragraph of the layer's description.
+`{ layers: [ { slug, title, role, theme, provenance, collections: [slug], rooms: [room name], tags, synonyms, envelope: { from, to }, time_mode, description } ], collections: [ { slug, title, description, members: [slug], default_layers: [slug] } ] }`, ordered by title. Nothing else: no stable id of a layer, no source path, no field of a held entity. `provenance` is the layer-level geometry provenance. The description is the plain first paragraph of the layer's `description` (a field spec 005 adds to layers and collections, spec 001 amendment).
 
 ## Feature property conventions
 

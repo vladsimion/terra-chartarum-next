@@ -22,10 +22,16 @@ describe('buildIndex over the fixture registry', () => {
 
   it('carries exactly the contract fields for a layer, and no id or source path', async () => {
     const [layer] = (await fixtureIndex()).layers;
-    expect(Object.keys(layer ?? {}).sort()).toEqual(['collections', 'description', 'envelope', 'rooms', 'role', 'slug', 'synonyms', 'tags', 'theme', 'time_mode', 'title'].sort());
+    expect(Object.keys(layer ?? {}).sort()).toEqual(['collections', 'description', 'envelope', 'provenance', 'rooms', 'role', 'slug', 'synonyms', 'tags', 'theme', 'time_mode', 'title'].sort());
     const text = JSON.stringify(await fixtureIndex());
     expect(text).not.toContain('tc:tc:layer');
     expect(text).not.toContain('data/layers/');
+  });
+
+  it('carries the layer-level provenance the legend and the present-day label read', async () => {
+    const { layers } = await fixtureIndex();
+    expect(layers.find((l) => l.slug === 'present-day-boundaries')?.provenance).toBe('modern_reference');
+    expect(layers.find((l) => l.slug === 'frontier-line')?.provenance).toBe('georeferenced_trace');
   });
 
   it('splits the envelope and keeps the time mode and theme as authored', async () => {
