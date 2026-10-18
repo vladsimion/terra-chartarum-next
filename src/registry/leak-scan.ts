@@ -99,6 +99,15 @@ function buildNeedles(records: readonly RegistryRecord[], options: ScanOptions =
         const forms = variantsOf(record.title.trim());
         needles.push({ entity: record.id, field: 'title', kind: 'held-title', shown: '[held title]', find: (haystack) => forms.some((form) => haystack.includes(form)) });
       }
+      // the names of a held place or layer: as good as its title
+      if (options.namedFamilies?.includes(record.family) && !isRetired(record) && Array.isArray(record.names)) {
+        for (const entry of record.names) {
+          const text = entry && typeof entry === 'object' && typeof (entry as { name?: unknown }).name === 'string' ? (entry as { name: string }).name.trim() : '';
+          if (text.length < MIN_PRIVATE_LENGTH) continue;
+          const forms = variantsOf(text);
+          needles.push({ entity: record.id, field: 'names', kind: 'held-title', shown: '[held name]', find: (haystack) => forms.some((form) => haystack.includes(form)) });
+        }
+      }
       // the slug on its own, as a payload would carry it, not as part of a longer slug or word
       if (options.namedFamilies?.includes(record.family) && !isRetired(record) && typeof record.slug === 'string' && record.slug.length >= MIN_PRIVATE_LENGTH) {
         const bare = new RegExp(`(?<![A-Za-z0-9-])${escapeRegExp(record.slug)}(?![A-Za-z0-9-])`);
