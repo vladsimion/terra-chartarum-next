@@ -1,7 +1,9 @@
+import { catalogueView, type CatalogueGroup } from '../atlas/catalogue-view.js';
+import { kindOf } from '../atlas/labels.js';
 import { legendOf } from '../atlas/provenance-style.js';
 import type { AtlasIndex, AtlasState } from '../atlas/types.js';
 import { classesPresent, summarise, type BuiltFeature } from '../atlas/visible.js';
-import { activate, activeLayers, deactivate, initialState, setYear } from '../atlas/view-state.js';
+import { activate, activateDefaults, activeLayers, deactivate, initialState, setLens, setYear, toggleRelevant } from '../atlas/view-state.js';
 import type { LoadedFeature, MapController } from './map.js';
 import { createStore } from './store.js';
 
@@ -43,7 +45,7 @@ async function start(): Promise<void> {
   say('Add a layer from the catalogue to start the map.');
 
   // the controls that need a script are shown now that there is one
-  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-activate], .sheet-buttons button')) button.hidden = false;
+  for (const element of document.querySelectorAll<HTMLElement>('[data-controls], .sheet-buttons button')) element.hidden = false;
 
   // bottom sheets on a narrow screen: each button opens the region it names and closes the others
   const sheets = [...document.querySelectorAll<HTMLButtonElement>('.sheet-buttons button')];
@@ -91,7 +93,88 @@ async function start(): Promise<void> {
     return mapLoading;
   }
 
+  // the catalogue: rebuilt from the view when the lens, the search or the relevance changes
+  const catalogueList = $<HTMLElement>('[data-catalogue-list]');
+  const catalogueStatus = $<HTMLElement>('[data-catalogue-status]');
+  const searchField = $<HTMLInputElement>('#atlas-search');
+  const relevantField = $<HTMLInputElement>('#atlas-relevant');
+  let query = '';
+  let shown = '';
+
+  function groupElement(group: CatalogueGroup): HTMLElement {
+    const section = document.createElement('section');
+    section.dataset.group = group.id;
+    const heading = document.createElement('h3');
+    heading.textContent = group.heading;
+    section.append(heading);
+    if (group.canActivateDefaults && group.collection) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.dataset.defaults = group.collection;
+      button.textContent = 'Add default layers';
+      button.setAttribute('aria-label', `Add the default layers of ${group.heading} to the map`);
+      section.append(button);
+    }
+    const ul = document.createElement('ul');
+    for (const layer of group.layers) {
+      const li = document.createElement('li');
+      li.dataset.layer = layer.slug;
+      const title = document.createElement('span');
+      title.className = 'title';
+      title.textContent = layer.title;
+      const kind = document.createElement('span');
+      kind.className = 'kind';
+      kind.textContent = kindOf(layer);
+      const envelope = document.createElement('span');
+      envelope.className = 'envelope';
+      envelope.textContent = `${layer.envelope.from} to ${layer.envelope.to}`;
+      const add = document.createElement('button');
+      add.type = 'button';
+      add.dataset.activate = layer.slug;
+      add.setAttribute('aria-label', `Add ${layer.title} to the map`);
+      add.textContent = 'Add to map';
+      li.append(title, kind, envelope, add);
+      ul.append(li);
+    }
+    section.append(ul);
+    return section;
+  }
+
+  function renderCatalogue(state: AtlasState): void {
+    if (!catalogueList) return;
+    const key = [state.lens, state.collection ?? '', state.relevantOnly, state.relevantOnly ? state.year : '', query].join('|');
+    if (key === shown) return;
+    shown = key;
+    const view = catalogueView(state, index, query);
+    catalogueList.replaceChildren(...view.groups.map(groupElement));
+    if (catalogueStatus) {
+      catalogueStatus.textContent = view.mode === 'search' ? (view.count === 0 ? 'No layers match.' : `${view.count} ${view.count === 1 ? 'layer matches' : 'layers match'}.`) : '';
+    }
+  }
+
+  searchField?.addEventListener('input', () => {
+    query = searchField.value;
+    renderCatalogue(store.get());
+    render(store.get());
+  });
+  for (const radio of document.querySelectorAll<HTMLInputElement>('input[name="lens"]')) {
+    radio.addEventListener('change', () => {
+      if (radio.checked) store.set(setLens(store.get(), radio.value as 'theme' | 'collection' | 'room', undefined, index));
+    });
+  }
+  relevantField?.addEventListener('change', () => {
+    if (relevantField.checked !== store.get().relevantOnly) store.set(toggleRelevant(store.get()));
+  });
+  catalogueList?.addEventListener('click', (event) => {
+    const target = event.target as Element;
+    const add = target.closest<HTMLButtonElement>('button[data-activate]');
+    if (add?.dataset.activate) store.set(activate(store.get(), add.dataset.activate, index));
+    const defaults = target.closest<HTMLButtonElement>('button[data-defaults]');
+    if (defaults?.dataset.defaults) store.set(activateDefaults(store.get(), defaults.dataset.defaults, index));
+  });
+
   function render(state: AtlasState): void {
+    renderCatalogue(state);
     const layers = activeLayers(state, index);
     if (yearField && document.activeElement !== yearField) yearField.value = String(state.year);
     if (yearRange && document.activeElement !== yearRange) yearRange.value = String(state.year);
@@ -158,9 +241,6 @@ async function start(): Promise<void> {
     const button = (event.target as Element).closest<HTMLButtonElement>('button[data-remove]');
     if (button?.dataset.remove) store.set(deactivate(store.get(), button.dataset.remove));
   });
-  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-activate]')) {
-    button.addEventListener('click', () => store.set(activate(store.get(), button.dataset.activate ?? '', index)));
-  }
 
   // the map follows the store: layers added or removed, the year changed
   let previous: AtlasState = { ...store.get(), active: [] };

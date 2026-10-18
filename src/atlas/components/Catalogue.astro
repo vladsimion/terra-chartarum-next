@@ -1,5 +1,6 @@
 ---
 import { THEME_LABELS, THEME_VALUES } from '../../registry/schemas/atlas-values.js';
+import { kindOf } from '../labels.js';
 import type { IndexLayer } from '../types.js';
 
 interface Props {
@@ -12,16 +13,27 @@ interface Props {
  * complete, readable catalogue.
  */
 const { layers } = Astro.props;
-const ROLE: Record<string, string> = { historical: 'Historical', context: 'Context', evidence: 'Evidence', 'map-overlay': 'Map overlay' };
 const groups = THEME_VALUES.map((theme) => ({ theme, label: THEME_LABELS[theme], layers: layers.filter((l) => l.theme === theme) })).filter((g) => g.layers.length > 0);
-const kindOf = (layer: IndexLayer) => (layer.provenance === 'modern_reference' ? 'Present-day reference' : (ROLE[layer.role] ?? layer.role));
 ---
 
 <section id="catalogue" class="catalogue" aria-label="Catalogue">
   <h2>Catalogue</h2>
+  <div class="controls" data-controls hidden>
+    <label for="atlas-search">Search layers</label>
+    <input id="atlas-search" type="search" autocomplete="off" />
+    <fieldset>
+      <legend>Browse by</legend>
+      <label><input type="radio" name="lens" value="theme" checked /> Themes</label>
+      <label><input type="radio" name="lens" value="collection" /> Collections</label>
+      <label><input type="radio" name="lens" value="room" /> Rooms</label>
+    </fieldset>
+    <label><input id="atlas-relevant" type="checkbox" /> Only show layers relevant to this year</label>
+    <p role="status" data-catalogue-status></p>
+  </div>
+  <div data-catalogue-list>
   {
     groups.map((group) => (
-      <>
+      <section data-group={`theme:${group.theme}`}>
         <h3>{group.label}</h3>
         <ul>
           {group.layers.map((layer) => (
@@ -35,19 +47,31 @@ const kindOf = (layer: IndexLayer) => (layer.provenance === 'modern_reference' ?
             </li>
           ))}
         </ul>
-      </>
+      </section>
     ))
   }
+  </div>
 </section>
 
 <style>
-  .catalogue ul {
+  fieldset {
+    margin: var(--space-3) 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .controls label {
+    display: block;
+  }
+
+  /* the list is rebuilt by script, so its parts are matched globally under the catalogue */
+  .catalogue :global(ul) {
     margin: 0 0 var(--space-4);
     padding: 0;
     list-style: none;
   }
 
-  li {
+  .catalogue :global(li) {
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 0 var(--space-3);
@@ -55,17 +79,17 @@ const kindOf = (layer: IndexLayer) => (layer.provenance === 'modern_reference' ?
     border-bottom: 1px solid var(--line);
   }
 
-  .title {
+  .catalogue :global(.title) {
     font-weight: 600;
   }
 
-  .kind,
-  .envelope {
+  .catalogue :global(.kind),
+  .catalogue :global(.envelope) {
     color: var(--ink-muted);
     font-size: var(--step--1);
   }
 
-  button {
+  .catalogue :global(li button) {
     grid-column: 2;
     grid-row: 1 / span 3;
     align-self: center;
