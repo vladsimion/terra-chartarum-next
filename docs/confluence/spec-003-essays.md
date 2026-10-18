@@ -83,7 +83,8 @@ TCX-4 holds TCX-23 to TCX-27; each story's description carries its Spec Kit chec
 | Essay page and accessibility | `tests/essays/e2e/essay-page.spec.ts` (axe) |
 | Components | `tests/essays/e2e/components.spec.ts`, `unit/component-docs.test.ts` |
 | Trench A cells and CND retrofit (FR-016) | `tests/essays/unit/cells.test.ts` |
-| Not verified locally | Firefox, WebKit and Lighthouse (CI runs them); `components.spec.ts` and `cells.ts` were written after, not before, their code |
+| Browsers and budgets | Firefox, WebKit, the 360 px phone and the Lighthouse budgets pass in the `gate` check on `a14c40c` (CI, not run locally) |
+| Not test-first | `components.spec.ts` and `cells.ts` were written after, not before, their code |
 
 ## 13. Canonical ownership and propagation
 
