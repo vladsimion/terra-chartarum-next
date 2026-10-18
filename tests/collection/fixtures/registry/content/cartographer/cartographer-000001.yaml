@@ -11,3 +11,5 @@ names:
 roles:
   - cartographer
 life_dates: 1527-1598
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000001

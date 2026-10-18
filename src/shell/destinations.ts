@@ -19,7 +19,7 @@ export const DESTINATIONS: readonly Destination[] = [
   { id: 'rooms', label: 'Rooms', href: '/rooms/', placement: 'header', lens: 'curatorial structure', owner: '007', status: 'stub' },
   { id: 'atlas', label: 'Atlas', href: '/atlas/', placement: 'header', lens: 'space and time', owner: '005', status: 'stub' },
   { id: 'collection', label: 'Collection', href: '/collection/', placement: 'header', lens: 'objects', owner: '004', status: 'built' },
-  { id: 'cartographers', label: 'Cartographers', href: '/cartographers/', placement: 'header', lens: 'makers', owner: '004', status: 'stub' },
+  { id: 'cartographers', label: 'Cartographers', href: '/cartographers/', placement: 'header', lens: 'makers', owner: '004', status: 'built' },
   { id: 'bibliography', label: 'Bibliography', href: '/bibliography/', placement: 'header', lens: 'evidence', owner: '006', status: 'stub' },
   { id: 'about', label: 'About', href: '/about/', placement: 'header', lens: 'identity', owner: '002', status: 'built' },
   { id: 'colophon', label: 'Colophon', href: '/colophon/', placement: 'footer', owner: '002', status: 'built' },

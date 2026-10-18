@@ -15,7 +15,7 @@ const HELD = [
   // the held essay (cites maps 1 and 2)
   'Zephyr Held Moraine Essay', 'zephyr-held-moraine', 'essay-000003',
   // the held cartographer, used by no public map
-  'A held fixture cartographer', 'held-fixture-cartographer', 'cartographer-000003',
+  'A held fixture cartographer', 'held-fixture-cartographer', 'cartographer-000003', 'HELD-BIOGRAPHY-MARKER',
   // the held map with dealer-only support, its evidence and sources
   'A held fixture map with dealer-only support', 'held-fixture-map-dealer', 'map-000005', 'evidence-000005', 'A dealer catalogue', 'dealer-catalogue', 'source-000003', 'A finding aid', 'source-000004',
   // the held layer and the held place that relate to a public map

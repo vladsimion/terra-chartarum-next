@@ -1,0 +1,104 @@
+---
+import { getEntry, render } from 'astro:content';
+import { cartographerView } from '../../collection/cartographer-view.js';
+import { formatBibliographyItem } from '../../essays/citations.js';
+import { loadEssaySite } from '../../essays/site-data.js';
+import Base from '../../shell/layouts/Base.astro';
+
+/*
+ * One page for every released cartographer (spec 004 US3), generated from the public projection
+ * only: a held cartographer has no page, and its biography is never rendered. The biography is the
+ * prose beside the record, read only for a public one.
+ */
+export async function getStaticPaths() {
+  const { records } = await loadEssaySite();
+  return records.filter((r) => r.family === 'cartographer').map((c) => ({ params: { slug: String(c.slug) }, props: { id: c.id } }));
+}
+
+const { id } = Astro.props;
+const site = await loadEssaySite();
+const cartographer = site.records.find((r) => r.id === id)!;
+const view = cartographerView(cartographer, site.records);
+const entry = await getEntry('cartographer-bios', id.split(':').pop()!);
+const Biography = entry ? (await render(entry)).Content : null;
+const bibliography = view.bibliography.map((entryId) => formatBibliographyItem(site.cslFor(entryId)));
+---
+
+<Base title={`${view.name} | Terra Chartarum`} crumb={view.name}>
+  <article class="cartographer">
+    <h1>{view.name}</h1>
+    <p class="kind">{view.kindLabel}</p>
+    {view.variantNames.length > 0 && <p class="names">Also known as: {view.variantNames.join(', ')}</p>}
+    {view.roles.length > 0 && <p class="roles">{view.roles.join(', ')}</p>}
+    {view.dates && <p class="dates">{view.dates}</p>}
+
+    {Biography && <div class="biography"><Biography /></div>}
+
+    {view.maps.length > 0 ? (
+      <section class="maps" aria-labelledby="maps-heading">
+        <h2 id="maps-heading">Maps in the collection</h2>
+        <ul>{view.maps.map((m) => <li><a href={m.href}>{m.title}</a></li>)}</ul>
+      </section>
+    ) : (
+      view.kind === 'person' && (
+        <section class="maps" aria-labelledby="maps-heading">
+          <h2 id="maps-heading">Maps in the collection</h2>
+          <p>No maps by this cartographer are in the collection yet.</p>
+        </section>
+      )
+    )}
+
+    {view.unresolved.length > 0 && (
+      <section class="unresolved" aria-labelledby="unresolved-heading">
+        <h2 id="unresolved-heading">Maps attributed to this {view.kind === 'workshop' ? 'workshop' : 'name'}</h2>
+        <p>The makers of these sheets are not individually established.</p>
+        <ul>{view.unresolved.map((m) => <li><a href={m.href}>{m.title}</a></li>)}</ul>
+      </section>
+    )}
+
+    {view.essays.length > 0 && (
+      <section class="essays" aria-labelledby="essays-heading">
+        <h2 id="essays-heading">Essays that use these maps</h2>
+        <ul>{view.essays.map((e) => <li><a href={e.href}>{e.title}</a></li>)}</ul>
+      </section>
+    )}
+
+    {bibliography.length > 0 && (
+      <section class="bibliography" aria-labelledby="bibliography-heading">
+        <h2 id="bibliography-heading">Bibliography</h2>
+        <ul>{bibliography.map((b) => <li>{b}</li>)}</ul>
+      </section>
+    )}
+  </article>
+</Base>
+
+<style>
+  h1 {
+    padding-bottom: var(--space-3);
+    border-bottom: 3px solid var(--accent);
+  }
+
+  .kind,
+  .names,
+  .roles,
+  .dates {
+    margin: 0 0 var(--space-1);
+    color: var(--ink-muted);
+  }
+
+  .biography {
+    margin-block: var(--space-5);
+    max-width: var(--prose-max);
+  }
+
+  ul {
+    padding-inline-start: var(--space-5);
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+    color: var(--accent);
+  }
+</style>

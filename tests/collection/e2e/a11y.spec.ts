@@ -66,3 +66,19 @@ test.describe('the list page', () => {
     await context.close();
   });
 });
+
+test.describe('the cartographer pages', () => {
+  for (const path of ['/cartographers/', '/cartographers/fixture-cartographer/', '/cartographers/fixture-workshop/', '/cartographers/fixture-cartographer-without-maps/']) {
+    test(`have no accessibility violations: ${path}`, async ({ page }) => {
+      await page.goto(path);
+      const results = await new AxeBuilder({ page }).analyze();
+      expect(results.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`)).toEqual([]);
+    });
+  }
+
+  test('a maker link on a record page reaches the profile', async ({ page }) => {
+    await page.goto('/collection/fixture-map-frontier/');
+    await page.getByRole('link', { name: 'A fixture cartographer' }).first().click();
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('A fixture cartographer');
+  });
+});

@@ -1,0 +1,13 @@
+id: tc:tc:cartographer:cartographer-000004
+family: cartographer
+origin: minted
+title: A fixture cartographer without maps
+slug: fixture-cartographer-without-maps
+lifecycle: published
+release: released
+kind: person
+names:
+  - Fixture Without Maps
+roles:
+  - engraver
+life_dates: 1650-1700
