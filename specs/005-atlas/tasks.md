@@ -104,10 +104,10 @@ description: "Task list for 005 Historical Atlas"
 
 ## Phase 6: User Story 4 — Share an exact view (P2)
 
-- [ ] T044 [P] [US4] Write failing `tests/atlas/unit/view-url.test.ts`: the grammar of the contract; defaults omitted; a canonical order; `parse(serialise(state))` equals the state over generated states (SC-003); a retired slug resolves through history and is reported as renamed; an unknown or held slug is skipped and reported without saying which; a focused layer that is not active is dropped; a bad year falls back to the default; a facet naming a missing layer, property or value is dropped; nothing touches `localStorage`
-- [ ] T045 [US4] Implement `src/atlas/view-url.ts` and write `atlas-slugs.json` (public layers and collections only); implement the default-year rule (research R2)
-- [ ] T046 [P] [US4] Write failing `tests/atlas/e2e/share.spec.ts` (CI-verified): "Copy this view" copies the canonical address and announces it; opening it restores the same year, layers, focus, lens and facets; an address with a retired slug loads the rest and shows one notice listing what was renamed or skipped
-- [ ] T047 [US4] Implement the copy control, the address sync in `src/atlas-client/store.ts`, and the notice; export `viewUrl(state)` as the function essays' "Open in Atlas" links call (spec 003 consumes it)
+- [x] T044 [P] [US4] Write failing `tests/atlas/unit/view-url.test.ts`: the grammar of the contract; defaults omitted; a canonical order; `parse(serialise(state))` equals the state over generated states (SC-003); a retired slug resolves through history and is reported as renamed; an unknown or held slug is skipped and reported without saying which; a focused layer that is not active is dropped; a bad year falls back to the default; a facet naming a missing layer, property or value is dropped; nothing touches `localStorage`
+- [x] T045 [US4] Implement `src/atlas/view-url.ts` and write `atlas-slugs.json` (public layers and collections only); implement the default-year rule (research R2)
+- [x] T046 [P] [US4] Write failing `tests/atlas/e2e/share.spec.ts` (CI-verified): "Copy this view" copies the canonical address and announces it; opening it restores the same year, layers, focus, lens and facets; an address with a retired slug loads the rest and shows one notice listing what was renamed or skipped
+- [x] T047 [US4] Implement the copy control, the address sync in `src/atlas-client/store.ts`, and the notice; export `viewUrl(state)` as the function essays' "Open in Atlas" links call (spec 003 consumes it)
 
 ---
 

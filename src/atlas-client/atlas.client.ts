@@ -8,6 +8,7 @@ import type { AtlasIndex, AtlasState } from '../atlas/types.js';
 import { classesPresent, summarise, type BuiltFeature } from '../atlas/visible.js';
 import { activate, activateDefaults, activeLayers, clearFacet, deactivate, focus, initialState, resetFacets, setFacet, setLens, setYear, toggleRelevant } from '../atlas/view-state.js';
 import type { LoadedFeature, MapController } from './map.js';
+import { parseView, resolveFacets, viewUrl, type SlugTable, type ViewReport } from '../atlas/view-url.js';
 import { renderInspector } from './inspector.js';
 import { createStore } from './store.js';
 
@@ -25,6 +26,22 @@ function webglAvailable(): boolean {
   } catch {
     return false;
   }
+}
+
+/** What the address could not use, as plain text items in the notice (never markup). */
+function showNotice(report: ViewReport): void {
+  const notice = $<HTMLElement>('[data-notice]');
+  const list = notice ? $<HTMLElement>('ul', notice) : null;
+  if (!notice || !list) return;
+  const items = [...report.renamed.map((r) => `${r.from} is now ${r.to}`), ...report.skipped.map((slug) => `${slug} is not in the Atlas`), ...report.dropped];
+  list.replaceChildren(
+    ...items.map((text) => {
+      const li = document.createElement('li');
+      li.textContent = text;
+      return li;
+    }),
+  );
+  notice.hidden = items.length === 0;
 }
 
 async function start(): Promise<void> {
@@ -181,6 +198,8 @@ async function start(): Promise<void> {
 
   function render(state: AtlasState): void {
     renderCatalogue(state);
+    for (const radio of document.querySelectorAll<HTMLInputElement>('input[name="lens"]')) radio.checked = radio.value === state.lens;
+    if (relevantField) relevantField.checked = state.relevantOnly;
     const layers = activeLayers(state, index);
     if (yearField && document.activeElement !== yearField) yearField.value = String(state.year);
     if (yearRange && document.activeElement !== yearRange) yearRange.value = String(state.year);
@@ -336,6 +355,7 @@ async function start(): Promise<void> {
           if (!colours.has(slug)) colours.set(slug, colours.size);
           const loaded = await map.add(slug, layer.provenance, colours.get(slug) ?? 0);
           features.set(slug, loaded.features);
+          map.setFacet(slug, facetExpression(store.get().facets[slug] ?? {}));
           render(store.get());
         }
         map.setYear(store.get().year);
@@ -347,6 +367,39 @@ async function start(): Promise<void> {
     }
   });
   render(store.get());
+
+  // the address: read once, then kept in step with the view
+  const slugTable = (await fetchJson<SlugTable>('/data/atlas-slugs.json')) ?? { layers: [], collections: [] };
+  const parsed = parseView(window.location.search, index, slugTable);
+  const summaries: Record<string, FacetSummary[]> = {};
+  await Promise.all(Object.keys(parsed.state.facets).map(async (slug) => (summaries[slug] = (await fetchJson<{ facets: FacetSummary[] }>(`/data/layers/${slug}.facets.json`))?.facets ?? [])));
+  const resolved = resolveFacets(parsed.state, summaries);
+  showNotice({ ...parsed.report, dropped: [...parsed.report.dropped, ...resolved.dropped] });
+  store.set(resolved.state);
+  const writeAddress = (state: AtlasState) => window.history.replaceState(null, '', viewUrl(state, index));
+  writeAddress(store.get());
+  store.subscribe(writeAddress);
+
+  const copyButton = $<HTMLButtonElement>('[data-copy]');
+  const shareStatus = $<HTMLElement>('[data-share-status]');
+  const shareField = $<HTMLInputElement>('[data-share-field]');
+  copyButton?.addEventListener('click', async () => {
+    const address = `${window.location.origin}${viewUrl(store.get(), index)}`;
+    try {
+      await navigator.clipboard.writeText(address);
+      if (shareStatus) shareStatus.textContent = 'Address copied.';
+      if (shareField) shareField.hidden = true;
+    } catch {
+      // no clipboard (or no permission): show the address to copy by hand
+      if (shareField) {
+        shareField.value = address;
+        shareField.hidden = false;
+        shareField.select();
+      }
+      if (shareStatus) shareStatus.textContent = 'Copy the address below.';
+    }
+  });
+  if (copyButton) copyButton.hidden = false;
   root.dataset.ready = 'true';
 }
 
