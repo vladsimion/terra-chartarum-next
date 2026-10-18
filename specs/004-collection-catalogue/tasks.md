@@ -26,7 +26,7 @@ description: "Task list for 004 Map Collection & Cartographers Catalogue"
 
 ## Phase 1: Setup
 
-- [ ] T001 Agree the three seams above with Vlad (tdd skill) and record any change here
+- [x] T001 Agree the three seams above with Vlad (tdd skill) and record any change here. Agreed 2026-10-18 with no change; T002 (hand-authored fixtures) moves to the start of US1, where it is first used
 - [ ] T002 [P] Create `tests/collection/fixtures/registry/` with about six hand-authored map records and their neighbours: a held witness with `inspected` verification and `basis` on provenance; an institutional IIIF witness; a record attributed to a `workshop` (unresolved); a record whose reproduction is not cleared (image withheld); a record whose only attribution evidence is a `dealer` source; a record with an unknown date; two cartographers (person and workshop), places of type region and country, the seven rooms, two public essays and one held essay that cite the maps, a layer that references one map, sources including a finding aid, and a held cartographer used by no public map. Add invalid variants named for the rule they trip
 - [x] T003 [P] Extend `src/registry/synthetic.ts` so the seeded generator can produce `n` map records with their makers, places and essays (60 for US2, 500 for SC-004); a test asserts the same seed gives byte-identical records
 
