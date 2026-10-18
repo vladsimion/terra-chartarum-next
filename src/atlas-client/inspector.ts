@@ -1,5 +1,6 @@
 import type { FacetSummary } from '../atlas/build/convert-assets.js';
 import type { LayerInfo } from '../atlas/inspector-data.js';
+import { HANDBOOK_LINKS } from '../atlas/handbook-links.js';
 import { roomLabel, themeLabel } from '../atlas/labels.js';
 import { styleFor } from '../atlas/provenance-style.js';
 import type { FacetSelection } from '../atlas/types.js';
@@ -94,8 +95,8 @@ export function renderInspector(
 
   const style = styleFor(info.provenance);
   const provenance = el('p', undefined, 'provenance');
-  if (style) provenance.append(el('strong', style.label), ` — ${style.description}. `, link('How to read provenance', '/atlas/handbook/#provenance'));
-  else provenance.append(link('How to read provenance', '/atlas/handbook/#provenance'));
+  if (style) provenance.append(el('strong', style.label), ` — ${style.description}. `, link('How to read provenance', HANDBOOK_LINKS.provenance));
+  else provenance.append(link('How to read provenance', HANDBOOK_LINKS.provenance));
   nodes.push(provenance);
 
   const description = el('div', undefined, 'description');

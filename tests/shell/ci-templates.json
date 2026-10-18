@@ -9,6 +9,8 @@
     { "name": "cartographer-list", "path": "/cartographers/" },
     { "name": "cartographer-profile", "path": "/cartographers/fixture-cartographer/" },
     { "name": "atlas", "path": "/atlas/" },
+    { "name": "handbook-index", "path": "/atlas/handbook/" },
+    { "name": "handbook-topic", "path": "/atlas/handbook/provenance-and-reconstruction/" },
     { "name": "collection-list", "path": "/collection/" },
     { "name": "collection-record", "path": "/collection/fixture-map/" },
     { "name": "404", "path": "/404.html" },

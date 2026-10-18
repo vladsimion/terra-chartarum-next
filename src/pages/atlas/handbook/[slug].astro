@@ -1,0 +1,21 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../../shell/layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const topics = await getCollection('handbook');
+  return topics.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+/* One Handbook topic (spec 005 US5): the entry's prose, headings with stable ids for deep links. */
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<Base title={`${entry.data.title} | Atlas Handbook | Terra Chartarum`} description={entry.data.description} crumb={entry.data.title}>
+  <h1>{entry.data.title}</h1>
+  <div class="prose" data-draft={entry.data.draft ? '' : undefined}>
+    <Content />
+    <p><a href="/atlas/handbook/">All Handbook topics</a></p>
+  </div>
+</Base>
