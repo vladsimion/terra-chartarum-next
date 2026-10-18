@@ -1,17 +1,17 @@
-DRAFT, not published to Confluence. Drafted 2026-10-18 against `main` at `5954629`; the polish pull request (#38) is open. The Atlassian connector cannot write Confluence pages (see README), so publishing needs a signed-in browser. When published, the page gets a page id and version in this line and the README table.
+DRAFT, not published to Confluence. Drafted 2026-10-18 against `main` at `5954629` and refreshed the same day against `a14c40c`, after the polish pull request (#38) merged. The Atlassian connector cannot write Confluence pages (see README), so publishing needs a signed-in browser. When published, the page gets a page id and version in this line and the README table.
 
-Programme dossier for spec 003, written against the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/36569092) as spec 002's dossier is.
+Programme dossier for spec 003, written against the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169) §1, as spec 002's dossier is.
 
 ## 1. Programme metadata
 
 | | |
 |---|---|
 | Programme type | Editorial framework: the essay record, the nine-stage pipeline, the essay page and its components |
-| Status | **Implemented on `main` except Polish's last item** (these records, T046). Foundation, User Stories 1 to 4 and US3's site half are merged; Polish is in PR #38. User Story 5 is out of v1. |
+| Status | **Implemented on `main`.** Foundation, User Stories 1 to 4 (with US3's site half) and Polish are merged (PRs #35 to #38). Three tasks are unticked: T046 (these records and the TCX-4 epic description), T034 (copy the US1 checklist into TCX-23) and T002 (a checked-in fixture tree). User Story 5 is out of v1. |
 | Jira | **TCX-4** epic (In Progress); stories **TCX-23** (US1 read an essay), **TCX-24** (US2 nine stages), **TCX-25** (US3 hold an essay safely), **TCX-26** (US4 shared components), **TCX-27** (US5, out of v1). Related, not a child: **TCX-51** (Terra Sigillata rebuild). |
 | Canonical parent | A standalone page at the root of the space, as for specs 001 and 002 |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). Spec `specs/003-essay-framework/`; code `src/registry/` (rules, stages, promote, new essay, body scanner), `src/essays/`, `src/pages/essays/`; decisions `docs/adr/0010`; components `docs/essay-components.md` |
-| Last reconciliation | 2026-10-18 (1218 Vitest tests on `main` at `5954629`; 1245 on the polish branch) |
+| Last reconciliation | 2026-10-18 (1245 Vitest tests in 90 files, all passing, on `main` at `a14c40c`) |
 
 ## 2. Purpose / thesis
 
@@ -84,12 +84,13 @@ TCX-4 holds TCX-23 to TCX-27; each story's description carries its Spec Kit chec
 | Citations, notes and exports | `tests/essays/unit/{citations,exports}.test.ts`, `e2e/citation.spec.ts` |
 | Essay page and accessibility | `tests/essays/e2e/essay-page.spec.ts` (axe) |
 | Components | `tests/essays/e2e/components.spec.ts`, `unit/component-docs.test.ts` |
+| Trench A cells and CND retrofit (FR-016) | `tests/essays/unit/cells.test.ts` |
 | Not verified locally | Firefox, WebKit and Lighthouse (CI runs them); `components.spec.ts` and `cells.ts` were written after, not before, their code |
 
 ## 13. Canonical ownership and propagation
 
-Owned here: the essay record, the stage table and the body tags. Spec 001 owns the registry and its rule ID table (the `ESSAY-*` rows are added there); spec 002 owns the shell and the CI template list; spec 008 owns the redirect rules generated from `legacy_url`. The Build Log carries shipped work; no new Decision Log entry is needed (the decisions are in ADR 0010).
+Owned here: the essay record, the stage table and the body tags. Spec 001 owns the registry and its rule ID table (the `ESSAY-*` rows are there, but the `ESSAY-BODY-PUBLIC` row still describes the rule as it was before PR #38 and needs the source, bibliography-entry and interaction-evidence checks added); spec 002 owns the shell and the CI template list; spec 008 owns the redirect rules generated from `legacy_url`. The Build Log carries shipped work; no new Decision Log entry is needed (the decisions are in ADR 0010).
 
 ## 14. Current checkpoint and delivery authority
 
-Foundation and User Stories 1 to 4 are merged (PRs #35, #36 and #37, with the plan in PR #17 and the grill in PR #16); Polish is PR #38. 1218 Vitest tests on `main`. Open: publishing these records; a decision on page paths (the registry's `pagePath` and `_redirects` use `/<family>/<slug>/`, the site `/essays/<slug>/`, spec 004 `/collection/<slug>/`); whether `promote` should enforce the CI template list as ADR 0010 words it or only print the requirement as the CLI contract says; the colophon credit for the CC BY-SA style; T002 (checked-in fixture tree is in place, the task is not ticked); small refactors the review left (duplicate string helpers, the length of `buildEssayPage`). `main` and the TCX board are the delivery authority; this page summarises them.
+Foundation, User Stories 1 to 4 and Polish are merged (PRs #35 to #38, with the plan in PR #17 and the grill in PR #16). 1245 Vitest tests on `main`. Open: publishing these records; a decision on page paths (the registry's `pagePath` and `_redirects` use `/<family>/<slug>/`, so `/essay/<slug>/`, while the site uses `/essays/<slug>/` and spec 004 `/collection/<slug>/`); whether `promote` should enforce the CI template list as ADR 0010 words it or only print the requirement as the CLI contract says; the colophon credit for the CC BY-SA style; T002 (the tree it names, `tests/registry/fixtures/essays/`, does not exist: the registry tests build their registries in code and the site uses `tests/essays/fixtures/registry`, so the task should be reworded or closed); T034; the `ESSAY-BODY-PUBLIC` row in spec 001's rule table; small refactors the review left (duplicate string helpers, the length of `buildEssayPage`). `main` and the TCX board are the delivery authority; this page summarises them.
