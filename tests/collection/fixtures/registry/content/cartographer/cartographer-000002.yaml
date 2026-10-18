@@ -1,0 +1,13 @@
+id: tc:tc:cartographer:cartographer-000002
+family: cartographer
+origin: minted
+title: A fixture workshop
+slug: fixture-workshop
+lifecycle: published
+release: released
+kind: workshop
+names:
+  - Officina Fixture
+roles:
+  - publisher
+active: 1600/1650

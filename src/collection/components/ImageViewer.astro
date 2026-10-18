@@ -1,0 +1,120 @@
+---
+import type { ImageView } from '../record-view.js';
+
+interface Props {
+  image: ImageView;
+}
+
+/*
+ * The image block of a record (spec 004 FR-004, FR-005). The still image comes first and carries its
+ * attribution and licence beside it. A deep-zoom source adds an "Open viewer" button that loads the
+ * viewer only on activation; without JavaScript the plain link to the image is all there is.
+ */
+const { image } = Astro.props;
+---
+
+<figure class="image-block" data-viewer-root data-info-url={image.infoUrl ?? undefined}>
+  <div class="stage">
+    <img class="still" src={image.stillUrl} alt={image.alt} loading="lazy" decoding="async" />
+    {image.infoUrl && <div class="viewer-surface" hidden />}
+  </div>
+  {image.infoUrl && (
+    <div class="viewer-controls" role="group" aria-label="Viewer controls" hidden>
+      <button type="button" data-zoom-in>Zoom in</button>
+      <button type="button" data-zoom-out>Zoom out</button>
+      <button type="button" data-reset>Reset view</button>
+    </div>
+  )}
+  <figcaption>
+    <span class="credit">{image.attribution}</span>
+    {image.licence && <span class="licence">{image.licence}</span>}
+    <a class="still-link" href={image.stillUrl}>Open the full image</a>
+    {image.infoUrl && <button type="button" data-viewer hidden>Open viewer</button>}
+  </figcaption>
+</figure>
+
+<style>
+  .image-block {
+    margin: var(--space-5) 0;
+    padding: var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+  }
+
+  .stage {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+  }
+
+  .viewer-surface {
+    position: absolute;
+    inset: 0;
+  }
+
+  .viewer-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  button[hidden],
+  .viewer-controls[hidden],
+  .viewer-surface[hidden] {
+    display: none;
+  }
+
+  .viewer-controls button {
+    min-width: var(--target-min);
+  }
+
+  .viewer-surface :global(.openseadragon-canvas:focus-visible) {
+    outline: 3px solid var(--focus);
+    outline-offset: -3px;
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  figcaption {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    align-items: center;
+    margin-top: var(--space-3);
+    font-size: var(--step--1);
+  }
+
+  .licence {
+    color: var(--ink-muted);
+  }
+
+  a,
+  button {
+    min-height: var(--target-min);
+    display: inline-flex;
+    align-items: center;
+    color: var(--accent);
+  }
+
+  button {
+    padding-inline: var(--space-4);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  import '../viewer.client.js';
+</script>

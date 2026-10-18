@@ -1,6 +1,7 @@
 node_modules/
 dist/
 dist-essays/
+dist-collection/
 reports/
 .astro/
 .env
@@ -12,5 +13,6 @@ _targets/
 *.log
 playwright-report/
 playwright-report-essays/
+playwright-report-collection/
 test-results/
 .lighthouseci/

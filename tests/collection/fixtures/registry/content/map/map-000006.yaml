@@ -1,0 +1,35 @@
+id: tc:tc:map:map-000006
+family: map
+origin: minted
+title: A fixture map with an unknown date
+slug: fixture-map-undated
+lifecycle: published
+release: released
+witness_kind: institutional
+verification: checked_online
+last_verified: 2026-09-15
+makers:
+  - tc:tc:cartographer:cartographer-000001
+attribution_evidence:
+  - tc:tc:evidence:evidence-000006
+title_original: Tabula Incerta
+publication_place: tc:tc:place:place-000003
+edition_state: first state
+atlas_context: from the Fixture Atlas
+dimensions:
+  height_mm: 300
+  width_mm: 400
+language: la
+coverage:
+  - tc:tc:place:place-000001
+significance: A sheet with no printed date.
+provenance: Fixture Library, bequest.
+georeferencing_status: none
+repository: Fixture Library
+field_status:
+  date_published: unknown
+  images: not_yet_verified
+rights:
+  licence: CC BY 4.0
+  attribution: Fixture rights holder
+  reproduction_cleared: true

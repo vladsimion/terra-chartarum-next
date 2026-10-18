@@ -1,0 +1,48 @@
+id: tc:tc:map:map-000001
+family: map
+origin: minted
+title: A fixture map of the frontier
+slug: fixture-map-frontier
+lifecycle: published
+release: released
+witness_kind: held
+verification: inspected
+last_verified: 2026-09-15
+makers:
+  - tc:tc:cartographer:cartographer-000001
+attribution_evidence:
+  - tc:tc:evidence:evidence-000001
+title_original: Tabula Vallis Limitis
+date_published: "1595"
+publication_place: tc:tc:place:place-000003
+edition_state: second state
+atlas_context: from the Fixture Atlas
+dimensions:
+  height_mm: 420
+  width_mm: 540
+language: la
+coverage:
+  - tc:tc:place:place-000001
+  - tc:tc:place:place-000002
+significance: An early printed view of the fixture valley.
+provenance: Given to the project by a private donor.
+georeferencing_status: none
+images:
+  - type: static
+    url: https://example.org/maps/frontier.jpg
+    attribution: Photograph by the project
+    alt: A hand-coloured map of a river valley between two ranges
+    witness_kind: held
+basis:
+  provenance: observed
+  atlas_context: inferred
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000001
+rights:
+  licence: CC BY 4.0
+  attribution: The Fixture Project
+  reproduction_cleared: true
+open_questions:
+  - field: provenance
+    question: Which donor?
+    would_resolve: the project's accession register

@@ -1,0 +1,33 @@
+---
+import MapRecord from '../../collection/components/MapRecord.astro';
+import { recordView } from '../../collection/record-view.js';
+import { mapExports } from '../../collection/citation.js';
+import { citableMap } from '../../collection/export-routes.js';
+import { formatBibliographyItem } from '../../essays/citations.js';
+import { accessDate } from '../../essays/exports.js';
+import { loadEssaySite } from '../../essays/site-data.js';
+import Base from '../../shell/layouts/Base.astro';
+
+/*
+ * One page for every public map (spec 004 US1), generated from the public projection only: a held
+ * map is not in it, so it gets no page. The page reads the record through `recordView`; nothing
+ * about a record is typed here.
+ */
+export async function getStaticPaths() {
+  const { records } = await loadEssaySite();
+  return records.filter((r) => r.family === 'map').map((map) => ({ params: { slug: String(map.slug) }, props: { mapId: map.id } }));
+}
+
+const { mapId } = Astro.props;
+const site = await loadEssaySite();
+const map = site.records.find((r) => r.id === mapId)!;
+const view = recordView(map, site.records);
+const entries = (Array.isArray(map.bibliography) ? map.bibliography : []).filter((id): id is string => typeof id === 'string');
+const bibliography = entries.map((id) => formatBibliographyItem(site.cslFor(id)));
+const citable = citableMap(map, site.records, Astro.site);
+const citation = { chicago: mapExports(citable, accessDate(process.env)).chicago, base: `/collection/${String(map.slug)}/` };
+---
+
+<Base title={`${view.title} | Terra Chartarum`} crumb={view.title}>
+  <MapRecord view={view} bibliography={bibliography} citation={citation} />
+</Base>

@@ -1,0 +1,9 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000002
+family: bibliography_entry
+origin: minted
+title: A fixture atlas sheet
+slug: fixture-entry-2
+lifecycle: published
+release: released
+csl: content/bibliography_entry/bibliography_entry-000002.csl.json
+section: historical_maps

@@ -15,6 +15,11 @@ describe('page routes', () => {
     expect(PAGE_ROUTES.essay).toBe('essays');
   });
 
+  it('serves maps under /collection/ and cartographers under /cartographers/ (spec 004)', () => {
+    expect(routeSection('map')).toBe('collection');
+    expect(routeSection('cartographer')).toBe('cartographers');
+  });
+
   it('keeps the family name for a family with no row', () => {
     expect(routeSection('place')).toBe('place');
   });

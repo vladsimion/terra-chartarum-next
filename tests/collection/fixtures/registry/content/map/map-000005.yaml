@@ -1,0 +1,30 @@
+id: tc:tc:map:map-000005
+family: map
+origin: minted
+title: A held fixture map with dealer-only support
+slug: held-fixture-map-dealer
+lifecycle: ready_for_build
+release: held
+witness_kind: institutional
+verification: unverified
+makers:
+  - tc:tc:cartographer:cartographer-000001
+attribution_evidence:
+  - tc:tc:evidence:evidence-000005
+field_status:
+  title_original: not_yet_verified
+  date_published: not_yet_verified
+  publication_place: not_yet_verified
+  edition_state: not_yet_verified
+  atlas_context: not_yet_verified
+  dimensions: not_yet_verified
+  language: not_yet_verified
+  coverage: not_yet_verified
+  significance: not_yet_verified
+  provenance: not_yet_verified
+  georeferencing_status: not_yet_verified
+  images: not_yet_verified
+rights:
+  licence: CC BY 4.0
+  attribution: Fixture rights holder
+  reproduction_cleared: true

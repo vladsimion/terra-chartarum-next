@@ -1,0 +1,41 @@
+id: tc:tc:map:map-000002
+family: map
+origin: minted
+title: A second fixture map, a road sheet
+slug: fixture-map-road
+lifecycle: published
+release: released
+witness_kind: institutional
+verification: checked_online
+last_verified: 2026-09-15
+makers:
+  - tc:tc:cartographer:cartographer-000001
+attribution_evidence:
+  - tc:tc:evidence:evidence-000002
+title_original: Tabula Vallis Limitis
+date_published: "1595"
+publication_place: tc:tc:place:place-000003
+edition_state: second state
+atlas_context: from the Fixture Atlas
+dimensions:
+  height_mm: 420
+  width_mm: 540
+language: la
+coverage:
+  - tc:tc:place:place-000001
+  - tc:tc:place:place-000002
+significance: An early printed view of the fixture valley.
+provenance: Given to the project by a private donor.
+georeferencing_status: none
+repository: Fixture Library
+images:
+  - type: iiif
+    url: https://example.org/iiif/road/info.json
+    static_url: https://example.org/iiif/road/full/800,/0/default.jpg
+    attribution: Fixture Library
+    alt: A road sheet showing a route through the valley
+    witness_kind: institutional
+rights:
+  licence: CC BY 4.0
+  attribution: Fixture Library
+  reproduction_cleared: true

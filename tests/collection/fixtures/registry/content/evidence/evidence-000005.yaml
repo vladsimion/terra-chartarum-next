@@ -1,0 +1,18 @@
+id: tc:tc:evidence:evidence-000005
+family: evidence
+origin: minted
+title: Attribution evidence 5
+slug: attribution-evidence-5
+lifecycle: ready_for_build
+release: held
+target:
+  entity: tc:tc:map:map-000005
+source: tc:tc:source:source-000003
+locator:
+  value: p. 5
+  state: pending
+  proposed_by: person
+evidence_type: textual
+confidence: probable
+rights:
+  licence: CC BY 4.0

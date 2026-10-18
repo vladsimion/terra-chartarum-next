@@ -1,0 +1,19 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000006",
+  "type": "dataset",
+  "title": "A fixture road dataset",
+  "author": [
+    {
+      "family": "Koe",
+      "given": "Jane"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1996
+      ]
+    ]
+  },
+  "publisher": "Fixture Press"
+}

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { validateRegistry } from '../../../src/registry/validate.js';
-import { evidence, layer, place, record } from '../support/builders.js';
+import { evidence, layer, map, place, record } from '../support/builders.js';
 
 const hits = (records: ReturnType<typeof record>[], rule: string) =>
   validateRegistry(records).violations.filter((v) => v.rule === rule);
@@ -66,6 +66,11 @@ describe('RIGHTS-CLEARED (ADR 0003 §5, stage 7)', () => {
   it('keeps out-of-copyright text and reproduction rights separate', () => {
     const textOnly = withImages({ licence: 'public domain', text_public_domain: true }, 'published');
     expect(hits([textOnly], 'RIGHTS-CLEARED')).toHaveLength(1);
+  });
+
+  it('does not stop a map from being published with an image that is not cleared: the page withholds the image (spec 004 US1.5)', () => {
+    const withheld = map(1, { images: [{ type: 'static', url: 'https://example.org/a.jpg' }], rights: { licence: 'CC-BY-4.0', reproduction_cleared: false }, lifecycle: 'published' });
+    expect(hits([withheld], 'RIGHTS-CLEARED')).toEqual([]);
   });
 
   it('does not apply to a record with no images', () => {

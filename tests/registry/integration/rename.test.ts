@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { fileURLToPath } from 'node:url';
 import { loadRegistry } from '../../../src/registry/load.js';
 import { redirects } from '../../../src/registry/redirects.js';
+import { routeSection } from '../../../src/registry/routes.js';
 import { validateRegistry } from '../../../src/registry/validate.js';
 import type { RegistryRecord } from '../../../src/registry/types.js';
 
@@ -47,7 +48,7 @@ describe('renaming a title and slug (US1.2, SC-002)', () => {
 
     const { rules } = redirects(after);
     const expected = after.flatMap((r) =>
-      (r.slug_history ?? []).map((old) => ({ from: `/${r.family}/${old}/`, to: `/${r.family}/${String(r.slug)}/`, status: 301 })),
+      (r.slug_history ?? []).map((old) => ({ from: `/${routeSection(r.family)}/${old}/`, to: `/${routeSection(r.family)}/${String(r.slug)}/`, status: 301 })),
     );
     expect(rules).toHaveLength(expected.length);
     expect(rules).toEqual(expect.arrayContaining(expected));

@@ -1,0 +1,10 @@
+id: tc:tc:cartographer:cartographer-000003
+family: cartographer
+origin: minted
+title: A held fixture cartographer
+slug: held-fixture-cartographer
+lifecycle: researching
+release: held
+kind: person
+roles:
+  - engraver
