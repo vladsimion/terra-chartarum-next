@@ -1,4 +1,5 @@
 import { DISPLAYED_FIELDS } from './schemas/map-values.js';
+import { list, present } from './values.js';
 import type { RegistryRecord } from './types.js';
 
 /*
@@ -31,12 +32,9 @@ export interface QueueItem {
   gaps: string[];
 }
 
-const present = (value: unknown): boolean =>
-  Array.isArray(value) ? value.length > 0 : typeof value === 'string' ? value.trim() !== '' : value !== undefined && value !== null;
-const list = (value: unknown): string[] => (Array.isArray(value) ? value.filter((v): v is string => typeof v === 'string') : []);
 const maps = (records: readonly RegistryRecord[]): RegistryRecord[] => records.filter((r) => r.family === 'map');
 
-export function completenessOf(map: RegistryRecord, _records: readonly RegistryRecord[]): Completeness {
+export function completenessOf(map: RegistryRecord): Completeness {
   const stated = (typeof map.field_status === 'object' && map.field_status !== null ? map.field_status : {}) as Record<string, unknown>;
   const gaps: string[] = [];
   const statuses: Record<string, string> = {};
@@ -58,7 +56,7 @@ const riskBand = (count: number): number => (count <= 1 ? 1 : count <= 4 ? 2 : 3
 export function enrichmentQueue(records: readonly RegistryRecord[]): QueueItem[] {
   return maps(records)
     .map((map): QueueItem => {
-      const c = completenessOf(map, records);
+      const c = completenessOf(map);
       const doubtful = Object.values(c.statuses).filter((s) => s === 'not_yet_verified' || s === 'unknown').length;
       const essays = records.filter((r) => r.family === 'essay' && list(r.maps).includes(map.id)).length;
       const reused = records.filter((r) => (r.family === 'layer' || r.family === 'place') && list(r.relations).includes(map.id)).length;
@@ -73,7 +71,7 @@ export function enrichmentQueue(records: readonly RegistryRecord[]): QueueItem[]
 /** Every map's completeness, in id order. */
 export function completenessReport(records: readonly RegistryRecord[]): Completeness[] {
   return maps(records)
-    .map((m) => completenessOf(m, records))
+    .map((m) => completenessOf(m))
     .sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
 }
 

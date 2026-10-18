@@ -1,6 +1,7 @@
 import { parseDate } from '../registry/dates.js';
 import type { PublicRecord } from '../registry/project.js';
 import { roomsOf } from '../rooms/membership.js';
+import { list } from '../registry/values.js';
 import { comparator, DEFAULT_SORT } from './order.js';
 
 /*
@@ -47,7 +48,6 @@ export function dateInterval(value: unknown): DateInterval | null {
   return { from, to, uncertain: parsed.uncertain, label: parsed.uncertain ? `${label} (uncertain)` : label };
 }
 
-const list = (value: unknown): string[] => (Array.isArray(value) ? value.filter((v): v is string => typeof v === 'string') : []);
 
 export function buildIndex(records: readonly PublicRecord[]): IndexEntry[] {
   const byId = new Map(records.map((r) => [r.id, r]));
@@ -59,7 +59,8 @@ export function buildIndex(records: readonly PublicRecord[]): IndexEntry[] {
         id: map.id,
         slug: String(map.slug),
         title: String(map.title),
-        makers: list(map.makers)
+        // an unresolved attribution to a workshop is not an exact maker in any list (FR-011)
+        makers: (map.attribution === 'unresolved' ? [] : list(map.makers))
           .map((id) => byId.get(id))
           .filter((m): m is PublicRecord => m !== undefined)
           .map((m) => ({ id: m.id, name: String(m.title) })),

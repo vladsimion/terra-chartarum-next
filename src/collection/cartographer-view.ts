@@ -1,7 +1,8 @@
 import type { PublicRecord } from '../registry/project.js';
 import { routeSection } from '../registry/routes.js';
 import { dateInterval } from './index-data.js';
-import type { Referrer } from './where-used.js';
+import { list } from '../registry/values.js';
+import { inTitleOrder, pageHref, referrer, type Referrer } from './where-used.js';
 
 /*
  * What a cartographer's pages show (spec 004 US3, FR-011, FR-012), decided from the public records
@@ -39,22 +40,21 @@ export interface CartographerCard {
 
 const ROLE_LABELS: Record<string, string> = { cartographer: 'Cartographer', engraver: 'Engraver', publisher: 'Publisher' };
 const collator = new Intl.Collator('en', { sensitivity: 'base' });
-const inTitleOrder = (a: Referrer, b: Referrer): number => collator.compare(a.title, b.title) || (a.id < b.id ? -1 : 1);
-const list = (value: unknown): string[] => (Array.isArray(value) ? value.filter((v): v is string => typeof v === 'string') : []);
 const plural = (n: number, noun: string) => `${n} ${noun}${n === 1 ? '' : 's'}`;
 
 export const cartographerHref = (slug: string): string => `/${routeSection('cartographer')}/${slug}/`;
 
 export function cartographerView(cartographer: PublicRecord, records: readonly PublicRecord[]): CartographerView {
   const kind = cartographer.kind === 'workshop' ? 'workshop' : 'person';
-  const mapReferrer = (m: PublicRecord): Referrer => ({ id: m.id, title: String(m.title), href: `/${routeSection('map')}/${String(m.slug)}/` });
   const attributed = records.filter((r) => r.family === 'map' && list(r.makers).includes(cartographer.id));
-  const maps = attributed.filter((m) => m.attribution !== 'unresolved').map(mapReferrer).sort(inTitleOrder);
-  const unresolved = attributed.filter((m) => m.attribution === 'unresolved').map(mapReferrer).sort(inTitleOrder);
-  const used = new Set(attributed.map((m) => m.id));
+  const exact = attributed.filter((m) => m.attribution !== 'unresolved');
+  const maps = exact.map((m) => referrer(m, pageHref(m))).sort(inTitleOrder);
+  const unresolved = attributed.filter((m) => m.attribution === 'unresolved').map((m) => referrer(m, pageHref(m))).sort(inTitleOrder);
+  // essays follow the maps the cartographer is credited with; an unresolved attribution is not an exact maker in any list (FR-011)
+  const credited = new Set(exact.map((m) => m.id));
   const essays = records
-    .filter((r) => r.family === 'essay' && list(r.maps).some((id) => used.has(id)))
-    .map((e): Referrer => ({ id: e.id, title: String(e.title), href: `/${routeSection('essay')}/${String(e.slug)}/` }))
+    .filter((r) => r.family === 'essay' && list(r.maps).some((id) => credited.has(id)))
+    .map((e) => referrer(e, pageHref(e)))
     .sort(inTitleOrder);
 
   const active = typeof cartographer.active === 'string' ? (dateInterval(cartographer.active)?.label ?? cartographer.active) : null;

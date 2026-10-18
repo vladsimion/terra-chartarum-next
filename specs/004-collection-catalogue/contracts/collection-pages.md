@@ -14,7 +14,7 @@ Pages are generated only for public records (published and released). A held rec
 
 ## Map record page
 
-Order: title (normalised) with original title; witness label ("Held by this project" or "Institutional copy: <repository>"); verification and last verified; the image block; the field list; attribution with its evidence; where used; bibliography; citation and export.
+Order: title (normalised) with original title; witness label ("Held by this project" or "Institutional copy: <repository>"); verification and last verified; the image block; the field list; attribution with its evidence; the record's open questions when it has any; where used; bibliography; citation and export.
 
 - **Field list**: each displayed field is a row with the field name, the value or the explicit status text (`Not yet verified`, `Unknown`, `Not applicable`), and for a held witness's provenance and atlas context an `Observed` or `Inferred` label.
 - **Image block**: the static image with attribution and licence, and an "Open viewer" button. The button loads the viewer on activation. If the record's rights do not clear reproduction, no image is shown and the block says the image is withheld; the licence line is shown only when a licence exists.
@@ -33,12 +33,12 @@ Static HTML of every public map: thumbnail (only if cleared), title, maker, date
 
 ### Index entry
 
-`{ id, slug, title, makers: [{ id, name }], date_label, from, to, uncertain, regions: [place id], rooms: [room id], witness }`. Entries are ordered by default sort. No other field.
+`{ id, slug, title, makers: [{ id, name }], date_label, from, to, uncertain, regions: [place id], rooms: [room id], witness }`. Entries are ordered by default sort. No other field. `makers` holds exact makers only: a map whose attribution is `unresolved` has none (FR-011), so a workshop is never a filter choice or a sort key and the list says "Maker not individually established".
 
 ## Cartographer pages
 
 - **List**: public cartographers by name; a cartographer with no public maps still has a page and a line saying so.
-- **Profile**: names, roles, dates or activity, the biography from `<id>.md` when present, the public maps with `attribution: exact` linking to this cartographer, the public essays that use those maps, and bibliography. A workshop page says which maps are attributed to the workshop and are unresolved.
+- **Profile**: names, roles, dates or activity, the biography from `<id>.md` when present, the public maps with `attribution: exact` linking to this cartographer, the public essays that use those exact maps (never essays that use only a workshop's unresolved maps), and bibliography. A workshop page says which maps are attributed to the workshop and are unresolved.
 
 ## Leak rule
 

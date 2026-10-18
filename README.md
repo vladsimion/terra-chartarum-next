@@ -86,6 +86,21 @@ The id is the full one the command prints (`tc:tc:essay:essay-000004`) and stage
 
 Essay end-to-end specs build the fixture registry: `npm run test:e2e:essays`. Walkthrough: [`specs/003-essay-framework/quickstart.md`](specs/003-essay-framework/quickstart.md).
 
+## The collection and cartographers (spec 004)
+
+One canonical record per map witness (a copy this project holds, or one an institution holds), under `content/map/`, with its makers in `content/cartographer/` and a biography beside each in `<id>.md`. Every field a record page shows has a value or a stated status (`field_status`), so nothing unestablished looks established. Decision: [ADR 0011](docs/adr/0011-map-record-model.md).
+
+```bash
+npm run registry -- completeness --dir . --out reports-completeness   # the editor's completeness report and ranked enrichment queue
+REGISTRY_ROOT=tests/collection/fixtures/registry npm run build         # build the site from the collection fixtures
+npm run test:e2e:collection                                            # viewer, filters, axe, on the same fixtures
+```
+
+- **Pages**: `/collection/` (the list and its filters), `/collection/<slug>/` (the record, with a deep-zoom viewer that loads only when asked, its citation and export files, and where the map is used), `/cartographers/` and `/cartographers/<slug>/`. `/data/collection-index.json` feeds the filters. Page addresses come from `src/registry/routes.ts`.
+- **Rules**: ten registry rules (`MAP-*`, `CART-KIND`) in `src/registry/rules/map.ts`, listed in [`rule-ids.md`](specs/001-scholarly-registry/contracts/rule-ids.md). A map whose reproduction is not cleared is public but its page shows no image and says why.
+- **Never published**: acquisition details (`MAP-PRIVATE-FIELD`), held records, and the editor reports; the output scan (`registry scan`) fails if any reaches the site.
+- Walkthrough: [`specs/004-collection-catalogue/quickstart.md`](specs/004-collection-catalogue/quickstart.md).
+
 ## The shell and design system (spec 002)
 
 An Astro static site (`output: 'static'`, no adapter): every page is generated at build time. The shell is the header, footer, breadcrumbs and skip link in `src/shell/layouts/Base.astro`; it reads only the registry's public projection, never `content/` directly.
