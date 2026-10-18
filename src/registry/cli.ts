@@ -11,7 +11,7 @@ import { loadRegistry } from './load.js';
 import { mintNext } from './mint.js';
 import { createEssay } from './new-essay.js';
 import { promoteEssay, type CommandResult } from './promote.js';
-import { writeSyntheticRegistry } from './synthetic.js';
+import { writeSyntheticAtlas, writeSyntheticRegistry } from './synthetic.js';
 import { toJson, type IntegrityReport } from './report.js';
 import { renderHtml } from './report-html.js';
 
@@ -30,7 +30,7 @@ const USAGE = `Usage:
   registry scan <distDir> [--dir <root>]               fail if built output holds a private value or the id of a non-public entity
   registry promote <essay-id> <stage> --by <person> [--check] [--dir <root>]   move an essay to the next editorial stage if its checks pass
   registry new essay <title> --room <room> --question <question> --author <name> [--dir <root>]   start an essay at Concept
-  registry synth <count> --seed <n> --out <dir>        write a deterministic synthetic registry (count entities plus the seven rooms)
+  registry synth <count> --seed <n> --out <dir> [--atlas]   write a deterministic synthetic registry (count entities plus the seven rooms; with --atlas, count layers with their collections, places and essays)
 
 <root> is the registry root that contains content/ (default: .). Exit codes: 0 ok, 1 errors found, 2 tool failure.`;
 
@@ -164,12 +164,17 @@ async function synth(args: string[], io: Io): Promise<number> {
   const { values, positionals } = parseArgs({
     args,
     allowPositionals: true,
-    options: { seed: { type: 'string' }, out: { type: 'string' } },
+    options: { seed: { type: 'string' }, out: { type: 'string' }, atlas: { type: 'boolean', default: false } },
   });
   const count = Number(positionals[0]);
   const seed = Number(values.seed);
   if (!Number.isInteger(count) || count < 0 || !Number.isInteger(seed) || !values.out) {
     return usage(io);
+  }
+  if (values.atlas) {
+    await writeSyntheticAtlas(values.out, count, seed);
+    io.stdout(`registry synth: wrote ${count} layers with collections, places and essays, and the seven rooms, to ${values.out} (seed ${seed})\n`);
+    return 0;
   }
   await writeSyntheticRegistry(values.out, count, seed);
   io.stdout(`registry synth: wrote ${count} entities and the seven rooms to ${values.out} (seed ${seed})\n`);

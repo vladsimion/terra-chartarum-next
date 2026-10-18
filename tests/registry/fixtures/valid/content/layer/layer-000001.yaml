@@ -12,3 +12,6 @@ geometry_provenance: georeferenced_trace
 geometry: data/roads.geojson
 rights:
   licence: CC-BY-4.0
+theme: networks-circulation
+envelope: 0106/0271
+time_mode: envelope_only

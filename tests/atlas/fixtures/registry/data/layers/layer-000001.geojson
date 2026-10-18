@@ -1,0 +1,78 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "f-1",
+      "properties": {
+        "name": "Northern limes",
+        "valid_from": "0106",
+        "valid_to": "0170",
+        "status": "attested",
+        "width_m": 12
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            23.3,
+            46.9
+          ],
+          [
+            24.1,
+            47.1
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f-2",
+      "properties": {
+        "name": "Western line, date uncertain",
+        "valid_from": "0120?",
+        "valid_to": "0200",
+        "status": "proposed",
+        "width_m": 8
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            22.5,
+            46.0
+          ],
+          [
+            22.9,
+            46.6
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f-3",
+      "properties": {
+        "name": "Reconstructed southern line",
+        "valid_from": "0170",
+        "valid_to": "0271",
+        "status": "reconstructed",
+        "width_m": 20,
+        "geometry_provenance": "scholarly_reconstruction"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            23.0,
+            45.2
+          ],
+          [
+            24.0,
+            45.0
+          ]
+        ]
+      }
+    }
+  ]
+}

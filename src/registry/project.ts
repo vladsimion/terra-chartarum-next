@@ -22,7 +22,8 @@ interface Allow {
 const DATES = ['valid_from', 'valid_to', 'date_label'];
 
 const BY_FAMILY: Record<string, Allow> = {
-  place: { fields: ['place_type', 'location_status', ...DATES] },
+  // spec 005 data-model.md "Public projection"
+  place: { fields: ['place_type', 'location_status', 'names', 'location', ...DATES] },
   map: {
     // spec 004 data-model.md "Public projection"; `record_scope` and `open_questions` are added because the page shows them. Never `physical`.
     fields: [
@@ -36,7 +37,11 @@ const BY_FAMILY: Record<string, Allow> = {
   cartographer: { fields: ['kind', 'names', 'roles', 'life_dates', 'active'], listRefs: ['bibliography'] },
   source: { fields: ['source_kind'], scalarRefs: ['entry'] },
   dataset: { fields: ['version', 'licence', 'rights'] },
-  layer: { fields: ['role', 'asset', 'geometry', 'geometry_provenance', 'images', 'rights'], scalarRefs: ['dataset'] },
+  // the source path (`asset`) is not projected: only the built path, derived from the slug, reaches a page
+  layer: {
+    fields: ['role', 'geometry', 'geometry_provenance', 'images', 'rights', 'theme', 'tags', 'synonyms', 'envelope', 'time_mode', 'facets', 'documentation'],
+    scalarRefs: ['dataset'],
+  },
   collection: { listRefs: ['members', 'default_layers'] },
   essay: {
     // only what the page shows (spec 003 research R11); jira, signoffs, stage_history, open_questions, legacy_url and redirect_switched stay private
@@ -118,6 +123,13 @@ export function projectPublic(records: readonly RegistryRecord[]): PublicRecord[
             evidence: Array.isArray(i.evidence) ? i.evidence.filter((id) => typeof id === 'string' && publicIds.has(id)) : [],
           }));
       }
+    }
+    if (record.family === 'layer' && record.georef && typeof record.georef === 'object') {
+      const georef = record.georef as Record<string, unknown>;
+      const projectedGeoref = pick(georef, ['annotation', 'transformation', 'residual_error_m', 'control_points', 'confidence']);
+      // the map is named only when the map is public, so a held map's id does not reach a page
+      if (typeof georef.map === 'string' && publicIds.has(georef.map)) projectedGeoref.map = georef.map;
+      projected.georef = projectedGeoref;
     }
     if (record.family === 'attestation' && record.locator && typeof record.locator === 'object') {
       projected.locator = pick(record.locator as Record<string, unknown>, LOCATOR_FIELDS);

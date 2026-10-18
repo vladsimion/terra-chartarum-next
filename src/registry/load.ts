@@ -25,6 +25,8 @@ export interface LoadResult {
   featureIndex: Map<string, Set<string>>;
   /** Asset paths, among those layers name with `asset`, that exist under the registry root. */
   assetIndex: Set<string>;
+  /** Bytes of each asset in `assetIndex`, for `LAYER-ASSET-SIZE`. */
+  assetSizes: Map<string, number>;
 }
 
 async function listYaml(dir: string): Promise<string[]> {
@@ -192,12 +194,17 @@ async function loadAssetIndex(
   realRoot: string,
   records: readonly RegistryRecord[],
   loadErrors: LoadError[],
-): Promise<Set<string>> {
+): Promise<{ index: Set<string>; sizes: Map<string, number> }> {
   const index = new Set<string>();
+  const sizes = new Map<string, number>();
   for (const [asset, real] of await resolveNamedPaths(realRoot, records, 'asset', loadErrors)) {
-    if ((await stat(real).catch(() => null))?.isFile()) index.add(asset);
+    const stats = await stat(real).catch(() => null);
+    if (stats?.isFile()) {
+      index.add(asset);
+      sizes.set(asset, stats.size);
+    }
   }
-  return index;
+  return { index, sizes };
 }
 
 /**
@@ -249,7 +256,7 @@ export async function loadRegistry(rootDir: string): Promise<LoadResult> {
   await loadVocabularies(root, vocabularies, loadErrors);
   const realRoot = await realpath(root);
   const featureIndex = await loadFeatureIndex(realRoot, records, loadErrors);
-  const assetIndex = await loadAssetIndex(realRoot, records, loadErrors);
+  const { index: assetIndex, sizes: assetSizes } = await loadAssetIndex(realRoot, records, loadErrors);
 
-  return { records, loadErrors, provenanceIndex, vocabularies, featureIndex, assetIndex };
+  return { records, loadErrors, provenanceIndex, vocabularies, featureIndex, assetIndex, assetSizes };
 }

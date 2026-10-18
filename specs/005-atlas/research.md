@@ -15,6 +15,7 @@ Decisions not already settled by the grill (ADR 0013), ADR 0004 or ADR 0005.
 ## R3. Source and asset formats
 - **Decision**: GeoJSON (`.geojson`) and pre-tiled PMTiles (`.pmtiles`) are the accepted sources. The build converts GeoJSON to FlatGeobuf with the `flatgeobuf` library and copies PMTiles unchanged after checking the header. GeoPackage and in-build tiling are deferred; an editor tiles a dense layer offline with pinned tippecanoe and commits the `.pmtiles` (ADR 0005 §2), recording the command in the layer's documentation.
 - **Rationale**: the v1 layers are small vector data; avoiding a native tiling dependency in CI keeps the build deterministic and fast; the size gate catches the day a layer outgrows it.
+- **Host limit (T003, confirmed 2026-10-18)**: Cloudflare documents an individual static asset limit of 25 MiB (26,214,400 bytes) on both Workers plans, and 20,000 files per Worker version on the free plan (100,000 on paid): https://developers.cloudflare.com/workers/platform/limits/#static-assets. `LAYER-ASSET-SIZE` and `ATLAS-ASSET-SIZE` use the constant `STATIC_ASSET_LIMIT_BYTES = 25 * 1024 * 1024`.
 - **Alternatives**: tippecanoe in CI (an install step and version drift for no v1 need); GeoPackage via GDAL (heavy).
 
 ## R4. Why FlatGeobuf is fetched whole in v1
@@ -34,6 +35,8 @@ Decisions not already settled by the grill (ADR 0013), ADR 0004 or ADR 0005.
 
 ## R7. Budget measurement before design
 - **Decision**: T004 builds a minimal page with MapLibre, the PMTiles protocol and the FlatGeobuf reader and records their compressed sizes. If the total is over 350 KB with the app code estimated at 80 KB, the map module loads after the catalogue is interactive and the Lighthouse script-size assertion for `/atlas/` applies to the initial load only.
+- **Measured (T004, 2026-10-18)**: a minimal page bundled with esbuild (minified, ES modules, gzip -9) with `maplibre-gl@6.11.2`, `pmtiles@4.5.0` and `flatgeobuf@4.5.0`: MapLibre alone 275 KB, the PMTiles protocol 7 KB, the FlatGeobuf reader 19 KB; the three together 296 KB (a further 5 KB of lazily loaded chunks). MapLibre's own stylesheet adds 10 KB. With the 80 KB estimate for the app code the total is about 376 KB, over the 350 KB budget.
+- **Choice**: the Atlas page loads the catalogue, drawers and controls first (well under the budget), and imports the map module after the catalogue is interactive. The Lighthouse script-size assertion for `/atlas/` therefore covers the initial load, and `performance.spec.ts` (T062) measures the map-interactive time of 4 s including the deferred load. Revisit if a later MapLibre release is smaller.
 - **Rationale**: the budget is the riskiest number in the spec; measure first (ADR 0004: ≤ 350 KB, map interactive ≤ 4 s).
 - **Alternatives**: assume it fits (it may not).
 

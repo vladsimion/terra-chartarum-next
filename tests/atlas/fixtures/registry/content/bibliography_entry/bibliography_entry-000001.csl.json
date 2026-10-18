@@ -1,0 +1,19 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000001",
+  "type": "manuscript",
+  "title": "A fixture chronicle",
+  "author": [
+    {
+      "family": "Doe",
+      "given": "Jane"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1991
+      ]
+    ]
+  },
+  "publisher": "Fixture Press"
+}

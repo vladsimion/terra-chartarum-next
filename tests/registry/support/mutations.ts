@@ -3,6 +3,7 @@ import type { ValidateOptions } from '../../../src/registry/rules/framework.js';
 import type { RegistryRecord } from '../../../src/registry/types.js';
 import { validateRegistry } from '../../../src/registry/validate.js';
 import { ESSAY_STAGES, lifecycleFor, type EssayStage } from '../../../src/registry/stages.js';
+import { STATIC_ASSET_LIMIT_BYTES } from '../../../src/registry/schemas/atlas-values.js';
 import { rooms } from './builders.js';
 import { generatedFeatures, generatedProvenance, generateRegistry, STEP_ID } from './synthetic.js';
 
@@ -420,4 +421,30 @@ const MAP_MUTATIONS: Mutation[] = [
   { name: 'a cartographer is neither person nor workshop', rule: 'CART-KIND', apply: editOf('cartographer', (r) => { r.lifecycle = 'ready_for_build'; r.kind = 'firm'; }) },
 ];
 
-export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS, ...ESSAY_MUTATIONS, ...MAP_MUTATIONS];
+/* Spec 005 Foundation: the layer and place rules. A record is taken to the lifecycle where the rule errors, then broken in one way. */
+const GEOREFERENCED = { map: 'tc:tc:map:map-000001', annotation: 'data/layers/o.annotation.json', transformation: 'polynomial1', residual_error_m: 10, control_points: 4, confidence: 'probable' };
+const ATLAS_MUTATIONS: Mutation[] = [
+  { name: 'a publishable layer has no theme', rule: 'LAYER-THEME', apply: editOf('layer', (r) => { r.lifecycle = 'publishable'; r.time_mode = 'envelope_only'; r.envelope = '0106/0271'; }) },
+  { name: 'a publishable layer has a reversed envelope', rule: 'LAYER-TIME', apply: editOf('layer', (r) => { r.lifecycle = 'publishable'; r.theme = 'territories-boundaries'; r.time_mode = 'per_feature'; r.envelope = '0271/0106'; }) },
+  { name: 'a layer declares one facet twice', rule: 'LAYER-FACET', apply: editOf('layer', (r) => { r.facets = [{ property: 'p', label: 'P', kind: 'category' }, { property: 'p', label: 'Q', kind: 'range' }]; }) },
+  {
+    name: 'an overlay layer has no georef',
+    rule: 'LAYER-GEOREF',
+    apply: editOf('layer', (r) => { r.lifecycle = 'ready_for_build'; r.role = 'map-overlay'; }),
+  },
+  {
+    name: 'an overlay georef has two control points',
+    rule: 'LAYER-GEOREF',
+    apply: editOf('layer', (r, all) => { r.lifecycle = 'ready_for_build'; r.role = 'map-overlay'; r.georef = { ...GEOREFERENCED, control_points: 2, map: nth(all, 'map').id }; }),
+  },
+  {
+    name: 'a layer source is over the host limit',
+    rule: 'LAYER-ASSET-SIZE',
+    apply: (rs) => rs,
+    options: (base) => ({ ...base, assetSizes: new Map([[String(base.assetIndex && [...base.assetIndex][0]), STATIC_ASSET_LIMIT_BYTES + 1]]) }),
+  },
+  { name: 'a publishable place has no names', rule: 'PLACE-NAMES', apply: editOf('place', (r) => { r.lifecycle = 'publishable'; r.location = { lon: 1, lat: 1 }; }) },
+  { name: 'a publishable place has a latitude of 100', rule: 'PLACE-LOCATION', apply: editOf('place', (r) => { r.lifecycle = 'publishable'; r.names = [{ name: 'X', language: 'en', kind: 'modern' }]; r.location = { lon: 1, lat: 100 }; }) },
+];
+
+export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS, ...ESSAY_MUTATIONS, ...MAP_MUTATIONS, ...ATLAS_MUTATIONS];

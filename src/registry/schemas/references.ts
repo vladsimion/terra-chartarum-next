@@ -17,7 +17,7 @@ const SCALARS: Record<string, string[]> = {
   evidence: ['source'],
   source: ['entry'],
   attestation: ['place', 'source'],
-  layer: ['dataset'],
+  layer: ['dataset', 'georef.map'],
   essay: ['rooms.primary'],
 };
 
@@ -48,7 +48,7 @@ const POINTS_AT: Record<string, Record<string, string>> = {
   collection: { members: 'layer', default_layers: 'layer' },
   map: { makers: 'cartographer', coverage: 'place', attribution_evidence: 'evidence', bibliography: 'bibliography_entry', publication_place: 'place' },
   cartographer: { bibliography: 'bibliography_entry' },
-  layer: { dataset: 'dataset' },
+  layer: { dataset: 'dataset', 'georef.map': 'map' },
   evidence: { source: 'source' },
   source: { entry: 'bibliography_entry' },
   attestation: { place: 'place', source: 'source' },

@@ -6,3 +6,10 @@ slug: fixture-valley
 lifecycle: published
 release: released
 place_type: region
+names:
+  - name: Fixture Valley
+    language: en
+    kind: modern
+location:
+  lon: 24.5
+  lat: 46.1

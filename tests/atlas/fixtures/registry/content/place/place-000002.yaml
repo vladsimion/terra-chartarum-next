@@ -1,0 +1,12 @@
+id: tc:tc:place:place-000002
+family: place
+origin: minted
+title: Napoca
+slug: napoca
+lifecycle: published
+release: released
+place_type: settlement
+names:
+  - { name: Napoca, language: la, kind: historic, valid_from: '0124', valid_to: '0271' }
+  - { name: Cluj-Napoca, language: ro, kind: modern }
+location: { lon: 23.59, lat: 46.77 }

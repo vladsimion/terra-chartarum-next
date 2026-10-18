@@ -235,7 +235,16 @@ export function generateMapRegistry(count: number, seed: number): RegistryRecord
     );
   }
   const places = 3 + Math.ceil(count / 10);
-  for (let n = 1; n <= places; n += 1) records.push(base('place', n, `${pick(WORDS)} ${n}`, { place_type: PLACE_TYPES[(n - 1) % PLACE_TYPES.length] }));
+  for (let n = 1; n <= places; n += 1) {
+    const title = `${pick(WORDS)} ${n}`;
+    records.push(
+      base('place', n, title, {
+        place_type: PLACE_TYPES[(n - 1) % PLACE_TYPES.length],
+        names: [{ name: title, language: 'la', kind: 'historic' }],
+        location: { lon: 20 + (n % 10), lat: 44 + (n % 5) },
+      }),
+    );
+  }
   records.push(base('source', 1, 'A scholarly study', { source_kind: 'scholarly' }));
 
   for (let n = 1; n <= count; n += 1) {
@@ -305,6 +314,126 @@ export function generateMapRegistry(count: number, seed: number): RegistryRecord
   return records;
 }
 
+const THEMES = [
+  'territories-boundaries',
+  'networks-circulation',
+  'places-settlements',
+  'names-peoples-attestations',
+  'conflict-campaigns-frontiers',
+  'cartographic-evidence',
+  'historical-map-overlays',
+] as const;
+
+/** Deterministic GeoJSON source of a generated layer: a few features in Dacia, each timed when the layer is per-feature. */
+export function generatedLayerSource(layer: RegistryRecord, seed: number): unknown {
+  const rng = mulberry32(seed + Number(String(layer.id).split('-').pop()));
+  const [from, to] = String(layer.envelope).split('/').map(Number) as [number, number];
+  const features = Array.from({ length: 3 }, (_, i) => {
+    const start = Math.round(from + rng() * (to - from) * 0.5);
+    const end = Math.round(start + rng() * (to - start));
+    const pad = (year: number) => String(year).padStart(4, '0');
+    return {
+      type: 'Feature',
+      id: `f-${i + 1}`,
+      properties: {
+        name: `Feature ${i + 1}`,
+        status: ['attested', 'proposed', 'reconstructed'][i % 3],
+        ...(layer.time_mode === 'per_feature' ? { valid_from: pad(start), valid_to: pad(end) } : {}),
+      },
+      geometry: { type: 'Point', coordinates: [Number((22 + rng() * 4).toFixed(4)), Number((44.5 + rng() * 2.5).toFixed(4))] },
+    };
+  });
+  return { type: 'FeatureCollection', features };
+}
+
+/**
+ * `count` valid, public layers with everything around them: a dataset, collections that list the
+ * layers (the first of each is a default), places with historic and modern names, and held essays
+ * at Concept that list layers (a public essay needs the whole Publish stage, which the registry
+ * has no cheap way to make; derived rooms on public essays are tested on hand-authored records).
+ * Deterministic for a seed. Does not include the seven rooms.
+ */
+export function generateAtlasRegistry(count: number, seed: number): RegistryRecord[] {
+  const rng = mulberry32(seed);
+  const pick = <T>(items: readonly T[]): T => items[Math.floor(rng() * items.length)] as T;
+  const idOf = (family: string, n: number) => `tc:tc:${family}:${localId(family, n)}`;
+  const base = (family: string, n: number, title: string, extra: Record<string, unknown>): RegistryRecord => ({
+    id: idOf(family, n),
+    family,
+    origin: 'minted',
+    title,
+    slug: `${family}-${n}-${pick(WORDS)}`,
+    slug_history: [],
+    lifecycle: 'published',
+    release: 'released',
+    relations: [],
+    file: `content/${family}/${localId(family, n)}.yaml`,
+    ...extra,
+  });
+  const records: RegistryRecord[] = [base('dataset', 1, 'A synthetic dataset', { version: '1.0.0', rights: { licence: 'CC-BY-4.0' } })];
+
+  const places = 3 + Math.ceil(count / 10);
+  for (let n = 1; n <= places; n += 1) {
+    const title = `${pick(WORDS)} ${n}`;
+    records.push(
+      base('place', n, title, {
+        place_type: PLACE_TYPES[(n - 1) % PLACE_TYPES.length],
+        names: [
+          { name: title, language: 'la', kind: 'historic', valid_from: '0106', valid_to: '0271' },
+          { name: `${title} (today)`, language: 'ro', kind: 'modern' },
+        ],
+        location: { lon: Number((22 + rng() * 4).toFixed(4)), lat: Number((44.5 + rng() * 2.5).toFixed(4)) },
+      }),
+    );
+  }
+
+  const layerIds: string[] = [];
+  for (let n = 1; n <= count; n += 1) {
+    const theme = THEMES[(n - 1) % THEMES.length] as string;
+    const context = n % 11 === 0;
+    const start = 100 + Math.floor(rng() * 100);
+    layerIds.push(idOf('layer', n));
+    records.push(
+      base('layer', n, `${pick(WORDS)} ${pick(WORDS)} layer ${n}`, {
+        role: context ? 'context' : 'historical',
+        asset: `data/layers/${localId('layer', n)}.geojson`,
+        dataset: idOf('dataset', 1),
+        geometry_provenance: context ? 'modern_reference' : pick(['source_geometry', 'georeferenced_trace', 'scholarly_reconstruction', 'generalized_editorial']),
+        theme,
+        tags: [pick(WORDS), pick(WORDS)].filter((tag, i, all) => all.indexOf(tag) === i),
+        synonyms: [pick(WORDS)],
+        envelope: `${String(start).padStart(4, '0')}/${String(start + 60 + Math.floor(rng() * 100)).padStart(4, '0')}`,
+        time_mode: n % 2 === 0 ? 'per_feature' : 'envelope_only',
+        facets: [{ property: 'status', label: 'Status', kind: 'category' }],
+        rights: { licence: 'CC-BY-4.0' },
+      }),
+    );
+  }
+
+  const perCollection = 12;
+  for (let n = 1; n <= Math.ceil(count / perCollection); n += 1) {
+    const members = layerIds.slice((n - 1) * perCollection, n * perCollection);
+    records.push(base('collection', n, `Collection ${n}`, { members, default_layers: members.slice(0, 2) }));
+  }
+
+  for (let n = 1; n <= Math.ceil(count / 20); n += 1) {
+    records.push(
+      base('essay', n, `An essay on layers ${n}`, {
+        lifecycle: 'proposed',
+        release: 'held',
+        stage: 'Concept',
+        question: 'What do these layers show?',
+        authors: ['Synthetic Author'],
+        rooms: { primary: 'tc:tc:room:map' },
+        stage_history: [{ stage: 'Concept', on: '2026-01-01', by: 'Synthetic Author' }],
+        rights: { licence: 'CC-BY-4.0' },
+        layers: [...new Set(Array.from({ length: 3 }, () => pick(layerIds)))],
+      }),
+    );
+  }
+  return records;
+}
+
 const ROOM_NAMES = ['earth', 'map', 'city', 'border', 'road', 'archive', 'theatre'] as const;
 
 /** The seven fixed rooms (ADR 0003 §7): permanent ids, not counters. */
@@ -356,4 +485,29 @@ export async function writeSyntheticRegistry(outDir: string, count: number, seed
     geometry: { type: 'Point', coordinates: [23.3, 45.6] },
   }));
   await write(GEOMETRY_FILE, `${JSON.stringify({ type: 'FeatureCollection', features }, null, 2)}\n`);
+}
+
+/** Write `generateAtlasRegistry(layers, seed)` and the seven rooms to disk, with a small GeoJSON source per layer. */
+export async function writeSyntheticAtlas(outDir: string, layers: number, seed: number): Promise<void> {
+  const { mkdir, writeFile } = await import('node:fs/promises');
+  const nodePath = await import('node:path');
+  const { stringify } = await import('yaml');
+  const write = async (rel: string, text: string) => {
+    const full = nodePath.join(outDir, rel);
+    await mkdir(nodePath.dirname(full), { recursive: true });
+    await writeFile(full, text);
+  };
+  const records = [...syntheticRooms(), ...generateAtlasRegistry(layers, seed)];
+  const BATCH = 200;
+  for (let i = 0; i < records.length; i += BATCH) {
+    await Promise.all(
+      records.slice(i, i + BATCH).map(async (record) => {
+        const { file, ...rest } = record;
+        await write(file, stringify(rest));
+        if (record.family === 'layer' && typeof record.asset === 'string') {
+          await write(record.asset, `${JSON.stringify(generatedLayerSource(record, seed), null, 2)}\n`);
+        }
+      }),
+    );
+  }
 }

@@ -1,0 +1,16 @@
+id: tc:tc:collection:collection-000001
+family: collection
+origin: minted
+title: Roman Dacia fixtures
+slug: roman-dacia-fixtures
+lifecycle: published
+release: released
+members:
+  - tc:tc:layer:layer-000001
+  - tc:tc:layer:layer-000002
+  - tc:tc:layer:layer-000003
+  - tc:tc:layer:layer-000004
+  - tc:tc:layer:layer-000005
+default_layers:
+  - tc:tc:layer:layer-000001
+  - tc:tc:layer:layer-000003
