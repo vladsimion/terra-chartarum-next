@@ -73,6 +73,19 @@ npm run registry -- scan dist              # fail if built output leaks a privat
 
 Walkthrough: [`specs/001-scholarly-registry/quickstart.md`](specs/001-scholarly-registry/quickstart.md). Decisions: [ADR 0006](docs/adr/0006-registry-identity-and-record-model.md).
 
+## The essay framework and editorial pipeline (spec 003)
+
+An essay is a record in `content/essay/` plus an MDX body beside it, taken through nine stages (Concept, Corpus, Research, Outline, Draft, Build, Design QA, Publish, Cross-link). Each stage adds checks to the integrity gate; a stage is never skipped.
+
+```bash
+npm run registry -- new essay "Title" --room map --question "..." --author "Name" --dir <root>   # scaffold at Concept
+npm run registry -- promote <essay-id> Corpus --by "Name" --dir <root> [--check]                # one stage forward, if its checks pass
+```
+
+The id is the full one the command prints (`tc:tc:essay:essay-000004`) and stage names are capitalised. The body takes only record ids, through `MapFigure`, `Cite`, `EvidencePanel`, `Interaction` and `CitationExport` (contract: [`mdx-body.md`](specs/003-essay-framework/contracts/mdx-body.md)); captions, rights and notes come from the records, never from the body. Components and what each does without JavaScript or with reduced motion: [`docs/essay-components.md`](docs/essay-components.md). Every public essay gets BibTeX, RIS and CSL-JSON at `/essays/<slug>/cite.{bib,ris,json}`. An essay that is not public has no page and appears in no output.
+
+Essay end-to-end specs build the fixture registry: `npm run test:e2e:essays`. Walkthrough: [`specs/003-essay-framework/quickstart.md`](specs/003-essay-framework/quickstart.md).
+
 ## The shell and design system (spec 002)
 
 An Astro static site (`output: 'static'`, no adapter): every page is generated at build time. The shell is the header, footer, breadcrumbs and skip link in `src/shell/layouts/Base.astro`; it reads only the registry's public projection, never `content/` directly.

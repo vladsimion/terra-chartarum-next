@@ -110,7 +110,7 @@ export const essayResearch = stageRule('ESSAY-RESEARCH', 'Research', (essay, { i
   if (evidence.length === 0) findings.push({ field: 'evidence', value: essay.evidence ?? null, expected: 'evidence for the argument' });
   for (const id of evidence) {
     const record = index.get(id);
-    if (record && (record.locator === undefined || record.locator === null)) {
+    if (record && !(isObject(record.locator) && present(record.locator.value))) {
       findings.push({ field: 'evidence', value: id, expected: 'evidence that carries a locator' });
     }
   }
@@ -230,15 +230,28 @@ export const essayPublish = stageRule('ESSAY-PUBLISH', 'Publish', (essay) => {
 export const essayBodyPublic = stageRule('ESSAY-BODY-PUBLIC', 'Publish', (essay, { index }) => {
   const findings: Omit<Finding, 'record'>[] = [];
   const seen = new Set<string>();
-  for (const tag of tagsOf(essay, 'MapFigure', 'Cite', 'EvidencePanel')) {
-    const id = tag.tag === 'MapFigure' ? tag.props.map : tag.props.evidence;
+  /** Reports an entity that is not public, once; false when it was already seen or does not resolve (the business of ESSAY-DRAFT and ESSAY-BUILD). */
+  const check = (id: string | undefined, expected: string): RegistryRecord | undefined => {
     const target = id === undefined ? undefined : index.get(id);
-    // a name that does not resolve is the business of ESSAY-DRAFT and ESSAY-BUILD
-    if (id === undefined || !target || seen.has(id)) continue;
+    if (id === undefined || !target || seen.has(id)) return undefined;
     seen.add(id);
-    if (!isPublic(target)) {
-      findings.push({ field: 'body', value: id, expected: `${tag.tag} naming a published and released entity (line ${tag.line})` });
-    }
+    if (!isPublic(target)) findings.push({ field: 'body', value: id, expected });
+    return target;
+  };
+  /** What the reader sees behind a piece of evidence is its source and that source's bibliography entry (FR-017). */
+  const checkEvidence = (id: string | undefined, where: string) => {
+    const evidence = check(id, `${where} naming a published and released entity`);
+    if (!evidence) return;
+    const source = check(typeof evidence.source === 'string' ? evidence.source : undefined, `${where} resting on a published and released source (evidence ${id})`);
+    if (source) check(typeof source.entry === 'string' ? source.entry : undefined, `${where} resting on a published and released bibliography entry (source ${source.id})`);
+  };
+  for (const tag of tagsOf(essay, 'MapFigure', 'Cite', 'EvidencePanel')) {
+    if (tag.tag === 'MapFigure') check(tag.props.map, `MapFigure naming a published and released entity (line ${tag.line})`);
+    else checkEvidence(tag.props.evidence, `${tag.tag} (line ${tag.line})`);
+  }
+  for (const interaction of Array.isArray(essay.interactions) ? essay.interactions : []) {
+    if (!isObject(interaction)) continue;
+    for (const id of idsOf(interaction.evidence)) checkEvidence(id, `interaction ${String(interaction.id)}`);
   }
   return findings;
 });

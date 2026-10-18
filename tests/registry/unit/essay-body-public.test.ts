@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { scanEssayBody } from '../../../src/registry/essay-body.js';
 import { validateRegistry } from '../../../src/registry/validate.js';
 import type { RegistryRecord } from '../../../src/registry/types.js';
+import { evidence, source } from '../support/builders.js';
 import { VALID_BODY, essayAt, world } from '../support/essays.js';
 
 /*
@@ -47,8 +48,34 @@ describe('ESSAY-BODY-PUBLIC', () => {
     expect(hits(held('bibliography_entry'))).toEqual([]);
   });
 
-  it('passes when the held thing is a source the body never names', () => {
-    expect(hits(held('source'))).toEqual([]);
+  it('fails a citation whose evidence is public but whose source is held', () => {
+    const found = hits((all) => all.map((r) => (r.family === 'source' ? { ...r, release: 'held', lifecycle: 'researching' } : r)));
+    expect(found.length).toBeGreaterThanOrEqual(1);
+    expect(found.every((v) => JSON.stringify(v.value).includes('source-000001'))).toBe(true);
+  });
+
+  it('fails a citation whose source is public but whose bibliography entry is held', () => {
+    const found = hits((all) =>
+      all.map((r) => {
+        if (r.family === 'source') return { ...r, entry: 'tc:tc:bibliography_entry:bibliography_entry-000001' };
+        if (r.family === 'bibliography_entry') return { ...r, release: 'held', lifecycle: 'researching' };
+        return r;
+      }),
+    );
+    expect(found.length).toBeGreaterThanOrEqual(1);
+    expect(found.every((v) => JSON.stringify(v.value).includes('bibliography_entry-000001'))).toBe(true);
+  });
+
+  it('fails a declared interaction whose evidence is held', () => {
+    const interaction = { id: 'i1', component: 'compare-slider', question: 'q', interpretation: 'i', evidence: ['tc:tc:evidence:evidence-000002'] };
+    const found = hits((all) => [...all, evidence(2, { release: 'held', lifecycle: 'researching' })], { interactions: [interaction] });
+    expect(found).toHaveLength(1);
+    expect(JSON.stringify(found[0]!.value)).toContain('evidence-000002');
+  });
+
+  it('passes when the held thing is a source no cited evidence rests on', () => {
+    const extra = (all: RegistryRecord[]) => [...all, source(2, { release: 'held', lifecycle: 'researching' })];
+    expect(hits(extra)).toEqual([]);
   });
 
   it('names each held figure separately', () => {

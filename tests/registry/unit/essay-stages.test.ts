@@ -48,6 +48,18 @@ const CASES: Case[] = [
     name: 'evidence without a locator',
     records: (all) => all.map((r) => (r.family === 'evidence' ? { ...r, locator: undefined } : r)),
   },
+  {
+    rule: 'ESSAY-RESEARCH',
+    from: 'Research',
+    name: 'evidence with an empty locator',
+    records: (all) => all.map((r) => (r.family === 'evidence' ? { ...r, locator: {} } : r)),
+  },
+  {
+    rule: 'ESSAY-RESEARCH',
+    from: 'Research',
+    name: 'evidence with a blank locator value',
+    records: (all) => all.map((r) => (r.family === 'evidence' ? { ...r, locator: { value: ' ' } } : r)),
+  },
   { rule: 'ESSAY-OUTLINE', from: 'Outline', name: 'no thesis', essay: { thesis: undefined } },
   { rule: 'ESSAY-OUTLINE', from: 'Outline', name: 'a blank thesis', essay: { thesis: '' } },
   { rule: 'ESSAY-BUILD', from: 'Build', name: 'a layer that does not resolve', essay: { layers: ['tc:tc:layer:layer-000099'] } },
