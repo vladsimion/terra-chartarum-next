@@ -1,0 +1,16 @@
+id: tc:tc:layer:layer-000002
+family: layer
+origin: minted
+title: A held fixture layer
+slug: held-fixture-layer
+lifecycle: researching
+release: held
+role: historical
+asset: data/roads.pmtiles
+dataset: tc:tc:dataset:dataset-000001
+geometry_provenance: georeferenced_trace
+geometry: data/roads.geojson
+relations:
+  - tc:tc:map:map-000002
+rights:
+  licence: CC BY 4.0

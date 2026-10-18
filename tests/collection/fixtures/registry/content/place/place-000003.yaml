@@ -6,3 +6,5 @@ slug: fixture-town
 lifecycle: published
 release: released
 place_type: settlement
+relations:
+  - tc:tc:map:map-000002

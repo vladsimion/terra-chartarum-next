@@ -3,6 +3,7 @@ import MapRecord from '../../collection/components/MapRecord.astro';
 import { recordView } from '../../collection/record-view.js';
 import { mapExports } from '../../collection/citation.js';
 import { citableMap } from '../../collection/export-routes.js';
+import { whereUsed } from '../../collection/where-used.js';
 import { formatBibliographyItem } from '../../essays/citations.js';
 import { accessDate } from '../../essays/exports.js';
 import { loadEssaySite } from '../../essays/site-data.js';
@@ -29,5 +30,5 @@ const citation = { chicago: mapExports(citable, accessDate(process.env)).chicago
 ---
 
 <Base title={`${view.title} | Terra Chartarum`} crumb={view.title}>
-  <MapRecord view={view} bibliography={bibliography} citation={citation} />
+  <MapRecord view={view} bibliography={bibliography} citation={citation} used={whereUsed(map, site.records)} />
 </Base>

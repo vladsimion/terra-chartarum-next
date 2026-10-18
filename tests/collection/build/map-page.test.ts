@@ -177,3 +177,33 @@ describe('citation and export (FR-006)', () => {
     expect(existsSync(path.join(dir, 'collection', HELD_SLUG))).toBe(false);
   });
 });
+
+describe('where used (US4)', () => {
+  const used = (slug: string) => page(slug).querySelector('section.where-used');
+
+  it('lists the public essays that cite the map, linked, in title order', () => {
+    const links = used(SLUGS.iiif)!.querySelectorAll('.essays a').map((a) => [a.text.trim(), a.getAttribute('href')]);
+    expect(links).toEqual([
+      ['A related fixture essay', '/essays/fixture-related/'],
+      ['Fixture essay, how a frontier line was drawn', '/essays/fixture-frontier/'],
+    ]);
+  });
+
+  it('lists the public layers and the places', () => {
+    expect(used(SLUGS.iiif)!.querySelectorAll('.layers li').map((li) => li.text.trim())).toEqual(['Fixture road network']);
+    expect(used(SLUGS.iiif)!.querySelectorAll('.places li').map((li) => li.text.trim())).toEqual(['Fixture Town', 'Fixture Valley', 'Fixtureland']);
+  });
+
+  it('hides a list that is empty, and the whole section when all are', () => {
+    expect(used(SLUGS.workshop)!.querySelector('.essays')).toBeNull();
+    expect(used(SLUGS.workshop)!.querySelector('.layers')).toBeNull();
+    expect(used(SLUGS.workshop)!.querySelector('.places')).not.toBeNull();
+  });
+
+  it('names nothing held: no held essay, layer or place appears on any page', () => {
+    for (const slug of Object.values(SLUGS)) {
+      const html = readHtml(dir, `collection/${slug}/index.html`);
+      for (const word of ['Zephyr', 'zephyr-held-moraine', 'A held fixture layer', 'A held fixture place', 'essay-000003']) expect(html, `${slug} ${word}`).not.toContain(word);
+    }
+  });
+});

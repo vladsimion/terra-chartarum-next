@@ -99,10 +99,10 @@ description: "Task list for 004 Map Collection & Cartographers Catalogue"
 
 **Goal**: a map page lists every public essay, Atlas layer or overlay and place that references it, and nothing held.
 
-- [ ] T038 [P] [US4] Write failing `tests/collection/unit/where-used.test.ts`: reverse references from essay `maps[]`, layer `relations[]` and place `relations[]` or `coverage[]`; grouped by kind; a held essay, a held layer and a held place are omitted; the result is empty for an unused map
-- [ ] T039 [US4] Implement `src/collection/where-used.ts` (pure) and `WhereUsed.astro`; extend `build/map-page.test.ts`
-- [ ] T040 [P] [US4] Write failing `tests/collection/build/leak.test.ts` (SC-005, US4 scenario): no title, id or slug of the held essay, the held cartographer or any private field word appears in any file of the built output, including `data/collection-index.json`; add the held fixtures' strings to the existing leak list
-- [ ] T041 [US4] Make the leak test pass (fix whatever it finds); add the named mutation to `tests/registry/mutations.test.ts` that adds a held essay's title to a map page and expects the leak scan to fail
+- [x] T038 [P] [US4] Write failing `tests/collection/unit/where-used.test.ts`: reverse references from essay `maps[]`, layer `relations[]` and place `relations[]` or `coverage[]`; grouped by kind; a held essay, a held layer and a held place are omitted; the result is empty for an unused map
+- [x] T039 [US4] Implement `src/collection/where-used.ts` (pure) and `WhereUsed.astro`; extend `build/map-page.test.ts`
+- [x] T040 [P] [US4] Write failing `tests/collection/build/leak.test.ts` (SC-005, US4 scenario): no title, id or slug of the held essay, the held cartographer or any private field word appears in any file of the built output, including `data/collection-index.json`; add the held fixtures' strings to the existing leak list
+- [x] T041 [US4] Make the leak test pass (fix whatever it finds); the mutation (a held essay's title put into a map page makes the output scan fail) lives in `tests/collection/build/leak.test.ts` beside the scan it exercises, because `tests/registry/mutations.test.ts` mutates records, not built pages. The guarantee already held, so nothing needed fixing; the layer and place links wait for the Atlas and place pages
 
 ---
 

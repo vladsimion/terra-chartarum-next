@@ -1,0 +1,41 @@
+---
+import type { Referrer, WhereUsed } from '../where-used.js';
+
+interface Props {
+  used: WhereUsed;
+}
+
+const { used } = Astro.props;
+const groups = [
+  { key: 'essays', heading: 'Essays', items: used.essays },
+  { key: 'layers', heading: 'Atlas layers', items: used.layers },
+  { key: 'places', heading: 'Places', items: used.places },
+].filter((g) => g.items.length > 0);
+---
+
+{groups.length > 0 && (
+  <section class="where-used" aria-labelledby="where-used-heading">
+    <h2 id="where-used-heading">Where this map is used</h2>
+    {groups.map((group) => (
+      <div class={group.key}>
+        <h3>{group.heading}</h3>
+        <ul>
+          {group.items.map((item: Referrer) => <li>{item.href ? <a href={item.href}>{item.title}</a> : item.title}</li>)}
+        </ul>
+      </div>
+    ))}
+  </section>
+)}
+
+<style>
+  ul {
+    padding-inline-start: var(--space-5);
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+    color: var(--accent);
+  }
+</style>
