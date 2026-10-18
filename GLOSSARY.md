@@ -8,6 +8,8 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 |---|---|---|
 | **Essay** | A long-form visual argument answering one historical question, composed over shared evidence. Owns its narrative and local bibliography, never private data. | A blog post; a layer description |
 | **Trench** | An essay inside a Corpus programme, each a separate "excavation" with its own lens. | A chapter |
+| **Pit** | One of the four Sondaje test pits of Trench A, each with its own strata. | A trench |
+| **Cell** | One name at one stratum of a pit in Trench A: pit, stratum, name, language, reading, note. It is the essay's own local data (`corpus: none`) until a CND Attestation backs it; adding the Attestation ID is the only retrofit change. | A row, an Attestation |
 | **Corpus (programme)** | A deep research programme (pattern: Corpus Chartarum) with several essays sharing one evidence corpus, GIS, object records and bibliography. | A collection of layers |
 | **Room** | One of seven reader-facing conceptual paths: Earth, Map, City, Border, Road, Archive, Theatre. Membership is metadata, never a folder or a data taxonomy: an essay declares its rooms, and a map or layer is in a room only through the public essays that use it. All seven rooms are always public; each has its own page. | Theme, Collection |
 | **Portal dimension** | Optional additive essay tag: Measure, Witness, Use, Cosmos, Power, Silence. Never replaces an essay's native lenses. | Theme |

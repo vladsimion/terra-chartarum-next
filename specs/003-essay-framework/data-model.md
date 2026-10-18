@@ -60,7 +60,7 @@ Extends the Essay section of spec 001's data model. Fields are those of the clar
 
 ## Trench A cell data (local, used by the Terra Sigillata epic)
 
-A cell is `{pit, stratum, name, language, reading, note, corpus: none | attestation, attestation?}`; `corpus: none` renders as "not yet corpus-backed"; setting `attestation` to an ID is the only change a retrofit makes. The cell file lives with the essay, not in the registry.
+A cell is `{pit, stratum, name, language, reading, note, corpus: none, attestation?}`; a cell without `attestation` renders as "not yet corpus-backed"; adding the ID is the only change a retrofit makes (`corpus: none` stays as the marker of local data). The cell file lives with the essay, not in the registry.
 
 ## Derived (never stored)
 

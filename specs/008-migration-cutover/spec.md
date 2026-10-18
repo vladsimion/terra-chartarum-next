@@ -89,7 +89,7 @@ As the editor, a cutover checklist (DNS/hosting switch, archive live, redirects 
 - **FR-002**: Imports MUST be deterministic and re-runnable; they MUST write to a staging directory, and `--apply` MUST add only records that do not exist and never overwrite a file.
 - **FR-003**: Every old public URL MUST have exactly one outcome in the redirect inventory: served in place by the archive, or one redirect rule.
 - **FR-004**: The archive MUST be the frozen terra-chartarum.pages.dev site: read-only, with an "archived edition" banner, `noindex`, and a link to terra-chartarum.org. Redirects for rebuilt essays live in the archive project's redirects file (ADR 0005).
-- **FR-005**: Publishing a rebuilt essay MUST update its redirect rule in the same pull request.
+- **FR-005**: Publishing a rebuilt essay MUST update its redirect rule in the same pull request. The rule comes from the essay's `legacy_url` (spec 003 FR-013), and `redirect_switched` (`{by, on}`) is a required Cross-link confirmation that the editor made the switch (ADR 0010).
 - **FR-006**: Imported private fields MUST be dropped before any public build and written nowhere; the report names them.
 - **FR-007**: Before the freeze, the live site's key templates MUST be measured once with the ADR 0004 profile and the results recorded as a baseline.
 - **FR-008**: The successor MUST be served at terra-chartarum.org from its own static hosting project built from vladsimion/terra-chartarum-next; hosting is a Cloudflare Worker serving static assets (ADR 0012).

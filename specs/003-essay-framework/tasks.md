@@ -124,12 +124,12 @@ description: "Task list for 003 Essay Framework & Editorial Pipeline"
 
 ## Phase 8: Polish & cross-cutting
 
-- [ ] T040 [P] Trench A cell helper: `tests/essays/unit/cells.test.ts` and its small module, asserting a `corpus: none` cell renders as "not yet corpus-backed" and that adding an `attestation` ID changes nothing else (FR-016); used by the Terra Sigillata epic
-- [ ] T041 [P] Spec 008: note that archive redirects are generated from each essay's `legacy_url` and that `redirect_switched` is a required Cross-link confirmation (ADR 0010)
-- [ ] T042 [P] Add a README section for the editorial pipeline (`promote`, `new essay`, the body tags, exports)
-- [ ] T043 Walk [quickstart.md](./quickstart.md) end to end and correct it
-- [ ] T044 Create the Jira epic for the Terra Sigillata rebuild (decided in the grill; it runs through the nine stages this spec enforces) and link it to TCX-4 as related, not as a child
-- [ ] T045 Run the `code-review` skill against `main` and resolve the findings
+- [x] T040 [P] Trench A cell helper: `tests/essays/unit/cells.test.ts` and its small module, asserting a `corpus: none` cell renders as "not yet corpus-backed" and that adding an `attestation` ID changes nothing else (FR-016); used by the Terra Sigillata epic
+- [x] T041 [P] Spec 008: note that archive redirects are generated from each essay's `legacy_url` and that `redirect_switched` is a required Cross-link confirmation (ADR 0010)
+- [x] T042 [P] Add a README section for the editorial pipeline (`promote`, `new essay`, the body tags, exports)
+- [x] T043 Walk [quickstart.md](./quickstart.md) end to end and correct it
+- [x] T044 Create the Jira epic for the Terra Sigillata rebuild (decided in the grill; it runs through the nine stages this spec enforces) and link it to TCX-4 as related, not as a child
+- [x] T045 Run the `code-review` skill against `main` and resolve the findings
 - [ ] T046 Update the Confluence records (workflow step 4): a programme dossier for spec 003 to the fourteen-point contract, Build Log section U for the shipped work, the Decision Log if a cross-programme decision was made, and the TCX-4 epic description to match `main`
 
 ---
