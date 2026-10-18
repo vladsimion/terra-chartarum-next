@@ -8,3 +8,6 @@ release: held
 place_type: archaeological_site
 relations:
   - tc:tc:source:source-000001
+names:
+  - { name: Sarmizegetusa, language: la, kind: historic }
+location: { lon: 22.78, lat: 45.52 }

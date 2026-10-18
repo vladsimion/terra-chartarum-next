@@ -30,10 +30,10 @@ export function world(publicEntities = false): RegistryRecord[] {
     publicEntities
       ? validMap({ ...pub })
       : map(1, { makers: ['tc:tc:cartographer:cartographer-000001'], rights: { licence: 'CC-BY-4.0' }, witness_kind: 'institutional', ...pub }),
-    place(1, pub),
+    place(1, { names: [{ name: 'Apulum', language: 'la', kind: 'historic' }], location: { lon: 23.5, lat: 46 }, ...pub }),
     source(1, pub),
     evidence(1, pub),
-    layer(1, { rights: { licence: 'CC-BY-4.0' }, ...pub }),
+    layer(1, { rights: { licence: 'CC-BY-4.0' }, theme: 'territories-boundaries', envelope: '0106/0271', time_mode: 'envelope_only', ...pub }),
     record('dataset', 1, { version: '1', rights: { licence: 'CC-BY-4.0' }, ...pub }),
     record('bibliography_entry', 1, { csl: 'x.json', section: 'primary_sources', ...pub }),
   ];

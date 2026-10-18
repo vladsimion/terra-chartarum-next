@@ -1,0 +1,23 @@
+id: tc:tc:layer:layer-000001
+family: layer
+origin: minted
+title: The frontier line
+slug: frontier-line
+lifecycle: published
+release: released
+role: historical
+asset: data/layers/layer-000001.geojson
+dataset: tc:tc:dataset:dataset-000001
+geometry_provenance: georeferenced_trace
+theme: territories-boundaries
+tags: [fixture]
+synonyms: [frontier-line-alias]
+envelope: 0106/0271
+time_mode: per_feature
+rights:
+  licence: CC BY 4.0
+facets:
+  - { property: status, label: Status, kind: category }
+  - { property: width_m, label: Width in metres, kind: range }
+documentation:
+  - { label: Method note, url: 'https://example.org/frontier-method' }

@@ -18,6 +18,9 @@ lifecycle: in-preparation
 release: held
 place_type: settlement
 vocabulary: atlas
+names:
+  - { name: Napoca, language: la, kind: historic }
+location: { lon: 23.6, lat: 46.77 }
 `;
 
 const ATLAS = `vocabulary: atlas

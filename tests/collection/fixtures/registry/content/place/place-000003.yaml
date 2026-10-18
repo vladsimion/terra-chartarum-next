@@ -8,3 +8,10 @@ release: released
 place_type: settlement
 relations:
   - tc:tc:map:map-000002
+names:
+  - name: Fixture Town
+    language: en
+    kind: modern
+location:
+  lon: 26.5
+  lat: 46.3

@@ -59,9 +59,21 @@ export const CartographerSchema = EntityBase.extend({
   bibliography: z.array(z.string()).optional(),
 });
 
+/** A name of a place (spec 005 data-model.md). Every key optional: `PLACE-NAMES` judges what is missing, so a draft record still loads. */
+const PlaceName = z.looseObject({
+  name: z.string().optional(),
+  language: z.string().optional(),
+  kind: z.string().optional(),
+  valid_from: z.unknown().optional(),
+  valid_to: z.unknown().optional(),
+});
+
 export const PlaceSchema = EntityBase.extend({
   place_type: z.string().optional(),
   location_status: z.string().optional(),
+  names: z.array(PlaceName).optional(),
+  /** WGS84 decimal degrees; `PLACE-LOCATION` judges the numbers. */
+  location: z.unknown().optional(),
   ...DATE_FIELDS,
 });
 
@@ -78,6 +90,27 @@ export const DatasetSchema = EntityBase.extend({
   rights: RightsShape.optional(),
 });
 
+/** A facet an editor declares for the inspector; `LAYER-FACET` judges the parts. */
+const Facet = z.looseObject({ property: z.string().optional(), label: z.string().optional(), kind: z.string().optional() });
+
+const HttpsUrl = z.string().refine((value) => {
+  try {
+    return new URL(value).protocol === 'https:';
+  } catch {
+    return false;
+  }
+}, 'an https URL');
+
+/** The georeferencing of an overlay (FR-019). Types only; `LAYER-GEOREF` judges the parts and the values. */
+const Georef = z.looseObject({
+  map: z.string().optional(),
+  annotation: z.string().optional(),
+  transformation: z.string().optional(),
+  residual_error_m: z.unknown().optional(),
+  control_points: z.unknown().optional(),
+  confidence: z.string().optional(),
+});
+
 export const LayerSchema = EntityBase.extend({
   role: z.string().optional(),
   asset: z.string().optional(),
@@ -85,6 +118,14 @@ export const LayerSchema = EntityBase.extend({
   geometry: z.string().optional(),
   geometry_provenance: z.string().optional(),
   images: z.array(z.string()).optional(),
+  theme: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  synonyms: z.array(z.string()).optional(),
+  envelope: z.string().optional(),
+  time_mode: z.string().optional(),
+  facets: z.unknown().optional(),
+  documentation: z.array(z.object({ label: z.string(), url: HttpsUrl })).optional(),
+  georef: Georef.optional(),
   rights: RightsShape.optional(),
 });
 

@@ -34,6 +34,16 @@ describe('registry synth', () => {
     expect(report.pass).toBe(true);
   });
 
+  it('writes an atlas catalogue of n layers with --atlas, rooms included, passing the gate', async () => {
+    const out = mkdtempSync(path.join(tmpdir(), 'synth-'));
+    const { code, out: said } = await run(['synth', '12', '--atlas', '--seed', '3', '--out', out]);
+    expect(code).toBe(0);
+    expect(said).toContain('12 layers');
+    const report = await checkRegistry(out);
+    expect(report.counts.errors).toBe(0);
+    expect(Object.keys(tree(out)).filter((f) => f.startsWith('content/layer/'))).toHaveLength(12);
+  });
+
   it('is deterministic: the same count and seed write identical files', async () => {
     const a = mkdtempSync(path.join(tmpdir(), 'synth-a-'));
     const b = mkdtempSync(path.join(tmpdir(), 'synth-b-'));

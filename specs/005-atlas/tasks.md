@@ -26,11 +26,11 @@ description: "Task list for 005 Historical Atlas"
 
 ## Phase 1: Setup
 
-- [ ] T001 Agree the four seams above with Vlad (tdd skill) and record any change here
-- [ ] T002 [P] Create `tests/atlas/fixtures/registry/` with a small hand-authored registry: the seven rooms; layers (a per-feature `historical` layer with a reconstructed feature and an uncertain date, an envelope-only layer, a present-day `context` layer, a layer with a retired slug in its `slug_history`, a `map-overlay` layer with `georef`, a held layer, and a layer at `in_build`); two collections (one with defaults, one with no runnable public member); places with historic and modern names and locations; public essays listing layers in `layers[]` and one held essay; with GeoJSON sources under `tests/atlas/fixtures/registry/data/layers/`. Add invalid variants named for the rule they trip
-- [ ] T003 [P] Confirm the host's per-file limit for Workers static assets from Cloudflare's documentation, record the figure and its source in `research.md` R3, and set it as the constant used by `LAYER-ASSET-SIZE` and `ATLAS-ASSET-SIZE`
-- [ ] T004 Measure the compressed JavaScript of MapLibre, the PMTiles protocol and the FlatGeobuf reader in a minimal built page, record the sizes in `research.md` R7, and choose between loading the map with the page or after the catalogue is interactive
-- [ ] T005 [P] Extend `src/registry/synthetic.ts` and the `registry synth` command to generate `n` layers with collections, places, essays listing layers, and small GeoJSON sources (200 layers for SC-001); a test asserts the same seed gives byte-identical records
+- [x] T001 Agree the four seams above with Vlad (tdd skill) and record any change here (seams agreed with Vlad 2026-10-18, unchanged)
+- [x] T002 [P] Create `tests/atlas/fixtures/registry/` with a small hand-authored registry: the seven rooms; layers (a per-feature `historical` layer with a reconstructed feature and an uncertain date, an envelope-only layer, a present-day `context` layer, a layer with a retired slug in its `slug_history`, a `map-overlay` layer with `georef`, a held layer, and a layer at `in_build`); two collections (one with defaults, one with no runnable public member); places with historic and modern names and locations; public essays listing layers in `layers[]` and one held essay; with GeoJSON sources under `tests/atlas/fixtures/registry/data/layers/`. Add invalid variants named for the rule they trip (the invalid variants are built in `tests/atlas/unit/fixture.test.ts` by changing a copy of the fixture, one per rule; the build-time ATLAS-* variants arrive with the build step)
+- [x] T003 [P] Confirm the host's per-file limit for Workers static assets from Cloudflare's documentation, record the figure and its source in `research.md` R3, and set it as the constant used by `LAYER-ASSET-SIZE` and `ATLAS-ASSET-SIZE` (25 MiB, recorded in research R3)
+- [x] T004 Measure the compressed JavaScript of MapLibre, the PMTiles protocol and the FlatGeobuf reader in a minimal built page, record the sizes in `research.md` R7, and choose between loading the map with the page or after the catalogue is interactive (296 KB gzip for MapLibre, PMTiles and FlatGeobuf; the map loads after the catalogue is interactive, research R7)
+- [x] T005 [P] Extend `src/registry/synthetic.ts` and the `registry synth` command to generate `n` layers with collections, places, essays listing layers, and small GeoJSON sources (200 layers for SC-001); a test asserts the same seed gives byte-identical records
 
 ---
 
@@ -38,21 +38,21 @@ description: "Task list for 005 Historical Atlas"
 
 **Goal**: the schemas, the seven rules, the public allowlist and spec 001's documents brought in step (FR-023).
 
-- [ ] T006 [P] Write failing `tests/registry/unit/atlas-schema.test.ts`: a layer with every clarified field loads and types correctly; `time_mode`, `theme` and facet `kind` take only their sets; `documentation[]` takes `{ label, url }` with `https` URLs; a place with `names[]` and `location` loads; `georef.map` resolves through `REF-UNKNOWN` and `REF-FAMILY`; `FAM-UNKNOWN` still rejects an unlisted field
-- [ ] T007 Implement `src/registry/schemas/atlas-values.ts`, the extended `LayerSchema` and `PlaceSchema` with the `Facet`, `Georef` and `PlaceName` values in `src/registry/schemas/families.ts`, and the `georef.map` reference field in `schemas/references.ts`; update existing fixtures
-- [ ] T008 [P] Write failing `tests/registry/unit/layer-theme-time.test.ts` for `LAYER-THEME` and `LAYER-TIME` (a theme outside the seven; a malformed or reversed envelope; a missing `time_mode`; severity warns at `ready_for_build`, errors at `publishable`) with a named mutation for each
-- [ ] T009 Implement `LAYER-THEME` and `LAYER-TIME` in `src/registry/rules/atlas.ts` and register them
-- [ ] T010 [P] Write failing `tests/registry/unit/layer-facet.test.ts` for `LAYER-FACET` (missing parts, a bad kind, duplicate properties, a per-feature layer using `valid_from` as a facet) with a named mutation
-- [ ] T011 Implement `LAYER-FACET`
-- [ ] T012 [P] Write failing `tests/registry/unit/layer-georef.test.ts` for `LAYER-GEOREF` (an overlay without `georef`; `georef` on another role; an unresolved or wrong-family `map`; a negative residual error; fewer than three control points; an overlay with `time_mode = per_feature`) with a named mutation
-- [ ] T013 Implement `LAYER-GEOREF`
-- [ ] T014 [P] Write failing `tests/registry/unit/layer-asset-size.test.ts` for `LAYER-ASSET-SIZE` (a source over the limit fails, one at the limit passes) with a named mutation, using a sparse file or an injected size reader
-- [ ] T015 Implement `LAYER-ASSET-SIZE`
-- [ ] T016 [P] Write failing `tests/registry/unit/place-names-location.test.ts` for `PLACE-NAMES` and `PLACE-LOCATION` (no names; a bad kind or language; reversed validity; duplicate name; longitude or latitude out of range or non-numeric) with a named mutation for each
-- [ ] T017 Implement `PLACE-NAMES` and `PLACE-LOCATION`
-- [ ] T018 [P] Write failing `tests/registry/unit/atlas-project.test.ts`: the public projection of a layer and a place carries exactly the allowlist of data-model.md and nothing else; the source path `asset` is not projected; a held layer or place is not projected
-- [ ] T019 Extend `src/registry/project.ts` with the layer and place allowlists
-- [ ] T020 Register the seven rules in `src/registry/rules/index.ts`, make the rule-coverage test pass (each has a named mutation), and add them to `specs/001-scholarly-registry/contracts/rule-ids.md`; update spec 001's `data-model.md` layer, place and collection rows to point at spec 005's
+- [x] T006 [P] Write failing `tests/registry/unit/atlas-schema.test.ts`: a layer with every clarified field loads and types correctly; `time_mode`, `theme` and facet `kind` take only their sets; `documentation[]` takes `{ label, url }` with `https` URLs; a place with `names[]` and `location` loads; `georef.map` resolves through `REF-UNKNOWN` and `REF-FAMILY`; `FAM-UNKNOWN` still rejects an unlisted field
+- [x] T007 Implement `src/registry/schemas/atlas-values.ts`, the extended `LayerSchema` and `PlaceSchema` with the `Facet`, `Georef` and `PlaceName` values in `src/registry/schemas/families.ts`, and the `georef.map` reference field in `schemas/references.ts`; update existing fixtures
+- [x] T008 [P] Write failing `tests/registry/unit/layer-theme-time.test.ts` for `LAYER-THEME` and `LAYER-TIME` (a theme outside the seven; a malformed or reversed envelope; a missing `time_mode`; severity warns at `ready_for_build`, errors at `publishable`) with a named mutation for each
+- [x] T009 Implement `LAYER-THEME` and `LAYER-TIME` in `src/registry/rules/atlas.ts` and register them
+- [x] T010 [P] Write failing `tests/registry/unit/layer-facet.test.ts` for `LAYER-FACET` (missing parts, a bad kind, duplicate properties, a per-feature layer using `valid_from` as a facet) with a named mutation
+- [x] T011 Implement `LAYER-FACET`
+- [x] T012 [P] Write failing `tests/registry/unit/layer-georef.test.ts` for `LAYER-GEOREF` (an overlay without `georef`; `georef` on another role; an unresolved or wrong-family `map`; a negative residual error; fewer than three control points; an overlay with `time_mode = per_feature`) with a named mutation
+- [x] T013 Implement `LAYER-GEOREF`
+- [x] T014 [P] Write failing `tests/registry/unit/layer-asset-size.test.ts` for `LAYER-ASSET-SIZE` (a source over the limit fails, one at the limit passes) with a named mutation, using a sparse file or an injected size reader
+- [x] T015 Implement `LAYER-ASSET-SIZE`
+- [x] T016 [P] Write failing `tests/registry/unit/place-names-location.test.ts` for `PLACE-NAMES` and `PLACE-LOCATION` (no names; a bad kind or language; reversed validity; duplicate name; longitude or latitude out of range or non-numeric) with a named mutation for each
+- [x] T017 Implement `PLACE-NAMES` and `PLACE-LOCATION`
+- [x] T018 [P] Write failing `tests/registry/unit/atlas-project.test.ts`: the public projection of a layer and a place carries exactly the allowlist of data-model.md and nothing else; the source path `asset` is not projected; a held layer or place is not projected
+- [x] T019 Extend `src/registry/project.ts` with the layer and place allowlists
+- [x] T020 Register the seven rules in `src/registry/rules/index.ts`, make the rule-coverage test pass (each has a named mutation), and add them to `specs/001-scholarly-registry/contracts/rule-ids.md`; update spec 001's `data-model.md` layer, place and collection rows to point at spec 005's
 
 ---
 

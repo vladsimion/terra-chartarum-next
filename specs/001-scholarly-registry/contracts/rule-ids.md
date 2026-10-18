@@ -38,6 +38,13 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `MAP-PRIVATE-FIELD` | no key at any depth, in any family, is an acquisition word (`price`, `paid`, `cost`, `negotiation`, `vendor`, `dealer_contact`, `invoice`, `receipt`); the value is never repeated | 004 FR-010 | always |
 | `MAP-SCOPE` | `record_scope` is `object`, `work` or `concept`; an object has a valid `witness_kind`; a work or concept has no `witness_kind`, images, inspected verification or basis (warns from `ready_for_build`) | 004 FR-003 | `publishable` |
 | `CART-KIND` | a cartographer's `kind` is `person` or `workshop`, `roles[]` are from the three, and a workshop has no `life_dates` | 004 FR-001, FR-011 | `ready_for_build` |
+| `LAYER-THEME` | a layer's `theme` is one of the seven (warns from `ready_for_build`) | 005 FR-001 | `publishable` |
+| `LAYER-TIME` | `envelope` is a valid EDTF interval whose earliest start is not after its latest end, and `time_mode` is `per_feature` or `envelope_only` (warns from `ready_for_build`) | 005 FR-001, FR-013 | `publishable` |
+| `LAYER-FACET` | each facet has `property`, `label` and a `kind` of `category` or `range`; properties are unique; a per-feature layer does not use `valid_from` or `valid_to` | 005 FR-014 | always |
+| `LAYER-GEOREF` | a `map-overlay` layer has a complete `georef` whose `map` is a map record, `residual_error_m` ≥ 0, `control_points` ≥ 3, `transformation` and `confidence` from their sets, and is not per-feature; any other role has none | 005 FR-019 | `ready_for_build` |
+| `LAYER-ASSET-SIZE` | the source named by `asset` is within the host's per-file limit (25 MiB); judged only when the loader supplies sizes | 005 FR-006 | always |
+| `PLACE-NAMES` | at least one name; each has a name, a BCP 47 `language`, a `kind` of `historic` or `modern`, valid EDTF `valid_from`/`valid_to` in order, and is not repeated (warns from `ready_for_build`) | 005 FR-009 | `publishable` |
+| `PLACE-LOCATION` | `location` has numeric `lon` in -180 to 180 and `lat` in -90 to 90 (warns from `ready_for_build`) | 005 FR-009 | `publishable` |
 | `LIFE-AVAILABILITY` | `published` layer has a runnable asset | US5.5 | `published` |
 | `LIFE-SUPERSEDED` | `superseded` has `superseded_by` resolving, or is withdrawn | FR-013 | always |
 | `REL-VALUE` | release is `held` or `released` | FR-015 | always |

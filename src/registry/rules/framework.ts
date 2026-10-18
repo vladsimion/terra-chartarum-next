@@ -83,6 +83,8 @@ export interface ValidateOptions {
   featureIndex?: ReadonlyMap<string, ReadonlySet<string>>;
   /** asset paths that exist, for `LIFE-AVAILABILITY`. */
   assetIndex?: ReadonlySet<string>;
+  /** Bytes per asset path, for `LAYER-ASSET-SIZE`. Read by the loader, so the rule itself stays pure. */
+  assetSizes?: ReadonlyMap<string, number>;
   /** Specialist vocabularies by name, for records that carry `vocabulary` (TC-D016). */
   vocabularies?: ReadonlyMap<string, Vocabulary>;
 }

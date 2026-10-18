@@ -1,0 +1,19 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "f-1",
+      "properties": {
+        "name": "Held point"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.1,
+          45.1
+        ]
+      }
+    }
+  ]
+}

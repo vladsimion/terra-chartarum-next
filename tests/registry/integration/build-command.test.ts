@@ -21,6 +21,9 @@ origin: minted
 title: Place ${n}
 slug: place-${n}
 place_type: settlement
+names:
+  - { name: Place ${n}, language: en, kind: modern }
+location: { lon: 24, lat: 46 }
 ${extra}`;
 
 /** The valid fixture plus places 3 to 6; each `files` entry is written under content/place/. */

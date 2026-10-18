@@ -7,3 +7,6 @@ slug_history: [colonia-napoca]
 lifecycle: researching
 release: held
 place_type: settlement
+names:
+  - { name: Napoca, language: la, kind: historic }
+location: { lon: 23.6, lat: 46.77 }

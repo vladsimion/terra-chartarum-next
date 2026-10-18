@@ -1,0 +1,39 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "f-1",
+      "properties": {
+        "name": "Footprint of the sheet"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              22.0,
+              45.0
+            ],
+            [
+              25.0,
+              45.0
+            ],
+            [
+              25.0,
+              47.0
+            ],
+            [
+              22.0,
+              47.0
+            ],
+            [
+              22.0,
+              45.0
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -69,10 +69,10 @@ Every field that points at another record. `referenceFields(record)` returns the
 | attestation | `place`, `source` |
 | collection | `members[]`, `default_layers[]` |
 | map | `makers[]` (cartographer IDs), `coverage[]` and `publication_place` (place), `attribution_evidence[]` (evidence), `bibliography[]` (bibliography entry) |
-| layer | `dataset` |
+| layer | `dataset`, `georef.map` (an overlay's map, spec 005) |
 | essay | `evidence[]`, `maps[]`, `places[]`, `sources[]` |
 
-Typed references must point at the right family (`REF-FAMILY`): essay `maps[]` → map, `places[]` → place, `sources[]` → source, `evidence[]` → evidence; collection `members[]` and `default_layers[]` → layer; map `makers[]` → cartographer, `coverage[]` and `publication_place` → place, `attribution_evidence[]` → evidence, `bibliography[]` → bibliography entry; cartographer `bibliography[]` → bibliography entry; layer `dataset` → dataset; evidence `source` → source; attestation `place` → place and `source` → source; `superseded_by` → the record's own family. `relations[]` and an evidence `target.entity` may point at anything.
+Typed references must point at the right family (`REF-FAMILY`): essay `maps[]` → map, `places[]` → place, `sources[]` → source, `evidence[]` → evidence; collection `members[]` and `default_layers[]` → layer; map `makers[]` → cartographer, `coverage[]` and `publication_place` → place, `attribution_evidence[]` → evidence, `bibliography[]` → bibliography entry; cartographer `bibliography[]` → bibliography entry; layer `dataset` → dataset and `georef.map` → map; evidence `source` → source; attestation `place` → place and `source` → source; `superseded_by` → the record's own family. `relations[]` and an evidence `target.entity` may point at anything.
 
 ## Family fields
 
@@ -82,10 +82,10 @@ Minimum fields per family beyond the Entity base. Everything not listed is optio
 |---|---|---|
 | map | `makers[]`, `witness_kind` (an object record only, `MAP-SCOPE`) | the fields of [spec 004's data model](../004-collection-catalogue/data-model.md) (replaces `edition_state`, `repository`, `images: string[]` and the physical-object placeholder) |
 | cartographer | `kind` | `names`, `roles`, `life_dates`, `active`, `bibliography` (spec 004's data model) |
-| place | `place_type` (a port is `port`) | `location_status` |
+| place | `place_type` (a port is `port`) | `location_status`, `names`, `location` (spec 005's data model; judged by `PLACE-NAMES` and `PLACE-LOCATION` from `ready_for_build`) |
 | source | `is_finding_aid` (boolean, default `false`) | `source_kind` |
 | dataset | `version` | `licence` |
-| layer | `role` (`context, historical, evidence, map-overlay`), `asset` (path), `dataset` | `geometry_provenance` |
+| layer | `role` (`context, historical, evidence, map-overlay`), `asset` (path), `dataset` | `geometry_provenance`, and from [spec 005's data model](../005-atlas/data-model.md) `theme`, `tags`, `synonyms`, `envelope`, `time_mode`, `facets`, `documentation`, `georef` (judged by the `LAYER-*` rules; the layer's source path is never projected) |
 | route, event, period | none | `valid_from`, `valid_to`, `date_label` |
 | bibliography_entry | `csl` (path to CSL-JSON) | none |
 
@@ -99,7 +99,7 @@ Spec 003 extends the essay with `question`, `thesis`, `rooms`, `layers[]`, `bibl
 
 ## Collection (`family = collection`)
 
-`members[]` (layer IDs), `default_layers[]`; `default_layers ⊆ members` (US3.2). A collection owns defaults, never geometry.
+`members[]` (layer IDs), `default_layers[]`; `default_layers ⊆ members` (US3.2). A collection owns defaults, never geometry. Spec 005 adds no collection field: a collection's derived overview and rooms are computed (spec 005 data-model.md).
 
 ## Room (`family = room`)
 

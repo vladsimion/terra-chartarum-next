@@ -1,0 +1,19 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "f-1",
+      "properties": {
+        "name": "Point in build"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.2,
+          45.2
+        ]
+      }
+    }
+  ]
+}
