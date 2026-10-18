@@ -18,6 +18,7 @@ export function pageType(file: string, page: HTMLElement): string {
   }
   if (page.querySelector('[data-stub]')) return 'stub';
   if (file.startsWith('essays/') && page.querySelector('article.essay')) return 'essay';
+  if (file.startsWith('collection/') && page.querySelector('article.map-record')) return 'collection-record';
   if (file === 'about/index.html') return 'about';
   if (file === 'colophon/index.html') return 'colophon';
   return 'unknown';

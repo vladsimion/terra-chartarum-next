@@ -30,7 +30,8 @@ export const rightsMissing = defineRule({
 
 /**
  * Images need reproduction rights cleared. That is a separate fact from the text being out of
- * copyright, so `text_public_domain` never satisfies it (Constitution VI).
+ * copyright, so `text_public_domain` never satisfies it (Constitution VI). Maps are exempt from this
+ * gate because their pages withhold an uncleared image instead (record-view.ts).
  */
 export const rightsCleared = defineRule({
   id: 'RIGHTS-CLEARED',
@@ -38,6 +39,8 @@ export const rightsCleared = defineRule({
   check: ({ records }) => {
     const findings: Finding[] = [];
     for (const record of records) {
+      // a map may be published with an image it cannot show: the page withholds the image and says why (spec 004 US1.5, data-model.md "Image source")
+      if (record.family === 'map') continue;
       const images = record.images;
       if (!Array.isArray(images) || images.length === 0) continue;
       if (rightsOf(record)?.reproduction_cleared !== true) {

@@ -6,6 +6,9 @@
  */
 export const PAGE_ROUTES: Readonly<Record<string, string>> = {
   essay: 'essays',
+  // spec 004: the catalogue
+  map: 'collection',
+  cartographer: 'cartographers',
 };
 
 export function routeSection(family: string): string {

@@ -6,6 +6,7 @@
     { "name": "colophon", "path": "/colophon/" },
     { "name": "stub", "path": "/essays/" },
     { "name": "essay", "path": "/essays/terra-nova/" },
+    { "name": "collection-record", "path": "/collection/fixture-map/" },
     { "name": "404", "path": "/404.html" },
     { "name": "content-with-breadcrumb", "path": "/fixtures/long-title/" },
     { "name": "essay-fixture-a", "path": "/fixtures/essay-a/" },

@@ -42,14 +42,14 @@ function splitName(name: string): Name {
 const inverted = (n: Name) => (n.literal !== undefined ? n.literal : `${n.family}, ${n.given}`);
 
 /** [year, month?, day?] from the leading digits of a date; null when there is no year. */
-function dateParts(value: string | undefined): number[] | null {
+export function dateParts(value: string | undefined): number[] | null {
   const m = value === undefined ? null : /^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?/.exec(value.trim());
   if (!m) return null;
   return [m[1], m[2], m[3]].filter((p): p is string => p !== undefined).map(Number);
 }
 
 const BIBTEX_SPECIAL = /[\\{}&%$#_~^]/g;
-const bibtexEscape = (text: string) =>
+export const bibtexEscape = (text: string) =>
   text.replace(BIBTEX_SPECIAL, (c) => (c === '\\' ? '\\textbackslash{}' : c === '~' ? '\\textasciitilde{}' : c === '^' ? '\\textasciicircum{}' : `\\${c}`));
 
 export function essayExports(essay: ExportableEssay, accessed: string): EssayExports {

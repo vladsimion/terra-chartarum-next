@@ -1,0 +1,141 @@
+---
+import type { RecordView } from '../record-view.js';
+import FieldRow from './FieldRow.astro';
+import ImageViewer from './ImageViewer.astro';
+
+interface Props {
+  view: RecordView;
+  /** Formatted bibliography entries, from the shared Chicago formatter. */
+  bibliography: string[];
+  /** The Chicago entry and the base address of the export files (spec 004 FR-006). */
+  citation: { chicago: string; base: string };
+}
+
+const { view, bibliography, citation } = Astro.props;
+---
+
+<article class="map-record">
+  <div class="record-head">
+    <h1>{view.title}</h1>
+    {view.titleOriginal && <p class="original-title">{view.titleOriginal}</p>}
+    <p class="witness">{view.witness.label}</p>
+    <p class="verification">
+      {view.verification.label}
+      {view.verification.lastVerified && <> · last verified <time datetime={view.verification.lastVerified}>{view.verification.lastVerified}</time></>}
+    </p>
+  </div>
+
+  {view.image.decision === 'show' && view.image.images.map((image) => <ImageViewer image={image} />)}
+  {view.image.decision === 'withheld' && <p class="image-withheld">{view.image.reason}</p>}
+
+  <dl class="fields">
+    {view.rows.map((row) => <FieldRow row={row} />)}
+  </dl>
+
+  <section class="attribution" aria-labelledby="attribution-heading">
+    <h2 id="attribution-heading">Attribution</h2>
+    <p>
+      {view.attribution.makers.length === 0 && 'No maker recorded.'}
+      {view.attribution.makers.map((maker, i) => (
+        <>
+          {i > 0 && ', '}
+          {maker.href ? <a href={maker.href}>{maker.name}</a> : maker.name}
+        </>
+      ))}
+    </p>
+    {view.attribution.note && <p class="unresolved">{view.attribution.note}</p>}
+    {view.attribution.evidence.length > 0 && (
+      <>
+        <h3>Evidence</h3>
+        <ul>
+          {view.attribution.evidence.map((e) => (
+            <li>{e.sourceTitle}{e.locator && <>, {e.locator}</>}</li>
+          ))}
+        </ul>
+      </>
+    )}
+  </section>
+
+  {view.openQuestions.length > 0 && (
+    <section class="open-questions" aria-labelledby="open-questions-heading">
+      <h2 id="open-questions-heading">Open questions</h2>
+      <ul>
+        {view.openQuestions.map((q) => (
+          <li>{q.question} <span class="would-resolve">Would be settled by: {q.wouldResolve}</span></li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {bibliography.length > 0 && (
+    <section class="bibliography" aria-labelledby="bibliography-heading">
+      <h2 id="bibliography-heading">Bibliography</h2>
+      <ul>
+        {bibliography.map((entry) => <li>{entry}</li>)}
+      </ul>
+    </section>
+  )}
+
+  <section class="cite" aria-labelledby="cite-heading">
+    <h2 id="cite-heading">Cite this record</h2>
+    <p>{citation.chicago}</p>
+    <nav aria-label="Citation files">
+      <ul>
+        <li><a href={`${citation.base}cite.bib`}>BibTeX</a></li>
+        <li><a href={`${citation.base}cite.ris`}>RIS</a></li>
+        <li><a href={`${citation.base}cite.json`}>CSL-JSON</a></li>
+      </ul>
+    </nav>
+  </section>
+</article>
+
+<style>
+  h1 {
+    padding-bottom: var(--space-3);
+    border-bottom: 3px solid var(--accent);
+  }
+
+  .original-title {
+    font-style: italic;
+    color: var(--ink-muted);
+  }
+
+  .witness {
+    font-weight: 600;
+  }
+
+  .verification,
+  .would-resolve {
+    color: var(--ink-muted);
+  }
+
+  .fields {
+    margin: var(--space-5) 0;
+  }
+
+  .image-withheld {
+    margin: var(--space-5) 0;
+    padding: var(--space-3) var(--space-4);
+    border-inline-start: 3px solid var(--accent);
+    background: var(--panel);
+  }
+
+  section ul {
+    padding-inline-start: var(--space-5);
+  }
+
+  .cite nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    padding: 0;
+    list-style: none;
+  }
+
+  .cite a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+    color: var(--accent);
+  }
+</style>

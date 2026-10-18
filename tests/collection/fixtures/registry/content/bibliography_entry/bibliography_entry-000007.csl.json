@@ -1,0 +1,19 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000007",
+  "type": "book",
+  "title": "A fixture introduction to mapping",
+  "author": [
+    {
+      "family": "Joe",
+      "given": "Jane"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1997
+      ]
+    ]
+  },
+  "publisher": "Fixture Press"
+}

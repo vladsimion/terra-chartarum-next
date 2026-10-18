@@ -1,0 +1,18 @@
+id: tc:tc:evidence:evidence-000004
+family: evidence
+origin: minted
+title: Attribution evidence 4
+slug: attribution-evidence-4
+lifecycle: published
+release: released
+target:
+  entity: tc:tc:map:map-000004
+source: tc:tc:source:source-000002
+locator:
+  value: p. 4
+  state: pending
+  proposed_by: person
+evidence_type: textual
+confidence: probable
+rights:
+  licence: CC BY 4.0

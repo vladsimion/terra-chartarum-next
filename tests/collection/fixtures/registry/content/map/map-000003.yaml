@@ -1,0 +1,41 @@
+id: tc:tc:map:map-000003
+family: map
+origin: minted
+title: A fixture map from a workshop
+slug: fixture-map-workshop
+lifecycle: published
+release: released
+witness_kind: institutional
+verification: checked_online
+last_verified: 2026-09-15
+makers:
+  - tc:tc:cartographer:cartographer-000002
+attribution_evidence:
+  - tc:tc:evidence:evidence-000003
+attribution: unresolved
+title_original: Tabula Vallis Limitis
+date_published: "1595"
+publication_place: tc:tc:place:place-000003
+edition_state: second state
+atlas_context: from the Fixture Atlas
+dimensions:
+  height_mm: 420
+  width_mm: 540
+language: la
+coverage:
+  - tc:tc:place:place-000001
+  - tc:tc:place:place-000002
+significance: An early printed view of the fixture valley.
+provenance: Given to the project by a private donor.
+georeferencing_status: none
+repository: Fixture Library
+images:
+  - type: static
+    url: https://example.org/maps/workshop.jpg
+    attribution: Fixture Library
+    alt: A workshop sheet of the valley
+    witness_kind: institutional
+rights:
+  licence: CC BY 4.0
+  attribution: Fixture rights holder
+  reproduction_cleared: true

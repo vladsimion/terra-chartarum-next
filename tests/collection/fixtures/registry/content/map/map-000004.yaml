@@ -1,0 +1,40 @@
+id: tc:tc:map:map-000004
+family: map
+origin: minted
+title: A fixture map with a withheld image
+slug: fixture-map-withheld
+lifecycle: published
+release: released
+witness_kind: institutional
+verification: unverified
+makers:
+  - tc:tc:cartographer:cartographer-000001
+attribution_evidence:
+  - tc:tc:evidence:evidence-000004
+title_original: Tabula Vallis Limitis
+date_published: "1595"
+publication_place: tc:tc:place:place-000003
+edition_state: second state
+atlas_context: from the Fixture Atlas
+dimensions:
+  height_mm: 420
+  width_mm: 540
+language: la
+coverage:
+  - tc:tc:place:place-000001
+  - tc:tc:place:place-000002
+significance: An early printed view of the fixture valley.
+provenance: Given to the project by a private donor.
+georeferencing_status: none
+repository: Fixture Library
+images:
+  - type: iiif
+    url: https://example.org/iiif/withheld/info.json
+    static_url: https://example.org/iiif/withheld/full/800,/0/default.jpg
+    attribution: Fixture Library
+    alt: A sheet whose reproduction is not cleared
+    witness_kind: institutional
+rights:
+  licence: CC BY 4.0
+  attribution: Fixture rights holder
+  reproduction_cleared: false
