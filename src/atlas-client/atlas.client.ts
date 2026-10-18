@@ -1,10 +1,14 @@
 import { catalogueView, type CatalogueGroup } from '../atlas/catalogue-view.js';
+import { facetExpression, matchesFacets } from '../atlas/facets.js';
+import type { FacetSummary } from '../atlas/build/convert-assets.js';
+import type { LayerInfo } from '../atlas/inspector-data.js';
 import { kindOf } from '../atlas/labels.js';
 import { legendOf } from '../atlas/provenance-style.js';
 import type { AtlasIndex, AtlasState } from '../atlas/types.js';
 import { classesPresent, summarise, type BuiltFeature } from '../atlas/visible.js';
-import { activate, activateDefaults, activeLayers, deactivate, initialState, setLens, setYear, toggleRelevant } from '../atlas/view-state.js';
+import { activate, activateDefaults, activeLayers, clearFacet, deactivate, focus, initialState, resetFacets, setFacet, setLens, setYear, toggleRelevant } from '../atlas/view-state.js';
 import type { LoadedFeature, MapController } from './map.js';
+import { renderInspector } from './inspector.js';
 import { createStore } from './store.js';
 
 /*
@@ -199,17 +203,24 @@ async function start(): Promise<void> {
             item.append(title);
           }
           if (loaded) {
-            const s = summarise(loaded.map((f) => f.properties as BuiltFeature), state.year);
+            const selections = state.facets[slug] ?? {};
+            const s = summarise(loaded.map((f) => f.properties as BuiltFeature), state.year, (f) => matchesFacets(f as unknown as Record<string, unknown>, selections));
             detail.textContent = `${s.shown} of ${s.total} features at ${state.year}${s.uncertain > 0 ? `, ${s.uncertain} date uncertain` : ''}`;
           } else {
             detail.textContent = 'Loading…';
           }
+          const inspect = document.createElement('button');
+          inspect.type = 'button';
+          inspect.dataset.inspect = slug;
+          inspect.textContent = 'Inspect';
+          inspect.setAttribute('aria-label', `Inspect ${layer.title}`);
+          inspect.setAttribute('aria-pressed', String(state.focused === slug));
           const remove = document.createElement('button');
           remove.type = 'button';
           remove.dataset.remove = slug;
           remove.textContent = 'Remove';
           remove.setAttribute('aria-label', `Remove ${layer.title} from the map`);
-          item.append(detail, remove);
+          item.append(detail, inspect, remove);
           return item;
         }),
       );
@@ -238,9 +249,63 @@ async function start(): Promise<void> {
   }
 
   list?.addEventListener('click', (event) => {
-    const button = (event.target as Element).closest<HTMLButtonElement>('button[data-remove]');
+    const target = event.target as Element;
+    const button = target.closest<HTMLButtonElement>('button[data-remove]');
     if (button?.dataset.remove) store.set(deactivate(store.get(), button.dataset.remove));
+    const inspect = target.closest<HTMLButtonElement>('button[data-inspect]');
+    if (inspect?.dataset.inspect) {
+      store.set(focus(store.get(), inspect.dataset.inspect));
+      // on a narrow screen the inspector is a sheet: open it
+      const sheet = document.querySelector<HTMLButtonElement>('.sheet-buttons button[aria-controls="inspector"]');
+      if (sheet && !sheet.hidden && sheet.offsetParent !== null && sheet.getAttribute('aria-expanded') !== 'true') sheet.click();
+    }
   });
+
+  // the inspector: the focused layer's info and facets, fetched once per layer
+  const inspectorBox = $<HTMLElement>('[data-inspector]');
+  const infoCache = new Map<string, Promise<{ info: LayerInfo; facets: FacetSummary[] } | null>>();
+  const fetchJson = async <T,>(url: string): Promise<T | null> => {
+    const response = await fetch(url);
+    return response.ok ? ((await response.json()) as T) : null;
+  };
+  function loadInspector(slug: string): Promise<{ info: LayerInfo; facets: FacetSummary[] } | null> {
+    let cached = infoCache.get(slug);
+    if (!cached) {
+      cached = (async () => {
+        const info = await fetchJson<LayerInfo>(`/data/layers/${slug}.info.json`);
+        if (!info) return null;
+        const facets = await fetchJson<{ facets: FacetSummary[] }>(`/data/layers/${slug}.facets.json`);
+        return { info, facets: facets?.facets ?? [] };
+      })();
+      infoCache.set(slug, cached);
+    }
+    return cached;
+  }
+  function showInspector(state: AtlasState): void {
+    if (!inspectorBox) return;
+    const slug = state.focused;
+    if (!slug) {
+      const empty = document.createElement('p');
+      empty.dataset.empty = '';
+      empty.textContent = 'Choose Inspect on an active layer to see where it comes from.';
+      inspectorBox.replaceChildren(empty);
+      return;
+    }
+    void loadInspector(slug).then((loaded) => {
+      if (store.get().focused !== slug) return;
+      if (!loaded) {
+        inspectorBox.textContent = 'This layer’s details could not be loaded.';
+        return;
+      }
+      renderInspector(inspectorBox, loaded.info, loaded.facets, store.get().facets[slug] ?? {}, {
+        onFacet: (property, selection) => store.set(selection ? setFacet(store.get(), slug, property, selection) : clearFacet(store.get(), slug, property)),
+        onReset: () => {
+          store.set(resetFacets(store.get(), slug));
+          showInspector(store.get());
+        },
+      });
+    });
+  }
 
   // the map follows the store: layers added or removed, the year changed
   let previous: AtlasState = { ...store.get(), active: [] };
@@ -248,7 +313,12 @@ async function start(): Promise<void> {
     const added = state.active.filter((slug) => !previous.active.includes(slug));
     const removed = previous.active.filter((slug) => !state.active.includes(slug));
     const yearChanged = state.year !== previous.year;
+    const before = previous;
     previous = state;
+    for (const slug of new Set([...Object.keys(before.facets), ...Object.keys(state.facets)])) {
+      if (before.facets[slug] !== state.facets[slug]) controller?.setFacet(slug, facetExpression(state.facets[slug] ?? {}));
+    }
+    if (state.focused !== before.focused) showInspector(state);
     for (const slug of removed) {
       controller?.remove(slug);
       features.delete(slug);

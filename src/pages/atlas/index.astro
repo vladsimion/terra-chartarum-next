@@ -136,6 +136,54 @@ const SHEETS = [
     }
   }
 
+  /* the inspector and the active list are rebuilt by script, so their parts are matched globally */
+  .inspector :global(dl) {
+    margin: 0;
+  }
+
+  .inspector :global(dt) {
+    margin-top: var(--space-3);
+    color: var(--ink-muted);
+    font-size: var(--step--1);
+  }
+
+  .inspector :global(dd) {
+    margin: 0;
+  }
+
+  .inspector :global(fieldset) {
+    margin: var(--space-3) 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .inspector :global(label) {
+    display: block;
+  }
+
+  .active-layers :global(ol) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .active-layers :global(li) {
+    display: grid;
+    gap: var(--space-1);
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .active-layers :global(.title) {
+    font-weight: 600;
+  }
+
+  .active-layers :global(.detail),
+  .active-layers :global(.range-mark) {
+    color: var(--ink-muted);
+    font-size: var(--step--1);
+  }
+
   .legend ul {
     margin: 0;
     padding-inline-start: var(--space-4);

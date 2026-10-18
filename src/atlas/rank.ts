@@ -1,4 +1,4 @@
-import { THEME_LABELS, THEME_VALUES } from '../registry/schemas/atlas-values.js';
+import { themeLabel } from './labels.js';
 import type { AtlasIndex, IndexLayer } from './types.js';
 
 /*
@@ -12,8 +12,6 @@ import type { AtlasIndex, IndexLayer } from './types.js';
 export function normalise(text: string): string {
   return text.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/\s+/g, ' ').trim();
 }
-
-const themeLabel = (theme: string): string => (THEME_VALUES as readonly string[]).includes(theme) ? THEME_LABELS[theme as keyof typeof THEME_LABELS] : theme;
 
 /** Lower is better; null is no match. */
 function tier(layer: IndexLayer, collectionTitles: ReadonlyMap<string, string>, query: string): number | null {

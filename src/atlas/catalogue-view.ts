@@ -1,5 +1,6 @@
 import { ROOM_IDS } from '../registry/families.js';
 import { THEME_LABELS, THEME_VALUES } from '../registry/schemas/atlas-values.js';
+import { roomLabel } from './labels.js';
 import { rank } from './rank.js';
 import type { AtlasIndex, AtlasState, IndexLayer } from './types.js';
 import { canActivateDefaults, catalogue } from './view-state.js';
@@ -27,7 +28,6 @@ export interface CatalogueView {
 }
 
 const group = (id: string, heading: string, layers: IndexLayer[], extra: Partial<CatalogueGroup> = {}): CatalogueGroup => ({ id, heading, layers, canActivateDefaults: false, ...extra });
-const roomLabel = (name: string): string => name.charAt(0).toUpperCase() + name.slice(1);
 
 export function catalogueView(state: AtlasState, index: AtlasIndex, query: string): CatalogueView {
   const visible = new Set(catalogue(state, index).map((l) => l.slug));

@@ -1,5 +1,5 @@
 import { envelopeState, yearBounds, type EnvelopeState } from './time.js';
-import type { AtlasIndex, AtlasState, IndexLayer, Lens } from './types.js';
+import type { AtlasIndex, AtlasState, FacetSelection, IndexLayer, Lens } from './types.js';
 
 /*
  * The Atlas view and what changes it (spec 005 FR-003, FR-004). Typed state and pure reducers, no
@@ -46,6 +46,25 @@ export function deactivate(state: AtlasState, slug: string): AtlasState {
   const next: AtlasState = { ...state, active: state.active.filter((s) => s !== slug), facets };
   if (state.focused === slug) delete next.focused;
   return next;
+}
+
+/** A selection on one property of an active layer; an empty category selection clears the property. */
+export function setFacet(state: AtlasState, slug: string, property: string, selection: FacetSelection): AtlasState {
+  if (!state.active.includes(slug)) return state;
+  if (selection.kind === 'category' && selection.values.length === 0) return clearFacet(state, slug, property);
+  return { ...state, facets: { ...state.facets, [slug]: { ...state.facets[slug], [property]: selection } } };
+}
+
+export function clearFacet(state: AtlasState, slug: string, property: string): AtlasState {
+  const { [property]: _removed, ...rest } = state.facets[slug] ?? {};
+  const { [slug]: _layer, ...others } = state.facets;
+  return { ...state, facets: Object.keys(rest).length > 0 ? { ...others, [slug]: rest } : others };
+}
+
+/** Each layer has its own reset: the others keep their selections. */
+export function resetFacets(state: AtlasState, slug: string): AtlasState {
+  const { [slug]: _layer, ...others } = state.facets;
+  return { ...state, facets: others };
 }
 
 /** The inspector shows an active layer; focusing anything else changes nothing. */

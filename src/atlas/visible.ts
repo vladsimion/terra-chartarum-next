@@ -26,10 +26,12 @@ export interface FeatureSummary {
   total: number;
 }
 
-export function summarise(features: readonly BuiltFeature[], year: number): FeatureSummary {
+/** `keep` is a facet selection: a feature it rejects is not drawn, whatever the year says. */
+export function summarise(features: readonly BuiltFeature[], year: number, keep: (feature: BuiltFeature) => boolean = () => true): FeatureSummary {
   let shown = 0;
   let uncertain = 0;
   for (const f of features) {
+    if (!keep(f)) continue;
     const state = featureState(
       { fromMin: f._from_min, fromMax: f._from_max, toMin: f._to_min, toMax: f._to_max, fromUncertain: f._from_unc === 1, toUncertain: f._to_unc === 1 },
       year,

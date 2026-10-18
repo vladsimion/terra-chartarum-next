@@ -6,6 +6,10 @@ slug: frontier-line
 lifecycle: published
 release: released
 role: historical
+description: |-
+  The line the surveyors drew along the northern frontier, as traced from the sheet.
+
+  A second paragraph about how it was traced.
 asset: data/layers/layer-000001.geojson
 dataset: tc:tc:dataset:dataset-000001
 geometry_provenance: georeferenced_trace
