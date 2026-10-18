@@ -4,6 +4,7 @@ import Cite from '../../essays/components/Cite.astro';
 import CitationExport from '../../essays/components/CitationExport.astro';
 import EssayLayout from '../../essays/components/EssayLayout.astro';
 import EvidencePanel from '../../essays/components/EvidencePanel.astro';
+import Interaction from '../../essays/components/Interaction.astro';
 import MapFigure from '../../essays/components/MapFigure.astro';
 import { buildEssayPage } from '../../essays/page-model.js';
 import { loadEssaySite } from '../../essays/site-data.js';
@@ -31,5 +32,5 @@ const { Content } = await render(entry);
 ---
 
 <EssayLayout>
-  <Content components={{ MapFigure, Cite, EvidencePanel, CitationExport }} />
+  <Content components={{ MapFigure, Cite, EvidencePanel, Interaction, CitationExport }} />
 </EssayLayout>

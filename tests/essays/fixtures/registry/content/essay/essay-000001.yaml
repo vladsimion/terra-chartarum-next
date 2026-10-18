@@ -53,6 +53,13 @@ sources:
 evidence:
   - tc:tc:evidence:evidence-000001
   - tc:tc:evidence:evidence-000002
+interactions:
+  - id: frontier-slider
+    component: compare-slider
+    question: Does the road run where the line says?
+    interpretation: The road bends round the valley the surveyor left out.
+    evidence:
+      - tc:tc:evidence:evidence-000002
 open_questions: []
 bibliography:
   - tc:tc:bibliography_entry:bibliography_entry-000001
@@ -74,3 +81,4 @@ signoffs:
     on: 2026-10-12
 relations:
   - tc:tc:essay:essay-000002
+  - tc:tc:essay:essay-000003

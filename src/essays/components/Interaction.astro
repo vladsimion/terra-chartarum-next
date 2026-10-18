@@ -1,0 +1,64 @@
+---
+import { pageModel } from '../locals.js';
+import EvidenceDetails from './EvidenceDetails.astro';
+
+interface Props {
+  /** The id of an interaction declared in the essay record's `interactions[]`; the question and expected interpretation come from there, never from the body (FR-007). */
+  id: string;
+}
+
+const interaction = pageModel(Astro.locals).interaction(Astro.props.id);
+const headingId = `interaction-${interaction.id}`;
+---
+
+<section class="interaction" aria-labelledby={headingId} data-component={interaction.component}>
+  <p class="label">Question</p>
+  <h2 id={headingId}>{interaction.question}</h2>
+  <p class="label">What to look for</p>
+  <p class="interpretation">{interaction.interpretation}</p>
+  <div class="interaction-body"><slot /></div>
+  <ul class="evidence">
+    {interaction.evidence.map((detail) => (
+      <li>
+        <span>{detail.note}</span>
+        <EvidenceDetails detail={detail} />
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .interaction {
+    margin: var(--space-6) 0;
+    padding: var(--space-4);
+    border: 1px solid var(--line);
+    border-inline-start: 3px solid var(--accent);
+    border-radius: var(--radius);
+    background: var(--panel);
+  }
+
+  .label {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: var(--step--1);
+  }
+
+  h2 {
+    margin: 0 0 var(--space-3);
+  }
+
+  .interpretation {
+    margin: 0 0 var(--space-4);
+  }
+
+  .interaction-body {
+    margin-bottom: var(--space-4);
+  }
+
+  .evidence {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--step--1);
+  }
+</style>

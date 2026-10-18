@@ -109,16 +109,16 @@ description: "Task list for 003 Essay Framework & Editorial Pipeline"
 
 **Independent Test**: each shipped component has a documented question it serves, keyboard operation, a reduced-motion variant and a no-JS fallback.
 
-- [ ] T035 [P] [US4] Write failing `tests/essays/e2e/components.spec.ts`: for the `Interaction` wrapper, the citation/export control and the evidence panel: keyboard operation with visible focus, a static equivalent under `prefers-reduced-motion`, working with JavaScript off, and the declared question and expected interpretation shown above an interaction
-- [ ] T036 [P] [US4] Write failing `tests/essays/unit/component-docs.test.ts`: every component in `src/essays/components/` has a documentation entry stating the question it serves, its keyboard model, its reduced-motion behaviour and its no-JS fallback (US4)
-- [ ] T037 [US4] Implement the `Interaction` wrapper component and `docs/essay-components.md`; make T035 and T036 pass; Jira: copy this phase's checklist into TCX-26 and update the epic
+- [x] T035 [P] [US4] Write failing `tests/essays/e2e/components.spec.ts`: for the `Interaction` wrapper, the citation/export control and the evidence panel: keyboard operation with visible focus, a static equivalent under `prefers-reduced-motion`, working with JavaScript off, and the declared question and expected interpretation shown above an interaction
+- [x] T036 [P] [US4] Write failing `tests/essays/unit/component-docs.test.ts`: every component in `src/essays/components/` has a documentation entry stating the question it serves, its keyboard model, its reduced-motion behaviour and its no-JS fallback (US4)
+- [x] T037 [US4] Implement the `Interaction` wrapper component and `docs/essay-components.md`; make T035 and T036 pass; Jira: copy this phase's checklist into TCX-26 and update the epic
 
 ---
 
 ## Phase 7: User Story 3 — site half (P1)
 
-- [ ] T038 [US3] Write failing `tests/essays/e2e/held-essay.spec.ts`: with a held essay in the fixtures, no page is generated for it, and a recursive search of the whole built output for its title, slug and anchors finds nothing; the public essay that lists it in `relations[]` does not show it (SC-001, FR-006)
-- [ ] T039 [US3] Make T038 pass; Jira: copy the US3 checklist (T023, T024, T038, T039) into TCX-25 and update the epic
+- [x] T038 [US3] Write failing `tests/essays/e2e/held-essay.spec.ts`: with a held essay in the fixtures, no page is generated for it, and a recursive search of the whole built output for its title, slug and anchors finds nothing; the public essay that lists it in `relations[]` does not show it (SC-001, FR-006)
+- [x] T039 [US3] Make T038 pass; Jira: copy the US3 checklist (T023, T024, T038, T039) into TCX-25 and update the epic
 
 ---
 

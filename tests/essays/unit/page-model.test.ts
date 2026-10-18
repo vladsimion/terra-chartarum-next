@@ -83,3 +83,32 @@ describe('buildEssayPage errors', () => {
     expect(() => build('Prose.', held)).toThrow(/bibliography names .*bibliography_entry-000001/);
   });
 });
+
+describe('buildEssayPage interactions (spec 003 US4, FR-007)', () => {
+  const declared = {
+    id: 'frontier-slider',
+    component: 'compare-slider',
+    question: 'Does the road run where the line says?',
+    interpretation: 'The road bends round the valley the surveyor left out.',
+    evidence: [EV],
+  };
+  const withInteraction = { ...essay, interactions: [declared] };
+  const buildWith = (source: string) => buildEssayPage({ essay: withInteraction, records, body: scanEssayBody(source), cslFor: () => CSL });
+
+  it('gives the declared question, expected interpretation and evidence of an interaction the body uses', () => {
+    const page = buildWith('<Interaction id="frontier-slider" />');
+    const interaction = page.interaction('frontier-slider');
+    expect(interaction).toMatchObject({ id: 'frontier-slider', question: declared.question, interpretation: declared.interpretation });
+    expect(interaction.evidence.map((e) => e.evidence)).toEqual([EV]);
+    expect(interaction.evidence[0]!.note).toBe('Jane Doe, A Book (Press, 1999), 12.');
+  });
+
+  it('names an interaction the body uses but the record does not declare', () => {
+    expect(() => buildWith('<Interaction id="nothing-declared" />')).toThrow(/essay-000001.*nothing-declared.*not declared/);
+  });
+
+  it('names a declared interaction whose evidence is not public', () => {
+    const held = { ...withInteraction, interactions: [{ ...declared, evidence: ['tc:tc:evidence:evidence-000099'] }] };
+    expect(() => buildEssayPage({ essay: held, records, body: scanEssayBody('<Interaction id="frontier-slider" />'), cslFor: () => CSL })).toThrow(/frontier-slider.*evidence-000099/);
+  });
+});
