@@ -12,6 +12,9 @@ const TEXT_EXTENSIONS = new Set([
 ]);
 const TEXT_NAMES = new Set(['_redirects', '_headers']);
 
+/** The editor's reports (spec 004 US5, contracts/cli-additions.md): never part of a site, so neither their names nor a link to them may appear in its output. */
+export const EDITOR_REPORTS = ['completeness.json', 'enrichment-queue.json', 'enrichment-queue.md'] as const;
+
 /** Private values shorter than this cannot be told apart from ordinary text, so they are not searched for. */
 const MIN_PRIVATE_LENGTH = 5;
 
@@ -112,9 +115,26 @@ async function textFiles(dir: string): Promise<string[]> {
 export async function scanOutput(distDir: string, records: readonly RegistryRecord[]): Promise<Violation[]> {
   const needles = buildNeedles(records);
   const violations: Violation[] = [];
+  const editorReport = (rel: string, name: string): Violation => ({
+    rule: 'PRIV-LEAK',
+    severity: 'error',
+    entity: null,
+    file: rel,
+    field: null,
+    value: name,
+    expected: 'output free of the editor reports (completeness and enrichment queue)',
+  });
+  // a report file copied into the output, whatever its extension
+  for (const entry of await readdir(distDir, { recursive: true, withFileTypes: true })) {
+    if (entry.isFile() && (EDITOR_REPORTS as readonly string[]).includes(entry.name)) {
+      violations.push(editorReport(path.relative(distDir, path.join(entry.parentPath, entry.name)).split(path.sep).join('/'), entry.name));
+    }
+  }
   for (const file of await textFiles(distDir)) {
     const text = await readFile(file, 'utf8');
     const rel = path.relative(distDir, file).split(path.sep).join('/');
+    // a page or file that names one
+    for (const name of EDITOR_REPORTS) if (text.includes(name)) violations.push(editorReport(rel, name));
     for (const needle of needles) {
       if (!needle.find(text)) continue;
       violations.push({

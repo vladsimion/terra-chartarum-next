@@ -15,4 +15,5 @@ playwright-report/
 playwright-report-essays/
 playwright-report-collection/
 test-results/
+reports-completeness/
 .lighthouseci/
