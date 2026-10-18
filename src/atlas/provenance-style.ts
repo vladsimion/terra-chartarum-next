@@ -65,12 +65,16 @@ export interface Present {
   uncertain?: boolean;
 }
 
+/** The legend of some classes, in the contract order, with "Date uncertain" last when some feature is only possibly valid. */
+export function legendOf(classes: readonly StyleClass[], uncertain: boolean): LegendEntry[] {
+  const ids = new Set(classes.map((c) => c.id));
+  const entries: LegendEntry[] = STYLE_CLASSES.filter((c) => ids.has(c.id)).map(({ label, description }) => ({ label, description }));
+  if (entries.length > 0 && uncertain) entries.push({ label: DATE_UNCERTAIN.label, description: DATE_UNCERTAIN.description });
+  return entries;
+}
+
 /** The legend: only the classes present, in the contract order, and "Date uncertain" only if some feature is. */
 export function legendFor(present: readonly Present[]): LegendEntry[] {
-  const used = new Set(present.map((p) => styleFor(p.provenance)?.id).filter((id) => id !== undefined));
-  const entries: LegendEntry[] = STYLE_CLASSES.filter((c) => used.has(c.id)).map(({ label, description }) => ({ label, description }));
-  if (entries.length > 0 && present.some((p) => p.uncertain === true && styleFor(p.provenance))) {
-    entries.push({ label: DATE_UNCERTAIN.label, description: DATE_UNCERTAIN.description });
-  }
-  return entries;
+  const classes = present.map((p) => styleFor(p.provenance)).filter((c): c is StyleClass => c !== null);
+  return legendOf(classes, present.some((p) => p.uncertain === true && styleFor(p.provenance) !== null));
 }

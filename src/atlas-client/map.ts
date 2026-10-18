@@ -1,0 +1,235 @@
+import type { Map as MapLibreMap, ExpressionSpecification } from 'maplibre-gl';
+import { MAPLIBRE_URL } from '../atlas/build/vendor-url.js';
+import { geojson } from 'flatgeobuf';
+import { DATE_UNCERTAIN, STYLE_CLASSES, lineDash, styleFor, type StyleClass } from '../atlas/provenance-style.js';
+import { ownProvenance, type BuiltFeature } from '../atlas/visible.js';
+
+/*
+ * The map (spec 005 US1, research R1, R4, R7): MapLibre, loaded only when the first layer is added,
+ * a layer's FlatGeobuf fetched whole on activation, and the year applied as a filter expression
+ * over the bounds the build wrote into each feature. Provenance is drawn by line and fill pattern
+ * and date uncertainty by opacity, so colour is never the only cue (FR-015, SC-006).
+ */
+export interface LoadedFeature {
+  type: 'Feature';
+  geometry: { type: string; coordinates: unknown };
+  properties: BuiltFeature & Record<string, unknown>;
+}
+
+export interface LoadedLayer {
+  slug: string;
+  features: LoadedFeature[];
+}
+
+export interface MapController {
+  /** Fetches the layer if needed and draws it; resolves with its features. */
+  add(slug: string, provenance: string, colourIndex: number): Promise<LoadedLayer>;
+  remove(slug: string): void;
+  setYear(year: number): void;
+  /** Moves the view to the extent of these layers. */
+  fitTo(slugs: string[]): void;
+  /** Resolves when the map has drawn everything it was asked to and stopped moving (research R8: the map is interactive). */
+  idle(): Promise<void>;
+  destroy(): void;
+}
+
+const PALETTE = ['--accent-gold', '--accent-verdigris', '--accent-madder', '--accent-indigo', '--accent-umber', '--accent-sage'];
+const css = (name: string): string => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const colourFor = (index: number): string => css(PALETTE[index % PALETTE.length] ?? PALETTE[0]!);
+
+/** A repeating hatch tile in one colour, as the image a polygon fill uses. */
+function hatchImage(kind: 'diagonal-hatch' | 'cross-hatch', colour: string): { width: number; height: number; data: Uint8Array } {
+  const size = 16;
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d')!;
+  ctx.strokeStyle = colour;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(0, size);
+  ctx.lineTo(size, 0);
+  ctx.moveTo(-size / 2, size / 2);
+  ctx.lineTo(size / 2, -size / 2);
+  ctx.moveTo(size / 2, size + size / 2);
+  ctx.lineTo(size + size / 2, size / 2);
+  if (kind === 'cross-hatch') {
+    ctx.moveTo(0, 0);
+    ctx.lineTo(size, size);
+    ctx.moveTo(-size / 2, size / 2);
+    ctx.lineTo(size / 2, size + size / 2);
+    ctx.moveTo(size / 2, -size / 2);
+    ctx.lineTo(size + size / 2, size / 2);
+  }
+  ctx.stroke();
+  const { data, width, height } = ctx.getImageData(0, 0, size, size);
+  return { width, height, data: new Uint8Array(data.buffer) };
+}
+
+/** True while the feature is certainly valid at `year`; otherwise it is only possible. */
+function certainAt(year: number): ExpressionSpecification {
+  return [
+    'all',
+    ['any', ['<', ['get', '_from_max'], year], ['all', ['==', ['get', '_from_max'], year], ['==', ['get', '_from_unc'], 0]]],
+    ['any', ['>', ['get', '_to_min'], year], ['all', ['==', ['get', '_to_min'], year], ['==', ['get', '_to_unc'], 0]]],
+  ];
+}
+
+const shownAt = (year: number): ExpressionSpecification => ['all', ['<=', ['get', '_from_min'], year], ['>=', ['get', '_to_max'], year]];
+const opacityAt = (year: number, base: number): ExpressionSpecification => ['case', certainAt(year), base, base * DATE_UNCERTAIN.opacity];
+
+interface Drawn {
+  /** Style layer ids with the opacity they have when certain. */
+  styleLayers: { id: string; property: 'fill-opacity' | 'line-opacity' | 'circle-opacity'; base: number; where: ExpressionSpecification }[];
+  features: LoadedFeature[];
+}
+
+async function fetchFeatures(slug: string, provenance: string): Promise<LoadedFeature[]> {
+  const response = await fetch(`/data/layers/${slug}.fgb`);
+  if (!response.ok) throw new Error(`the layer ${slug} could not be fetched (${response.status})`);
+  const bytes = new Uint8Array(await response.arrayBuffer());
+  const features: LoadedFeature[] = [];
+  for await (const feature of geojson.deserialize(bytes)) {
+    const f = feature as unknown as LoadedFeature;
+    f.properties = { ...f.properties, _class: styleFor(ownProvenance(f.properties, provenance))?.id ?? 'documentary' };
+    features.push(f);
+  }
+  return features;
+}
+
+function boundsOf(features: readonly LoadedFeature[]): [number, number, number, number] | null {
+  let box: [number, number, number, number] | null = null;
+  const visit = (value: unknown): void => {
+    if (!Array.isArray(value)) return;
+    if (typeof value[0] === 'number' && typeof value[1] === 'number') {
+      const [x, y] = value as [number, number];
+      box = box ? [Math.min(box[0], x), Math.min(box[1], y), Math.max(box[2], x), Math.max(box[3], y)] : [x, y, x, y];
+    } else {
+      value.forEach(visit);
+    }
+  };
+  for (const f of features) visit(f.geometry.coordinates);
+  return box;
+}
+
+export async function createMap(container: HTMLElement, initialYear: number): Promise<MapController> {
+  // served as it ships, beside its worker (see src/atlas/build/vendor.ts); the stylesheet sits next to it
+  const style = document.createElement('link');
+  style.rel = 'stylesheet';
+  style.href = MAPLIBRE_URL.replace(/\.mjs$/, '.css');
+  document.head.append(style);
+  const maplibre = (await import(/* @vite-ignore */ MAPLIBRE_URL)) as typeof import('maplibre-gl');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const map: MapLibreMap = new maplibre.Map({
+    container,
+    style: { version: 8, sources: {}, layers: [{ id: 'background', type: 'background', paint: { 'background-color': css('--panel') || '#0e0c08' } }] },
+    center: [24, 46],
+    zoom: 5,
+    attributionControl: false,
+  });
+  map.addControl(new maplibre.NavigationControl({ showCompass: false }), 'top-right');
+  await new Promise<void>((resolve) => map.once('load', () => resolve()));
+
+  let year = initialYear;
+  const drawn = new Map<string, Drawn>();
+
+  function ensureHatch(kind: 'diagonal-hatch' | 'cross-hatch', colour: string): string {
+    const name = `${kind}:${colour}`;
+    if (!map.hasImage(name)) map.addImage(name, hatchImage(kind, colour), { pixelRatio: 2 });
+    return name;
+  }
+
+  function draw(slug: string, features: LoadedFeature[], colourIndex: number): Drawn {
+    const colour = colourFor(colourIndex);
+    const grey = css('--ink-muted');
+    map.addSource(`atlas:${slug}`, { type: 'geojson', data: { type: 'FeatureCollection', features: features as never } });
+    const styleLayers: Drawn['styleLayers'] = [];
+    const present = new Set(features.map((f) => f.properties._class));
+    const isPolygon: ExpressionSpecification = ['==', ['geometry-type'], 'Polygon'];
+    const isLine: ExpressionSpecification = ['==', ['geometry-type'], 'LineString'];
+    const isPoint: ExpressionSpecification = ['==', ['geometry-type'], 'Point'];
+    for (const cls of STYLE_CLASSES.filter((c): c is StyleClass => present.has(c.id))) {
+      const ink = cls.thin ? grey : colour;
+      const forClass = (geometry: ExpressionSpecification): ExpressionSpecification => ['all', ['==', ['get', '_class'], cls.id], geometry];
+      const id = (kind: string) => `atlas:${slug}:${cls.id}:${kind}`;
+      if (cls.fill !== 'none') {
+        const paint: Record<string, unknown> = { 'fill-opacity': opacityAt(year, cls.fill === 'solid' ? 0.35 : 1) };
+        if (cls.fill === 'solid') paint['fill-color'] = ink;
+        else paint['fill-pattern'] = ensureHatch(cls.fill, ink);
+        const where = forClass(isPolygon);
+        map.addLayer({ id: id('fill'), type: 'fill', source: `atlas:${slug}`, filter: ['all', where, shownAt(year)], paint: paint as never });
+        styleLayers.push({ id: id('fill'), property: 'fill-opacity', base: cls.fill === 'solid' ? 0.35 : 1, where });
+      }
+      const lineWhere: ExpressionSpecification = ['all', ['==', ['get', '_class'], cls.id], ['any', isLine, isPolygon]];
+      map.addLayer({
+        id: id('line'),
+        type: 'line',
+        source: `atlas:${slug}`,
+        filter: ['all', lineWhere, shownAt(year)],
+        paint: { 'line-color': ink, 'line-width': cls.thin ? 1 : 2, 'line-opacity': opacityAt(year, 1), ...(lineDash(cls.line).length > 0 ? { 'line-dasharray': lineDash(cls.line) } : {}) },
+      });
+      styleLayers.push({ id: id('line'), property: 'line-opacity', base: 1, where: lineWhere });
+      // a point cannot be dashed: a documentary point is solid, the other classes are a ring, wider for the generalised
+      const hollow = cls.id !== 'documentary';
+      const pointWhere = forClass(isPoint);
+      map.addLayer({
+        id: id('point'),
+        type: 'circle',
+        source: `atlas:${slug}`,
+        filter: ['all', pointWhere, shownAt(year)],
+        paint: {
+          'circle-radius': cls.thin ? 3 : cls.id === 'generalised' ? 8 : 6,
+          'circle-color': ink,
+          'circle-opacity': opacityAt(year, hollow ? 0.1 : 1),
+          'circle-stroke-color': ink,
+          'circle-stroke-width': cls.id === 'generalised' ? 3 : hollow ? 2 : 1,
+          'circle-stroke-opacity': opacityAt(year, 1),
+        },
+      });
+      styleLayers.push({ id: id('point'), property: 'circle-opacity', base: hollow ? 0.1 : 1, where: pointWhere });
+    }
+    return { styleLayers, features };
+  }
+
+  return {
+    async add(slug, provenance, colourIndex) {
+      const existing = drawn.get(slug);
+      if (existing) return { slug, features: existing.features };
+      const features = await fetchFeatures(slug, provenance);
+      drawn.set(slug, draw(slug, features, colourIndex));
+      return { slug, features };
+    },
+    remove(slug) {
+      const entry = drawn.get(slug);
+      if (!entry) return;
+      for (const { id } of entry.styleLayers) if (map.getLayer(id)) map.removeLayer(id);
+      if (map.getSource(`atlas:${slug}`)) map.removeSource(`atlas:${slug}`);
+      drawn.delete(slug);
+    },
+    setYear(next) {
+      year = next;
+      for (const entry of drawn.values()) {
+        for (const { id, property, base, where } of entry.styleLayers) {
+          if (!map.getLayer(id)) continue;
+          map.setFilter(id, ['all', where, shownAt(year)]);
+          map.setPaintProperty(id, property, opacityAt(year, base));
+          if (property === 'circle-opacity') map.setPaintProperty(id, 'circle-stroke-opacity', opacityAt(year, 1));
+        }
+      }
+    },
+    fitTo(slugs) {
+      const features = slugs.flatMap((slug) => drawn.get(slug)?.features ?? []);
+      const box = boundsOf(features);
+      if (box) map.fitBounds(box, { padding: 48, maxZoom: 9, duration: reduceMotion ? 0 : 400 });
+    },
+    idle() {
+      return new Promise((resolve) => {
+        if (map.loaded() && !map.isMoving()) resolve();
+        else map.once('idle', () => resolve());
+      });
+    },
+    destroy() {
+      map.remove();
+    },
+  };
+}

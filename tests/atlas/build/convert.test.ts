@@ -3,12 +3,14 @@ import path from 'node:path';
 import { geojson } from 'flatgeobuf';
 import { describe, expect, it } from 'vitest';
 import { buildAtlas } from '../../../src/atlas/build/write-outputs.js';
+import { MAPLIBRE_FILES } from '../../../src/atlas/build/vendor.js';
 import { copyFixture, editFeatures, editRecord, FIXTURE, tempDir, tree } from '../support/variant.js';
 
 /*
  * Spec 005 T027 (FR-006, FR-011, contracts/build-outputs.md, atlas-rule-ids.md "Build-time checks"):
  * the Atlas build, tested through the files it writes.
  */
+const VENDOR_FILES = MAPLIBRE_FILES.map((f) => `vendor/maplibre/${f}`);
 const read = (out: string, rel: string) => readFileSync(path.join(out, rel));
 const json = (out: string, rel: string) => JSON.parse(read(out, rel).toString('utf8'));
 
@@ -41,6 +43,7 @@ describe('the outputs', () => {
         'data/layers/present-day-boundaries.fgb',
         'data/layers/roads.fgb',
         'data/overlays/overlay-tabula.json',
+        ...VENDOR_FILES,
       ].sort(),
     );
   });
@@ -78,6 +81,17 @@ describe('the outputs', () => {
   it('writes no basemap when the repository has none', async () => {
     const { written } = await built();
     expect(written).not.toContain('data/basemap.pmtiles');
+  });
+});
+
+describe('the MapLibre files', () => {
+  it('serves MapLibre as it ships, from one folder, so its worker finds the shared code beside it and the browser fetches that code once', async () => {
+    const { outDir } = await built();
+    for (const file of MAPLIBRE_FILES) {
+      const shipped = readFileSync(path.join(process.cwd(), 'node_modules/maplibre-gl/dist', file));
+      expect(read(outDir, `vendor/maplibre/${file}`).equals(shipped), file).toBe(true);
+    }
+    expect([...MAPLIBRE_FILES].sort()).toEqual(['maplibre-gl-shared.mjs', 'maplibre-gl-worker.mjs', 'maplibre-gl.css', 'maplibre-gl.mjs']);
   });
 });
 

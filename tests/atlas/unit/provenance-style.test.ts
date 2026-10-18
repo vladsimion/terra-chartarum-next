@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { GEOMETRY_PROVENANCE_VALUES } from '../../../src/registry/schemas/shared.js';
-import { DATE_UNCERTAIN, STYLE_CLASSES, legendFor, lineDash, styleFor } from '../../../src/atlas/provenance-style.js';
+import { DATE_UNCERTAIN, STYLE_CLASSES, legendFor, legendOf, lineDash, styleFor } from '../../../src/atlas/provenance-style.js';
 
 /*
  * Spec 005 T023 (FR-015, SC-006, contracts/atlas-page.md): geometry provenance is shown by a line
@@ -75,5 +75,17 @@ describe('legendFor', () => {
   it('names the pattern in words, so the legend works without seeing it', () => {
     const [entry] = legendFor([{ provenance: 'modern_reference' }]);
     expect(entry?.description).toMatch(/dotted/i);
+  });
+});
+
+describe('legendOf', () => {
+  it('lists the classes it is given in the contract order, with "Date uncertain" last and only when asked', () => {
+    const [documentary, reconstruction] = [STYLE_CLASSES[0]!, STYLE_CLASSES[1]!];
+    expect(legendOf([reconstruction, documentary], false).map((e) => e.label)).toEqual(['Documentary geometry', 'Reconstruction']);
+    expect(legendOf([documentary], true).map((e) => e.label)).toEqual(['Documentary geometry', 'Date uncertain']);
+  });
+
+  it('lists nothing for no class, even when asked for the uncertain state', () => {
+    expect(legendOf([], true)).toEqual([]);
   });
 });

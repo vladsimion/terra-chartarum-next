@@ -10,8 +10,8 @@ for (const template of list.templates) {
     await expect(page.locator('main h1')).toBeVisible();
     await expect(page.locator('header nav a')).toHaveCount(7);
     await expect(page.locator('footer a')).toHaveCount(4);
-    // the shell ships no script; only the collection pages carry their own (the filters, the deep-zoom viewer loader), and each of those is one module
-    if (template.path.startsWith('/collection/')) {
+    // the shell ships no script; only the collection pages and the Atlas carry their own (the filters, the deep-zoom viewer loader, the Atlas page script), and each of those is one module
+    if (template.path.startsWith('/collection/') || template.path.startsWith('/atlas/')) {
       await expect(page.locator('script:not([type="module"])')).toHaveCount(0);
       expect(await page.locator('script').count()).toBeLessThanOrEqual(1);
     } else {

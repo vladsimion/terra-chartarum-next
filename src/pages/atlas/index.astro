@@ -44,9 +44,13 @@ const SHEETS = [
   <div class="atlas" data-atlas data-default-year={year}>
     <Catalogue layers={index.layers} />
     <div class="stage">
-      <div data-region="map" role="region" aria-label="Map">
+      <div data-region="map">
         <p data-map-status>The map needs JavaScript. The catalogue lists every layer.</p>
       </div>
+      <section class="legend" data-legend aria-label="Legend" hidden>
+        <h2>Legend</h2>
+        <ul></ul>
+      </section>
       <div class="time">
         <label for="atlas-year">Year</label>
         <input id="atlas-year" type="number" value={year} step="1" />
@@ -78,6 +82,64 @@ const SHEETS = [
     min-height: var(--map-min-height);
     border: 1px solid var(--line);
     background: var(--panel);
+  }
+
+  .stage {
+    order: -1;
+  }
+
+  /* a touch target is at least --target-min tall (ADR 0004); the list buttons are added by script, so they are matched globally */
+  .sheet-buttons button,
+  :global(.atlas button),
+  .time input {
+    min-height: var(--target-min);
+  }
+
+  :global(.map-canvas) {
+    width: 100%;
+    height: var(--map-min-height);
+  }
+
+  .sheet-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  /* a narrow screen with a script: the map first, and each pane a bottom sheet opened by its button */
+  @media (max-width: 59.99rem) {
+    .atlas[data-ready] > :global(#catalogue),
+    .atlas[data-ready] > #active-layers,
+    .atlas[data-ready] > #inspector {
+      display: none;
+    }
+
+    .atlas[data-ready] > :global(#catalogue[data-sheet-open]),
+    .atlas[data-ready] > #active-layers[data-sheet-open],
+    .atlas[data-ready] > #inspector[data-sheet-open] {
+      display: block;
+      position: fixed;
+      inset-inline: 0;
+      bottom: 0;
+      z-index: 10;
+      max-height: 60%;
+      overflow-y: auto;
+      padding: var(--space-4);
+      border-top: 1px solid var(--line);
+      background: var(--panel-raised);
+    }
+  }
+
+  @media (min-width: 60rem) {
+    .sheet-buttons {
+      display: none;
+    }
+  }
+
+  .legend ul {
+    margin: 0;
+    padding-inline-start: var(--space-4);
+    font-size: var(--step--1);
   }
 
   [data-map-status] {
@@ -120,3 +182,7 @@ const SHEETS = [
     }
   }
 </style>
+
+<script>
+  import '../../atlas-client/atlas.client.js';
+</script>

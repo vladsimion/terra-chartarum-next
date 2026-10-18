@@ -42,6 +42,10 @@ jobs:
         run: npm run test:e2e:collection
         env:
           CI: 'true'
+      - name: Atlas end-to-end specs (the Atlas fixture registry; Chromium dark and light, phone, no JavaScript)
+        run: npm run test:e2e:atlas
+        env:
+          CI: 'true'
       - name: Visual baselines (only on an update run)
         if: ${{ inputs.update_snapshots }}
         uses: actions/upload-artifact@v4
@@ -58,6 +62,7 @@ jobs:
             playwright-report/
             playwright-report-essays/
             playwright-report-collection/
+            playwright-report-atlas/
             test-results/
           if-no-files-found: ignore
       - name: Stub pages and draft copy left in the production build (informational until cutover)

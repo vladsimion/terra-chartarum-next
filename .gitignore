@@ -2,6 +2,7 @@ node_modules/
 dist/
 dist-essays/
 dist-collection/
+dist-atlas/
 reports/
 .astro/
 .env
@@ -14,6 +15,7 @@ _targets/
 playwright-report/
 playwright-report-essays/
 playwright-report-collection/
+playwright-report-atlas/
 test-results/
 reports-completeness/
 .lighthouseci/

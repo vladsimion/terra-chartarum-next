@@ -10,6 +10,7 @@ import type { RegistryRecord } from '../../registry/types.js';
 import { applyVocabularies } from '../../registry/vocab-map.js';
 import { list, isObject } from '../../registry/values.js';
 import { buildIndex } from '../index-data.js';
+import { maplibreFiles } from './vendor.js';
 import { convertGeoJson, convertPmtiles, type AtlasFailure, type Converted, type LayerSource } from './convert-assets.js';
 
 /*
@@ -116,6 +117,8 @@ export async function buildAtlas(options: AtlasBuildOptions): Promise<AtlasBuild
       .map((r) => ({ slug: text(r.slug), history: list(r.slug_history) }))
       .sort((a, b) => compare(a.slug, b.slug));
   files.set('data/atlas-slugs.json', `${JSON.stringify({ layers: historyOf('layer'), collections: historyOf('collection') }, null, 2)}\n`);
+
+  for (const [name, content] of await maplibreFiles()) files.set(name, content);
 
   // stage, scan, then keep: a leak removes everything, as the registry's own build does
   const staging = await mkdtemp(path.join(tmpdir(), 'atlas-staging-'));

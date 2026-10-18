@@ -1,6 +1,7 @@
 import { fileURLToPath } from 'node:url';
 import type { AstroIntegration } from 'astro';
 import { buildAtlas } from '../atlas/build/write-outputs.js';
+import { maplibreFiles } from '../atlas/build/vendor.js';
 import { hasContentDir, registryRoot } from '../shell/public-records.js';
 
 /*
@@ -13,6 +14,16 @@ export function atlasIntegration(options: { root?: string } = {}): AstroIntegrat
   return {
     name: 'terra-chartarum:atlas',
     hooks: {
+      // the dev server has no build, so it serves MapLibre's files itself
+      'astro:server:setup': async ({ server }) => {
+        const files = await maplibreFiles();
+        server.middlewares.use((request, response, next) => {
+          const file = files.get((request.url ?? '').split('?')[0]?.replace(/^\//, '') ?? '');
+          if (!file) return next();
+          response.setHeader('Content-Type', request.url?.includes('.css') ? 'text/css' : 'text/javascript');
+          response.end(file);
+        });
+      },
       'astro:build:done': async ({ dir, logger }) => {
         if (!(await hasContentDir(root))) {
           logger.info('no content/ directory yet; no Atlas data written');
