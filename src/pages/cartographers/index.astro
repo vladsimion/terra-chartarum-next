@@ -1,0 +1,29 @@
+---
+import CartographerCard from '../../collection/components/CartographerCard.astro';
+import { cartographerCards } from '../../collection/cartographer-view.js';
+import { loadEssaySite } from '../../essays/site-data.js';
+import Base from '../../shell/layouts/Base.astro';
+
+/*
+ * The released cartographers (spec 004 US3). A held cartographer is not in `records`, so it cannot
+ * be listed; a released one with no public map still has a page and a line saying so.
+ */
+const { records } = await loadEssaySite();
+const cards = cartographerCards(records);
+---
+
+<Base title="Cartographers | Terra Chartarum" description="The people and workshops that made the maps in the collection.">
+  <h1>Cartographers</h1>
+  <p class="intro">The people and workshops behind the maps, with what the collection holds of their work.</p>
+  <ol class="cartographers">
+    {cards.map((card) => <CartographerCard card={card} />)}
+  </ol>
+</Base>
+
+<style>
+  .cartographers {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+</style>

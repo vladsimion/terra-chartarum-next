@@ -6,6 +6,8 @@
         "http://localhost:4322/about/",
         "http://localhost:4322/colophon/",
         "http://localhost:4322/essays/",
+        "http://localhost:4322/cartographers/",
+        "http://localhost:4322/cartographers/fixture-cartographer/",
         "http://localhost:4322/collection/",
         "http://localhost:4322/collection/fixture-map/",
         "http://localhost:4322/404.html",

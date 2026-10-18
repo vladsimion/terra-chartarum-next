@@ -6,6 +6,8 @@
     { "name": "colophon", "path": "/colophon/" },
     { "name": "stub", "path": "/essays/" },
     { "name": "essay", "path": "/essays/terra-nova/" },
+    { "name": "cartographer-list", "path": "/cartographers/" },
+    { "name": "cartographer-profile", "path": "/cartographers/fixture-cartographer/" },
     { "name": "collection-list", "path": "/collection/" },
     { "name": "collection-record", "path": "/collection/fixture-map/" },
     { "name": "404", "path": "/404.html" },

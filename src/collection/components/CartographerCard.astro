@@ -1,0 +1,35 @@
+---
+import type { CartographerCard } from '../cartographer-view.js';
+
+interface Props {
+  card: CartographerCard;
+}
+
+const { card } = Astro.props;
+---
+
+<li>
+  <a class="name" href={card.href}>{card.name}</a>
+  <p class="kind">{card.kind}</p>
+  <p class="count">{card.count}</p>
+</li>
+
+<style>
+  li {
+    padding-block: var(--space-3);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .name {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0;
+    color: var(--ink-muted);
+  }
+</style>

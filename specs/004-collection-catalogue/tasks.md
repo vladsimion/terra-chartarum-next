@@ -110,9 +110,9 @@ description: "Task list for 004 Map Collection & Cartographers Catalogue"
 
 **Goal**: a profile with names, roles, dates, biography, the maps linked to the cartographer and the essays that use them.
 
-- [ ] T042 [P] [US3] Write failing `tests/collection/build/cartographer-page.test.ts`: the profile shows names, roles, dates, the biography from `<id>.md`, public maps with `attribution: exact` and the public essays using them; a workshop page lists its unresolved maps separately; a person with no public map says so; the held cartographer has no page and is not linked from any map (FR-012); the list shows released cartographers only
-- [ ] T043 [US3] Implement `src/pages/cartographers/index.astro`, `[slug].astro` and `CartographerCard.astro`; load the `.md` body only for public records; set the cartographers destination to `live`
-- [ ] T044 [US3] Add the cartographer page types to `tests/shell/ci-templates.json` and `lighthouserc.json`; axe on both
+- [x] T042 [P] [US3] Write failing `tests/collection/build/cartographer-page.test.ts`: the profile shows names, roles, dates, the biography from `<id>.md`, public maps with `attribution: exact` and the public essays using them; a workshop page lists its unresolved maps separately; a person with no public map says so; the held cartographer has no page and is not linked from any map (FR-012); the list shows released cartographers only
+- [x] T043 [US3] Implement `src/pages/cartographers/index.astro`, `[slug].astro` and `CartographerCard.astro`; load the `.md` body only for public records; set the cartographers destination to `live`
+- [x] T044 [US3] Add the cartographer page types to `tests/shell/ci-templates.json` and `lighthouserc.json`; axe on both
 
 ---
 

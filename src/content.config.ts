@@ -27,4 +27,13 @@ const essayBodies = defineCollection({
   loader: glob({ pattern: '*.mdx', base: `${process.env.REGISTRY_ROOT ?? '.'}/content/essay` }),
 });
 
-export const collections = { pages, 'essay-bodies': essayBodies };
+/*
+ * Cartographer biographies (spec 004 US3): released prose in `content/cartographer/<id>.md` beside the
+ * record. A profile page is generated for a public cartographer only (src/pages/cartographers/[slug].astro),
+ * so a held cartographer's biography is read here and never written out.
+ */
+const cartographerBios = defineCollection({
+  loader: glob({ pattern: '*.md', base: `${process.env.REGISTRY_ROOT ?? '.'}/content/cartographer` }),
+});
+
+export const collections = { pages, 'essay-bodies': essayBodies, 'cartographer-bios': cartographerBios };
