@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { builtSite } from '../support/build.js';
-import { COLLECTION_VIEWER, staticOutputProblems } from '../support/static-output.js';
+import { ATLAS_CLIENT, COLLECTION_VIEWER, staticOutputProblems } from '../support/static-output.js';
 
 /*
  * FR-008 and the dark-scheme edge case: the build is static files only (HTML, CSS and assets), the
@@ -71,6 +71,30 @@ describe('staticOutputProblems with allowed feature scripts', () => {
   });
 });
 
+describe('staticOutputProblems with several allowed features', () => {
+  const fixture = (files: Record<string, string>) => {
+    const dir = mkdtempSync(path.join(tmpdir(), 'static-out-'));
+    for (const [name, text] of Object.entries(files)) {
+      mkdirSync(path.dirname(path.join(dir, name)), { recursive: true });
+      writeFileSync(path.join(dir, name), text);
+    }
+    return dir;
+  };
+
+  it('allows each feature its own files and pages, and no feature the others', () => {
+    const dir = fixture({
+      'atlas/index.html': '<script type="module" src="/_astro/index.astro_astro_type_script_index_0_lang.abc.js"></script>',
+      '_astro/index.astro_astro_type_script_index_0_lang.abc.js': 'x',
+      'vendor/maplibre/maplibre-gl.mjs': 'x',
+      'collection/a/index.html': '<script type="module" src="/_astro/openseadragon.abc.js"></script>',
+      '_astro/openseadragon.abc.js': 'x',
+      'about/index.html': '<script>1</script>',
+    });
+    expect(staticOutputProblems(dir, [], [COLLECTION_VIEWER, ATLAS_CLIENT])).toEqual(['script tag in about/index.html']);
+    rmSync(dir, { recursive: true });
+  });
+});
+
 describe('the built site', () => {
   let dir = '';
   beforeAll(async () => {
@@ -80,6 +104,7 @@ describe('the built site', () => {
   it('is static files only, with no client JavaScript and no image filter', () => {
     // the over-budget fixture ships a script on purpose, to prove the Lighthouse budget fails
     // the collection viewer is the one feature that ships script, and only on a record page (spec 004 FR-004)
-    expect(staticOutputProblems(dir, ['fixtures/budget/'], COLLECTION_VIEWER)).toEqual([]);
+    // the Atlas is the other, with MapLibre beside its worker (spec 005 FR-020)
+    expect(staticOutputProblems(dir, ['fixtures/budget/'], [COLLECTION_VIEWER, ATLAS_CLIENT])).toEqual([]);
   });
 });

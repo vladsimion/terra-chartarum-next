@@ -1,0 +1,73 @@
+---
+import { THEME_LABELS, THEME_VALUES } from '../../registry/schemas/atlas-values.js';
+import type { IndexLayer } from '../types.js';
+
+interface Props {
+  layers: IndexLayer[];
+}
+
+/*
+ * The catalogue as HTML (spec 005 FR-021): every public layer, grouped by theme, with no link to
+ * a layer's data. The add button waits for a script (`hidden`); without one the list is still a
+ * complete, readable catalogue.
+ */
+const { layers } = Astro.props;
+const ROLE: Record<string, string> = { historical: 'Historical', context: 'Context', evidence: 'Evidence', 'map-overlay': 'Map overlay' };
+const groups = THEME_VALUES.map((theme) => ({ theme, label: THEME_LABELS[theme], layers: layers.filter((l) => l.theme === theme) })).filter((g) => g.layers.length > 0);
+const kindOf = (layer: IndexLayer) => (layer.provenance === 'modern_reference' ? 'Present-day reference' : (ROLE[layer.role] ?? layer.role));
+---
+
+<section id="catalogue" class="catalogue" aria-label="Catalogue">
+  <h2>Catalogue</h2>
+  {
+    groups.map((group) => (
+      <>
+        <h3>{group.label}</h3>
+        <ul>
+          {group.layers.map((layer) => (
+            <li data-layer={layer.slug} data-from={layer.envelope.from} data-to={layer.envelope.to}>
+              <span class="title">{layer.title}</span>
+              <span class="kind">{kindOf(layer)}</span>
+              <span class="envelope">{layer.envelope.from} to {layer.envelope.to}</span>
+              <button type="button" data-activate={layer.slug} aria-label={`Add ${layer.title} to the map`} hidden>
+                Add to map
+              </button>
+            </li>
+          ))}
+        </ul>
+      </>
+    ))
+  }
+</section>
+
+<style>
+  .catalogue ul {
+    margin: 0 0 var(--space-4);
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0 var(--space-3);
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .title {
+    font-weight: 600;
+  }
+
+  .kind,
+  .envelope {
+    color: var(--ink-muted);
+    font-size: var(--step--1);
+  }
+
+  button {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: center;
+  }
+</style>

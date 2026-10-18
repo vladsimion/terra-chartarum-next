@@ -21,7 +21,7 @@ const MIN_PRIVATE_LENGTH = 5;
 interface Needle {
   entity: string;
   field: string | null;
-  kind: 'private' | 'held-id' | 'held-path' | 'held-title';
+  kind: 'private' | 'held-id' | 'held-path' | 'held-title' | 'held-slug';
   /** What the report shows as the value; never the private value itself. */
   shown: string;
   find(text: string): boolean;
@@ -55,7 +55,12 @@ function leaves(value: unknown, prefix: string, out: { path: string; text: strin
 
 const escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-function buildNeedles(records: readonly RegistryRecord[]): Needle[] {
+/** More than the default: the families whose held titles and slugs must not appear (a payload that holds nothing but public data, such as the Atlas's). */
+export interface ScanOptions {
+  namedFamilies?: readonly string[];
+}
+
+function buildNeedles(records: readonly RegistryRecord[], options: ScanOptions = {}): Needle[] {
   const needles: Needle[] = [];
   const publicIds = new Set(projectPublic(records).map((r) => r.id));
 
@@ -90,9 +95,14 @@ function buildNeedles(records: readonly RegistryRecord[]): Needle[] {
         }
       }
       // a held essay's title is as good as its address: the page, a card, a search entry or a feed would all carry it (FR-006)
-      if (record.family === 'essay' && !isRetired(record) && typeof record.title === 'string' && record.title.trim().length >= MIN_PRIVATE_LENGTH) {
+      if ((record.family === 'essay' || options.namedFamilies?.includes(record.family)) && !isRetired(record) && typeof record.title === 'string' && record.title.trim().length >= MIN_PRIVATE_LENGTH) {
         const forms = variantsOf(record.title.trim());
         needles.push({ entity: record.id, field: 'title', kind: 'held-title', shown: '[held title]', find: (haystack) => forms.some((form) => haystack.includes(form)) });
+      }
+      // the slug on its own, as a payload would carry it, not as part of a longer slug or word
+      if (options.namedFamilies?.includes(record.family) && !isRetired(record) && typeof record.slug === 'string' && record.slug.length >= MIN_PRIVATE_LENGTH) {
+        const bare = new RegExp(`(?<![A-Za-z0-9-])${escapeRegExp(record.slug)}(?![A-Za-z0-9-])`);
+        needles.push({ entity: record.id, field: 'slug', kind: 'held-slug', shown: '[held slug]', find: (haystack) => bare.test(haystack) });
       }
     }
   }
@@ -112,8 +122,8 @@ async function textFiles(dir: string): Promise<string[]> {
  * any id of an entity that is not public. Private values are redacted in the report, so a CI
  * artefact never repeats what it reports.
  */
-export async function scanOutput(distDir: string, records: readonly RegistryRecord[]): Promise<Violation[]> {
-  const needles = buildNeedles(records);
+export async function scanOutput(distDir: string, records: readonly RegistryRecord[], options: ScanOptions = {}): Promise<Violation[]> {
+  const needles = buildNeedles(records, options);
   const violations: Violation[] = [];
   const editorReport = (rel: string, name: string): Violation => ({
     rule: 'PRIV-LEAK',
@@ -150,8 +160,10 @@ export async function scanOutput(distDir: string, records: readonly RegistryReco
             : needle.kind === 'held-id'
               ? 'output free of ids of entities that are not public'
               : needle.kind === 'held-title'
-                ? 'output free of the titles of essays that are not public'
-                : 'output with no address of a page for an entity that is not public',
+                ? 'output free of the titles of entities that are not public'
+                : needle.kind === 'held-slug'
+                  ? 'output free of the slugs of entities that are not public'
+                  : 'output with no address of a page for an entity that is not public',
       });
     }
   }

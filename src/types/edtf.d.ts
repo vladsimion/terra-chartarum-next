@@ -13,6 +13,18 @@ declare module 'edtf' {
     min: number;
     max: number;
   }
+  /** The classes the parser returns, for telling them apart by class (`type` is the class name, which a minifier renames). */
+  export class Date implements EdtfValue {
+    type: string;
+    precision?: number;
+    min: number;
+    max: number;
+  }
+  export class Interval implements EdtfValue {
+    type: string;
+    min: number;
+    max: number;
+  }
   /** Parse an EDTF string; throws on invalid input. */
   export default function edtf(input: string, options?: EdtfOptions): EdtfValue;
 }

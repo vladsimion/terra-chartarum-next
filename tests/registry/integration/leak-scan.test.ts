@@ -155,6 +155,28 @@ describe('scanOutput (FR-009)', () => {
   });
 });
 
+describe('scanOutput with held names (spec 005 SC-005)', () => {
+  const heldLayer = { ...place(7), family: 'layer', id: 'tc:tc:layer:layer-000007', title: 'Quiet Frontier Layer', slug: 'quiet-frontier-layer', lifecycle: 'published', release: 'held' };
+  const records = [open, heldLayer];
+  const options = { namedFamilies: ['layer', 'collection', 'place'] };
+
+  it('finds the title or the slug of a held layer in an Atlas payload', async () => {
+    const byTitle = await scanOutput(dist({ 'data/atlas-index.json': '{"layers":[{"title":"Quiet Frontier Layer"}]}' }), records, options);
+    expect(byTitle.map((v) => [v.entity, v.field])).toEqual([[heldLayer.id, 'title']]);
+    const bySlug = await scanOutput(dist({ 'data/atlas-slugs.json': '{"layers":[{"slug":"quiet-frontier-layer"}]}' }), records, options);
+    expect(bySlug.map((v) => [v.entity, v.field])).toEqual([[heldLayer.id, 'slug']]);
+    expect(JSON.stringify([...byTitle, ...bySlug])).not.toContain('Quiet Frontier Layer');
+  });
+
+  it('does not take a longer public slug for a held one', async () => {
+    expect(await scanOutput(dist({ 'a.json': '{"slug":"quiet-frontier-layer-two"}' }), records, options)).toEqual([]);
+  });
+
+  it('leaves a held name alone in a whole-site scan, where a public page may mention it in prose', async () => {
+    expect(await scanOutput(dist({ 'essay/index.html': '<p>The Quiet Frontier Layer is discussed.</p>' }), records)).toEqual([]);
+  });
+});
+
 describe('registry scan', () => {
   function registryOn(disk: string): string {
     const root = mkdtempSync(path.join(tmpdir(), 'scan-registry-'));

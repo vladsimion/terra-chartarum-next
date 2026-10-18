@@ -1,4 +1,4 @@
-import edtf from 'edtf';
+import edtf, { Date as EdtfDate, Interval } from 'edtf';
 
 /*
  * Historical dates are EDTF levels 0 and 1 with four-digit signed years (ADR 0007): `0106`,
@@ -37,9 +37,10 @@ export function parseDate(value: unknown): ParsedDate | null {
   }
 
   let precision: DerivedPrecision;
-  if (parsed.type === 'Interval') {
+  // by class, not by `.type`: the library names a type by its class name, which a minified bundle renames
+  if (parsed instanceof Interval) {
     precision = 'range';
-  } else if (parsed.type === 'Date' && parsed.precision !== undefined && parsed.precision >= 1) {
+  } else if (parsed instanceof EdtfDate && parsed.constructor === EdtfDate && parsed.precision !== undefined && parsed.precision >= 1) {
     const unspecified = unspecifiedYearDigits(value);
     if (unspecified > 2) return null; // no millennium in the vocabulary
     precision =

@@ -1,0 +1,188 @@
+---
+import Catalogue from '../../atlas/components/Catalogue.astro';
+import { buildIndex } from '../../atlas/index-data.js';
+import { defaultYear } from '../../atlas/view-state.js';
+import { yearBounds } from '../../atlas/time.js';
+import { loadEssaySite } from '../../essays/site-data.js';
+import Base from '../../shell/layouts/Base.astro';
+
+/*
+ * The Atlas (spec 005): every region is rendered here as HTML from public layers only, then
+ * enhanced by the Atlas modules. Without scripts the page is the orientation, the collection
+ * chooser and the catalogue; layer data is fetched only when a layer is added to the map.
+ */
+const { records } = await loadEssaySite();
+const index = buildIndex(records);
+const year = defaultYear(index);
+const years = index.layers.flatMap((l) => [yearBounds(l.envelope.from)?.min, yearBounds(l.envelope.to)?.max]).filter((y): y is number => y !== undefined);
+const lowest = years.length > 0 ? Math.min(...years) : year - 500;
+const highest = years.length > 0 ? Math.max(...years) : year + 500;
+const SHEETS = [
+  { label: 'Catalogue', target: 'catalogue' },
+  { label: 'Active layers', target: 'active-layers' },
+  { label: 'Inspector', target: 'inspector' },
+];
+---
+
+<Base title="Atlas | Terra Chartarum" description="Compose a historical map at a chosen year from shared layers, and see how sure each line is.">
+  <h1>Atlas</h1>
+  <p class="intro">
+    Pick a year, switch on layers and see only what was valid then. Every line says how it is known: documentary, reconstructed, generalised or present-day reference.
+  </p>
+  <p><a href="/atlas/handbook/">New to the Atlas? Read the Handbook</a></p>
+  <nav aria-label="Collections">
+    <h2>Collections</h2>
+    <ul>
+      {index.collections.map((c) => <li><a href={`/atlas/?lens=collection&c=${encodeURIComponent(c.slug)}`}>{c.title}</a></li>)}
+    </ul>
+  </nav>
+
+  <div class="sheet-buttons">
+    {SHEETS.map((s) => <button type="button" aria-controls={s.target} aria-expanded="false" hidden>{s.label}</button>)}
+  </div>
+
+  <div class="atlas" data-atlas data-default-year={year}>
+    <Catalogue layers={index.layers} />
+    <div class="stage">
+      <div data-region="map">
+        <p data-map-status>The map needs JavaScript. The catalogue lists every layer.</p>
+      </div>
+      <section class="legend" data-legend aria-label="Legend" hidden>
+        <h2>Legend</h2>
+        <ul></ul>
+      </section>
+      <div class="time">
+        <label for="atlas-year">Year</label>
+        <input id="atlas-year" type="number" value={year} step="1" />
+        <input type="range" aria-label="Year" min={lowest} max={highest} value={year} step="1" />
+      </div>
+    </div>
+    <section id="active-layers" class="active-layers" aria-label="Active layers">
+      <h2>Active layers</h2>
+      <ol data-active-layers></ol>
+      <p data-empty>No layers are on the map yet. Add one from the catalogue.</p>
+    </section>
+    <aside id="inspector" class="inspector" aria-label="Inspector">
+      <h2>Inspector</h2>
+      <div data-inspector>
+        <p data-empty>Choose Inspect on an active layer to see where it comes from.</p>
+      </div>
+    </aside>
+  </div>
+</Base>
+
+<style>
+  .atlas {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+
+  [data-region='map'] {
+    min-height: var(--map-min-height);
+    border: 1px solid var(--line);
+    background: var(--panel);
+  }
+
+  .stage {
+    order: -1;
+  }
+
+  /* a touch target is at least --target-min tall (ADR 0004); the list buttons are added by script, so they are matched globally */
+  .sheet-buttons button,
+  :global(.atlas button),
+  .time input {
+    min-height: var(--target-min);
+  }
+
+  :global(.map-canvas) {
+    width: 100%;
+    height: var(--map-min-height);
+  }
+
+  .sheet-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  /* a narrow screen with a script: the map first, and each pane a bottom sheet opened by its button */
+  @media (max-width: 59.99rem) {
+    .atlas[data-ready] > :global(#catalogue),
+    .atlas[data-ready] > #active-layers,
+    .atlas[data-ready] > #inspector {
+      display: none;
+    }
+
+    .atlas[data-ready] > :global(#catalogue[data-sheet-open]),
+    .atlas[data-ready] > #active-layers[data-sheet-open],
+    .atlas[data-ready] > #inspector[data-sheet-open] {
+      display: block;
+      position: fixed;
+      inset-inline: 0;
+      bottom: 0;
+      z-index: 10;
+      max-height: 60%;
+      overflow-y: auto;
+      padding: var(--space-4);
+      border-top: 1px solid var(--line);
+      background: var(--panel-raised);
+    }
+  }
+
+  @media (min-width: 60rem) {
+    .sheet-buttons {
+      display: none;
+    }
+  }
+
+  .legend ul {
+    margin: 0;
+    padding-inline-start: var(--space-4);
+    font-size: var(--step--1);
+  }
+
+  [data-map-status] {
+    margin: 0;
+    padding: var(--space-4);
+    color: var(--ink-muted);
+  }
+
+  .time {
+    display: grid;
+    grid-template-columns: auto 8rem 1fr;
+    gap: var(--space-3);
+    align-items: center;
+    margin-top: var(--space-3);
+  }
+
+  @media (min-width: 60rem) {
+    .atlas {
+      grid-template-columns: minmax(16rem, 22rem) 1fr minmax(14rem, 20rem);
+      grid-template-areas:
+        'catalogue stage inspector'
+        'active stage inspector';
+      align-items: start;
+    }
+
+    .atlas > :global(#catalogue) {
+      grid-area: catalogue;
+    }
+
+    .stage {
+      grid-area: stage;
+    }
+
+    .active-layers {
+      grid-area: active;
+    }
+
+    .inspector {
+      grid-area: inspector;
+    }
+  }
+</style>
+
+<script>
+  import '../../atlas-client/atlas.client.js';
+</script>

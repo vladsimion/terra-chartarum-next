@@ -14,6 +14,17 @@ export const THEME_VALUES = [
   'historical-map-overlays',
 ] as const;
 
+/** How each theme reads on the page. */
+export const THEME_LABELS: Record<(typeof THEME_VALUES)[number], string> = {
+  'territories-boundaries': 'Territories & Boundaries',
+  'networks-circulation': 'Networks & Circulation',
+  'places-settlements': 'Places & Settlements',
+  'names-peoples-attestations': 'Names, Peoples & Attestations',
+  'conflict-campaigns-frontiers': 'Conflict, Campaigns & Frontiers',
+  'cartographic-evidence': 'Cartographic Evidence',
+  'historical-map-overlays': 'Historical Map Overlays',
+};
+
 export const TIME_MODE_VALUES = ['per_feature', 'envelope_only'] as const;
 export const FACET_KIND_VALUES = ['category', 'range'] as const;
 export const NAME_KIND_VALUES = ['historic', 'modern'] as const;

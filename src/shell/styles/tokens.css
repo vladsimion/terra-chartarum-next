@@ -61,6 +61,7 @@
   --prose-max: 68ch;
   --target-min: 44px;
   --thumb-width: 6rem;
+  --map-min-height: 24rem;
 
   /* Shape and motion */
   --radius: 4px;

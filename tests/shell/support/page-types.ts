@@ -22,6 +22,7 @@ export function pageType(file: string, page: HTMLElement): string {
   if (file.startsWith('cartographers/') && page.querySelector('article.cartographer')) return 'cartographer-profile';
   if (file === 'collection/index.html' && page.querySelector('form.filters')) return 'collection-list';
   if (file.startsWith('collection/') && page.querySelector('article.map-record')) return 'collection-record';
+  if (file === 'atlas/index.html' && page.querySelector('[data-atlas]')) return 'atlas';
   if (file === 'about/index.html') return 'about';
   if (file === 'colophon/index.html') return 'colophon';
   return 'unknown';
