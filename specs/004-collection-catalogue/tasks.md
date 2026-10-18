@@ -132,7 +132,7 @@ description: "Task list for 004 Map Collection & Cartographers Catalogue"
 - [x] T049 [P] Run the quickstart end to end and fix anything it exposes
 - [x] T050 [P] Update `README.md` and the `docs/` notes for the collection pages; list ADR 0011 in `CLAUDE.md`'s Read-first line (it already is)
 - [ ] T051 Confirm the accessibility and performance gates on the new page types in CI (Lighthouse CI budgets and axe), including the viewer-open state
-- [ ] T052 Run the `code-review` skill against `main...HEAD` (standards and spec axes) and address findings in review
+- [x] T052 Run the `code-review` skill against `main...HEAD` (standards and spec axes) and address findings in review. Done 2026-10-18: the two reviewers' findings were checked against the code; the real ones were fixed (FR-011 in the index, the list and the facets; a workshop's essays; eight copies of `list` and the room ids, the title order and referrer mapping), and the rest are recorded in the Confluence dossier as open points
 - [ ] T053 Update Jira (TCX-5 description, story checklists, statuses), the Confluence dossier for spec 004, the Build Log and the Decision Log (workflow step 4); record in the dossier that spec 008 owns the import and release of the 59 records
 
 ---

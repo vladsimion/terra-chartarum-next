@@ -19,7 +19,7 @@ const { items } = Astro.props;
       )}
       <div class="text">
         <a class="title" href={item.href}>{item.title}</a>
-        <p class="makers">{item.makers.join(', ')}</p>
+        <p class="makers">{item.makers}</p>
         <p class="meta"><span class="date">{item.dateLabel}</span> · <span class="witness">{item.witnessLabel}</span></p>
       </div>
     </li>

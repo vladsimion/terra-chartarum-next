@@ -36,6 +36,12 @@ describe('the list', () => {
     expect(first.querySelector('.witness')?.text.trim()).toBe('Held by this project');
   });
 
+  it('does not name a workshop as the maker of a map attributed to it without an individual maker (FR-011)', () => {
+    const workshop = items().find((li) => slugOf(li) === '/collection/fixture-map-workshop/')!;
+    expect(workshop.querySelector('.makers')?.text.trim()).toBe('Maker not individually established');
+    expect(workshop.text).not.toContain('A fixture workshop');
+  });
+
   it('says so when a map has no date', () => {
     const undated = items().find((li) => slugOf(li) === '/collection/fixture-map-undated/')!;
     expect(undated.querySelector('.date')?.text.trim()).toBe('Date unknown');
@@ -66,7 +72,8 @@ describe('the filter form', () => {
 
   it('has a checkbox for each cartographer with a public map, and none for a held one', () => {
     const boxes = form().querySelectorAll('input[name="cartographer"]');
-    expect(boxes.map((b) => b.getAttribute('value')).sort()).toEqual(['tc:tc:cartographer:cartographer-000001', 'tc:tc:cartographer:cartographer-000002']);
+    // the workshop has only an unresolved attribution (FR-011), so it is not a maker anyone can filter by
+    expect(boxes.map((b) => b.getAttribute('value'))).toEqual(['tc:tc:cartographer:cartographer-000001']);
     expect(form().text).not.toContain('A held fixture cartographer');
   });
 

@@ -1,4 +1,6 @@
+import { ROOM_IDS } from '../registry/families.js';
 import type { PublicRecord } from '../registry/project.js';
+import { list } from '../registry/values.js';
 
 /*
  * Which rooms a record belongs to, derived once (ADR 0015, specs/007-rooms/contracts/membership.md).
@@ -6,10 +8,8 @@ import type { PublicRecord } from '../registry/project.js';
  * the public essays that use them. Spec 007 adds `membership` (a room's own contents) to this module;
  * `roomsOf` is here first because spec 004's collection index calls it.
  */
-export const ROOM_IDS = ['earth', 'map', 'city', 'border', 'road', 'archive', 'theatre'] as const;
 export type RoomId = (typeof ROOM_IDS)[number];
 
-const list = (value: unknown): string[] => (Array.isArray(value) ? value.filter((v): v is string => typeof v === 'string') : []);
 
 /** The rooms an essay names, as ids of rooms that are in the input. */
 function roomsNamedBy(essay: PublicRecord, present: ReadonlySet<string>): string[] {

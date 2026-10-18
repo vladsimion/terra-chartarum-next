@@ -48,7 +48,8 @@ describe('buildIndex on the fixture registry', () => {
 
   it('names the makers by id and name', () => {
     expect(entry(1).makers).toEqual([{ id: 'tc:tc:cartographer:cartographer-000001', name: 'A fixture cartographer' }]);
-    expect(entry(3).makers).toEqual([{ id: 'tc:tc:cartographer:cartographer-000002', name: 'A fixture workshop' }]);
+    // FR-011: an unresolved attribution to a workshop is not an exact maker in any list
+    expect(entry(3).makers).toEqual([]);
   });
 
   it('reads the date, and leaves an undated map without an interval', () => {

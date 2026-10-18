@@ -14,25 +14,25 @@ const without = (...fields: string[]) => Object.fromEntries(fields.map((f) => [f
 
 describe('completenessOf', () => {
   it('counts a complete record: every displayed field recorded, no gaps', () => {
-    expect(completenessOf(validMap(), [])).toEqual({ id: MAP, lifecycle: 'researching', displayed: 13, recorded: 13, gaps: [], statuses: {} });
+    expect(completenessOf(validMap())).toEqual({ id: MAP, lifecycle: 'researching', displayed: 13, recorded: 13, gaps: [], statuses: {} });
   });
 
   it('lists a field with no value and no stated status as a gap', () => {
-    const c = completenessOf(validMap(without('language')), []);
+    const c = completenessOf(validMap(without('language')));
     expect(c).toMatchObject({ recorded: 12, gaps: ['language'], statuses: {} });
   });
 
   it('reports the stated status of an empty field, and does not call it a gap', () => {
-    const c = completenessOf(validMap({ ...without('significance', 'dimensions'), field_status: { significance: 'not_yet_verified', dimensions: 'not_applicable' } }), []);
+    const c = completenessOf(validMap({ ...without('significance', 'dimensions'), field_status: { significance: 'not_yet_verified', dimensions: 'not_applicable' } }));
     expect(c).toMatchObject({ recorded: 11, gaps: [], statuses: { significance: 'not_yet_verified', dimensions: 'not_applicable' } });
   });
 
   it('treats an empty list and a blank string as empty', () => {
-    expect(completenessOf(validMap({ coverage: [], language: ' ' }), []).gaps).toEqual(['language', 'coverage']);
+    expect(completenessOf(validMap({ coverage: [], language: ' ' })).gaps).toEqual(['language', 'coverage']);
   });
 
   it('carries the lifecycle, held or public', () => {
-    expect(completenessOf(validMap({ lifecycle: 'published' }), []).lifecycle).toBe('published');
+    expect(completenessOf(validMap({ lifecycle: 'published' })).lifecycle).toBe('published');
   });
 });
 

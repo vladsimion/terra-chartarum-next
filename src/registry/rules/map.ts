@@ -15,6 +15,7 @@ import {
   WITNESS_KIND_VALUES,
 } from '../schemas/map-values.js';
 import type { RegistryRecord } from '../types.js';
+import { isObject, list as listOf, present } from '../values.js';
 import { defineRule, severityFor, type Finding, type Rule } from './framework.js';
 
 /*
@@ -25,9 +26,6 @@ import { defineRule, severityFor, type Finding, type Rule } from './framework.js
  */
 
 const includes = (values: readonly string[], value: unknown): boolean => typeof value === 'string' && values.includes(value);
-const present = (value: unknown): boolean => (Array.isArray(value) ? value.length > 0 : typeof value === 'string' ? value.trim() !== '' : value !== undefined && value !== null);
-const isObject = (value: unknown): value is Record<string, unknown> => value !== null && typeof value === 'object' && !Array.isArray(value);
-const listOf = (value: unknown): string[] => (Array.isArray(value) ? value.filter((v): v is string => typeof v === 'string') : []);
 
 /** True from `ready_for_build`, where the map rules start to speak. */
 const started = (record: RegistryRecord): boolean => severityFor('ready_for_build', record.lifecycle) === 'error';

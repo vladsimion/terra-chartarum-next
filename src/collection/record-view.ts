@@ -1,5 +1,6 @@
 import type { PublicRecord } from '../registry/project.js';
 import { routeSection } from '../registry/routes.js';
+import { list } from '../registry/values.js';
 
 /*
  * What a map record page shows, decided from the public records before any component runs (spec 004
@@ -99,7 +100,6 @@ const VERIFICATION: Record<string, string> = {
 const WITHHELD = 'Reproduction of this image has not been cleared, so it is not shown here.';
 
 const str = (value: unknown): string | null => (typeof value === 'string' && value.trim() !== '' ? value : null);
-const list = (value: unknown): string[] => (Array.isArray(value) ? value.filter((v): v is string => typeof v === 'string') : []);
 const object = (value: unknown): Record<string, unknown> => (value !== null && typeof value === 'object' && !Array.isArray(value) ? (value as Record<string, unknown>) : {});
 
 export function recordView(map: PublicRecord, records: readonly PublicRecord[]): RecordView {

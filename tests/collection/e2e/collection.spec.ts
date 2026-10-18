@@ -31,14 +31,21 @@ test.describe('with scripts', () => {
 
   test('combines facets and writes each to the address', async ({ page }) => {
     await page.goto(LIST);
-    await page.getByLabel('A fixture workshop').check();
-    await expect.poll(() => titles(page)).toEqual(['A fixture map from a workshop']);
+    await page.getByLabel('A fixture cartographer').check();
+    await expect.poll(() => titles(page)).toEqual([
+      'A fixture map of the frontier',
+      'A fixture map with a withheld image',
+      'A second fixture map, a road sheet',
+      'A fixture map with an unknown date',
+    ]);
     await page.getByLabel('Fixtureland').check();
-    await expect.poll(() => titles(page)).toEqual(['A fixture map from a workshop']);
+    await expect.poll(() => titles(page)).toEqual(['A fixture map of the frontier', 'A fixture map with a withheld image', 'A second fixture map, a road sheet']);
     await page.getByLabel('Witness').selectOption('held');
+    await expect.poll(() => titles(page)).toEqual(['A fixture map of the frontier']);
+    await page.getByLabel('From year').fill('1700');
     await expect.poll(() => titles(page)).toEqual([]);
     await expect(page.getByRole('status')).toHaveText('0 of 5 maps');
-    await expect(page).toHaveURL(/cartographer=.*region=.*witness=held/);
+    await expect(page).toHaveURL(/cartographer=.*from=1700.*region=.*witness=held/);
   });
 
   test('applies a date range to possibly overlapping dates and never to an undated map', async ({ page }) => {

@@ -1,6 +1,6 @@
 import type { PublicRecord } from '../registry/project.js';
 import { routeSection } from '../registry/routes.js';
-import { buildIndex, type IndexEntry } from './index-data.js';
+import type { IndexEntry } from './index-data.js';
 import { recordView } from './record-view.js';
 
 /*
@@ -12,7 +12,8 @@ export interface ListItem {
   id: string;
   href: string;
   title: string;
-  makers: string[];
+  /** The makers as a reader sees them; a map with no exact maker says so (FR-011). */
+  makers: string;
   dateLabel: string;
   witnessLabel: string;
   /** Only when reproduction is cleared; credit and licence travel with it (FR-005). */
@@ -32,7 +33,7 @@ export interface Facets {
 
 const byLabel = (a: Choice, b: Choice): number => a.label.localeCompare(b.label, 'en', { sensitivity: 'base' }) || a.id.localeCompare(b.id);
 
-export function listItems(records: readonly PublicRecord[], index: readonly IndexEntry[] = buildIndex(records)): ListItem[] {
+export function listItems(records: readonly PublicRecord[], index: readonly IndexEntry[]): ListItem[] {
   const byId = new Map(records.map((r) => [r.id, r]));
   return index.map((entry) => {
     const view = recordView(byId.get(entry.id)!, records);
@@ -41,7 +42,7 @@ export function listItems(records: readonly PublicRecord[], index: readonly Inde
       id: entry.id,
       href: `/${routeSection('map')}/${entry.slug}/`,
       title: entry.title,
-      makers: entry.makers.map((m) => m.name),
+      makers: entry.makers.length > 0 ? entry.makers.map((m) => m.name).join(', ') : byId.get(entry.id)?.attribution === 'unresolved' ? 'Maker not individually established' : '',
       dateLabel: entry.date_label ?? 'Date unknown',
       witnessLabel: view.witness.label,
       thumbnail: shown ? { url: shown.stillUrl, alt: shown.alt, attribution: shown.attribution, licence: shown.licence } : null,
