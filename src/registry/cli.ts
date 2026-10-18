@@ -4,7 +4,8 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs, promisify } from 'node:util';
 import { buildSiteData } from './build.js';
-import { checkRegistry } from './check.js';
+import { checkRegistry, loadAndCheck } from './check.js';
+import { completenessReport, enrichmentQueue, renderQueueMarkdown } from './enrichment.js';
 import { scanOutput } from './leak-scan.js';
 import { loadRegistry } from './load.js';
 import { mintNext } from './mint.js';
@@ -25,6 +26,7 @@ const USAGE = `Usage:
   registry check [--dir <root>] [--out <reportsDir>]   validate the registry and write the integrity report
   registry build --out <siteDir> [--dir <root>]        run the gate, and only if it passes write _redirects and data/relations.json for the site
   registry mint <family> [--dir <root>]                print the next unused local-id for a family
+  registry completeness [--dir <root>] --out <dir>     write the editor's completeness report and enrichment queue; the gate result does not change the exit code
   registry scan <distDir> [--dir <root>]               fail if built output holds a private value or the id of a non-public entity
   registry promote <essay-id> <stage> --by <person> [--check] [--dir <root>]   move an essay to the next editorial stage if its checks pass
   registry new essay <title> --room <room> --question <question> --author <name> [--dir <root>]   start an essay at Concept
@@ -64,6 +66,36 @@ async function check(args: string[], io: Io): Promise<number> {
   await writeFile(path.join(values.out, 'integrity-report.html'), renderHtml(report));
   io.stdout(summary(report));
   return report.pass ? 0 : 1;
+}
+
+/**
+ * The editor's reports on the map records (spec 004 US5, contracts/cli-additions.md). A gate failure
+ * is named on stderr but does not stop the reports: an incomplete record is what the queue is for.
+ * 0 written; 1 the registry cannot be loaded; 2 usage.
+ */
+async function completeness(args: string[], io: Io): Promise<number> {
+  const { values } = parseArgs({ args, options: { dir: { type: 'string', default: '.' }, out: { type: 'string' } } });
+  if (!values.out) return usage(io);
+  let checked;
+  try {
+    checked = await loadAndCheck(values.dir, { commit: await currentCommit(values.dir) });
+  } catch (error) {
+    io.stderr(`registry: cannot load the registry at ${values.dir}: ${error instanceof Error ? error.message : String(error)}\n`);
+    return 1;
+  }
+  const { report, loaded } = checked;
+  if (!report.pass) {
+    // rules and places only: the value of a private field must not be repeated in a log
+    const lines = report.violations.filter((v) => v.severity === 'error').map((v) => `  ${v.rule} ${v.entity ?? ''} [${v.file}] ${v.field ?? ''}`);
+    io.stderr(`registry completeness: the integrity gate fails (${lines.length} errors); the reports are written anyway\n${lines.join('\n')}\n`);
+  }
+  const queue = enrichmentQueue(loaded.records);
+  await mkdir(values.out, { recursive: true });
+  await writeFile(path.join(values.out, 'completeness.json'), `${JSON.stringify(completenessReport(loaded.records), null, 2)}\n`);
+  await writeFile(path.join(values.out, 'enrichment-queue.json'), `${JSON.stringify(queue, null, 2)}\n`);
+  await writeFile(path.join(values.out, 'enrichment-queue.md'), renderQueueMarkdown(queue));
+  io.stdout(`registry completeness: ${queue.length} map records; wrote completeness.json, enrichment-queue.json and enrichment-queue.md to ${values.out}\n`);
+  return 0;
 }
 
 async function build(args: string[], io: Io): Promise<number> {
@@ -167,6 +199,7 @@ export async function main(argv: string[], io: Io): Promise<number> {
     if (command === 'build') return await build(rest, io);
     if (command === 'mint') return await mint(rest, io);
     if (command === 'scan') return await scan(rest, io);
+    if (command === 'completeness') return await completeness(rest, io);
     if (command === 'synth') return await synth(rest, io);
     if (command === 'promote') return await promote(rest, io);
     if (command === 'new') return await newRecord(rest, io);

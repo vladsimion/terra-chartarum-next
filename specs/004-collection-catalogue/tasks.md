@@ -120,10 +120,10 @@ description: "Task list for 004 Map Collection & Cartographers Catalogue"
 
 **Goal**: an editor report of what is incomplete and what to enrich first, never published.
 
-- [ ] T045 [P] [US5] Write failing `tests/registry/unit/enrichment.test.ts`: completeness per record (displayed, recorded, gaps, statuses); the three factors from the bands in research R7; the product and the order (ties by id); a held essay counts toward impact; a record with no gaps and no references scores 1
-- [ ] T046 [US5] Implement `src/registry/enrichment.ts` (pure)
-- [ ] T047 [P] [US5] Write failing `tests/registry/integration/completeness.test.ts`: `registry completeness` writes `completeness.json`, `enrichment-queue.json` and `.md` into `--out`, exits 0 even when the gate fails, and exits 1 on an unloadable registry; a build-output test asserts neither file name nor content reaches the site output
-- [ ] T048 [US5] Add `completeness` to `src/registry/cli.ts`; upload the reports as a CI artefact in `.github/workflows/registry.yml`
+- [x] T045 [P] [US5] Write failing `tests/registry/unit/enrichment.test.ts`: completeness per record (displayed, recorded, gaps, statuses); the three factors from the bands in research R7; the product and the order (ties by id); a held essay counts toward impact; a record with no gaps and no references scores 1
+- [x] T046 [US5] Implement `src/registry/enrichment.ts` (pure)
+- [x] T047 [P] [US5] Write failing `tests/registry/integration/completeness.test.ts`: `registry completeness` writes `completeness.json`, `enrichment-queue.json` and `.md` into `--out`, exits 0 even when the gate fails, and exits 1 on an unloadable registry; a build-output test asserts neither file name nor content reaches the site output
+- [x] T048 [US5] Add `completeness` to `src/registry/cli.ts`; upload the reports as a CI artefact in `.github/workflows/registry.yml`
 
 ---
 

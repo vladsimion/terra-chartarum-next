@@ -101,9 +101,22 @@ jobs:
           else
             echo "No content/ directory yet; skipping site data."
           fi
+      - name: Completeness report and enrichment queue (editor artefacts, never part of the site)
+        run: |
+          if [ -d content ]; then
+            npm run registry -- completeness --dir . --out reports-completeness
+          else
+            echo "No content/ directory yet; skipping the completeness report."
+          fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: integrity-report
           path: reports/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: completeness-and-enrichment
+          path: reports-completeness/
           if-no-files-found: ignore
