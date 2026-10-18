@@ -1,0 +1,11 @@
+id: tc:tc:map:map-000001
+family: map
+origin: minted
+title: A fixture map
+slug: fixture-map
+lifecycle: published
+release: released
+makers:
+  - tc:tc:cartographer:cartographer-000001
+rights:
+  licence: CC-BY-4.0

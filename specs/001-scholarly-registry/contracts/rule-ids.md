@@ -13,6 +13,21 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `ID-ORIGIN` | `origin` present; `legacy` IDs match the legacy pattern | FR-002 | always |
 | `LIFE-VALUE` | lifecycle is a known value | FR-005 | always |
 | `LIFE-ESSAY-DERIVED` | essay lifecycle matches its stage, not set by hand | US5.4 | always |
+| `ESSAY-QUESTION` | an essay at Concept or later has a `question` (spec 003; the rule is a stage check and is an error whenever it applies) | 003 FR-001 | always |
+| `ESSAY-ROOMS` | `rooms.primary` is a room; at most two secondary rooms, each a room, none equal to the primary (from Concept) | 003 FR-014 | always |
+| `ESSAY-HISTORY` | `stage_history` is contiguous from Concept, each stage once, with `on` and `by`; the last entry equals `stage` (from Concept) | 003 FR-003 | always |
+| `ESSAY-ACCENT` | `accent`, when present, is a named accent slot (from Concept) | 003 FR-008 | always |
+| `ESSAY-CORPUS` | every ID in `maps[]` resolves and its record carries rights (from Corpus) | 003 FR-002 | always |
+| `ESSAY-RESEARCH` | `evidence[]` present with locators; `open_questions` key present (from Research) | 003 FR-002 | always |
+| `ESSAY-OUTLINE` | `thesis` present (from Outline) | 003 FR-001 | always |
+| `ESSAY-INTERACTION` | each declaration has `question`, `interpretation` and resolving evidence; every body `<Interaction id>` is declared; from Build every declaration is used (from Outline) | 003 FR-007 | always |
+| `ESSAY-DRAFT` | the `.mdx` body exists; every `<Cite>` and `<EvidencePanel>` names resolving Evidence whose source is not a finding aid (from Draft) | 003 FR-004, FR-010 | always |
+| `ESSAY-BODY-DYNAMIC` | every prop of a framework tag in the body is a string literal (from Draft) | 003 FR-004 | always |
+| `ESSAY-BUILD` | `layers[]` and `bibliography[]` resolve; every map the body shows exists (from Build) | 003 FR-004 | always |
+| `ESSAY-SIGNOFF` | three named, dated sign-offs and `design_qa_passed` (from Publish) | 003 FR-011 | always |
+| `ESSAY-PUBLISH` | `release: released` and a valid EDTF `published_on` (from Publish) | 003 FR-012 | always |
+| `ESSAY-BODY-PUBLIC` | every map, citation and evidence panel in the body is published and released (from Publish) | 003 FR-017 | always |
+| `ESSAY-CROSSLINK` | when `legacy_url` is set, `redirect_switched` has `by` and a valid `on` (from Cross-link) | 003 FR-013 | always |
 | `LIFE-AVAILABILITY` | `published` layer has a runnable asset | US5.5 | `published` |
 | `LIFE-SUPERSEDED` | `superseded` has `superseded_by` resolving, or is withdrawn | FR-013 | always |
 | `REL-VALUE` | release is `held` or `released` | FR-015 | always |

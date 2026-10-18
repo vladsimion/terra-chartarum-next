@@ -53,7 +53,10 @@ describe('ESSAY-BODY-PUBLIC', () => {
 
   it('names each held figure separately', () => {
     const body = scanEssayBody(`${VALID_BODY}\n\n<MapFigure map="tc:tc:map:map-000002" />`);
-    const extra = (all: RegistryRecord[]) => [...held('map')(all), { ...all.find((r) => r.family === 'map')!, id: 'tc:tc:map:map-000002', file: 'content/map/map-000002.yaml', slug: 'm2' }];
+    const extra = (all: RegistryRecord[]) => {
+      const heldAll = held('map')(all);
+      return [...heldAll, { ...heldAll.find((r) => r.family === 'map')!, id: 'tc:tc:map:map-000002', file: 'content/map/map-000002.yaml', slug: 'm2' }];
+    };
     expect(hits(extra, { body }).length).toBeGreaterThanOrEqual(2);
   });
 

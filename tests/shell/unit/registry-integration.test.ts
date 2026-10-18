@@ -43,7 +43,7 @@ describe('astro:build:start', () => {
   it('passes a valid registry and says how many entities it checked', async () => {
     const log = logger();
     await start(FIXTURE, log);
-    expect(log.lines.join('\n')).toMatch(/integrity gate passed.*11 entities/);
+    expect(log.lines.join('\n')).toMatch(/integrity gate passed.*15 entities/);
   });
 
   it('stops the build with the report summary when the gate fails', async () => {

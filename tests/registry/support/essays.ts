@@ -28,6 +28,7 @@ export function world(publicEntities = false): RegistryRecord[] {
     source(1, pub),
     evidence(1, pub),
     layer(1, pub),
+    record('dataset', 1, { version: '1', rights: { licence: 'CC-BY-4.0' }, ...pub }),
     record('bibliography_entry', 1, { csl: 'x.json', section: 'primary_sources', ...pub }),
   ];
 }

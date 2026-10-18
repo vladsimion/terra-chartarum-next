@@ -5,7 +5,6 @@ import { parse } from 'yaml';
 import { main } from '../../../src/registry/cli.js';
 import { writeRegistry } from '../support/disk.js';
 import { essayAt, world } from '../support/essays.js';
-import { place } from '../support/builders.js';
 
 /*
  * Spec 003 T019 (FR-015, SC-004): `registry new essay` writes a valid Concept record and an .mdx
@@ -66,12 +65,12 @@ describe('registry new essay', () => {
   });
 
   it('removes what it wrote and exits 1 if the result is not valid', async () => {
-    // another record already holds the slug the title derives, so SLUG-UNIQUE fails
-    const root = writeRegistry([...world(), place(1, { slug: 'the-frontier-line' })]);
+    // another essay already holds the slug the title derives, so SLUG-UNIQUE fails
+    const root = writeRegistry([...world(), essayAt('Concept', { slug: 'the-frontier-line' })]);
     const { code, out, err } = await run([...NEW, '--dir', root]);
     expect(code).toBe(1);
     expect(out + err).toContain('SLUG-UNIQUE');
-    expect(existsSync(path.join(root, 'content/essay'))).toBe(false);
+    expect(filesIn(root, 'essay')).toEqual(['essay-000001.yaml']);
   });
 
   it('exits 2 for a room that does not exist', async () => {

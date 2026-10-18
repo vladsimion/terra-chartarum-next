@@ -1,0 +1,7 @@
+id: tc:tc:source:source-000001
+family: source
+origin: minted
+title: A fixture source
+slug: fixture-source
+lifecycle: published
+release: released

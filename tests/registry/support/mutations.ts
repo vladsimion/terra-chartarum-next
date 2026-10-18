@@ -2,6 +2,7 @@ import type { ProvenanceStep } from '../../../src/registry/schemas/provenance-st
 import type { ValidateOptions } from '../../../src/registry/rules/framework.js';
 import type { RegistryRecord } from '../../../src/registry/types.js';
 import { validateRegistry } from '../../../src/registry/validate.js';
+import { ESSAY_STAGES, lifecycleFor, type EssayStage } from '../../../src/registry/stages.js';
 import { rooms } from './builders.js';
 import { generatedFeatures, generatedProvenance, generateRegistry, STEP_ID } from './synthetic.js';
 
@@ -348,5 +349,52 @@ const US5_MUTATIONS: Mutation[] = [
   { name: 'an unknown release value', rule: 'REL-VALUE', apply: editOf('place', (r) => { r.release = 'public'; }) },
 ];
 
+/** Put the first generated essay at `stage`, with a history that reaches it, so a later-stage rule has something to judge. */
+function atStage(stage: EssayStage, change: (essay: RegistryRecord, all: RegistryRecord[]) => void = () => {}) {
+  return editOf('essay', (essay, all) => {
+    essay.stage = stage;
+    essay.lifecycle = lifecycleFor(stage, ESSAY_STAGES.indexOf(stage) > ESSAY_STAGES.indexOf('Design QA'));
+    essay.stage_history = ESSAY_STAGES.slice(0, ESSAY_STAGES.indexOf(stage) + 1).map((s, i) => ({ stage: s, on: `2026-02-${String(i + 1).padStart(2, '0')}`, by: 'Mutation' }));
+    change(essay, all);
+  });
+}
+
+const body = (...tags: { tag: string; props?: Record<string, string>; dynamic?: string[] }[]) => ({
+  exists: true,
+  text: '',
+  tags: tags.map((t, i) => ({ tag: t.tag, props: t.props ?? {}, dynamic: t.dynamic ?? [], line: i + 1 })),
+});
+
+/* Spec 003 US2: the essay stage rules. Each moves an essay to the stage the rule starts at and breaks one thing. */
+const ESSAY_MUTATIONS: Mutation[] = [
+  { name: 'an essay has no question', rule: 'ESSAY-QUESTION', apply: editOf('essay', (r) => { delete r.question; }) },
+  { name: 'an essay has no primary room', rule: 'ESSAY-ROOMS', apply: editOf('essay', (r) => { r.rooms = {}; }) },
+  { name: 'an essay history skips a stage', rule: 'ESSAY-HISTORY', apply: atStage('Research', (r) => { r.stage_history = (r.stage_history as unknown[]).slice(1); }) },
+  { name: 'an essay picks an accent that is not a slot', rule: 'ESSAY-ACCENT', apply: editOf('essay', (r) => { r.accent = 'chartreuse'; }) },
+  { name: 'a corpus map does not resolve', rule: 'ESSAY-CORPUS', apply: atStage('Corpus', (r) => { r.maps = ['tc:tc:map:map-999999']; }) },
+  { name: 'a researched essay has no open_questions key', rule: 'ESSAY-RESEARCH', apply: atStage('Research', (r) => { delete r.open_questions; }) },
+  { name: 'an outlined essay has no thesis', rule: 'ESSAY-OUTLINE', apply: atStage('Outline', (r) => { delete r.thesis; }) },
+  {
+    name: 'an interaction is declared without a question',
+    rule: 'ESSAY-INTERACTION',
+    apply: atStage('Outline', (r) => { r.thesis = 'A thesis.'; r.interactions = [{ id: 'i1', evidence: [], interpretation: 'x' }]; }),
+  },
+  { name: 'a drafted essay has no body', rule: 'ESSAY-DRAFT', apply: atStage('Draft', (r) => { r.body = { exists: false, tags: [], text: '' }; }) },
+  {
+    name: 'a body tag prop is computed',
+    rule: 'ESSAY-BODY-DYNAMIC',
+    apply: atStage('Draft', (r) => { r.body = body({ tag: 'MapFigure', dynamic: ['map'] }); }),
+  },
+  { name: 'a built essay names a layer that does not exist', rule: 'ESSAY-BUILD', apply: atStage('Build', (r) => { r.layers = ['tc:tc:layer:layer-999999']; }) },
+  { name: 'a published essay has no sign-offs', rule: 'ESSAY-SIGNOFF', apply: atStage('Publish', (r) => { delete r.signoffs; }) },
+  { name: 'a published essay is still held', rule: 'ESSAY-PUBLISH', apply: atStage('Publish', (r) => { r.release = 'held'; }) },
+  {
+    name: 'a published essay shows a held map',
+    rule: 'ESSAY-BODY-PUBLIC',
+    apply: atStage('Publish', (r, all) => { r.body = body({ tag: 'MapFigure', props: { map: nth(all, 'map').id } }); nth(all, 'map').release = 'held'; }),
+  },
+  { name: 'a legacy essay is cross-linked without confirming the redirect', rule: 'ESSAY-CROSSLINK', apply: atStage('Cross-link', (r) => { r.legacy_url = '/essays/old/'; }) },
+];
+
 /** Each story adds its entries here. */
-export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS];
+export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS, ...ESSAY_MUTATIONS];
