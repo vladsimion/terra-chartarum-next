@@ -1,0 +1,9 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000003
+family: bibliography_entry
+origin: minted
+title: A fixture dictionary of place names
+slug: fixture-entry-3
+lifecycle: published
+release: released
+csl: content/bibliography_entry/bibliography_entry-000003.csl.json
+section: reference_works

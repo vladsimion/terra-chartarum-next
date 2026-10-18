@@ -17,4 +17,14 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { pages };
+/*
+ * The essay bodies (spec 003): `content/essay/<id>.mdx` beside each record, read from the registry
+ * root (REGISTRY_ROOT in tests, the repository otherwise). The registry stays the source of every
+ * fact about an essay; this collection only renders the prose. A page is generated for a public
+ * essay only (src/pages/essays/[slug].astro), so a held essay's body is read here and never written out.
+ */
+const essayBodies = defineCollection({
+  loader: glob({ pattern: '*.mdx', base: `${process.env.REGISTRY_ROOT ?? '.'}/content/essay` }),
+});
+
+export const collections = { pages, 'essay-bodies': essayBodies };

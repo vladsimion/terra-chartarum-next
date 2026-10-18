@@ -1,0 +1,26 @@
+---
+import { firstCitation, pageModel } from '../locals.js';
+
+interface Props {
+  /** An Evidence id; the note is built from its source's bibliography entry and its locator. */
+  evidence: string;
+}
+
+const { evidence } = Astro.props;
+const number = pageModel(Astro.locals).noteNumber(evidence);
+if (number === undefined) throw new Error(`<Cite evidence="${evidence}"> is not in this essay's page model`);
+const first = firstCitation(Astro.locals, evidence);
+---
+
+<sup class="cite"><a id={first ? `ref-${number}` : undefined} href={`#note-${number}`} aria-label={`Note ${number}`}>{number}</a></sup>
+
+<style>
+  .cite a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--target-min);
+    min-height: var(--target-min);
+    color: var(--accent);
+  }
+</style>

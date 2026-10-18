@@ -1,4 +1,5 @@
 import type { ProvenanceStep } from './schemas/provenance-step.js';
+import { ESSAY_STAGES, type EssayStage } from './stages.js';
 import type { RegistryRecord } from './types.js';
 
 const localId = (family: string, n: number) => `${family}-${String(n).padStart(6, '0')}`;
@@ -116,7 +117,17 @@ export function generateRegistry(count: number, seed: number): RegistryRecord[] 
         break;
       case 'essay':
         // an essay's lifecycle is derived from its stage, so pick the stage that yields it
-        record.stage = ({ proposed: 'Concept', researching: 'Corpus', verified: 'Draft' } as Record<string, string>)[String(record.lifecycle)];
+        record.stage = ({ proposed: 'Concept', researching: 'Research', verified: 'Outline' } as Record<string, string>)[String(record.lifecycle)];
+        record.question = 'What does this synthetic essay ask?';
+        record.authors = ['Synthetic Author'];
+        record.rooms = { primary: 'tc:tc:room:map' };
+        record.stage_history = ESSAY_STAGES.slice(0, ESSAY_STAGES.indexOf(record.stage as EssayStage) + 1).map((stage, i) => ({
+          stage,
+          on: `2026-01-${String(i + 1).padStart(2, '0')}`,
+          by: 'Synthetic Author',
+        }));
+        record.open_questions = [];
+        if (record.lifecycle === 'verified') record.thesis = 'A synthetic thesis.';
         record.rights = rights();
         record.maps = unique(some('map', 2));
         record.places = unique(some('place', 3));

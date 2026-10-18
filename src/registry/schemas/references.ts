@@ -14,6 +14,7 @@ export interface RefField {
 const SCALARS: Record<string, string[]> = {
   '*': ['superseded_by'],
   evidence: ['source'],
+  source: ['entry'],
   attestation: ['place', 'source'],
   layer: ['dataset'],
   essay: ['rooms.primary'],
@@ -46,6 +47,7 @@ const POINTS_AT: Record<string, Record<string, string>> = {
   map: { makers: 'cartographer' },
   layer: { dataset: 'dataset' },
   evidence: { source: 'source' },
+  source: { entry: 'bibliography_entry' },
   attestation: { place: 'place', source: 'source' },
 };
 

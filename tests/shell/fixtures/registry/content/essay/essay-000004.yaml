@@ -6,3 +6,25 @@ slug: yankee-draft
 stage: Research
 lifecycle: researching
 release: released
+question: What does this fixture essay ask?
+authors:
+  - Fixture Editor
+rooms:
+  primary: tc:tc:room:map
+stage_history:
+  - stage: Concept
+    on: 2026-10-01
+    by: Fixture Editor
+  - stage: Corpus
+    on: 2026-10-02
+    by: Fixture Editor
+  - stage: Research
+    on: 2026-10-03
+    by: Fixture Editor
+rights:
+  licence: CC-BY-4.0
+maps:
+  - tc:tc:map:map-000001
+evidence:
+  - tc:tc:evidence:evidence-000001
+open_questions: []

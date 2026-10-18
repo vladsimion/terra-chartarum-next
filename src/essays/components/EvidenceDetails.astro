@@ -1,0 +1,48 @@
+---
+import type { NoteDetail } from '../page-model.js';
+
+interface Props {
+  detail: NoteDetail;
+}
+
+const { detail } = Astro.props;
+---
+
+<details class="evidence-details">
+  <summary>Source, locator and verification</summary>
+  <dl>
+    <dt>Source</dt>
+    <dd>{detail.sourceTitle}</dd>
+    <dt>Locator</dt>
+    <dd>{detail.locator ?? 'none given'}</dd>
+    <dt>Verification</dt>
+    <dd data-state={detail.verification.state}>{detail.verification.label}</dd>
+    {detail.consultedCopy && (<><dt>Copy consulted</dt><dd>{detail.consultedCopy}</dd></>)}
+  </dl>
+</details>
+
+<style>
+  summary {
+    cursor: pointer;
+    min-height: var(--target-min);
+    display: flex;
+    align-items: center;
+    color: var(--accent);
+  }
+
+  dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--space-1) var(--space-4);
+    font-size: var(--step--1);
+  }
+
+  dt {
+    color: var(--ink-muted);
+  }
+
+  dd {
+    margin: 0;
+  }
+</style>

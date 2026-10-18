@@ -8,6 +8,8 @@ import { checkRegistry } from './check.js';
 import { scanOutput } from './leak-scan.js';
 import { loadRegistry } from './load.js';
 import { mintNext } from './mint.js';
+import { createEssay } from './new-essay.js';
+import { promoteEssay, type CommandResult } from './promote.js';
 import { writeSyntheticRegistry } from './synthetic.js';
 import { toJson, type IntegrityReport } from './report.js';
 import { renderHtml } from './report-html.js';
@@ -24,6 +26,8 @@ const USAGE = `Usage:
   registry build --out <siteDir> [--dir <root>]        run the gate, and only if it passes write _redirects and data/relations.json for the site
   registry mint <family> [--dir <root>]                print the next unused local-id for a family
   registry scan <distDir> [--dir <root>]               fail if built output holds a private value or the id of a non-public entity
+  registry promote <essay-id> <stage> --by <person> [--check] [--dir <root>]   move an essay to the next editorial stage if its checks pass
+  registry new essay <title> --room <room> --question <question> --author <name> [--dir <root>]   start an essay at Concept
   registry synth <count> --seed <n> --out <dir>        write a deterministic synthetic registry (count entities plus the seven rooms)
 
 <root> is the registry root that contains content/ (default: .). Exit codes: 0 ok, 1 errors found, 2 tool failure.`;
@@ -89,6 +93,41 @@ async function mint(args: string[], io: Io): Promise<number> {
   return 0;
 }
 
+/** Print a command result and give its exit code. */
+function finish(result: CommandResult, io: Io): number {
+  if (result.stdout) io.stdout(result.stdout);
+  if (result.stderr) io.stderr(result.stderr);
+  return result.code;
+}
+
+async function promote(args: string[], io: Io): Promise<number> {
+  const { values, positionals } = parseArgs({
+    args,
+    allowPositionals: true,
+    options: { dir: { type: 'string', default: '.' }, by: { type: 'string' }, check: { type: 'boolean', default: false } },
+  });
+  const [essayId, stage] = positionals;
+  if (!essayId || !stage || positionals.length > 2 || values.by === undefined) return usage(io);
+  return finish(await promoteEssay(values.dir, essayId, stage, { by: values.by, check: values.check }), io);
+}
+
+async function newRecord(args: string[], io: Io): Promise<number> {
+  const { values, positionals } = parseArgs({
+    args,
+    allowPositionals: true,
+    options: {
+      dir: { type: 'string', default: '.' },
+      room: { type: 'string' },
+      question: { type: 'string' },
+      author: { type: 'string' },
+    },
+  });
+  const [kind, title] = positionals;
+  if (kind !== 'essay' || title === undefined || positionals.length > 2) return usage(io);
+  if (values.room === undefined || values.question === undefined || values.author === undefined) return usage(io);
+  return finish(await createEssay(values.dir, { title, room: values.room, question: values.question, author: values.author }), io);
+}
+
 async function synth(args: string[], io: Io): Promise<number> {
   const { values, positionals } = parseArgs({
     args,
@@ -129,6 +168,8 @@ export async function main(argv: string[], io: Io): Promise<number> {
     if (command === 'mint') return await mint(rest, io);
     if (command === 'scan') return await scan(rest, io);
     if (command === 'synth') return await synth(rest, io);
+    if (command === 'promote') return await promote(rest, io);
+    if (command === 'new') return await newRecord(rest, io);
     return usage(io);
   } catch (error) {
     io.stderr(`registry: ${error instanceof Error ? error.message : String(error)}\n`);

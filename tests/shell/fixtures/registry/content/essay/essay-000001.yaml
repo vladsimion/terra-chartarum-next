@@ -6,5 +6,56 @@ slug: terra-nova
 stage: Cross-link
 lifecycle: published
 release: released
+question: What does this fixture essay ask?
+authors:
+  - Fixture Editor
+rooms:
+  primary: tc:tc:room:map
+stage_history:
+  - stage: Concept
+    on: 2026-10-01
+    by: Fixture Editor
+  - stage: Corpus
+    on: 2026-10-02
+    by: Fixture Editor
+  - stage: Research
+    on: 2026-10-03
+    by: Fixture Editor
+  - stage: Outline
+    on: 2026-10-04
+    by: Fixture Editor
+  - stage: Draft
+    on: 2026-10-05
+    by: Fixture Editor
+  - stage: Build
+    on: 2026-10-06
+    by: Fixture Editor
+  - stage: Design QA
+    on: 2026-10-07
+    by: Fixture Editor
+  - stage: Publish
+    on: 2026-10-08
+    by: Fixture Editor
+  - stage: Cross-link
+    on: 2026-10-09
+    by: Fixture Editor
 rights:
   licence: CC-BY-4.0
+maps:
+  - tc:tc:map:map-000001
+evidence:
+  - tc:tc:evidence:evidence-000001
+open_questions: []
+thesis: The fixture essay argues nothing.
+design_qa_passed: true
+signoffs:
+  historical:
+    by: Fixture Editor
+    on: 2026-10-10
+  cartographic:
+    by: Fixture Editor
+    on: 2026-10-11
+  data:
+    by: Fixture Editor
+    on: 2026-10-12
+published_on: 2026-10-17

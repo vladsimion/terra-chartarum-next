@@ -1,0 +1,49 @@
+---
+import { pageModel } from '../locals.js';
+
+interface Props {
+  /** A map id; the caption, credit and rights come from the map's public record, never from the essay. */
+  map: string;
+}
+
+const figure = pageModel(Astro.locals).figures.get(Astro.props.map);
+if (!figure) throw new Error(`<MapFigure map="${Astro.props.map}"> is not in this essay's page model`);
+---
+
+<figure class="map-figure">
+  <figcaption>
+    <strong>{figure.caption}</strong>
+    {figure.attribution && <span class="credit">{figure.attribution}</span>}
+    {figure.rights && <span class="rights">{figure.rights}</span>}
+    <a href={figure.href} aria-label={`Catalogue record: ${figure.title}`}>Catalogue record</a>
+  </figcaption>
+</figure>
+
+<style>
+  .map-figure {
+    margin: var(--space-6) 0;
+    padding: var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+  }
+
+  figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    font-size: var(--step--1);
+  }
+
+  .credit,
+  .rights {
+    color: var(--ink-muted);
+  }
+
+  a {
+    color: var(--accent);
+    min-height: var(--target-min);
+    display: inline-flex;
+    align-items: center;
+  }
+</style>

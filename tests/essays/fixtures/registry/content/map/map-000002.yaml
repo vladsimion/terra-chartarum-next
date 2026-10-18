@@ -1,0 +1,12 @@
+id: tc:tc:map:map-000002
+family: map
+origin: minted
+title: A fixture map of the road
+slug: fixture-map-road
+lifecycle: published
+release: released
+makers:
+  - tc:tc:cartographer:cartographer-000001
+rights:
+  licence: CC BY 4.0
+  attribution: Image courtesy of the Fixture Library

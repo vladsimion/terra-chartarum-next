@@ -1,0 +1,18 @@
+id: tc:tc:evidence:evidence-000001
+family: evidence
+origin: minted
+title: A fixture claim
+slug: fixture-claim
+lifecycle: published
+release: released
+target:
+  entity: tc:tc:map:map-000001
+source: tc:tc:source:source-000001
+locator:
+  value: p. 1
+  state: pending
+  proposed_by: person
+evidence_type: textual
+confidence: probable
+rights:
+  licence: CC-BY-4.0

@@ -1,0 +1,75 @@
+---
+import Base from '../../shell/layouts/Base.astro';
+import { pageModel } from '../locals.js';
+import Bibliography from './Bibliography.astro';
+import Notes from './Notes.astro';
+import RelatedEssays from './RelatedEssays.astro';
+import RoomLinks from './RoomLinks.astro';
+
+/*
+ * The frame of an essay page (spec 003 US1): title, byline and thesis first, then the argument (the
+ * MDX body in the slot), then notes, bibliography, rooms and related essays. The accent is the
+ * record's own, through the shell's Base layout.
+ */
+const { essay } = pageModel(Astro.locals);
+const authors = Array.isArray(essay.authors) ? (essay.authors as string[]).join(', ') : '';
+const published = typeof essay.published_on === 'string' ? essay.published_on : null;
+---
+
+<Base
+  title={`${essay.title} | Terra Chartarum`}
+  crumb={String(essay.title)}
+  accent={typeof essay.accent === 'string' ? essay.accent : undefined}
+  description={typeof essay.question === 'string' ? essay.question : undefined}
+>
+  <article class="essay">
+    <div class="essay-head">
+      <h1>{essay.title}</h1>
+      <p class="byline">
+        {authors}
+        {published && <> · <time datetime={published}>{published}</time></>}
+      </p>
+      {typeof essay.thesis === 'string' && (
+        <p class="thesis" data-testid="thesis">
+          <span class="thesis-label">Thesis</span>
+          {essay.thesis}
+        </p>
+      )}
+    </div>
+    <div class="body"><slot /></div>
+    <Notes />
+    <Bibliography />
+    <RoomLinks />
+    <RelatedEssays />
+  </article>
+</Base>
+
+<style>
+  h1 {
+    padding-bottom: var(--space-3);
+    border-bottom: 3px solid var(--accent);
+  }
+
+  .byline {
+    color: var(--ink-muted);
+  }
+
+  .thesis {
+    max-width: var(--prose-max);
+    margin: var(--space-5) 0;
+    padding-inline-start: var(--space-4);
+    border-inline-start: 3px solid var(--accent);
+    font-size: var(--step-1);
+  }
+
+  .thesis-label {
+    display: block;
+    color: var(--ink-muted);
+    font-size: var(--step--1);
+    text-transform: uppercase;
+  }
+
+  .body {
+    max-width: var(--prose-max);
+  }
+</style>
