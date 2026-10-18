@@ -7,7 +7,8 @@ import { defineRule, type Finding } from './framework.js';
  * warning, so early research can be registered without being blocked (ADR 0006 item 6).
  */
 const REQUIRED: Record<string, string[]> = {
-  map: ['makers'],
+  map: ['makers', 'witness_kind'],
+  cartographer: ['kind'],
   place: ['place_type'],
   dataset: ['version'],
   layer: ['role', 'asset', 'dataset'],
@@ -26,6 +27,8 @@ export const famRequired = defineRule({
     const findings: Finding[] = [];
     for (const record of records) {
       for (const field of REQUIRED[record.family] ?? []) {
+        // only a single physical object has a witness (ADR 0016); a work or a concept is not one
+        if (record.family === 'map' && field === 'witness_kind' && (record.record_scope === 'work' || record.record_scope === 'concept')) continue;
         if (!present(record[field])) {
           findings.push({ record, field, value: null, expected: `${field} on every ${record.family} record` });
         }

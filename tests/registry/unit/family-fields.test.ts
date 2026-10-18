@@ -7,7 +7,8 @@ const hits = (records: ReturnType<typeof record>[]) =>
 
 /** Required fields per family, from data-model.md "Family fields". */
 const REQUIRED: [string, string[]][] = [
-  ['map', ['makers']],
+  ['map', ['makers', 'witness_kind']],
+  ['cartographer', ['kind']],
   ['place', ['place_type']],
   ['dataset', ['version']],
   ['layer', ['role', 'asset', 'dataset']],
@@ -34,11 +35,11 @@ describe('FAM-REQUIRED', () => {
 
   it('treats an empty value as missing, an empty list for makers included', () => {
     expect(hits([record('place', 1, { lifecycle: 'published', place_type: '' })])).toHaveLength(1);
-    expect(hits([record('map', 1, { lifecycle: 'published', makers: [] })])).toHaveLength(1);
+    expect(hits([record('map', 1, { lifecycle: 'published', makers: [], witness_kind: 'institutional' })])).toHaveLength(1);
   });
 
   it('asks nothing of families with no required fields', () => {
-    for (const family of ['cartographer', 'route', 'event', 'period', 'source', 'room', 'collection', 'essay', 'evidence']) {
+    for (const family of ['route', 'event', 'period', 'source', 'room', 'collection', 'essay', 'evidence']) {
       expect(hits([record(family, 1, { lifecycle: 'published' })]), family).toEqual([]);
     }
   });

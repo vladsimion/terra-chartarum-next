@@ -397,4 +397,27 @@ const ESSAY_MUTATIONS: Mutation[] = [
 ];
 
 /** Each story adds its entries here. */
-export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS, ...ESSAY_MUTATIONS];
+/* Spec 004 Foundation: the map and cartographer rules. A map is taken to the lifecycle where the rule speaks, then broken in one way. */
+const atLifecycle = (lifecycle: string, change: (record: RegistryRecord, all: RegistryRecord[]) => void = () => {}) =>
+  editOf('map', (r, all) => {
+    r.lifecycle = lifecycle;
+    change(r, all);
+  });
+const MAP_MUTATIONS: Mutation[] = [
+  { name: 'a publishable map states nothing about a displayed field', rule: 'MAP-FIELD-STATUS', apply: atLifecycle('publishable') },
+  { name: 'a held witness has provenance but no basis', rule: 'MAP-BASIS', apply: atLifecycle('publishable', (r) => { r.witness_kind = 'held'; r.provenance = 'Bequest.'; }) },
+  { name: 'a map is verified by a word outside the vocabulary', rule: 'MAP-VERIFICATION', apply: editOf('map', (r) => { r.verification = 'glanced_at'; }) },
+  { name: 'a map image has a type outside the three', rule: 'MAP-IMAGE', apply: editOf('map', (r) => { r.images = [{ type: 'pdf' }]; }) },
+  {
+    name: 'a workshop maker with an exact attribution',
+    rule: 'MAP-ATTRIBUTION',
+    apply: atLifecycle('ready_for_build', (r, all) => { all.find((x) => x.id === (r.makers as string[])[0])!.kind = 'workshop'; }),
+  },
+  { name: 'a publishable map has no attribution evidence', rule: 'MAP-DEALER-ONLY', apply: atLifecycle('publishable', (r) => { r.attribution_evidence = []; }) },
+  { name: 'a released map with a held maker', rule: 'MAP-MAKER-HELD', apply: atLifecycle('publishable', (r) => { r.release = 'released'; }) },
+  { name: 'a record carries a price', rule: 'MAP-PRIVATE-FIELD', apply: editOf('map', (r) => { r.price = 1; }) },
+  { name: 'a publishable object map has no witness_kind', rule: 'MAP-SCOPE', apply: atLifecycle('publishable', (r) => { delete r.witness_kind; }) },
+  { name: 'a cartographer is neither person nor workshop', rule: 'CART-KIND', apply: editOf('cartographer', (r) => { r.lifecycle = 'ready_for_build'; r.kind = 'firm'; }) },
+];
+
+export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS, ...ESSAY_MUTATIONS, ...MAP_MUTATIONS];

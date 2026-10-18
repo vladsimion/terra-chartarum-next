@@ -26,9 +26,9 @@ description: "Task list for 004 Map Collection & Cartographers Catalogue"
 
 ## Phase 1: Setup
 
-- [ ] T001 Agree the three seams above with Vlad (tdd skill) and record any change here
+- [x] T001 Agree the three seams above with Vlad (tdd skill) and record any change here. Agreed 2026-10-18 with no change; T002 (hand-authored fixtures) moves to the start of US1, where it is first used
 - [ ] T002 [P] Create `tests/collection/fixtures/registry/` with about six hand-authored map records and their neighbours: a held witness with `inspected` verification and `basis` on provenance; an institutional IIIF witness; a record attributed to a `workshop` (unresolved); a record whose reproduction is not cleared (image withheld); a record whose only attribution evidence is a `dealer` source; a record with an unknown date; two cartographers (person and workshop), places of type region and country, the seven rooms, two public essays and one held essay that cite the maps, a layer that references one map, sources including a finding aid, and a held cartographer used by no public map. Add invalid variants named for the rule they trip
-- [ ] T003 [P] Extend `src/registry/synthetic.ts` so the seeded generator can produce `n` map records with their makers, places and essays (60 for US2, 500 for SC-004); a test asserts the same seed gives byte-identical records
+- [x] T003 [P] Extend `src/registry/synthetic.ts` so the seeded generator can produce `n` map records with their makers, places and essays (60 for US2, 500 for SC-004); a test asserts the same seed gives byte-identical records
 
 ---
 
@@ -36,25 +36,25 @@ description: "Task list for 004 Map Collection & Cartographers Catalogue"
 
 **Goal**: the schemas, the rules, the public allowlist and spec 001's documents brought in step (FR-009).
 
-- [ ] T004 [P] Write failing `tests/registry/unit/map-schema.test.ts`: a map record with every clarified FR-001 field loads and types correctly, including `record_scope` (`object`, `work`, `concept`), `witness_kind` of `held`, `institutional` or `unlocated`, and `open_questions[]`; `images[]` takes objects (the old `string[]` placeholder is rejected); `physical` loads and is never projected; a cartographer with `kind`, `names`, `roles`, `active` loads; `FAM-UNKNOWN` still rejects an unlisted field; `coverage[]` (place), `publication_place` (place), `attribution_evidence[]` (evidence) and `bibliography[]` (bibliography entry) resolve through `REF-UNKNOWN` and `REF-FAMILY`; `witness_kind` and cartographer `kind` are required from `ready_for_build` (`FAM-REQUIRED`)
-- [ ] T005 Implement `src/registry/schemas/map-values.ts` (the value sets, `DISPLAYED_FIELDS`, the private-word list), the extended `MapSchema` and `CartographerSchema` and the `ImageSource` and `Physical` value objects in `src/registry/schemas/families.ts`, the reference fields in `schemas/references.ts`, and the required lists; update every existing fixture that used `images: [string]`
-- [ ] T006 [P] Write failing `tests/registry/unit/map-field-status.test.ts` for `MAP-FIELD-STATUS` and `MAP-BASIS` (empty and unstated warns at `ready_for_build` and errors at `publishable`; a `recorded` entry on an empty field fails; an unknown status value fails; a held witness missing `basis` on a filled provenance fails; an institutional witness with `basis` fails) with a named mutation for each rule
-- [ ] T007 Implement `MAP-FIELD-STATUS` and `MAP-BASIS` in `src/registry/rules/map.ts` and register them
-- [ ] T008 [P] Write failing `tests/registry/unit/map-verification.test.ts` for `MAP-VERIFICATION` (vocabulary; `last_verified` required unless `unverified`; `inspected` on an institutional witness is an error) with a named mutation
-- [ ] T009 Implement `MAP-VERIFICATION`
-- [ ] T010 [P] Write failing `tests/registry/unit/map-image.test.ts` for `MAP-IMAGE` (type, `https` url, attribution, `static_url` for `iiif` and `deepzoom`, `witness_kind` equal to the record's; `alt` missing warns at `ready_for_build` and errors at `publishable`) with a named mutation
-- [ ] T011 Implement `MAP-IMAGE`
-- [ ] T012 [P] Write failing `tests/registry/unit/map-attribution.test.ts` for `MAP-ATTRIBUTION`, `CART-KIND` and `MAP-SCOPE` (a `work` or `concept` carrying `witness_kind`, images or `inspected`; an `object` without `witness_kind`; a workshop maker forces `attribution: unresolved` and the reverse; `kind` and `roles` vocabularies; a workshop with `life_dates` fails) with named mutations
-- [ ] T013 Implement `MAP-ATTRIBUTION`, `CART-KIND` and `MAP-SCOPE`
-- [ ] T014 [P] Write failing `tests/registry/unit/map-dealer-only.test.ts` for `MAP-DEALER-ONLY` (all attribution evidence from `dealer` or `auction` sources warns at `ready_for_build` and errors at `publishable`; one scholarly source among them passes; none at `publishable` fails) with a named mutation
-- [ ] T015 Implement `MAP-DEALER-ONLY` (it reads the evidence record's source `source_kind`)
-- [ ] T016 [P] Write failing `tests/registry/unit/map-maker-held.test.ts` for `MAP-MAKER-HELD` (a public map with a held maker: warning at `ready_for_build`, error at `publishable`; a held map with a held maker is fine) with a named mutation
-- [ ] T017 Implement `MAP-MAKER-HELD`
-- [ ] T018 [P] Write failing `tests/registry/unit/map-private-field.test.ts` for `MAP-PRIVATE-FIELD` (a `price`, `paid`, `negotiation` or `vendor` key at any depth, in a map, an image object or another family, fails with the private-data message; a value containing "paid" does not) with a named mutation
-- [ ] T019 Implement `MAP-PRIVATE-FIELD`
-- [ ] T020 [P] Write failing `tests/registry/unit/map-project.test.ts`: the public projection of a map and a cartographer carries exactly the allowlist of data-model.md and nothing else (`physical`, `private`, held references and any field not listed are dropped); a withheld image keeps its metadata
-- [ ] T021 Extend `src/registry/project.ts` with the map and cartographer allowlists
-- [ ] T022 Register the ten rules in `src/registry/rules/index.ts`, make the rule-coverage test pass (each has a named mutation), and add them to `specs/001-scholarly-registry/contracts/rule-ids.md`; update spec 001's `data-model.md` map and cartographer rows to point at spec 004's
+- [x] T004 [P] Write failing `tests/registry/unit/map-schema.test.ts`: a map record with every clarified FR-001 field loads and types correctly, including `record_scope` (`object`, `work`, `concept`), `witness_kind` of `held`, `institutional` or `unlocated`, and `open_questions[]`; `images[]` takes objects (the old `string[]` placeholder is rejected); `physical` loads and is never projected; a cartographer with `kind`, `names`, `roles`, `active` loads; `FAM-UNKNOWN` still rejects an unlisted field; `coverage[]` (place), `publication_place` (place), `attribution_evidence[]` (evidence) and `bibliography[]` (bibliography entry) resolve through `REF-UNKNOWN` and `REF-FAMILY`; `witness_kind` and cartographer `kind` are required from `ready_for_build` (`FAM-REQUIRED`)
+- [x] T005 Implement `src/registry/schemas/map-values.ts` (the value sets, `DISPLAYED_FIELDS`, the private-word list), the extended `MapSchema` and `CartographerSchema` and the `ImageSource` and `Physical` value objects in `src/registry/schemas/families.ts`, the reference fields in `schemas/references.ts`, and the required lists; update every existing fixture that used `images: [string]`
+- [x] T006 [P] Write failing `tests/registry/unit/map-field-status.test.ts` for `MAP-FIELD-STATUS` and `MAP-BASIS` (empty and unstated warns at `ready_for_build` and errors at `publishable`; a `recorded` entry on an empty field fails; an unknown status value fails; a held witness missing `basis` on a filled provenance fails; an institutional witness with `basis` fails) with a named mutation for each rule
+- [x] T007 Implement `MAP-FIELD-STATUS` and `MAP-BASIS` in `src/registry/rules/map.ts` and register them
+- [x] T008 [P] Write failing `tests/registry/unit/map-verification.test.ts` for `MAP-VERIFICATION` (vocabulary; `last_verified` required unless `unverified`; `inspected` on an institutional witness is an error) with a named mutation
+- [x] T009 Implement `MAP-VERIFICATION`
+- [x] T010 [P] Write failing `tests/registry/unit/map-image.test.ts` for `MAP-IMAGE` (type, `https` url, attribution, `static_url` for `iiif` and `deepzoom`, `witness_kind` equal to the record's; `alt` missing warns at `ready_for_build` and errors at `publishable`) with a named mutation
+- [x] T011 Implement `MAP-IMAGE`
+- [x] T012 [P] Write failing `tests/registry/unit/map-attribution.test.ts` for `MAP-ATTRIBUTION`, `CART-KIND` and `MAP-SCOPE` (a `work` or `concept` carrying `witness_kind`, images or `inspected`; an `object` without `witness_kind`; a workshop maker forces `attribution: unresolved` and the reverse; `kind` and `roles` vocabularies; a workshop with `life_dates` fails) with named mutations
+- [x] T013 Implement `MAP-ATTRIBUTION`, `CART-KIND` and `MAP-SCOPE`
+- [x] T014 [P] Write failing `tests/registry/unit/map-dealer-only.test.ts` for `MAP-DEALER-ONLY` (all attribution evidence from `dealer` or `auction` sources warns at `ready_for_build` and errors at `publishable`; one scholarly source among them passes; none at `publishable` fails) with a named mutation
+- [x] T015 Implement `MAP-DEALER-ONLY` (it reads the evidence record's source `source_kind`)
+- [x] T016 [P] Write failing `tests/registry/unit/map-maker-held.test.ts` for `MAP-MAKER-HELD` (a public map with a held maker: warning at `ready_for_build`, error at `publishable`; a held map with a held maker is fine) with a named mutation
+- [x] T017 Implement `MAP-MAKER-HELD`
+- [x] T018 [P] Write failing `tests/registry/unit/map-private-field.test.ts` for `MAP-PRIVATE-FIELD` (a `price`, `paid`, `negotiation` or `vendor` key at any depth, in a map, an image object or another family, fails with the private-data message; a value containing "paid" does not) with a named mutation
+- [x] T019 Implement `MAP-PRIVATE-FIELD`
+- [x] T020 [P] Write failing `tests/registry/unit/map-project.test.ts`: the public projection of a map and a cartographer carries exactly the allowlist of data-model.md and nothing else (`physical`, `private`, held references and any field not listed are dropped); a withheld image keeps its metadata
+- [x] T021 Extend `src/registry/project.ts` with the map and cartographer allowlists
+- [x] T022 Register the ten rules in `src/registry/rules/index.ts`, make the rule-coverage test pass (each has a named mutation), and add them to `specs/001-scholarly-registry/contracts/rule-ids.md`; update spec 001's `data-model.md` map and cartographer rows to point at spec 004's
 
 ---
 

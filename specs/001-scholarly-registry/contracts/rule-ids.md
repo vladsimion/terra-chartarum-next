@@ -28,6 +28,16 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `ESSAY-PUBLISH` | `release: released` and a valid EDTF `published_on` (from Publish) | 003 FR-012 | always |
 | `ESSAY-BODY-PUBLIC` | every map, citation and evidence panel in the body is published and released (from Publish) | 003 FR-017 | always |
 | `ESSAY-CROSSLINK` | when `legacy_url` is set, `redirect_switched` has `by` and a valid `on` (from Cross-link) | 003 FR-013 | always |
+| `MAP-FIELD-STATUS` | each displayed field of a map has a value or a `field_status` entry; every status is one of the four; a `recorded` entry has a value; another status on a field with a value is a mismatch (warns from `ready_for_build`) | 004 FR-002 | `publishable` |
+| `MAP-BASIS` | a held witness's `provenance` and `atlas_context` each carry `basis` observed or inferred when filled; an institutional witness has no `basis` (warns from `ready_for_build`) | 004 FR-002 | `publishable` |
+| `MAP-VERIFICATION` | `verification` is one of three; `last_verified` is a real date unless `unverified`; `inspected` only on a held witness | 004 FR-015 | always |
+| `MAP-IMAGE` | each image has a valid `type`, an `https` `url`, `attribution`, a `static_url` for `iiif` and `deepzoom`, and the record's `witness_kind`; `alt` present (the `alt` finding warns from `ready_for_build` and errors from `publishable`) | 004 FR-001, FR-004, FR-017 | always |
+| `MAP-ATTRIBUTION` | `attribution` is `unresolved` if and only if some maker is a workshop | 004 FR-011 | `ready_for_build` |
+| `MAP-DEALER-ONLY` | attribution evidence is not only dealer or auction material; a map at `publishable` has some (warns from `ready_for_build`) | 004 FR-016 | `publishable` |
+| `MAP-MAKER-HELD` | every maker of a released map is published and released (warns from `ready_for_build`) | 004 FR-012 | `publishable` |
+| `MAP-PRIVATE-FIELD` | no key at any depth, in any family, is an acquisition word (`price`, `paid`, `cost`, `negotiation`, `vendor`, `dealer_contact`, `invoice`, `receipt`); the value is never repeated | 004 FR-010 | always |
+| `MAP-SCOPE` | `record_scope` is `object`, `work` or `concept`; an object has a valid `witness_kind`; a work or concept has no `witness_kind`, images, inspected verification or basis (warns from `ready_for_build`) | 004 FR-003 | `publishable` |
+| `CART-KIND` | a cartographer's `kind` is `person` or `workshop`, `roles[]` are from the three, and a workshop has no `life_dates` | 004 FR-001, FR-011 | `ready_for_build` |
 | `LIFE-AVAILABILITY` | `published` layer has a runnable asset | US5.5 | `published` |
 | `LIFE-SUPERSEDED` | `superseded` has `superseded_by` resolving, or is withdrawn | FR-013 | always |
 | `REL-VALUE` | release is `held` or `released` | FR-015 | always |

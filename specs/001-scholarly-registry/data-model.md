@@ -68,11 +68,11 @@ Every field that points at another record. `referenceFields(record)` returns the
 | evidence | `target.entity`, `source`, `provenance_chain[]` (resolves to provenance steps) |
 | attestation | `place`, `source` |
 | collection | `members[]`, `default_layers[]` |
-| map | `makers[]` (cartographer IDs) |
+| map | `makers[]` (cartographer IDs), `coverage[]` and `publication_place` (place), `attribution_evidence[]` (evidence), `bibliography[]` (bibliography entry) |
 | layer | `dataset` |
 | essay | `evidence[]`, `maps[]`, `places[]`, `sources[]` |
 
-Typed references must point at the right family (`REF-FAMILY`): essay `maps[]` → map, `places[]` → place, `sources[]` → source, `evidence[]` → evidence; collection `members[]` and `default_layers[]` → layer; map `makers[]` → cartographer; layer `dataset` → dataset; evidence `source` → source; attestation `place` → place and `source` → source; `superseded_by` → the record's own family. `relations[]` and an evidence `target.entity` may point at anything.
+Typed references must point at the right family (`REF-FAMILY`): essay `maps[]` → map, `places[]` → place, `sources[]` → source, `evidence[]` → evidence; collection `members[]` and `default_layers[]` → layer; map `makers[]` → cartographer, `coverage[]` and `publication_place` → place, `attribution_evidence[]` → evidence, `bibliography[]` → bibliography entry; cartographer `bibliography[]` → bibliography entry; layer `dataset` → dataset; evidence `source` → source; attestation `place` → place and `source` → source; `superseded_by` → the record's own family. `relations[]` and an evidence `target.entity` may point at anything.
 
 ## Family fields
 
@@ -80,8 +80,8 @@ Minimum fields per family beyond the Entity base. Everything not listed is optio
 
 | Family | Required | Optional |
 |---|---|---|
-| map | `makers[]` | `edition_state`, `repository`, physical-object fields (schema-only in v1, ADR 0002) |
-| cartographer | none | `life_dates` |
+| map | `makers[]`, `witness_kind` (an object record only, `MAP-SCOPE`) | the fields of [spec 004's data model](../004-collection-catalogue/data-model.md) (replaces `edition_state`, `repository`, `images: string[]` and the physical-object placeholder) |
+| cartographer | `kind` | `names`, `roles`, `life_dates`, `active`, `bibliography` (spec 004's data model) |
 | place | `place_type` (a port is `port`) | `location_status` |
 | source | `is_finding_aid` (boolean, default `false`) | `source_kind` |
 | dataset | `version` | `licence` |
