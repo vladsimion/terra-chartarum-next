@@ -10,6 +10,7 @@ import type { RegistryRecord } from '../../registry/types.js';
 import { applyVocabularies } from '../../registry/vocab-map.js';
 import { list, isObject } from '../../registry/values.js';
 import { buildIndex } from '../index-data.js';
+import { layerInfo } from '../inspector-data.js';
 import { maplibreFiles } from './vendor.js';
 import { convertGeoJson, convertPmtiles, type AtlasFailure, type Converted, type LayerSource } from './convert-assets.js';
 
@@ -82,6 +83,8 @@ export async function buildAtlas(options: AtlasBuildOptions): Promise<AtlasBuild
       continue;
     }
     files.set(`data/layers/${slug}.${converted.extension}`, converted.asset);
+    const projected = publicRecords.find((r) => r.id === record.id);
+    if (projected) files.set(`data/layers/${slug}.info.json`, `${JSON.stringify(layerInfo(projected, publicRecords), null, 2)}\n`);
     if (converted.facets.length > 0) files.set(`data/layers/${slug}.facets.json`, `${JSON.stringify({ facets: converted.facets }, null, 2)}\n`);
 
     if (record.role === 'map-overlay' && isObject(record.georef)) {

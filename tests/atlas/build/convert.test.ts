@@ -36,12 +36,8 @@ describe('the outputs', () => {
       [
         'data/atlas-index.json',
         'data/atlas-slugs.json',
-        'data/layers/dacian-settlements.fgb',
+        ...['dacian-settlements', 'frontier-line', 'overlay-tabula', 'present-day-boundaries', 'roads'].flatMap((slug) => [`data/layers/${slug}.fgb`, `data/layers/${slug}.info.json`]),
         'data/layers/frontier-line.facets.json',
-        'data/layers/frontier-line.fgb',
-        'data/layers/overlay-tabula.fgb',
-        'data/layers/present-day-boundaries.fgb',
-        'data/layers/roads.fgb',
         'data/overlays/overlay-tabula.json',
         ...VENDOR_FILES,
       ].sort(),
@@ -121,6 +117,22 @@ describe('the FlatGeobuf of a layer', () => {
     const { outDir } = await built();
     const [feature] = await featuresOf(outDir, 'present-day-boundaries');
     expect(feature?.properties).toMatchObject({ _from_min: -500, _to_max: 2026 });
+  });
+});
+
+describe('the inspector data', () => {
+  it('writes what the inspector shows, one file per public layer, with the whole description', async () => {
+    const { outDir } = await built();
+    const info = json(outDir, 'data/layers/frontier-line.info.json');
+    expect(info).toMatchObject({ slug: 'frontier-line', title: 'The frontier line', licence: 'Licence: CC BY 4.0', source: 'Atlas fixture data', rooms: ['map', 'border'] });
+    expect(info.description).toBe('The line the surveyors drew along the northern frontier, as traced from the sheet.\n\nA second paragraph about how it was traced.');
+    expect(info.essays.map((e: { slug: string }) => e.slug)).toEqual(['fixture-frontier']);
+  });
+
+  it('writes none for a held layer, and no held essay\'s title in any', async () => {
+    const { outDir, written } = await built();
+    expect(written.join(' ')).not.toMatch(/held-layer|layer-in-build/);
+    for (const file of written.filter((f) => f.endsWith('.info.json'))) expect(read(outDir, file).toString('utf8')).not.toMatch(/Zephyr/);
   });
 });
 

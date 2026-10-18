@@ -26,6 +26,8 @@ export interface MapController {
   add(slug: string, provenance: string, colourIndex: number): Promise<LoadedLayer>;
   remove(slug: string): void;
   setYear(year: number): void;
+  /** Keep only the features a layer's facet selection allows; null shows them all. */
+  setFacet(slug: string, expression: ExpressionSpecification | null): void;
   /** Moves the view to the extent of these layers. */
   fitTo(slugs: string[]): void;
   /** Resolves when the map has drawn everything it was asked to and stopped moving (research R8: the map is interactive). */
@@ -132,6 +134,12 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
 
   let year = initialYear;
   const drawn = new Map<string, Drawn>();
+  const facetFilters = new Map<string, ExpressionSpecification>();
+  /** The filter of a style layer: its class and geometry, the year, and the layer's facet selection. */
+  const filterOf = (slug: string, where: ExpressionSpecification): ExpressionSpecification => {
+    const facet = facetFilters.get(slug);
+    return facet ? ['all', where, shownAt(year), facet] : ['all', where, shownAt(year)];
+  };
 
   function ensureHatch(kind: 'diagonal-hatch' | 'cross-hatch', colour: string): string {
     const name = `${kind}:${colour}`;
@@ -157,7 +165,7 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
         if (cls.fill === 'solid') paint['fill-color'] = ink;
         else paint['fill-pattern'] = ensureHatch(cls.fill, ink);
         const where = forClass(isPolygon);
-        map.addLayer({ id: id('fill'), type: 'fill', source: `atlas:${slug}`, filter: ['all', where, shownAt(year)], paint: paint as never });
+        map.addLayer({ id: id('fill'), type: 'fill', source: `atlas:${slug}`, filter: filterOf(slug, where), paint: paint as never });
         styleLayers.push({ id: id('fill'), property: 'fill-opacity', base: cls.fill === 'solid' ? 0.35 : 1, where });
       }
       const lineWhere: ExpressionSpecification = ['all', ['==', ['get', '_class'], cls.id], ['any', isLine, isPolygon]];
@@ -165,7 +173,7 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
         id: id('line'),
         type: 'line',
         source: `atlas:${slug}`,
-        filter: ['all', lineWhere, shownAt(year)],
+        filter: filterOf(slug, lineWhere),
         paint: { 'line-color': ink, 'line-width': cls.thin ? 1 : 2, 'line-opacity': opacityAt(year, 1), ...(lineDash(cls.line).length > 0 ? { 'line-dasharray': lineDash(cls.line) } : {}) },
       });
       styleLayers.push({ id: id('line'), property: 'line-opacity', base: 1, where: lineWhere });
@@ -176,7 +184,7 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
         id: id('point'),
         type: 'circle',
         source: `atlas:${slug}`,
-        filter: ['all', pointWhere, shownAt(year)],
+        filter: filterOf(slug, pointWhere),
         paint: {
           'circle-radius': cls.thin ? 3 : cls.id === 'generalised' ? 8 : 6,
           'circle-color': ink,
@@ -203,19 +211,25 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
       const entry = drawn.get(slug);
       if (!entry) return;
       for (const { id } of entry.styleLayers) if (map.getLayer(id)) map.removeLayer(id);
+      facetFilters.delete(slug);
       if (map.getSource(`atlas:${slug}`)) map.removeSource(`atlas:${slug}`);
       drawn.delete(slug);
     },
     setYear(next) {
       year = next;
-      for (const entry of drawn.values()) {
+      for (const [slug, entry] of drawn) {
         for (const { id, property, base, where } of entry.styleLayers) {
           if (!map.getLayer(id)) continue;
-          map.setFilter(id, ['all', where, shownAt(year)]);
+          map.setFilter(id, filterOf(slug, where));
           map.setPaintProperty(id, property, opacityAt(year, base));
           if (property === 'circle-opacity') map.setPaintProperty(id, 'circle-stroke-opacity', opacityAt(year, 1));
         }
       }
+    },
+    setFacet(slug, expression) {
+      if (expression) facetFilters.set(slug, expression);
+      else facetFilters.delete(slug);
+      for (const { id, where } of drawn.get(slug)?.styleLayers ?? []) if (map.getLayer(id)) map.setFilter(id, filterOf(slug, where));
     },
     fitTo(slugs) {
       const features = slugs.flatMap((slug) => drawn.get(slug)?.features ?? []);

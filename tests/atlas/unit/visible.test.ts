@@ -37,6 +37,16 @@ describe('summarise', () => {
   });
 });
 
+describe('summarise with a facet selection', () => {
+  const features = [feature(100, 200), feature(100, 200, { status: 'attested' } as never), feature(100, 200, { status: 'proposed' } as never)];
+
+  it('counts only the features the selection keeps, out of all of them', () => {
+    const keep = (f: BuiltFeature) => (f as BuiltFeature & { status?: string }).status === 'attested';
+    expect(summarise(features, 150, keep)).toEqual({ shown: 1, uncertain: 0, total: 3 });
+    expect(summarise(features, 150)).toEqual({ shown: 3, uncertain: 0, total: 3 });
+  });
+});
+
 describe('classesPresent', () => {
   it('reads a feature\'s own provenance, else the layer\'s', () => {
     const features = [feature(1, 2), feature(1, 2, { geometry_provenance: 'scholarly_reconstruction' })];

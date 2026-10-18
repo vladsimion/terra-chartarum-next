@@ -8,6 +8,7 @@ The Atlas build is an Astro integration (`src/integrations/atlas.ts`) that runs 
 |---|---|
 | `data/layers/<slug>.fgb` | a GeoJSON source converted to FlatGeobuf, each feature with `_from_min`, `_from_max`, `_to_min`, `_to_max`, `_from_unc` and `_to_unc` added |
 | `data/layers/<slug>.pmtiles` | a pre-tiled source copied unchanged |
+| `data/layers/<slug>.info.json` | what the inspector shows about the layer: the whole description, role, theme, envelope, provenance, source dataset title, licence line, methodology links, public essays that use it, rooms and collections (`src/atlas/inspector-data.ts`) |
 | `data/layers/<slug>.facets.json` | per declared facet: category values with counts, or the range minimum and maximum |
 | `data/overlays/<slug>.json` | the georeferencing annotation of an overlay layer, copied |
 | `vendor/maplibre/*` | MapLibre as it ships: `maplibre-gl.mjs`, `maplibre-gl-shared.mjs`, `maplibre-gl-worker.mjs`, `maplibre-gl.css`, copied unchanged from the pinned package |

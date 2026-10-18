@@ -95,10 +95,10 @@ description: "Task list for 005 Historical Atlas"
 
 ## Phase 5: User Story 3 — Inspect provenance of any layer (P1)
 
-- [ ] T040 [P] [US3] Write failing `tests/atlas/unit/facets.test.ts`: category and range facet values from features; applying a selection filters that layer's features only; reset restores them; a facet on one layer does not affect another
-- [ ] T041 [US3] Implement `src/atlas/facets.ts` and the `<slug>.facets.json` output
-- [ ] T042 [P] [US3] Write failing `tests/atlas/e2e/inspector.spec.ts` (CI-verified): focusing a fixture layer shows every field of its record (description, role, theme, envelope, source, licence, methodology links, related released essays, rooms, collections, facets); facets apply and reset per layer; the Handbook link for its provenance resolves
-- [ ] T043 [US3] Implement `src/atlas-client/inspector.ts`, the licence line through `rightsLine`, and the related-essays and rooms lists derived in `index-data.ts`
+- [x] T040 [P] [US3] Write failing `tests/atlas/unit/facets.test.ts`: category and range facet values from features; applying a selection filters that layer's features only; reset restores them; a facet on one layer does not affect another
+- [x] T041 [US3] Implement `src/atlas/facets.ts` and the `<slug>.facets.json` output
+- [x] T042 [P] [US3] Write failing `tests/atlas/e2e/inspector.spec.ts` (CI-verified): focusing a fixture layer shows every field of its record (description, role, theme, envelope, source, licence, methodology links, related released essays, rooms, collections, facets); facets apply and reset per layer; the Handbook link for its provenance resolves
+- [x] T043 [US3] Implement `src/atlas-client/inspector.ts`, the licence line through `rightsLine`, and the related-essays and rooms lists derived in `index-data.ts`
 
 ---
 

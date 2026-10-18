@@ -26,6 +26,16 @@ test('and with layers on the map, a year typed and the legend showing', async ({
   expect(await clean(page)).toEqual([]);
 });
 
+test('and with the inspector open on a layer with facets, one applied', async ({ page }) => {
+  await page.goto('/atlas/');
+  await expect(page.locator('[data-atlas][data-ready="true"]')).toBeVisible();
+  await page.locator('button[data-activate="frontier-line"]').click();
+  await page.getByRole('button', { name: 'Inspect The frontier line' }).click();
+  await page.getByLabel('attested (1)').check();
+  await expect(page.locator('[data-inspector] h3')).toHaveText('The frontier line');
+  expect(await clean(page)).toEqual([]);
+});
+
 test('loads under 100 KB of script before a layer is added, and MapLibre only after', async ({ page }) => {
   let bytes = 0;
   const loaded: string[] = [];
