@@ -1,8 +1,8 @@
-# Pending Confluence entry: Decision Log (page 12648509)
+# Confluence entry: Decision Log (page 12648509)
 
-Not yet published. Numbered when it is published, per `README.md`: it was first drafted as TC-D031, but that number went to the bibliography decision published in page version 12.
+Published 2026-10-18 in page version 13, directly after TC-D032; the rest of the page was left unchanged (checked by reading the page back). It was first drafted as TC-D031, but that number went to the bibliography decision published in page version 12. The text below is what was published.
 
-### TC-D??? — The seven rooms are public by rule, each has a page, and membership is derived in one place
+### TC-D033 — The seven rooms are public by rule, each has a page, and membership is derived in one place
 
 **Date:** 17 October 2026    
 **Status:** Accepted

@@ -1,6 +1,6 @@
-# Pending Confluence entry: Decision Log (page 12648509)
+# Confluence entry: Decision Log (page 12648509)
 
-Append after TC-D031 (see `decision-log-tc-d031.md`; TC-D028 to TC-D030 are also pending). Not yet published: the session that wrote it had no Confluence write tool.
+Published 2026-10-18 in page version 13, directly after TC-D031 and together with TC-D033; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
 ### TC-D032 — Migration is a pinned, staged, never-overwriting import; redirects exist only for content that moved
 
