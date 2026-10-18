@@ -10,7 +10,7 @@ export interface IndexLayer {
   theme: string;
   /** Slugs of the public collections that list the layer. */
   collections: string[];
-  /** Ids of the rooms of the public essays that list the layer. */
+  /** Names of the rooms of the public essays that list the layer (ADR 0015). */
   rooms: string[];
   tags: string[];
   synonyms: string[];

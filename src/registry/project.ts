@@ -39,10 +39,10 @@ const BY_FAMILY: Record<string, Allow> = {
   dataset: { fields: ['version', 'licence', 'rights'] },
   // the source path (`asset`) is not projected: only the built path, derived from the slug, reaches a page
   layer: {
-    fields: ['role', 'geometry', 'geometry_provenance', 'images', 'rights', 'theme', 'tags', 'synonyms', 'envelope', 'time_mode', 'facets', 'documentation'],
+    fields: ['role', 'description', 'geometry', 'geometry_provenance', 'images', 'rights', 'theme', 'tags', 'synonyms', 'envelope', 'time_mode', 'facets', 'documentation'],
     scalarRefs: ['dataset'],
   },
-  collection: { listRefs: ['members', 'default_layers'] },
+  collection: { fields: ['description'], listRefs: ['members', 'default_layers'] },
   essay: {
     // only what the page shows (spec 003 research R11); jira, signoffs, stage_history, open_questions, legacy_url and redirect_switched stay private
     fields: ['question', 'thesis', 'authors', 'accent', 'published_on'],

@@ -118,6 +118,8 @@ export const LayerSchema = EntityBase.extend({
   geometry: z.string().optional(),
   geometry_provenance: z.string().optional(),
   images: z.array(z.string()).optional(),
+  /** Shown in the inspector; the index carries its first paragraph (spec 005 contracts/build-outputs.md). */
+  description: z.string().optional(),
   theme: z.string().optional(),
   tags: z.array(z.string()).optional(),
   synonyms: z.array(z.string()).optional(),
@@ -132,6 +134,7 @@ export const LayerSchema = EntityBase.extend({
 export const BibliographyEntrySchema = EntityBase.extend({ csl: z.string().optional(), section: z.string().optional() });
 
 export const CollectionSchema = EntityBase.extend({
+  description: z.string().optional(),
   members: z.unknown().optional(),
   default_layers: z.unknown().optional(),
 });
