@@ -130,7 +130,7 @@ description: "Task list for 003 Essay Framework & Editorial Pipeline"
 - [x] T043 Walk [quickstart.md](./quickstart.md) end to end and correct it
 - [x] T044 Create the Jira epic for the Terra Sigillata rebuild (decided in the grill; it runs through the nine stages this spec enforces) and link it to TCX-4 as related, not as a child
 - [x] T045 Run the `code-review` skill against `main` and resolve the findings
-- [ ] T046 Update the Confluence records (workflow step 4): a programme dossier for spec 003 to the fourteen-point contract, Build Log section U for the shipped work, the Decision Log if a cross-programme decision was made, and the TCX-4 epic description to match `main`
+- [x] T046 Update the Confluence records (workflow step 4): a programme dossier for spec 003 to the fourteen-point contract, Build Log section U for the shipped work, the Decision Log if a cross-programme decision was made, and the TCX-4 epic description to match `main` (done 2026-10-18: dossier page 37617734, Build Log section W rather than U, which already covered spec 001; no Decision Log entry, the decisions are in ADR 0010; TCX-4 description brought up to `cc97b75`)
 
 ---
 

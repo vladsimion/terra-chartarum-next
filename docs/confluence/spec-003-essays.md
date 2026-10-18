@@ -1,15 +1,15 @@
-Programme dossier for spec 003, written against the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169) §1. A standalone page at the root of the space, like the [spec 002 dossier](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/37617686); its source is `docs/confluence/spec-003-essays.md` and the two are kept identical. Facts below were checked on **2026-10-18** against `main` (`a14c40c`), Jira and CI.
+Programme dossier for spec 003, written against the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169) §1. A standalone page at the root of the space, like the [spec 002 dossier](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/37617686); its source is `docs/confluence/spec-003-essays.md` and the two are kept identical. Facts below were checked on **2026-10-18** against `main` (`cc97b75`), Jira and CI.
 
 ## 1. Programme metadata
 
 | | |
 |---|---|
 | Programme type | Editorial framework: the essay record, the nine-stage pipeline, the essay page and its components |
-| Status | **Implemented on `main`.** Foundation, User Stories 1 to 4 (with US3's site half) and Polish are merged (PRs #35 to #38). These Confluence records were published on 2026-10-18. Three tasks are unticked: T046 (still needs the TCX-4 epic description brought up to date with `main`), T034 (copy the US1 checklist into TCX-23) and T002 (a checked-in fixture tree). User Story 5 is out of v1. |
+| Status | **Implemented on `main`.** Foundation, User Stories 1 to 4 (with US3's site half) and Polish are merged (PRs #35 to #38); PR #40 settled the two decisions the code review left open (page paths and what `promote` checks). These Confluence records were published on 2026-10-18. Two tasks are unticked: T034 (copy the US1 checklist into TCX-23) and T002 (a checked-in fixture tree). User Story 5 is out of v1. |
 | Jira | **TCX-4** epic (In Progress); stories **TCX-23** (US1 read an essay), **TCX-24** (US2 nine stages), **TCX-25** (US3 hold an essay safely), **TCX-26** (US4 shared components), **TCX-27** (US5, out of v1). Related, not a child: **TCX-51** (Terra Sigillata rebuild). |
 | Canonical parent | A standalone page at the root of the space, as for specs 001 and 002 |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). Spec `specs/003-essay-framework/`; code `src/registry/` (rules, stages, promote, new essay, body scanner), `src/essays/`, `src/pages/essays/`; decisions `docs/adr/0010`; components `docs/essay-components.md` |
-| Last reconciliation | 2026-10-18 (1245 Vitest tests in 90 files, all passing, on `main` at `a14c40c`) |
+| Last reconciliation | 2026-10-18 (1249 Vitest tests in 91 files, all passing, on `main` at `cc97b75`) |
 
 ## 2. Purpose / thesis
 
@@ -29,7 +29,7 @@ An essay is an argument over shared evidence, and the system will not publish on
 
 ## 4. Outputs / deliverables
 
-`src/registry/rules/essay.ts` (fifteen `ESSAY-*` rules, one named mutation each), `stages.ts`, `promote.ts`, `new-essay.ts`, `essay-body.ts`; `src/essays/` (citations, exports, bibliography, figure, related, page model, cells, components); `src/pages/essays/`; `docs/essay-components.md`; the fixture registry `tests/essays/fixtures/registry`; the Chicago notes-bibliography style, vendored unmodified.
+`src/registry/rules/essay.ts` (fifteen `ESSAY-*` rules, one named mutation each), `routes.ts` (the one route table for page paths), `stages.ts`, `promote.ts`, `new-essay.ts`, `essay-body.ts`; `src/essays/` (citations, exports, bibliography, figure, related, page model, cells, components); `src/pages/essays/`; `docs/essay-components.md`; the fixture registry `tests/essays/fixtures/registry`; the Chicago notes-bibliography style, vendored unmodified.
 
 ## 5. Research, sources and rights framework
 
@@ -41,7 +41,7 @@ The page reads the registry only through the public projection, so a held essay,
 
 ## 7. Essay and editorial architecture
 
-Nine stages with a derived lifecycle (ADR 0003 section 2) and cumulative checks. `promote` moves one stage at a time, writes `stage` and `stage_history`, and refuses a skipped stage, a failing check or an unknown essay. Sign-offs (historical, cartographic, data) name a person and a date. Accessibility and performance are proved by CI on the pull request, not by `promote`; Cross-link needs `redirect_switched` when a rebuilt essay supersedes a `legacy_url` (ADR 0010, spec 008).
+Nine stages with a derived lifecycle (ADR 0003 section 2) and cumulative checks. `promote` moves one stage at a time, writes `stage` and `stage_history`, and refuses a skipped stage, a failing check or an unknown essay. Sign-offs (historical, cartographic, data) name a person and a date. Accessibility and performance are proved by CI on the pull request, not by `promote`, which prints the requirement (the essay page type in the CI template list, a green `gate`) rather than testing it (ADR 0010, amended 18 October 2026); Cross-link needs `redirect_switched` when a rebuilt essay supersedes a `legacy_url` (ADR 0010, spec 008).
 
 ## 8. Interaction and technical implementation
 
@@ -83,13 +83,14 @@ TCX-4 holds TCX-23 to TCX-27; each story's description carries its Spec Kit chec
 | Essay page and accessibility | `tests/essays/e2e/essay-page.spec.ts` (axe) |
 | Components | `tests/essays/e2e/components.spec.ts`, `unit/component-docs.test.ts` |
 | Trench A cells and CND retrofit (FR-016) | `tests/essays/unit/cells.test.ts` |
-| Browsers and budgets | Firefox, WebKit, the 360 px phone and the Lighthouse budgets pass in the `gate` check on `a14c40c` (CI, not run locally) |
+| Page paths, redirects and the leak scan read one route table | `tests/registry/unit/routes.test.ts` |
+| Browsers and budgets | Firefox, WebKit, the 360 px phone and the Lighthouse budgets pass in the `gate` check on `cc97b75` (CI, not run locally) |
 | Not test-first | `components.spec.ts` and `cells.ts` were written after, not before, their code |
 
 ## 13. Canonical ownership and propagation
 
-Owned here: the essay record, the stage table and the body tags. Spec 001 owns the registry and its rule ID table (the `ESSAY-*` rows are there, but the `ESSAY-BODY-PUBLIC` row still describes the rule as it was before PR #38 and needs the source, bibliography-entry and interaction-evidence checks added); spec 002 owns the shell and the CI template list; spec 008 owns the redirect rules generated from `legacy_url`. The Build Log carries shipped work; no new Decision Log entry is needed (the decisions are in ADR 0010).
+Owned here: the essay record, the stage table and the body tags. Spec 001 owns the registry and its rule ID table (the `ESSAY-*` rows are there, but the `ESSAY-BODY-PUBLIC` row still describes the rule as it was before PR #38 and needs the source, bibliography-entry and interaction-evidence checks added); spec 002 owns the shell and the CI template list; specs 004 to 006 add their own rows to the route table (`src/registry/routes.ts`); spec 008 owns the redirect rules generated from `legacy_url`. The Build Log carries shipped work; no new Decision Log entry is needed (the decisions are in ADR 0010).
 
 ## 14. Current checkpoint and delivery authority
 
-Foundation, User Stories 1 to 4 and Polish are merged (PRs #35 to #38, with the plan in PR #17 and the grill in PR #16). 1245 Vitest tests on `main`. Open: the TCX-4 epic description (the rest of T046); a decision on page paths (the registry's `pagePath` and `_redirects` use `/<family>/<slug>/`, so `/essay/<slug>/`, while the site uses `/essays/<slug>/` and spec 004 `/collection/<slug>/`); whether `promote` should enforce the CI template list as ADR 0010 words it or only print the requirement as the CLI contract says; the colophon credit for the CC BY-SA style; T002 (the tree it names, `tests/registry/fixtures/essays/`, does not exist: the registry tests build their registries in code and the site uses `tests/essays/fixtures/registry`, so the task should be reworded or closed); T034; the `ESSAY-BODY-PUBLIC` row in spec 001's rule table; small refactors the review left (duplicate string helpers, the length of `buildEssayPage`). `main` and the TCX board are the delivery authority; this page summarises them.
+Foundation, User Stories 1 to 4 and Polish are merged (PRs #35 to #38, with the plan in PR #17 and the grill in PR #16). PR #40 put page paths in one route table, so essays are at `/essays/<slug>/` for the pages, the redirects and the leak scan alike, and amended ADR 0010 to say `promote` prints the CI requirement. 1249 Vitest tests on `main`. Open: the colophon credit for the CC BY-SA style; T002 (the tree it names, `tests/registry/fixtures/essays/`, does not exist: the registry tests build their registries in code and the site uses `tests/essays/fixtures/registry`, so the task should be reworded or closed); T034; the `ESSAY-BODY-PUBLIC` row in spec 001's rule table; small refactors the review left (duplicate string helpers, the length of `buildEssayPage`). `main` and the TCX board are the delivery authority; this page summarises them.
