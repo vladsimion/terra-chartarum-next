@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('stub destinations and breadcrumbs (US1 AC 1.4, FR-015, FR-016)', () => {
-  for (const path of ['/essays/', '/rooms/', '/atlas/', '/collection/', '/cartographers/', '/bibliography/', '/atlas/handbook/']) {
+  for (const path of ['/essays/', '/rooms/', '/atlas/', '/cartographers/', '/bibliography/', '/atlas/handbook/']) {
     test(`${path} resolves and says it is in preparation`, async ({ page }) => {
       const response = await page.goto(path);
       expect(response?.status()).toBe(200);

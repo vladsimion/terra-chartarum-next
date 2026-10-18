@@ -60,6 +60,7 @@
   --content-max: var(--shell-max);
   --prose-max: 68ch;
   --target-min: 44px;
+  --thumb-width: 6rem;
 
   /* Shape and motion */
   --radius: 4px;
