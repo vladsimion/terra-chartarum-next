@@ -12,7 +12,7 @@ The Atlas build is an Astro integration (`src/integrations/atlas.ts`) that runs 
 | `data/layers/<slug>.facets.json` | per declared facet: category values with counts, or the range minimum and maximum |
 | `data/overlays/<slug>.json` | the georeferencing annotation of an overlay layer, copied |
 | `vendor/maplibre/*` | MapLibre as it ships: `maplibre-gl.mjs`, `maplibre-gl-shared.mjs`, `maplibre-gl-worker.mjs`, `maplibre-gl.css`, copied unchanged from the pinned package |
-| `data/basemap.pmtiles` | the Natural Earth basemap and present-day reference (copied from `data/basemap/`) |
+| `data/basemap.fgb` | the Natural Earth country outlines (copied from `data/basemap/countries.fgb` in the repository, not from a registry; research R11) |
 | `data/atlas-index.json` | metadata of public layers and collections for the catalogue (FR-021) |
 | `data/atlas-slugs.json` | live slugs and slug histories of public layers and collections |
 | `data/place-index.json` | normalised names and locations of public places (research R5) |

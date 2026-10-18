@@ -36,6 +36,7 @@ describe('the outputs', () => {
       [
         'data/atlas-index.json',
         'data/atlas-slugs.json',
+        'data/basemap.fgb',
         ...['dacian-settlements', 'frontier-line', 'overlay-tabula', 'present-day-boundaries', 'roads'].flatMap((slug) => [`data/layers/${slug}.fgb`, `data/layers/${slug}.info.json`]),
         'data/layers/frontier-line.facets.json',
         'data/overlays/overlay-tabula.json',
@@ -60,23 +61,19 @@ describe('the outputs', () => {
     expect(json(outDir, 'data/overlays/overlay-tabula.json')).toEqual(JSON.parse(readFileSync(path.join(FIXTURE, 'data/layers/overlay-000005.annotation.json'), 'utf8')));
   });
 
-  it('copies a basemap when the repository has one', async () => {
-    const root = copyFixture();
-    const header = Buffer.alloc(127);
-    header.write('PMTiles', 0, 'latin1');
-    header.writeUInt8(3, 7);
-    // the basemap is vendored in data/basemap/ of the repository
-    const { mkdirSync } = await import('node:fs');
-    mkdirSync(path.join(root, 'data/basemap'), { recursive: true });
-    writeFileSync(path.join(root, 'data/basemap/basemap.pmtiles'), header);
-    const { outDir, written } = await built(root);
-    expect(written).toContain('data/basemap.pmtiles');
-    expect(read(outDir, 'data/basemap.pmtiles').equals(header)).toBe(true);
+  it('copies the repository\'s basemap unchanged', async () => {
+    const { outDir, written } = await built();
+    expect(written).toContain('data/basemap.fgb');
+    expect(read(outDir, 'data/basemap.fgb').equals(readFileSync(path.join(process.cwd(), 'data/basemap/countries.fgb')))).toBe(true);
   });
 
-  it('writes no basemap when the repository has none', async () => {
-    const { written } = await built();
-    expect(written).not.toContain('data/basemap.pmtiles');
+  it('fails, writing nothing, when the basemap is not a FlatGeobuf', async () => {
+    const bad = path.join(tempDir('basemap'), 'bad.fgb');
+    writeFileSync(bad, 'not a flatgeobuf');
+    const outDir = tempDir('atlas-out');
+    const result = await buildAtlas({ root: FIXTURE, outDir, basemap: bad });
+    expect(result.failures.map((f) => [f.check, f.layer])).toEqual([['ATLAS-ASSET-MISSING', 'basemap']]);
+    expect(result.written).toEqual([]);
   });
 });
 

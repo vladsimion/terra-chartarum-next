@@ -86,7 +86,7 @@ src/pages/atlas/index.astro    # the Atlas page
 src/pages/atlas/handbook/{index,[slug]}.astro
 src/content/handbook/*.md      # Handbook entries (draft skeleton copy)
 data/layers/                   # layer sources (empty in v1 until spec 008 imports the Dacia layers)
-data/basemap/                  # Natural Earth PMTiles with its licence note
+data/basemap/                  # Natural Earth country outlines (FlatGeobuf) with its source and licence note (research R11)
 tests/registry/{unit,integration}/   # new schema, rule, synthetic tests
 tests/atlas/{unit,build,e2e,fixtures}/
 ```

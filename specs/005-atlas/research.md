@@ -55,3 +55,9 @@ Decisions not already settled by the grill (ADR 0013), ADR 0004 or ADR 0005.
 - **Decision**: each Handbook entry is `src/content/handbook/<slug>.md` with a frontmatter `anchors` list; headings render with stable ids, and the inspector, landing and controls link to `/atlas/handbook/<slug>/#<anchor>`. A test checks every link in the Atlas resolves to an existing entry and anchor.
 - **Rationale**: contextual deep links rot silently otherwise.
 - **Alternatives**: free-form links (unchecked).
+
+## R11. Basemap in v1 (decided with Vlad, 2026-10-18)
+- **Decision**: the basemap is Natural Earth's 50 m admin-0 country outlines (public domain, tag v5.1.2) trimmed to the Atlas region and committed as `data/basemap/countries.fgb` (488 KB), built by `scripts/build-basemap.ts`; the Atlas build copies it to `data/basemap.fgb` and the map draws it first, as present-day reference (thin dotted grey over a plain land fill). It is a FlatGeobuf, not PMTiles.
+- **Rationale**: FR-017 asks for self-hosted Natural Earth with no third-party tile service. PMTiles needs a tiling tool (tippecanoe) that is not part of the build (R3), and the region's country outlines are small enough to fetch whole (R4). The format can change when a tiling step exists.
+- **Limits**: country outlines only: no relief, rivers, coastline detail beyond the 50 m generalisation, or labels (labels need glyph fonts, which are not self-hosted yet). The map says what the outlines are in a note under it.
+- **Alternatives**: a PMTiles basemap from a supplier (Vlad can still supply one; the build would copy it); no basemap.
