@@ -21,6 +21,15 @@ export interface NoteDetail {
   verification: Verification;
 }
 
+/** What an interaction shows above itself: the declared question and expected interpretation, with its evidence (FR-007). */
+export interface InteractionDetail {
+  id: string;
+  component: string;
+  question: string;
+  interpretation: string;
+  evidence: NoteDetail[];
+}
+
 export interface EssayPageModel {
   essay: PublicRecord;
   /** A figure for each map the body shows, by map id. */
@@ -30,6 +39,8 @@ export interface EssayPageModel {
   /** The note for any public evidence record: what a citation shows, and what a stand-alone panel shows. */
   detail(evidence: string): NoteDetail;
   noteNumber(evidence: string): number | undefined;
+  /** The declaration of an interaction the body uses, by its id in the record's `interactions[]`. */
+  interaction(id: string): InteractionDetail;
   bibliography: BibliographyGroup[];
   rooms: RoomLink[];
   related: RelatedEssay[];
@@ -97,6 +108,26 @@ export function buildEssayPage(input: {
   }
   const notes = order.map(detailOf);
 
+  const declarations = (Array.isArray(essay.interactions) ? essay.interactions : []) as Record<string, unknown>[];
+  const interactions = new Map<string, InteractionDetail>();
+  for (const tag of body.tags) {
+    if (tag.tag !== 'Interaction') continue;
+    const id = tag.props.id ?? '';
+    if (interactions.has(id)) continue;
+    const declared = declarations.find((d) => d.id === id);
+    if (!declared) return fail(`<Interaction> names ${id || '(nothing)'}, which is not declared in the record's interactions`);
+    for (const evidenceId of list(declared.evidence)) {
+      if (byId.get(evidenceId)?.family !== 'evidence') return fail(`interaction ${id} declares ${evidenceId}, which is not public evidence`);
+    }
+    interactions.set(id, {
+      id,
+      component: String(declared.component),
+      question: String(declared.question),
+      interpretation: String(declared.interpretation),
+      evidence: list(declared.evidence).map(detailOf),
+    });
+  }
+
   const entries = list(essay.bibliography).map((id) => {
     const entry = byId.get(id);
     if (!entry || entry.family !== 'bibliography_entry') return fail(`bibliography names ${id}, which is not a public bibliography entry`);
@@ -110,6 +141,7 @@ export function buildEssayPage(input: {
     figures,
     notes,
     detail: detailOf,
+    interaction: (id) => interactions.get(id) ?? fail(`<Interaction> names ${id || '(nothing)'}, which this page did not declare`),
     noteNumber: (evidence) => (order.includes(evidence) ? order.indexOf(evidence) + 1 : undefined),
     bibliography: groupBibliography(entries),
     rooms: roomLinks(essay.rooms as { primary?: string; secondary?: string[] } | undefined, rooms),
