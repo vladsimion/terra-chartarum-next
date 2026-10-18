@@ -6,7 +6,7 @@ The Atlas build is an Astro integration (`src/integrations/atlas.ts`) that runs 
 
 | File | Content |
 |---|---|
-| `data/layers/<slug>.fgb` | a GeoJSON source converted to FlatGeobuf, each feature with `_from_min`, `_from_max`, `_to_min`, `_to_max` added |
+| `data/layers/<slug>.fgb` | a GeoJSON source converted to FlatGeobuf, each feature with `_from_min`, `_from_max`, `_to_min`, `_to_max`, `_from_unc` and `_to_unc` added |
 | `data/layers/<slug>.pmtiles` | a pre-tiled source copied unchanged |
 | `data/layers/<slug>.facets.json` | per declared facet: category values with counts, or the range minimum and maximum |
 | `data/overlays/<slug>.json` | the georeferencing annotation of an overlay layer, copied |
@@ -22,7 +22,7 @@ The Atlas build is an Astro integration (`src/integrations/atlas.ts`) that runs 
 
 ## Feature property conventions
 
-`valid_from` and `valid_to` (EDTF), `geometry_provenance`, `name`, `place` (a place ID), plus the properties named in `facets[]`. The build-added `_from_min`, `_from_max`, `_to_min`, `_to_max` are years (integers, negative for BCE); an undated feature takes the layer envelope's bounds.
+`valid_from` and `valid_to` (EDTF), `geometry_provenance`, `name`, `place` (a place ID), plus the properties named in `facets[]`. The build-added `_from_min`, `_from_max`, `_to_min`, `_to_max` are years (integers, negative for BCE); an undated feature takes the layer envelope's bounds. `_from_unc` and `_to_unc` are 1 when that endpoint carries `?`, `~` or `%` and 0 otherwise: such an endpoint is only possibly valid on its own boundary year, and no width is invented for it (`src/atlas/time.ts`).
 
 ## Leak rule
 

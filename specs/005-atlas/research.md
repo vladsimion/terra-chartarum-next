@@ -4,6 +4,7 @@ Decisions not already settled by the grill (ADR 0013), ADR 0004 or ADR 0005.
 
 ## R1. Time filtering inside the map
 - **Decision**: at build time each feature gets four numeric properties from its EDTF dates: `_from_min`, `_from_max`, `_to_min`, `_to_max` (the earliest and latest the start can mean, the earliest and latest the end can mean; an open-ended or undated feature takes the layer envelope). In the browser a MapLibre filter expression selects `_from_min ≤ year ≤ _to_max` (possible) and a `case` expression styles `_from_max ≤ year ≤ _to_min` as certain and the rest as "date uncertain". The pure `time.ts` computes the same values and is the tested rule; the map applies it by expression, not per-feature JavaScript.
+- **Uncertain endpoints (T022)**: a `?`, `~` or `%` on an endpoint does not widen the bounds, because no width is known. The build adds `_from_unc` and `_to_unc` (0 or 1), and the year on the boundary of such an endpoint is "possible" rather than "certain".
 - **Rationale**: a numeric expression runs on the GPU path and meets the INP budget on a 200-layer catalogue; the pure module is the single definition both the build and the tests use (ADR 0007: uncertainty travels in the value).
 - **Alternatives**: filtering features in JavaScript on every year change (slow on dense layers); storing a precision field (ADR 0007 forbids authored precision).
 
