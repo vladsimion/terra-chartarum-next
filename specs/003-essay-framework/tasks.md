@@ -117,8 +117,8 @@ description: "Task list for 003 Essay Framework & Editorial Pipeline"
 
 ## Phase 7: User Story 3 — site half (P1)
 
-- [ ] T038 [US3] Write failing `tests/essays/e2e/held-essay.spec.ts`: with a held essay in the fixtures, no page is generated for it, and a recursive search of the whole built output for its title, slug and anchors finds nothing; the public essay that lists it in `relations[]` does not show it (SC-001, FR-006)
-- [ ] T039 [US3] Make T038 pass; Jira: copy the US3 checklist (T023, T024, T038, T039) into TCX-25 and update the epic
+- [x] T038 [US3] Write failing `tests/essays/e2e/held-essay.spec.ts`: with a held essay in the fixtures, no page is generated for it, and a recursive search of the whole built output for its title, slug and anchors finds nothing; the public essay that lists it in `relations[]` does not show it (SC-001, FR-006)
+- [x] T039 [US3] Make T038 pass; Jira: copy the US3 checklist (T023, T024, T038, T039) into TCX-25 and update the epic
 
 ---
 
