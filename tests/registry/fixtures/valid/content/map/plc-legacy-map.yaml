@@ -12,3 +12,21 @@ rights:
 editor_confirmed: true
 confirmed_by: V. Simion
 confirmed_on: 2026-10-16
+witness_kind: institutional
+verification: unverified
+attribution: exact
+attribution_evidence:
+  - tc:tc:evidence:evidence-000001
+field_status:
+  title_original: not_yet_verified
+  date_published: not_yet_verified
+  publication_place: not_yet_verified
+  edition_state: not_yet_verified
+  atlas_context: not_yet_verified
+  dimensions: not_yet_verified
+  language: not_yet_verified
+  coverage: not_yet_verified
+  significance: not_yet_verified
+  provenance: not_yet_verified
+  georeferencing_status: not_yet_verified
+  images: not_yet_verified

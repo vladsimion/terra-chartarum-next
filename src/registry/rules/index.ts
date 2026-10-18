@@ -9,6 +9,7 @@ import { ID_RULES } from './id.js';
 import { IMPORT_RULES } from './import.js';
 import { LIFECYCLE_RULES } from './lifecycle.js';
 import { LOCATOR_RULES } from './locators.js';
+import { MAP_RULES } from './map.js';
 import { loadPath } from './path.js';
 import { PROVENANCE_RULES } from './provenance.js';
 import { REFERENCE_RULES } from './references.js';
@@ -39,4 +40,5 @@ export const ALL_RULES: Rule[] = [
   ...LIFECYCLE_RULES,
   ...VOCAB_RULES,
   ...ESSAY_RULES,
+  ...MAP_RULES,
 ];

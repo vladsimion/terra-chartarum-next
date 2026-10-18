@@ -23,8 +23,17 @@ const DATES = ['valid_from', 'valid_to', 'date_label'];
 
 const BY_FAMILY: Record<string, Allow> = {
   place: { fields: ['place_type', 'location_status', ...DATES] },
-  map: { fields: ['edition_state', 'repository', 'images', 'rights'], listRefs: ['makers'] },
-  cartographer: { fields: ['life_dates'] },
+  map: {
+    // spec 004 data-model.md "Public projection"; `record_scope` and `open_questions` are added because the page shows them. Never `physical`.
+    fields: [
+      'edition_state', 'repository', 'images', 'rights', 'record_scope', 'witness_kind', 'open_questions', 'title_original', 'date_published',
+      'atlas_context', 'dimensions', 'language', 'significance', 'provenance', 'attribution', 'georeferencing_status', 'verification',
+      'last_verified', 'field_status', 'basis',
+    ],
+    listRefs: ['makers', 'coverage', 'attribution_evidence', 'bibliography'],
+    scalarRefs: ['publication_place'],
+  },
+  cartographer: { fields: ['kind', 'names', 'roles', 'life_dates', 'active'], listRefs: ['bibliography'] },
   source: { fields: ['source_kind'], scalarRefs: ['entry'] },
   dataset: { fields: ['version', 'licence', 'rights'] },
   layer: { fields: ['role', 'asset', 'geometry', 'geometry_provenance', 'images', 'rights'], scalarRefs: ['dataset'] },

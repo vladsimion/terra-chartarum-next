@@ -13,6 +13,7 @@ export interface RefField {
  */
 const SCALARS: Record<string, string[]> = {
   '*': ['superseded_by'],
+  map: ['publication_place'],
   evidence: ['source'],
   source: ['entry'],
   attestation: ['place', 'source'],
@@ -23,7 +24,8 @@ const SCALARS: Record<string, string[]> = {
 const LISTS: Record<string, string[]> = {
   '*': ['relations'],
   collection: ['members', 'default_layers'],
-  map: ['makers'],
+  map: ['makers', 'coverage', 'attribution_evidence', 'bibliography'],
+  cartographer: ['bibliography'],
   essay: ['evidence', 'maps', 'places', 'sources', 'layers', 'bibliography', 'rooms.secondary'],
 };
 
@@ -44,7 +46,8 @@ const POINTS_AT: Record<string, Record<string, string>> = {
     'rooms.secondary': 'room',
   },
   collection: { members: 'layer', default_layers: 'layer' },
-  map: { makers: 'cartographer' },
+  map: { makers: 'cartographer', coverage: 'place', attribution_evidence: 'evidence', bibliography: 'bibliography_entry', publication_place: 'place' },
+  cartographer: { bibliography: 'bibliography_entry' },
   layer: { dataset: 'dataset' },
   evidence: { source: 'source' },
   source: { entry: 'bibliography_entry' },

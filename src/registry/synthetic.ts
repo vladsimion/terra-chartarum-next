@@ -134,7 +134,11 @@ export function generateRegistry(count: number, seed: number): RegistryRecord[] 
         record.sources = unique(some('source', 2));
         record.evidence = unique(some('evidence', 2));
         break;
+      case 'cartographer':
+        record.kind = 'person';
+        break;
       case 'map':
+        record.witness_kind = 'institutional';
         record.makers = unique(some('cartographer', 1));
         record.rights = rights();
         break;
@@ -188,6 +192,115 @@ export function generateRegistry(count: number, seed: number): RegistryRecord[] 
       default:
         break;
     }
+  }
+  return records;
+}
+
+const MAP_DATES = ['1595', '1595-03', '159X', '1595?', '1595/1602', '1648', '1701', '1750?', '1800/1815', '1861'];
+const MAP_LANGUAGES = ['la', 'de', 'nl', 'fr', 'it'];
+const PLACE_TYPES = ['region', 'country', 'settlement'] as const;
+
+/**
+ * `count` valid, public maps with everything they point at: makers (some of them workshops), places
+ * of three types, scholarly sources and one piece of evidence per map, and held essays that cite
+ * them (spec 004 T003; 60 for the browse tests, 500 for SC-004). Deterministic for a seed. Every
+ * record is released and published except the essays, which are at Corpus: the registry has no
+ * cheap way to make a public essay, and where-used on a public essay is tested on hand-authored
+ * records. Does not include the seven rooms.
+ */
+export function generateMapRegistry(count: number, seed: number): RegistryRecord[] {
+  const rng = mulberry32(seed);
+  const pick = <T>(items: readonly T[]): T => items[Math.floor(rng() * items.length)] as T;
+  const idOf = (family: string, n: number) => `tc:tc:${family}:${localId(family, n)}`;
+  const base = (family: string, n: number, title: string, extra: Record<string, unknown>): RegistryRecord => ({
+    id: idOf(family, n),
+    family,
+    origin: 'minted',
+    title,
+    slug: `${family}-${n}-${pick(WORDS)}`,
+    slug_history: [],
+    lifecycle: 'published',
+    release: 'released',
+    relations: [],
+    file: `content/${family}/${localId(family, n)}.yaml`,
+    ...extra,
+  });
+  const records: RegistryRecord[] = [];
+
+  const cartographers = Math.ceil(count / 4);
+  const workshop = (n: number) => n % 5 === 0;
+  for (let n = 1; n <= cartographers; n += 1) {
+    records.push(
+      base('cartographer', n, `${pick(WORDS)} ${pick(WORDS)} ${n}`, workshop(n) ? { kind: 'workshop', roles: ['publisher'], active: '1600/1650' } : { kind: 'person', roles: ['cartographer'], life_dates: '1527-1598' }),
+    );
+  }
+  const places = 3 + Math.ceil(count / 10);
+  for (let n = 1; n <= places; n += 1) records.push(base('place', n, `${pick(WORDS)} ${n}`, { place_type: PLACE_TYPES[(n - 1) % PLACE_TYPES.length] }));
+  records.push(base('source', 1, 'A scholarly study', { source_kind: 'scholarly' }));
+
+  for (let n = 1; n <= count; n += 1) {
+    const makers = [idOf('cartographer', 1 + Math.floor(rng() * cartographers))];
+    const unresolved = makers.some((id) => workshop(Number(id.split('-').pop())));
+    const held = rng() < 0.35;
+    const withImage = rng() < 0.5;
+    const witness = held ? 'held' : 'institutional';
+    const place = idOf('place', 1 + Math.floor(rng() * places));
+    records.push(
+      base('evidence', n, `Evidence ${n}`, {
+        target: { entity: idOf('map', n) },
+        source: idOf('source', 1),
+        locator: { value: `p. ${n}`, state: 'pending', proposed_by: 'person' },
+        evidence_type: 'textual',
+        confidence: 'probable',
+        rights: { licence: 'CC-BY-4.0' },
+      }),
+    );
+    records.push(
+      base('map', n, `${pick(WORDS)} ${pick(WORDS)} sheet ${n}`, {
+        witness_kind: witness,
+        makers,
+        attribution: unresolved ? 'unresolved' : 'exact',
+        attribution_evidence: [idOf('evidence', n)],
+        title_original: `Tabula ${pick(WORDS)} ${n}`,
+        date_published: pick(MAP_DATES),
+        publication_place: place,
+        edition_state: 'first state',
+        atlas_context: `from the atlas ${pick(WORDS)}`,
+        dimensions: { height_mm: 300 + Math.floor(rng() * 300), width_mm: 400 + Math.floor(rng() * 300) },
+        language: pick(MAP_LANGUAGES),
+        coverage: [...new Set([place, idOf('place', 1 + Math.floor(rng() * places))])],
+        significance: `Why sheet ${n} matters.`,
+        provenance: `Bequest ${n}.`,
+        georeferencing_status: 'none',
+        verification: held ? 'inspected' : 'checked_online',
+        last_verified: '2026-10-01',
+        ...(held ? { basis: { provenance: 'observed', atlas_context: 'inferred' } } : {}),
+        ...(withImage
+          ? { images: [{ type: 'iiif', url: `https://example.org/iiif/${n}/info.json`, static_url: `https://example.org/iiif/${n}/full/800,/0/default.jpg`, attribution: 'Example Library', witness_kind: witness, alt: `Sheet ${n}` }] }
+          : { field_status: { images: 'not_yet_verified' } }),
+        rights: { licence: 'CC-BY-4.0', reproduction_cleared: true },
+      }),
+    );
+  }
+
+  for (let n = 1; n <= Math.ceil(count / 20); n += 1) {
+    const cited = Array.from({ length: 2 }, () => idOf('map', 1 + Math.floor(rng() * count)));
+    records.push(
+      base('essay', n, `An essay on maps ${n}`, {
+        lifecycle: 'researching',
+        release: 'held',
+        stage: 'Corpus',
+        question: 'What do these sheets show?',
+        authors: ['Synthetic Author'],
+        rooms: { primary: 'tc:tc:room:map' },
+        stage_history: [
+          { stage: 'Concept', on: '2026-01-01', by: 'Synthetic Author' },
+          { stage: 'Corpus', on: '2026-01-02', by: 'Synthetic Author' },
+        ],
+        rights: { licence: 'CC-BY-4.0' },
+        maps: [...new Set(cited)],
+      }),
+    );
   }
   return records;
 }

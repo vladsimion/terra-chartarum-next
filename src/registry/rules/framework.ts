@@ -58,6 +58,8 @@ export interface Subject {
 /** What a rule reports; the framework turns it into a Violation with the right severity. */
 export interface Finding {
   record: Subject;
+  /** Overrides the rule's threshold for this finding, for a rule whose parts become errors at different lifecycles. */
+  from?: Threshold;
   field: string | null;
   value: unknown;
   expected: string;
@@ -100,7 +102,7 @@ export function defineRule(rule: Rule): Rule {
 export function toViolation(rule: Rule, finding: Finding): Violation {
   return {
     rule: rule.id,
-    severity: severityFor(rule.from, finding.record.lifecycle),
+    severity: severityFor(finding.from ?? rule.from, finding.record.lifecycle),
     entity: finding.record.id,
     file: finding.record.file,
     field: finding.field,
