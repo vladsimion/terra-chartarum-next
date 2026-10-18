@@ -1,4 +1,4 @@
-DRAFT, not published to Confluence. Drafted 2026-10-18 against `main` at `e62b874` plus the open pull requests named below; the Atlassian connector cannot write Confluence pages, so publishing needs a signed-in browser. When published, the page id and version go in this line and in the README table. Reconcile the status and counts after #45, #46, #48 and the polish pull request merge.
+DRAFT, not published to Confluence. Drafted 2026-10-18 against `main` at `a1d93b7` plus the open polish pull request (#49); the Atlassian connector cannot write Confluence pages, so publishing needs a signed-in browser. When published, the page id and version go in this line and in the README table. Reconcile the status and counts after #49 merges.
 
 Programme dossier for spec 004, written against the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169), as the dossiers for specs 001 to 003 are.
 
@@ -7,7 +7,7 @@ Programme dossier for spec 004, written against the fourteen-point contract in [
 | | |
 |---|---|
 | Programme type | Catalogue: the map and cartographer records, the collection pages, the viewer and the editor's completeness report |
-| Status | **Code complete; merging.** Foundation (PR #42), User Story 1 (#43), User Story 2 (#44) and the gate fix (#47) are merged. User Stories 4, 3 and 5 are open as #45, #46 (stacked on #45) and #48, and Polish as a further pull request. `main` was red from the merge of #44 until #47; every Definition of Done below is open until the gate is green on `main`. |
+| Status | **Code complete; polish (#49) open.** Foundation (PR #42), User Stories 1 to 5 (#43, #44, #46, #45, #48) and the gate fix (#47) are merged and `main` is green on the registry workflow. `main` was red from the merge of #44 until #47. The Definitions of Done stay open until this page is published. |
 | Jira | **TCX-5** epic (In Progress); stories **TCX-28** (US1 inspect a record), **TCX-29** (US2 browse and filter), **TCX-30** (US3 cartographer profiles), **TCX-31** (US4 where used), **TCX-32** (US5 completeness and enrichment). TCX-28 and TCX-29 are In Review, not Done. |
 | Canonical parent | A standalone page at the root of the space, as for specs 001 to 003 |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). Spec `specs/004-collection-catalogue/`; code `src/registry/` (map rules, enrichment), `src/collection/`, `src/rooms/membership.ts`, `src/pages/collection/`, `src/pages/cartographers/`; decisions `docs/adr/0011` and `0016` |
