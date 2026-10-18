@@ -27,6 +27,11 @@ export function writeRegistry(records: readonly RegistryRecord[], options: DiskO
   for (const record of records) {
     const target = path.join(root, record.file);
     mkdirSync(path.dirname(target), { recursive: true });
+    // a layer's asset must exist for LIFE-AVAILABILITY once it is published
+    if (typeof record.asset === 'string') {
+      mkdirSync(path.dirname(path.join(root, record.asset)), { recursive: true });
+      writeFileSync(path.join(root, record.asset), '');
+    }
     writeFileSync(target, options.yamlByFile?.[record.file] ?? stringify(storedFields(record)));
     if (record.family === 'essay') {
       const body = options.bodies?.[record.id] ?? ((record.body as { exists?: boolean } | undefined)?.exists ? VALID_BODY : null);

@@ -1,5 +1,6 @@
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
+import { isRetired } from './publication.js';
 import { projectPublic } from './project.js';
 import type { Violation } from './report.js';
 import type { RegistryRecord } from './types.js';
@@ -16,7 +17,7 @@ const MIN_PRIVATE_LENGTH = 5;
 interface Needle {
   entity: string;
   field: string | null;
-  kind: 'private' | 'held-id' | 'held-path';
+  kind: 'private' | 'held-id' | 'held-path' | 'held-title';
   /** What the report shows as the value; never the private value itself. */
   shown: string;
   find(text: string): boolean;
@@ -77,9 +78,16 @@ function buildNeedles(records: readonly RegistryRecord[]): Needle[] {
       needles.push({ entity: record.id, field: null, kind: 'held-id', shown: record.id, find: (haystack) => pattern.test(haystack) });
       // the address of the page it must not have, so a link or sitemap entry to it is caught too
       if (typeof record.slug === 'string' && record.slug !== '') {
-        const address = `/${record.family}/${record.slug}`;
-        const onPath = new RegExp(`${escapeRegExp(address)}(?![A-Za-z0-9._-])`);
-        needles.push({ entity: record.id, field: 'slug', kind: 'held-path', shown: address, find: (haystack) => onPath.test(haystack) });
+        // the registry names a page `/<family>/<slug>/`; the site serves collections under the plural (`/essays/<slug>/`)
+        for (const address of [`/${record.family}/${record.slug}`, `/${record.family}s/${record.slug}`]) {
+          const onPath = new RegExp(`${escapeRegExp(address)}(?![A-Za-z0-9._-])`);
+          needles.push({ entity: record.id, field: 'slug', kind: 'held-path', shown: address, find: (haystack) => onPath.test(haystack) });
+        }
+      }
+      // a held essay's title is as good as its address: the page, a card, a search entry or a feed would all carry it (FR-006)
+      if (record.family === 'essay' && !isRetired(record) && typeof record.title === 'string' && record.title.trim().length >= MIN_PRIVATE_LENGTH) {
+        const forms = variantsOf(record.title.trim());
+        needles.push({ entity: record.id, field: 'title', kind: 'held-title', shown: '[held title]', find: (haystack) => forms.some((form) => haystack.includes(form)) });
       }
     }
   }
@@ -119,7 +127,9 @@ export async function scanOutput(distDir: string, records: readonly RegistryReco
             ? 'output free of private values'
             : needle.kind === 'held-id'
               ? 'output free of ids of entities that are not public'
-              : 'output with no address of a page for an entity that is not public',
+              : needle.kind === 'held-title'
+                ? 'output free of the titles of essays that are not public'
+                : 'output with no address of a page for an entity that is not public',
       });
     }
   }

@@ -24,10 +24,11 @@ export function world(publicEntities = false): RegistryRecord[] {
   const pub = publicEntities ? { release: 'released', lifecycle: 'published' } : {};
   return [
     ...rooms(),
-    map(1, { makers: [], rights: { licence: 'CC-BY-4.0' }, ...pub }),
+    record('cartographer', 1, pub),
+    map(1, { makers: ['tc:tc:cartographer:cartographer-000001'], rights: { licence: 'CC-BY-4.0' }, ...pub }),
     source(1, pub),
     evidence(1, pub),
-    layer(1, pub),
+    layer(1, { rights: { licence: 'CC-BY-4.0' }, ...pub }),
     record('dataset', 1, { version: '1', rights: { licence: 'CC-BY-4.0' }, ...pub }),
     record('bibliography_entry', 1, { csl: 'x.json', section: 'primary_sources', ...pub }),
   ];

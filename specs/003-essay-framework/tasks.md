@@ -77,8 +77,8 @@ description: "Task list for 003 Essay Framework & Editorial Pipeline"
 
 **Independent Test**: build with one held essay referencing a public layer; grep the built output for the held title and slug: zero matches.
 
-- [ ] T023 [US3] Write failing `tests/registry/integration/held-essay.test.ts`: with a held essay that references a public layer, `registry build` output (`_redirects`, `data/relations.json`) and `registry scan` contain none of its title, slug, ID or anchors, a public essay that lists it in `relations[]` does not list it, and the essay's own cards and exports are not generated (AC US3, FR-006, SC-001)
-- [ ] T024 [US3] Make T023 pass (extend the build command and the public projection only where it fails) and add the held essay to the fixtures from T002
+- [x] T023 [US3] Write failing `tests/registry/integration/held-essay.test.ts`: with a held essay that references a public layer, `registry build` output (`_redirects`, `data/relations.json`) and `registry scan` contain none of its title, slug, ID or anchors, a public essay that lists it in `relations[]` does not list it, and the essay's own cards and exports are not generated (AC US3, FR-006, SC-001) (done 2026-10-18: 10 tests; red for two gaps only, the held title and the `/essays/<slug>` address; the build output, relations index and referrer lists already held nothing. An anchor is only ever the fragment of the essay's address, so the address check covers it)
+- [x] T024 [US3] Make T023 pass (extend the build command and the public projection only where it fails) and add the held essay to the fixtures from T002 (done 2026-10-18: only `leak-scan.ts` needed to change, adding the title of a non-public essay and the plural page address; the held essay is built in code by the test, like US2's registries, so the checked-in `fixtures/essays/` tree of T002 is still open. Open question for you: the registry's `pagePath` and `_redirects` use `/essay/<slug>/` while the site and spec 003's contracts use `/essays/<slug>/`)
 
 ---
 
