@@ -113,10 +113,10 @@ description: "Task list for 005 Historical Atlas"
 
 ## Phase 7: User Story 7 — Find a place by name (P2)
 
-- [ ] T048 [P] [US7] Write failing `tests/atlas/unit/place-index.test.ts`: normalisation (case, diacritics, whitespace); exact beats prefix; a name valid at the chosen year ranks first; historic and modern names both match; a held place is absent; the index carries only the contract's fields
-- [ ] T049 [US7] Implement `src/atlas/place-index.ts` and write `place-index.json`
-- [ ] T050 [P] [US7] Write failing `tests/atlas/e2e/place-search.spec.ts` (CI-verified): a prefix offers the place; choosing it recentres the map at the fixed zoom and shows a labelled marker; Active Layers is unchanged; the marker is keyboard-reachable and removable
-- [ ] T051 [US7] Implement the place-search field and marker in `src/atlas-client/search.ts` and `map.ts`
+- [x] T048 [P] [US7] Write failing `tests/atlas/unit/place-index.test.ts`: normalisation (case, diacritics, whitespace); exact beats prefix; a name valid at the chosen year ranks first; historic and modern names both match; a held place is absent; the index carries only the contract's fields
+- [x] T049 [US7] Implement `src/atlas/place-index.ts` and write `place-index.json`
+- [x] T050 [P] [US7] Write failing `tests/atlas/e2e/place-search.spec.ts` (CI-verified): a prefix offers the place; choosing it recentres the map at the fixed zoom and shows a labelled marker; Active Layers is unchanged; the marker is keyboard-reachable and removable
+- [x] T051 [US7] Implement the place-search field and marker in `src/atlas-client/search.ts` and `map.ts`
 
 ---
 

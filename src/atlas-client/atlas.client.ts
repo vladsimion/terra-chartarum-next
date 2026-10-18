@@ -10,6 +10,8 @@ import { activate, activateDefaults, activeLayers, clearFacet, deactivate, focus
 import type { LoadedFeature, MapController } from './map.js';
 import { parseView, resolveFacets, viewUrl, type SlugTable, type ViewReport } from '../atlas/view-url.js';
 import { renderInspector } from './inspector.js';
+import { bindPlaceSearch } from './search.js';
+import type { PlaceIndex } from '../atlas/place-index.js';
 import { createStore } from './store.js';
 
 /*
@@ -379,6 +381,24 @@ async function start(): Promise<void> {
   const writeAddress = (state: AtlasState) => window.history.replaceState(null, '', viewUrl(state, index));
   writeAddress(store.get());
   store.subscribe(writeAddress);
+
+  const placeRoot = $<HTMLElement>('[data-place-search]');
+  let placeIndex: Promise<PlaceIndex | null> | null = null;
+  if (placeRoot) {
+    bindPlaceSearch({
+      root: placeRoot,
+      load: () => (placeIndex ??= fetchJson<PlaceIndex>('/data/place-index.json')),
+      year: () => store.get().year,
+      show: async (place, onRemoved) => {
+        const map = await ensureMap();
+        if (!map) return;
+        map.showPlace(place.title, place.location.lon, place.location.lat, onRemoved);
+        await map.idle();
+        root.dataset.mapReady = 'true';
+      },
+      clear: () => controller?.clearPlace(),
+    });
+  }
 
   const copyButton = $<HTMLButtonElement>('[data-copy]');
   const shareStatus = $<HTMLElement>('[data-share-status]');

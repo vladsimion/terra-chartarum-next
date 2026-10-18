@@ -37,6 +37,7 @@ describe('the outputs', () => {
         'data/atlas-index.json',
         'data/atlas-slugs.json',
         'data/basemap.fgb',
+        'data/place-index.json',
         ...['dacian-settlements', 'frontier-line', 'overlay-tabula', 'present-day-boundaries', 'roads'].flatMap((slug) => [`data/layers/${slug}.fgb`, `data/layers/${slug}.info.json`]),
         'data/layers/frontier-line.facets.json',
         'data/overlays/overlay-tabula.json',
@@ -147,6 +148,23 @@ describe('the facets', () => {
   it('writes no facets file for a layer that declares none', async () => {
     const { written } = await built();
     expect(written).not.toContain('data/layers/roads.facets.json');
+  });
+});
+
+describe('the place index', () => {
+  it('lists the public places with their names and positions, and names no held place', async () => {
+    const { outDir } = await built();
+    const index = json(outDir, 'data/place-index.json');
+    expect(index.places.map((p: { slug: string }) => p.slug)).toEqual(['apulum', 'napoca']);
+    expect(read(outDir, 'data/place-index.json').toString('utf8')).not.toMatch(/Hiddenum|held-place/);
+  });
+
+  it('fails, writing nothing, when a held place\'s name reaches an output', async () => {
+    const root = copyFixture();
+    editRecord(root, 'content/place/place-000001.yaml', (d) => { (d.names as { name: string }[])[1]!.name = 'Hiddenum'; });
+    const { failures, written } = await built(root);
+    expect(failures.map((f) => f.check)).toContain('ATLAS-LEAK');
+    expect(written).toEqual([]);
   });
 });
 
