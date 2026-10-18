@@ -1,4 +1,5 @@
 import { isPublic, isRetired } from './publication.js';
+import { routeSection } from './routes.js';
 import type { RegistryRecord } from './types.js';
 
 export interface Redirect {
@@ -20,9 +21,9 @@ export interface Tombstone {
   successor: string | null;
 }
 
-/** Public page of a record. The family is part of the url, so slugs only need to be unique per family. */
+/** Public page of a record, under its family's section (`routes.ts`), so slugs only need to be unique per family. */
 export function pagePath(record: RegistryRecord, slug: string = String(record.slug)): string {
-  return `/${record.family}/${slug}/`;
+  return `/${routeSection(record.family)}/${slug}/`;
 }
 
 /** Follow `superseded_by` to a live record, or null when the chain ends, loops or hits a held entity. */

@@ -3,6 +3,7 @@ import path from 'node:path';
 import { isRetired } from './publication.js';
 import { projectPublic } from './project.js';
 import type { Violation } from './report.js';
+import { routeSection } from './routes.js';
 import type { RegistryRecord } from './types.js';
 
 /** Text formats a site build emits. Binary files (images, tiles, fonts) are skipped. */
@@ -78,8 +79,9 @@ function buildNeedles(records: readonly RegistryRecord[]): Needle[] {
       needles.push({ entity: record.id, field: null, kind: 'held-id', shown: record.id, find: (haystack) => pattern.test(haystack) });
       // the address of the page it must not have, so a link or sitemap entry to it is caught too
       if (typeof record.slug === 'string' && record.slug !== '') {
-        // the registry names a page `/<family>/<slug>/`; the site serves collections under the plural (`/essays/<slug>/`)
-        for (const address of [`/${record.family}/${record.slug}`, `/${record.family}s/${record.slug}`]) {
+        // the page the site serves (`routes.ts`), and the family-named and plural forms an author or an older link might use
+        const sections = new Set([routeSection(record.family), record.family, `${record.family}s`]);
+        for (const address of [...sections].map((section) => `/${section}/${record.slug}`)) {
           const onPath = new RegExp(`${escapeRegExp(address)}(?![A-Za-z0-9._-])`);
           needles.push({ entity: record.id, field: 'slug', kind: 'held-path', shown: address, find: (haystack) => onPath.test(haystack) });
         }
