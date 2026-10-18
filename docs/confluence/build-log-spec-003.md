@@ -1,10 +1,10 @@
 # Confluence entry: Build Log (page 2490370)
 
-DRAFT, not published. Drafted 2026-10-18 and refreshed the same day after PR #38 merged. W is the next free letter (the live Build Log is at version 126 and ends with section V); when it is published it goes directly after V and before "2. In progress", the header pointer "sections U and V" becomes "sections U, V and W", and the page version is filled in here. Like sections U and V, it records only what has merged to the successor's `main`.
+Published 2026-10-18 as section W (page version 127), directly after section V and before "2. In progress"; the header pointer "sections U and V" became "sections U, V and W". The rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
 ## W. The successor build: essay framework and editorial pipeline (spec 003)
 
-Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 16 to 18 October 2026. Jira epic TCX-4. Reconciled on 18 October 2026 against `main` at `a14c40c`. Working detail is in the spec 003 programme dossier (draft in `docs/confluence/spec-003-essays.md`).
+Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 16 to 18 October 2026. Jira epic TCX-4. Reconciled on 18 October 2026 against `main` at `a14c40c`. Working detail is in the [spec 003 programme dossier](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/37617734).
 
 | PR | Scope | Jira |
 |---|---|---|
