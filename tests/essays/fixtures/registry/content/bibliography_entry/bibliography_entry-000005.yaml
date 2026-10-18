@@ -1,0 +1,9 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000005
+family: bibliography_entry
+origin: minted
+title: A fixture gazetteer online
+slug: fixture-entry-5
+lifecycle: published
+release: released
+csl: content/bibliography_entry/bibliography_entry-000005.csl.json
+section: digital_resources

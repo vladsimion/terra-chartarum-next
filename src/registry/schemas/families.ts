@@ -26,6 +26,8 @@ export const PlaceSchema = EntityBase.extend({
 export const SourceSchema = EntityBase.extend({
   is_finding_aid: z.boolean().default(false),
   source_kind: z.string().optional(),
+  /** The bibliography entry this source is cited as (spec 006 data model; spec 003 reads it to format a citation). */
+  entry: z.string().optional(),
 });
 
 export const DatasetSchema = EntityBase.extend({

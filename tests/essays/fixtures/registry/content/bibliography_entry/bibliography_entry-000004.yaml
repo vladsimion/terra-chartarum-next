@@ -1,0 +1,9 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000004
+family: bibliography_entry
+origin: minted
+title: A fixture study of frontiers
+slug: fixture-entry-4
+lifecycle: published
+release: released
+csl: content/bibliography_entry/bibliography_entry-000004.csl.json
+section: specialised_studies

@@ -1,0 +1,35 @@
+---
+import { getEntry, render } from 'astro:content';
+import Cite from '../../essays/components/Cite.astro';
+import CitationExport from '../../essays/components/CitationExport.astro';
+import EssayLayout from '../../essays/components/EssayLayout.astro';
+import EvidencePanel from '../../essays/components/EvidencePanel.astro';
+import MapFigure from '../../essays/components/MapFigure.astro';
+import { buildEssayPage } from '../../essays/page-model.js';
+import { loadEssaySite } from '../../essays/site-data.js';
+import { scanEssayBody } from '../../registry/essay-body.js';
+
+/*
+ * One page for every public essay (spec 003 US1), generated from the public projection only: a
+ * held essay is not in it, so it gets no page. The body's components read the page model from
+ * Astro.locals and take only record ids from the MDX.
+ */
+export async function getStaticPaths() {
+  const { records } = await loadEssaySite();
+  return records.filter((r) => r.family === 'essay').map((essay) => ({ params: { slug: String(essay.slug) }, props: { essayId: essay.id } }));
+}
+
+const { essayId } = Astro.props;
+const site = await loadEssaySite();
+const essay = site.records.find((r) => r.id === essayId)!;
+const local = essayId.split(':').pop()!;
+const entry = await getEntry('essay-bodies', local);
+if (!entry) throw new Error(`essay ${essayId} is public but content/essay/${local}.mdx does not exist`);
+
+Astro.locals.essayPage = buildEssayPage({ essay, records: site.records, body: scanEssayBody(entry.body ?? ''), cslFor: site.cslFor });
+const { Content } = await render(entry);
+---
+
+<EssayLayout>
+  <Content components={{ MapFigure, Cite, EvidencePanel, CitationExport }} />
+</EssayLayout>

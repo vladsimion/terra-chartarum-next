@@ -25,7 +25,7 @@ const BY_FAMILY: Record<string, Allow> = {
   place: { fields: ['place_type', 'location_status', ...DATES] },
   map: { fields: ['edition_state', 'repository', 'images', 'rights'], listRefs: ['makers'] },
   cartographer: { fields: ['life_dates'] },
-  source: { fields: ['source_kind'] },
+  source: { fields: ['source_kind'], scalarRefs: ['entry'] },
   dataset: { fields: ['version', 'licence', 'rights'] },
   layer: { fields: ['role', 'asset', 'geometry', 'geometry_provenance', 'images', 'rights'], scalarRefs: ['dataset'] },
   collection: { listRefs: ['members', 'default_layers'] },
@@ -38,7 +38,7 @@ const BY_FAMILY: Record<string, Allow> = {
   event: { fields: DATES },
   period: { fields: DATES },
   room: {},
-  bibliography_entry: { fields: ['csl'] },
+  bibliography_entry: { fields: ['csl', 'section'] },
   attestation: { fields: ['form', 'silence_state', 'confidence'], scalarRefs: ['place', 'source'] },
   evidence: {
     fields: ['evidence_type', 'geometry_provenance', 'reconstruction', 'confidence', 'rights', 'last_verified', ...DATES],

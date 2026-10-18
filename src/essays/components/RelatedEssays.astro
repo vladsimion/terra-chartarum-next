@@ -1,0 +1,33 @@
+---
+import { pageModel } from '../locals.js';
+
+const { related } = pageModel(Astro.locals);
+---
+
+{related.length > 0 && (
+  <nav class="related" aria-label="Related essays">
+    <h2 class="label">Related essays</h2>
+    <ul>
+      {related.map((essay) => <li><a href={essay.href}>{essay.title}</a></li>)}
+    </ul>
+  </nav>
+)}
+
+<style>
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+    color: var(--accent);
+  }
+
+  .label {
+    font-size: var(--step-0);
+  }
+</style>

@@ -17,6 +17,7 @@ export function pageType(file: string, page: HTMLElement): string {
     return 'test-only';
   }
   if (page.querySelector('[data-stub]')) return 'stub';
+  if (file.startsWith('essays/') && page.querySelector('article.essay')) return 'essay';
   if (file === 'about/index.html') return 'about';
   if (file === 'colophon/index.html') return 'colophon';
   return 'unknown';

@@ -1,0 +1,8 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000001",
+  "type": "book",
+  "title": "A fixture book",
+  "author": [{ "family": "Doe", "given": "Jane" }],
+  "publisher": "Fixture Press",
+  "issued": { "date-parts": [[1999]] }
+}

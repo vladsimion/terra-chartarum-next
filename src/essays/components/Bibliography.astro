@@ -1,0 +1,30 @@
+---
+import { pageModel } from '../locals.js';
+
+const { bibliography } = pageModel(Astro.locals);
+---
+
+{bibliography.length > 0 && (
+  <section class="bibliography" aria-labelledby="bibliography-heading">
+    <h2 id="bibliography-heading">Bibliography</h2>
+    {bibliography.map((group) => (
+      <>
+        <h3>{group.label}</h3>
+        <ul>
+          {group.entries.map((entry) => <li>{entry.text}</li>)}
+        </ul>
+      </>
+    ))}
+  </section>
+)}
+
+<style>
+  ul {
+    margin: 0 0 var(--space-4);
+    padding-inline-start: var(--space-5);
+  }
+
+  li {
+    margin-bottom: var(--space-2);
+  }
+</style>

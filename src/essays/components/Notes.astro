@@ -1,0 +1,49 @@
+---
+import { pageModel } from '../locals.js';
+import EvidenceDetails from './EvidenceDetails.astro';
+
+const { notes } = pageModel(Astro.locals);
+---
+
+{notes.length > 0 && (
+  <section class="notes" aria-labelledby="notes-heading">
+    <h2 id="notes-heading">Notes</h2>
+    <ol>
+      {notes.map((detail, i) => (
+        <li id={`note-${i + 1}`}>
+          <p>{detail.note}</p>
+          <EvidenceDetails detail={detail} />
+          <a class="back" href={`#ref-${i + 1}`} aria-label={`Back to text of note ${i + 1}`}>Back to text</a>
+        </li>
+      ))}
+    </ol>
+  </section>
+)}
+
+<style>
+  ol {
+    padding-inline-start: var(--space-5);
+  }
+
+  li {
+    margin-bottom: var(--space-4);
+    scroll-margin-top: var(--space-6);
+  }
+
+  li:target {
+    outline: 2px solid var(--accent);
+    outline-offset: var(--space-1);
+  }
+
+  p {
+    margin: 0 0 var(--space-2);
+  }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+    color: var(--accent);
+    font-size: var(--step--1);
+  }
+</style>

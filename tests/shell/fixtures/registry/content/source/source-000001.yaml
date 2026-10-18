@@ -5,3 +5,5 @@ title: A fixture source
 slug: fixture-source
 lifecycle: published
 release: released
+
+entry: tc:tc:bibliography_entry:bibliography_entry-000001

@@ -15,6 +15,7 @@
     "preview": "astro preview",
     "lint:css": "stylelint \"src/**/*.{css,astro}\"",
     "test:e2e": "playwright test",
+    "test:e2e:essays": "playwright test --config playwright.essays.config.ts",
     "lhci": "npx --yes @lhci/cli@0.15.1 autorun",
     "shell:check": "tsx scripts/shell-check.ts"
   },

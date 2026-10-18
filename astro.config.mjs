@@ -1,3 +1,4 @@
+import mdx from '@astrojs/mdx';
 import { defineConfig } from 'astro/config';
 import { registryIntegration } from './src/integrations/registry.ts';
 
@@ -10,9 +11,11 @@ import { registryIntegration } from './src/integrations/registry.ts';
  */
 export default defineConfig({
   output: 'static',
+  // the essay end-to-end build writes elsewhere so it never overwrites the shell build
+  outDir: process.env.ASTRO_OUT_DIR ?? './dist',
   site: 'https://terra-chartarum.org',
   trailingSlash: 'always',
   build: { format: 'directory' },
-  integrations: [registryIntegration()],
+  integrations: [registryIntegration(), mdx()],
   devToolbar: { enabled: false },
 });

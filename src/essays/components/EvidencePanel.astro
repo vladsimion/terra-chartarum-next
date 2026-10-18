@@ -1,0 +1,29 @@
+---
+import { pageModel } from '../locals.js';
+import EvidenceDetails from './EvidenceDetails.astro';
+
+interface Props {
+  /** An Evidence id; shows the same source, locator and verification a citation's note does, standing alone. */
+  evidence: string;
+}
+
+const detail = pageModel(Astro.locals).detail(Astro.props.evidence);
+---
+
+<aside class="evidence-panel" aria-label={`Evidence: ${detail.sourceTitle}`}>
+  <p>{detail.note}</p>
+  <EvidenceDetails detail={detail} />
+</aside>
+
+<style>
+  .evidence-panel {
+    margin: var(--space-5) 0;
+    padding: var(--space-3) var(--space-4);
+    border-inline-start: 3px solid var(--accent);
+    background: var(--panel);
+  }
+
+  p {
+    margin: 0 0 var(--space-2);
+  }
+</style>

@@ -1,0 +1,19 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000003",
+  "type": "book",
+  "title": "A fixture dictionary of place names",
+  "author": [
+    {
+      "family": "Poe",
+      "given": "Jane"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1993
+      ]
+    ]
+  },
+  "publisher": "Fixture Press"
+}
