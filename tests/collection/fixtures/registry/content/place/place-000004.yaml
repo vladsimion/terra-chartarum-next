@@ -1,0 +1,10 @@
+id: tc:tc:place:place-000004
+family: place
+origin: minted
+title: A held fixture place
+slug: held-fixture-place
+lifecycle: researching
+release: held
+place_type: settlement
+relations:
+  - tc:tc:map:map-000002

@@ -1,7 +1,9 @@
 ---
 import type { RecordView } from '../record-view.js';
+import type { WhereUsed as WhereUsedData } from '../where-used.js';
 import FieldRow from './FieldRow.astro';
 import ImageViewer from './ImageViewer.astro';
+import WhereUsed from './WhereUsed.astro';
 
 interface Props {
   view: RecordView;
@@ -9,9 +11,11 @@ interface Props {
   bibliography: string[];
   /** The Chicago entry and the base address of the export files (spec 004 FR-006). */
   citation: { chicago: string; base: string };
+  /** The public essays, layers and places that refer to this map (US4). */
+  used: WhereUsedData;
 }
 
-const { view, bibliography, citation } = Astro.props;
+const { view, bibliography, citation, used } = Astro.props;
 ---
 
 <article class="map-record">
@@ -66,6 +70,8 @@ const { view, bibliography, citation } = Astro.props;
       </ul>
     </section>
   )}
+
+  <WhereUsed used={used} />
 
   {bibliography.length > 0 && (
     <section class="bibliography" aria-labelledby="bibliography-heading">
