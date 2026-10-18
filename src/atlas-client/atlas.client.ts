@@ -92,6 +92,8 @@ async function start(): Promise<void> {
       mapRegion.append(canvas);
       const { createMap } = await import('./map.js');
       controller = await createMap(canvas, store.get().year);
+      const note = $<HTMLElement>('[data-basemap-note]');
+      if (note && canvas.dataset.basemap === 'true') note.hidden = false;
       return controller;
     })();
     return mapLoading;

@@ -1,6 +1,7 @@
 import { copyFile, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { loadRegistry } from '../../registry/load.js';
 import { scanOutput } from '../../registry/leak-scan.js';
 import { isPublic } from '../../registry/publication.js';
@@ -27,6 +28,8 @@ export interface AtlasBuildOptions {
   outDir: string;
   /** The host's per-file limit; tests lower it. */
   limitBytes?: number;
+  /** Where the basemap is read from; tests point it at a file that is not one. */
+  basemap?: string;
 }
 
 export interface AtlasBuildResult {
@@ -35,7 +38,9 @@ export interface AtlasBuildResult {
   failures: AtlasFailure[];
 }
 
-const BASEMAP_SOURCE = 'data/basemap/basemap.pmtiles';
+/** The basemap lives in the repository, not in a registry: it is the site's, so it is found beside this code. */
+const BASEMAP_SOURCE = fileURLToPath(new URL('../../../data/basemap/countries.fgb', import.meta.url));
+const FLATGEOBUF_MAGIC = [0x66, 0x67, 0x62];
 const text = (value: unknown): string => (typeof value === 'string' ? value : '');
 const compare = (a: string, b: string): number => (a < b ? -1 : a > b ? 1 : 0);
 
@@ -103,11 +108,11 @@ export async function buildAtlas(options: AtlasBuildOptions): Promise<AtlasBuild
     }
   }
 
-  const basemap = await readIfThere(path.join(options.root, BASEMAP_SOURCE));
+  const basemap = await readIfThere(options.basemap ?? BASEMAP_SOURCE);
   if (basemap) {
-    const checked = convertPmtiles({ slug: 'basemap', role: 'context', envelope: '', timeMode: '', facets: [] }, basemap);
-    failures.push(...checked.failures);
-    if (checked.converted) files.set('data/basemap.pmtiles', basemap);
+    if (!FLATGEOBUF_MAGIC.every((byte, i) => basemap[i] === byte)) failures.push({ check: 'ATLAS-ASSET-MISSING', layer: 'basemap', message: 'the basemap is not a FlatGeobuf file' });
+    else if (basemap.byteLength > limit) failures.push({ check: 'ATLAS-ASSET-SIZE', layer: 'basemap', message: `the basemap is ${basemap.byteLength} bytes, over the host's limit of ${limit}` });
+    else files.set('data/basemap.fgb', basemap);
   }
 
   if (failures.length > 0) return { written: [], failures };

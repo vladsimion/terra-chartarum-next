@@ -68,6 +68,23 @@ function hatchImage(kind: 'diagonal-hatch' | 'cross-hatch', colour: string): { w
   return { width, height, data: new Uint8Array(data.buffer) };
 }
 
+/** The country outlines under the layers: present-day reference, drawn thin, dotted and grey, never as evidence (research R11). */
+async function addBasemap(map: MapLibreMap): Promise<boolean> {
+  const response = await fetch('/data/basemap.fgb').catch(() => null);
+  if (!response?.ok) return false;
+  const features: unknown[] = [];
+  for await (const feature of geojson.deserialize(new Uint8Array(await response.arrayBuffer()))) features.push(feature);
+  map.addSource('basemap', { type: 'geojson', data: { type: 'FeatureCollection', features: features as never } });
+  map.addLayer({ id: 'basemap:land', type: 'fill', source: 'basemap', paint: { 'fill-color': css('--panel-raised'), 'fill-opacity': 1 } });
+  map.addLayer({
+    id: 'basemap:borders',
+    type: 'line',
+    source: 'basemap',
+    paint: { 'line-color': css('--ink-muted'), 'line-width': 1, 'line-opacity': 0.6, 'line-dasharray': lineDash('dotted') },
+  });
+  return true;
+}
+
 /** True while the feature is certainly valid at `year`; otherwise it is only possible. */
 function certainAt(year: number): ExpressionSpecification {
   return [
@@ -131,6 +148,8 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
   });
   map.addControl(new maplibre.NavigationControl({ showCompass: false }), 'top-right');
   await new Promise<void>((resolve) => map.once('load', () => resolve()));
+  const hasBasemap = await addBasemap(map);
+  container.dataset.basemap = String(hasBasemap);
 
   let year = initialYear;
   const drawn = new Map<string, Drawn>();
