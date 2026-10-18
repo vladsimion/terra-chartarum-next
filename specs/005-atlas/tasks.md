@@ -86,10 +86,10 @@ description: "Task list for 005 Historical Atlas"
 
 - [x] T034 [P] [US2] Write failing `tests/atlas/unit/index-data.test.ts`: the index holds only public layers and the contract's fields; a layer's collections are derived from public collections; its rooms come from `roomsOf` in `src/rooms/membership.ts` (spec 007, ADR 0015), which derives them from public essays' `layers[]` (a layer no public essay lists has none); a held layer, collection or essay contributes nothing; a collection with no runnable public member has no activation action flag; `index-data.size.test.ts` — 200 layers compress below 40 KB
 - [x] T035 [US2] Implement `src/atlas/index-data.ts` and write `atlas-index.json`
-- [ ] T036 [P] [US2] Write failing `tests/atlas/unit/rank.test.ts`: exact title → title prefix → tag or synonym → collection, theme or room → description, ties by title; case and diacritics ignored; a query that matches nothing returns an empty list
-- [ ] T037 [US2] Implement `src/atlas/rank.ts`
-- [ ] T038 [P] [US2] Write failing `tests/atlas/e2e/lens.spec.ts` and `collections.spec.ts` (CI-verified): three lens switches leave the active set unchanged; search narrows without activating; "activate defaults" adds the defaults; the relevance toggle narrows and keeps out-of-range active layers; a collection with no runnable member shows no activation action; the Room lens lists a layer under its derived rooms
-- [ ] T039 [US2] Implement `src/atlas-client/catalogue.ts` and `search.ts` over the index
+- [x] T036 [P] [US2] Write failing `tests/atlas/unit/rank.test.ts`: exact title → title prefix → tag or synonym → collection, theme or room → description, ties by title; case and diacritics ignored; a query that matches nothing returns an empty list
+- [x] T037 [US2] Implement `src/atlas/rank.ts`
+- [x] T038 [P] [US2] Write failing `tests/atlas/e2e/lens.spec.ts` and `collections.spec.ts` (CI-verified): three lens switches leave the active set unchanged; search narrows without activating; "activate defaults" adds the defaults; the relevance toggle narrows and keeps out-of-range active layers; a collection with no runnable member shows no activation action; the Room lens lists a layer under its derived rooms
+- [x] T039 [US2] Implement `src/atlas-client/catalogue.ts` and `search.ts` over the index
 
 ---
 
