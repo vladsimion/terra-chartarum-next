@@ -47,6 +47,15 @@ const SHEETS = [
       <div data-region="map">
         <p data-map-status>The map needs JavaScript. The catalogue lists every layer.</p>
       </div>
+      <div class="share">
+        <button type="button" data-copy hidden>Copy this view</button>
+        <p role="status" data-share-status></p>
+        <input type="text" readonly data-share-field aria-label="Address of this view" hidden />
+      </div>
+      <div class="notice" data-notice role="status" hidden>
+        <p>Some of the address could not be used. The rest of the view has loaded.</p>
+        <ul></ul>
+      </div>
       <p class="basemap-note" data-basemap-note hidden>Base map: present-day country outlines from Natural Earth (public domain), drawn as present-day reference.</p>
       <section class="legend" data-legend aria-label="Legend" hidden>
         <h2>Legend</h2>
@@ -183,6 +192,15 @@ const SHEETS = [
   .active-layers :global(.range-mark) {
     color: var(--ink-muted);
     font-size: var(--step--1);
+  }
+
+  .share,
+  .notice {
+    margin-top: var(--space-3);
+  }
+
+  .share input {
+    width: 100%;
   }
 
   .basemap-note {

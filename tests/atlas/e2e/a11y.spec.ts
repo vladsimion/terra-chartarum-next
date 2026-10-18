@@ -36,6 +36,13 @@ test('and with the inspector open on a layer with facets, one applied', async ({
   expect(await clean(page)).toEqual([]);
 });
 
+test('and with the notice about an address showing', async ({ page }) => {
+  await page.goto('/atlas/?y=150&l=old-settlements,held-layer,roads&f=old-settlements&lens=collection&c=roman-dacia-fixtures');
+  await expect(page.locator('[data-atlas][data-ready="true"]')).toBeVisible();
+  await expect(page.locator('[data-notice]')).toBeVisible();
+  expect(await clean(page)).toEqual([]);
+});
+
 test('loads under 100 KB of script before a layer is added, and MapLibre only after', async ({ page }) => {
   let bytes = 0;
   const loaded: string[] = [];
