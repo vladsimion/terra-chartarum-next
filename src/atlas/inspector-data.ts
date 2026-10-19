@@ -27,10 +27,36 @@ export interface LayerInfo {
   essays: { title: string; slug: string }[];
   rooms: string[];
   collections: { slug: string; title: string }[];
+  /** The quality of a map overlay's georeferencing; null for any other layer. */
+  georef: Georef | null;
+}
+
+export interface Georef {
+  /** The map record the overlay shows, when it is public. */
+  map: { title: string; slug: string } | null;
+  transformation: string;
+  residualErrorM: number;
+  controlPoints: number;
+  confidence: string;
 }
 
 const str = (value: unknown): string => (typeof value === 'string' ? value : '');
+const num = (value: unknown): number => (typeof value === 'number' ? value : 0);
 const byTitle = (a: { title: string }, b: { title: string }): number => a.title.localeCompare(b.title);
+
+function georefOf(layer: PublicRecord, records: readonly PublicRecord[]): Georef | null {
+  const georef = layer.georef;
+  if (layer.role !== 'map-overlay' || georef === null || typeof georef !== 'object') return null;
+  const fields = georef as Record<string, unknown>;
+  const map = records.find((r) => r.family === 'map' && r.id === fields.map);
+  return {
+    map: map ? { title: str(map.title), slug: str(map.slug) } : null,
+    transformation: str(fields.transformation),
+    residualErrorM: num(fields.residual_error_m),
+    controlPoints: num(fields.control_points),
+    confidence: str(fields.confidence),
+  };
+}
 
 export function layerInfo(layer: PublicRecord, records: readonly PublicRecord[]): LayerInfo {
   const [from = '', to = ''] = str(layer.envelope).split('/');
@@ -59,5 +85,6 @@ export function layerInfo(layer: PublicRecord, records: readonly PublicRecord[])
       .filter((r) => r.family === 'collection' && list(r.members).includes(layer.id))
       .map((c) => ({ slug: str(c.slug), title: str(c.title) }))
       .sort(byTitle),
+    georef: georefOf(layer, records),
   };
 }

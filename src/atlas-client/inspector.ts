@@ -1,7 +1,8 @@
 import type { FacetSummary } from '../atlas/build/convert-assets.js';
-import type { LayerInfo } from '../atlas/inspector-data.js';
+import type { Georef, LayerInfo } from '../atlas/inspector-data.js';
 import { HANDBOOK_LINKS } from '../atlas/handbook-links.js';
-import { roomLabel, themeLabel } from '../atlas/labels.js';
+import { confidenceLabel, roomLabel, themeLabel, transformationLabel } from '../atlas/labels.js';
+import { clampOpacity } from '../atlas/overlay.js';
 import { styleFor } from '../atlas/provenance-style.js';
 import type { FacetSelection } from '../atlas/types.js';
 
@@ -14,6 +15,8 @@ export interface InspectorHandlers {
   /** A facet changed; `null` clears the property. */
   onFacet(property: string, selection: FacetSelection | null): void;
   onReset(): void;
+  /** The overlay opacity slider moved (0 to 1); only a map overlay has one. */
+  onOpacity(opacity: number): void;
 }
 
 const ROLE: Record<string, string> = { historical: 'Historical', context: 'Context', evidence: 'Evidence', 'map-overlay': 'Map overlay' };
@@ -83,6 +86,32 @@ function facetControls(summaries: readonly FacetSummary[], selections: Readonly<
   return section;
 }
 
+/** How well a map overlay is placed, and the control for how much of it shows (spec 005 FR-019). */
+function georefSection(georef: Georef, opacity: number, handlers: InspectorHandlers): HTMLElement {
+  const section = el('section', undefined, 'georef');
+  section.setAttribute('aria-label', 'Georeferencing');
+  section.append(el('h4', 'Georeferencing'));
+  const list = el('dl');
+  definition(list, 'Map', georef.map ? georef.map.title : 'Not public');
+  definition(list, 'Transformation', transformationLabel(georef.transformation));
+  definition(list, 'Residual error', `${georef.residualErrorM} m`);
+  definition(list, 'Control points', String(georef.controlPoints));
+  definition(list, 'Confidence', confidenceLabel(georef.confidence));
+  section.append(list);
+
+  const label = el('label', 'Overlay opacity');
+  const slider = Object.assign(el('input'), { type: 'range', min: '0', max: '1', step: '0.05', value: String(opacity) });
+  const output = el('output', `${Math.round(opacity * 100)}%`);
+  slider.addEventListener('input', () => {
+    const next = clampOpacity(Number(slider.value));
+    output.textContent = `${Math.round(next * 100)}%`;
+    handlers.onOpacity(next);
+  });
+  label.append(' ', slider);
+  section.append(label, output);
+  return section;
+}
+
 /** Replace the inspector's contents with a layer. */
 export function renderInspector(
   container: HTMLElement,
@@ -90,6 +119,7 @@ export function renderInspector(
   facets: readonly FacetSummary[],
   selections: Readonly<Record<string, FacetSelection>>,
   handlers: InspectorHandlers,
+  opacity: number,
 ): void {
   const nodes: Node[] = [el('h3', info.title)];
 
@@ -114,6 +144,8 @@ export function renderInspector(
   definition(list, 'Used in essays', ...(info.essays.length > 0 ? info.essays.flatMap((e, i) => [...(i > 0 ? [', '] : []), link(e.title, `/essays/${e.slug}/`)]) : ['No public essay uses this layer yet.']));
   definition(list, 'Rooms', info.rooms.length > 0 ? info.rooms.map(roomLabel).join(', ') : 'None');
   definition(list, 'Collections', info.collections.length > 0 ? info.collections.map((c) => c.title).join(', ') : 'None');
-  nodes.push(list, facetControls(facets, selections, handlers));
+  nodes.push(list);
+  if (info.georef) nodes.push(georefSection(info.georef, opacity, handlers));
+  nodes.push(facetControls(facets, selections, handlers));
   container.replaceChildren(...nodes);
 }

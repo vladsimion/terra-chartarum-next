@@ -130,10 +130,10 @@ description: "Task list for 005 Historical Atlas"
 
 ## Phase 9: User Story 6 — Georeferenced map overlays (P3)
 
-- [ ] T055 [P] [US6] Write failing `tests/atlas/unit/georef.test.ts`: the inspector view of `georef` (map title from the map record, transformation, residual error in metres, control points, confidence); an overlay layer exposes an opacity from 0 to 1 and defaults to 0.7; a missing annotation file fails the build with `ATLAS-OVERLAY-ANNOTATION`
-- [ ] T056 [US6] Implement the `georef` view model, copy the annotation into `data/overlays/`, and add `@allmaps/maplibre` at an exact pinned version (record its compressed size here)
-- [ ] T057 [P] [US6] Write failing `tests/atlas/e2e/overlay.spec.ts` (CI-verified): activating the fixture overlay shows it, the opacity slider changes it, the inspector shows the quality fields
-- [ ] T058 [US6] Implement overlay rendering and the opacity control in `src/atlas-client/map.ts` and `inspector.ts`
+- [x] T055 [P] [US6] Write failing `tests/atlas/unit/georef.test.ts`: the inspector view of `georef` (map title from the map record, transformation, residual error in metres, control points, confidence); an overlay layer exposes an opacity from 0 to 1 and defaults to 0.7; a missing annotation file fails the build with `ATLAS-OVERLAY-ANNOTATION`
+- [x] T056 [US6] Implement the `georef` view model, copy the annotation into `data/overlays/`, and add `@allmaps/maplibre` at an exact pinned version (record its compressed size here). Done: `@allmaps/maplibre` 1.0.0-beta.44 (published 2026-09-22; a beta is the only line there is), one chunk `allmaps.*.js` of 580 KB raw, 156 KB gzip, fetched only when a map overlay is added; the first-load script is unchanged in kind. That release imports MapLibre's event class from a path inside its author's pnpm store, which is not in the package, so `src/atlas/build/allmaps-vite.ts` points it at the MapLibre the Atlas already serves (tested)
+- [x] T057 [P] [US6] Write failing `tests/atlas/e2e/overlay.spec.ts` (CI-verified): activating the fixture overlay shows it, the opacity slider changes it, the inspector shows the quality fields
+- [x] T058 [US6] Implement overlay rendering and the opacity control in `src/atlas-client/map.ts` and `inspector.ts`
 
 ---
 

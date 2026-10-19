@@ -1,6 +1,7 @@
 import type { Map as MapLibreMap, ExpressionSpecification } from 'maplibre-gl';
 import { MAPLIBRE_URL } from '../atlas/build/vendor-url.js';
 import { geojson } from 'flatgeobuf';
+import { clampOpacity } from '../atlas/overlay.js';
 import { DATE_UNCERTAIN, STYLE_CLASSES, lineDash, styleFor, type StyleClass } from '../atlas/provenance-style.js';
 import { ownProvenance, type BuiltFeature } from '../atlas/visible.js';
 
@@ -23,8 +24,10 @@ export interface LoadedLayer {
 
 export interface MapController {
   /** Fetches the layer if needed and draws it; resolves with its features. */
-  add(slug: string, provenance: string, colourIndex: number): Promise<LoadedLayer>;
+  add(slug: string, provenance: string, colourIndex: number, overlay?: { opacity: () => number }): Promise<LoadedLayer>;
   remove(slug: string): void;
+  /** Sets how much of a georeferenced overlay shows, 0 to 1; no effect on a layer that is not one. */
+  setOverlayOpacity(slug: string, opacity: number): void;
   setYear(year: number): void;
   /** Keep only the features a layer's facet selection allows; null shows them all. */
   setFacet(slug: string, expression: ExpressionSpecification | null): void;
@@ -167,6 +170,30 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
 
   let year = initialYear;
   const drawn = new Map<string, Drawn>();
+  /** The georeferenced overlays on the map, as the plugin's layers; `data-overlays` says their opacity (for tests and for anything that wants it as text). */
+  const overlays = new Map<string, { layer: InstanceType<typeof import('@allmaps/maplibre').WarpedMapLayer>; opacity: number }>();
+  const writeOverlays = () => {
+    container.dataset.overlays = JSON.stringify(Object.fromEntries([...overlays].map(([slug, { opacity }]) => [slug, opacity])));
+  };
+  writeOverlays();
+
+  /** The overlay goes under the Atlas's own layers, so the footprint and the lines stay readable over the sheet. */
+  async function addOverlay(slug: string, opacity: () => number): Promise<void> {
+    const response = await fetch(`/data/overlays/${slug}.json`);
+    if (!response.ok) throw new Error(`the annotation of ${slug} could not be fetched (${response.status})`);
+    const annotation: unknown = await response.json();
+    // loaded only for an overlay: the plugin and its renderer are not in the first load
+    const { WarpedMapLayer } = await import('@allmaps/maplibre');
+    const layer = new WarpedMapLayer();
+    layer.id = `atlas-overlay:${slug}`;
+    map.addLayer(layer, map.getStyle().layers.find((l) => l.id.startsWith('atlas:'))?.id);
+    await layer.addGeoreferenceAnnotation(annotation);
+    // read now, not when asked: the slider may have moved while the annotation was loading
+    const current = clampOpacity(opacity());
+    layer.setOpacity(current);
+    overlays.set(slug, { layer, opacity: current });
+    writeOverlays();
+  }
   const facetFilters = new Map<string, ExpressionSpecification>();
   /** The filter of a style layer: its class and geometry, the year, and the layer's facet selection. */
   const filterOf = (slug: string, where: ExpressionSpecification): ExpressionSpecification => {
@@ -233,14 +260,28 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
   }
 
   return {
-    async add(slug, provenance, colourIndex) {
+    async add(slug, provenance, colourIndex, overlay) {
       const existing = drawn.get(slug);
       if (existing) return { slug, features: existing.features };
       const features = await fetchFeatures(slug, provenance);
+      if (overlay) await addOverlay(slug, overlay.opacity);
       drawn.set(slug, draw(slug, features, colourIndex));
       return { slug, features };
     },
+    setOverlayOpacity(slug, opacity) {
+      const entry = overlays.get(slug);
+      if (!entry) return;
+      entry.opacity = clampOpacity(opacity);
+      entry.layer.setOpacity(entry.opacity);
+      writeOverlays();
+    },
     remove(slug) {
+      const overlay = overlays.get(slug);
+      if (overlay) {
+        if (map.getLayer(overlay.layer.id)) map.removeLayer(overlay.layer.id);
+        overlays.delete(slug);
+        writeOverlays();
+      }
       const entry = drawn.get(slug);
       if (!entry) return;
       for (const { id } of entry.styleLayers) if (map.getLayer(id)) map.removeLayer(id);
