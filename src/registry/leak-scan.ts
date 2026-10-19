@@ -9,6 +9,8 @@ import type { RegistryRecord } from './types.js';
 /** Text formats a site build emits. Binary files (images, tiles, fonts) are skipped. */
 const TEXT_EXTENSIONS = new Set([
   '.html', '.htm', '.json', '.js', '.mjs', '.css', '.txt', '.xml', '.csv', '.svg', '.map', '.webmanifest', '.md', '.yaml', '.yml', '.geojson',
+  // the citation exports (spec 003, 004, 006) are text a reader downloads: BibTeX and RIS
+  '.bib', '.ris',
 ]);
 const TEXT_NAMES = new Set(['_redirects', '_headers']);
 

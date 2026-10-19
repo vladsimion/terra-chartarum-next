@@ -72,6 +72,16 @@ describe('scanOutput (FR-009)', () => {
     expect(files).toEqual(['_redirects', 'a/b/c/page.html', 'assets/app.js', 'notes.txt', 'sitemap.xml']);
   });
 
+  it('scans the citation exports, BibTeX and RIS, which the first version skipped', async () => {
+    const root = dist({
+      'essays/e/cite.bib': `@online{e, note = {Bought from ${DEALER}}}\n`,
+      'bibliography/b/cite.ris': `TY  - BOOK\r\nN1  - ${DEALER}\r\nER  - \r\n`,
+    });
+    const found = await scanOutput(root, REGISTRY);
+    expect(found.map((v) => v.file).sort()).toEqual(['bibliography/b/cite.ris', 'essays/e/cite.bib']);
+    expect(JSON.stringify(found)).not.toContain(DEALER);
+  });
+
   it('reports a leaked value once per file', async () => {
     const root = dist({ 'index.html': `${DEALER} and again ${DEALER}` });
     expect(await scanOutput(root, REGISTRY)).toHaveLength(1);
