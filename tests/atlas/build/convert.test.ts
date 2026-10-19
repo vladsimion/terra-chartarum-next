@@ -41,6 +41,7 @@ describe('the outputs', () => {
         ...['dacian-settlements', 'frontier-line', 'overlay-tabula', 'present-day-boundaries', 'roads'].flatMap((slug) => [`data/layers/${slug}.fgb`, `data/layers/${slug}.info.json`]),
         'data/layers/frontier-line.facets.json',
         'data/overlays/overlay-tabula.json',
+        'data/overview/roman-dacia-fixtures.svg',
         ...VENDOR_FILES,
       ].sort(),
     );
