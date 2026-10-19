@@ -4,7 +4,7 @@ Published 2026-10-19 in page version 16, directly after TC-D037; the rest of the
 
 ### TC-D038 — Rooms are public by rule, one page each, and membership is derived once
 
-**Date:** 17 October 2026 (ADR 0015); built 19 October 2026
+**Date:** 17 October 2026 (ADR 0015); built 19 October 2026    
 **Status:** Accepted (spec 007)
 
 **Decision:** all seven rooms are published and released from the first commit (`ROOM-PUBLIC`, an error at every lifecycle); unfinished prose is marked by a `copy_status` field (`draft` or `final`), and `shell:check --cutover` fails until all seven are final. Each room has a page at `/rooms/<slug>/`, and the index is `/rooms/`; the home page, essay pages and the Atlas link to those addresses, and a former slug redirects. Which essays, maps and layers belong to a room is derived in one pure module, `src/rooms/membership.ts`, from the public essays that name the room as primary or secondary; a map or layer is in a room only through those essays, and nothing is stored on it. The room record's long description is the Markdown file beside it. A site-wide internal link and fragment check protects every page.
