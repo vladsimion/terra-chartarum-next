@@ -1,5 +1,7 @@
 ---
+import { citeFiles } from '../cite-inputs.js';
 import type { CitedItem, EntryView } from '../views.js';
+import CiteLinks from './CiteLinks.astro';
 
 interface Props {
   view: EntryView;
@@ -22,6 +24,7 @@ const groups: { name: 'evidence' | 'listed'; heading: string; items: CitedItem[]
     </p>
   )}
   <p class="chicago">{view.chicago}</p>
+  <CiteLinks label="Cite this entry" files={citeFiles('entry', view.slug)} />
 
   {(view.identifiers.length > 0 || view.digitalCopy) && (
     <dl class="identifiers">

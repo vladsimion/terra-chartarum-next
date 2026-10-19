@@ -23,6 +23,16 @@ describe('accessDate', () => {
     expect(accessDate({}, new Date('2026-10-18T23:59:59Z'))).toBe('2026-10-18');
   });
 
+  it('uses BUILD_DATE when it is set, before the epoch (spec 006 FR-009)', () => {
+    expect(accessDate({ BUILD_DATE: '2026-10-17', SOURCE_DATE_EPOCH: '1792281600' }, new Date('2030-01-01T00:00:00Z'))).toBe('2026-10-17');
+    expect(accessDate({ BUILD_DATE: ' 2026-10-17 ' }, new Date('2030-01-01T00:00:00Z'))).toBe('2026-10-17');
+  });
+
+  it('ignores a BUILD_DATE that is not an ISO date, and falls through', () => {
+    expect(accessDate({ BUILD_DATE: 'yesterday', SOURCE_DATE_EPOCH: '1792281600' }, new Date('2030-01-01T00:00:00Z'))).toBe('2026-10-18');
+    expect(accessDate({ BUILD_DATE: '2026-13-45' }, new Date('2026-10-18T10:00:00Z'))).toBe('2026-10-18');
+  });
+
   it('ignores an epoch that is not a number', () => {
     expect(accessDate({ SOURCE_DATE_EPOCH: 'soon' }, new Date('2026-10-18T10:00:00Z'))).toBe('2026-10-18');
   });

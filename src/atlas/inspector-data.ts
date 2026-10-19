@@ -2,6 +2,7 @@ import type { PublicRecord } from '../registry/project.js';
 import { rightsLine, type RightsInput } from '../shell/rights-line.js';
 import { roomsOf } from '../rooms/membership.js';
 import { list } from '../registry/values.js';
+import { citeFiles, type CiteFiles } from '../bibliography/cite-paths.js';
 
 /*
  * What the inspector shows about a layer (spec 005 US3, FR-022): its record's fields, and what is
@@ -29,6 +30,8 @@ export interface LayerInfo {
   collections: { slug: string; title: string }[];
   /** The quality of a map overlay's georeferencing; null for any other layer. */
   georef: Georef | null;
+  /** The export files that cite the layer and, when it is public, its dataset (spec 006). */
+  cite: { layer: CiteFiles; dataset: CiteFiles | null };
 }
 
 export interface Georef {
@@ -86,5 +89,6 @@ export function layerInfo(layer: PublicRecord, records: readonly PublicRecord[])
       .map((c) => ({ slug: str(c.slug), title: str(c.title) }))
       .sort(byTitle),
     georef: georefOf(layer, records),
+    cite: { layer: citeFiles('layer', str(layer.slug)), dataset: dataset ? citeFiles('dataset', str(dataset.slug)) : null },
   };
 }
