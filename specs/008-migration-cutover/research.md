@@ -3,7 +3,7 @@
 Decisions not already settled by the grill (ADR 0016), ADR 0001 or ADR 0005.
 
 ## R1. Static extraction of a `RAW` array
-- **Decision**: parse the legacy `.ts` file with the TypeScript compiler API, find the `const RAW` declaration, and evaluate its initialiser as a literal tree: object, array, string, numeric (including a leading `-`), boolean, null and template literals without substitutions; a property whose value is anything else (a call, an identifier, a spread, a template with substitution) fails the import, naming the file, the record and the key. Comments are ignored. Zod schemas and imports in the file are never evaluated.
+- **Decision**: parse the legacy `.ts` file with `@babel/parser` and its TypeScript plugin (TypeScript 7, the native port, has no JavaScript compiler API), find the `const RAW` declaration, and evaluate its initialiser as a literal tree: object, array, string, numeric (including a leading `-`), boolean, null and template literals without substitutions; a property whose value is anything else (a call, an identifier, a spread, a template with substitution) fails the import, naming the file, the record and the key. Comments are ignored. Zod schemas and imports in the file are never evaluated.
 - **Rationale**: the legacy files import `astro:content` and sibling modules, so they cannot run without the old toolchain; literal data is all the catalogue holds.
 - **Alternatives**: transpile and run with stubbed imports (fragile, not deterministic across environments); regular expressions (break on nested quotes).
 

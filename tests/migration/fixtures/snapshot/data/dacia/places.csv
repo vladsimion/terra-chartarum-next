@@ -1,0 +1,3 @@
+place_id,reference_name,place_type,region,pleiades_id,whg_id
+plc-nowhere,Nowhere,settlement,Dacia,12345,
+plc-elsewhere,"Elsewhere, Upper",fort,Dacia,,999

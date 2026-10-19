@@ -12,7 +12,7 @@ Moving a scholarly publication to a new platform without breaking a citation. Fo
 
 **Language/Version**: TypeScript strict, Node 24.
 
-**Primary Dependencies**: existing `yaml`, `zod`, `edtf`, `tsx`; the TypeScript compiler API (`typescript`, already a dev dependency) for static extraction; the citation libraries from spec 003 for inline-citation matching through `import-bib`'s matcher; a small CSV reader (`csv-parse`, exact pinned version, at least two weeks old). No runtime library reaches the site.
+**Primary Dependencies**: existing `yaml`, `zod`, `edtf`, `tsx`; `@babel/parser` (exact-pinned) for static extraction, because TypeScript 7 has no JavaScript compiler API; the citation libraries from spec 003 for inline-citation matching through `import-bib`'s matcher; a small CSV reader (`csv-parse`, exact pinned version, at least two weeks old). No runtime library reaches the site.
 
 **Storage**: Files. Committed outputs under `migration/` (`import-manifest.json`, `essay-links.json`, `redirect-inventory.json`); archive patch under `archive/`; documents under `docs/`.
 
