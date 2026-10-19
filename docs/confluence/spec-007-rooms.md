@@ -1,16 +1,16 @@
-Programme dossier for spec 007, written against the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169), as the dossiers for specs 001 to 006 are. Draft: not yet published to Confluence.
+Programme dossier for spec 007, written against the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169), as the dossiers for specs 001 to 006 are.
 
 ## 1. Programme metadata
 
 | | |
 |---|---|
 | Programme type | Instrument: the seven rooms as reader-facing paths through the material, and the site-wide link check |
-| Status | **Code complete and polished.** The refreshed documents (#74), Setup and Foundation (#75), User Story 1 with the link check (#78), the cross-cutting checks with the Atlas agreement (#79) and Polish (#80: README, quickstart, code-review fixes) are merged to `main`. The stories stay In Review until Vlad moves them to Done. |
+| Status | **Code complete and polished.** The refreshed documents (#74), Setup and Foundation (#75), User Story 1 with the link check (#78), the cross-cutting checks with the Atlas agreement (#79) and Polish (#80: README, quickstart, code-review fixes) are merged to `main`, all on 19 October 2026. The stories stay In Review until Vlad moves them to Done. |
 | Jira | **TCX-8** epic (In Progress); stories **TCX-42** (US1 walk through a room; also holds Setup, Foundation, the link check and the cross-cutting checks) and **TCX-43** (US2 Rooms as an Atlas lens, delivered by spec 005, with the cross-test here) |
 | Canonical parent | A standalone page at the root of the space, as for specs 001 to 006 |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). Spec `specs/007-rooms/`; code `src/rooms/` (membership, views, the introduction renderer, `RoomGroups.astro`), `src/pages/rooms/`, `src/registry/rules/rooms.ts`, `content/room/`; the link check `tests/shell/support/links.ts`; decision `docs/adr/0015` |
 | Successor relationship | Replaces the live site's room pages at cutover; spec 008 does not import room prose (the seven are written in the successor repository) |
-| Last reconciliation | 2026-10-19 against `main` with #80 merged: 88 registry rules and 115 named mutations; 2249 Vitest tests in 188 files, all passing locally; Rooms Chromium Playwright 9 passing locally. `gate` passed on #78 (run 39289832478) and on #80 (run 39307923721); its run on `main` had not been checked when this was written |
+| Last reconciliation | 2026-10-19 against `main` at `eec1428` (#80 merged; the same tree as the reviewed branch): 88 registry rules and 115 named mutations; 2249 Vitest tests in 188 files, all passing; Rooms Chromium Playwright 9 passing locally. CI `gate` green on the polish branch (run 39307923721) and on `main` at `eec1428` (run 39314300228), Lighthouse budgets, accessibility and the leak scan included |
 
 ## 2. Purpose / thesis
 
@@ -71,7 +71,7 @@ TCX-8 holds TCX-42 and TCX-43. The 2026-10-17 documents were refreshed on 2026-1
 ## 11. Programme acceptance criteria
 
 - Every acceptance scenario of US1 and US2 has a passing automated test written first (the code-review fixes were written with their tests in the same step).
-- `gate` is green: accessibility 100 and the ADR 0004 budgets on the Rooms page types, passed on #78 and #80.
+- `gate` is green: accessibility 100 and the ADR 0004 budgets on the Rooms page types, passed on #78, on the polish branch and on `main` at `eec1428`.
 - No `[NEEDS CLARIFICATION]` remains in the spec.
 
 ## 12. Verification ledger
@@ -92,8 +92,8 @@ TCX-8 holds TCX-42 and TCX-43. The 2026-10-17 documents were refreshed on 2026-1
 
 ## 13. Canonical ownership and propagation
 
-Owned here: the room fields, the two rules, `membership.ts`, the Rooms pages and the link check. Spec 001 owns the registry and its rule table (two rows added); spec 002 owns the shell and the destinations list (`rooms` is now built); spec 004 and spec 005 call `roomsOf`; spec 003 owns the essay page's room links. The Build Log carries the shipped work; the Decision Log carries the rooms decision (ADR 0015), pending its number.
+Owned here: the room fields, the two rules, `membership.ts`, the Rooms pages and the link check. Spec 001 owns the registry and its rule table (two rows added); spec 002 owns the shell and the destinations list (`rooms` is now built); spec 004 and spec 005 call `roomsOf`; spec 003 owns the essay page's room links. The Build Log carries the shipped work; the Decision Log carries the rooms decision (ADR 0015) as [TC-D038](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/12648509).
 
 ## 14. Current checkpoint and delivery authority
 
-Everything is merged. Left for the author: the seven introductions (placeholder copy) and each room's `copy_status`. Open follow-ups from the code review (judgement calls, listed in `tasks.md` T032): a shared `roomRecordId` helper, the duplicated lookups in `roomsOf` and `membership`, a smaller `RoomGroups.astro`, splitting `ROOM-COPY`. Delivery authority: Vlad merges; no story is marked Done until this page is published.
+Everything is merged, Polish (#80) last: quickstart run and corrected, README and Read-first, and the code review with its fixes. Left for the author: the seven introductions (placeholder copy) and each room's `copy_status`. Open follow-ups from the code review (judgement calls, listed in `tasks.md` T032): a shared `roomRecordId` helper, the duplicated lookups in `roomsOf` and `membership`, a smaller `RoomGroups.astro`, splitting `ROOM-COPY`. Delivery authority: Vlad merges; no story is marked Done until this page is published.
