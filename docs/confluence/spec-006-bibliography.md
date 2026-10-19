@@ -10,7 +10,7 @@ Programme dossier for spec 006, written against the fourteen-point contract in [
 | Canonical parent | A standalone page at the root of the space, as for specs 001 to 005 |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). Spec `specs/006-bibliography/`; code `src/bibliography/`, `src/bibliography-client/`, `src/registry/` (`citations.ts`, `import-bib.ts`, `rules/bibliography.ts`), `src/pages/bibliography/`, `src/pages/data/`; decision `docs/adr/0014` |
 | Successor relationship | Replaces the live site's bibliography at cutover; spec 008 imports the live bibliography and maps its section types onto the seven sections |
-| Last reconciliation | 2026-10-19 against `main` at `869e132` (#73 merged; the same tree as the reviewed branch): 86 registry rules and 108 named mutations; 2142 Vitest tests in 171 files, all passing; Chromium Playwright for the Bibliography, 26 passing. GATE_LINE |
+| Last reconciliation | 2026-10-19 against `main` at `869e132` (#73 merged; the same tree as the reviewed branch): 86 registry rules and 108 named mutations; 2142 Vitest tests in 171 files, all passing; Chromium Playwright for the Bibliography, 26 passing. CI `gate` green on `main` at `869e132` (Lighthouse budgets, accessibility and the leak scan included); the run was delayed about half an hour by a GitHub Actions incident. |
 
 ## 2. Purpose / thesis
 
@@ -74,7 +74,7 @@ TCX-7 holds TCX-39, TCX-40, TCX-41 and TCX-50, each with its Spec Kit checklist;
 ## 11. Programme acceptance criteria
 
 - Every acceptance scenario of US1 to US4 has a passing automated test written first (exceptions are listed in the pull requests).
-- `gate` is green on `main`: accessibility 100 and the ADR 0004 budgets on the Bibliography page types. GATE_AC
+- `gate` is green on `main`: accessibility 100 and the ADR 0004 budgets on the Bibliography page types. Confirmed on `main` at `869e132`, 19 October 2026.
 - No `[NEEDS CLARIFICATION]` remains in the spec.
 
 ## 12. Verification ledger
