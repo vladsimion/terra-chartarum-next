@@ -67,10 +67,10 @@ src/registry/
 ├── rules/rooms.ts           # ROOM-SET (existing), + ROOM-PUBLIC, ROOM-COPY
 └── project.ts               # allowlist grows (room fields and body)
 src/rooms/
-└── membership.ts            # pure: a room's essays, maps, layers
+└── membership.ts            # pure: a room's essays, maps, layers (exists with roomsOf from spec 004; extended here)
 src/shell/components/        # RoomCard.astro, RoomGroups.astro
 src/pages/rooms/{index,[slug]}.astro
-content/room/                # seven records and seven Markdown bodies (draft placeholders)
+content/room/                # seven records and seven Markdown bodies (draft placeholders); created in Foundation, the repository has no content/ yet
 tests/registry/unit/         # room schema and rule tests
 tests/rooms/{unit,build,e2e,fixtures}/
 tests/shell/support/links.ts # the internal link and fragment checker
