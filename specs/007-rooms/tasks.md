@@ -92,8 +92,8 @@ description: "Task list for 007 Rooms (Curatorial Paths)"
 
 ## Phase 7: Polish & cross-cutting concerns
 
-- [ ] T029 [P] Run the quickstart end to end and fix anything it exposes
-- [ ] T030 [P] Update `README.md` and `docs/` for the rooms and the link check; add ADR 0015 to the Read-first list in `CLAUDE.md`
+- [x] T029 [P] Run the quickstart end to end and fix anything it exposes Done: every command run on the fixtures and on the repository's own rooms (38 and 7 entities, no errors or warnings; 0 leaks; `shell:check` lists the index and seven rooms as draft). The old quickstart named a broken fixture page and a generic `test:e2e`; both corrected.
+- [x] T030 [P] Update `README.md` and `docs/` for the rooms and the link check; add ADR 0015 to the Read-first list in `CLAUDE.md` Done: README (a Rooms section, repo map rows) and quickstart; ADR 0015 is spelled out in `CLAUDE.md`'s Read-first list.
 - [ ] T031 Confirm the accessibility and performance gates on the new page types in CI (Lighthouse CI budgets and axe)
 - [ ] T032 Run the `code-review` skill against the commit before this work began (standards and spec axes) and address findings
 - [ ] T033 Update Jira (TCX-8 description, story checklists, statuses), the Confluence dossier for spec 007, the Build Log and the Decision Log (workflow step 4); record that the seven room introductions are draft copy for the author to finalise
