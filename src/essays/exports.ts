@@ -19,8 +19,22 @@ export interface EssayExports {
   csljson: string;
 }
 
-/** The date the build accessed the page: SOURCE_DATE_EPOCH when it is a number, otherwise `now`, as a UTC calendar date. */
-export function accessDate(env: { SOURCE_DATE_EPOCH?: string }, now: Date = new Date()): string {
+/** An ISO calendar date (`YYYY-MM-DD`) that is a real day, or null. */
+function isoDate(value: string | undefined): string | null {
+  const text = value?.trim();
+  if (text === undefined || !/^\d{4}-\d{2}-\d{2}$/.test(text)) return null;
+  const day = new Date(`${text}T00:00:00Z`);
+  return Number.isNaN(day.getTime()) || day.toISOString().slice(0, 10) !== text ? null : text;
+}
+
+/**
+ * The date the build accessed the page, as a UTC calendar date, one for the whole site so an essay,
+ * a map and a bibliography entry cannot disagree in one build: `BUILD_DATE` (an ISO date, spec 006
+ * FR-009) when it is set, else `SOURCE_DATE_EPOCH` when it is a number, else `now`.
+ */
+export function accessDate(env: { BUILD_DATE?: string; SOURCE_DATE_EPOCH?: string }, now: Date = new Date()): string {
+  const fixed = isoDate(env.BUILD_DATE);
+  if (fixed !== null) return fixed;
   const epoch = env.SOURCE_DATE_EPOCH;
   const seconds = epoch !== undefined && /^\d+$/.test(epoch.trim()) ? Number(epoch.trim()) : null;
   return (seconds === null ? now : new Date(seconds * 1000)).toISOString().slice(0, 10);

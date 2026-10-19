@@ -23,7 +23,7 @@ export default defineConfig({
     command: `npx astro build && npx astro preview --port ${port} --ignore-lock`,
     url: `${baseURL}/`,
     reuseExistingServer: !process.env.CI,
-    env: { REGISTRY_ROOT: 'tests/bibliography/fixtures/registry', ASTRO_OUT_DIR: './dist-bibliography' },
+    env: { REGISTRY_ROOT: 'tests/bibliography/fixtures/registry', ASTRO_OUT_DIR: './dist-bibliography', BUILD_DATE: '2026-10-17' },
     timeout: 180_000,
   },
   projects: [

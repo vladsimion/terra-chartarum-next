@@ -171,6 +171,22 @@ const SHEETS = [
     margin: 0;
   }
 
+  /* the downloads that cite the layer and its dataset: a row of links, each a touch target */
+  .inspector :global(.cite ul) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    margin: 0 0 var(--space-2);
+    padding: 0;
+    list-style: none;
+  }
+
+  .inspector :global(.cite a) {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+  }
+
   .inspector :global(fieldset) {
     margin: var(--space-3) 0;
     padding: 0;

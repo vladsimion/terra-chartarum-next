@@ -1,5 +1,7 @@
 ---
+import { citeFiles } from '../cite-inputs.js';
 import type { CitedItem, EntryView } from '../views.js';
+import CiteLinks from './CiteLinks.astro';
 
 interface Props {
   view: EntryView;
@@ -15,7 +17,14 @@ const groups: { name: 'evidence' | 'listed'; heading: string; items: CitedItem[]
 <article class="bibliography-entry">
   <h1>{view.title}</h1>
   <p class="section-label">{view.sectionLabel}</p>
+  {view.findingAid && (
+    <p class="finding-aid">
+      <span class="badge-finding-aid">Finding aid</span>
+      <span class="finding-aid-note">A guide to an archive or collection. It points to sources, and is not itself cited as evidence.</span>
+    </p>
+  )}
   <p class="chicago">{view.chicago}</p>
+  <CiteLinks label="Cite this entry" files={citeFiles('entry', view.slug)} />
 
   {(view.identifiers.length > 0 || view.digitalCopy) && (
     <dl class="identifiers">
@@ -103,6 +112,20 @@ const groups: { name: 'evidence' | 'listed'; heading: string; items: CitedItem[]
 
   li {
     margin-bottom: var(--space-2);
+  }
+
+  /* a finding aid is marked by its words and its frame, never by colour alone */
+  .badge-finding-aid {
+    display: inline-block;
+    margin-inline-end: var(--space-2);
+    padding: 0 var(--space-2);
+    border: 1px solid var(--ink-muted);
+    border-radius: var(--radius);
+    font-weight: 600;
+  }
+
+  .finding-aid {
+    margin: 0 0 var(--space-3);
   }
 
   /* a pending locator is marked by its words and by a rule, never by colour alone */

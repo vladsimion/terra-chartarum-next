@@ -1,6 +1,10 @@
 ---
+import CiteLinks from '../../bibliography/components/CiteLinks.astro';
 import FilterForm from '../../bibliography/components/FilterForm.astro';
+import { citeFiles, siteItem } from '../../bibliography/cite-inputs.js';
 import { indexView } from '../../bibliography/views.js';
+import { formatBibliographyItem } from '../../essays/citations.js';
+import { accessDate } from '../../essays/exports.js';
 import { loadEssaySite } from '../../essays/site-data.js';
 import Base from '../../shell/layouts/Base.astro';
 
@@ -12,6 +16,7 @@ import Base from '../../shell/layouts/Base.astro';
  */
 const { records, cslFor } = await loadEssaySite();
 const view = indexView(records, cslFor);
+const siteCitation = formatBibliographyItem(siteItem(Astro.site!, accessDate(process.env)));
 ---
 
 <Base title="Bibliography | Terra Chartarum" description="The works this publication rests on, by section, with where each is cited.">
@@ -29,6 +34,11 @@ const view = indexView(records, cslFor);
       </ul>
     </section>
   ))}
+  <section class="cite-site" aria-labelledby="cite-site-heading">
+    <h2 id="cite-site-heading">Cite this site</h2>
+    <p class="chicago">{siteCitation}</p>
+    <CiteLinks label="Cite this site" files={citeFiles('site')} />
+  </section>
 </Base>
 
 <script>

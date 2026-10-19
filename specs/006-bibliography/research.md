@@ -8,7 +8,7 @@ Decisions not already settled by the grill (ADR 0014), ADR 0004 or spec 003's re
 - **Alternatives**: fuzzy title similarity (false merges, hard to explain); matching on title alone (too many collisions).
 
 ## R2. Slugs and IDs for imported entries
-- **Decision**: IDs are minted by `registry mint bibliography_entry` (opaque counters). The slug is `<first-author-family>-<year>-<first-title-word>` in ASCII lower case; on collision with a live slug or a slug history entry, a letter suffix (`-b`, `-c`) is added. The editor may rename later; slug history keeps old addresses (ADR 0006).
+- **Decision**: IDs are minted by `registry mint bibliography_entry` (opaque counters). The slug is `<first-author-family>-<year>-<first-title-word>` in ASCII lower case, skipping a leading "a", "an" or "the" (a slug of `moe-1994-a` says nothing); on collision with a live slug or a slug history entry, a letter suffix (`-b`, `-c`) is added. The editor may rename later; slug history keeps old addresses (ADR 0006).
 - **Rationale**: readable addresses that survive a reference manager's churn; the ID stays opaque.
 - **Alternatives**: slug from the full title (long); the citation key from BibTeX (not unique across managers).
 

@@ -65,3 +65,19 @@ describe('layerInfo', () => {
     expect(layerInfo(layer, [layer]).description).toBe('One.\n\nTwo.');
   });
 });
+
+describe('layerInfo: citing the layer (spec 006 T035)', () => {
+  it('points at the layer’s three export files and its dataset’s', async () => {
+    const frontier = await info('frontier-line');
+    expect(frontier.cite.layer).toEqual({ bibtex: '/data/cite/layer/frontier-line.bib', ris: '/data/cite/layer/frontier-line.ris', json: '/data/cite/layer/frontier-line.json' });
+    expect(frontier.cite.dataset).toEqual({ bibtex: '/data/cite/dataset/atlas-fixture-data.bib', ris: '/data/cite/dataset/atlas-fixture-data.ris', json: '/data/cite/dataset/atlas-fixture-data.json' });
+  });
+
+  it('has no dataset files for a layer whose dataset is not public', async () => {
+    const records = projectPublic((await loadRegistry(fixture)).records).filter((r) => r.family !== 'dataset');
+    const layer = records.find((r) => r.family === 'layer' && r.slug === 'frontier-line')!;
+    expect(layerInfo(layer, records).cite.dataset).toBeNull();
+    expect(layerInfo(layer, records).cite.layer.json).toBe('/data/cite/layer/frontier-line.json');
+  });
+});
+

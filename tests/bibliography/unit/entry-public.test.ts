@@ -44,6 +44,11 @@ describe('publicEntries', () => {
     expect(ids()).not.toContain(E(13));
   });
 
+  it('does not list an entry whose section is not one of the seven', () => {
+    const odd = registry().map((r) => (r.id === E(1) ? { ...r, section: 'cartographic_witnesses' } : r));
+    expect(publicEntries(publicRecords(odd)).map((e) => e.id)).not.toContain(E(1));
+  });
+
   it('lists an entry through whichever route reaches it, and each once', () => {
     const found = ids();
     expect(found.filter((x) => x === E(1))).toHaveLength(1);
