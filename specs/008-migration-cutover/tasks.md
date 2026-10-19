@@ -26,9 +26,10 @@ description: "Task list for 008 Migration & Cutover"
 
 ## Phase 1: Setup
 
-- [ ] T001 Agree the three seams above with Vlad (tdd skill) and record any change here
+- [x] T001 Agree the three seams above with Vlad (tdd skill) and record any change here Done 2026-10-19: agreed as written, with the grill refresh recorded in `spec.md` and `research.md` R8.
 - [ ] T002 [P] Create `tests/migration/fixtures/snapshot/` shaped like the legacy repository and trimmed: a TypeScript registry whose `RAW` array sits beside imports of `astro:content` and a sibling module (one map each of scope `object`, `work`, `concept`, one `unlocated`, one with an inline citation, one with a private-looking key, one with images including an `iiif`, one with `uncertainties`, a year of `-600`), a second TypeScript registry with a non-literal value (to fail), bibliography, cartographers, toponyms, layers, collections, `data/geo/catalog.json`, a small Dacia CSV set, `src/pages` with static and dynamic routes, `src/content/essays`, and a Handbook entry
 - [ ] T003 Re-read each legacy registry in the pinned snapshot against [contracts/field-mappings.md](./contracts/field-mappings.md) and correct the table, including the Dacia CSV headers (research R7); record the snapshot SHA and the findings in `research.md`
+- [ ] T003a [P] Move `checkLinks` from `tests/shell/support/links.ts` to `src/shell/links.ts` (the test helper re-exports it) so `scripts/cutover-check.ts` does not import from `tests/`; its tests stay green
 - [ ] T004 [P] Add `csv-parse` at an exact pinned version (at least two weeks old) and run `npm audit --omit=dev`
 
 ---
@@ -77,7 +78,7 @@ description: "Task list for 008 Migration & Cutover"
 
 ## Phase 4: User Story 3 — Redirect map that shrinks as essays are rebuilt (P1)
 
-- [ ] T029 [P] [US3] Write failing `tests/migration/unit/inventory.test.ts` (scenarios 1, 2 of US2 and US3): from the fixture snapshot every static and expanded dynamic route appears once, normalised, with its kind; outcomes follow the policy table (an unrebuilt essay in place; an imported public record a rule; a held record in place; `/atlas/layers/<id>/` a view address; `/privacy`, `/programmes/**`, `/data/**` in place); sorted and deterministic
+- [ ] T029 [P] [US3] Write failing `tests/migration/unit/inventory.test.ts` (scenarios 1, 2 of US2 and US3): from the fixture snapshot every static and expanded dynamic route appears once, normalised, with its kind; outcomes follow the policy table (an unrebuilt essay in place; an imported public record a rule; a held record in place; each `/atlas/layers/<layer>/` in place, expanded from the Handbook documents of type `layer`, and `/atlas/` with any query a rule to `/atlas/?from=legacy`; `/privacy`, `/programmes/**`, `/data/**` in place); sorted and deterministic
 - [ ] T030 [US3] Implement `src/migration/inventory.ts` and the `inventory` command
 - [ ] T031 [P] [US3] Write failing `tests/migration/unit/redirects.test.ts` (scenarios 2, 3, 4): one rule per `rule` entry in Cloudflare syntax, 301, absolute targets, sorted, with the header comment; a rebuilt essay with `legacy_url`, published and released, gains its rule and an unpublished one does not; an Atlas path with a query maps to `/atlas/?from=legacy`; the generator fails when a target is not a built page
 - [ ] T032 [US3] Implement `src/migration/redirects.ts` and the `archive-redirects` command
@@ -97,7 +98,7 @@ description: "Task list for 008 Migration & Cutover"
 
 ## Phase 6: User Story 4 — Cutover checklist (P2)
 
-- [ ] T039 [P] [US4] Write failing `tests/migration/unit/cutover-check.test.ts` (scenarios 1, 2; SC-006): the check passes on a clean fixture and fails on each broken one — a stub page, a draft room, a dead link, a redirect inventory URL with no outcome, an extra rule, a dangling target, a failed gate — naming the page, URL or rule; it reads `migration/redirect-inventory.json` and `archive/_redirects`; the anchor essay not published fails it
+- [ ] T039 [P] [US4] Write failing `tests/migration/unit/cutover-check.test.ts` (scenarios 1, 2; SC-006): the check passes on a clean fixture and fails on each broken one — a stub page, a draft room, a dead link, a redirect inventory URL with no outcome, an extra rule, a dangling target, a failed gate, a CI run that is absent or not green (canned `gh` output; `gh` missing is a clear failure) — naming the page, URL or rule; it reads `migration/redirect-inventory.json` and `archive/_redirects`; the anchor essay not published fails it
 - [ ] T040 [US4] Implement `scripts/cutover-check.ts` and the `cutover:check` npm script; write `docs/cutover.md` from [contracts/cutover.md](./contracts/cutover.md)
 - [ ] T041 [P] [US4] Write failing `tests/migration/unit/baseline.test.ts` (scenario 3): the summary table and the JSON are produced from canned Lighthouse results; the file name carries the date; the command refuses to run without URLs
 - [ ] T042 [US4] Implement `scripts/baseline.ts` and the `baseline` npm script; run it by hand against the live site's key templates (home, an essay, a collection record, the Atlas, the bibliography, a cartographer) before the freeze and commit `docs/baseline/live-site-<date>.json` (a manual step)

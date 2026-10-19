@@ -98,6 +98,7 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 |---|---|---|
 | **Legacy site** | The live terra-chartarum.pages.dev site before cutover, whose repository is the source of the import. | The successor |
 | **Frozen archive** | The legacy site after cutover: read-only, with an "archived edition" banner and `noindex`. Called the frozen archive to keep it apart from the Archive room. | The Archive room (one of the seven rooms) |
+| **Import profile** | A named set of legacy registries the importer reads in one run (v1: the `atlas` authority and the Dacia anchor records); each profile arrives with the essays it serves, and everything it imports is held. | A migration of the whole legacy site |
 | **Import snapshot** | The pinned checkout of the legacy repository, at a recorded commit, that the importer reads. | A backup |
 | **Redirect inventory** | Every old URL with its one outcome: served in place by the frozen archive, or one redirect rule. | The redirect file (which is generated from it) |
 

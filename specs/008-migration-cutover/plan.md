@@ -26,7 +26,7 @@ Moving a scholarly publication to a new platform without breaking a citation. Fo
 
 **Constraints**: deterministic and offline (no network at import; `archive:check` and `baseline` are the only commands that touch the network, by hand); nothing from the live site is fetched by the importer; no image binary enters the repository; nothing is ever overwritten.
 
-**Scale/Scope**: the v1 profile: 59 maps, 19 cartographers, 34 bibliography items, 12 toponyms, 16 layers, 6 collections, 27 geo release assets, plus the Dacia places and sources the anchor needs; about 31 legacy page routes and 22 essays in the inventory; 3 new rules (see [contracts/migration-rule-ids.md](./contracts/migration-rule-ids.md)); 5 new commands.
+**Scale/Scope**: the v1 profile: 59 maps, 19 cartographers, 34 bibliography items, 12 toponyms, 27 layers, 6 collections, 27 geo release assets, plus the Dacia places and sources the anchor needs (the 40 pilot places and 12 Trench A sources); about 31 legacy page routes and 22 essays in the inventory; 3 new rules (see [contracts/migration-rule-ids.md](./contracts/migration-rule-ids.md)); 5 new commands.
 
 ## Constitution Check
 
