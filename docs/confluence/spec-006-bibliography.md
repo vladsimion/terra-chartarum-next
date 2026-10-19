@@ -1,16 +1,16 @@
-Programme dossier for spec 006, written against the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169), as the dossiers for specs 001 to 005 are. Draft: not yet published to Confluence.
+Programme dossier for spec 006, written against the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169), as the dossiers for specs 001 to 005 are.
 
 ## 1. Programme metadata
 
 | | |
 |---|---|
 | Programme type | Instrument: the bibliography as a scholarly navigation surface, and citation of the site and its parts |
-| Status | **Code complete and polished.** Setup and Foundation (#65), User Story 1 (#68), Stories 3, 2 and 4 (#71), the cross-cutting checks (#72) and Polish (#73) are merged to `main`. The stories stay In Review until Vlad moves them to Done. |
+| Status | **Code complete and polished.** Setup and Foundation (#65), User Story 1 (#68), Stories 3, 2 and 4 (#71), the cross-cutting checks (#72) and Polish (#73: `relations.json` filtered, quickstart and README, code-review fixes) are merged to `main`, all on 19 October 2026. The stories stay In Review until Vlad moves them to Done. |
 | Jira | **TCX-7** epic (In Progress); stories **TCX-39** (US1 browse the bibliography as evidence; also holds Setup, Foundation and the cross-cutting checks), **TCX-40** (US2 cite the site and its parts), **TCX-41** (US3 sections and finding aids), **TCX-50** (US4 import from a reference manager) |
 | Canonical parent | A standalone page at the root of the space, as for specs 001 to 005 |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). Spec `specs/006-bibliography/`; code `src/bibliography/`, `src/bibliography-client/`, `src/registry/` (`citations.ts`, `import-bib.ts`, `rules/bibliography.ts`), `src/pages/bibliography/`, `src/pages/data/`; decision `docs/adr/0014` |
 | Successor relationship | Replaces the live site's bibliography at cutover; spec 008 imports the live bibliography and maps its section types onto the seven sections |
-| Last reconciliation | 2026-10-19 against `main` at `869e132` (#73 merged): 86 registry rules and 108 named mutations; 2142 Vitest tests in 171 files, all passing; Chromium Playwright for the Bibliography, 26 passing. `gate` passed on #73's branch; its run on `main` at `869e132` had not finished when this was written |
+| Last reconciliation | 2026-10-19 against `main` at `869e132` (#73 merged; the same tree as the reviewed branch): 86 registry rules and 108 named mutations; 2142 Vitest tests in 171 files, all passing; Chromium Playwright for the Bibliography, 26 passing. CI `gate` green on `main` at `869e132` (Lighthouse budgets, accessibility and the leak scan included); the run was delayed about half an hour by a GitHub Actions incident. |
 
 ## 2. Purpose / thesis
 
@@ -74,7 +74,7 @@ TCX-7 holds TCX-39, TCX-40, TCX-41 and TCX-50, each with its Spec Kit checklist;
 ## 11. Programme acceptance criteria
 
 - Every acceptance scenario of US1 to US4 has a passing automated test written first (exceptions are listed in the pull requests).
-- `gate` is green: accessibility 100 and the ADR 0004 budgets on the Bibliography page types, passed on #73's branch; `main` at `869e132` had not finished when this was written.
+- `gate` is green on `main`: accessibility 100 and the ADR 0004 budgets on the Bibliography page types. Confirmed on `main` at `869e132`, 19 October 2026.
 - No `[NEEDS CLARIFICATION]` remains in the spec.
 
 ## 12. Verification ledger
@@ -89,12 +89,12 @@ TCX-7 holds TCX-39, TCX-40, TCX-41 and TCX-50, each with its Spec Kit checklist;
 | Import: mapping, matching, idempotence, rejection, no partial write | `tests/registry/integration/import-bib.test.ts`, `unit/match.test.ts` |
 | Nothing held leaks | `build/leak.test.ts`, `tests/registry/unit/leak-scan.test.ts` (`.bib`, `.ris`) |
 | A thousand entries filter in time (SC-005) | `unit/index-data.perf.test.ts` (Node only) |
-| Not verified | Firefox, WebKit and Lighthouse (CI runs them); the filter timing in a browser |
+| Not verified | The Bibliography pages in Firefox and WebKit (CI runs their end-to-end specs in Chromium only); the filter timing in a browser |
 
 ## 13. Canonical ownership and propagation
 
-Owned here: the entry, the Source's `entry`, `bibliography[]` on datasets and layers, the four rules, the Bibliography pages, the citation exports, `import-bib`, the public-entry derivation (`citations.ts`). Spec 001 owns the registry, its rule table (four rows added) and `registry scan` (extended for `.bib` and `.ris`); spec 003 owns the shared citation generator; spec 005 owns the inspector the Cite section sits in; **spec 008 owns importing the live bibliography and mapping its section types onto the seven**. The Build Log carries the shipped work; the Decision Log carries the bibliography model (ADR 0014), pending its number.
+Owned here: the entry, the Source's `entry`, `bibliography[]` on datasets and layers, the four rules, the Bibliography pages, the citation exports, `import-bib`, the public-entry derivation (`citations.ts`). Spec 001 owns the registry, its rule table (four rows added) and `registry scan` (extended for `.bib` and `.ris`); spec 003 owns the shared citation generator; spec 005 owns the inspector the Cite section sits in; **spec 008 owns importing the live bibliography and mapping its section types onto the seven**. The Build Log carries the shipped work; the Decision Log carries the bibliography model (ADR 0014) as [TC-D037](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/12648509).
 
 ## 14. Current checkpoint and delivery authority
 
-Everything is merged. Polish (#73) brought: `relations.json` no longer names an unlisted entry (decided by Vlad), quickstart and README, and the code review. Left open: essay pages do not link bibliography entries to entry pages; a Finding-aid badge needs the flagged Source to be published (a warning rule is undecided); follow-up smells from the review (repeated small helpers, three spellings of the format name). Delivery authority: Vlad merges; no story is marked Done until this page is published.
+Everything is merged, Polish (#73) last: `relations.json` no longer names an unlisted entry (decided by Vlad), quickstart and README, and the code review. Left open: essay pages do not link bibliography entries to entry pages; a Finding-aid badge needs the flagged Source to be published (a warning rule is undecided); follow-up smells from the review (repeated small helpers, three spellings of the format name). Delivery authority: Vlad merges; no story is marked Done until this page is published.

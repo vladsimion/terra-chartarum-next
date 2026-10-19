@@ -1,10 +1,10 @@
 # Confluence entry: Build Log (page 2490370)
 
-Draft, not yet published. To publish: add as section Z, directly after section Y and before "2. In progress", and extend the header pointer "sections U to Y" to "sections U to Z"; leave the rest of the page unchanged and check by reading the page back.
+Published 2026-10-19 as section Z (page version 132), directly after section Y and before "2. In progress"; the header pointer "sections U to Y" became "sections U to Z". The rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
 ## Z. The successor build: the bibliography (spec 006)
 
-Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 19 October 2026. Jira epic TCX-7. Working detail is in the spec 006 programme dossier (page to be published).
+Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 19 October 2026. Jira epic TCX-7. Working detail is in the [spec 006 programme dossier](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/38633475).
 
 | PR | Scope | Jira |
 |---|---|---|
@@ -15,4 +15,4 @@ Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.
 | #72 | Cross-cutting checks: the leak test with eleven named leaks, and every citation resolves (T040, T041). It found that the leak scan skipped `.bib` and `.ris`, fixed test-first | TCX-39 |
 | #73 | Polish: `data/relations.json` names only entries the site lists; quickstart and README; code-review fixes (an import stops before its first write when a target exists; an entry's exported URL is its page address; a layer falls back to its own attribution) (T042, T043, T045) | TCX-7 |
 
-State: 86 registry rules and 108 named mutations; 2142 Vitest tests in 171 files; Bibliography Chromium e2e 26. `gate` passed on #73's branch; the run on `main` at `869e132` had not finished when this was written. The stories are In Review, not Done; the epic TCX-7 is In Progress. Not verified locally: Firefox, WebKit and Lighthouse (CI runs them).
+State: 86 registry rules and 108 named mutations; 2142 Vitest tests in 171 files; Bibliography Chromium e2e 26. `gate` is green on `main` at `869e132`. The stories are In Review, not Done; the epic TCX-7 is In Progress. Not verified: the Bibliography pages in Firefox and WebKit (their end-to-end specs run in Chromium only).
