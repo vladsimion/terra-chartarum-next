@@ -52,7 +52,8 @@ const BY_FAMILY: Record<string, Allow> = {
   route: { fields: DATES },
   event: { fields: DATES },
   period: { fields: DATES },
-  room: {},
+  // the long description is the Markdown beside the record (spec 007 data-model.md)
+  room: { fields: ['order', 'short_description', 'copy_status', 'body'] },
   bibliography_entry: { fields: ['csl', 'section', 'digital_copy'], scalarRefs: ['edition_of', 'translation_of'] },
   attestation: { fields: ['form', 'silence_state', 'confidence'], scalarRefs: ['place', 'source'] },
   evidence: {

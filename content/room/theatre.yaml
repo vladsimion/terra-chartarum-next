@@ -1,0 +1,12 @@
+id: tc:tc:room:theatre
+family: room
+origin: minted
+title: Theatre
+slug: theatre
+slug_history: []
+lifecycle: published
+release: released
+relations: []
+order: 7
+short_description: "Maps made to be shown: display, ceremony and persuasion."
+copy_status: draft

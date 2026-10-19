@@ -15,7 +15,7 @@ import { MAP_RULES } from './map.js';
 import { loadPath } from './path.js';
 import { PROVENANCE_RULES } from './provenance.js';
 import { REFERENCE_RULES } from './references.js';
-import { roomSet } from './rooms.js';
+import { roomCopy, roomPublic, roomSet } from './rooms.js';
 import { RIGHTS_RULES } from './rights.js';
 import { SILENCE_RULES } from './silence.js';
 import { SLUG_RULES } from './slug.js';
@@ -28,6 +28,8 @@ export const ALL_RULES: Rule[] = [
   ...SLUG_RULES,
   ...REFERENCE_RULES,
   roomSet,
+  roomPublic,
+  roomCopy,
   ...ENUM_RULES,
   ...DATE_RULES,
   ...PROVENANCE_RULES,

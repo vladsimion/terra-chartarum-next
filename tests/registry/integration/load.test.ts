@@ -35,9 +35,10 @@ describe('loadRegistry', () => {
     expect(napoca?.slug_history).toEqual(['colonia-napoca']);
   });
 
-  it('defaults release to held when a record does not set it', async () => {
+  it('defaults release to held when a record does not set it (the rooms set it: they are public by rule)', async () => {
     const { records } = await loadRegistry(fixture('valid'));
-    expect(records.every((r) => r.release === 'held')).toBe(true);
+    expect(records.filter((r) => r.family !== 'room').every((r) => r.release === 'held')).toBe(true);
+    expect(records.filter((r) => r.family === 'room').every((r) => r.release === 'released')).toBe(true);
   });
 
   it('reports unparseable YAML as a load error naming the file', async () => {

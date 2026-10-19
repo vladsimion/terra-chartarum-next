@@ -3,5 +3,8 @@ family: room
 origin: minted
 title: Theatre
 slug: theatre
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
+order: 7
+short_description: The theatre room.
+copy_status: draft

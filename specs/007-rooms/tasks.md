@@ -26,9 +26,9 @@ description: "Task list for 007 Rooms (Curatorial Paths)"
 
 ## Phase 1: Setup
 
-- [ ] T001 Agree the three seams above with Vlad (tdd skill) and record any change here
+- [x] T001 Agree the three seams above with Vlad (tdd skill) and record any change here Done 2026-10-19: agreed as written.
 - [ ] T002 [P] Create `tests/rooms/fixtures/registry/` with the seven room records (published, released, with `order`, `short_description`, `copy_status` and a body file each) and a small hand-authored set: a room with one primary and one secondary essay, two maps and a layer; a room with no public essay; essays in several rooms; a map used by essays in two rooms; a map and a layer used only by a held essay; a held essay. Add invalid variants named for the rule they trip
-- [ ] T003 Update every existing room fixture in `tests/registry/fixtures/` and `tests/shell/fixtures/registry/` to `published`, `released`, with `order`, `short_description` and `copy_status`, in the same change as T007, so the existing suites stay green (research R3)
+- [x] T003 Update every existing room fixture in `tests/registry/fixtures/` and `tests/shell/fixtures/registry/` to `published`, `released`, with `order`, `short_description` and `copy_status`, in the same change as T007, so the existing suites stay green (research R3)
 
 ---
 
@@ -36,15 +36,15 @@ description: "Task list for 007 Rooms (Curatorial Paths)"
 
 **Goal**: the room schema, the two rules and the public allowlist (FR-011).
 
-- [ ] T004 [P] Write failing `tests/registry/unit/room-schema.test.ts`: a room with `order`, `short_description` and `copy_status` loads; `copy_status` takes only `draft` or `final` and defaults to `draft`; `order` is an integer 1 to 7; the loader reads `content/room/<id>.md` as the computed `body`; `FAM-UNKNOWN` still rejects an unlisted field
-- [ ] T005 Implement `RoomSchema` in `src/registry/schemas/families.ts` and, if no sibling spec has yet, the generic Markdown body loading for the `room` family in `src/registry/load.ts`
-- [ ] T006 [P] Write failing `tests/registry/unit/room-public.test.ts` for `ROOM-PUBLIC` (a room that is held, or not published, at any lifecycle, is an error) with a named mutation
-- [ ] T007 Implement `ROOM-PUBLIC` in `src/registry/rules/rooms.ts` and register it (with T003)
-- [ ] T008 [P] Write failing `tests/registry/unit/room-copy.test.ts` for `ROOM-COPY` (a wrong `order` for the room; duplicate orders; a bad `copy_status`; an empty `short_description` (warn from `ready_for_build`, error at `publishable`); a missing body file (same); `final` with an empty body) with a named mutation for each check
-- [ ] T009 Implement `ROOM-COPY`
-- [ ] T010 [P] Write failing `tests/registry/unit/room-project.test.ts`: the public projection of a room carries `order`, `short_description`, `copy_status` and the body, and nothing else
-- [ ] T011 Extend `src/registry/project.ts` with the room allowlist
-- [ ] T012 Register the two rules in `src/registry/rules/index.ts`, make the rule-coverage test pass, and add them to `specs/001-scholarly-registry/contracts/rule-ids.md`; update spec 001's `data-model.md` room row to point at spec 007's; create the repository's `content/room/` with the seven `*.yaml` records (published, released, `order`, `short_description`, `copy_status: draft`) and their `*.md` bodies (draft copy, research R6); the repository root has no `content/` today, so without these the site has no room pages and every link to one is dead. Confirm that the repository's own `registry check` passes with only the rooms present
+- [x] T004 [P] Write failing `tests/registry/unit/room-schema.test.ts`: a room with `order`, `short_description` and `copy_status` loads. Departure, as for every family: the schema takes types only (`order` a number, the others text) and `ROOM-COPY` judges the values, so an early record loads and a bad value is a named rule; an absent `copy_status` reads as draft. Original wording: the loader reads `content/room/<id>.md` as the computed `body`; `FAM-UNKNOWN` still rejects an unlisted field
+- [x] T005 Implement `RoomSchema` in `src/registry/schemas/families.ts` and, if no sibling spec has yet, the generic Markdown body loading for the `room` family in `src/registry/load.ts`
+- [x] T006 [P] Write failing `tests/registry/unit/room-public.test.ts` for `ROOM-PUBLIC` (a room that is held, or not published, at any lifecycle, is an error) with a named mutation
+- [x] T007 Implement `ROOM-PUBLIC` in `src/registry/rules/rooms.ts` and register it (with T003)
+- [x] T008 [P] Write failing `tests/registry/unit/room-copy.test.ts` for `ROOM-COPY` (a wrong `order` for the room; duplicate orders; a bad `copy_status`; an empty `short_description` (warn from `ready_for_build`, error at `publishable`); a missing body file (same); `final` with an empty body) with a named mutation for each check
+- [x] T009 Implement `ROOM-COPY`
+- [x] T010 [P] Write failing `tests/registry/unit/room-project.test.ts`: the public projection of a room carries `order`, `short_description`, `copy_status` and the body, and nothing else
+- [x] T011 Extend `src/registry/project.ts` with the room allowlist
+- [x] T012 Register the two rules in `src/registry/rules/index.ts`, make the rule-coverage test pass, and add them to `specs/001-scholarly-registry/contracts/rule-ids.md`; update spec 001's `data-model.md` room row to point at spec 007's; create the repository's `content/room/` with the seven `*.yaml` records (published, released, `order`, `short_description`, `copy_status: draft`) and their `*.md` bodies (draft copy, research R6); the repository root has no `content/` today, so without these the site has no room pages and every link to one is dead. Confirm that the repository's own `registry check` passes with only the rooms present
 
 ---
 

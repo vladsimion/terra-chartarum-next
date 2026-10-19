@@ -5,3 +5,6 @@ title: Map
 slug: map
 lifecycle: published
 release: released
+order: 2
+short_description: The map room.
+copy_status: draft

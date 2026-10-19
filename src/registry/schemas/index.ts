@@ -12,6 +12,7 @@ import {
   LayerSchema,
   MapSchema,
   PlaceSchema,
+  RoomSchema,
   SourceSchema,
 } from './families.js';
 
@@ -27,6 +28,7 @@ const BY_FAMILY: Record<string, ZodObject> = {
   layer: LayerSchema,
   bibliography_entry: BibliographyEntrySchema,
   collection: CollectionSchema,
+  room: RoomSchema,
   route: DatedSchema,
   event: DatedSchema,
   period: DatedSchema,
@@ -41,7 +43,7 @@ export function schemaFor(family: string): ZodObject {
 }
 
 /** Families whose files carry nothing beyond the entity base. */
-const BASE_ONLY = new Set(['room']);
+const BASE_ONLY = new Set<string>();
 
 /**
  * The fields a record of this family may carry: the entity base plus the family's own. Null for a

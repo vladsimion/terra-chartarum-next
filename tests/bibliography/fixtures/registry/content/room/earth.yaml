@@ -3,5 +3,8 @@ family: room
 origin: minted
 title: Earth
 slug: earth
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
+order: 1
+short_description: The earth room.
+copy_status: draft

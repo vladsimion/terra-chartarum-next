@@ -50,6 +50,13 @@ export const MapSchema = EntityBase.extend({
   rights: RightsShape.optional(),
 });
 
+/** A room (spec 007 data-model.md). Types only: ROOM-COPY judges the values, so an early record still loads. The long description is the Markdown beside the record, attached by the loader as `body`. */
+export const RoomSchema = EntityBase.extend({
+  order: z.number().optional(),
+  short_description: z.string().optional(),
+  copy_status: z.string().optional(),
+});
+
 export const CartographerSchema = EntityBase.extend({
   kind: z.string().optional(),
   names: z.array(z.string()).optional(),
