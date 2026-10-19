@@ -461,10 +461,11 @@ async function start(): Promise<void> {
       year: () => store.get().year,
       show: async (place, onRemoved) => {
         const map = await ensureMap();
-        if (!map) return;
+        if (!map) return false;
         map.showPlace(place.title, place.location.lon, place.location.lat, onRemoved);
         await map.idle();
         root.dataset.mapReady = 'true';
+        return true;
       },
       clear: () => controller?.clearPlace(),
     });

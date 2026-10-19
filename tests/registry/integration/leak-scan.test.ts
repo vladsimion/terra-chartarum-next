@@ -155,6 +155,22 @@ describe('scanOutput (FR-009)', () => {
   });
 });
 
+describe('scanOutput with a held record’s retired slugs (spec 005 SC-005)', () => {
+  const heldLayer = { ...place(7), family: 'layer', id: 'tc:tc:layer:layer-000007', title: 'Quiet Frontier Layer', slug: 'quiet-frontier-layer', slug_history: ['old-quiet-frontier'], lifecycle: 'published', release: 'held' };
+  const options = { namedFamilies: ['layer'] };
+
+  it('finds a retired slug of a held layer, which an old address would still name', async () => {
+    const found = await scanOutput(dist({ 'data/atlas-slugs.json': '{"layers":[{"slug":"x","history":["old-quiet-frontier"]}]}' }), [open, heldLayer], options);
+    expect(found.map((v) => [v.entity, v.field])).toEqual([[heldLayer.id, 'slug_history']]);
+    expect(JSON.stringify(found)).not.toContain('old-quiet-frontier');
+  });
+
+  it('finds nothing when the retired slug belongs to a public layer', async () => {
+    const publicLayer = { ...heldLayer, release: 'released' };
+    expect(await scanOutput(dist({ 'data/atlas-slugs.json': '{"history":["old-quiet-frontier"]}' }), [open, publicLayer], options)).toEqual([]);
+  });
+});
+
 describe('scanOutput with held names (spec 005 SC-005)', () => {
   const heldLayer = { ...place(7), family: 'layer', id: 'tc:tc:layer:layer-000007', title: 'Quiet Frontier Layer', slug: 'quiet-frontier-layer', lifecycle: 'published', release: 'held' };
   const records = [open, heldLayer];

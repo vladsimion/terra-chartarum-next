@@ -113,6 +113,14 @@ function buildNeedles(records: readonly RegistryRecord[], options: ScanOptions =
         const bare = new RegExp(`(?<![A-Za-z0-9-])${escapeRegExp(record.slug)}(?![A-Za-z0-9-])`);
         needles.push({ entity: record.id, field: 'slug', kind: 'held-slug', shown: '[held slug]', find: (haystack) => bare.test(haystack) });
       }
+      // the slugs it used to have: an old address would still name it, and a slug table carries them
+      if (options.namedFamilies?.includes(record.family) && !isRetired(record) && Array.isArray(record.slug_history)) {
+        for (const old of record.slug_history) {
+          if (typeof old !== 'string' || old.length < MIN_PRIVATE_LENGTH) continue;
+          const bare = new RegExp(`(?<![A-Za-z0-9-])${escapeRegExp(old)}(?![A-Za-z0-9-])`);
+          needles.push({ entity: record.id, field: 'slug_history', kind: 'held-slug', shown: '[held slug]', find: (haystack) => bare.test(haystack) });
+        }
+      }
     }
   }
   return needles;
