@@ -2,7 +2,8 @@
 import Catalogue from '../../atlas/components/Catalogue.astro';
 import { HANDBOOK_LINKS } from '../../atlas/handbook-links.js';
 import { buildIndex } from '../../atlas/index-data.js';
-import { defaultYear } from '../../atlas/view-state.js';
+import { defaultYear, initialState, setLens } from '../../atlas/view-state.js';
+import { viewUrl } from '../../atlas/view-url.js';
 import { yearBounds } from '../../atlas/time.js';
 import { loadEssaySite } from '../../essays/site-data.js';
 import Base from '../../shell/layouts/Base.astro';
@@ -34,7 +35,7 @@ const SHEETS = [
   <nav aria-label="Collections">
     <h2>Collections</h2>
     <ul>
-      {index.collections.map((c) => <li><a href={`/atlas/?lens=collection&c=${encodeURIComponent(c.slug)}`}>{c.title}</a></li>)}
+      {index.collections.map((c) => <li><a href={viewUrl(setLens(initialState(index), 'collection', c.slug, index), index)}>{c.title}</a></li>)}
     </ul>
   </nav>
 

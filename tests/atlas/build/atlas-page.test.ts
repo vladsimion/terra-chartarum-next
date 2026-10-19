@@ -1,4 +1,9 @@
 import { beforeAll, describe, expect, it } from 'vitest';
+import { buildIndex } from '../../../src/atlas/index-data.js';
+import { parseView } from '../../../src/atlas/view-url.js';
+import { loadRegistry } from '../../../src/registry/load.js';
+import { projectPublic } from '../../../src/registry/project.js';
+import { FIXTURE } from '../support/variant.js';
 import { atlasSite, readHtml, readPage } from '../support/build.js';
 
 /*
@@ -24,6 +29,17 @@ describe('the landing', () => {
     const links = page().querySelectorAll('nav[aria-label="Collections"] a');
     expect(links.map((a) => a.text.trim()).sort()).toEqual(['Nothing runnable yet', 'Roman Dacia fixtures']);
     expect(links.map((a) => a.getAttribute('href'))).toContain('/atlas/?lens=collection&c=roman-dacia-fixtures');
+  });
+
+  it('writes each chooser link as the view address module reads it (FR-012)', async () => {
+    const index = buildIndex(projectPublic((await loadRegistry(FIXTURE)).records));
+    const table = { layers: index.layers.map((l) => ({ slug: l.slug, history: [] })), collections: index.collections.map((c) => ({ slug: c.slug, history: [] })) };
+    for (const link of page().querySelectorAll('nav[aria-label="Collections"] a')) {
+      const { state, report } = parseView(new URL(link.getAttribute('href')!, 'http://localhost').search, index, table);
+      expect(state.lens).toBe('collection');
+      expect(index.collections.find((c) => c.slug === state.collection)?.title).toBe(link.text.trim());
+      expect(report).toEqual({ renamed: [], skipped: [], dropped: [] });
+    }
   });
 });
 
