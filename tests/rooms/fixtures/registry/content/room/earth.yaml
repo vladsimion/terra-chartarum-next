@@ -1,0 +1,12 @@
+id: tc:tc:room:earth
+family: room
+origin: minted
+title: Earth
+slug: earth
+slug_history:
+  - old-earth
+lifecycle: published
+release: released
+order: 1
+short_description: The earth room.
+copy_status: draft

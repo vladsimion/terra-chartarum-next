@@ -1,0 +1,10 @@
+id: tc:tc:room:map
+family: room
+origin: minted
+title: Map
+slug: map
+lifecycle: published
+release: released
+order: 2
+short_description: The map room.
+copy_status: draft

@@ -16,7 +16,7 @@ export interface Destination {
 
 export const DESTINATIONS: readonly Destination[] = [
   { id: 'essays', label: 'Essays', href: '/essays/', placement: 'header', lens: 'argument', owner: '003', status: 'stub' },
-  { id: 'rooms', label: 'Rooms', href: '/rooms/', placement: 'header', lens: 'curatorial structure', owner: '007', status: 'stub' },
+  { id: 'rooms', label: 'Rooms', href: '/rooms/', placement: 'header', lens: 'curatorial structure', owner: '007', status: 'built' },
   { id: 'atlas', label: 'Atlas', href: '/atlas/', placement: 'header', lens: 'space and time', owner: '005', status: 'built' },
   { id: 'collection', label: 'Collection', href: '/collection/', placement: 'header', lens: 'objects', owner: '004', status: 'built' },
   { id: 'cartographers', label: 'Cartographers', href: '/cartographers/', placement: 'header', lens: 'makers', owner: '004', status: 'built' },

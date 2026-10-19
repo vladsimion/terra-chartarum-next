@@ -31,8 +31,8 @@ describe('home page (US4)', () => {
   });
 
   it('lists the seven rooms in their fixed order', () => {
-    const rooms = readPage(dir, 'index.html').querySelectorAll('main section.rooms a').map((a) => a.text.trim());
-    expect(rooms).toEqual(['Earth', 'Map', 'City', 'Border', 'Road', 'Archive', 'Theatre']);
+    const rooms = readPage(dir, 'index.html').querySelectorAll('main section.rooms a').map((a) => [a.text.trim(), a.getAttribute('href')]);
+    expect(rooms).toEqual(['Earth', 'Map', 'City', 'Border', 'Road', 'Archive', 'Theatre'].map((name) => [name, `/rooms/${name.toLowerCase()}/`]));
   });
 
   it('has the Atlas call with a secondary "Read the Handbook" route beside it', () => {

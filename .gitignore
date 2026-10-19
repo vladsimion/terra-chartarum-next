@@ -3,6 +3,7 @@ dist/
 dist-essays/
 dist-collection/
 dist-bibliography/
+dist-rooms/
 dist-atlas/
 dist-atlas-perf/
 reports/
@@ -18,6 +19,7 @@ playwright-report/
 playwright-report-essays/
 playwright-report-collection/
 playwright-report-bibliography/
+playwright-report-rooms/
 playwright-report-atlas/
 playwright-report-atlas-perf/
 test-results/

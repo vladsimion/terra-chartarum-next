@@ -8,6 +8,8 @@
         "http://localhost:4322/essays/",
         "http://localhost:4322/bibliography/",
         "http://localhost:4322/bibliography/fixture-book/",
+        "http://localhost:4322/rooms/",
+        "http://localhost:4322/rooms/earth/",
         "http://localhost:4322/atlas/",
         "http://localhost:4322/atlas/handbook/",
         "http://localhost:4322/atlas/handbook/provenance-and-reconstruction/",

@@ -19,6 +19,7 @@
     "test:e2e:collection": "playwright test --config playwright.collection.config.ts",
     "test:e2e:atlas": "playwright test --config playwright.atlas.config.ts",
     "test:e2e:bibliography": "playwright test --config playwright.bibliography.config.ts",
+    "test:e2e:rooms": "playwright test --config playwright.rooms.config.ts",
     "test:e2e:atlas-perf": "playwright test --config playwright.atlas-perf.config.ts",
     "lhci": "npx --yes @lhci/cli@0.15.1 autorun",
     "shell:check": "tsx scripts/shell-check.ts"

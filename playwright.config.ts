@@ -20,7 +20,8 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'list',
   ignoreSnapshots: !process.env.CI,
-  use: { baseURL, trace: 'on-first-retry' },
+  // PW_CHROMIUM_PATH points at a Chromium Playwright does not manage, for a machine its own build does not support
+  use: { baseURL, trace: 'on-first-retry', launchOptions: process.env.PW_CHROMIUM_PATH ? { executablePath: process.env.PW_CHROMIUM_PATH } : {} },
   webServer: {
     command: `npm run build && npm run preview -- --port ${port}`,
     // the home page; Playwright treats a 404 as "not ready"

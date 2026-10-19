@@ -7,7 +7,7 @@
 | Rooms index | `/rooms/` |
 | Room page | `/rooms/<slug>/` (`earth`, `map`, `city`, `border`, `road`, `archive`, `theatre`; a former slug redirects) |
 
-Breadcrumbs read Home › Rooms › Earth. The `rooms` destination in `destinations.ts` becomes `built`.
+Breadcrumbs read Rooms › Earth (the shell starts a trail at the lens). The `rooms` destination in `destinations.ts` becomes `built`.
 
 ## Rooms index
 

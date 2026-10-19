@@ -1,0 +1,19 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000005",
+  "type": "webpage",
+  "title": "A fixture gazetteer online",
+  "author": [
+    {
+      "family": "Loe",
+      "given": "Jane"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1995
+      ]
+    ]
+  },
+  "URL": "https://example.org/gazetteer"
+}

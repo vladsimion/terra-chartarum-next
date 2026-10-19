@@ -1,0 +1,10 @@
+id: tc:tc:room:archive
+family: room
+origin: minted
+title: Archive
+slug: archive
+lifecycle: published
+release: released
+order: 6
+short_description: The archive room.
+copy_status: draft

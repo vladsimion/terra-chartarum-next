@@ -46,6 +46,10 @@ jobs:
         run: npm run test:e2e:bibliography
         env:
           CI: 'true'
+      - name: Rooms end-to-end specs (the rooms fixture registry; Chromium dark and light, phone, no JavaScript)
+        run: npm run test:e2e:rooms
+        env:
+          CI: 'true'
       - name: Atlas end-to-end specs (the Atlas fixture registry; Chromium dark and light, phone, no JavaScript)
         run: npm run test:e2e:atlas
         env:
@@ -71,6 +75,7 @@ jobs:
             playwright-report-essays/
             playwright-report-collection/
             playwright-report-bibliography/
+            playwright-report-rooms/
             playwright-report-atlas/
             playwright-report-atlas-perf/
             test-results/

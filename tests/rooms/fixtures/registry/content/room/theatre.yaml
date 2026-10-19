@@ -1,0 +1,10 @@
+id: tc:tc:room:theatre
+family: room
+origin: minted
+title: Theatre
+slug: theatre
+lifecycle: published
+release: released
+order: 7
+short_description: The theatre room.
+copy_status: draft

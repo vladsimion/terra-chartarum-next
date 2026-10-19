@@ -1,0 +1,55 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "f-1",
+      "properties": {
+        "name": "Apulum",
+        "valid_from": "0106",
+        "valid_to": "0271",
+        "place": "tc:tc:place:place-000001"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.57,
+          46.07
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f-2",
+      "properties": {
+        "name": "Napoca",
+        "valid_from": "0124",
+        "valid_to": "0271",
+        "place": "tc:tc:place:place-000002"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.59,
+          46.77
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f-3",
+      "properties": {
+        "name": "Sarmizegetusa Ulpia",
+        "valid_from": "0106",
+        "valid_to": "0271"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.78,
+          45.52
+        ]
+      }
+    }
+  ]
+}

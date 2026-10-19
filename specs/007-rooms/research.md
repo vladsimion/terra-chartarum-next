@@ -31,3 +31,8 @@ Decisions not already settled by the grill (ADR 0015) or ADR 0003.
 - **Decision**: each room's short description is one plain sentence naming the idea; each long description is two short paragraphs of neutral placeholder prose ending with a sentence that the author's text will replace it. All seven carry `copy_status: draft`.
 - **Rationale**: the pages must read honestly on a preview build while making it impossible to ship unfinished text (`shell:check --cutover`).
 - **Alternatives**: lorem ipsum (reads as broken); no copy (empty pages).
+
+## R7. Rendering the long description
+- **Decision**: a room's body is rendered by `src/rooms/body.ts`, a small pure function: the text is escaped first, then paragraphs, `*emphasis*`, `**strong**` and links to a site path or an `https` address are made; nothing else becomes markup.
+- **Rationale**: the body is plain Markdown with no components (data-model.md), the project has no Markdown library of its own (Astro's is internal), and a dependency for three constructs would be speculative. Escaping first means a body can never inject markup.
+- **Alternatives**: `@astrojs/markdown-remark` (a transitive dependency of Astro, not ours to rely on); MDX (components are ruled out); a content collection for room bodies (adds a second loader beside the registry's).

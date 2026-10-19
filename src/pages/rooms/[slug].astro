@@ -1,0 +1,33 @@
+---
+import { loadEssaySite } from '../../essays/site-data.js';
+import RoomGroups from '../../rooms/components/RoomGroups.astro';
+import { roomViews, type RoomView } from '../../rooms/views.js';
+import Base from '../../shell/layouts/Base.astro';
+
+/*
+ * One room (spec 007 US1): its introduction, then its essays (primary, then secondary), maps and
+ * Atlas layers, each group hidden when empty. Everything is derived from the public essays that name
+ * the room, so a held essay, and a map or layer only it uses, can never appear.
+ */
+export async function getStaticPaths() {
+  const { records } = await loadEssaySite();
+  return roomViews(records).map((room) => ({ params: { slug: room.slug }, props: { room } }));
+}
+
+interface Props {
+  room: RoomView;
+}
+const { room } = Astro.props;
+---
+
+<Base title={`${room.name} | Rooms | Terra Chartarum`} description={room.shortDescription} crumb={room.name}>
+  <h1>{room.name}</h1>
+  <div class="introduction" data-introduction data-draft={room.draft ? '' : undefined} set:html={room.introduction} />
+  <RoomGroups room={room} />
+</Base>
+
+<style>
+  .introduction {
+    max-width: var(--measure);
+  }
+</style>

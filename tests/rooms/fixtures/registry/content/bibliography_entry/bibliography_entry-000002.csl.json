@@ -1,0 +1,19 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000002",
+  "type": "map",
+  "title": "A fixture atlas sheet",
+  "author": [
+    {
+      "family": "Roe",
+      "given": "Jane"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1992
+      ]
+    ]
+  },
+  "publisher": "Fixture Press"
+}
