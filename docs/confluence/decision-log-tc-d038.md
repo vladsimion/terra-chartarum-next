@@ -1,8 +1,8 @@
 # Confluence entry: Decision Log (page 12648509)
 
-Draft, not yet published. To publish: read the live Decision Log, take the next free number, append after the last entry, read the page back, then rename this file to `decision-log-tc-dNNN.md` and replace `TC-D???` (see `README.md`).
+Published 2026-10-19 in page version 16, directly after TC-D037; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
-### TC-D??? — Rooms are public by rule, one page each, and membership is derived once
+### TC-D038 — Rooms are public by rule, one page each, and membership is derived once
 
 **Date:** 17 October 2026 (ADR 0015); built 19 October 2026
 **Status:** Accepted (spec 007)
@@ -19,4 +19,4 @@ Draft, not yet published. To publish: read the live Decision Log, take the next 
 - the Collection index and the Atlas index call `roomsOf` and the pages call `membership`, and a test fails if another module reads the room selection to derive membership (outside the registry and the essay modules that show an essay's own rooms);
 - the author must finalise seven introductions before cutover.
 
-**Evidence:** `docs/adr/0015-rooms.md`, `src/rooms/membership.ts`, `tests/rooms/unit/one-derivation.test.ts`, `tests/rooms/unit/atlas-agreement.test.ts`, PRs #75, #78, #79; Jira TCX-8, TCX-42, TCX-43. Refines TC-D019 for rooms; extends ADR 0003 §7 and TC-D004.
+**Evidence:** `docs/adr/0015-rooms.md`, `src/rooms/membership.ts`, `tests/rooms/unit/one-derivation.test.ts`, `tests/rooms/unit/atlas-agreement.test.ts`, PRs #75, #78, #79, #80; Jira TCX-8, TCX-42, TCX-43. Refines TC-D019 for rooms; extends ADR 0003 §7 and TC-D004.
