@@ -5,12 +5,12 @@ Programme dossier for spec 007, written against the fourteen-point contract in [
 | | |
 |---|---|
 | Programme type | Instrument: the seven rooms as reader-facing paths through the material, and the site-wide link check |
-| Status | **Code complete; polish in review.** The refreshed documents (#74), Setup and Foundation (#75), User Story 1 with the link check (#78) and the cross-cutting checks with the Atlas agreement (#79) are merged to `main`. Polish (README, quickstart, code-review fixes) is open as the pull request that carries this file. The stories stay In Review until Vlad moves them to Done. |
+| Status | **Code complete and polished.** The refreshed documents (#74), Setup and Foundation (#75), User Story 1 with the link check (#78), the cross-cutting checks with the Atlas agreement (#79) and Polish (#80: README, quickstart, code-review fixes) are merged to `main`. The stories stay In Review until Vlad moves them to Done. |
 | Jira | **TCX-8** epic (In Progress); stories **TCX-42** (US1 walk through a room; also holds Setup, Foundation, the link check and the cross-cutting checks) and **TCX-43** (US2 Rooms as an Atlas lens, delivered by spec 005, with the cross-test here) |
 | Canonical parent | A standalone page at the root of the space, as for specs 001 to 006 |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). Spec `specs/007-rooms/`; code `src/rooms/` (membership, views, the introduction renderer, `RoomGroups.astro`), `src/pages/rooms/`, `src/registry/rules/rooms.ts`, `content/room/`; the link check `tests/shell/support/links.ts`; decision `docs/adr/0015` |
 | Successor relationship | Replaces the live site's room pages at cutover; spec 008 does not import room prose (the seven are written in the successor repository) |
-| Last reconciliation | 2026-10-19 against `main` at `f0c791f` plus the polish branch: 88 registry rules and 115 named mutations; 2249 Vitest tests in 188 files, all passing locally; Rooms Chromium Playwright 9 passing locally. `gate` passed on #78 (run 39289832478); the run for the polish branch had not finished when this was written |
+| Last reconciliation | 2026-10-19 against `main` with #80 merged: 88 registry rules and 115 named mutations; 2249 Vitest tests in 188 files, all passing locally; Rooms Chromium Playwright 9 passing locally. `gate` passed on #78 (run 39289832478) and on #80 (run 39307923721); its run on `main` had not been checked when this was written |
 
 ## 2. Purpose / thesis
 
@@ -71,7 +71,7 @@ TCX-8 holds TCX-42 and TCX-43. The 2026-10-17 documents were refreshed on 2026-1
 ## 11. Programme acceptance criteria
 
 - Every acceptance scenario of US1 and US2 has a passing automated test written first (the code-review fixes were written with their tests in the same step).
-- `gate` is green: accessibility 100 and the ADR 0004 budgets on the Rooms page types, passed on #78; not yet confirmed for the polish branch.
+- `gate` is green: accessibility 100 and the ADR 0004 budgets on the Rooms page types, passed on #78 and #80.
 - No `[NEEDS CLARIFICATION]` remains in the spec.
 
 ## 12. Verification ledger
@@ -96,4 +96,4 @@ Owned here: the room fields, the two rules, `membership.ts`, the Rooms pages and
 
 ## 14. Current checkpoint and delivery authority
 
-Everything but Polish is merged. Left for the author: the seven introductions (placeholder copy) and each room's `copy_status`. Open follow-ups from the code review (judgement calls, listed in `tasks.md` T032): a shared `roomRecordId` helper, the duplicated lookups in `roomsOf` and `membership`, a smaller `RoomGroups.astro`, splitting `ROOM-COPY`. Delivery authority: Vlad merges; no story is marked Done until this page is published.
+Everything is merged. Left for the author: the seven introductions (placeholder copy) and each room's `copy_status`. Open follow-ups from the code review (judgement calls, listed in `tasks.md` T032): a shared `roomRecordId` helper, the duplicated lookups in `roomsOf` and `membership`, a smaller `RoomGroups.astro`, splitting `ROOM-COPY`. Delivery authority: Vlad merges; no story is marked Done until this page is published.
