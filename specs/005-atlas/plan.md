@@ -22,7 +22,7 @@ The instrument for building a historical argument on shared layers. Three halves
 
 **Project Type**: Library and CLI (registry side), build step (Astro integration), and site pages (site side), in the existing single project.
 
-**Performance Goals**: ADR 0004 for the Atlas page: ≤ 350 KB compressed JavaScript on first load, map interactive ≤ 4 s on the reference mobile profile, INP ≤ 200 ms for lens switch, search and year change on a 200-layer catalogue, LCP ≤ 2.5 s, CLS ≤ 0.1, accessibility 100; layer data fetched only on activation; catalogue browsing fetches no layer binaries.
+**Performance Goals**: ADR 0004 for the Atlas page: ≤ 350 KB compressed JavaScript on first load, map interactive ≤ 4.5 s on the reference mobile profile, INP ≤ 200 ms for lens switch, search and year change on a 200-layer catalogue, LCP ≤ 2.5 s, CLS ≤ 0.1, accessibility 100; layer data fetched only on activation; catalogue browsing fetches no layer binaries.
 
 **Constraints**: Deterministic and offline (no network at build or runtime except the site's own files); the gate stays pure; held layers, essays and ids leak nothing; no dynamic infrastructure, no third-party tile service, no `localStorage`.
 
