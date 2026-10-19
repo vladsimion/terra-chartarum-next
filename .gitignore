@@ -3,6 +3,7 @@ dist/
 dist-essays/
 dist-collection/
 dist-atlas/
+dist-atlas-perf/
 reports/
 .astro/
 .env
@@ -16,6 +17,8 @@ playwright-report/
 playwright-report-essays/
 playwright-report-collection/
 playwright-report-atlas/
+playwright-report-atlas-perf/
 test-results/
 reports-completeness/
 .lighthouseci/
+tests/atlas/.perf-registry/

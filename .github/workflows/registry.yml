@@ -46,6 +46,10 @@ jobs:
         run: npm run test:e2e:atlas
         env:
           CI: 'true'
+      - name: Atlas performance (a seeded 200-layer catalogue on an emulated phone; spec 005 SC-001)
+        run: npm run test:e2e:atlas-perf
+        env:
+          CI: 'true'
       - name: Visual baselines (only on an update run)
         if: ${{ inputs.update_snapshots }}
         uses: actions/upload-artifact@v4
@@ -63,6 +67,7 @@ jobs:
             playwright-report-essays/
             playwright-report-collection/
             playwright-report-atlas/
+            playwright-report-atlas-perf/
             test-results/
           if-no-files-found: ignore
       - name: Stub pages and draft copy left in the production build (informational until cutover)
