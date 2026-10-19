@@ -3,5 +3,8 @@ family: room
 origin: minted
 title: City
 slug: city
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
+order: 3
+short_description: The city room.
+copy_status: draft

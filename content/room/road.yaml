@@ -1,0 +1,12 @@
+id: tc:tc:room:road
+family: room
+origin: minted
+title: Road
+slug: road
+slug_history: []
+lifecycle: published
+release: released
+relations: []
+order: 5
+short_description: "Routes of travel, trade and campaign, and how they were recorded."
+copy_status: draft

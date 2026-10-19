@@ -3,5 +3,8 @@ family: room
 origin: minted
 title: Border
 slug: border
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
+order: 4
+short_description: The border room.
+copy_status: draft

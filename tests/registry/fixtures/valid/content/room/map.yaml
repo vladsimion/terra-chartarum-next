@@ -3,5 +3,8 @@ family: room
 origin: minted
 title: Map
 slug: map
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
+order: 2
+short_description: The map room.
+copy_status: draft

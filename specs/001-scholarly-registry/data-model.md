@@ -103,7 +103,7 @@ Spec 003 extends the essay with `question`, `thesis`, `rooms`, `layers[]`, `bibl
 
 ## Room (`family = room`)
 
-Exactly seven, fixed IDs: `tc:tc:room:earth`, `map`, `city`, `border`, `road`, `archive`, `theatre`, in that order. A missing or extra room is a violation (ADR 0003 §7).
+Exactly seven, fixed IDs: `tc:tc:room:earth`, `map`, `city`, `border`, `road`, `archive`, `theatre`, in that order. A missing or extra room is a violation (ADR 0003 §7). Spec 007 adds `order` (1 to 7, the room's place in that order), `short_description` and `copy_status` (`draft` or `final`, absent means draft); the long description is the `.md` beside the record, attached in memory by the loader as `body` and never a field of the YAML. All seven are published and released (`ROOM-PUBLIC`); see [spec 007's data model](../007-rooms/data-model.md).
 
 ## Specialist vocabulary (`vocab-mappings/`)
 

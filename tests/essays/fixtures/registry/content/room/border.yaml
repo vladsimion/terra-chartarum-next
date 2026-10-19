@@ -5,3 +5,6 @@ title: Border
 slug: border
 lifecycle: published
 release: released
+order: 4
+short_description: The border room.
+copy_status: draft

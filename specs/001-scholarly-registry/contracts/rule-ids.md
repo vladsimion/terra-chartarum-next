@@ -82,6 +82,8 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `AUTO-LOG` | automated step has tool, version, input, date | FR-008 | `ready_for_build` |
 | `AUTO-ARTEFACT-HASH` | large artefact reference carries a checksum | FR-008 | `ready_for_build` |
 | `ROOM-SET` | exactly the seven fixed rooms exist (registry-level: runs only with `completeness`, which `check` turns on) | ADR 0003 §7 | always |
+| `ROOM-PUBLIC` | every room is `published` and `released`, at every lifecycle | 007 FR-005 | always |
+| `ROOM-COPY` | `order` is the room's place in the canonical seven; `copy_status` is `draft` or `final`; `short_description` and the body file `<id>.md` are present (warns from `ready_for_build`); a room marked `final` has both | 007 FR-004 | `publishable` |
 | `SLUG-UNIQUE` | current slugs are unique per family, a superseded record's included (its redirect starts there) | FR-013 | always |
 | `SLUG-HISTORY-COLLISION` | a former slug equals a live slug | FR-013 | always |
 | `SAMEAS-SYNTAX` | `same_as` authority allowlisted and ID syntax valid | FR-003 | always |

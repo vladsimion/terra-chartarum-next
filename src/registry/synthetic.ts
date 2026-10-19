@@ -574,11 +574,22 @@ export function syntheticRooms(): RegistryRecord[] {
     title: name.charAt(0).toUpperCase() + name.slice(1),
     slug: name,
     slug_history: [],
-    lifecycle: 'researching',
-    release: 'held',
+    lifecycle: 'published',
+    release: 'released',
     relations: [],
+    order: ROOM_NAMES.indexOf(name) + 1,
+    short_description: `The ${name} room.`,
+    copy_status: 'draft',
+    body: `The ${name} room, in placeholder words.\n`,
     file: `content/room/${name}.yaml`,
   }));
+}
+
+/** A record as its file holds it: a room's long description is the Markdown beside the YAML, not a field of it. */
+function asFiles(file: string, record: Record<string, unknown>): { yaml: Record<string, unknown>; markdown?: [string, string] } {
+  if (record.family !== 'room' || typeof record.body !== 'string') return { yaml: record };
+  const { body, ...yaml } = record;
+  return { yaml, markdown: [file.replace(/\.yaml$/, '.md'), body as string] };
 }
 
 /**
@@ -601,7 +612,9 @@ export async function writeSyntheticRegistry(outDir: string, count: number, seed
   for (let i = 0; i < records.length; i += BATCH) {
     await Promise.all(
       records.slice(i, i + BATCH).map(async ({ file, ...rest }) => {
-        await write(file, stringify(rest));
+        const files = asFiles(file, rest);
+        await write(file, stringify(files.yaml));
+        if (files.markdown) await write(...files.markdown);
         if (typeof rest.asset === 'string') await write(rest.asset, 'synthetic asset\n');
         if (rest.family === 'bibliography_entry' && typeof rest.csl === 'string') {
           await write(rest.csl, `${JSON.stringify({ id: rest.id, type: 'book', title: rest.title, author: [{ family: 'Synthetic', given: 'A.' }], issued: { 'date-parts': [[2000]] } }, null, 2)}\n`);
@@ -635,7 +648,9 @@ export async function writeSyntheticAtlas(outDir: string, layers: number, seed: 
     await Promise.all(
       records.slice(i, i + BATCH).map(async (record) => {
         const { file, ...rest } = record;
-        await write(file, stringify(rest));
+        const files = asFiles(file, rest);
+        await write(file, stringify(files.yaml));
+        if (files.markdown) await write(...files.markdown);
         if (record.family === 'layer' && typeof record.asset === 'string') {
           await write(record.asset, `${JSON.stringify(generatedLayerSource(record, seed), null, 2)}\n`);
         }
@@ -660,7 +675,9 @@ export async function writeSyntheticBibliography(outDir: string, entries: number
     await Promise.all(
       records.slice(i, i + BATCH).map(async (record) => {
         const { file, ...rest } = record;
-        await write(file, stringify(rest));
+        const files = asFiles(file, rest);
+        await write(file, stringify(files.yaml));
+        if (files.markdown) await write(...files.markdown);
         if (record.family === 'bibliography_entry' && typeof record.csl === 'string') await write(record.csl, `${JSON.stringify(generatedCsl(record, seed), null, 2)}\n`);
       }),
     );

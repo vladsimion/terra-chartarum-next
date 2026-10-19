@@ -1,0 +1,12 @@
+id: tc:tc:room:earth
+family: room
+origin: minted
+title: Earth
+slug: earth
+slug_history: []
+lifecycle: published
+release: released
+relations: []
+order: 1
+short_description: "The ground a map stands on: land, water and the shape of a region."
+copy_status: draft

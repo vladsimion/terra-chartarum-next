@@ -37,18 +37,22 @@ export function record(family: string, n = 1, overrides: Partial<RegistryRecord>
 
 export const ROOM_NAMES = ['earth', 'map', 'city', 'border', 'road', 'archive', 'theatre'] as const;
 
-/** The seven fixed rooms (ADR 0003 §7): permanent ids, not counters. */
+/** The seven fixed rooms (ADR 0003 §7): permanent ids, not counters. Public, with draft copy and a body, as the repository holds them (ADR 0015). */
 export function rooms(): RegistryRecord[] {
-  return ROOM_NAMES.map((name) => ({
+  return ROOM_NAMES.map((name, i) => ({
     id: `tc:tc:room:${name}`,
     family: 'room',
     origin: 'minted',
     title: name.charAt(0).toUpperCase() + name.slice(1),
     slug: name,
     slug_history: [],
-    lifecycle: 'researching',
-    release: 'held',
+    lifecycle: 'published',
+    release: 'released',
     relations: [],
+    order: i + 1,
+    short_description: `The ${name} room.`,
+    copy_status: 'draft',
+    body: `The ${name} room, in placeholder words.`,
     file: `content/room/${name}.yaml`,
   }));
 }

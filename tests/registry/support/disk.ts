@@ -38,6 +38,8 @@ export function writeRegistry(records: readonly RegistryRecord[], options: DiskO
       writeFileSync(path.join(root, record.csl), JSON.stringify({ id: record.id, type: 'book', title: record.title }));
     }
     writeFileSync(target, options.yamlByFile?.[record.file] ?? stringify(storedFields(record)));
+    // a room's long description is the .md beside the record
+    if (record.family === 'room' && typeof record.body === 'string') writeFileSync(target.replace(/\.yaml$/, '.md'), record.body);
     if (record.family === 'essay') {
       const body = options.bodies?.[record.id] ?? ((record.body as { exists?: boolean } | undefined)?.exists ? VALID_BODY : null);
       if (body !== null) writeFileSync(target.replace(/\.yaml$/, '.mdx'), body);
