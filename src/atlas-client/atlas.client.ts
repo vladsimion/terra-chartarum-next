@@ -8,7 +8,7 @@ import type { AtlasIndex, AtlasState } from '../atlas/types.js';
 import { classesPresent, summarise, type BuiltFeature } from '../atlas/visible.js';
 import { activate, activateDefaults, activeLayers, clearFacet, deactivate, focus, initialState, resetFacets, setFacet, setLens, setYear, toggleRelevant } from '../atlas/view-state.js';
 import type { MapController } from './map.js';
-import { fetchFeatures, type LoadedFeature } from './features.js';
+import type { LoadedFeature } from './features.js';
 import { featureRows } from '../atlas/feature-table.js';
 import { renderFallback, type FallbackLayer } from './fallback.js';
 import { parseView, resolveFacets, viewUrl, type SlugTable, type ViewReport } from '../atlas/view-url.js';
@@ -50,6 +50,9 @@ function showNotice(report: ViewReport): void {
   );
   notice.hidden = items.length === 0;
 }
+
+/** The FlatGeobuf reader is in the features chunk, which the first load must not carry (under 100 KB of script before a layer is added). */
+const fetchFeatures = (slug: string, provenance: string) => import('./features.js').then((m) => m.fetchFeatures(slug, provenance));
 
 /** Fetch the map chunk and MapLibre ahead of the first layer, so they download beside the data rather than after it (research R8). */
 function warmMap(): void {

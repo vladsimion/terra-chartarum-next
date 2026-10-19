@@ -21,7 +21,7 @@ export const COLLECTION_VIEWER: AllowedScript = {
 
 /** The Atlas's own scripts (spec 005 FR-020): its page script, the chunks that script imports (the map, and the overlay plugin when an overlay is added), and MapLibre served as it ships. Only /atlas/ carries a script tag. */
 export const ATLAS_CLIENT: AllowedScript = {
-  scriptFiles: /^(_astro\/(index\.astro_astro_type_script_index_\d+_lang|map|allmaps|index\.web|seekable-zstd|preload-helper)\.[\w-]+\.js|vendor\/maplibre\/[\w.-]+\.mjs)$/,
+  scriptFiles: /^(_astro\/(index\.astro_astro_type_script_index_\d+_lang|map|features|allmaps|index\.web|seekable-zstd|preload-helper)\.[\w-]+\.js|vendor\/maplibre\/[\w.-]+\.mjs)$/,
   scriptPages: ['atlas/'],
 };
 
