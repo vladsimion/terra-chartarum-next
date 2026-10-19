@@ -19,7 +19,21 @@ describe('data/basemap/countries.fgb', () => {
   it('is a FlatGeobuf small enough to fetch when the map opens', () => {
     const bytes = readFileSync(file('countries.fgb'));
     expect([...bytes.subarray(0, 3)]).toEqual([0x66, 0x67, 0x62]);
-    expect(statSync(file('countries.fgb')).size).toBeLessThan(900 * 1024);
+    // the map is interactive within 4 s on a phone (SC-001); this file is fetched and parsed before then
+    expect(statSync(file('countries.fgb')).size).toBeLessThan(250 * 1024);
+  });
+
+  it('keeps every country whole enough to draw: closed rings of at least four points', async () => {
+    for (const f of await features()) {
+      const polygons = (f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates) as number[][][][];
+      expect(polygons.length, String(f.properties.name)).toBeGreaterThan(0);
+      for (const polygon of polygons) {
+        for (const ring of polygon) {
+          expect(ring.length, String(f.properties.name)).toBeGreaterThanOrEqual(4);
+          expect(ring[0], String(f.properties.name)).toEqual(ring[ring.length - 1]);
+        }
+      }
+    }
   });
 
   it('holds the countries around the Roman Dacia anchor, named, and nothing far outside the region', async () => {
@@ -56,5 +70,6 @@ describe('data/basemap/countries.fgb', () => {
     expect(note).toMatch(/ne_50m_admin_0_countries/);
     expect(note).toMatch(/v5\.1\.2/);
     expect(note).toMatch(/scripts\/build-basemap\.ts/);
+    expect(note).toMatch(/simplif/i);
   });
 });
