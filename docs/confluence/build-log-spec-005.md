@@ -1,6 +1,6 @@
 # Confluence entry: Build Log (page 2490370)
 
-Published 2026-10-19 as section Y (page version 130), directly after section X and before "2. In progress"; the header pointer "sections U, V, W and X" became "sections U to Y". The rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
+Published 2026-10-19 as section Y (page version 130), directly after section X and before "2. In progress"; the header pointer "sections U, V, W and X" became "sections U to Y". The rest of the page was left unchanged (checked by reading the page back). Updated in place in page version 131 (2026-10-19) for #63: a new table row and the commit `gate` was last green at; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
 ## Y. The successor build: the Atlas (spec 005)
 
@@ -21,5 +21,6 @@ Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.
 | #60 | The performance check on a seeded 200-layer catalogue (emulated phone, CI step); the basemap simplified (488 KB to 203 KB); the map-interactive budget for this profile set at 4.5 s (ADR 0004 amended) (T062) | TCX-33 |
 | #61 | Polish: README and quickstart, code-review fixes (place search without WebGL describes the place in words; the leak scan covers held records' retired slugs; one reader for the year-bound columns) (T065, T066, T068, T069) | TCX-6 |
 | #62 | A Hide / Show toggle for each active layer, kept in the address as `hide`; the contract no longer asks `Escape` to return focus | TCX-33 |
+| #63 | Wrap-up: the landing page's collection links written with `viewUrl`; a browser spec that browsing the catalogue fetches no layer file; T067 closed; the Confluence drafts brought in step with `main` | TCX-33 |
 
-State on `main`: `gate` green at `122d2a9`; see the dossier; the stories are In Review, not Done; the epic TCX-6 and TCX-33 (which holds the cross-cutting checks) are In Progress. Not verified locally: Firefox, WebKit and Lighthouse (CI runs them).
+State on `main`: `gate` green at `a4077b9`; see the dossier; the stories are In Review, not Done; the epic TCX-6 and TCX-33 (which holds the cross-cutting checks) are In Progress. Not verified locally: Firefox, WebKit and Lighthouse (CI runs them).
