@@ -3,7 +3,7 @@ import { MAPLIBRE_URL } from '../atlas/build/vendor-url.js';
 import { geojson } from 'flatgeobuf';
 import { clampOpacity } from '../atlas/overlay.js';
 import { DATE_UNCERTAIN, STYLE_CLASSES, lineDash, styleFor, type StyleClass } from '../atlas/provenance-style.js';
-import { ownProvenance, type BuiltFeature } from '../atlas/visible.js';
+import { fetchFeatures, type LoadedFeature } from './features.js';
 
 /*
  * The map (spec 005 US1, research R1, R4, R7): MapLibre, loaded only when the first layer is added,
@@ -11,12 +11,6 @@ import { ownProvenance, type BuiltFeature } from '../atlas/visible.js';
  * over the bounds the build wrote into each feature. Provenance is drawn by line and fill pattern
  * and date uncertainty by opacity, so colour is never the only cue (FR-015, SC-006).
  */
-export interface LoadedFeature {
-  type: 'Feature';
-  geometry: { type: string; coordinates: unknown };
-  properties: BuiltFeature & Record<string, unknown>;
-}
-
 export interface LoadedLayer {
   slug: string;
   features: LoadedFeature[];
@@ -75,11 +69,17 @@ function hatchImage(kind: 'diagonal-hatch' | 'cross-hatch', colour: string): { w
 }
 
 /** The country outlines under the layers: present-day reference, drawn thin, dotted and grey, never as evidence (research R11). */
-async function addBasemap(map: MapLibreMap): Promise<boolean> {
+/** The basemap's features, or null when it is not there. Started as soon as MapLibre is in, so it downloads while MapLibre's worker starts. */
+async function fetchBasemap(): Promise<unknown[] | null> {
   const response = await fetch('/data/basemap.fgb').catch(() => null);
-  if (!response?.ok) return false;
+  if (!response?.ok) return null;
   const features: unknown[] = [];
   for await (const feature of geojson.deserialize(new Uint8Array(await response.arrayBuffer()))) features.push(feature);
+  return features;
+}
+
+function addBasemap(map: MapLibreMap, features: unknown[] | null): boolean {
+  if (!features) return false;
   map.addSource('basemap', { type: 'geojson', data: { type: 'FeatureCollection', features: features as never } });
   map.addLayer({ id: 'basemap:land', type: 'fill', source: 'basemap', paint: { 'fill-color': css('--panel-raised'), 'fill-opacity': 1 } });
   map.addLayer({
@@ -109,19 +109,6 @@ interface Drawn {
   features: LoadedFeature[];
 }
 
-async function fetchFeatures(slug: string, provenance: string): Promise<LoadedFeature[]> {
-  const response = await fetch(`/data/layers/${slug}.fgb`);
-  if (!response.ok) throw new Error(`the layer ${slug} could not be fetched (${response.status})`);
-  const bytes = new Uint8Array(await response.arrayBuffer());
-  const features: LoadedFeature[] = [];
-  for await (const feature of geojson.deserialize(bytes)) {
-    const f = feature as unknown as LoadedFeature;
-    f.properties = { ...f.properties, _class: styleFor(ownProvenance(f.properties, provenance))?.id ?? 'documentary' };
-    features.push(f);
-  }
-  return features;
-}
-
 function boundsOf(features: readonly LoadedFeature[]): [number, number, number, number] | null {
   let box: [number, number, number, number] | null = null;
   const visit = (value: unknown): void => {
@@ -147,6 +134,8 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
   style.href = MAPLIBRE_URL.replace(/\.mjs$/, '.css');
   document.head.append(style);
   const maplibre = (await import(/* @vite-ignore */ MAPLIBRE_URL)) as typeof import('maplibre-gl');
+  // after MapLibre, which it would otherwise share the link with, and beside its worker starting up
+  const basemap = fetchBasemap();
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const map: MapLibreMap = new maplibre.Map({
     container,
@@ -165,7 +154,7 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
   };
   map.on('moveend', writePosition);
   let placeMarker: { marker: InstanceType<typeof maplibre.Marker>; onRemoved: () => void } | null = null;
-  const hasBasemap = await addBasemap(map);
+  const hasBasemap = addBasemap(map, await basemap);
   container.dataset.basemap = String(hasBasemap);
 
   let year = initialYear;

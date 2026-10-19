@@ -2,17 +2,21 @@ import { catalogueView, type CatalogueGroup } from '../atlas/catalogue-view.js';
 import { facetExpression, matchesFacets } from '../atlas/facets.js';
 import type { FacetSummary } from '../atlas/build/convert-assets.js';
 import type { LayerInfo } from '../atlas/inspector-data.js';
-import { kindOf } from '../atlas/labels.js';
+import { kindOf, themeLabel } from '../atlas/labels.js';
 import { legendOf } from '../atlas/provenance-style.js';
 import type { AtlasIndex, AtlasState } from '../atlas/types.js';
 import { classesPresent, summarise, type BuiltFeature } from '../atlas/visible.js';
 import { activate, activateDefaults, activeLayers, clearFacet, deactivate, focus, initialState, resetFacets, setFacet, setLens, setYear, toggleRelevant } from '../atlas/view-state.js';
-import type { LoadedFeature, MapController } from './map.js';
+import type { MapController } from './map.js';
+import type { LoadedFeature } from './features.js';
+import { featureRows } from '../atlas/feature-table.js';
+import { renderFallback, type FallbackLayer } from './fallback.js';
 import { parseView, resolveFacets, viewUrl, type SlugTable, type ViewReport } from '../atlas/view-url.js';
 import { DEFAULT_OVERLAY_OPACITY } from '../atlas/overlay.js';
 import { renderInspector } from './inspector.js';
 import { bindPlaceSearch } from './search.js';
 import type { PlaceIndex } from '../atlas/place-index.js';
+import { MAPLIBRE_URL } from '../atlas/build/vendor-url.js';
 import { createStore } from './store.js';
 
 /*
@@ -47,9 +51,26 @@ function showNotice(report: ViewReport): void {
   notice.hidden = items.length === 0;
 }
 
+/** The FlatGeobuf reader is in the features chunk, which the first load must not carry (under 100 KB of script before a layer is added). */
+const fetchFeatures = (slug: string, provenance: string) => import('./features.js').then((m) => m.fetchFeatures(slug, provenance));
+
+/** Fetch the map chunk and MapLibre ahead of the first layer, so they download beside the data rather than after it (research R8). */
+function warmMap(): void {
+  for (const name of ['maplibre-gl.mjs', 'maplibre-gl-shared.mjs']) {
+    const link = document.createElement('link');
+    link.rel = 'modulepreload';
+    link.href = MAPLIBRE_URL.replace('maplibre-gl.mjs', name);
+    document.head.append(link);
+  }
+  void import('./map.js');
+}
+
 async function start(): Promise<void> {
   const root = $<HTMLElement>('[data-atlas]');
   if (!root) return;
+  // an address that names layers will need the map at once: start its files now, beside the data
+  if (/[?&]l=/.test(window.location.search) && webglAvailable()) warmMap();
+  const slugsRequest = fetch('/data/atlas-slugs.json');
   const response = await fetch('/data/atlas-index.json');
   if (!response.ok) return;
   const index = (await response.json()) as AtlasIndex;
@@ -201,7 +222,37 @@ async function start(): Promise<void> {
     if (defaults?.dataset.defaults) store.set(activateDefaults(store.get(), defaults.dataset.defaults, index));
   });
 
+  // without WebGL the map is replaced by text and a build-written overview (FR-016); MapLibre is never loaded
+  const noWebgl = !webglAvailable();
+  let fallbackBox: HTMLElement | null = null;
+  function renderFallbackFor(state: AtlasState): void {
+    if (!noWebgl || !mapRegion) return;
+    if (!fallbackBox) {
+      fallbackBox = document.createElement('section');
+      fallbackBox.dataset.fallback = '';
+      fallbackBox.setAttribute('aria-label', 'Layers as text');
+      mapRegion.append(fallbackBox);
+    }
+    const layers: FallbackLayer[] = activeLayers(state, index).map(({ slug, layer }) => {
+      const loaded = features.get(slug);
+      const selections = state.facets[slug] ?? {};
+      return {
+        caption: `${layer.title}: ${kindOf(layer)}, ${themeLabel(layer.theme)}, ${layer.envelope.from} to ${layer.envelope.to}`,
+        rows: loaded ? featureRows(loaded, state.year, layer.provenance, (f) => matchesFacets(f, selections)) : null,
+      };
+    });
+    const collection = state.collection ? index.collections.find((c) => c.slug === state.collection) : undefined;
+    const defaults = collection ? collection.default_layers.flatMap((slug) => index.layers.find((l) => l.slug === slug) ?? []) : [];
+    const showOverview = collection !== undefined && defaults.some((l) => state.active.includes(l.slug));
+    renderFallback(fallbackBox, {
+      year: state.year,
+      overview: showOverview && collection ? { src: `/data/overview/${collection.slug}.svg`, alt: `Overview map of ${collection.title}, showing ${defaults.map((l) => l.title).join(', ')}.` } : null,
+      layers,
+    });
+  }
+
   function render(state: AtlasState): void {
+    renderFallbackFor(state);
     renderCatalogue(state);
     for (const radio of document.querySelectorAll<HTMLInputElement>('input[name="lens"]')) radio.checked = radio.value === state.lens;
     if (relevantField) relevantField.checked = state.relevantOnly;
@@ -355,7 +406,13 @@ async function start(): Promise<void> {
     }
     if (yearChanged) controller?.setYear(state.year);
     render(state);
-    if (added.length > 0) {
+    if (added.length > 0 && noWebgl) {
+      say('The map needs WebGL, which this browser does not offer. The overview and a table for each layer stand in for it.');
+      for (const slug of added) {
+        const layer = index.layers.find((l) => l.slug === slug);
+        if (layer) void fetchFeatures(slug, layer.provenance).then((loaded) => { features.set(slug, loaded); render(store.get()); });
+      }
+    } else if (added.length > 0) {
       void ensureMap().then(async (map) => {
         if (!map) return;
         for (const slug of added) {
@@ -378,8 +435,14 @@ async function start(): Promise<void> {
   render(store.get());
 
   // the address: read once, then kept in step with the view
-  const slugTable = (await fetchJson<SlugTable>('/data/atlas-slugs.json')) ?? { layers: [], collections: [] };
+  const slugsResponse = await slugsRequest;
+  const slugTable = (slugsResponse.ok ? ((await slugsResponse.json()) as SlugTable) : null) ?? { layers: [], collections: [] };
   const parsed = parseView(window.location.search, index, slugTable);
+  // the layers the address names download now, not once the map is ready
+  for (const slug of parsed.state.active) {
+    const named = index.layers.find((l) => l.slug === slug);
+    if (named) void fetchFeatures(slug, named.provenance).catch(() => undefined);
+  }
   const summaries: Record<string, FacetSummary[]> = {};
   await Promise.all(Object.keys(parsed.state.facets).map(async (slug) => (summaries[slug] = (await fetchJson<{ facets: FacetSummary[] }>(`/data/layers/${slug}.facets.json`))?.facets ?? [])));
   const resolved = resolveFacets(parsed.state, summaries);

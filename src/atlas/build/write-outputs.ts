@@ -12,7 +12,9 @@ import { applyVocabularies } from '../../registry/vocab-map.js';
 import { list, isObject } from '../../registry/values.js';
 import { buildIndex } from '../index-data.js';
 import { layerInfo } from '../inspector-data.js';
+import { overviewSvg, type OverviewFeature, type OverviewLayer } from '../overview-svg.js';
 import { buildPlaceIndex } from '../place-index.js';
+import { geojson } from 'flatgeobuf';
 import { maplibreFiles } from './vendor.js';
 import { convertGeoJson, convertPmtiles, type AtlasFailure, type Converted, type LayerSource } from './convert-assets.js';
 
@@ -64,6 +66,8 @@ export async function buildAtlas(options: AtlasBuildOptions): Promise<AtlasBuild
   const layers = records.filter((r) => r.family === 'layer' && isPublic(r) && publicIds.has(r.id)).sort((a, b) => compare(text(a.slug), text(b.slug)));
 
   const failures: AtlasFailure[] = [];
+  /** What the overview draws: each GeoJSON layer's features, by slug (a PMTiles layer has none to draw). */
+  const drawable = new Map<string, OverviewLayer>();
   const files = new Map<string, Uint8Array | string>();
 
   for (const record of layers) {
@@ -89,6 +93,10 @@ export async function buildAtlas(options: AtlasBuildOptions): Promise<AtlasBuild
       continue;
     }
     files.set(`data/layers/${slug}.${converted.extension}`, converted.asset);
+    if (converted.extension === 'fgb') {
+      const parsed = JSON.parse(bytes.toString('utf8')) as { features?: OverviewFeature[] };
+      drawable.set(slug, { title: text(record.title), provenance: text(record.geometry_provenance), features: parsed.features ?? [] });
+    }
     const projected = publicRecords.find((r) => r.id === record.id);
     if (projected) files.set(`data/layers/${slug}.info.json`, `${JSON.stringify(layerInfo(projected, publicRecords), null, 2)}\n`);
     if (converted.facets.length > 0) files.set(`data/layers/${slug}.facets.json`, `${JSON.stringify({ facets: converted.facets }, null, 2)}\n`);
@@ -119,6 +127,13 @@ export async function buildAtlas(options: AtlasBuildOptions): Promise<AtlasBuild
   if (failures.length > 0) return { written: [], failures };
 
   const index = buildIndex(publicRecords);
+  const coast: OverviewFeature[] = [];
+  if (basemap) for await (const feature of geojson.deserialize(new Uint8Array(basemap))) coast.push(feature as unknown as OverviewFeature);
+  for (const collection of index.collections) {
+    const defaults = collection.default_layers.flatMap((slug) => drawable.get(slug) ?? []);
+    const svg = overviewSvg(collection.title, defaults, coast);
+    if (svg) files.set(`data/overview/${collection.slug}.svg`, svg);
+  }
   files.set('data/atlas-index.json', `${JSON.stringify(index, null, 2)}\n`);
   const historyOf = (family: string) =>
     records
