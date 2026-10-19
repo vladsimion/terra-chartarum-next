@@ -41,6 +41,21 @@ test('shows every field of the layer record: description, role, theme, time, sou
   await expect(field('Collections')).toHaveText('Roman Dacia fixtures');
 });
 
+test('offers the layer and its dataset to cite, and the files are there (spec 006 T035)', async ({ page }) => {
+  await open(page);
+  await add(page, 'frontier-line');
+  await inspect(page, 'The frontier line');
+  const cite = panel(page).locator('section.cite');
+  await expect(cite.getByRole('heading', { name: 'Cite' })).toBeVisible();
+  const layer = cite.locator('nav[aria-label="Cite this layer"] a');
+  await expect(layer).toHaveText(['BibTeX', 'RIS', 'CSL-JSON']);
+  await expect(layer.first()).toHaveAttribute('href', '/data/cite/layer/frontier-line.bib');
+  await expect(cite.locator('nav[aria-label="Cite its dataset"] a').last()).toHaveAttribute('href', '/data/cite/dataset/atlas-fixture-data.json');
+  for (const href of await cite.locator('a').evaluateAll((els) => els.map((e) => e.getAttribute('href')!))) {
+    expect((await page.request.get(href)).status(), href).toBe(200);
+  }
+});
+
 test('states the geometry provenance in words and links the Handbook, which resolves', async ({ page }) => {
   await open(page);
   await add(page, 'frontier-line');

@@ -86,6 +86,27 @@ function facetControls(summaries: readonly FacetSummary[], selections: Readonly<
   return section;
 }
 
+/** The downloads that cite the layer and its dataset (spec 006); the files are written by the bibliography's endpoints. */
+function citeSection(cite: LayerInfo['cite']): HTMLElement {
+  const section = el('section', undefined, 'cite');
+  section.append(el('h4', 'Cite'));
+  const group = (label: string, files: { bibtex: string; ris: string; json: string }) => {
+    const nav = el('nav');
+    nav.setAttribute('aria-label', label);
+    const list = el('ul');
+    for (const [name, href] of [['BibTeX', files.bibtex], ['RIS', files.ris], ['CSL-JSON', files.json]] as const) {
+      const item = el('li');
+      item.append(link(name, href));
+      list.append(item);
+    }
+    nav.append(list);
+    return nav;
+  };
+  section.append(group('Cite this layer', cite.layer));
+  if (cite.dataset) section.append(group('Cite its dataset', cite.dataset));
+  return section;
+}
+
 /** How well a map overlay is placed, and the control for how much of it shows (spec 005 FR-019). */
 function georefSection(georef: Georef, opacity: number, handlers: InspectorHandlers): HTMLElement {
   const section = el('section', undefined, 'georef');
@@ -145,6 +166,7 @@ export function renderInspector(
   definition(list, 'Rooms', info.rooms.length > 0 ? info.rooms.map(roomLabel).join(', ') : 'None');
   definition(list, 'Collections', info.collections.length > 0 ? info.collections.map((c) => c.title).join(', ') : 'None');
   nodes.push(list);
+  nodes.push(citeSection(info.cite));
   if (info.georef) nodes.push(georefSection(info.georef, opacity, handlers));
   nodes.push(facetControls(facets, selections, handlers));
   container.replaceChildren(...nodes);

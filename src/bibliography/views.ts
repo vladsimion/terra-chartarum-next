@@ -1,7 +1,5 @@
 import { formatBibliographyItem, type CslItem } from '../essays/citations.js';
-import { activate, initialState } from '../atlas/view-state.js';
-import { buildIndex as atlasIndex } from '../atlas/index-data.js';
-import { viewUrl } from '../atlas/view-url.js';
+import { layerAddress } from './addresses.js';
 import type { PublicRecord } from '../registry/project.js';
 import { BIBLIOGRAPHY_SECTIONS, BIBLIOGRAPHY_SECTION_LABELS, type BibliographySection } from '../registry/schemas/bibliography-section.js';
 import { PAGE_ROUTES } from '../registry/routes.js';
@@ -95,6 +93,7 @@ export interface CitedItem {
 }
 
 export interface EntryView {
+  slug: string;
   title: string;
   chicago: string;
   sectionLabel: string;
@@ -111,24 +110,25 @@ const KIND: Record<string, string> = { essay: 'Essay', map: 'Map', cartographer:
 
 export function entryView(entry: PublicRecord, records: readonly PublicRecord[], cslFor: (entryId: string) => CslItem, citations = citationIndex(records)): EntryView {
   const item = cslFor(entry.id);
-  const atlas = atlasIndex(records);
+  const layerAt = layerAddress(records);
   const open = (c: Citation['citing']): string | null => {
     if (c.family === 'dataset') return null;
     // a layer has no page: it opens in the Atlas with the layer on the map
-    if (c.family === 'layer') return viewUrl(activate(initialState(atlas), c.slug, atlas), atlas);
+    if (c.family === 'layer') return layerAt(c.slug);
     return `/${PAGE_ROUTES[c.family] ?? c.family}/${c.slug}/`;
   };
   const cited = (c: Citation): CitedItem => ({
     title: c.citing.title,
     href: open(c.citing),
     kind: KIND[c.citing.family] ?? c.citing.family,
-    layers: (c.citing.layers ?? []).map((l) => ({ title: l.title, href: viewUrl(activate(initialState(atlas), l.slug, atlas), atlas) })),
+    layers: (c.citing.layers ?? []).map((l) => ({ title: l.title, href: layerAt(l.slug) })),
     locator: c.locator ?? null,
     verification: c.verification ? { state: c.verification.state, label: c.verification.label } : null,
   });
   const mine = citations.get(entry.id) ?? [];
   const section = BIBLIOGRAPHY_SECTION_LABELS[text(entry.section) as BibliographySection] ?? text(entry.section);
   return {
+    slug: text(entry.slug),
     title: typeof item.title === 'string' && item.title !== '' ? item.title : text(entry.title),
     chicago: formatBibliographyItem(item),
     sectionLabel: section,

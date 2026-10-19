@@ -23,7 +23,7 @@ export default async function setup(project: TestProject): Promise<() => void> {
   outDir = mkdtempSync(path.join(tmpdir(), 'bibliography-dist-'));
   await run('node', ['node_modules/astro/bin/astro.mjs', 'build', '--outDir', outDir, '--logLevel', 'error'], {
     cwd: process.cwd(),
-    env: { ...process.env, REGISTRY_ROOT: 'tests/bibliography/fixtures/registry', ASTRO_OUT_DIR: outDir, SHELL_FIXTURES: '' },
+    env: { ...process.env, REGISTRY_ROOT: 'tests/bibliography/fixtures/registry', ASTRO_OUT_DIR: outDir, SHELL_FIXTURES: '', BUILD_DATE: '2026-10-17' },
     maxBuffer: 16 * 1024 * 1024,
   });
   project.provide('bibliographySiteDir', outDir);
