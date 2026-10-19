@@ -1,10 +1,10 @@
 # Confluence entry: Build Log (page 2490370)
 
-Draft, not yet published. To publish: add as section AA, directly after section Z and before "2. In progress", and extend the header pointer "sections U to Z" to "sections U to AA"; leave the rest of the page unchanged and check by reading the page back. (Read the live page first for the next section letter.)
+Published 2026-10-19 as section AA (page version 133), directly after section Z and before "2. In progress"; the header pointer "sections U to Z" became "sections U to AA". The rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
 ## AA. The successor build: the rooms (spec 007)
 
-Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 19 October 2026. Jira epic TCX-8. Working detail is in the [spec 007 programme dossier](PAGEURL).
+Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 19 October 2026. Jira epic TCX-8. Working detail is in the [spec 007 programme dossier](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/38928393).
 
 | PR | Scope | Jira |
 |---|---|---|
