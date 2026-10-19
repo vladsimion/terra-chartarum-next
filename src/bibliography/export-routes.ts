@@ -1,7 +1,7 @@
 import type { GetStaticPaths } from 'astro';
 import { accessDate } from '../essays/exports.js';
 import { loadEssaySite } from '../essays/site-data.js';
-import { datasetItem, entryItem, exportsOf, layerItem, siteItem } from './cite-inputs.js';
+import { datasetItem, entryItem, exportsOf, layerItem, shownByLayer, siteItem } from './cite-inputs.js';
 import { publicEntries } from './entry-public.js';
 import type { CslItem } from '../essays/citations.js';
 
@@ -34,7 +34,7 @@ export const pathsFor =
         ? publicEntries(records).map((e) => String(e.slug))
         : kind === 'layer'
           ? records.filter((r) => r.family === 'layer').map((r) => String(r.slug))
-          : records.filter((r) => r.family === 'dataset' && datasetItem(r, records, new URL('https://example.org'), '2000-01-01') !== null).map((r) => String(r.slug));
+          : records.filter((r) => r.family === 'dataset' && shownByLayer(r, records) !== undefined).map((r) => String(r.slug));
     return slugs.map((slug) => ({ params: { slug } }));
   };
 

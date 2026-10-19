@@ -1,4 +1,4 @@
-import { mkdtempSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
@@ -139,6 +139,20 @@ describe('importing the same file again', () => {
 });
 
 describe('what it will not do', () => {
+  it('writes nothing when a file it would write is already there, and says which', async () => {
+    const root = copyFixture();
+    const first = await importFile(root, sample('sample.bib'), '--dry-run');
+    const target = /would create (tc:\S+)/.exec(first.out)?.[1] ?? '';
+    const local = target.split(':').pop() as string;
+    mkdirSync(path.join(root, 'content/bibliography_entry'), { recursive: true });
+    writeFileSync(path.join(root, `content/bibliography_entry/${local}.csl.json`), '{}\n');
+    const before = tree(root);
+    const { code, err } = await importFile(root, sample('sample.bib'));
+    expect(code).not.toBe(0);
+    expect(err).toContain(`${local}.csl.json`);
+    expect(tree(root)).toEqual(before);
+  });
+
   it('rejects a file that does not parse, whole, naming the line, and writes nothing', async () => {
     const root = copyFixture();
     const before = tree(root);

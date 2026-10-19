@@ -13,7 +13,8 @@ import { list } from './values.js';
  *   listed    a public record's `bibliography[]`: essay, map, cartographer, dataset, layer
  *   evidence  a public essay's `evidence[]` -> Evidence -> Source (not a finding aid) -> `entry`
  */
-const LISTING_FAMILIES = ['essay', 'map', 'cartographer', 'dataset', 'layer'];
+/** The families whose `bibliography[]` lists entries (FR-003). */
+export const LISTING_FAMILIES = ['essay', 'map', 'cartographer', 'dataset', 'layer'];
 
 export interface ListedCitation {
   entry: string;

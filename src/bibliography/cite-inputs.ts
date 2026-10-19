@@ -24,9 +24,9 @@ const attribution = (record: PublicRecord): { author: { literal: string }[] } | 
   return name === '' ? {} : { author: [{ literal: name }] };
 };
 
-/** The entry's own CSL-JSON, with the page address as its URL when it has none, and the access date. */
+/** The entry's own CSL-JSON, with the page address as its URL (FR-009) and the access date. */
 export function entryItem(csl: CslItem, slug: string, site: URL, accessed: string): CslItem {
-  return { ...csl, URL: text(csl.URL) !== '' ? csl.URL : new URL(`/bibliography/${slug}/`, site).href, accessed: accessedOn(accessed) };
+  return { ...csl, URL: new URL(`/bibliography/${slug}/`, site).href, accessed: accessedOn(accessed) };
 }
 
 /** A layer: the Atlas shows it, titled by the layer, naming its dataset when that is public. */
@@ -39,10 +39,18 @@ export function layerItem(layer: PublicRecord, records: readonly PublicRecord[],
     ...(dataset ? { 'container-title': text(dataset.title) } : {}),
     ...(dataset && text(dataset.version) !== '' ? { version: text(dataset.version) } : {}),
     publisher: PUBLISHER,
-    ...attribution(dataset ?? layer),
+    ...attribution(dataset && text((dataset.rights as { attribution?: unknown } | undefined)?.attribution).trim() !== '' ? dataset : layer),
     URL: new URL(layerAddress(records)(text(layer.slug)), site).href,
     accessed: accessedOn(accessed),
   };
+}
+
+/** The slug of the first public layer that shows the dataset, if any. */
+export function shownByLayer(dataset: PublicRecord, records: readonly PublicRecord[]): string | undefined {
+  return records
+    .filter((r) => r.family === 'layer' && r.dataset === dataset.id)
+    .map((r) => text(r.slug))
+    .sort()[0];
 }
 
 /**
@@ -50,10 +58,7 @@ export function layerItem(layer: PublicRecord, records: readonly PublicRecord[],
  * layer shows has no address on the site to cite, so it has no item.
  */
 export function datasetItem(dataset: PublicRecord, records: readonly PublicRecord[], site: URL, accessed: string): CslItem | null {
-  const shown = records
-    .filter((r) => r.family === 'layer' && r.dataset === dataset.id)
-    .map((r) => text(r.slug))
-    .sort()[0];
+  const shown = shownByLayer(dataset, records);
   if (shown === undefined) return null;
   return {
     id: `dataset-${text(dataset.slug)}`,

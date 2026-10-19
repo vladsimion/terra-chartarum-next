@@ -37,6 +37,10 @@ describe('the bibliography entry schema', () => {
 });
 
 describe('the source schema', () => {
+  it('carries no rights in the YAML either (FR-011)', () => {
+    expect(hitsOf('FAM-UNKNOWN', [pointing(1, entry(1), { rights: { licence: 'CC0' } })]).map((v) => v.field)).toEqual(['rights']);
+  });
+
   it('loads a source with the entry it points at', () => {
     expect(schemaFor('source').parse(pointing(1, entry(1))).entry).toBe(entry(1).id);
   });

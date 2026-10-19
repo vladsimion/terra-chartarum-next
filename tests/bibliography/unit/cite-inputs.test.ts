@@ -30,9 +30,9 @@ describe('entryItem', () => {
     expect(item).toMatchObject({ ...csl, URL: 'https://terra-chartarum.org/bibliography/fixture-entry-10/', accessed: accessedParts });
   });
 
-  it('keeps a URL the item already has: it is the work’s own address', () => {
+  it('replaces a URL the item already has: the stable URL is the canonical page address (FR-009)', () => {
     const own = { ...csl, URL: 'https://example.org/the-work' } as CslItem;
-    expect(entryItem(own, 'fixture-entry-10', SITE, ACCESSED).URL).toBe('https://example.org/the-work');
+    expect(entryItem(own, 'fixture-entry-10', SITE, ACCESSED).URL).toBe('https://terra-chartarum.org/bibliography/fixture-entry-10/');
   });
 
   it('does not change the item it was given', () => {
@@ -82,6 +82,12 @@ describe('layerItem', () => {
       URL: 'https://terra-chartarum.org/atlas/?l=roads',
       accessed: accessedParts,
     });
+  });
+
+  it('falls back to the layer’s own attribution when its dataset names none', () => {
+    const records = world([dataset({ rights: { licence: 'CC-BY-4.0' } }), theLayer({ rights: { licence: 'CC-BY-4.0', attribution: 'The Layer Authors' } })]);
+    const item = layerItem(records.find((r) => r.family === 'layer')!, records, SITE, ACCESSED);
+    expect(item).toMatchObject({ author: [{ literal: 'The Layer Authors' }] });
   });
 
   it('names no dataset, version or author when its dataset is not public', () => {

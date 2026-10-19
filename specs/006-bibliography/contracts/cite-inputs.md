@@ -6,7 +6,7 @@ Spec 003's generator (`src/essays/citations.ts`) renders Chicago notes-bibliogra
 
 | Input | CSL item |
 |---|---|
-| Bibliography entry | the entry's own CSL-JSON, unchanged, with `URL` set to its canonical page address when the item has none, and `accessed` added |
+| Bibliography entry | the entry's own CSL-JSON, unchanged, with `URL` set to its canonical page address (FR-009; the work's own address stays on the entry page as its digital copy), and `accessed` added |
 | Dataset | `type: dataset`; `title`; `version` from the dataset's `version`; `publisher: "Terra Chartarum"`; `issued` from its date when present; `author` from `rights.attribution` when present; `URL` the canonical address of the layer page or Atlas view that shows it; `accessed` |
 | Layer | `type: dataset`; `title` the layer's; `container-title` the dataset's title; `version`; `publisher`; `author` from `rights.attribution`; `URL` the Atlas view address of the layer (built by the shared view-address module); `accessed` |
 | Site | `type: webpage`; `title: "Terra Chartarum"`; `publisher: "Terra Chartarum"`; `URL: https://terra-chartarum.org/`; `accessed` |

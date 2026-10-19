@@ -1,7 +1,7 @@
 import { Cite } from '@citation-js/core';
 import '@citation-js/plugin-bibtex';
 import '@citation-js/plugin-ris';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { stringify } from 'yaml';
 import { matchItem, type Known, type MatchRule } from '../bibliography/match.js';
@@ -265,9 +265,17 @@ export async function importBib(rootDir: string, file: string | undefined, optio
   }
 
   if (!options.dryRun) {
+    // all or nothing: a file in the way stops the import before the first write
+    for (const w of writes) {
+      for (const file of [w.yaml, w.csl]) {
+        if (await stat(path.join(rootDir, file)).then(() => true, () => false)) {
+          return { code: 2, stdout: '', stderr: `registry import-bib: ${file} already exists, so nothing was written\n` };
+        }
+      }
+    }
     for (const w of writes) {
       await mkdir(path.join(rootDir, 'content/bibliography_entry'), { recursive: true });
-      // 'wx': never overwrite a file, whatever the counter says
+      // 'wx': never overwrite a file, whatever the check said
       await writeFile(path.join(rootDir, w.yaml), stringify(w.record), { flag: 'wx' });
       await writeFile(path.join(rootDir, w.csl), `${JSON.stringify(w.item, null, 2)}\n`, { flag: 'wx' });
     }
