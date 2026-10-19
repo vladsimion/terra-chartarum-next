@@ -1,8 +1,8 @@
 # Confluence entry: Decision Log (page 12648509)
 
-Draft, not yet published. To publish: read the live Decision Log, take the next free number, append after the last entry, read the page back, then rename this file to `decision-log-tc-dNNN.md` and replace `TC-D???` (see `README.md`).
+Published 2026-10-19 in page version 15, directly after TC-D036; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
-### TC-D??? — A Source points at one bibliography entry; citations are derived; an entry is public only when a public record cites it
+### TC-D037 — A Source points at one bibliography entry; citations are derived; an entry is public only when a public record cites it
 
 **Date:** 17 October 2026 (ADR 0014); built 18 to 19 October 2026
 **Status:** Accepted (spec 006)
