@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { citationsOf, editionsOf } from '../../../src/bibliography/cited-in.js';
+import { citationsOf, editionsOf, isFindingAid } from '../../../src/bibliography/cited-in.js';
 import { publicEntries } from '../../../src/bibliography/entry-public.js';
-import { evidence } from '../../registry/support/builders.js';
-import { PUBLIC } from '../../registry/support/bibliography.js';
+import { evidence, source } from '../../registry/support/builders.js';
+import { HELD, PUBLIC } from '../../registry/support/bibliography.js';
 import { E, id, publicRecords, registry } from '../support/world.js';
 
 /*
@@ -87,5 +87,38 @@ describe('editionsOf', () => {
 
   it('has none for an entry with no relation', () => {
     expect(of(1)).toEqual([]);
+  });
+});
+
+describe('isFindingAid (FR-015)', () => {
+  it('is true when a Source that points at the entry is flagged as a finding aid', () => {
+    expect(isFindingAid(E(8), records)).toBe(true);
+  });
+
+  it('is false for an entry whose Sources are ordinary, or that has none', () => {
+    expect(isFindingAid(E(1), records)).toBe(false);
+    expect(isFindingAid(E(3), records)).toBe(false);
+  });
+
+  it('is true when any one of several Sources is flagged', () => {
+    const two = registry();
+    two.push(source(20, { ...PUBLIC, entry: E(1), is_finding_aid: true }));
+    expect(isFindingAid(E(1), publicRecords(two))).toBe(true);
+  });
+
+  it('does not let a held Source decide: it is not in the public records', () => {
+    const held = registry();
+    held.push(source(21, { ...HELD, entry: E(3), is_finding_aid: true }));
+    expect(isFindingAid(E(3), publicRecords(held))).toBe(false);
+  });
+
+  it('keeps the evidence of an ordinary Source on the same entry, and shows none from the finding aid', () => {
+    const both = registry();
+    both.push(source(22, { ...PUBLIC, entry: E(2), is_finding_aid: true }));
+    both.push(evidence(22, { ...PUBLIC, source: id('source', 22) }));
+    // essay 2 cites the finding aid's evidence as well (the gate forbids it; the derivation must not trust that)
+    const world = both.map((r) => (r.id === id('essay', 2) ? { ...r, evidence: [...(r.evidence as string[]), id('evidence', 22)] } : r));
+    const found = citationsOf(E(2), publicRecords(world)).filter((c) => c.route === 'evidence');
+    expect(found.map((c) => c.locator?.value)).toEqual(['pp. 40–42']);
   });
 });

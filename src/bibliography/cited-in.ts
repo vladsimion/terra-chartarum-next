@@ -110,3 +110,12 @@ export function editionsOf(entryId: string, publicEntries: readonly PublicRecord
   ];
   return out.sort((a, b) => RELATION_ORDER.indexOf(a.relation) - RELATION_ORDER.indexOf(b.relation) || byTitle(a.entry, b.entry));
 }
+
+/**
+ * Is the entry a finding aid (FR-015)? True when any public Source that points at it is flagged
+ * `is_finding_aid`. A held Source is not in the public records, so it cannot decide this; the
+ * flag has to be on a published Source for the badge to show.
+ */
+export function isFindingAid(entryId: string, records: readonly PublicRecord[]): boolean {
+  return records.some((r) => r.family === 'source' && r.entry === entryId && r.is_finding_aid === true);
+}

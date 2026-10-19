@@ -129,3 +129,30 @@ describe('what is held', () => {
     }
   });
 });
+
+describe('sections and finding aids (US3)', () => {
+  it('labels the seven sections as the data model does, on the entry page', () => {
+    const labels: Record<number, string> = { 1: 'Primary sources', 2: 'Historical maps', 3: 'Reference works', 4: 'Specialised studies', 5: 'Digital resources', 6: 'Datasets and licences' };
+    for (const [n, label] of Object.entries(labels)) expect(textOf(page(Number(n)).querySelector('.section-label')), `entry ${n}`).toBe(label);
+  });
+
+  it('never calls a section by the draft’s name for historical maps', () => {
+    for (const n of [1, 2, 3, 4, 5, 6, 10, 11, 12, 13]) expect(readHtml(dir, entry(n)), `entry ${n}`).not.toMatch(/cartographic witnesses/i);
+    expect(readHtml(dir, 'bibliography/index.html')).not.toMatch(/cartographic witnesses/i);
+  });
+
+  it('badges a finding aid, in words', () => {
+    const badge = page(13).querySelector('.badge-finding-aid');
+    expect(textOf(badge)).toBe('Finding aid');
+    expect(textOf(page(13).querySelector('.finding-aid-note'))).toMatch(/not itself cited as evidence/i);
+  });
+
+  it('badges nothing else', () => {
+    for (const n of [1, 2, 3, 4, 5, 6, 10, 11, 12]) expect(page(n).querySelector('.badge-finding-aid'), `entry ${n}`).toBeNull();
+  });
+
+  it('shows a finding aid under no "Cited as evidence" group', () => {
+    expect(page(13).querySelector('section.cited-evidence')).toBeNull();
+    expect(readHtml(dir, entry(13))).not.toContain('Cited as evidence');
+  });
+});

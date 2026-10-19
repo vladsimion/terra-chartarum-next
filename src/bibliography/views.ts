@@ -5,7 +5,7 @@ import { viewUrl } from '../atlas/view-url.js';
 import type { PublicRecord } from '../registry/project.js';
 import { BIBLIOGRAPHY_SECTIONS, BIBLIOGRAPHY_SECTION_LABELS, type BibliographySection } from '../registry/schemas/bibliography-section.js';
 import { PAGE_ROUTES } from '../registry/routes.js';
-import { citationIndex, editionsOf, type Citation, type EditionRelation } from './cited-in.js';
+import { citationIndex, editionsOf, isFindingAid, type Citation, type EditionRelation } from './cited-in.js';
 import { publicEntries } from './entry-public.js';
 import { buildIndex, type IndexEntry } from './index-data.js';
 
@@ -98,6 +98,8 @@ export interface EntryView {
   title: string;
   chicago: string;
   sectionLabel: string;
+  /** A guide to a collection, not itself evidence (FR-015). */
+  findingAid: boolean;
   identifiers: Identifier[];
   digitalCopy: string | null;
   editions: { relation: EditionRelation; label: string; title: string; href: string }[];
@@ -130,6 +132,7 @@ export function entryView(entry: PublicRecord, records: readonly PublicRecord[],
     title: typeof item.title === 'string' && item.title !== '' ? item.title : text(entry.title),
     chicago: formatBibliographyItem(item),
     sectionLabel: section,
+    findingAid: isFindingAid(entry.id, records),
     identifiers: identifiersOf(item),
     digitalCopy: typeof entry.digital_copy === 'string' ? entry.digital_copy : null,
     editions: editionsOf(entry.id, publicEntries(records)).map((e) => ({ relation: e.relation, label: RELATION_LABELS[e.relation], title: e.entry.title, href: address(e.entry.slug) })),
