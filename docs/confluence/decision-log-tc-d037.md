@@ -4,7 +4,7 @@ Published 2026-10-19 in page version 15, directly after TC-D036; the rest of the
 
 ### TC-D037 — A Source points at one bibliography entry; citations are derived; an entry is public only when a public record cites it
 
-**Date:** 17 October 2026 (ADR 0014); built 18 to 19 October 2026
+**Date:** 17 October 2026 (ADR 0014); built 18 to 19 October 2026    
 **Status:** Accepted (spec 006)
 
 **Decision:** a Source points at exactly one bibliography entry (`entry`, required from `ready_for_build`, rule `SRC-ENTRY`). Nothing called a citation is stored: it is derived, either as a record listing the entry in `bibliography[]` (essays, maps, cartographers, and, added by spec 006, datasets and layers) or as evidence through essay, Evidence, Source, entry. An entry is public only when it is published, released, in a valid section and cited by at least one public record, and that derivation lives in the registry so the registry build and the site agree. Citation fields live only in the entry's CSL-JSON. A finding aid stays a Source flagged `is_finding_aid` and is never evidence. An entry's exported URL is its page address.
