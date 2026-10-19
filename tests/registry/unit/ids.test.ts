@@ -60,7 +60,8 @@ describe('ID-SYNTAX', () => {
 
   it('accepts legacy local-ids verbatim, including mixed case and prefixes', () => {
     for (const local of ['plc-sarmizegetusa-regia', 'cru-plc-london', 'att-0001', 'ant-obj-Fine-1531']) {
-      const legacy = place(1, { id: `tc:tc:place:${local}`, origin: 'legacy' });
+      // a legacy record's slug is its legacy local-id (MIG-SLUG)
+      const legacy = place(1, { id: `tc:tc:place:${local}`, origin: 'legacy', slug: local });
       expect(rulesOf([legacy])).toEqual([]);
     }
   });
@@ -72,7 +73,7 @@ describe('ID-AUTHORITY', () => {
   });
 
   it('accepts allowlisted external authorities for legacy-style ids', () => {
-    expect(rulesOf([place(1, { id: 'tc:pleiades:place:1234', origin: 'legacy' })])).toEqual([]);
+    expect(rulesOf([place(1, { id: 'tc:pleiades:place:1234', origin: 'legacy', slug: '1234' })])).toEqual([]);
   });
 });
 
