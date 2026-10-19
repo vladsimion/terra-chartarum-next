@@ -1,10 +1,10 @@
 # Confluence entry: Build Log (page 2490370)
 
-DRAFT, not published. Drafted 2026-10-18 for the next free section letter after W; the letter and page version are filled in when it is published. Like the earlier sections, it records only what has merged to the successor's `main`; reconciled 2026-10-19 with #45, #46, #48 and #49.
+Published 2026-10-19 as section X (page version 129), directly after section W and before "2. In progress"; the header pointer "sections U, V and W" became "sections U, V, W and X". The rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
 ## X. The successor build: map collection and cartographers catalogue (spec 004)
 
-Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 18 October 2026 (#47 fixed the gate before #45, #46 and #48 merged; `gate` green on `7977b49`). Jira epic TCX-5. Working detail is in the spec 004 programme dossier (draft in `docs/confluence/spec-004-collection.md`).
+Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 18 October 2026 (#47 fixed the gate before #45, #46 and #48 merged; `gate` green on `7977b49`). Jira epic TCX-5. Working detail is in the [spec 004 programme dossier](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/37617788).
 
 | PR | Scope | Jira |
 |---|---|---|
