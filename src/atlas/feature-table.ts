@@ -1,6 +1,6 @@
 import { styleFor } from './provenance-style.js';
 import { featureState } from './time.js';
-import { ownProvenance, type BuiltFeature } from './visible.js';
+import { intervalOfBuilt, ownProvenance, type BuiltFeature } from './visible.js';
 
 /*
  * The text a reader without WebGL gets in place of the map for each layer (spec 005 FR-016,
@@ -29,7 +29,7 @@ export function featureRows(
   for (const { properties } of features) {
     const p = properties as Record<string, unknown> & BuiltFeature;
     if (!keep(p)) continue;
-    const state = featureState({ fromMin: p._from_min, fromMax: p._from_max, toMin: p._to_min, toMax: p._to_max, fromUncertain: p._from_unc === 1, toUncertain: p._to_unc === 1 }, year);
+    const state = featureState(intervalOfBuilt(p), year);
     if (state === 'outside') continue;
     const from = written(p.valid_from);
     const to = written(p.valid_to);

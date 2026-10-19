@@ -1,5 +1,5 @@
 import { STYLE_CLASSES, styleFor, type StyleClass } from './provenance-style.js';
-import { featureState } from './time.js';
+import { featureState, type YearInterval } from './time.js';
 
 /*
  * What a layer's loaded features make of a year (spec 005 FR-013, FR-015), for the text the page
@@ -18,6 +18,16 @@ export interface BuiltFeature {
   geometry_provenance?: string;
 }
 
+/** The interval a built feature's year-bound columns describe; the one place that reads them. */
+export const intervalOfBuilt = (f: BuiltFeature): YearInterval => ({
+  fromMin: f._from_min,
+  fromMax: f._from_max,
+  toMin: f._to_min,
+  toMax: f._to_max,
+  fromUncertain: f._from_unc === 1,
+  toUncertain: f._to_unc === 1,
+});
+
 export interface FeatureSummary {
   /** Features drawn at the year, certain or possible. */
   shown: number;
@@ -32,10 +42,7 @@ export function summarise(features: readonly BuiltFeature[], year: number, keep:
   let uncertain = 0;
   for (const f of features) {
     if (!keep(f)) continue;
-    const state = featureState(
-      { fromMin: f._from_min, fromMax: f._from_max, toMin: f._to_min, toMax: f._to_max, fromUncertain: f._from_unc === 1, toUncertain: f._to_unc === 1 },
-      year,
-    );
+    const state = featureState(intervalOfBuilt(f), year);
     if (state !== 'outside') shown += 1;
     if (state === 'possible') uncertain += 1;
   }

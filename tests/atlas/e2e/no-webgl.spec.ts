@@ -83,6 +83,15 @@ test('the year, the layers and the address work as they do with a map', async ({
   await expect(page.locator('[data-active]')).toHaveCount(2);
 });
 
+test('a place search says where the place is in words, and does not claim the map was centred', async ({ page }) => {
+  await page.goto('/atlas/');
+  await expect(page.locator('[data-atlas][data-ready="true"]')).toBeVisible();
+  await page.getByLabel('Search places').fill('apu');
+  await page.locator('[data-place-results] button').first().click();
+  await expect(page.locator('[data-place-status]')).toHaveText('Apulum is at 46.07° N, 23.57° E. This browser has no WebGL, so it cannot be shown on a map.');
+  await expect(page.locator('[data-place-marker]')).toBeHidden();
+});
+
 test('has no accessibility violations without WebGL', async ({ page }) => {
   await openCollection(page);
   await page.locator('#atlas-year').fill('150');

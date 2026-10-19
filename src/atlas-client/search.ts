@@ -10,8 +10,8 @@ export interface PlaceSearchOptions {
   /** The place index, fetched once when first needed. */
   load(): Promise<PlaceIndex | null>;
   year(): number;
-  /** Centre the map on the place and mark it; resolves when it has. */
-  show(place: PlaceResult, onRemoved: () => void): Promise<void>;
+  /** Centre the map on the place and mark it; resolves true when it has, false when there is no map to do it on. */
+  show(place: PlaceResult, onRemoved: () => void): Promise<boolean>;
   /** Take the marker off the map. */
   clear(): void;
 }
@@ -47,7 +47,14 @@ export function bindPlaceSearch({ root, load, year, show, clear }: PlaceSearchOp
         button.type = 'button';
         button.textContent = place.name === place.title ? place.name : `${place.name} (${place.title})`;
         button.addEventListener('click', () => {
-          void show(place, () => removed('Marker removed.')).then(() => {
+          void show(place, () => removed('Marker removed.')).then((shown) => {
+            if (!shown) {
+              // no map (no WebGL): say where the place is instead of claiming it was shown
+              const { lat, lon } = place.location;
+              status!.textContent = `${place.title} is at ${Math.abs(lat)}° ${lat >= 0 ? 'N' : 'S'}, ${Math.abs(lon)}° ${lon >= 0 ? 'E' : 'W'}. This browser has no WebGL, so it cannot be shown on a map.`;
+              marker!.hidden = true;
+              return;
+            }
             status!.textContent = `Map centred on ${place.title}.`;
             if (markerLabel) markerLabel.textContent = `Marker: ${place.title}`;
             marker!.hidden = false;
