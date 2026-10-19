@@ -52,7 +52,7 @@ export function parseLocator(value: string | undefined): { label: 'page' | undef
 const present = (value: unknown): value is string => typeof value === 'string' && value.trim() !== '';
 
 /** `verified` only when a person and a date are recorded; anything less is shown as pending, in words (ADR 0003 §4). */
-function verificationOf(locator: Locator): Verification {
+export function verificationOf(locator: Locator): Verification {
   if (locator.state === 'verified' && present(locator.verified_by) && present(locator.verified_on)) {
     const by = locator.verified_by.trim();
     const on = locator.verified_on.trim();

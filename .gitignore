@@ -2,6 +2,7 @@ node_modules/
 dist/
 dist-essays/
 dist-collection/
+dist-bibliography/
 dist-atlas/
 dist-atlas-perf/
 reports/
@@ -16,6 +17,7 @@ _targets/
 playwright-report/
 playwright-report-essays/
 playwright-report-collection/
+playwright-report-bibliography/
 playwright-report-atlas/
 playwright-report-atlas-perf/
 test-results/

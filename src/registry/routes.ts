@@ -9,6 +9,8 @@ export const PAGE_ROUTES: Readonly<Record<string, string>> = {
   // spec 004: the catalogue
   map: 'collection',
   cartographer: 'cartographers',
+  // spec 006: the bibliography
+  bibliography_entry: 'bibliography',
 };
 
 export function routeSection(family: string): string {

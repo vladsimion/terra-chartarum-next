@@ -19,6 +19,12 @@ export const COLLECTION_VIEWER: AllowedScript = {
   scriptPages: ['collection/'],
 };
 
+/** The bibliography's filters (spec 006 FR-008): one small page script, on the index only. The entry pages carry none. */
+export const BIBLIOGRAPHY_FILTERS: AllowedScript = {
+  scriptFiles: /^_astro\/index\.astro_astro_type_script_index_\d+_lang\.[\w-]+\.js$/,
+  scriptPages: ['bibliography/'],
+};
+
 /** The Atlas's own scripts (spec 005 FR-020): its page script, the chunks that script imports (the map, and the overlay plugin when an overlay is added), and MapLibre served as it ships. Only /atlas/ carries a script tag. */
 export const ATLAS_CLIENT: AllowedScript = {
   scriptFiles: /^(_astro\/(index\.astro_astro_type_script_index_\d+_lang|map|features|allmaps|index\.web|seekable-zstd|preload-helper)\.[\w-]+\.js|vendor\/maplibre\/[\w.-]+\.mjs)$/,

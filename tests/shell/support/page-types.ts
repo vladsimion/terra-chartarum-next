@@ -22,6 +22,8 @@ export function pageType(file: string, page: HTMLElement): string {
   if (file.startsWith('cartographers/') && page.querySelector('article.cartographer')) return 'cartographer-profile';
   if (file === 'collection/index.html' && page.querySelector('form.filters')) return 'collection-list';
   if (file.startsWith('collection/') && page.querySelector('article.map-record')) return 'collection-record';
+  if (file === 'bibliography/index.html' && page.querySelector('form.filters')) return 'bibliography-index';
+  if (file.startsWith('bibliography/') && page.querySelector('article.bibliography-entry')) return 'bibliography-entry';
   if (file === 'atlas/index.html' && page.querySelector('[data-atlas]')) return 'atlas';
   if (file === 'atlas/handbook/index.html') return 'handbook-index';
   if (file.startsWith('atlas/handbook/')) return 'handbook-topic';
