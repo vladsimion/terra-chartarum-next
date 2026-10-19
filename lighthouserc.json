@@ -6,6 +6,8 @@
         "http://localhost:4322/about/",
         "http://localhost:4322/colophon/",
         "http://localhost:4322/essays/",
+        "http://localhost:4322/bibliography/",
+        "http://localhost:4322/bibliography/fixture-book/",
         "http://localhost:4322/atlas/",
         "http://localhost:4322/atlas/handbook/",
         "http://localhost:4322/atlas/handbook/provenance-and-reconstruction/",

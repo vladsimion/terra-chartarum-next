@@ -1,0 +1,54 @@
+---
+import FilterForm from '../../bibliography/components/FilterForm.astro';
+import { indexView } from '../../bibliography/views.js';
+import { loadEssaySite } from '../../essays/site-data.js';
+import Base from '../../shell/layouts/Base.astro';
+
+/*
+ * The bibliography (spec 006 US1): every public entry as static HTML, grouped under the seven
+ * sections, so the list is complete without scripts. The form submits as GET to this page; with
+ * scripts the filters apply in place and the view is written to the address. An entry that is held,
+ * or that no public record cites, is not in `records`, so it cannot be listed.
+ */
+const { records, cslFor } = await loadEssaySite();
+const view = indexView(records, cslFor);
+---
+
+<Base title="Bibliography | Terra Chartarum" description="The works this publication rests on, by section, with where each is cited.">
+  <h1>Bibliography</h1>
+  <p class="intro">What this publication rests on. Each work lists the essays, maps and layers that cite it, and says whether they list it or rest an argument on it.</p>
+  <FilterForm sections={view.sections.map((s) => ({ value: s.section, label: s.label }))} essays={view.essays} />
+  <p role="status" data-result-count>{view.total} of {view.total} entries</p>
+  {view.sections.map((group) => (
+    <section class="bibliography-section" data-section-group={group.section} aria-labelledby={`section-${group.section}`}>
+      <h2 id={`section-${group.section}`}>{group.label}</h2>
+      <ul>
+        {group.items.map((item) => (
+          <li data-slug={item.slug} data-section={item.section} data-essays={item.essays.join(' ')}><a href={item.href}>{item.chicago}</a></li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</Base>
+
+<script>
+  import '../../bibliography-client/filters.js';
+</script>
+
+<style>
+  .bibliography-section ul {
+    margin: 0 0 var(--space-5);
+    padding: 0;
+    list-style: none;
+  }
+
+  .bibliography-section li {
+    padding-block: var(--space-2);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .bibliography-section li[hidden],
+  .bibliography-section[hidden] {
+    display: none;
+  }
+</style>

@@ -1,0 +1,112 @@
+---
+import type { CitedItem, EntryView } from '../views.js';
+
+interface Props {
+  view: EntryView;
+}
+
+const { view } = Astro.props;
+const groups: { name: 'evidence' | 'listed'; heading: string; items: CitedItem[] }[] = [
+  { name: 'evidence', heading: 'Cited as evidence', items: view.evidence },
+  { name: 'listed', heading: 'Listed in bibliography', items: view.listed },
+];
+---
+
+<article class="bibliography-entry">
+  <h1>{view.title}</h1>
+  <p class="section-label">{view.sectionLabel}</p>
+  <p class="chicago">{view.chicago}</p>
+
+  {(view.identifiers.length > 0 || view.digitalCopy) && (
+    <dl class="identifiers">
+      {view.identifiers.map((id) => (
+        <>
+          <dt>{id.label}</dt>
+          <dd data-identifier={id.kind}>{id.href ? <a href={id.href}>{id.value}</a> : id.value}</dd>
+        </>
+      ))}
+      {view.digitalCopy && (
+        <>
+          <dt>Elsewhere</dt>
+          <dd><a href={view.digitalCopy} rel="external noopener">External digital copy</a></dd>
+        </>
+      )}
+    </dl>
+  )}
+
+  {view.editions.length > 0 && (
+    <section class="editions" aria-labelledby="editions-heading">
+      <h2 id="editions-heading">Other editions and translations</h2>
+      <ul>
+        {view.editions.map((e) => (
+          <li data-relation={e.relation}>{e.label}: <a href={e.href}>{e.title}</a></li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {groups.some((g) => g.items.length > 0) && (
+    <section class="cited-in" aria-labelledby="cited-in-heading">
+      <h2 id="cited-in-heading">Cited in</h2>
+      {groups.filter((g) => g.items.length > 0).map((group) => (
+        <section class={`cited-${group.name}`}>
+          <h3>{group.heading}</h3>
+          <ul>
+            {group.items.map((item) => (
+              <li data-verification={item.verification?.state}>
+                {item.href ? <a href={item.href}>{item.title}</a> : <span>{item.title}</span>}
+                <span class="kind"> ({item.kind.toLowerCase()})</span>
+                {item.layers.length > 0 && (
+                  <span class="layers"> used by {item.layers.map((l, i) => <>{i > 0 && ', '}<a href={l.href}>{l.title}</a></>)}</span>
+                )}
+                {item.locator && item.locator.value !== '' && <span class="locator">, {item.locator.value}</span>}
+                {item.verification && <span class={`verification ${item.verification.state}`}>. {item.verification.label}</span>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </section>
+  )}
+</article>
+
+<style>
+  .section-label {
+    margin: 0 0 var(--space-3);
+    color: var(--ink-muted);
+  }
+
+  .chicago {
+    margin: 0 0 var(--space-4);
+    max-width: var(--prose-max);
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--space-1) var(--space-4);
+    margin: 0 0 var(--space-5);
+  }
+
+  dt {
+    color: var(--ink-muted);
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  ul {
+    margin: 0 0 var(--space-4);
+    padding-inline-start: var(--space-5);
+  }
+
+  li {
+    margin-bottom: var(--space-2);
+  }
+
+  /* a pending locator is marked by its words and by a rule, never by colour alone */
+  .verification.pending {
+    font-style: italic;
+  }
+</style>

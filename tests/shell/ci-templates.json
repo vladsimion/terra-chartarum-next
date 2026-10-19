@@ -8,6 +8,8 @@
     { "name": "essay", "path": "/essays/terra-nova/" },
     { "name": "cartographer-list", "path": "/cartographers/" },
     { "name": "cartographer-profile", "path": "/cartographers/fixture-cartographer/" },
+    { "name": "bibliography-index", "path": "/bibliography/" },
+    { "name": "bibliography-entry", "path": "/bibliography/fixture-book/" },
     { "name": "atlas", "path": "/atlas/" },
     { "name": "handbook-index", "path": "/atlas/handbook/" },
     { "name": "handbook-topic", "path": "/atlas/handbook/provenance-and-reconstruction/" },

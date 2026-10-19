@@ -1,0 +1,80 @@
+---
+interface Props {
+  sections: { value: string; label: string }[];
+  essays: { slug: string; title: string }[];
+}
+
+const { sections, essays } = Astro.props;
+---
+
+<form class="filters" method="get" action="/bibliography/">
+  <div class="search">
+    <label for="q">Search author, title, year or keyword</label>
+    <input id="q" name="q" type="search" autocomplete="off" />
+  </div>
+
+  <fieldset>
+    <legend>Section</legend>
+    {sections.map((s) => (
+      <label class="choice"><input type="checkbox" name="section" value={s.value} /> {s.label}</label>
+    ))}
+  </fieldset>
+
+  {essays.length > 0 && (
+    <fieldset>
+      <legend>Cited by essay</legend>
+      {essays.map((e) => (
+        <label class="choice"><input type="checkbox" name="essay" value={e.slug} /> {e.title}</label>
+      ))}
+    </fieldset>
+  )}
+
+  <div class="actions">
+    <button type="submit">Apply filters</button>
+    <a class="clear" href="/bibliography/">Clear filters</a>
+  </div>
+</form>
+
+<style>
+  .filters {
+    display: grid;
+    gap: var(--space-4);
+    margin: var(--space-5) 0;
+    padding: var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--panel);
+  }
+
+  fieldset {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    margin: 0;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  .search {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .choice,
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  /* a touch target is at least --target-min tall (ADR 0004) */
+  .filters :is(input[type='search'], button, .clear) {
+    min-height: var(--target-min);
+  }
+
+  .filters .choice {
+    min-height: var(--target-min);
+  }
+</style>

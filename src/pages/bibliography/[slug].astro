@@ -1,0 +1,25 @@
+---
+import EntryPage from '../../bibliography/components/EntryPage.astro';
+import { publicEntries } from '../../bibliography/entry-public.js';
+import { entryView } from '../../bibliography/views.js';
+import { loadEssaySite } from '../../essays/site-data.js';
+import Base from '../../shell/layouts/Base.astro';
+
+/*
+ * One page for every public entry (spec 006 US1), generated from the public projection only: an
+ * entry that is held, or that no public record cites, is not in the list, so it gets no page.
+ */
+export async function getStaticPaths() {
+  const { records } = await loadEssaySite();
+  return publicEntries(records).map((entry) => ({ params: { slug: String(entry.slug) }, props: { entryId: entry.id } }));
+}
+
+const { entryId } = Astro.props;
+const { records, cslFor } = await loadEssaySite();
+const entry = records.find((r) => r.id === entryId)!;
+const view = entryView(entry, records, cslFor);
+---
+
+<Base title={`${view.title} | Terra Chartarum`} crumb={view.title}>
+  <EntryPage view={view} />
+</Base>
