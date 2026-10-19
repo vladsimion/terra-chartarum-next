@@ -25,7 +25,10 @@ tests/registry/                   unit, integration, fixtures, mutation and timi
 tests/shell/                      unit, build-output and Playwright tests for the shell
 src/atlas/, src/atlas-client/     the Atlas: pure modules, the build step, and the browser code (spec 005)
 src/bibliography/                 the bibliography: who cites what, the public entries, the search index, the citations (spec 006)
+src/rooms/                        the seven rooms: who belongs to a room, its page models, its introduction renderer (spec 007)
+content/room/                     the seven room records and their Markdown introductions (draft copy until the author finalises it)
 tests/atlas/                      unit, build-output, Playwright and performance tests for the Atlas
+tests/rooms/                      unit, build-output and Playwright tests and the fixture registry for the Rooms (spec 007)
 tests/bibliography/               unit, build-output and Playwright tests, the fixture registry and the import samples (spec 006)
 docs/vendor/                      licence + pinned commit for vendored skills
 specs/
@@ -139,6 +142,21 @@ npm run test:e2e:bibliography                                 # filters with and
 - **Rules**: four registry rules (`SRC-ENTRY`, `BIB-CSL`, `BIB-EDITION`, `BIB-LISTED-HELD`) in `src/registry/rules/bibliography.ts`, listed in [`rule-ids.md`](specs/001-scholarly-registry/contracts/rule-ids.md).
 - **Import**: duplicates match on DOI, then ISBN, then first author + year + the first six title words; a file that does not parse is rejected whole with its line.
 - Walkthrough: [`specs/006-bibliography/quickstart.md`](specs/006-bibliography/quickstart.md).
+
+## The rooms (spec 007)
+
+Seven curatorial paths (Earth, Map, City, Border, Road, Archive, Theatre). A room is metadata, never a folder: its record (`content/room/<name>.yaml`) holds `order`, `short_description` and `copy_status`, and its introduction is the Markdown file beside it. What belongs to a room is derived, once, in `src/rooms/membership.ts`, from the public essays that name it as primary or secondary room; a map or layer is in a room only through those essays. All seven rooms are public by rule (`ROOM-PUBLIC`); unfinished prose is marked `copy_status: draft`, which `shell:check --cutover` refuses. Decisions: [ADR 0015](docs/adr/0015-rooms.md).
+
+```bash
+REGISTRY_ROOT=tests/rooms/fixtures/registry npm run build   # build the site from the rooms fixtures
+npm run test:e2e:rooms                                      # keyboard, no JavaScript, touch targets and axe on the Rooms pages
+npm run shell:check                                         # lists the draft room introductions until they are final
+```
+
+- **Pages**: `/rooms/` (the seven in order, with their short descriptions) and `/rooms/<slug>/` (the introduction, then Essays with Primary and Secondary, Maps linking to the Collection, and Layers linking to an Atlas view; a group with nothing in it is hidden, and a room with no public essay says essays are in preparation). The pages ship no script. A former room slug redirects.
+- **Rules**: `ROOM-PUBLIC` and `ROOM-COPY` in `src/registry/rules/rooms.ts` (beside `ROOM-SET`), listed in [`rule-ids.md`](specs/001-scholarly-registry/contracts/rule-ids.md).
+- **The link check**: `tests/shell/support/links.ts` resolves every internal link and `#fragment` in a built site, counting a path in `_redirects` as resolved; `npm test` runs it over the shell, collection, Atlas, bibliography and rooms fixture sites.
+- Walkthrough: [`specs/007-rooms/quickstart.md`](specs/007-rooms/quickstart.md).
 
 ## The shell and design system (spec 002)
 

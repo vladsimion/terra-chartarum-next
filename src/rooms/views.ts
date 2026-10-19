@@ -33,14 +33,17 @@ export interface RoomView extends RoomCard {
 const text = (value: unknown): string => (typeof value === 'string' ? value : '');
 const roomAddress = (slug: string): string => `/rooms/${slug}/`;
 
+/** A room whose long description file is missing shows its short description instead and counts as draft (spec 007 edge cases). */
+const hasBody = (room: PublicRecord): boolean => text(room.body).trim() !== '';
+
 function cardOf(room: PublicRecord): RoomCard {
   return {
     name: text(room.title),
     slug: text(room.slug),
     href: roomAddress(text(room.slug)),
     shortDescription: text(room.short_description),
-    // anything but a room marked final is draft copy
-    draft: room.copy_status !== 'final',
+    // anything but a room marked final, with its long description, is draft copy
+    draft: room.copy_status !== 'final' || !hasBody(room),
   };
 }
 
@@ -62,7 +65,7 @@ export function roomViews(records: readonly PublicRecord[]): RoomView[] {
     const own: RoomMembership | undefined = byRoom.get(room.id);
     return {
       ...cardOf(room),
-      introduction: renderBody(text(room.body)),
+      introduction: renderBody(hasBody(room) ? text(room.body) : text(room.short_description)),
       primaryEssays: (own?.primaryEssays ?? []).map(essay),
       secondaryEssays: (own?.secondaryEssays ?? []).map(essay),
       maps: (own?.maps ?? []).map(map),

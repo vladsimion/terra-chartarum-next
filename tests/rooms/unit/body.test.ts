@@ -16,6 +16,12 @@ describe('renderBody', () => {
     expect(renderBody('[bad](javascript:alert(1))')).toBe('<p>[bad](javascript:alert(1))</p>');
   });
 
+  it('keeps a link only when it cannot leave the site by a backslash or carry emphasis marks into the address', () => {
+    expect(renderBody('[x](/\\evil.example)')).toBe('<p>[x](/\\evil.example)</p>');
+    expect(renderBody('[x](//evil.example)')).toBe('<p>[x](//evil.example)</p>');
+    expect(renderBody('[x](/a*b*c)')).toBe('<p>[x](/a<em>b</em>c)</p>');
+  });
+
   it('escapes markup, so a body can never inject any', () => {
     expect(renderBody('<script>alert(1)</script> & "quotes"')).toBe('<p>&lt;script&gt;alert(1)&lt;/script&gt; &amp; &quot;quotes&quot;</p>');
   });
