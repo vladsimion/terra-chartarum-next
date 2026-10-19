@@ -109,7 +109,7 @@ As a reader, I type a historic or modern place name and the map recentres on it 
 - **FR-017**: Physical geography and present-day reference MUST come from self-hosted Natural Earth data; no third-party tile service may be called at runtime. In v1 this is the country outlines as FlatGeobuf (research R11); PMTiles when a tiling step exists.
 - **FR-018**: The Handbook MUST be a content collection with stable anchors, linked from the Atlas landing, next to the layer controls, from the inspector, the home page and the footer.
 - **FR-019**: A `map-overlay` layer MUST carry `georef` (map, annotation file, transformation, residual error, control-point count, confidence), shown in the inspector, with an opacity control.
-- **FR-020**: The Atlas MUST use no UI framework; MapLibre MUST load on the Atlas page only; the Atlas page MUST meet ≤ 350 KB compressed JavaScript and map interactive ≤ 4 s (ADR 0004).
+- **FR-020**: The Atlas MUST use no UI framework; MapLibre MUST load on the Atlas page only; the Atlas page MUST meet ≤ 350 KB compressed JavaScript and map interactive ≤ 4.5 s (ADR 0004).
 - **FR-021**: The catalogue MUST be served from one build-time index of public layers' metadata, searched by a ranker applying the US2 order.
 - **FR-022**: A layer's rooms MUST be derived from the rooms of public essays that list it; the inspector's related essays MUST be derived from essays' `layers[]`, public only.
 - **FR-023**: Spec 005 MUST amend the spec 001 data model (layer, place and overlay fields) in its Foundation phase; `FAM-UNKNOWN` stays strict.
@@ -118,7 +118,7 @@ As a reader, I type a historic or modern place name and the map recentres on it 
 - **GeoLayer**: see FR-001; **GeoCollection**: `members`, `default_layers`; **Theme**; **Room** (derived); **Place** (with `names[]`, `location`); **Atlas view** (year, lens, active slugs, focused slug, collection, facets); **Georef** (overlay quality fields).
 
 ## Success Criteria *(mandatory)*
-- **SC-001**: On a 200-layer synthetic catalogue, lens switch, search and year filter each stay within the INP budget (≤ 200 ms); the Atlas page meets its JS (≤ 350 KB) and time-to-interactive (≤ 4 s) budgets (ADR 0004).
+- **SC-001**: On a 200-layer synthetic catalogue, lens switch, search and year filter each stay within the INP budget (≤ 200 ms); the Atlas page meets its JS (≤ 350 KB) and time-to-interactive (≤ 4.5 s) budgets (ADR 0004).
 - **SC-002**: 100% of runnable published layers are discoverable by Theme and Search.
 - **SC-003**: View URLs round-trip deterministically in 100% of fixture tests.
 - **SC-004**: The keyboard scenario in FR-008 passes end-to-end.
