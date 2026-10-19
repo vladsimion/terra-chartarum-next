@@ -500,4 +500,18 @@ const ROOM_MUTATIONS: Mutation[] = [
   { name: 'a room is final with an empty body', rule: 'ROOM-COPY', apply: editOf('room', (r) => { r.copy_status = 'final'; r.body = ' '; }) },
 ];
 
-export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS, ...ESSAY_MUTATIONS, ...MAP_MUTATIONS, ...ATLAS_MUTATIONS, ...BIBLIOGRAPHY_MUTATIONS, ...ROOM_MUTATIONS];
+/* Spec 008 Foundation: records brought in from the legacy site. The generated registry has no legacy maps, so a mutation adds the one it needs. */
+const legacyMapOf = (over: Partial<RegistryRecord> = {}): RegistryRecord =>
+  build('map', 90, {
+    id: 'tc:atlas:map:legacy-plan', origin: 'legacy', slug: 'legacy-plan', file: 'content/map/legacy-plan.yaml', lifecycle: 'researching', release: 'held',
+    record_scope: 'object', witness_kind: 'institutional', legacy_record_scope: 'object', legacy_custody: 'institutional', ...over,
+  });
+const MIGRATION_MUTATIONS: Mutation[] = [
+  { name: 'a legacy record has lost its legacy local-id as slug', rule: 'MIG-SLUG', apply: (rs) => [...rs, legacyMapOf({ slug: 'renamed' })] },
+  { name: 'a minted map carries a legacy_custody', rule: 'MIG-LEGACY', apply: editOf('map', (r) => { r.legacy_custody = 'held'; }) },
+  { name: 'a legacy work is record_scope object', rule: 'MIG-LEGACY', apply: (rs) => [...rs, legacyMapOf({ legacy_record_scope: 'work' })] },
+  { name: 'a legacy map has a publication status outside the legacy set', rule: 'MIG-LEGACY', apply: (rs) => [...rs, legacyMapOf({ legacy_publication_status: 'draft' })] },
+  { name: 'a legacy map’s image is cleared with no named confirmation', rule: 'MIG-IMAGE-CLEARED', apply: (rs) => [...rs, legacyMapOf({ images: [{ type: 'static', url: 'https://terra-chartarum.pages.dev/a.jpg', static_url: 'https://terra-chartarum.pages.dev/a.jpg', attribution: 'x', licence: 'CC BY 4.0', alt: 'x', witness_kind: 'institutional', reproduction_cleared: true }] })] },
+];
+
+export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS, ...ESSAY_MUTATIONS, ...MAP_MUTATIONS, ...ATLAS_MUTATIONS, ...BIBLIOGRAPHY_MUTATIONS, ...ROOM_MUTATIONS, ...MIGRATION_MUTATIONS];

@@ -17,7 +17,7 @@ const blank = (value: unknown) => typeof value !== 'string' || value.trim() === 
  * constraining it, so they never block later editing. A bare flag confirms nothing, so it cannot
  * be used to switch the rules off (IMPORT-CONFIRMED reports it).
  */
-const confirmed = (r: RegistryRecord) =>
+export const confirmed = (r: RegistryRecord) =>
   r.editor_confirmed === true && !blank(r.confirmed_by) && !AUTOMATED.test(String(r.confirmed_by)) && !blank(r.confirmed_on);
 const unconfirmed = (r: RegistryRecord) => !confirmed(r);
 

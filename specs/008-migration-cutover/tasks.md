@@ -38,15 +38,15 @@ description: "Task list for 008 Migration & Cutover"
 
 **Goal**: the import-only fields and the three rules (FR-021).
 
-- [ ] T005 [P] Write failing `tests/registry/unit/migration-schema.test.ts`: `legacy_record_scope`, `legacy_custody` and `legacy_publication_status` load only on a record with `origin: legacy` value sets as in data-model.md; `FAM-UNKNOWN` still rejects them elsewhere
-- [ ] T006 Implement the three import-only fields in `src/registry/schemas/families.ts` and `schemas/import.ts`
-- [ ] T007 [P] Write failing `tests/registry/unit/mig-slug.test.ts` for `MIG-SLUG` (a legacy record whose slug is neither its local-id nor has it in `slug_history`) with a named mutation
-- [ ] T008 Implement `MIG-SLUG` in `src/registry/rules/migration.ts` and register it
-- [ ] T009 [P] Write failing `tests/registry/unit/mig-legacy.test.ts` for `MIG-LEGACY` (a `legacy_*` field on a minted record; a bad value; `legacy_record_scope: work` with `record_scope: object`; `legacy_custody` disagreeing with `witness_kind`) with a named mutation for each
-- [ ] T010 Implement `MIG-LEGACY`
-- [ ] T011 [P] Write failing `tests/registry/unit/mig-image-cleared.test.ts` for `MIG-IMAGE-CLEARED` (a legacy map image with `reproduction_cleared: true` and no `editor_confirmed` person and date) with a named mutation
-- [ ] T012 Implement `MIG-IMAGE-CLEARED`
-- [ ] T013 Register the three rules in `src/registry/rules/index.ts`, make the rule-coverage test pass, and add them to `specs/001-scholarly-registry/contracts/rule-ids.md`; update spec 001's data model import section to point at spec 008's
+- [x] T005 [P] Write failing `tests/registry/unit/migration-schema.test.ts`: `legacy_record_scope`, `legacy_custody` and `legacy_publication_status` load only on a record with `origin: legacy` value sets as in data-model.md; `FAM-UNKNOWN` still rejects them elsewhere Done: `migration-schema.test.ts`. The three fields are members of the map schema only, so FAM-UNKNOWN rejects them on any other family; where they may appear (legacy records) and their values are judged by `MIG-LEGACY`, as for the other `legacy_*` fields (a departure from the task text, which put the check in the schema).
+- [x] T006 Implement the three import-only fields in `src/registry/schemas/families.ts` and `schemas/import.ts`
+- [x] T007 [P] Write failing `tests/registry/unit/mig-slug.test.ts` for `MIG-SLUG` (a legacy record whose slug is neither its local-id nor has it in `slug_history`) with a named mutation
+- [x] T008 Implement `MIG-SLUG` in `src/registry/rules/migration.ts` and register it
+- [x] T009 [P] Write failing `tests/registry/unit/mig-legacy.test.ts` for `MIG-LEGACY` (a `legacy_*` field on a minted record; a bad value; `legacy_record_scope: work` with `record_scope: object`; `legacy_custody` disagreeing with `witness_kind`) with a named mutation for each
+- [x] T010 Implement `MIG-LEGACY`
+- [x] T011 [P] Write failing `tests/registry/unit/mig-image-cleared.test.ts` for `MIG-IMAGE-CLEARED` (a legacy map image with `reproduction_cleared: true` and no `editor_confirmed` person and date) with a named mutation
+- [x] T012 Implement `MIG-IMAGE-CLEARED`
+- [x] T013 Register the three rules in `src/registry/rules/index.ts`, make the rule-coverage test pass, and add them to `specs/001-scholarly-registry/contracts/rule-ids.md`; update spec 001's data model import section to point at spec 008's Done: three rules and five named mutations added (91 rules and 120 mutations in all; 2279 Vitest tests in 193 files). Two existing tests and one valid fixture built legacy records whose slug was not their legacy local-id; they now carry it (`MIG-SLUG` is meant to catch exactly that).
 
 ---
 

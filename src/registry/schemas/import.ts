@@ -19,6 +19,11 @@ export const LEGACY_LAYER_LIFECYCLE_MAP: Readonly<Record<string, string>> = {
   published: 'published',
 };
 
+/** The value sets of the legacy map fields kept on an imported record (spec 008 data-model.md, MIG-LEGACY). */
+export const LEGACY_RECORD_SCOPE_VALUES = ['object', 'work', 'concept'] as const;
+export const LEGACY_CUSTODY_VALUES = ['held', 'institutional', 'unlocated'] as const;
+export const LEGACY_PUBLICATION_STATUS_VALUES = ['published_witness', 'reference_only'] as const;
+
 /** Legacy families that are not imported under their own name. */
 export const LEGACY_FAMILY_PORT = 'port';
 export const LEGACY_FAMILY_PROJECT = 'project';

@@ -36,6 +36,7 @@ Terms follow `GLOSSARY.md`. Rules cite the spec (FR-/US-) and ADR 0006. `*` mark
 | `private` | optional block of private fields; never projected (FR-009) |
 | `vocabulary` | optional name of a specialist vocabulary (`vocab-mappings/<name>.yaml`); the record's `lifecycle`, `confidence`, `evidence_type` and `geometry_provenance` may then use that corpus's own terms (TC-D016) |
 | `legacy_family`, `legacy_confidence`, `legacy_review_state`, `legacy_layer_status`, `legacy_reviewer`, `legacy_review_date`, `legacy_normalization_method`, `editor_confirmed`, `confirmed_by`, `confirmed_on` | optional, imports only (FR-014, FR-011). The `IMPORT-*` rules constrain a record only until the import is **confirmed**: `editor_confirmed: true` with `confirmed_by` (a person, never an automated tool) and `confirmed_on`. A bare flag confirms nothing and is reported by `IMPORT-CONFIRMED`; afterwards the record follows its own lifecycle. A row with `legacy_normalization_method: llm_assisted` needs `adjudicated_by` and `adjudicated_on` before it is `publishable` (`AUTO-UNADJUDICATED`). |
+| `legacy_record_scope`, `legacy_custody`, `legacy_publication_status` (maps) | optional, imports only: the original legacy values (spec 008 FR-013, `MIG-LEGACY`); a legacy record also keeps its legacy local-id as its slug or in `slug_history` (`MIG-SLUG`) and withholds an image until the editor clears it (`MIG-IMAGE-CLEARED`). See [spec 008's data model](../008-migration-cutover/data-model.md). |
 
 ## Evidence record (`family = evidence`)
 

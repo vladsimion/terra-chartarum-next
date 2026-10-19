@@ -45,6 +45,10 @@ export const MapSchema = EntityBase.extend({
   field_status: z.record(z.string(), z.string()).optional(),
   basis: z.looseObject({ provenance: z.string().optional(), atlas_context: z.string().optional() }).optional(),
   images: z.array(ImageSourceSchema).optional(),
+  /** Import only (spec 008 FR-013, FR-021): the original legacy values. Membership here; MIG-LEGACY judges where they may appear and their values. */
+  legacy_record_scope: z.string().optional(),
+  legacy_custody: z.string().optional(),
+  legacy_publication_status: z.string().optional(),
   /** Held-sheet observations. Validated, never projected or displayed in v1 (FR-007, ADR 0002). */
   physical: z.record(z.string(), z.unknown()).optional(),
   rights: RightsShape.optional(),

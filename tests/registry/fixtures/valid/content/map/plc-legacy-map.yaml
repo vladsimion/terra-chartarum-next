@@ -3,6 +3,8 @@ family: map
 origin: legacy
 title: A legacy map record
 slug: a-legacy-map-record
+slug_history:
+  - plc-legacy-map
 lifecycle: researching
 release: held
 makers:

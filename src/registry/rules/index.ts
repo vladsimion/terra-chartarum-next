@@ -12,6 +12,7 @@ import { IMPORT_RULES } from './import.js';
 import { LIFECYCLE_RULES } from './lifecycle.js';
 import { LOCATOR_RULES } from './locators.js';
 import { MAP_RULES } from './map.js';
+import { MIGRATION_RULES } from './migration.js';
 import { loadPath } from './path.js';
 import { PROVENANCE_RULES } from './provenance.js';
 import { REFERENCE_RULES } from './references.js';
@@ -47,4 +48,5 @@ export const ALL_RULES: Rule[] = [
   ...MAP_RULES,
   ...ATLAS_RULES,
   ...BIBLIOGRAPHY_RULES,
+  ...MIGRATION_RULES,
 ];

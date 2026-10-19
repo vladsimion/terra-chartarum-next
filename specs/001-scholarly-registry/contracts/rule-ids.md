@@ -84,6 +84,9 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `ROOM-SET` | exactly the seven fixed rooms exist (registry-level: runs only with `completeness`, which `check` turns on) | ADR 0003 §7 | always |
 | `ROOM-PUBLIC` | every room is `published` and `released`, at every lifecycle | 007 FR-005 | always |
 | `ROOM-COPY` | `order` is the room's place in the canonical seven; `copy_status` is `draft` or `final`; `short_description` and the body file `<id>.md` are present (warns from `ready_for_build`); a room marked `final` has both | 007 FR-004 | `publishable` |
+| `MIG-SLUG` | a record with `origin: legacy` has its legacy local-id as its current slug or in its `slug_history` | 008 FR-001 | always |
+| `MIG-LEGACY` | `legacy_record_scope`, `legacy_custody` and `legacy_publication_status` appear only on `origin: legacy` records, hold only the legacy value sets, and agree with `record_scope` and `witness_kind` | 008 FR-013 | always |
+| `MIG-IMAGE-CLEARED` | an image of an `origin: legacy` map has `reproduction_cleared: true` only when the record is confirmed by a named person and date | 008 FR-015 | always |
 | `SLUG-UNIQUE` | current slugs are unique per family, a superseded record's included (its redirect starts there) | FR-013 | always |
 | `SLUG-HISTORY-COLLISION` | a former slug equals a live slug | FR-013 | always |
 | `SAMEAS-SYNTAX` | `same_as` authority allowlisted and ID syntax valid | FR-003 | always |
