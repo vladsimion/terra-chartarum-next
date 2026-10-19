@@ -77,16 +77,16 @@ description: "Task list for 007 Rooms (Curatorial Paths)"
 
 ## Phase 5: User Story 2 — Rooms as an Atlas lens (P2; delivered by spec 005)
 
-- [ ] T024 [P] [US2] Write failing `tests/rooms/unit/atlas-agreement.test.ts`: for the fixture registry, the layers on each room page equal the layers spec 005's `atlas-index.json` lists under that room; spec 005's index builder (`src/atlas/index-data.ts`) is merged
-- [ ] T025 [US2] Confirm that spec 005's and spec 004's `index-data.ts` already call `roomsOf` from `src/rooms/membership.ts` (they do; note it in their tasks files), and make T024 pass; TCX-43 is Done when spec 005's lens tests and this cross-test pass
+- [x] T024 [P] [US2] Write failing `tests/rooms/unit/atlas-agreement.test.ts`: for the fixture registry, the layers on each room page equal the layers spec 005's `atlas-index.json` lists under that room; spec 005's index builder (`src/atlas/index-data.ts`) is merged Done: it compares the built room pages with the built `data/atlas-index.json` of the rooms fixture site, for each of the seven rooms (rooms with layers and rooms without).
+- [x] T025 [US2] Confirm that spec 005's and spec 004's `index-data.ts` already call `roomsOf` from `src/rooms/membership.ts` (they do; note it in their tasks files), and make T024 pass; TCX-43 is Done when spec 005's lens tests and this cross-test pass Done: specs 004 and 005 already note the call in their tasks files, and `tests/rooms/unit/one-derivation.test.ts` asserts that the Collection and Atlas indexes and the Rooms views import the shared module.
 
 ---
 
 ## Phase 6: Cross-cutting checks
 
-- [ ] T026 [P] Write failing `tests/rooms/build/leak.test.ts` (SC-003): no id, slug or title of the held essay, or of the map and layer used only by it, appears on any room page, in any room URL or in the link check's inputs; add the named mutation to `tests/registry/mutations.test.ts`; make it pass
-- [ ] T027 [P] Write failing `tests/rooms/build/rooms-primary.test.ts` (SC-001): every released fixture essay appears in exactly one primary room across the seven pages
-- [ ] T028 [P] Write failing `tests/rooms/unit/one-derivation.test.ts` (FR-007): no module under `src/` other than `src/rooms/membership.ts` reads an essay's `rooms` field to derive membership; make it pass
+- [x] T026 [P] Write failing `tests/rooms/build/leak.test.ts` (SC-003): no id, slug or title of the held essay, or of the map and layer used only by it, appears on any room page, in any room URL or in the link check's inputs; add the named mutation to `tests/registry/mutations.test.ts`; make it pass Done: seven named leaks seen in real built files (the held essay's title, a link to it, a held layer's title and address, the held essay's id in the relations file, a redirect naming it) and reported without repeating the value; the mutations live in the test, as for specs 003 to 006. A map that is itself public but used only by the held essay is not held, so the registry scan cannot call it a leak: that it is on no room page is asserted in `room-page.test.ts`.
+- [x] T027 [P] Write failing `tests/rooms/build/rooms-primary.test.ts` (SC-001): every released fixture essay appears in exactly one primary room across the seven pages
+- [x] T028 [P] Write failing `tests/rooms/unit/one-derivation.test.ts` (FR-007): no module under `src/` other than `src/rooms/membership.ts` reads an essay's `rooms` field to derive membership; make it pass Done: the allowed readers are the registry and the three essay modules that show an essay's own declared rooms, primary first (`page-model.ts`, `related.ts`, `RoomLinks.astro`); a style block's `.primary` class and comments are not reads.
 
 ---
 
