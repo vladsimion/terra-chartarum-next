@@ -7,6 +7,10 @@ import { parse } from 'node-html-parser';
  * a file-system question: every `<a href>` that stays on the site must name a built page or file, and
  * every `#fragment` an element id on the page it names. External, `mailto:`, `tel:` and `data:` links
  * are ignored. A path covered by `_redirects` counts as resolved: the redirect is the site's answer.
+ *
+ * Scope: only `<a href>` is checked (FR-010 is about links a reader follows); images, scripts and
+ * stylesheets are the build's own and are checked by the shell's static-output tests. A `_redirects`
+ * rule counts by its exact first column, so a splat rule does not cover a link (the site has none).
  */
 export interface DeadLink {
   /** The built file the link is on, relative to the output folder. */
@@ -39,6 +43,8 @@ function redirected(dir: string): Set<string> {
 function fileFor(dir: string, pathname: string): string | null {
   const clean = decodeURIComponent(pathname).replace(/^\/+/, '');
   const direct = path.join(dir, clean);
+  // a link can never be answered by a file outside the built folder
+  if (path.relative(dir, direct).startsWith('..')) return null;
   if (clean !== '' && !clean.endsWith('/') && existsSync(direct) && statSync(direct).isFile()) return clean;
   const index = path.join(clean, 'index.html');
   return existsSync(path.join(dir, index)) ? index : null;

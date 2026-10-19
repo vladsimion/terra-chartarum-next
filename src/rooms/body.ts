@@ -5,7 +5,7 @@
  */
 const escapeHtml = (text: string): string => text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-const SAFE_HREF = /^(\/(?!\/)[^\s"<>]*|https:\/\/[^\s"<>]+)$/;
+const SAFE_HREF = /^(\/(?![/\\])[^\s"<>\\*]*|https:\/\/[^\s"<>\\*]+)$/;
 
 function inline(escaped: string): string {
   return escaped

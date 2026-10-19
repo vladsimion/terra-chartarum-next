@@ -10,7 +10,6 @@ import { list } from '../registry/values.js';
  */
 export type RoomId = (typeof ROOM_IDS)[number];
 
-
 /** The rooms an essay names, as ids of rooms that are in the input. */
 function roomsNamedBy(essay: PublicRecord, present: ReadonlySet<string>): string[] {
   const selection = (essay.rooms ?? {}) as { primary?: unknown; secondary?: unknown };
