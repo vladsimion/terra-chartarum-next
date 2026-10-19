@@ -76,6 +76,16 @@ test('a layer added alone has its table but no overview, and removing it takes t
   await expect(fallback(page).locator('table')).toHaveCount(0);
 });
 
+test('a hidden layer’s table is left out, and comes back when shown', async ({ page }) => {
+  await openCollection(page);
+  await page.locator('#atlas-year').fill('150');
+  await expect(fallback(page).locator('table')).toHaveCount(2);
+  await page.getByRole('button', { name: 'Hide The frontier line on the map' }).click();
+  await expect(fallback(page).locator('table')).toHaveCount(1);
+  await page.getByRole('button', { name: 'Show The frontier line on the map' }).click();
+  await expect(fallback(page).locator('table')).toHaveCount(2);
+});
+
 test('the year, the layers and the address work as they do with a map', async ({ page }) => {
   await openCollection(page);
   await page.locator('#atlas-year').fill('130');

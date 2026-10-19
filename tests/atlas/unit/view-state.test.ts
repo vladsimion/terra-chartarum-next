@@ -11,6 +11,7 @@ import {
   focus,
   initialState,
   setLens as setLensIn,
+  setVisible as setVisibleIn,
   setYear,
   toggleRelevant,
 } from '../../../src/atlas/view-state.js';
@@ -189,5 +190,51 @@ describe('immutability', () => {
     const after = activate(before, 'roads');
     expect(before.active).toEqual([]);
     expect(after).not.toBe(before);
+  });
+});
+
+describe('setVisible (the contract’s visibility toggle)', () => {
+  const setVisible = (state: AtlasState, slug: string, visible: boolean) => setVisibleIn(state, slug, visible);
+
+  it('hides an active layer without deactivating it, and shows it again', () => {
+    let state = activate(activate(start(), 'roads'), 'limes');
+    state = setVisible(state, 'roads', false);
+    expect(state.active).toEqual(['roads', 'limes']);
+    expect(state.hidden).toEqual(['roads']);
+    state = setVisible(state, 'roads', true);
+    expect(state.hidden).toBeUndefined();
+  });
+
+  it('keeps the layer’s facets and focus while it is hidden', () => {
+    let state = focus(activate(start(), 'roads'), 'roads');
+    state = { ...state, facets: { roads: { status: { kind: 'category', values: ['a'] } } } };
+    state = setVisible(state, 'roads', false);
+    expect(state.focused).toBe('roads');
+    expect(state.facets.roads).toBeDefined();
+  });
+
+  it('ignores a layer that is not active, and a repeat', () => {
+    const state = activate(start(), 'roads');
+    expect(setVisible(state, 'limes', false)).toBe(state);
+    const hidden = setVisible(state, 'roads', false);
+    expect(setVisible(hidden, 'roads', false)).toBe(hidden);
+    expect(setVisible(state, 'roads', true)).toBe(state);
+  });
+
+  it('keeps hidden layers in activation order', () => {
+    let state = activate(activate(activate(start(), 'roads'), 'limes'), 'maps');
+    state = setVisible(setVisible(state, 'maps', false), 'roads', false);
+    expect(state.hidden).toEqual(['roads', 'maps']);
+  });
+
+  it('forgets a layer that is removed, so adding it again shows it', () => {
+    let state = setVisible(activate(start(), 'roads'), 'roads', false);
+    state = activate(deactivate(state, 'roads'), 'roads');
+    expect(state.hidden).toBeUndefined();
+  });
+
+  it('marks the layer in the active list', () => {
+    const state = setVisible(activate(activate(start(), 'roads'), 'limes'), 'roads', false);
+    expect(activeLayers(state, INDEX).map((a) => [a.slug, a.hidden])).toEqual([['roads', true], ['limes', false]]);
   });
 });

@@ -47,6 +47,8 @@ export interface AtlasState {
   collection?: string;
   /** Active layer slugs in activation order. */
   active: string[];
+  /** Active layers kept on the list but not drawn, in activation order; absent when none is hidden. Always a subset of `active`. */
+  hidden?: string[];
   /** The layer the inspector shows; always one of `active`. */
   focused?: string;
   relevantOnly: boolean;

@@ -174,6 +174,33 @@ describe('parseView', () => {
   });
 });
 
+describe('hidden layers (the visibility toggle)', () => {
+  it('writes them after the active layers, and reads them back', () => {
+    const state: AtlasState = { ...base(), active: ['roads', 'frontier-line'], hidden: ['frontier-line'] };
+    const written = serialiseView(state, INDEX);
+    expect(written).toBe('l=roads,frontier-line&hide=frontier-line');
+    expect(parse(`?${written}`).state.hidden).toEqual(['frontier-line']);
+  });
+
+  it('writes nothing when none is hidden', () => {
+    expect(serialiseView({ ...base(), active: ['roads'] }, INDEX)).toBe('l=roads');
+  });
+
+  it('drops a hidden layer that is not on the map and says so, without saying whether it exists', () => {
+    const { state, report } = parse('?l=roads&hide=frontier-line,ghost');
+    expect(state.hidden).toBeUndefined();
+    expect(report.dropped).toHaveLength(1);
+    expect(report.skipped).toEqual(['ghost']);
+    expect(JSON.stringify(report)).not.toMatch(/held|exist/i);
+  });
+
+  it('follows a retired slug', () => {
+    const { state, report } = parseView('?l=old-settlements&hide=old-settlements', INDEX, SLUGS);
+    expect(state.hidden).toEqual(state.active);
+    expect(report.renamed.length).toBe(2);
+  });
+});
+
 describe('the round trip (SC-003)', () => {
   const years = [-500, -106, 0, 150, 1400, DEFAULT_YEAR];
   const lenses = ['theme', 'collection', 'room'] as const;
@@ -187,6 +214,8 @@ describe('the round trip (SC-003)', () => {
             const focused = active.length > 1 ? active[1] : undefined;
             const facets: AtlasState['facets'] = active[0] ? { [active[0]]: { status: cat('a b', 'ü', '1..2'), width_m: { kind: 'range', min: -3.5, max: 20 } } } : {};
             yield { year, lens, collection: lens === 'collection' ? 'dacia' : undefined, active, focused, relevantOnly, facets } as AtlasState;
+            // and with the first and last of the active layers hidden
+            if (active.length > 1) yield { year, lens, collection: lens === 'collection' ? 'dacia' : undefined, active, focused, relevantOnly, facets, hidden: [active[0], active[active.length - 1]] } as AtlasState;
           }
         }
       }
