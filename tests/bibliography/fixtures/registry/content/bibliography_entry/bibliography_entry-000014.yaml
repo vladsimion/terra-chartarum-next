@@ -1,0 +1,9 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000014
+family: bibliography_entry
+origin: minted
+title: A work nobody cites
+slug: fixture-entry-14
+lifecycle: published
+release: released
+csl: content/bibliography_entry/bibliography_entry-000014.csl.json
+section: further_reading

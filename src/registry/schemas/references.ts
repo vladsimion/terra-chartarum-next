@@ -16,6 +16,7 @@ const SCALARS: Record<string, string[]> = {
   map: ['publication_place'],
   evidence: ['source'],
   source: ['entry'],
+  bibliography_entry: ['edition_of', 'translation_of'],
   attestation: ['place', 'source'],
   layer: ['dataset', 'georef.map'],
   essay: ['rooms.primary'],
@@ -26,6 +27,8 @@ const LISTS: Record<string, string[]> = {
   collection: ['members', 'default_layers'],
   map: ['makers', 'coverage', 'attribution_evidence', 'bibliography'],
   cartographer: ['bibliography'],
+  dataset: ['bibliography'],
+  layer: ['bibliography'],
   essay: ['evidence', 'maps', 'places', 'sources', 'layers', 'bibliography', 'rooms.secondary'],
 };
 
@@ -48,7 +51,9 @@ const POINTS_AT: Record<string, Record<string, string>> = {
   collection: { members: 'layer', default_layers: 'layer' },
   map: { makers: 'cartographer', coverage: 'place', attribution_evidence: 'evidence', bibliography: 'bibliography_entry', publication_place: 'place' },
   cartographer: { bibliography: 'bibliography_entry' },
-  layer: { dataset: 'dataset', 'georef.map': 'map' },
+  layer: { dataset: 'dataset', 'georef.map': 'map', bibliography: 'bibliography_entry' },
+  dataset: { bibliography: 'bibliography_entry' },
+  bibliography_entry: { edition_of: 'bibliography_entry', translation_of: 'bibliography_entry' },
   evidence: { source: 'source' },
   source: { entry: 'bibliography_entry' },
   attestation: { place: 'place', source: 'source' },

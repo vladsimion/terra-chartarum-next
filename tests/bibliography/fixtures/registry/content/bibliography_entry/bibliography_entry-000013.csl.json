@@ -1,0 +1,18 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000013",
+  "type": "book",
+  "title": "A finding aid to the frontier papers",
+  "author": [
+    {
+      "literal": "Fixture Archive"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1999
+      ]
+    ]
+  },
+  "archive_location": "FA 12/3"
+}

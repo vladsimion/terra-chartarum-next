@@ -1,0 +1,9 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000006
+family: bibliography_entry
+origin: minted
+title: A fixture road dataset
+slug: fixture-entry-6
+lifecycle: published
+release: released
+csl: content/bibliography_entry/bibliography_entry-000006.csl.json
+section: datasets_licences

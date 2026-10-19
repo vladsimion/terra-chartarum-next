@@ -1,0 +1,18 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000009",
+  "type": "book",
+  "title": "A held draft entry",
+  "author": [
+    {
+      "family": "Hold",
+      "given": "Hal"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        2010
+      ]
+    ]
+  }
+}

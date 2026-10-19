@@ -1,0 +1,26 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000012",
+  "type": "book",
+  "title": "Les routes de la province",
+  "author": [
+    {
+      "family": "Marsh",
+      "given": "Odo"
+    }
+  ],
+  "translator": [
+    {
+      "family": "Lenoir",
+      "given": "Paul"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1980
+      ]
+    ]
+  },
+  "DOI": "10.1000/fixture.12",
+  "language": "fr"
+}

@@ -72,7 +72,7 @@ Every field that points at another record. `referenceFields(record)` returns the
 | layer | `dataset`, `georef.map` (an overlay's map, spec 005) |
 | essay | `evidence[]`, `maps[]`, `places[]`, `sources[]` |
 
-Typed references must point at the right family (`REF-FAMILY`): essay `maps[]` → map, `places[]` → place, `sources[]` → source, `evidence[]` → evidence; collection `members[]` and `default_layers[]` → layer; map `makers[]` → cartographer, `coverage[]` and `publication_place` → place, `attribution_evidence[]` → evidence, `bibliography[]` → bibliography entry; cartographer `bibliography[]` → bibliography entry; layer `dataset` → dataset and `georef.map` → map; evidence `source` → source; attestation `place` → place and `source` → source; `superseded_by` → the record's own family. `relations[]` and an evidence `target.entity` may point at anything.
+Typed references must point at the right family (`REF-FAMILY`): essay `maps[]` → map, `places[]` → place, `sources[]` → source, `evidence[]` → evidence; collection `members[]` and `default_layers[]` → layer; map `makers[]` → cartographer, `coverage[]` and `publication_place` → place, `attribution_evidence[]` → evidence, `bibliography[]` → bibliography entry; cartographer, dataset and layer `bibliography[]` → bibliography entry; source `entry`, bibliography entry `edition_of` and `translation_of` → bibliography entry; layer `dataset` → dataset and `georef.map` → map; evidence `source` → source; attestation `place` → place and `source` → source; `superseded_by` → the record's own family. `relations[]` and an evidence `target.entity` may point at anything.
 
 ## Family fields
 
@@ -83,11 +83,11 @@ Minimum fields per family beyond the Entity base. Everything not listed is optio
 | map | `makers[]`, `witness_kind` (an object record only, `MAP-SCOPE`) | the fields of [spec 004's data model](../004-collection-catalogue/data-model.md) (replaces `edition_state`, `repository`, `images: string[]` and the physical-object placeholder) |
 | cartographer | `kind` | `names`, `roles`, `life_dates`, `active`, `bibliography` (spec 004's data model) |
 | place | `place_type` (a port is `port`) | `location_status`, `names`, `location` (spec 005's data model; judged by `PLACE-NAMES` and `PLACE-LOCATION` from `ready_for_build`) |
-| source | `is_finding_aid` (boolean, default `false`) | `source_kind` |
-| dataset | `version` | `licence` |
-| layer | `role` (`context, historical, evidence, map-overlay`), `asset` (path), `dataset` | `geometry_provenance`, and from [spec 005's data model](../005-atlas/data-model.md) `theme`, `tags`, `synonyms`, `envelope`, `time_mode`, `facets`, `documentation`, `georef` (judged by the `LAYER-*` rules; the layer's source path is never projected) |
+| source | `is_finding_aid` (boolean, default `false`) | `source_kind`, `entry` (the bibliography entry the source is cited as; `SRC-ENTRY`, [spec 006's data model](../006-bibliography/data-model.md)) |
+| dataset | `version` | `licence`, `bibliography[]` (spec 006) |
+| layer | `role` (`context, historical, evidence, map-overlay`), `asset` (path), `dataset` | `geometry_provenance`, and from [spec 005's data model](../005-atlas/data-model.md) `theme`, `tags`, `synonyms`, `envelope`, `time_mode`, `facets`, `documentation`, `georef` (judged by the `LAYER-*` rules; the layer's source path is never projected), and `bibliography[]` (spec 006) |
 | route, event, period | none | `valid_from`, `valid_to`, `date_label` |
-| bibliography_entry | `csl` (path to CSL-JSON) | none |
+| bibliography_entry | `csl` (path to CSL-JSON) | `section` (spec 003), `edition_of`, `translation_of` (entries; `BIB-EDITION`) and `digital_copy` (an `https` URL); the CSL-JSON is one item whose `id` is the entry's stable ID (`BIB-CSL`); identifiers and keywords live there, not in the YAML ([spec 006's data model](../006-bibliography/data-model.md)) |
 
 Modern reference geometry is context only: a layer whose `geometry_provenance` is `modern_reference` MUST have role `context`, and an evidence record MUST NOT have geometry provenance `modern_reference` (`PROV-MODERN-AS-EVIDENCE`, Constitution III).
 

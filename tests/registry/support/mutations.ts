@@ -4,7 +4,7 @@ import type { RegistryRecord } from '../../../src/registry/types.js';
 import { validateRegistry } from '../../../src/registry/validate.js';
 import { ESSAY_STAGES, lifecycleFor, type EssayStage } from '../../../src/registry/stages.js';
 import { STATIC_ASSET_LIMIT_BYTES } from '../../../src/registry/schemas/atlas-values.js';
-import { rooms } from './builders.js';
+import { record as build, rooms } from './builders.js';
 import { generatedFeatures, generatedProvenance, generateRegistry, STEP_ID } from './synthetic.js';
 
 /** A named change to a valid registry that must trigger one specific rule as an error (SC-003). */
@@ -447,4 +447,46 @@ const ATLAS_MUTATIONS: Mutation[] = [
   { name: 'a publishable place has a latitude of 100', rule: 'PLACE-LOCATION', apply: editOf('place', (r) => { r.lifecycle = 'publishable'; r.names = [{ name: 'X', language: 'en', kind: 'modern' }]; r.location = { lon: 1, lat: 100 }; }) },
 ];
 
-export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS, ...ESSAY_MUTATIONS, ...MAP_MUTATIONS, ...ATLAS_MUTATIONS];
+/* Spec 006 Foundation: the source, edition, CSL and listing rules. The generated registry has no entries, so a mutation adds the ones it needs. */
+const entryOf = (n: number, over: Partial<RegistryRecord> = {}): RegistryRecord =>
+  build('bibliography_entry', n, { csl: `content/bibliography_entry/bibliography_entry-${String(n).padStart(6, '0')}.csl.json`, section: 'specialised_studies', ...over });
+const BIBLIOGRAPHY_MUTATIONS: Mutation[] = [
+  {
+    name: 'a publishable source has no entry',
+    rule: 'SRC-ENTRY',
+    apply: editOf('source', (r) => { r.lifecycle = 'publishable'; delete r.entry; }),
+  },
+  {
+    name: 'an entry is its own edition',
+    rule: 'BIB-EDITION',
+    apply: (rs) => { const e = entryOf(1); e.edition_of = e.id; return [...rs, e]; },
+  },
+  {
+    name: 'two entries are editions of each other',
+    rule: 'BIB-EDITION',
+    apply: (rs) => { const a = entryOf(1); const b = entryOf(2); a.edition_of = b.id; b.translation_of = a.id; return [...rs, a, b]; },
+  },
+  {
+    name: 'an entry names a CSL file that is not there',
+    rule: 'BIB-CSL',
+    apply: (rs) => [...rs, entryOf(1)],
+    options: (base) => ({ ...base, cslFiles: new Map() }),
+  },
+  {
+    name: 'an entry’s CSL item is for another id',
+    rule: 'BIB-CSL',
+    apply: (rs) => [...rs, entryOf(1)],
+    options: (base) => ({ ...base, cslFiles: new Map([['content/bibliography_entry/bibliography_entry-000001.csl.json', JSON.stringify({ id: 'smith1994', type: 'book', title: 'A study' })]]) }),
+  },
+  {
+    name: 'a publishable cartographer lists a held entry',
+    rule: 'BIB-LISTED-HELD',
+    apply: (rs) => {
+      const held = entryOf(1);
+      editOf('cartographer', (r) => { r.lifecycle = 'publishable'; r.release = 'released'; r.bibliography = [held.id]; })(rs);
+      return [...rs, held];
+    },
+  },
+];
+
+export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS, ...ESSAY_MUTATIONS, ...MAP_MUTATIONS, ...ATLAS_MUTATIONS, ...BIBLIOGRAPHY_MUTATIONS];

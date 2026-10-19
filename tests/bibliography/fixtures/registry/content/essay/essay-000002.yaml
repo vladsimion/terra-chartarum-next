@@ -1,0 +1,72 @@
+id: tc:tc:essay:essay-000002
+family: essay
+origin: minted
+title: A related fixture essay
+slug: fixture-related
+lifecycle: published
+release: released
+stage: Publish
+design_qa_passed: true
+question: How was the fixture frontier drawn?
+thesis: The road predates the line.
+authors:
+  - A. Editor
+published_on: 2026-10-17
+accent: verdigris
+rooms:
+  primary: tc:tc:room:map
+  secondary:
+    - tc:tc:room:border
+stage_history:
+  - stage: Concept
+    on: 2026-10-01
+    by: A. Editor
+  - stage: Corpus
+    on: 2026-10-02
+    by: A. Editor
+  - stage: Research
+    on: 2026-10-03
+    by: A. Editor
+  - stage: Outline
+    on: 2026-10-04
+    by: A. Editor
+  - stage: Draft
+    on: 2026-10-05
+    by: A. Editor
+  - stage: Build
+    on: 2026-10-06
+    by: A. Editor
+  - stage: Design QA
+    on: 2026-10-07
+    by: A. Editor
+  - stage: Publish
+    on: 2026-10-08
+    by: A. Editor
+rights:
+  licence: CC BY 4.0
+maps:
+  - tc:tc:map:map-000001
+  - tc:tc:map:map-000002
+sources:
+  - tc:tc:source:source-000002
+  - tc:tc:source:source-000004
+evidence:
+  - tc:tc:evidence:evidence-000002
+  - tc:tc:evidence:evidence-000003
+open_questions: []
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000001
+  - tc:tc:bibliography_entry:bibliography_entry-000004
+  - tc:tc:bibliography_entry:bibliography_entry-000010
+  - tc:tc:bibliography_entry:bibliography_entry-000012
+  - tc:tc:bibliography_entry:bibliography_entry-000013
+signoffs:
+  historical:
+    by: A. Editor
+    on: 2026-10-10
+  cartographic:
+    by: B. Editor
+    on: 2026-10-11
+  data:
+    by: C. Editor
+    on: 2026-10-12

@@ -1,0 +1,10 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000013
+family: bibliography_entry
+origin: minted
+title: A finding aid to the frontier papers
+slug: fixture-entry-13
+lifecycle: published
+release: released
+csl: content/bibliography_entry/bibliography_entry-000013.csl.json
+section: primary_sources
+digital_copy: https://archive.example.org/fa-12-3

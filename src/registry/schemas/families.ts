@@ -87,6 +87,8 @@ export const SourceSchema = EntityBase.extend({
 export const DatasetSchema = EntityBase.extend({
   version: z.string().optional(),
   licence: z.string().optional(),
+  /** Entries the dataset is documented by (spec 006 FR-003). */
+  bibliography: z.array(z.string()).optional(),
   rights: RightsShape.optional(),
 });
 
@@ -128,10 +130,23 @@ export const LayerSchema = EntityBase.extend({
   facets: z.unknown().optional(),
   documentation: z.array(z.object({ label: z.string(), url: HttpsUrl })).optional(),
   georef: Georef.optional(),
+  /** Entries the layer is documented by (spec 006 FR-003). */
+  bibliography: z.array(z.string()).optional(),
   rights: RightsShape.optional(),
 });
 
-export const BibliographyEntrySchema = EntityBase.extend({ csl: z.string().optional(), section: z.string().optional() });
+/**
+ * A bibliography entry (spec 006 data-model.md): the YAML adds only `section`, the edition
+ * relations and an external digital copy to the common fields. Identifiers and keywords live in the
+ * CSL-JSON file `csl` names, and an entry carries no `rights` in v1 (FR-011).
+ */
+export const BibliographyEntrySchema = EntityBase.extend({
+  csl: z.string().optional(),
+  section: z.string().optional(),
+  edition_of: z.string().optional(),
+  translation_of: z.string().optional(),
+  digital_copy: HttpsUrl.optional(),
+});
 
 export const CollectionSchema = EntityBase.extend({
   description: z.string().optional(),

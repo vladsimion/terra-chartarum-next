@@ -1,5 +1,6 @@
 import type { Rule } from './framework.js';
 import { ATLAS_RULES } from './atlas.js';
+import { BIBLIOGRAPHY_RULES } from './bibliography.js';
 import { AUTOMATED_RULES } from './automated.js';
 import { DATE_RULES } from './dates.js';
 import { ENUM_RULES } from './enums.js';
@@ -43,4 +44,5 @@ export const ALL_RULES: Rule[] = [
   ...ESSAY_RULES,
   ...MAP_RULES,
   ...ATLAS_RULES,
+  ...BIBLIOGRAPHY_RULES,
 ];

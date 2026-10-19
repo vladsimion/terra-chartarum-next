@@ -1,0 +1,22 @@
+id: tc:tc:layer:layer-000002
+family: layer
+origin: minted
+title: Roads of the province
+slug: roads
+lifecycle: published
+release: released
+role: historical
+asset: data/layers/layer-000002.geojson
+dataset: tc:tc:dataset:dataset-000001
+geometry_provenance: source_geometry
+theme: networks-circulation
+tags:
+  - fixture
+synonyms:
+  - roads-alias
+envelope: 0106/0271
+time_mode: envelope_only
+rights:
+  licence: CC BY 4.0
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000005

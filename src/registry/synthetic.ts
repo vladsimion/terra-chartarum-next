@@ -245,7 +245,22 @@ export function generateMapRegistry(count: number, seed: number): RegistryRecord
       }),
     );
   }
-  records.push(base('source', 1, 'A scholarly study', { source_kind: 'scholarly' }));
+  // the entry the source is cited as (spec 006 SRC-ENTRY); built without `base`, so the draws that follow are the same as before
+  records.push({
+    id: idOf('bibliography_entry', 1),
+    family: 'bibliography_entry',
+    origin: 'minted',
+    title: 'A scholarly study',
+    slug: 'bibliography_entry-1-a-scholarly-study',
+    slug_history: [],
+    lifecycle: 'published',
+    release: 'released',
+    relations: [],
+    file: `content/bibliography_entry/${localId('bibliography_entry', 1)}.yaml`,
+    csl: `content/bibliography_entry/${localId('bibliography_entry', 1)}.csl.json`,
+    section: 'specialised_studies',
+  });
+  records.push(base('source', 1, 'A scholarly study', { source_kind: 'scholarly', entry: idOf('bibliography_entry', 1) }));
 
   for (let n = 1; n <= count; n += 1) {
     const makers = [idOf('cartographer', 1 + Math.floor(rng() * cartographers))];
@@ -434,6 +449,120 @@ export function generateAtlasRegistry(count: number, seed: number): RegistryReco
   return records;
 }
 
+const SECTIONS = ['primary_sources', 'historical_maps', 'reference_works', 'specialised_studies', 'digital_resources', 'datasets_licences', 'further_reading'] as const;
+const FAMILY_NAMES = ['Marsh', 'Quill', 'Orme', 'Vale', 'Wells', 'Hale', 'Brand', 'Lenoir', 'Idle', 'Moe', 'Roe', 'Poe'];
+const GIVEN_NAMES = ['Ada', 'Odo', 'Tilda', 'Rowan', 'Ida', 'Paul', 'Jane', 'Hal'];
+const CSL_TYPES = ['book', 'article-journal', 'chapter', 'manuscript', 'map', 'webpage', 'dataset'] as const;
+
+/** The CSL-JSON item of a generated entry: the entry's id and title, and the rest derived from its number and the seed. */
+export function generatedCsl(entry: RegistryRecord, seed: number): Record<string, unknown> {
+  const n = Number(String(entry.id).split('-').pop());
+  const rng = mulberry32(seed * 1_000_003 + n);
+  const family = FAMILY_NAMES[Math.floor(rng() * FAMILY_NAMES.length)] as string;
+  const given = GIVEN_NAMES[Math.floor(rng() * GIVEN_NAMES.length)] as string;
+  const item: Record<string, unknown> = {
+    id: entry.id,
+    type: CSL_TYPES[n % CSL_TYPES.length],
+    title: entry.title,
+    author: [{ family, given }],
+    issued: { 'date-parts': [[1600 + Math.floor(rng() * 420)]] },
+    keyword: `${WORDS[n % WORDS.length]}, ${WORDS[(n * 7) % WORDS.length]}`,
+  };
+  if (n % 3 === 0) item.DOI = `10.5555/synthetic.${n}`;
+  if (n % 5 === 0) item.ISBN = `978-0-00-${String(100000 + n).slice(-6)}-0`;
+  return item;
+}
+
+/**
+ * `count` valid bibliography entries, all published and released, with a Source each (every 40th a
+ * finding aid), Evidence on every third entry (verified and pending locators), public cartographers
+ * that list the even entries, and held essays that list and cite others (so some entries are cited
+ * only by held content and some by nothing). Editions and translations run through the entries.
+ * For the discovery tests and the 1,000-entry timing test (spec 006 SC-005); CSL files come from
+ * `generatedCsl` when written to disk.
+ */
+export function generateBibliographyRegistry(count: number, seed: number): RegistryRecord[] {
+  const rng = mulberry32(seed);
+  const pick = <T>(items: readonly T[]): T => items[Math.floor(rng() * items.length)] as T;
+  const idOf = (family: string, n: number) => `tc:tc:${family}:${localId(family, n)}`;
+  const base = (family: string, n: number, title: string, extra: Record<string, unknown>): RegistryRecord => ({
+    id: idOf(family, n),
+    family,
+    origin: 'minted',
+    title,
+    slug: `${family}-${n}-${pick(WORDS)}`,
+    slug_history: [],
+    lifecycle: 'published',
+    release: 'released',
+    relations: [],
+    file: `content/${family}/${localId(family, n)}.yaml`,
+    ...extra,
+  });
+  const records: RegistryRecord[] = [];
+
+  for (let n = 1; n <= count; n += 1) {
+    const extra: Record<string, unknown> = {
+      csl: `content/bibliography_entry/${localId('bibliography_entry', n)}.csl.json`,
+      section: SECTIONS[(n - 1) % SECTIONS.length],
+    };
+    // an edition follows its first edition every 25th entry; a translation follows an edition every 50th
+    if (n % 50 === 0) extra.translation_of = idOf('bibliography_entry', n - 1);
+    else if (n % 25 === 0) extra.edition_of = idOf('bibliography_entry', n - 1);
+    records.push(base('bibliography_entry', n, `${pick(WORDS)} ${pick(WORDS)} studies ${n}`, extra));
+  }
+  for (let n = 1; n <= count; n += 1) {
+    records.push(base('source', n, `Source ${n}`, { entry: idOf('bibliography_entry', n), ...(n % 40 === 0 ? { is_finding_aid: true } : {}) }));
+  }
+
+  const cartographers = Math.max(1, Math.ceil(count / 4));
+  const listed = new Map<number, string[]>();
+  for (let n = 2; n <= count; n += 2) {
+    const c = ((n / 2 - 1) % cartographers) + 1;
+    listed.set(c, [...(listed.get(c) ?? []), idOf('bibliography_entry', n)]);
+  }
+  for (let n = 1; n <= cartographers; n += 1) records.push(base('cartographer', n, `Cartographer ${n}`, { kind: 'person', bibliography: listed.get(n) ?? [] }));
+
+  let evidenceCount = 0;
+  const evidenceBySource: string[] = [];
+  for (let n = 3; n <= count; n += 3) {
+    if (n % 40 === 0) continue; // a finding aid is never evidence
+    evidenceCount += 1;
+    const verified = evidenceCount % 2 === 0;
+    records.push(
+      base('evidence', evidenceCount, `Claim ${evidenceCount}`, {
+        target: { entity: idOf('cartographer', 1) },
+        source: idOf('source', n),
+        locator: verified
+          ? { value: `p. ${n}`, state: 'verified', proposed_by: 'person', verified_by: 'A. Editor', verified_on: '2026-10-10', consulted_copy: 'Synthetic copy' }
+          : { value: `p. ${n}`, state: 'pending', proposed_by: 'person' },
+        evidence_type: 'textual',
+        confidence: 'probable',
+        rights: { licence: 'CC-BY-4.0' },
+      }),
+    );
+    evidenceBySource.push(idOf('evidence', evidenceCount));
+  }
+
+  for (let n = 1; n <= Math.max(1, Math.ceil(count / 20)); n += 1) {
+    const mine = Array.from({ length: 4 }, (_, k) => idOf('bibliography_entry', Math.min(count, ((n * 5 + k * 5) % count) + 1)));
+    records.push(
+      base('essay', n, `An essay on sources ${n}`, {
+        lifecycle: 'proposed',
+        release: 'held',
+        stage: 'Concept',
+        question: 'What do these sources show?',
+        authors: ['Synthetic Author'],
+        rooms: { primary: 'tc:tc:room:archive' },
+        stage_history: [{ stage: 'Concept', on: '2026-01-01', by: 'Synthetic Author' }],
+        rights: { licence: 'CC-BY-4.0' },
+        bibliography: [...new Set(mine)],
+        evidence: evidenceBySource.length > 0 ? [evidenceBySource[(n - 1) % evidenceBySource.length] as string] : [],
+      }),
+    );
+  }
+  return records;
+}
+
 const ROOM_NAMES = ['earth', 'map', 'city', 'border', 'road', 'archive', 'theatre'] as const;
 
 /** The seven fixed rooms (ADR 0003 §7): permanent ids, not counters. */
@@ -474,6 +603,9 @@ export async function writeSyntheticRegistry(outDir: string, count: number, seed
       records.slice(i, i + BATCH).map(async ({ file, ...rest }) => {
         await write(file, stringify(rest));
         if (typeof rest.asset === 'string') await write(rest.asset, 'synthetic asset\n');
+        if (rest.family === 'bibliography_entry' && typeof rest.csl === 'string') {
+          await write(rest.csl, `${JSON.stringify({ id: rest.id, type: 'book', title: rest.title, author: [{ family: 'Synthetic', given: 'A.' }], issued: { 'date-parts': [[2000]] } }, null, 2)}\n`);
+        }
       }),
     );
   }
@@ -507,6 +639,29 @@ export async function writeSyntheticAtlas(outDir: string, layers: number, seed: 
         if (record.family === 'layer' && typeof record.asset === 'string') {
           await write(record.asset, `${JSON.stringify(generatedLayerSource(record, seed), null, 2)}\n`);
         }
+      }),
+    );
+  }
+}
+
+/** Write `generateBibliographyRegistry(entries, seed)`, the seven rooms and a CSL-JSON file for each entry to disk. */
+export async function writeSyntheticBibliography(outDir: string, entries: number, seed: number): Promise<void> {
+  const { mkdir, writeFile } = await import('node:fs/promises');
+  const nodePath = await import('node:path');
+  const { stringify } = await import('yaml');
+  const write = async (rel: string, text: string) => {
+    const full = nodePath.join(outDir, rel);
+    await mkdir(nodePath.dirname(full), { recursive: true });
+    await writeFile(full, text);
+  };
+  const records = [...syntheticRooms(), ...generateBibliographyRegistry(entries, seed)];
+  const BATCH = 200;
+  for (let i = 0; i < records.length; i += BATCH) {
+    await Promise.all(
+      records.slice(i, i + BATCH).map(async (record) => {
+        const { file, ...rest } = record;
+        await write(file, stringify(rest));
+        if (record.family === 'bibliography_entry' && typeof record.csl === 'string') await write(record.csl, `${JSON.stringify(generatedCsl(record, seed), null, 2)}\n`);
       }),
     );
   }

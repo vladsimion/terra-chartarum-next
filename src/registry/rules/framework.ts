@@ -85,6 +85,8 @@ export interface ValidateOptions {
   assetIndex?: ReadonlySet<string>;
   /** Bytes per asset path, for `LAYER-ASSET-SIZE`. Read by the loader, so the rule itself stays pure. */
   assetSizes?: ReadonlyMap<string, number>;
+  /** The text of each entry's CSL-JSON file by the path the entry names, for `BIB-CSL`. Read by the loader, so the rule itself stays pure. Absent means the files were not read. */
+  cslFiles?: ReadonlyMap<string, string>;
   /** Specialist vocabularies by name, for records that carry `vocabulary` (TC-D016). */
   vocabularies?: ReadonlyMap<string, Vocabulary>;
 }

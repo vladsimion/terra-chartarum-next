@@ -1,0 +1,30 @@
+id: tc:tc:map:map-000002
+family: map
+origin: minted
+title: A fixture map of the road
+slug: fixture-map-road
+lifecycle: published
+release: released
+makers:
+  - tc:tc:cartographer:cartographer-000001
+rights:
+  licence: CC BY 4.0
+  attribution: Image courtesy of the Fixture Library
+witness_kind: institutional
+verification: unverified
+attribution: exact
+attribution_evidence:
+  - tc:tc:evidence:evidence-000001
+field_status:
+  title_original: not_yet_verified
+  date_published: not_yet_verified
+  publication_place: not_yet_verified
+  edition_state: not_yet_verified
+  atlas_context: not_yet_verified
+  dimensions: not_yet_verified
+  language: not_yet_verified
+  coverage: not_yet_verified
+  significance: not_yet_verified
+  provenance: not_yet_verified
+  georeferencing_status: not_yet_verified
+  images: not_yet_verified

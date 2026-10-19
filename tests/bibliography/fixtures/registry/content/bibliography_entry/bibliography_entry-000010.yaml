@@ -1,0 +1,9 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000010
+family: bibliography_entry
+origin: minted
+title: The Roads of the Province
+slug: fixture-entry-10
+lifecycle: published
+release: released
+csl: content/bibliography_entry/bibliography_entry-000010.csl.json
+section: specialised_studies

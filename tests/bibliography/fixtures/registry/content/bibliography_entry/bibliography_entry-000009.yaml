@@ -1,0 +1,9 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000009
+family: bibliography_entry
+origin: minted
+title: A held draft entry
+slug: fixture-entry-9
+lifecycle: researching
+release: held
+csl: content/bibliography_entry/bibliography_entry-000009.csl.json
+section: further_reading

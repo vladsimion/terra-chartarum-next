@@ -1,0 +1,10 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000011
+family: bibliography_entry
+origin: minted
+title: The Roads of the Province, second edition
+slug: fixture-entry-11
+lifecycle: published
+release: released
+csl: content/bibliography_entry/bibliography_entry-000011.csl.json
+section: specialised_studies
+edition_of: tc:tc:bibliography_entry:bibliography_entry-000010
