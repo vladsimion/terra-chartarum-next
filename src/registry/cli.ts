@@ -8,6 +8,7 @@ import { checkRegistry, loadAndCheck } from './check.js';
 import { completenessReport, enrichmentQueue, renderQueueMarkdown } from './enrichment.js';
 import { scanOutput } from './leak-scan.js';
 import { loadRegistry } from './load.js';
+import { importBib, type ImportFormat } from './import-bib.js';
 import { mintNext } from './mint.js';
 import { createEssay } from './new-essay.js';
 import { promoteEssay, type CommandResult } from './promote.js';
@@ -30,6 +31,7 @@ const USAGE = `Usage:
   registry scan <distDir> [--dir <root>]               fail if built output holds a private value or the id of a non-public entity
   registry promote <essay-id> <stage> --by <person> [--check] [--dir <root>]   move an essay to the next editorial stage if its checks pass
   registry new essay <title> --room <room> --question <question> --author <name> [--dir <root>]   start an essay at Concept
+  registry import-bib <file> [--dir <root>] [--format bibtex|ris|csl-json] [--dry-run] [--out <dir>]   bring a reference manager's export in as held bibliography entries; duplicates are reported, never written
   registry synth <count> --seed <n> --out <dir> [--atlas | --bibliography]   write a deterministic synthetic registry (count entities plus the seven rooms; with --atlas, count layers with their collections, places and essays; with --bibliography, count entries with CSL files, Sources, Evidence and citing records)
 
 <root> is the registry root that contains content/ (default: .). Exit codes: 0 ok, 1 errors found, 2 tool failure.`;
@@ -160,6 +162,18 @@ async function newRecord(args: string[], io: Io): Promise<number> {
   return finish(await createEssay(values.dir, { title, room: values.room, question: values.question, author: values.author }), io);
 }
 
+async function importBibCommand(args: string[], io: Io): Promise<number> {
+  const { values, positionals } = parseArgs({
+    args,
+    allowPositionals: true,
+    options: { dir: { type: 'string', default: '.' }, format: { type: 'string' }, 'dry-run': { type: 'boolean', default: false }, out: { type: 'string' } },
+  });
+  const format = values.format;
+  if (format !== undefined && !['bibtex', 'ris', 'csl-json'].includes(format)) return usage(io);
+  if (positionals.length > 1) return usage(io);
+  return finish(await importBib(values.dir, positionals[0], { format: format as ImportFormat | undefined, dryRun: values['dry-run'], out: values.out }), io);
+}
+
 async function synth(args: string[], io: Io): Promise<number> {
   const { values, positionals } = parseArgs({
     args,
@@ -211,6 +225,7 @@ export async function main(argv: string[], io: Io): Promise<number> {
     if (command === 'scan') return await scan(rest, io);
     if (command === 'completeness') return await completeness(rest, io);
     if (command === 'synth') return await synth(rest, io);
+    if (command === 'import-bib') return await importBibCommand(rest, io);
     if (command === 'promote') return await promote(rest, io);
     if (command === 'new') return await newRecord(rest, io);
     return usage(io);
