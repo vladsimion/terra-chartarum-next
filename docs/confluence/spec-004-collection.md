@@ -1,5 +1,3 @@
-DRAFT, not published to Confluence. Drafted 2026-10-18 against `main` at `a1d93b7`; reconciled 2026-10-19 after #49 merged (`7977b49`). When published, the page id and version go in this line and in the README table.
-
 Programme dossier for spec 004, written against the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169), as the dossiers for specs 001 to 003 are.
 
 ## 1. Programme metadata
@@ -92,7 +90,7 @@ TCX-5 holds TCX-28 to TCX-32, each with its Spec Kit checklist. Foundation and S
 
 ## 13. Canonical ownership and propagation
 
-Owned here: the map and cartographer schemas and rules, the collection and cartographer pages, the filter index, the completeness report. Spec 001 owns the registry, its rule table (the ten rows are added there) and `registry scan`; spec 002 owns the shell, the CI template list and the static-output rule (narrowed for the collection scripts); spec 003 owns the citation generator; spec 007 will add `membership` to `src/rooms/membership.ts`, which holds `roomsOf`; spec 008 imports the 59 records. The Build Log carries the shipped work; the Decision Log carries two entries from this programme (maps and `RIGHTS-CLEARED`; the collection scripts and the shell's no-script rule).
+Owned here: the map and cartographer schemas and rules, the collection and cartographer pages, the filter index, the completeness report. Spec 001 owns the registry, its rule table (the ten rows are added there) and `registry scan`; spec 002 owns the shell, the CI template list and the static-output rule (narrowed for the collection scripts); spec 003 owns the citation generator; spec 007 will add `membership` to `src/rooms/membership.ts`, which holds `roomsOf`; spec 008 imports the 59 records. The Build Log carries the shipped work; the Decision Log carries two entries from this programme: TC-D035 (maps and `RIGHTS-CLEARED`) and TC-D036 (the collection scripts and the shell's no-script rule).
 
 ## 14. Current checkpoint and delivery authority
 
