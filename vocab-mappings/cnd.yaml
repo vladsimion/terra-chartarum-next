@@ -1,0 +1,8 @@
+# The Corpus Nominum Daciae (CND) vocabulary, as the legacy site's place data uses it (spec 008 FR-016).
+# A specialist term stays in the source; this file says what it means in the shared vocabulary.
+# The geometry terms are an editorial reading and are for the editor to confirm at the import acceptance.
+vocabulary: cnd
+geometry_provenance:
+  scholarly_reconstruction: scholarly_reconstruction
+  editorial_reconstruction: generalized_editorial
+  modern_reference: modern_reference

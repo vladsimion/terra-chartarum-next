@@ -164,7 +164,7 @@ const fold = (text: string): string => text.normalize('NFD').replace(/\p{M}/gu, 
 const ARTICLES = new Set(['a', 'an', 'the']);
 
 /** `<first-author-family>-<year>-<first-title-word>`, ASCII, skipping a leading article; a letter is added on a clash (research R2). */
-function slugFor(item: CslItem, taken: ReadonlySet<string>): string {
+export function slugFor(item: CslItem, taken: ReadonlySet<string>): string {
   const first = (item.author as { family?: string; literal?: string }[] | undefined)?.[0];
   const year = (item.issued as { 'date-parts'?: unknown[][] } | undefined)?.['date-parts']?.[0]?.[0];
   const words = fold(String(item.title)).split('-').filter(Boolean);

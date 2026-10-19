@@ -9,6 +9,7 @@ import { completenessReport, enrichmentQueue, renderQueueMarkdown } from './enri
 import { scanOutput } from './leak-scan.js';
 import { loadRegistry } from './load.js';
 import { importBib, type ImportFormat } from './import-bib.js';
+import { importLegacy } from '../migration/import-legacy.js';
 import { mintNext } from './mint.js';
 import { createEssay } from './new-essay.js';
 import { promoteEssay, type CommandResult } from './promote.js';
@@ -32,6 +33,7 @@ const USAGE = `Usage:
   registry promote <essay-id> <stage> --by <person> [--check] [--dir <root>]   move an essay to the next editorial stage if its checks pass
   registry new essay <title> --room <room> --question <question> --author <name> [--dir <root>]   start an essay at Concept
   registry import-bib <file> [--dir <root>] [--format bibtex|ris|csl-json] [--dry-run] [--out <dir>]   bring a reference manager's export in as held bibliography entries; duplicates are reported, never written
+  registry import-legacy --snapshot <path> --profile v1 --out <dir> [--apply] [--dir <root>] [--dry-run] [--sha <sha> --date <iso>]   stage the legacy site's records (all held) from a pinned snapshot; --apply adds only files that do not exist
   registry synth <count> --seed <n> --out <dir> [--atlas | --bibliography]   write a deterministic synthetic registry (count entities plus the seven rooms; with --atlas, count layers with their collections, places and essays; with --bibliography, count entries with CSL files, Sources, Evidence and citing records)
 
 <root> is the registry root that contains content/ (default: .). Exit codes: 0 ok, 1 errors found, 2 tool failure.`;
@@ -174,6 +176,14 @@ async function importBibCommand(args: string[], io: Io): Promise<number> {
   return finish(await importBib(values.dir, positionals[0], { format: format as ImportFormat | undefined, dryRun: values['dry-run'], out: values.out }), io);
 }
 
+async function importLegacyCommand(args: string[], io: Io): Promise<number> {
+  const { values } = parseArgs({
+    args,
+    options: { snapshot: { type: 'string' }, profile: { type: 'string' }, out: { type: 'string' }, dir: { type: 'string', default: '.' }, apply: { type: 'boolean', default: false }, 'dry-run': { type: 'boolean', default: false }, sha: { type: 'string' }, date: { type: 'string' } },
+  });
+  return finish(await importLegacy(values.dir, { snapshot: values.snapshot, profile: values.profile, out: values.out, apply: values.apply, dryRun: values['dry-run'], sha: values.sha, date: values.date }), io);
+}
+
 async function synth(args: string[], io: Io): Promise<number> {
   const { values, positionals } = parseArgs({
     args,
@@ -226,6 +236,7 @@ export async function main(argv: string[], io: Io): Promise<number> {
     if (command === 'completeness') return await completeness(rest, io);
     if (command === 'synth') return await synth(rest, io);
     if (command === 'import-bib') return await importBibCommand(rest, io);
+    if (command === 'import-legacy') return await importLegacyCommand(rest, io);
     if (command === 'promote') return await promote(rest, io);
     if (command === 'new') return await newRecord(rest, io);
     return usage(io);

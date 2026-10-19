@@ -503,7 +503,7 @@ const ROOM_MUTATIONS: Mutation[] = [
 /* Spec 008 Foundation: records brought in from the legacy site. The generated registry has no legacy maps, so a mutation adds the one it needs. */
 const legacyMapOf = (over: Partial<RegistryRecord> = {}): RegistryRecord =>
   build('map', 90, {
-    id: 'tc:atlas:map:legacy-plan', origin: 'legacy', slug: 'legacy-plan', file: 'content/map/legacy-plan.yaml', lifecycle: 'researching', release: 'held',
+    id: 'tc:tc:map:legacy-plan', origin: 'legacy', slug: 'legacy-plan', file: 'content/map/legacy-plan.yaml', lifecycle: 'researching', release: 'held',
     record_scope: 'object', witness_kind: 'institutional', legacy_record_scope: 'object', legacy_custody: 'institutional', ...over,
   });
 const MIGRATION_MUTATIONS: Mutation[] = [

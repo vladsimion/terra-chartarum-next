@@ -20,7 +20,7 @@ const RAW: unknown[] = [
     essaySlug: 'forts',
     coords: [23.3, 45.6],
     blurb: 'A plan drawn on clay.',
-    bibliography: ['smith-2001', { citation: 'Doe, A. (1999) Roads of the Province.', year: 1999, title: 'Roads of the Province' }],
+    bibliography: ['smith-2001', { citation: 'Doe, A. (1999) Roads of the Province.', author: 'Doe, A.', year: 1999, title: 'Roads of the Province' }],
     recordScope: 'object',
     custody: 'institutional',
     cartographerId: 'mapmaker-one',
@@ -47,7 +47,7 @@ const RAW: unknown[] = [
     relatedMapIds: ['plan-of-a-fort'],
   },
   // A concept
-  { id: 'idea-of-a-frontier', room: 'city', title: 'The Idea of a Frontier', year: 1579, recordScope: 'concept' },
+  { id: 'idea-of-a-frontier', room: 'city', title: 'The Idea of a Frontier', year: 1579, recordScope: 'concept', bibliography: ['doe-1999', { citation: 'Roe, B. (2010) Frontiers.', author: 'Roe, B.', year: 2010, title: 'Frontiers' }] },
   // An object nobody can locate
   { id: 'lost-chart', room: 'map', title: 'A Lost Chart', year: 1450, recordScope: 'object', custody: 'unlocated', publicationStatus: 'reference_only' },
   // No scope, no custody: read as an object
