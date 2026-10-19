@@ -89,7 +89,7 @@ TCX-7 holds TCX-39, TCX-40, TCX-41 and TCX-50, each with its Spec Kit checklist;
 | Import: mapping, matching, idempotence, rejection, no partial write | `tests/registry/integration/import-bib.test.ts`, `unit/match.test.ts` |
 | Nothing held leaks | `build/leak.test.ts`, `tests/registry/unit/leak-scan.test.ts` (`.bib`, `.ris`) |
 | A thousand entries filter in time (SC-005) | `unit/index-data.perf.test.ts` (Node only) |
-| Not verified | Firefox, WebKit and Lighthouse (CI runs them); the filter timing in a browser |
+| Not verified | The Bibliography pages in Firefox and WebKit (CI runs their end-to-end specs in Chromium only); the filter timing in a browser |
 
 ## 13. Canonical ownership and propagation
 
