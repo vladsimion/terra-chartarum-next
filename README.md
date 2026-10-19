@@ -16,11 +16,15 @@ docs/adr/                         0001 successor & cutover · 0002 v1 anchor (Da
                                   0006 registry identity & record model · 0007 EDTF dates
                                   0008 colour schemes & accents · 0009 licensing
                                   0010 editorial pipeline · 0011 map record model
+                                  0012 hosting as a Worker · 0013 Atlas contracts · 0014 bibliography
+                                  0015 rooms · 0016 migration
 src/registry/                     the registry module and integrity gate (spec 001)
 src/shell/, src/pages/            the shell, design tokens and pages (spec 002)
 src/integrations/                 the Astro integration that runs the gate in the build
 tests/registry/                   unit, integration, fixtures, mutation and timing tests
 tests/shell/                      unit, build-output and Playwright tests for the shell
+src/atlas/, src/atlas-client/     the Atlas: pure modules, the build step, and the browser code (spec 005)
+tests/atlas/                      unit, build-output, Playwright and performance tests for the Atlas
 docs/vendor/                      licence + pinned commit for vendored skills
 specs/
   001-scholarly-registry/         IDs, evidence/provenance, lifecycle, integrity gate
@@ -100,6 +104,23 @@ npm run test:e2e:collection                                            # viewer,
 - **Rules**: ten registry rules (`MAP-*`, `CART-KIND`) in `src/registry/rules/map.ts`, listed in [`rule-ids.md`](specs/001-scholarly-registry/contracts/rule-ids.md). A map whose reproduction is not cleared is public but its page shows no image and says why.
 - **Never published**: acquisition details (`MAP-PRIVATE-FIELD`), held records, and the editor reports; the output scan (`registry scan`) fails if any reaches the site.
 - Walkthrough: [`specs/004-collection-catalogue/quickstart.md`](specs/004-collection-catalogue/quickstart.md).
+
+## The Atlas (spec 005)
+
+A time-aware map: pick a year, switch on layers from the catalogue (by theme, collection or room), and see only what was valid then, each line drawn by how it is known (documentary, reconstruction, generalised, present-day reference) and each uncertain date drawn paler. A layer is a record under `content/layer/` with a GeoJSON or PMTiles source; the build converts each public layer to FlatGeobuf with year bounds in every feature. Decisions: [ADR 0013](docs/adr/0013-atlas-contracts.md).
+
+```bash
+npm run registry -- check --dir tests/atlas/fixtures/registry         # the Atlas fixtures pass the gate
+REGISTRY_ROOT=tests/atlas/fixtures/registry npm run build              # pages, then the Atlas files under data/
+npm run test:e2e:atlas                                                 # year, lens, inspector, share, place search, overlay, no WebGL, keyboard, no outside requests
+npm run test:e2e:atlas-perf                                            # timings on a seeded 200-layer catalogue (registry synth --atlas)
+```
+
+- **Pages**: `/atlas/` (the Atlas) and `/atlas/handbook/` with five topics (draft skeleton copy until the author releases them). The address (`/atlas/?y=150&l=slug,slug&lens=collection&c=slug`) is the only saved state and carries public slugs only.
+- **Rules**: seven registry rules (`LAYER-THEME`, `LAYER-TIME`, `LAYER-FACET`, `LAYER-GEOREF`, `LAYER-ASSET-SIZE`, `PLACE-NAMES`, `PLACE-LOCATION`) in `src/registry/rules/atlas.ts`, plus build-time checks (`ATLAS-*`) in `src/atlas/build/`.
+- **Loading**: the page script is about 91 KB; MapLibre (served unbundled from `vendor/maplibre/`), the FlatGeobuf reader and, for a map overlay, the Allmaps plugin load only when a layer needs them. Without WebGL the page shows a build-written SVG overview and a table of features per layer instead.
+- **Never published**: a layer or collection that is not both published and released, and any private value; the output scan covers the Atlas files too. No third-party tile service is called.
+- Walkthrough: [`specs/005-atlas/quickstart.md`](specs/005-atlas/quickstart.md).
 
 ## The shell and design system (spec 002)
 
