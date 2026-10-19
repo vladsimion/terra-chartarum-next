@@ -1,6 +1,8 @@
-# Confluence entry: Decision Log (page 12648509), not yet published
+# Confluence entry: Decision Log (page 12648509)
 
-### TC-D??? — A map may be published with an image it cannot show; the page withholds it
+Published 2026-10-19 in page version 14, directly after TC-D034; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
+
+### TC-D035 — A map may be published with an image it cannot show; the page withholds it
 
 **Date:** 18 October 2026    
 **Status:** Accepted (spec 004 US1, scenario 5)

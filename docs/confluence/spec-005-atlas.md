@@ -1,5 +1,3 @@
-DRAFT, not published to Confluence. Drafted 2026-10-19 against `main` at `122d2a9`, with every pull request of the programme merged (#50 to #62) except the wrap-up pull request; the Atlassian connector cannot write Confluence pages, so publishing needs a signed-in browser. When published, the page id and version go in this line and in the README table. Reconcile the status and counts after those merge.
-
 Programme dossier for spec 005, written against the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169), as the dossiers for specs 001 to 004 are.
 
 ## 1. Programme metadata
@@ -7,12 +5,12 @@ Programme dossier for spec 005, written against the fourteen-point contract in [
 | | |
 |---|---|
 | Programme type | Instrument: a time-aware map for composing a historical argument from shared layers |
-| Status | **Code complete and merged.** Setup and Foundation (#50), User Stories 1 to 7 (#51 to #53, #55 to #58), the basemap (#54), the cross-cutting checks (#59), the performance check (#60), polish (#61) and the visibility toggle (#62) are merged. The registry workflow on `main` was green through #60; its runs for #61 and #62 had not finished when this was drafted, so check them before publishing. The map-interactive budget was decided on 2026-10-19 (section 14). The Definitions of Done stay open until this page is published. |
+| Status | **Code complete and polished.** Setup and Foundation (#50), User Stories 1 to 7 (#51 to #53, #55 to #58), the basemap (#54), the cross-cutting checks (#59), the performance check (#60), polish (#61) and the visibility toggle (#62) are merged. `gate` is green on `main` at `122d2a9`, including the performance check and Lighthouse. The map-interactive budget was decided on 2026-10-19 (section 14). The stories stay In Review until Vlad moves them to Done. |
 | Jira | **TCX-6** epic (In Progress); stories **TCX-33** (US1 compose a map at a year; also holds the cross-cutting checks), **TCX-34** (US2 discover by theme, collection, room), **TCX-35** (US3 inspect and facets), **TCX-36** (US4 share a view), **TCX-37** (US5 Handbook), **TCX-38** (US6 overlays), **TCX-49** (US7 place search). The merged stories are In Review, not Done. |
 | Canonical parent | A standalone page at the root of the space, as for specs 001 to 004 |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). Spec `specs/005-atlas/`; code `src/atlas/` (pure modules and the build), `src/atlas-client/` (browser), `src/registry/rules/atlas.ts`, `src/integrations/atlas.ts`, `src/pages/atlas/`, `src/content/handbook/`; decision `docs/adr/0013` |
 | Successor relationship | Replaces the live site's map viewer at cutover; spec 008 imports the real Roman Dacia layers |
-| Last reconciliation | 2026-10-19 (82 registry rules and 102 named mutations; 1877 Vitest tests in 149 files, all passing, on the polish branch; Chromium Playwright: Atlas 175 across light, dark, phone and no-JavaScript) |
+| Last reconciliation | 2026-10-19 against `main` at `122d2a9` (82 registry rules and 102 named mutations; 1888 Vitest tests in 149 files, all passing; Chromium Playwright at #62: Atlas 193 across light, dark, phone and no-JavaScript) |
 
 ## 2. Purpose / thesis
 
@@ -22,7 +20,7 @@ A map that says how sure it is. The falsifiable claim: **a reader can pick a yea
 
 ### In scope
 - Layer and place records extended for the Atlas (theme, tags, synonyms, temporal envelope, time mode, facets, georeferencing; place names and location); seven registry rules.
-- The Atlas page: year control, catalogue by theme, collection or room with search, collection defaults, active layers, the inspector with per-layer facets, the legend, a shareable address, place search, the Handbook, georeferenced overlays with an opacity control, and a no-WebGL fallback.
+- The Atlas page: year control, catalogue by theme, collection or room with search, collection defaults, active layers with a per-layer visibility toggle, the inspector with per-layer facets, the legend, a shareable address, place search, the Handbook, georeferenced overlays with an opacity control, and a no-WebGL fallback.
 - The Atlas build: FlatGeobuf per public layer with year bounds, indexes, an SVG overview per collection, MapLibre and the basemap served from the site.
 
 ### Non-goals
@@ -61,7 +59,7 @@ The inspector links a layer to the public essays that use it. The Handbook is fi
 - Without WebGL MapLibre is never loaded; the page shows the collection's SVG overview and a table of features at the year for each active layer.
 
 ### 8.3 CI and repository
-The Atlas page, the Handbook index and a topic page are in the CI template list and the Lighthouse URLs. `npm run test:e2e:atlas` is a CI step; `test:e2e:atlas-perf` (a seeded 200-layer catalogue on an emulated phone) is added by #60.
+The Atlas page, the Handbook index and a topic page are in the CI template list and the Lighthouse URLs. `npm run test:e2e:atlas` is a CI step; `test:e2e:atlas-perf` (a seeded 200-layer catalogue on an emulated phone) has been a CI step since #60.
 
 ## 9. Implementation phases and dependency model
 
@@ -94,13 +92,14 @@ TCX-6 holds TCX-33 to TCX-38 and TCX-49, each with its Spec Kit checklist; TCX-3
 | Build outputs, size gate, eight `ATLAS-*` checks | `build/convert.test.ts` |
 | No WebGL | `unit/overview-svg.test.ts`, `feature-table.test.ts`, `build/overview.test.ts`, `e2e/no-webgl.spec.ts` |
 | Keyboard, no outside requests, leak | `e2e/keyboard.spec.ts`, `e2e/no-external-requests.spec.ts`, `build/leak.test.ts` |
-| Performance on 200 layers | `tests/atlas/perf/performance.spec.ts` (#60): interactions 96 to 192 ms against 200 ms; **the map is interactive at 4.6 to 4.7 s locally and 4.5 to 4.6 s on the CI runner, against 4 s**; interactions on CI were 24 to 104 ms, with one 224 ms outlier on a first attempt that passed on retry |
+| Performance on 200 layers | `tests/atlas/perf/performance.spec.ts` (#60, a CI step): before the simplified basemap and the load-order change, the map was interactive at 4.6 to 4.7 s locally and 4.5 to 4.6 s on the CI runner against 4 s; after them, 4.17 to 4.22 s locally against the amended 4.5 s budget, and the check passes in CI. Interactions (lens switch, search, year change) 128 to 184 ms locally against 200 ms |
+| Visibility toggle and `hide` in the address | `unit/view-state.test.ts`, `unit/view-url.test.ts` (round-trip with hidden layers), `e2e/visibility.spec.ts`, `e2e/no-webgl.spec.ts` (#62) |
 | Not verified | Firefox, WebKit and Lighthouse (CI runs them); the overlay against a real annotation and IIIF image (the fixture annotation has no items); the local performance numbers were taken on an older Mac with software WebGL (the CI runner gave the same map time) |
 
 ## 13. Canonical ownership and propagation
 
-Owned here: the Atlas fields of layer and place, the seven rules, the Atlas build and page, the view address contract, the Handbook entries. Spec 001 owns the registry, its rule table (seven rows added there) and `registry scan` (extended here for held names and retired slugs); spec 002 owns the shell, the CI template list and the static-output rule (extended for the Atlas scripts); spec 004 owns the map record an overlay points to; spec 008 imports the real layers and must supply the new fields; spec 003 or 008 owns an essay's "Open in Atlas" link, which uses this spec's `viewUrl`.
+Owned here: the Atlas fields of layer and place, the seven rules, the Atlas build and page, the view address contract, the Handbook entries. Spec 001 owns the registry, its rule table (seven rows added there) and `registry scan` (extended here for held names and retired slugs); spec 002 owns the shell, the CI template list and the static-output rule (extended for the Atlas scripts); spec 004 owns the map record an overlay points to; spec 008 imports the real layers and must supply the new fields; spec 003 or 008 owns an essay's "Open in Atlas" link, which uses this spec's `viewUrl`. The Build Log carries the shipped work; the Decision Log carries TC-D034 (ADR 0013's Atlas contracts).
 
 ## 14. Current checkpoint and delivery authority
 
-All seven stories are merged. The cross-cutting checks (#59), the performance check and simplified basemap (#60), polish (#61) and the visibility toggle (#62) are merged. **Decided by Vlad on 2026-10-19 (ADR 0004 amended):** the map was interactive at about 4.6 s on the emulated phone (the same locally and on the CI runner) against 4 s; the basemap was simplified (488 KB to 203 KB) and the load order changed, giving 4.2 s locally, and the budget for this profile is 4.5 s. After the code review, settled with Vlad on 2026-10-19: the per-layer visibility toggle is built (address parameter `hide`) and the contract no longer asks `Escape` to return focus. Left for the author: no essay "Open in Atlas" link exists yet; the landing page's collection links now use `viewUrl` and a spec asserts that browsing fetches no layer file (wrap-up pull request). The Handbook text is for the author to write. Delivery authority: Vlad merges; no story is marked Done until this page is published.
+All seven stories, the cross-cutting checks (#59), the performance check and simplified basemap (#60), polish (#61) and the visibility toggle (#62) are merged; T067 closes with `gate` green on `main` at `122d2a9`, and T069 with this page. **Decided by Vlad on 2026-10-19 (ADR 0004 amended):** the map was interactive at about 4.6 s on the emulated phone (the same locally and on the CI runner) against 4 s; the basemap was simplified (488 KB to 203 KB) and the load order changed, giving 4.2 s locally, and the budget for this profile is 4.5 s. After the code review, settled with Vlad on 2026-10-19: the per-layer visibility toggle is built (address parameter `hide`) and the contract no longer asks `Escape` to return focus. Left for the author: the collection links on the landing page are built by hand rather than with `viewUrl`; no essay "Open in Atlas" link exists yet; no test asserts that browsing the catalogue fetches no layer file. The Handbook text is for the author to write. Delivery authority: Vlad merges; no story is marked Done until this page is published.

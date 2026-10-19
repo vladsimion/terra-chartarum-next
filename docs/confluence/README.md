@@ -7,8 +7,8 @@ The files here are the repository copies of Confluence pages and entries. A file
 | `spec-001-registry.md` | Spec 001 programme dossier, page 36569092 (whole page; keep identical) |
 | `spec-002-shell.md` | Spec 002 programme dossier, page 37617686 (whole page; keep identical) |
 | `spec-003-essays.md` | Spec 003 programme dossier, page 37617734 (whole page; keep identical) |
-| `spec-004-collection.md` | Spec 004 programme dossier, draft (not yet published; no page id) |
-| `spec-005-atlas.md` | Spec 005 programme dossier, draft (not yet published; no page id) |
+| `spec-004-collection.md` | Spec 004 programme dossier, page 37617788 (whole page; keep identical) |
+| `spec-005-atlas.md` | Spec 005 programme dossier, page 38469633 (whole page; keep identical) |
 | `build-log-*.md` | One section of the Build Log, page 2490370 |
 | `decision-log-tc-dNNN.md` | One published Decision Log entry, page 12648509 |
 | `decision-log-pending-<slug>.md` | A Decision Log entry not yet published |
