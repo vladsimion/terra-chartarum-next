@@ -13,7 +13,7 @@ description: "Task list for 007 Rooms (Curatorial Paths)"
 
 **Seams** (to confirm with Vlad at T001): (1) the registry through `validateRegistry` and the CLI `main` (the room schema and the two rules); (2) the pure module `src/rooms/membership.ts` (public records in, plain data out); (3) the built site through build-output tests (`node-html-parser`), the link checker and Playwright. No test reaches inside a component.
 
-**Organization**: Grouped by user story. Slice order: **Foundation → US1 → link check → US2 → cross-cutting → Polish**. The registry half (Foundation, membership) needs no Astro. The Layers group on a room page depends on spec 005's view-address module (`viewUrl`); everything else does not, so US1 ships Essays and Maps first and adds Layers with T021.
+**Organization**: Grouped by user story. Slice order: **Foundation → US1 → link check → US2 → cross-cutting → Polish**. The registry half (Foundation, membership) needs no Astro. Spec 005 is merged, so the Layers group on a room page uses its view-address module (`viewUrl`) from the start and US1 ships Essays, Maps and Layers together. `src/rooms/membership.ts` already exists with `roomsOf` (spec 004); this spec extends it.
 
 ## Format: `[ID] [P?] [Story] Description`
 
@@ -26,9 +26,9 @@ description: "Task list for 007 Rooms (Curatorial Paths)"
 
 ## Phase 1: Setup
 
-- [ ] T001 Agree the three seams above with Vlad (tdd skill) and record any change here
+- [x] T001 Agree the three seams above with Vlad (tdd skill) and record any change here Done 2026-10-19: agreed as written.
 - [ ] T002 [P] Create `tests/rooms/fixtures/registry/` with the seven room records (published, released, with `order`, `short_description`, `copy_status` and a body file each) and a small hand-authored set: a room with one primary and one secondary essay, two maps and a layer; a room with no public essay; essays in several rooms; a map used by essays in two rooms; a map and a layer used only by a held essay; a held essay. Add invalid variants named for the rule they trip
-- [ ] T003 Update every existing room fixture in `tests/registry/fixtures/` and `tests/shell/fixtures/registry/` to `published`, `released`, with `order`, `short_description` and `copy_status`, in the same change as T007, so the existing suites stay green (research R3)
+- [x] T003 Update every existing room fixture in `tests/registry/fixtures/` and `tests/shell/fixtures/registry/` to `published`, `released`, with `order`, `short_description` and `copy_status`, in the same change as T007, so the existing suites stay green (research R3)
 
 ---
 
@@ -36,15 +36,15 @@ description: "Task list for 007 Rooms (Curatorial Paths)"
 
 **Goal**: the room schema, the two rules and the public allowlist (FR-011).
 
-- [ ] T004 [P] Write failing `tests/registry/unit/room-schema.test.ts`: a room with `order`, `short_description` and `copy_status` loads; `copy_status` takes only `draft` or `final` and defaults to `draft`; `order` is an integer 1 to 7; the loader reads `content/room/<id>.md` as the computed `body`; `FAM-UNKNOWN` still rejects an unlisted field
-- [ ] T005 Implement `RoomSchema` in `src/registry/schemas/families.ts` and, if no sibling spec has yet, the generic Markdown body loading for the `room` family in `src/registry/load.ts`
-- [ ] T006 [P] Write failing `tests/registry/unit/room-public.test.ts` for `ROOM-PUBLIC` (a room that is held, or not published, at any lifecycle, is an error) with a named mutation
-- [ ] T007 Implement `ROOM-PUBLIC` in `src/registry/rules/rooms.ts` and register it (with T003)
-- [ ] T008 [P] Write failing `tests/registry/unit/room-copy.test.ts` for `ROOM-COPY` (a wrong `order` for the room; duplicate orders; a bad `copy_status`; an empty `short_description` (warn from `ready_for_build`, error at `publishable`); a missing body file (same); `final` with an empty body) with a named mutation for each check
-- [ ] T009 Implement `ROOM-COPY`
-- [ ] T010 [P] Write failing `tests/registry/unit/room-project.test.ts`: the public projection of a room carries `order`, `short_description`, `copy_status` and the body, and nothing else
-- [ ] T011 Extend `src/registry/project.ts` with the room allowlist
-- [ ] T012 Register the two rules in `src/registry/rules/index.ts`, make the rule-coverage test pass, and add them to `specs/001-scholarly-registry/contracts/rule-ids.md`; update spec 001's `data-model.md` room row to point at spec 007's; write the seven `content/room/*.yaml` and `*.md` placeholder records for the repository root (draft copy, research R6) when the repository gains a `content/` directory
+- [x] T004 [P] Write failing `tests/registry/unit/room-schema.test.ts`: a room with `order`, `short_description` and `copy_status` loads. Departure, as for every family: the schema takes types only (`order` a number, the others text) and `ROOM-COPY` judges the values, so an early record loads and a bad value is a named rule; an absent `copy_status` reads as draft. Original wording: the loader reads `content/room/<id>.md` as the computed `body`; `FAM-UNKNOWN` still rejects an unlisted field
+- [x] T005 Implement `RoomSchema` in `src/registry/schemas/families.ts` and, if no sibling spec has yet, the generic Markdown body loading for the `room` family in `src/registry/load.ts`
+- [x] T006 [P] Write failing `tests/registry/unit/room-public.test.ts` for `ROOM-PUBLIC` (a room that is held, or not published, at any lifecycle, is an error) with a named mutation
+- [x] T007 Implement `ROOM-PUBLIC` in `src/registry/rules/rooms.ts` and register it (with T003)
+- [x] T008 [P] Write failing `tests/registry/unit/room-copy.test.ts` for `ROOM-COPY` (a wrong `order` for the room; duplicate orders; a bad `copy_status`; an empty `short_description` (warn from `ready_for_build`, error at `publishable`); a missing body file (same); `final` with an empty body) with a named mutation for each check
+- [x] T009 Implement `ROOM-COPY`
+- [x] T010 [P] Write failing `tests/registry/unit/room-project.test.ts`: the public projection of a room carries `order`, `short_description`, `copy_status` and the body, and nothing else
+- [x] T011 Extend `src/registry/project.ts` with the room allowlist
+- [x] T012 Register the two rules in `src/registry/rules/index.ts`, make the rule-coverage test pass, and add them to `specs/001-scholarly-registry/contracts/rule-ids.md`; update spec 001's `data-model.md` room row to point at spec 007's; create the repository's `content/room/` with the seven `*.yaml` records (published, released, `order`, `short_description`, `copy_status: draft`) and their `*.md` bodies (draft copy, research R6); the repository root has no `content/` today, so without these the site has no room pages and every link to one is dead. Confirm that the repository's own `registry check` passes with only the rooms present
 
 ---
 
@@ -54,15 +54,15 @@ description: "Task list for 007 Rooms (Curatorial Paths)"
 
 **Independent Test**: one room fixture with one primary and one secondary essay, two maps and one layer lists all of them in the correct groups; held content is absent.
 
-- [ ] T013 [P] [US1] Write failing `tests/rooms/unit/membership.test.ts`: the seven rooms in canonical order; primary and secondary essays in title order; a map or layer used by an essay in either role appears once; used in several rooms it appears in each; used by no public essay it appears in none; used only by a held essay it appears nowhere; `roomsOf` returns canonical-ordered rooms for a map, layer or essay; an essay in both lists of one room appears once under primary; determinism
-- [ ] T014 [US1] Implement `src/rooms/membership.ts` (pure)
+- [ ] T013 [P] [US1] Write failing `tests/rooms/unit/membership.test.ts`: the seven rooms in canonical order; primary and secondary essays in title order; a map or layer used by an essay in either role appears once; used in several rooms it appears in each; used by no public essay it appears in none; used only by a held essay it appears nowhere; `roomsOf` (already tested in `tests/rooms/unit/roomsof.test.ts`; keep those tests) returns canonical-ordered rooms for a map, layer or essay; an essay in both lists of one room appears once under primary; determinism
+- [ ] T014 [US1] Extend `src/rooms/membership.ts` (pure) with `membership(room, records)` beside the existing `roomsOf`, so both share one rule for "in a room"
 - [ ] T015 [P] [US1] Write failing `tests/rooms/build/rooms-index.test.ts` and `room-page.test.ts`: the index lists all seven in canonical order with short descriptions, each linking to `/rooms/<slug>/`; the room page shows the heading, the introduction, then Essays (Primary then Secondary), Maps, each hidden when empty and in title order; the empty room shows "Essays for this room are in preparation." and no link; a draft room has `data-draft`; breadcrumbs read Home › Rooms › Earth; a former slug redirects
-- [ ] T016 [US1] Implement `src/pages/rooms/index.astro`, `[slug].astro`, `RoomCard.astro` and `RoomGroups.astro` on spec 002's Base layout; set the `rooms` destination to `built`
+- [ ] T016 [US1] Implement `src/pages/rooms/index.astro`, `[slug].astro`, `RoomCard.astro` and `RoomGroups.astro` on spec 002's Base layout; set the `rooms` destination to `built` (it is `stub` in `src/shell/destinations.ts` today), and update the stub tests and page-type lists that treat `/rooms/` as a stub (`tests/shell/e2e/stubs.spec.ts`, `tests/shell/support/page-types.ts`), test first; the Layers group is part of this task, each layer linking to `viewUrl`
 - [ ] T017 [P] [US1] Update `tests/shell/build/home.test.ts` and write `tests/rooms/build/room-links.test.ts`: the home page's rooms list links to `/rooms/<slug>/` (not `/rooms/#<id>`); the room pages are linked from the Rooms destination
-- [ ] T018 [US1] Change the home page rooms list in `src/pages/index.astro` to the room pages
+- [ ] T018 [US1] Change the home page rooms list in `src/pages/index.astro` to the room pages, built from the room records' `slug` and `title` (not from `ROOM_IDS` with hard-coded labels and `#<id>` fragments)
 - [ ] T019 [P] [US1] Write failing `tests/rooms/e2e/rooms.spec.ts` (CI-verified): keyboard reach of the index and a room page; no-JavaScript rendering (`@nojs`); touch targets at 360 px (`@phone`); no sideways scroll
 - [ ] T020 [US1] Add the Rooms index and room page types to `tests/shell/ci-templates.json` and `lighthouserc.json`; axe on both in both colour schemes
-- [ ] T021 [US1] Add the Layers group to `RoomGroups.astro`, each layer linking to `viewUrl` from spec 005, and extend `room-page.test.ts`; blocked until spec 005's view-address module exists, so it can follow the other tasks
+- [ ] T021 [US1] Cover the Layers group in `room-page.test.ts` (written with T015): a layer used by a public essay of the room links to an Atlas view with that layer active, built by `viewUrl`; a layer used only by a held essay is absent (US1 scenarios 4 and 5)
 
 **Checkpoint**: a reader can walk through every room; TCX-42 checklist updated.
 
@@ -71,14 +71,14 @@ description: "Task list for 007 Rooms (Curatorial Paths)"
 ## Phase 4: The site-wide link check (SC-002)
 
 - [ ] T022 [P] Write failing `tests/shell/build/links.test.ts` and the helper's own tests: `checkLinks` returns nothing for the real build; for a deliberately broken fixture page it reports a missing page, a missing fragment and a malformed address; external, `mailto:`, `tel:` and `data:` links are ignored; a path covered by `_redirects` counts as resolved (research R2)
-- [ ] T023 Implement `tests/shell/support/links.ts`, fix any dead link the check finds in the existing pages, and add the broken fixture page behind `SHELL_FIXTURES`
+- [ ] T023 Implement `tests/shell/support/links.ts`, fix any dead link the check finds in the existing pages (list each fix in the PR; if the list is long, land the checker and the fixes as their own PR), and add the broken fixture page behind `SHELL_FIXTURES`
 
 ---
 
 ## Phase 5: User Story 2 — Rooms as an Atlas lens (P2; delivered by spec 005)
 
-- [ ] T024 [P] [US2] Write failing `tests/rooms/unit/atlas-agreement.test.ts`: for the fixture registry, the layers on each room page equal the layers spec 005's `atlas-index.json` lists under that room; blocked until spec 005's index (T034 to T035) exists
-- [ ] T025 [US2] Record in `specs/005-atlas/tasks.md` and here that spec 005's `index-data.ts` and spec 004's `index-data.ts` call `roomsOf` from `src/rooms/membership.ts`, and make T024 pass; TCX-43 is Done when spec 005's lens tests and this cross-test pass
+- [ ] T024 [P] [US2] Write failing `tests/rooms/unit/atlas-agreement.test.ts`: for the fixture registry, the layers on each room page equal the layers spec 005's `atlas-index.json` lists under that room; spec 005's index builder (`src/atlas/index-data.ts`) is merged
+- [ ] T025 [US2] Confirm that spec 005's and spec 004's `index-data.ts` already call `roomsOf` from `src/rooms/membership.ts` (they do; note it in their tasks files), and make T024 pass; TCX-43 is Done when spec 005's lens tests and this cross-test pass
 
 ---
 
@@ -109,4 +109,4 @@ description: "Task list for 007 Rooms (Curatorial Paths)"
 
 ## Implementation Strategy
 
-MVP is Foundation plus US1 without the Layers group: seven honest, public room pages with essays and maps, and a link check that protects the whole site. The Layers group and the Atlas cross-test close the story once spec 005's modules exist. Ship one story per PR, red tests pushed first for the browser specs, verified in CI.
+MVP is Foundation plus US1: seven honest, public room pages with essays, maps and layers (spec 005 is merged), the repository's own `content/room/` records, and a link check that protects the whole site. The Atlas cross-test closes the story. Ship one story per PR, red tests pushed first for the browser specs, verified in CI.

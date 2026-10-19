@@ -3,5 +3,8 @@ family: room
 origin: minted
 title: Road
 slug: road
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
+order: 5
+short_description: The road room.
+copy_status: draft

@@ -22,9 +22,9 @@ Decisions not already settled by the grill (ADR 0015) or ADR 0003.
 - **Rationale**: one loader behaviour for every family with prose.
 - **Alternatives**: reading the file in the page (bypasses the public projection).
 
-## R5. The layers group depends on spec 005
-- **Decision**: layers on a room page link to `viewUrl({ active: [slug] })` from spec 005's view-address module. Until that module exists, the Maps and Essays groups ship and the Layers group is added by the task that follows spec 005's address story.
-- **Rationale**: building a second address builder would break the rule that one module owns view addresses (ADR 0013).
+## R5. The layers group uses spec 005's view addresses
+- **Decision**: layers on a room page link to the Atlas view with that layer active, built by `viewUrl` from spec 005's view-address module, which is merged. The Layers group ships with the rest of US1.
+- **Rationale**: one module owns view addresses (ADR 0013); a second builder would let them drift.
 - **Alternatives**: a plain `/atlas/` link (loses the layer); duplicating the builder.
 
 ## R6. Placeholder copy

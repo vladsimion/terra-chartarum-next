@@ -3,5 +3,8 @@ family: room
 origin: minted
 title: Archive
 slug: archive
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
+order: 6
+short_description: The archive room.
+copy_status: draft

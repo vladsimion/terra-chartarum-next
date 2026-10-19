@@ -489,4 +489,15 @@ const BIBLIOGRAPHY_MUTATIONS: Mutation[] = [
   },
 ];
 
-export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS, ...ESSAY_MUTATIONS, ...MAP_MUTATIONS, ...ATLAS_MUTATIONS, ...BIBLIOGRAPHY_MUTATIONS];
+/* Spec 007 Foundation: the seven rooms are public and their own fields are right. */
+const ROOM_MUTATIONS: Mutation[] = [
+  { name: 'a room is held', rule: 'ROOM-PUBLIC', apply: editOf('room', (r) => { r.release = 'held'; }) },
+  { name: 'a room is not published', rule: 'ROOM-PUBLIC', apply: editOf('room', (r) => { r.lifecycle = 'verified'; }) },
+  { name: 'a room has another room’s order', rule: 'ROOM-COPY', apply: editOf('room', (r) => { r.order = 7; }) },
+  { name: 'a room’s copy_status is neither draft nor final', rule: 'ROOM-COPY', apply: editOf('room', (r) => { r.copy_status = 'done'; }) },
+  { name: 'a published room has no short description', rule: 'ROOM-COPY', apply: editOf('room', (r) => { delete r.short_description; }) },
+  { name: 'a published room has no body file', rule: 'ROOM-COPY', apply: editOf('room', (r) => { delete r.body; }) },
+  { name: 'a room is final with an empty body', rule: 'ROOM-COPY', apply: editOf('room', (r) => { r.copy_status = 'final'; r.body = ' '; }) },
+];
+
+export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS, ...ESSAY_MUTATIONS, ...MAP_MUTATIONS, ...ATLAS_MUTATIONS, ...BIBLIOGRAPHY_MUTATIONS, ...ROOM_MUTATIONS];

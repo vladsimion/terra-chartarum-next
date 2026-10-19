@@ -1,0 +1,12 @@
+id: tc:tc:room:city
+family: room
+origin: minted
+title: City
+slug: city
+slug_history: []
+lifecycle: published
+release: released
+relations: []
+order: 3
+short_description: "Towns and settlements as places on a map, and as ideas of order."
+copy_status: draft

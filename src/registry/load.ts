@@ -102,10 +102,10 @@ async function loadVocabularies(
   }
 }
 
-/** The text of the .mdx beside an essay's YAML file, or null when there is none. */
-async function readBody(yamlFile: string): Promise<string | null> {
+/** The text of the file beside a record's YAML file (`.mdx` for an essay, `.md` for a room), or null when there is none. */
+async function readBody(yamlFile: string, extension = '.mdx'): Promise<string | null> {
   try {
-    return await readFile(yamlFile.replace(/\.ya?ml$/, '.mdx'), 'utf8');
+    return await readFile(yamlFile.replace(/\.ya?ml$/, extension), 'utf8');
   } catch {
     return null;
   }
@@ -261,6 +261,15 @@ export async function loadRegistry(rootDir: string): Promise<LoadResult> {
         continue;
       }
       record.body = scanEssayBody(await readBody(file));
+    }
+    if (family === 'room') {
+      // the long description is the .md beside the record; a record without one has no body, and ROOM-COPY says so
+      if ('body' in record) {
+        loadErrors.push({ file: rel, message: `body is not a field of a room record; it is read from ${path.basename(file).replace(/\.ya?ml$/, '.md')}` });
+        continue;
+      }
+      const body = await readBody(file, '.md');
+      if (body !== null) record.body = body;
     }
     records.push(record);
   }
