@@ -1,10 +1,10 @@
 # Confluence entry: Build Log (page 2490370)
 
-DRAFT, not published. Drafted 2026-10-19 for the next free section letter after X (spec 004); the letter and page version are filled in when it is published. Like the earlier sections, it records only what has merged to the successor's `main`: the entries for the performance check (#60), polish (#61) and the visibility toggle (#62) are added when they merge.
+DRAFT, not published. Drafted 2026-10-19 for the next free section letter after X (spec 004); the letter and page version are filled in when it is published. Like the earlier sections, it records only what has merged to the successor's `main`; reconciled 2026-10-19 with #60, #61 and #62.
 
 ## Y. The successor build: the Atlas (spec 005)
 
-Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 18 to 19 October 2026 (#59 after the others). Jira epic TCX-6. Working detail is in the spec 005 programme dossier (draft in `docs/confluence/spec-005-atlas.md`).
+Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 18 to 19 October 2026. Jira epic TCX-6. Working detail is in the spec 005 programme dossier (draft in `docs/confluence/spec-005-atlas.md`).
 
 | PR | Scope | Jira |
 |---|---|---|
@@ -18,5 +18,8 @@ Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.
 | #57 | US5: the Atlas Handbook, five draft skeleton topics with stable anchors, linked from the landing, the controls, the inspector, the home page and the footer | TCX-37 |
 | #58 | US6: georeferenced map overlays with an opacity control and the `georef` quality fields, drawn by `@allmaps/maplibre` 1.0.0-beta.44 (its published import repaired by a build plugin) | TCX-38 |
 | #59 | Cross-cutting checks: the build-written SVG overview per collection and the no-WebGL fallback (a table of features per layer; MapLibre never loaded), the keyboard scenario, no outside requests, the leak mutations; the page starts MapLibre and the layers named in the address beside the data (T059 to T061, T063, T064). Two gate failures on the way, both mine and fixed: the FlatGeobuf reader had entered the page's first-load script (133 KB against 100 KB), and its on-demand chunk was not on the static-output allowlist | TCX-33 |
+| #60 | The performance check on a seeded 200-layer catalogue (emulated phone, CI step); the basemap simplified (488 KB to 203 KB); the map-interactive budget for this profile set at 4.5 s (ADR 0004 amended) (T062) | TCX-33 |
+| #61 | Polish: README and quickstart, code-review fixes (place search without WebGL describes the place in words; the leak scan covers held records' retired slugs; one reader for the year-bound columns) (T065, T066, T068, T069) | TCX-6 |
+| #62 | A Hide / Show toggle for each active layer, kept in the address as `hide`; the contract no longer asks `Escape` to return focus | TCX-33 |
 
 State on `main`: see the dossier; the stories are In Review, not Done; the epic TCX-6 and TCX-33 (which holds the cross-cutting checks) are In Progress. Not verified locally: Firefox, WebKit and Lighthouse (CI runs them).

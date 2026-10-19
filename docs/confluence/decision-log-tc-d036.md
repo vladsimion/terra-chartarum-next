@@ -1,6 +1,8 @@
-# Confluence entry: Decision Log (page 12648509), not yet published
+# Confluence entry: Decision Log (page 12648509)
 
-### TC-D??? — Only the collection pages may ship script, and only the filters and the viewer loader
+Published 2026-10-19 in page version 14, directly after TC-D035; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
+
+### TC-D036 — Only the collection pages may ship script, and only the filters and the viewer loader
 
 **Date:** 18 October 2026    
 **Status:** Accepted (spec 004 US1 and US2)

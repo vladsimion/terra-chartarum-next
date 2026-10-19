@@ -1,11 +1,13 @@
-# Confluence entry: Decision Log (page 12648509), not yet published
+# Confluence entry: Decision Log (page 12648509)
 
-### TC-D??? — The Atlas lists only what is published and released; the address is its only saved state
+Published 2026-10-19 in page version 14, directly after TC-D033 and together with TC-D035 and TC-D036; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
+
+### TC-D034 — The Atlas lists only what is published and released; the address is its only saved state
 
 **Date:** 17 October 2026 (ADR 0013), reconciled 19 October 2026    
 **Status:** Accepted (spec 005, Jira TCX-6)
 
-**Decision:** an Atlas layer, collection or place is listed, fetched or named in an address only if it is both `published` and `released`; there is no data-catalogue exception for held material. The shared view address (`?y=…&l=slug,slug&lens=…&c=…&facet.…`) is the only saved state, built from public slugs, and a slug that is retired resolves through its history while one that is held or unknown is skipped without saying whether it exists. A layer's rooms are derived from the public essays that use it, never stored. Layer files are built from sources in the repository, with a size gate against the host's per-file limit, and the build writes nothing unless every check and the output leak scan pass.
+**Decision:** an Atlas layer, collection or place is listed, fetched or named in an address only if it is both `published` and `released`; there is no data-catalogue exception for held material. The shared view address (`?y=…&l=slug,slug&hide=…&lens=…&c=…&facet.…`) is the only saved state, built from public slugs, and a slug that is retired resolves through its history while one that is held or unknown is skipped without saying whether it exists. A layer's rooms are derived from the public essays that use it, never stored. Layer files are built from sources in the repository, with a size gate against the host's per-file limit, and the build writes nothing unless every check and the output leak scan pass.
 
 **Context:** spec 005 needed the Atlas to be useful for composing a view and sharing it without becoming a second way to learn that held records exist. The earlier text allowed a "data catalogue view" of unreleased layers; ADR 0002 implied CND visibility. Both would put held names in payloads and addresses.
 
