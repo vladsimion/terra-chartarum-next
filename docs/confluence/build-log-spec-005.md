@@ -1,10 +1,10 @@
 # Confluence entry: Build Log (page 2490370)
 
-DRAFT, not published. Drafted 2026-10-19 for the next free section letter after X (spec 004); the letter and page version are filled in when it is published. Like the earlier sections, it records only what has merged to the successor's `main`; reconciled 2026-10-19 with #60, #61 and #62.
+Published 2026-10-19 as section Y (page version 130), directly after section X and before "2. In progress"; the header pointer "sections U, V, W and X" became "sections U to Y". The rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
 ## Y. The successor build: the Atlas (spec 005)
 
-Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 18 to 19 October 2026. Jira epic TCX-6. Working detail is in the spec 005 programme dossier (draft in `docs/confluence/spec-005-atlas.md`).
+Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 18 to 19 October 2026. Jira epic TCX-6. Working detail is in the [spec 005 programme dossier](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/38469633).
 
 | PR | Scope | Jira |
 |---|---|---|
@@ -22,4 +22,4 @@ Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.
 | #61 | Polish: README and quickstart, code-review fixes (place search without WebGL describes the place in words; the leak scan covers held records' retired slugs; one reader for the year-bound columns) (T065, T066, T068, T069) | TCX-6 |
 | #62 | A Hide / Show toggle for each active layer, kept in the address as `hide`; the contract no longer asks `Escape` to return focus | TCX-33 |
 
-State on `main`: see the dossier; the stories are In Review, not Done; the epic TCX-6 and TCX-33 (which holds the cross-cutting checks) are In Progress. Not verified locally: Firefox, WebKit and Lighthouse (CI runs them).
+State on `main`: `gate` green at `122d2a9`; see the dossier; the stories are In Review, not Done; the epic TCX-6 and TCX-33 (which holds the cross-cutting checks) are In Progress. Not verified locally: Firefox, WebKit and Lighthouse (CI runs them).
