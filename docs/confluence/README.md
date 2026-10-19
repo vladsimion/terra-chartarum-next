@@ -9,7 +9,7 @@ The files here are the repository copies of Confluence pages and entries. A file
 | `spec-003-essays.md` | Spec 003 programme dossier, page 37617734 (whole page; keep identical) |
 | `spec-004-collection.md` | Spec 004 programme dossier, page 37617788 (whole page; keep identical) |
 | `spec-005-atlas.md` | Spec 005 programme dossier, page 38469633 (whole page; keep identical; version 2 carries the #63 correction) |
-| `spec-006-bibliography.md` | Spec 006 programme dossier (draft, not yet published; keep identical when it is) |
+| `spec-006-bibliography.md` | Spec 006 programme dossier, page 38633475 (whole page; keep identical) |
 | `build-log-*.md` | One section of the Build Log, page 2490370 |
 | `decision-log-tc-dNNN.md` | One published Decision Log entry, page 12648509 |
 | `decision-log-pending-<slug>.md` | A Decision Log entry not yet published |

@@ -1,10 +1,10 @@
 # Confluence entry: Build Log (page 2490370)
 
-Draft, not yet published. To publish: add as section Z, directly after section Y and before "2. In progress", and extend the header pointer "sections U to Y" to "sections U to Z"; leave the rest of the page unchanged and check by reading the page back.
+Published 2026-10-19 as section Z (page version 132), directly after section Y and before "2. In progress"; the header pointer "sections U to Y" became "sections U to Z". The rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
 ## Z. The successor build: the bibliography (spec 006)
 
-Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 19 October 2026. Jira epic TCX-7. Working detail is in the [spec 006 programme dossier](DOSSIER_URL).
+Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 19 October 2026. Jira epic TCX-7. Working detail is in the [spec 006 programme dossier](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/38633475).
 
 | PR | Scope | Jira |
 |---|---|---|
