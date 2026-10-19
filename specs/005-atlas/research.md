@@ -49,6 +49,7 @@ Decisions not already settled by the grill (ADR 0013), ADR 0004 or ADR 0005.
 ## R9. Overlay rendering
 - **Decision**: `@allmaps/maplibre` renders a `map-overlay` layer from the Allmaps georeferencing annotation named in `georef.annotation` and the IIIF image of the referenced map record (spec 004); opacity is set through the plugin. Quality fields come from `georef`, not from the annotation, so the inspector works without loading the image.
 - **Rationale**: ADR 0005 names Allmaps; the record stays the source of truth for what the reader is told.
+- **As built**: `@allmaps/maplibre` is a pre-release (`1.0.0-beta.44`, exact), loaded as its own chunk only when an overlay is added, so a reader with none pays nothing. Its published build imports MapLibre's event class from a file that is not in the package; a small build plugin (`src/atlas/build/allmaps-vite.ts`) points that import at the MapLibre the Atlas already serves, so there is one copy of MapLibre and the plugin's events are its events. The overlay sits under the Atlas's own layers. Opacity (0 to 1, 0.7 at first) is kept per overlay in the page, not in the shared address. CI uses an annotation with no items, so it proves the control and the wiring, not what a real annotation warps; that needs a IIIF image and belongs with the real layers (spec 008).
 - **Alternatives**: warping tiles at build time (heavy, and loses editability).
 
 ## R10. Handbook anchors

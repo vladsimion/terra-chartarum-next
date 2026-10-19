@@ -9,6 +9,7 @@ import { classesPresent, summarise, type BuiltFeature } from '../atlas/visible.j
 import { activate, activateDefaults, activeLayers, clearFacet, deactivate, focus, initialState, resetFacets, setFacet, setLens, setYear, toggleRelevant } from '../atlas/view-state.js';
 import type { LoadedFeature, MapController } from './map.js';
 import { parseView, resolveFacets, viewUrl, type SlugTable, type ViewReport } from '../atlas/view-url.js';
+import { DEFAULT_OVERLAY_OPACITY } from '../atlas/overlay.js';
 import { renderInspector } from './inspector.js';
 import { bindPlaceSearch } from './search.js';
 import type { PlaceIndex } from '../atlas/place-index.js';
@@ -97,6 +98,8 @@ async function start(): Promise<void> {
   let mapLoading: Promise<MapController | null> | null = null;
   const features = new Map<string, LoadedFeature[]>();
   const colours = new Map<string, number>();
+  /** Each overlay's opacity, kept when it is removed and added again; not part of the shared address. */
+  const opacities = new Map<string, number>();
 
   async function ensureMap(): Promise<MapController | null> {
     if (controller) return controller;
@@ -326,7 +329,11 @@ async function start(): Promise<void> {
           store.set(resetFacets(store.get(), slug));
           showInspector(store.get());
         },
-      });
+        onOpacity: (opacity) => {
+          opacities.set(slug, opacity);
+          controller?.setOverlayOpacity(slug, opacity);
+        },
+      }, opacities.get(slug) ?? DEFAULT_OVERLAY_OPACITY);
     });
   }
 
@@ -355,7 +362,7 @@ async function start(): Promise<void> {
           const layer = index.layers.find((l) => l.slug === slug);
           if (!layer) continue;
           if (!colours.has(slug)) colours.set(slug, colours.size);
-          const loaded = await map.add(slug, layer.provenance, colours.get(slug) ?? 0);
+          const loaded = await map.add(slug, layer.provenance, colours.get(slug) ?? 0, layer.role === 'map-overlay' ? { opacity: () => opacities.get(slug) ?? DEFAULT_OVERLAY_OPACITY } : undefined);
           features.set(slug, loaded.features);
           map.setFacet(slug, facetExpression(store.get().facets[slug] ?? {}));
           render(store.get());

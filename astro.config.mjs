@@ -1,5 +1,6 @@
 import mdx from '@astrojs/mdx';
 import { defineConfig } from 'astro/config';
+import { allmapsMaplibre } from './src/atlas/build/allmaps-vite.ts';
 import { atlasIntegration } from './src/integrations/atlas.ts';
 import { registryIntegration } from './src/integrations/registry.ts';
 
@@ -19,5 +20,11 @@ export default defineConfig({
   trailingSlash: 'always',
   build: { format: 'directory' },
   integrations: [registryIntegration(), atlasIntegration(), mdx()],
+  vite: {
+    // the overlay plugin imports MapLibre from the copy the Atlas serves, not a second one (src/atlas/build/allmaps-vite.ts)
+    plugins: [allmapsMaplibre()],
+    // and ships as one chunk of its own, named, loaded only when a map overlay is added (spec 005 US6)
+    build: { rollupOptions: { output: { manualChunks: (id) => (id.includes('/node_modules/@allmaps/') ? 'allmaps' : undefined) } } },
+  },
   devToolbar: { enabled: false },
 });

@@ -22,6 +22,7 @@
     "shell:check": "tsx scripts/shell-check.ts"
   },
   "dependencies": {
+    "@allmaps/maplibre": "1.0.0-beta.44",
     "@astrojs/mdx": "8.0.2",
     "@citation-js/core": "0.9.0",
     "@citation-js/plugin-bibtex": "0.9.0",
