@@ -1,3 +1,4 @@
+import { LISTING_FAMILIES } from '../citations.js';
 import { isPublic } from '../publication.js';
 import type { RegistryRecord } from '../types.js';
 import { isObject, list, present } from '../values.js';
@@ -125,9 +126,6 @@ function reaches<F extends string>(from: RegistryRecord, id: string, targetOf: (
   }
   return false;
 }
-
-/** The families whose `bibliography[]` lists entries (FR-003). */
-const LISTING_FAMILIES = ['essay', 'map', 'cartographer', 'dataset', 'layer'];
 
 /** A record meant to be public lists only entries that are public (FR-013). */
 export const bibListedHeld = defineRule({

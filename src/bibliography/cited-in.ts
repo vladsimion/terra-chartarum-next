@@ -1,5 +1,5 @@
 import type { PublicRecord } from '../registry/project.js';
-import { list } from '../registry/values.js';
+import { evidenceCitations, listedCitations } from '../registry/citations.js';
 import { verificationOf, type Locator, type Verification } from '../essays/citations.js';
 
 /*
@@ -27,15 +27,11 @@ export interface Citation {
   verification?: Verification;
 }
 
-/** The families whose `bibliography[]` lists entries (FR-003). */
-const LISTING_FAMILIES = ['essay', 'map', 'cartographer', 'dataset', 'layer'];
-
 const text = (value: unknown): string => (typeof value === 'string' ? value : '');
 const byTitle = (a: { title: string; slug: string }, b: { title: string; slug: string }): number => a.title.localeCompare(b.title, 'en') || a.slug.localeCompare(b.slug, 'en');
 
 /** Every citation, grouped by the entry it is for, each group sorted by the citing record's title. */
 export function citationIndex(records: readonly PublicRecord[]): Map<string, Citation[]> {
-  const byId = new Map(records.map((r) => [r.id, r]));
   const index = new Map<string, Citation[]>();
   const add = (citation: Citation) => index.set(citation.entry, [...(index.get(citation.entry) ?? []), citation]);
 
@@ -45,32 +41,20 @@ export function citationIndex(records: readonly PublicRecord[]): Map<string, Cit
       .map((r) => ({ slug: text(r.slug), title: text(r.title) }))
       .sort(byTitle);
 
-  for (const record of records) {
-    if (!LISTING_FAMILIES.includes(record.family)) continue;
+  for (const { entry, citing: record } of listedCitations(records)) {
     const citing = { family: record.family, slug: text(record.slug), title: text(record.title), ...(record.family === 'dataset' ? { layers: layersOf(record) } : {}) };
-    for (const entryId of new Set(list(record.bibliography))) {
-      if (byId.get(entryId)?.family === 'bibliography_entry') add({ entry: entryId, route: 'listed', citing });
-    }
+    add({ entry, route: 'listed', citing });
   }
 
-  for (const essay of records.filter((r) => r.family === 'essay')) {
-    const citing = { family: 'essay', slug: text(essay.slug), title: text(essay.title) };
-    for (const evidenceId of list(essay.evidence)) {
-      const evidence = byId.get(evidenceId);
-      const source = typeof evidence?.source === 'string' ? byId.get(evidence.source) : undefined;
-      // a finding aid is never evidence; a source with no public entry says nothing public
-      if (!evidence || evidence.family !== 'evidence' || !source || source.is_finding_aid === true) continue;
-      const entry = typeof source.entry === 'string' ? byId.get(source.entry) : undefined;
-      if (entry?.family !== 'bibliography_entry') continue;
-      const locator = (evidence.locator ?? {}) as Locator;
-      add({
-        entry: entry.id,
-        route: 'evidence',
-        citing,
-        locator: { value: text(locator.value), state: text(locator.state) },
-        verification: verificationOf(locator),
-      });
-    }
+  for (const { entry, essay, evidence } of evidenceCitations(records)) {
+    const locator = (evidence.locator ?? {}) as Locator;
+    add({
+      entry,
+      route: 'evidence',
+      citing: { family: 'essay', slug: text(essay.slug), title: text(essay.title) },
+      locator: { value: text(locator.value), state: text(locator.state) },
+      verification: verificationOf(locator),
+    });
   }
 
   for (const [entry, citations] of index) {

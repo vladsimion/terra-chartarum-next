@@ -8,6 +8,11 @@ const publicPlace = (n: number, o: Record<string, unknown> = {}) =>
 
 
 describe('redirects', () => {
+  it('sends a former bibliography entry slug to the entry page, so an old citation still resolves (spec 006 FR-009)', () => {
+    const e = record('bibliography_entry', 1, { lifecycle: 'published', release: 'released', slug: 'new-slug', slug_history: ['old-slug'] } as never);
+    expect(redirects([e]).rules).toEqual([{ from: '/bibliography/old-slug/', to: '/bibliography/new-slug/', status: 301 }]);
+  });
+
   it('creates one 301 per former slug, pointing at the current page (US1.2)', () => {
     const p = publicPlace(1, { slug: 'napoca', slug_history: ['colonia-napoca', 'napuca'] });
     const { rules, tombstones } = redirects([p]);

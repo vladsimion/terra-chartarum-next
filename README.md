@@ -24,7 +24,9 @@ src/integrations/                 the Astro integration that runs the gate in th
 tests/registry/                   unit, integration, fixtures, mutation and timing tests
 tests/shell/                      unit, build-output and Playwright tests for the shell
 src/atlas/, src/atlas-client/     the Atlas: pure modules, the build step, and the browser code (spec 005)
+src/bibliography/                 the bibliography: who cites what, the public entries, the search index, the citations (spec 006)
 tests/atlas/                      unit, build-output, Playwright and performance tests for the Atlas
+tests/bibliography/               unit, build-output and Playwright tests, the fixture registry and the import samples (spec 006)
 docs/vendor/                      licence + pinned commit for vendored skills
 specs/
   001-scholarly-registry/         IDs, evidence/provenance, lifecycle, integrity gate
@@ -121,6 +123,22 @@ npm run test:e2e:atlas-perf                                            # timings
 - **Loading**: the page script is about 91 KB; MapLibre (served unbundled from `vendor/maplibre/`), the FlatGeobuf reader and, for a map overlay, the Allmaps plugin load only when a layer needs them. Without WebGL the page shows a build-written SVG overview and a table of features per layer instead.
 - **Never published**: a layer or collection that is not both published and released, and any private value; the output scan covers the Atlas files too. No third-party tile service is called.
 - Walkthrough: [`specs/005-atlas/quickstart.md`](specs/005-atlas/quickstart.md).
+
+## The bibliography (spec 006)
+
+The works the publication rests on, and where each is used. An entry is a record under `content/bibliography_entry/` plus a CSL-JSON file beside it that holds its citation fields and identifiers (DOI, ISBN, keywords); a Source points at exactly one entry. Citations are never stored: they are derived at build time, by two routes (a record lists the entry in `bibliography[]`, or an essay's evidence rests on a Source that points at it). An entry is public only when it is published, released, in one of the seven sections and cited by a public record. Decisions: [ADR 0014](docs/adr/0014-bibliography-model.md).
+
+```bash
+npm run registry -- import-bib export.bib --dir . --dry-run   # bring in a Zotero or Mendeley export (.bib, .ris or CSL-JSON): new works become held entries, ones the registry already has are reported and never written
+REGISTRY_ROOT=tests/bibliography/fixtures/registry BUILD_DATE=2026-10-17 npm run build   # build the site from the bibliography fixtures
+npm run test:e2e:bibliography                                 # filters with and without JavaScript, entry pages, axe, on the same fixtures
+```
+
+- **Pages**: `/bibliography/` (the entries as their Chicago form under the seven sections, with search and filters by section and essay that work without JavaScript) and `/bibliography/<slug>/` (identifiers, other editions and translations, a Finding aid badge, and Cited in as two labelled groups: *cited as evidence*, with the locator and whether it is verified, and *listed in bibliography*). `/data/bibliography-index.json` feeds the filters. A held entry, one cited only by held content and one nobody cites have no page.
+- **Citing**: every public entry, dataset and layer, and the site itself, has BibTeX, RIS and CSL-JSON files (`cite.bib`, `cite.ris`, `cite.json`, or `/data/cite/<kind>/<slug>.*`), made by citation-js from the CSL item with the canonical URL and one access date for the whole site (`BUILD_DATE`, then `SOURCE_DATE_EPOCH`, then today). The Atlas inspector links a layer's and its dataset's.
+- **Rules**: four registry rules (`SRC-ENTRY`, `BIB-CSL`, `BIB-EDITION`, `BIB-LISTED-HELD`) in `src/registry/rules/bibliography.ts`, listed in [`rule-ids.md`](specs/001-scholarly-registry/contracts/rule-ids.md).
+- **Import**: duplicates match on DOI, then ISBN, then first author + year + the first six title words; a file that does not parse is rejected whole with its line.
+- Walkthrough: [`specs/006-bibliography/quickstart.md`](specs/006-bibliography/quickstart.md).
 
 ## The shell and design system (spec 002)
 

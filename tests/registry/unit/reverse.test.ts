@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { reverseRelationships } from '../../../src/registry/reverse.js';
 import { validateRegistry } from '../../../src/registry/validate.js';
-import { evidence, map, record } from '../support/builders.js';
+import { evidence, map, record, source } from '../support/builders.js';
+import { PUBLIC, entry } from '../support/bibliography.js';
 
 const essay = (n: number, extra: Record<string, unknown> = {}) =>
   record('essay', n, { stage: 'Publish', lifecycle: 'published', release: 'released', ...extra });
@@ -92,5 +93,65 @@ describe('reverseRelationships keys are public targets only', () => {
   it('keeps a public target that is itself referenced by a public essay', () => {
     const result = reverseRelationships([publicMap(), essay(1, { maps: [MAP_ID] })]);
     expect([...result.keys()]).toEqual([MAP_ID]);
+  });
+});
+
+/*
+ * Spec 006 (ADR 0014): an entry is public only when a public record cites it, by either route. A
+ * published, released entry that nothing public cites is not listed anywhere, so the file the site
+ * reads must not name it, as a target or as a referrer.
+ */
+describe('reverseRelationships and bibliography entries', () => {
+  const E = (n: number) => entry(n).id;
+  const pubSource = (n: number, entryNumber: number | null, over: Record<string, unknown> = {}) => source(n, { ...PUBLIC, ...(entryNumber ? { entry: E(entryNumber) } : {}), ...over });
+
+  it('names no entry that no public record cites, though a public Source points at it', () => {
+    const records = [entry(8, PUBLIC), pubSource(5, 8)];
+    expect(reverseRelationships(records).has(E(8))).toBe(false);
+  });
+
+  it('names no entry that only a held essay cites', () => {
+    const records = [entry(8, PUBLIC), pubSource(5, 8), essay(3, { bibliography: [E(8)], release: 'held' })];
+    expect(reverseRelationships(records).has(E(8))).toBe(false);
+  });
+
+  it('keeps an entry a public essay lists, with its referrers', () => {
+    const records = [entry(1, PUBLIC), pubSource(1, 1), essay(1, { bibliography: [E(1)] })];
+    expect(reverseRelationships(records).get(E(1))).toEqual(['tc:tc:essay:essay-000001', 'tc:tc:source:source-000001']);
+  });
+
+  it('keeps an entry reached only through a public essay’s evidence', () => {
+    const records = [
+      entry(2, PUBLIC),
+      pubSource(2, 2),
+      evidence(2, { ...PUBLIC, source: 'tc:tc:source:source-000002', target: { entity: 'tc:tc:essay:essay-000001' } }),
+      essay(1, { evidence: ['tc:tc:evidence:evidence-000002'] }),
+    ];
+    expect(reverseRelationships(records).get(E(2))).toContain('tc:tc:source:source-000002');
+  });
+
+  it('does not count a finding aid’s evidence as citing the entry', () => {
+    const records = [
+      entry(3, PUBLIC),
+      pubSource(3, 3, { is_finding_aid: true }),
+      evidence(3, { ...PUBLIC, source: 'tc:tc:source:source-000003', target: { entity: 'tc:tc:essay:essay-000001' } }),
+      essay(1, { evidence: ['tc:tc:evidence:evidence-000003'] }),
+    ];
+    expect(reverseRelationships(records).has(E(3))).toBe(false);
+  });
+
+  it('does not name an unlisted entry as a referrer of one that is listed', () => {
+    const records = [entry(1, PUBLIC), entry(9, { ...PUBLIC, edition_of: E(1) }), essay(1, { bibliography: [E(1)] })];
+    expect(reverseRelationships(records).get(E(1))).toEqual(['tc:tc:essay:essay-000001']);
+  });
+
+  it('names no entry that has no section', () => {
+    const records = [entry(4, { ...PUBLIC, section: undefined }), essay(1, { bibliography: [E(4)] })];
+    expect(reverseRelationships(records).has(E(4))).toBe(false);
+  });
+
+  it('leaves the targets that are not entries as they were', () => {
+    const records = [publicMap(), essay(1, { maps: [MAP_ID] })];
+    expect(reverseRelationships(records).get(MAP_ID)).toEqual(['tc:tc:essay:essay-000001']);
   });
 });
