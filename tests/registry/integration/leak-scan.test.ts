@@ -168,6 +168,15 @@ describe('scanOutput with held names (spec 005 SC-005)', () => {
     expect(JSON.stringify([...byTitle, ...bySlug])).not.toContain('Quiet Frontier Layer');
   });
 
+  it('finds a name of a held place, not only its title', async () => {
+    const heldPlace = { ...place(8, { names: [{ name: 'Hiddenum', language: 'la', kind: 'historic' }, { name: 'Tiny', language: 'en', kind: 'modern' }] }), title: 'A Held Place', slug: 'a-held-place', lifecycle: 'published', release: 'held' };
+    const found = await scanOutput(dist({ 'data/place-index.json': '{"names":["Hiddenum"]}' }), [open, heldPlace], options);
+    expect(found.map((v) => [v.entity, v.field])).toEqual([[heldPlace.id, 'names']]);
+    expect(JSON.stringify(found)).not.toContain('Hiddenum');
+    // a name too short to tell from ordinary text is not searched for
+    expect(await scanOutput(dist({ 'a.json': '{"n":"Tiny"}' }), [open, heldPlace], options)).toEqual([]);
+  });
+
   it('does not take a longer public slug for a held one', async () => {
     expect(await scanOutput(dist({ 'a.json': '{"slug":"quiet-frontier-layer-two"}' }), records, options)).toEqual([]);
   });

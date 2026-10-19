@@ -36,6 +36,18 @@ test('and with the inspector open on a layer with facets, one applied', async ({
   expect(await clean(page)).toEqual([]);
 });
 
+test('and with place results listed and a marker shown', async ({ page }) => {
+  await page.goto('/atlas/');
+  await expect(page.locator('[data-atlas][data-ready="true"]')).toBeVisible();
+  await page.getByLabel('Search places').fill('a');
+  await expect(page.locator('[data-place-results] button')).toHaveCount(1);
+  expect(await clean(page)).toEqual([]);
+  await page.locator('[data-place-results] button').first().click();
+  await expect(page.locator('[data-place-marker]')).toBeVisible();
+  await expect(page.locator('.place-marker')).toBeVisible();
+  expect(await clean(page)).toEqual([]);
+});
+
 test('and with the notice about an address showing', async ({ page }) => {
   await page.goto('/atlas/?y=150&l=old-settlements,held-layer,roads&f=old-settlements&lens=collection&c=roman-dacia-fixtures');
   await expect(page.locator('[data-atlas][data-ready="true"]')).toBeVisible();

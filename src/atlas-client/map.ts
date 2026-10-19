@@ -28,6 +28,9 @@ export interface MapController {
   setYear(year: number): void;
   /** Keep only the features a layer's facet selection allows; null shows them all. */
   setFacet(slug: string, expression: ExpressionSpecification | null): void;
+  /** Centre the map on a place at the fixed place zoom and mark it with a labelled marker; `onRemoved` runs when the marker is taken away. */
+  showPlace(label: string, lon: number, lat: number, onRemoved: () => void): void;
+  clearPlace(): void;
   /** Moves the view to the extent of these layers. */
   fitTo(slugs: string[]): void;
   /** Resolves when the map has drawn everything it was asked to and stopped moving (research R8: the map is interactive). */
@@ -131,6 +134,9 @@ function boundsOf(features: readonly LoadedFeature[]): [number, number, number, 
   return box;
 }
 
+/** How far in the map goes to show a place. */
+export const PLACE_ZOOM = 9;
+
 export async function createMap(container: HTMLElement, initialYear: number): Promise<MapController> {
   // served as it ships, beside its worker (see src/atlas/build/vendor.ts); the stylesheet sits next to it
   const style = document.createElement('link');
@@ -148,6 +154,14 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
   });
   map.addControl(new maplibre.NavigationControl({ showCompass: false }), 'top-right');
   await new Promise<void>((resolve) => map.once('load', () => resolve()));
+  // the position is readable as text, for tests and for anything that wants to say where the map is
+  const writePosition = () => {
+    const { lng, lat } = map.getCenter();
+    container.dataset.center = `${lng.toFixed(3)},${lat.toFixed(3)}`;
+    container.dataset.zoom = String(Math.round(map.getZoom() * 100) / 100);
+  };
+  map.on('moveend', writePosition);
+  let placeMarker: { marker: InstanceType<typeof maplibre.Marker>; onRemoved: () => void } | null = null;
   const hasBasemap = await addBasemap(map);
   container.dataset.basemap = String(hasBasemap);
 
@@ -249,6 +263,31 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
       if (expression) facetFilters.set(slug, expression);
       else facetFilters.delete(slug);
       for (const { id, where } of drawn.get(slug)?.styleLayers ?? []) if (map.getLayer(id)) map.setFilter(id, filterOf(slug, where));
+    },
+    showPlace(label, lon, lat, onRemoved) {
+      placeMarker?.marker.remove();
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'place-marker';
+      button.setAttribute('aria-label', `Remove marker for ${label}`);
+      const pin = document.createElement('span');
+      pin.className = 'pin';
+      const text = document.createElement('span');
+      text.className = 'label';
+      text.textContent = label;
+      button.append(pin, text);
+      const marker = new maplibre.Marker({ element: button }).setLngLat([lon, lat]).addTo(map);
+      placeMarker = { marker, onRemoved };
+      button.addEventListener('click', () => {
+        marker.remove();
+        placeMarker = null;
+        onRemoved();
+      });
+      map.flyTo({ center: [lon, lat], zoom: PLACE_ZOOM, duration: reduceMotion ? 0 : 600 });
+    },
+    clearPlace() {
+      placeMarker?.marker.remove();
+      placeMarker = null;
     },
     fitTo(slugs) {
       const features = slugs.flatMap((slug) => drawn.get(slug)?.features ?? []);
