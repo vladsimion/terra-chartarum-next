@@ -1,0 +1,19 @@
+id: tc:tc:layer:layer-000006
+family: layer
+origin: minted
+title: A held layer
+slug: held-layer
+lifecycle: researching
+release: held
+role: historical
+asset: data/layers/layer-000006.geojson
+dataset: tc:tc:dataset:dataset-000001
+geometry_provenance: source_geometry
+theme: cartographic-evidence
+tags: [fixture]
+synonyms: [held-layer-alias]
+envelope: 0106/0271
+time_mode: envelope_only
+rights:
+  licence: CC BY 4.0
+

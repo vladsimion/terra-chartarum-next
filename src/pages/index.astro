@@ -1,6 +1,6 @@
 ---
 import { getEntry, render } from 'astro:content';
-import { ROOM_IDS } from '../registry/families.js';
+import { indexView } from '../rooms/views.js';
 import { byId } from '../shell/destinations.js';
 import Base from '../shell/layouts/Base.astro';
 import { loadPublicRecords, registryRoot } from '../shell/public-records.js';
@@ -14,10 +14,9 @@ const home = await getEntry('pages', 'home');
 if (!home) throw new Error('src/content/pages/home.md is missing');
 const { Content } = await render(home);
 
-const essays = (await loadPublicRecords(registryRoot()))
-  .filter((r) => r.family === 'essay')
-  .sort((a, b) => a.title.localeCompare(b.title, 'en'));
-const rooms = ROOM_IDS.map((id) => ({ id, label: id[0]!.toUpperCase() + id.slice(1) }));
+const records = await loadPublicRecords(registryRoot());
+const essays = records.filter((r) => r.family === 'essay').sort((a, b) => a.title.localeCompare(b.title, 'en'));
+const rooms = indexView(records);
 ---
 
 <Base title={`${home.data.title} | Terra Chartarum`} description={home.data.description} lang={home.data.lang} crumb="Home">
@@ -45,7 +44,7 @@ const rooms = ROOM_IDS.map((id) => ({ id, label: id[0]!.toUpperCase() + id.slice
     <h2 id="rooms-heading">Rooms</h2>
     <ul>
       {rooms.map((r) => (
-        <li><a href={`${byId('rooms').href}#${r.id}`}>{r.label}</a></li>
+        <li><a href={r.href}>{r.name}</a></li>
       ))}
     </ul>
   </section>

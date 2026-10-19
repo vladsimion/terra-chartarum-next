@@ -1,0 +1,12 @@
+id: tc:tc:place:place-000001
+family: place
+origin: minted
+title: Apulum
+slug: apulum
+lifecycle: published
+release: released
+place_type: settlement
+names:
+  - { name: Apulum, language: la, kind: historic, valid_from: '0106', valid_to: '0271' }
+  - { name: Alba Iulia, language: ro, kind: modern }
+location: { lon: 23.57, lat: 46.07 }

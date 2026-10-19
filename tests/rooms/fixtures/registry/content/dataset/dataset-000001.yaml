@@ -1,0 +1,10 @@
+id: tc:tc:dataset:dataset-000001
+family: dataset
+origin: minted
+title: Atlas fixture data
+slug: atlas-fixture-data
+lifecycle: published
+release: released
+version: 1.0.0
+rights:
+  licence: CC BY 4.0

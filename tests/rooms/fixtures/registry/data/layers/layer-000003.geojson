@@ -1,0 +1,39 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "f-1",
+      "properties": {
+        "name": "Romania, present-day border (simplified)"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              20.3,
+              46.0
+            ],
+            [
+              26.0,
+              47.5
+            ],
+            [
+              28.0,
+              45.0
+            ],
+            [
+              22.0,
+              43.8
+            ],
+            [
+              20.3,
+              46.0
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+id: tc:tc:collection:collection-000002
+family: collection
+origin: minted
+title: Nothing runnable yet
+slug: nothing-runnable-yet
+lifecycle: published
+release: released
+members:
+  - tc:tc:layer:layer-000006
+  - tc:tc:layer:layer-000007
+default_layers: []

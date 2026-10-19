@@ -1,0 +1,25 @@
+id: tc:tc:layer:layer-000005
+family: layer
+origin: minted
+title: A georeferenced sheet
+slug: overlay-tabula
+lifecycle: published
+release: released
+role: map-overlay
+asset: data/layers/layer-000005.geojson
+dataset: tc:tc:dataset:dataset-000001
+geometry_provenance: source_geometry
+theme: historical-map-overlays
+tags: [fixture]
+synonyms: [overlay-tabula-alias]
+envelope: 1595/1595
+time_mode: envelope_only
+rights:
+  licence: CC BY 4.0
+georef:
+  map: tc:tc:map:map-000001
+  annotation: data/layers/overlay-000005.annotation.json
+  transformation: polynomial1
+  residual_error_m: 480
+  control_points: 7
+  confidence: probable

@@ -1,0 +1,9 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000007
+family: bibliography_entry
+origin: minted
+title: A fixture introduction to mapping
+slug: fixture-entry-7
+lifecycle: published
+release: released
+csl: content/bibliography_entry/bibliography_entry-000007.csl.json
+section: further_reading

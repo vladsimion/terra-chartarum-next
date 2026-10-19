@@ -1,0 +1,19 @@
+id: tc:tc:layer:layer-000004
+family: layer
+origin: minted
+title: Settlements of Dacia
+slug: dacian-settlements
+lifecycle: published
+release: released
+role: historical
+asset: data/layers/layer-000004.geojson
+dataset: tc:tc:dataset:dataset-000001
+geometry_provenance: scholarly_reconstruction
+theme: places-settlements
+tags: [fixture]
+synonyms: [dacian-settlements-alias]
+envelope: 0090/0271
+time_mode: per_feature
+rights:
+  licence: CC BY 4.0
+slug_history: [old-settlements]
