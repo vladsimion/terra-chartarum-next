@@ -109,8 +109,18 @@ test('the list page and an entry page have no accessibility violations', async (
   expect(await violations()).toEqual([]);
   await form(page).getByLabel('Primary sources').check();
   expect(await violations()).toEqual([]);
-  await page.goto('/bibliography/fixture-entry-1/');
-  expect(await violations()).toEqual([]);
+  // a pending locator, a verified one, editions and translations, a finding aid with its badge and an external copy
+  for (const n of [1, 2, 11, 13]) {
+    await page.goto(`/bibliography/fixture-entry-${n}/`);
+    expect(await violations(), `entry ${n}`).toEqual([]);
+  }
+});
+
+test('a finding aid says so, in words, on its page', async ({ page }) => {
+  await page.goto('/bibliography/fixture-entry-13/');
+  await expect(page.locator('.badge-finding-aid')).toHaveText('Finding aid');
+  await expect(page.getByText('not itself cited as evidence')).toBeVisible();
+  await expect(page.locator('section.cited-evidence')).toHaveCount(0);
 });
 
 test('the first load is under 100 KB of script', async ({ page }) => {

@@ -77,8 +77,8 @@ description: "Task list for 006 Bibliography & Citation"
 
 ## Phase 4: User Story 3 — Distinguish sections and finding aids (P2)
 
-- [ ] T029 [P] [US3] Write failing additions to `tests/bibliography/build/entry-page.test.ts` and `unit/cited-in.test.ts`: the seven section labels appear as in data-model.md ("Historical maps", not "cartographic witnesses"); an entry whose pointing Source is a finding aid carries the "Finding aid" badge and appears under no "Cited as evidence" group; an entry with no `section` is not public
-- [ ] T030 [US3] Implement the section labels, the badge and the missing-section handling in `entry-public.ts` and `[slug].astro`
+- [x] T029 [P] [US3] Write failing additions to `tests/bibliography/build/entry-page.test.ts` and `unit/cited-in.test.ts`: the seven section labels appear as in data-model.md ("Historical maps", not "cartographic witnesses"); an entry whose pointing Source is a finding aid carries the "Finding aid" badge and appears under no "Cited as evidence" group; an entry with no `section` is not public. Five of the new tests were seen failing (the badge and `isFindingAid`); the rest pin behaviour US1 already had (section labels from the one label table, a finding aid skipped on the evidence route, a section-less or unknown-section entry not public), so they passed at once.
+- [x] T030 [US3] Implement the section labels, the badge and the missing-section handling in `entry-public.ts` and `[slug].astro`. Done: `isFindingAid` in `cited-in.ts`, the badge and its note in `EntryPage.astro`. The section labels and the missing-section handling were already in place from US1, so the work here was the badge. The flag must be on a published Source for the badge to show (a held Source is not in the public records).
 
 ---
 
