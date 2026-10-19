@@ -6,7 +6,7 @@ import { kindOf, themeLabel } from '../atlas/labels.js';
 import { legendOf } from '../atlas/provenance-style.js';
 import type { AtlasIndex, AtlasState } from '../atlas/types.js';
 import { classesPresent, summarise, type BuiltFeature } from '../atlas/visible.js';
-import { activate, activateDefaults, activeLayers, clearFacet, deactivate, focus, initialState, resetFacets, setFacet, setLens, setYear, toggleRelevant } from '../atlas/view-state.js';
+import { activate, activateDefaults, activeLayers, clearFacet, deactivate, focus, initialState, resetFacets, setFacet, setLens, setVisible, setYear, toggleRelevant } from '../atlas/view-state.js';
 import type { MapController } from './map.js';
 import type { LoadedFeature } from './features.js';
 import { featureRows } from '../atlas/feature-table.js';
@@ -233,7 +233,7 @@ async function start(): Promise<void> {
       fallbackBox.setAttribute('aria-label', 'Layers as text');
       mapRegion.append(fallbackBox);
     }
-    const layers: FallbackLayer[] = activeLayers(state, index).map(({ slug, layer }) => {
+    const layers: FallbackLayer[] = activeLayers(state, index).filter((a) => !a.hidden).map(({ slug, layer }) => {
       const loaded = features.get(slug);
       const selections = state.facets[slug] ?? {};
       return {
@@ -243,7 +243,7 @@ async function start(): Promise<void> {
     });
     const collection = state.collection ? index.collections.find((c) => c.slug === state.collection) : undefined;
     const defaults = collection ? collection.default_layers.flatMap((slug) => index.layers.find((l) => l.slug === slug) ?? []) : [];
-    const showOverview = collection !== undefined && defaults.some((l) => state.active.includes(l.slug));
+    const showOverview = collection !== undefined && defaults.some((l) => state.active.includes(l.slug) && !state.hidden?.includes(l.slug));
     renderFallback(fallbackBox, {
       year: state.year,
       overview: showOverview && collection ? { src: `/data/overview/${collection.slug}.svg`, alt: `Overview map of ${collection.title}, showing ${defaults.map((l) => l.title).join(', ')}.` } : null,
@@ -262,7 +262,7 @@ async function start(): Promise<void> {
     if (empty) empty.hidden = layers.length > 0;
     if (list) {
       list.replaceChildren(
-        ...layers.map(({ slug, layer, range }) => {
+        ...layers.map(({ slug, layer, range, hidden }) => {
           const item = document.createElement('li');
           item.dataset.active = slug;
           const title = document.createElement('span');
@@ -286,6 +286,17 @@ async function start(): Promise<void> {
           } else {
             detail.textContent = 'Loading…';
           }
+          if (hidden) {
+            const mark = document.createElement('span');
+            mark.className = 'range-mark';
+            mark.textContent = 'Hidden';
+            item.append(mark);
+          }
+          const visibility = document.createElement('button');
+          visibility.type = 'button';
+          visibility.dataset.visibility = slug;
+          visibility.textContent = hidden ? 'Show' : 'Hide';
+          visibility.setAttribute('aria-label', `${hidden ? 'Show' : 'Hide'} ${layer.title} on the map`);
           const inspect = document.createElement('button');
           inspect.type = 'button';
           inspect.dataset.inspect = slug;
@@ -297,7 +308,7 @@ async function start(): Promise<void> {
           remove.dataset.remove = slug;
           remove.textContent = 'Remove';
           remove.setAttribute('aria-label', `Remove ${layer.title} from the map`);
-          item.append(detail, inspect, remove);
+          item.append(detail, visibility, inspect, remove);
           return item;
         }),
       );
@@ -308,8 +319,9 @@ async function start(): Promise<void> {
       button.textContent = on ? 'On the map' : 'Add to map';
     }
     if (legend) {
-      const classes = layers.flatMap(({ slug, layer }) => classesPresent((features.get(slug) ?? []).map((f) => f.properties as BuiltFeature), layer.provenance));
-      const uncertain = layers.some(({ slug }) => summarise((features.get(slug) ?? []).map((f) => f.properties as BuiltFeature), state.year).uncertain > 0);
+      const shown = layers.filter((a) => !a.hidden);
+      const classes = shown.flatMap(({ slug, layer }) => classesPresent((features.get(slug) ?? []).map((f) => f.properties as BuiltFeature), layer.provenance));
+      const uncertain = shown.some(({ slug }) => summarise((features.get(slug) ?? []).map((f) => f.properties as BuiltFeature), state.year).uncertain > 0);
       const entries = legendOf(classes, uncertain);
       legend.hidden = entries.length === 0;
       const items = $<HTMLElement>('ul', legend);
@@ -329,6 +341,11 @@ async function start(): Promise<void> {
     const target = event.target as Element;
     const button = target.closest<HTMLButtonElement>('button[data-remove]');
     if (button?.dataset.remove) store.set(deactivate(store.get(), button.dataset.remove));
+    const visibility = target.closest<HTMLButtonElement>('button[data-visibility]');
+    if (visibility?.dataset.visibility) {
+      const slug = visibility.dataset.visibility;
+      store.set(setVisible(store.get(), slug, store.get().hidden?.includes(slug) ?? false));
+    }
     const inspect = target.closest<HTMLButtonElement>('button[data-inspect]');
     if (inspect?.dataset.inspect) {
       store.set(focus(store.get(), inspect.dataset.inspect));
@@ -400,6 +417,9 @@ async function start(): Promise<void> {
       if (before.facets[slug] !== state.facets[slug]) controller?.setFacet(slug, facetExpression(state.facets[slug] ?? {}));
     }
     if (state.focused !== before.focused) showInspector(state);
+    for (const slug of new Set([...(before.hidden ?? []), ...(state.hidden ?? [])])) {
+      if ((before.hidden?.includes(slug) ?? false) !== (state.hidden?.includes(slug) ?? false)) controller?.setVisible(slug, !(state.hidden?.includes(slug) ?? false));
+    }
     for (const slug of removed) {
       controller?.remove(slug);
       features.delete(slug);
@@ -422,6 +442,8 @@ async function start(): Promise<void> {
           const loaded = await map.add(slug, layer.provenance, colours.get(slug) ?? 0, layer.role === 'map-overlay' ? { opacity: () => opacities.get(slug) ?? DEFAULT_OVERLAY_OPACITY } : undefined);
           features.set(slug, loaded.features);
           map.setFacet(slug, facetExpression(store.get().facets[slug] ?? {}));
+          // a layer added already hidden (the address said so) is drawn for no one
+          if (store.get().hidden?.includes(slug)) map.setVisible(slug, false);
           render(store.get());
         }
         map.setYear(store.get().year);

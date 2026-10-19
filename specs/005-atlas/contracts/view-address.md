@@ -8,6 +8,7 @@ The Atlas view lives in the query string of `/atlas/`. One module, `src/atlas/vi
 |---|---|---|
 | `y` | year | signed integer, negative for BCE (`y=-106`, `y=1400`) |
 | `l` | active layers, in activation order | comma-separated public layer slugs |
+| `hide` | active layers not drawn, in activation order | comma-separated public layer slugs, each of which must also be active |
 | `f` | focused layer | one public layer slug, which must also be active |
 | `lens` | discovery lens | `theme`, `collection` or `room` |
 | `c` | collection context | one public collection slug, meaningful with `lens=collection` |
@@ -20,6 +21,7 @@ Values are percent-encoded. Parameters are written in the order above; defaults 
 
 - A slug is resolved first against live layer slugs, then against slug histories of public layers (`atlas-slugs.json`). A slug found only in history resolves to the current slug and is reported as renamed.
 - A slug that matches nothing public is skipped and reported as unknown. The message never says whether the slug belongs to a held or non-existent layer.
+- A hidden layer that is not active is dropped from the state and reported.
 - A focused layer that is not active is dropped from the state and reported.
 - A facet whose layer, property or value does not exist is dropped and reported.
 - An unparseable `y` is replaced by the default year and reported.

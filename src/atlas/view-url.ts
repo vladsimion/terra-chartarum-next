@@ -44,11 +44,13 @@ function facetText(facets: Readonly<Record<string, FacetSelection>>): string {
     .join(';');
 }
 
-/** The query string (no `?`) of a state: `y`, `l`, `f`, `lens`, `c`, `rel`, then `facet.<slug>` in activation order. */
+/** The query string (no `?`) of a state: `y`, `l`, `hide`, `f`, `lens`, `c`, `rel`, then `facet.<slug>` in activation order. */
 export function serialiseView(state: AtlasState, index: AtlasIndex): string {
   const parts: string[] = [];
   if (state.year !== defaultYear(index)) parts.push(`y=${state.year}`);
   if (state.active.length > 0) parts.push(`l=${state.active.map(encodeURIComponent).join(',')}`);
+  const hidden = state.active.filter((slug) => state.hidden?.includes(slug));
+  if (hidden.length > 0) parts.push(`hide=${hidden.map(encodeURIComponent).join(',')}`);
   if (state.focused && state.active.includes(state.focused)) parts.push(`f=${encodeURIComponent(state.focused)}`);
   if (state.lens !== 'theme') parts.push(`lens=${state.lens}`);
   if (state.lens === 'collection' && state.collection) parts.push(`c=${encodeURIComponent(state.collection)}`);
@@ -121,6 +123,14 @@ export function parseView(search: string, index: AtlasIndex, slugs: SlugTable): 
     const slug = layer(raw, report);
     if (slug && !state.active.includes(slug)) state.active.push(slug);
   }
+
+  for (const raw of (params.get('hide') ?? '').split(',').filter((s) => s !== '')) {
+    const slug = layer(raw, report);
+    if (!slug) continue;
+    if (!state.active.includes(slug)) report.dropped.push('A layer to hide in the address is not one of the layers on the map, so it was left out.');
+    else if (!state.hidden?.includes(slug)) state.hidden = [...(state.hidden ?? []), slug];
+  }
+  if (state.hidden) state.hidden = state.active.filter((slug) => state.hidden?.includes(slug));
 
   const focused = params.get('f');
   if (focused) {

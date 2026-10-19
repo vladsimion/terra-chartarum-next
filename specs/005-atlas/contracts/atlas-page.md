@@ -8,13 +8,13 @@ At wide widths: a left catalogue drawer, the map filling the rest, a right inspe
 - **Lens switch**: Themes, Collections, Rooms. Switching never changes Active Layers.
 - **Search**: a text field above the catalogue, ranked as in spec US2.3. A separate place-search field recentres the map (FR-009).
 - **Year-relevance toggle** ("only show layers relevant to this year"): narrows the catalogue; active out-of-range layers stay and are marked.
-- **Active layers**: ordered list with a visibility toggle, an inspect button, a remove button and an "out of range" mark.
+- **Active layers**: ordered list with a visibility toggle (a button reading "Hide" or "Show", with the layer's title in its name), an inspect button, a remove button, an "out of range" mark and a "Hidden" mark. A hidden layer stays on the list with its facets and the inspector, is not drawn, is left out of the legend and of the no-WebGL tables, and is kept in the shared address (`hide`). Removing a layer forgets that it was hidden.
 - **Inspector**: description, role, theme, temporal envelope, source, licence, methodology documentation links, related released essays, rooms, collections and facets; for an overlay also the `georef` fields and an opacity slider.
 - **Copy this view**: copies the address built by `view-url.ts` and announces it.
 
 ## Keyboard (FR-008, SC-004)
 
-Every control above is a native button, link, input or details element reachable in a logical order. Within the map, arrow keys pan and `+`/`-` zoom (MapLibre's keyboard handler), `Escape` returns focus to the last control used. The keyboard scenario switches lens, activates collection defaults, opens the inspector, applies and resets a facet, removes a layer and copies the view.
+Every control above is a native button, link, input or details element reachable in a logical order. Within the map, arrow keys pan and `+`/`-` zoom (MapLibre's keyboard handler); `Tab` leaves the map, and there is no modal or drawer on a desktop screen for `Escape` to close (amended 2026-10-19: an earlier text had `Escape` return focus to the last control used, which would have meant intercepting keys in a canvas MapLibre owns). The keyboard scenario switches lens, activates collection defaults, opens the inspector, applies and resets a facet, removes a layer and copies the view.
 
 ## Provenance and uncertainty styling (FR-015, SC-006)
 

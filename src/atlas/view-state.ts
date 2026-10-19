@@ -45,6 +45,26 @@ export function deactivate(state: AtlasState, slug: string): AtlasState {
   const { [slug]: _removed, ...facets } = state.facets;
   const next: AtlasState = { ...state, active: state.active.filter((s) => s !== slug), facets };
   if (state.focused === slug) delete next.focused;
+  if (state.hidden?.includes(slug)) {
+    const rest = state.hidden.filter((s) => s !== slug);
+    if (rest.length > 0) next.hidden = rest;
+    else delete next.hidden;
+  }
+  return next;
+}
+
+/**
+ * Hide an active layer from the map, or show it again, without taking it off the list: its facets,
+ * its place in the order and the inspector all stay (atlas-page.md "Active layers").
+ */
+export function setVisible(state: AtlasState, slug: string, visible: boolean): AtlasState {
+  if (!state.active.includes(slug)) return state;
+  const hidden = state.hidden ?? [];
+  if (visible === !hidden.includes(slug)) return state;
+  const next: AtlasState = { ...state };
+  const rest = visible ? hidden.filter((s) => s !== slug) : state.active.filter((s) => s === slug || hidden.includes(s));
+  if (rest.length > 0) next.hidden = rest;
+  else delete next.hidden;
   return next;
 }
 
@@ -106,6 +126,8 @@ export interface ActiveLayer {
   slug: string;
   layer: IndexLayer;
   range: EnvelopeState;
+  /** On the list but not drawn. */
+  hidden: boolean;
 }
 
 /** The active layers in activation order, each with whether the year is inside its envelope. */
@@ -113,7 +135,7 @@ export function activeLayers(state: AtlasState, index: AtlasIndex): ActiveLayer[
   const out: ActiveLayer[] = [];
   for (const slug of state.active) {
     const layer = find(index, slug);
-    if (layer) out.push({ slug, layer, range: envelopeState(envelopeOf(layer), state.year) });
+    if (layer) out.push({ slug, layer, range: envelopeState(envelopeOf(layer), state.year), hidden: state.hidden?.includes(slug) ?? false });
   }
   return out;
 }

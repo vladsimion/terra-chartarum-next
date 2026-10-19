@@ -20,6 +20,8 @@ export interface MapController {
   /** Fetches the layer if needed and draws it; resolves with its features. */
   add(slug: string, provenance: string, colourIndex: number, overlay?: { opacity: () => number }): Promise<LoadedLayer>;
   remove(slug: string): void;
+  /** Draw a layer or stop drawing it, without removing it; its features and facet filters stay. */
+  setVisible(slug: string, visible: boolean): void;
   /** Sets how much of a georeferenced overlay shows, 0 to 1; no effect on a layer that is not one. */
   setOverlayOpacity(slug: string, opacity: number): void;
   setYear(year: number): void;
@@ -161,6 +163,12 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
   const drawn = new Map<string, Drawn>();
   /** The georeferenced overlays on the map, as the plugin's layers; `data-overlays` says their opacity (for tests and for anything that wants it as text). */
   const overlays = new Map<string, { layer: InstanceType<typeof import('@allmaps/maplibre').WarpedMapLayer>; opacity: number }>();
+  /** The layers not drawn, as text on the canvas (for tests and for anything that wants it). */
+  const hidden = new Set<string>();
+  const writeHidden = () => {
+    container.dataset.hidden = JSON.stringify([...hidden].sort());
+  };
+  writeHidden();
   const writeOverlays = () => {
     container.dataset.overlays = JSON.stringify(Object.fromEntries([...overlays].map(([slug, { opacity }]) => [slug, opacity])));
   };
@@ -257,14 +265,25 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
       drawn.set(slug, draw(slug, features, colourIndex));
       return { slug, features };
     },
+    setVisible(slug, visible) {
+      if (visible) hidden.delete(slug);
+      else hidden.add(slug);
+      writeHidden();
+      for (const { id } of drawn.get(slug)?.styleLayers ?? []) if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', visible ? 'visible' : 'none');
+      // the overlay is a custom layer: it is hidden by drawing none of it, and comes back at the opacity it had
+      const overlay = overlays.get(slug);
+      if (overlay) overlay.layer.setOpacity(visible ? overlay.opacity : 0);
+    },
     setOverlayOpacity(slug, opacity) {
       const entry = overlays.get(slug);
       if (!entry) return;
       entry.opacity = clampOpacity(opacity);
-      entry.layer.setOpacity(entry.opacity);
+      if (!hidden.has(slug)) entry.layer.setOpacity(entry.opacity);
       writeOverlays();
     },
     remove(slug) {
+      hidden.delete(slug);
+      writeHidden();
       const overlay = overlays.get(slug);
       if (overlay) {
         if (map.getLayer(overlay.layer.id)) map.removeLayer(overlay.layer.id);
