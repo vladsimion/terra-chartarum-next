@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../shell/layouts/Base.astro';
+
+/*
+ * The Atlas Handbook (spec 005 US5): the topics, in order. The copy is draft skeleton until the
+ * author writes it, and is marked so for `shell:check`.
+ */
+const topics = (await getCollection('handbook')).sort((a, b) => a.data.order - b.data.order);
+const draft = topics.some((t) => t.data.draft);
+---
+
+<Base title="Atlas Handbook | Terra Chartarum" description="How to read the Atlas: the time control, provenance, themes and collections, sharing a view, and using it without a mouse." crumb="Atlas Handbook">
+  <h1>Atlas Handbook</h1>
+  <div class="prose" data-draft={draft ? '' : undefined}>
+    <p>How to read the Atlas. <a href="/atlas/">Back to the Atlas.</a></p>
+    <ol class="topics">
+      {topics.map((t) => (
+        <li>
+          <a href={`/atlas/handbook/${t.id}/`}>{t.data.title}</a>
+          <span>{t.data.description}</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Base>
+
+<style>
+  .topics {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: grid;
+    gap: var(--space-1);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  li span {
+    color: var(--ink-muted);
+  }
+
+  li a {
+    min-height: var(--target-min);
+  }
+</style>

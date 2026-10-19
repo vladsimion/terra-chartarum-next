@@ -36,4 +36,21 @@ const cartographerBios = defineCollection({
   loader: glob({ pattern: '*.md', base: `${process.env.REGISTRY_ROOT ?? '.'}/content/cartographer` }),
 });
 
-export const collections = { pages, 'essay-bodies': essayBodies, 'cartographer-bios': cartographerBios };
+/*
+ * The Atlas Handbook (spec 005 US5, FR-018): one entry per topic under /atlas/handbook/. `anchors`
+ * lists the headings other pages link to (src/atlas/handbook-links.ts); a test checks they exist.
+ * `draft` defaults to true: the v1 text is skeleton copy and `shell:check --cutover` fails until the
+ * author writes and releases it.
+ */
+const handbook = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/handbook' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    order: z.number().int().positive(),
+    draft: z.boolean().default(true),
+    anchors: z.array(z.string()).min(1),
+  }),
+});
+
+export const collections = { handbook, pages, 'essay-bodies': essayBodies, 'cartographer-bios': cartographerBios };

@@ -122,9 +122,9 @@ description: "Task list for 005 Historical Atlas"
 
 ## Phase 8: User Story 5 — Learn to read the Atlas (Handbook) (P2)
 
-- [ ] T052 [P] [US5] Write failing `tests/atlas/build/handbook.test.ts`: the five topic entries exist as draft skeleton copy (`draft: true`) with stable anchors; `/atlas/handbook/` lists them and each topic renders; every link to the Handbook from the Atlas landing, the layer controls, the inspector, the home page and the footer resolves to an existing entry and anchor; `shell:check` lists the Handbook entries as draft copy
-- [ ] T053 [US5] Add the `handbook` collection to `src/content.config.ts`, the entries under `src/content/handbook/`, `src/pages/atlas/handbook/index.astro` and `[slug].astro`; flip the `handbook` destination to `built`; add the links; add the Handbook page types to the CI template list and `lighthouserc.json`
-- [ ] T054 [P] [US5] Write failing `tests/atlas/e2e/handbook-links.spec.ts` (CI-verified): the landing prompt, the labelled entry beside the layer controls, the inspector link, the home page call and the footer link all reach the Handbook
+- [x] T052 [P] [US5] Write failing `tests/atlas/build/handbook.test.ts`: the five topic entries exist as draft skeleton copy (`draft: true`) with stable anchors; `/atlas/handbook/` lists them and each topic renders; every link to the Handbook from the Atlas landing, the layer controls, the inspector, the home page and the footer resolves to an existing entry and anchor; `shell:check` lists the Handbook entries as draft copy
+- [x] T053 [US5] Add the `handbook` collection to `src/content.config.ts`, the entries under `src/content/handbook/`, `src/pages/atlas/handbook/index.astro` and `[slug].astro`; flip the `handbook` destination to `built`; add the links; add the Handbook page types to the CI template list and `lighthouserc.json`
+- [x] T054 [P] [US5] Write failing `tests/atlas/e2e/handbook-links.spec.ts` (CI-verified): the landing prompt, the labelled entry beside the layer controls, the inspector link, the home page call and the footer link all reach the Handbook
 
 ---
 

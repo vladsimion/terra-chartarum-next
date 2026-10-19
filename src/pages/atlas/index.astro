@@ -1,5 +1,6 @@
 ---
 import Catalogue from '../../atlas/components/Catalogue.astro';
+import { HANDBOOK_LINKS } from '../../atlas/handbook-links.js';
 import { buildIndex } from '../../atlas/index-data.js';
 import { defaultYear } from '../../atlas/view-state.js';
 import { yearBounds } from '../../atlas/time.js';
@@ -29,7 +30,7 @@ const SHEETS = [
   <p class="intro">
     Pick a year, switch on layers and see only what was valid then. Every line says how it is known: documentary, reconstructed, generalised or present-day reference.
   </p>
-  <p><a href="/atlas/handbook/">New to the Atlas? Read the Handbook</a></p>
+  <p><a href={HANDBOOK_LINKS.index}>New to the Atlas? Read the Handbook</a></p>
   <nav aria-label="Collections">
     <h2>Collections</h2>
     <ul>
@@ -72,6 +73,7 @@ const SHEETS = [
         <label for="atlas-year">Year</label>
         <input id="atlas-year" type="number" value={year} step="1" />
         <input type="range" aria-label="Year" min={lowest} max={highest} value={year} step="1" />
+        <a href={HANDBOOK_LINKS.time}>How to read the time control</a>
       </div>
     </div>
     <section id="active-layers" class="active-layers" aria-label="Active layers">
