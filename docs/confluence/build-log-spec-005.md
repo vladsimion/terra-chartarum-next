@@ -1,6 +1,6 @@
 # Confluence entry: Build Log (page 2490370)
 
-Published 2026-10-19 as section Y (page version 130), directly after section X and before "2. In progress"; the header pointer "sections U, V, W and X" became "sections U to Y". The rest of the page was left unchanged (checked by reading the page back). The text below was published, and has since been corrected for #63 (a new table row and the commit `gate` was last green at); the correction is not yet published.
+Published 2026-10-19 as section Y (page version 130), directly after section X and before "2. In progress"; the header pointer "sections U, V, W and X" became "sections U to Y". The rest of the page was left unchanged (checked by reading the page back). Updated in place in page version 131 (2026-10-19) for #63: a new table row and the commit `gate` was last green at; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
 ## Y. The successor build: the Atlas (spec 005)
 
