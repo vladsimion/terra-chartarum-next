@@ -34,10 +34,9 @@ async function recordsAsSiteSeesThem() {
 const scan = async (dir: string) => scanOutput(dir, await recordsAsSiteSeesThem(), { namedFamilies: FAMILIES });
 
 /**
- * The Bibliography's own outputs, copied out of the whole site: its pages, its search index and every
- * citation file. `data/relations.json` is the registry's, not the Bibliography's, and is not here: it
- * lists the id of any published entry a public record points at, including one no public record
- * cites; whether that may stand is open (specs/006-bibliography/tasks.md, T040).
+ * The Bibliography's own outputs, copied out of the whole site: its pages, its search index, every
+ * citation file, and `data/relations.json`, which the registry writes and which must not name an
+ * entry the site does not list.
  */
 function bibliographyOutputs(): string {
   const dir = mkdtempSync(path.join(tmpdir(), 'bib-outputs-'));
@@ -47,7 +46,7 @@ function bibliographyOutputs(): string {
     cpSync(path.join(site, part), path.join(dir, part), { recursive: true });
   }
   mkdirSync(path.join(dir, 'data'), { recursive: true });
-  cpSync(path.join(site, 'data/bibliography-index.json'), path.join(dir, 'data/bibliography-index.json'));
+  for (const file of ['data/bibliography-index.json', 'data/relations.json']) cpSync(path.join(site, file), path.join(dir, file));
   return dir;
 }
 
@@ -58,7 +57,7 @@ describe('the built Bibliography', () => {
 
   it('has the files it is checked over: the pages, the index and the exports of all three kinds', () => {
     const dir = bibliographyOutputs();
-    for (const file of ['bibliography/index.html', 'bibliography/fixture-entry-1/cite.bib', 'bibliography/fixture-entry-1/cite.ris', 'bibliography/fixture-entry-1/cite.json', 'data/bibliography-index.json', 'data/cite/layer/roads.bib', 'data/cite/site.ris']) {
+    for (const file of ['bibliography/index.html', 'bibliography/fixture-entry-1/cite.bib', 'bibliography/fixture-entry-1/cite.ris', 'bibliography/fixture-entry-1/cite.json', 'data/bibliography-index.json', 'data/relations.json', 'data/cite/layer/roads.bib', 'data/cite/site.ris']) {
       expect(readFileSync(path.join(dir, file), 'utf8').length, file).toBeGreaterThan(0);
     }
   });
@@ -86,6 +85,7 @@ describe('named leaks in real output are seen, and reported without repeating th
       'bibliography/fixture-entry-1/cite.bib',
       'bibliography/fixture-entry-4/cite.json',
       'data/bibliography-index.json',
+      'data/relations.json',
       'data/cite/site.json',
     ]) {
       mkdirSync(path.dirname(path.join(dir, file)), { recursive: true });
@@ -103,6 +103,7 @@ describe('named leaks in real output are seen, and reported without repeating th
     { name: 'the title of a held entry, in an export', file: 'bibliography/fixture-entry-1/cite.bib', text: '@book{x, title = {A held draft entry}}', secret: /A held draft entry/ },
     { name: 'the title of the held essay, in an entry page', file: 'bibliography/fixture-entry-1/index.html', text: '<p>Zephyr Held Moraine Essay</p>', secret: /Zephyr Held Moraine Essay/ },
     { name: 'the title of a held Source, in an entry page', file: 'bibliography/fixture-entry-1/index.html', text: '<li>A held fixture source</li>', secret: /A held fixture source/ },
+    { name: 'the id of an entry cited only by the held essay, in the relations file', file: 'data/relations.json', text: '"tc:tc:bibliography_entry:bibliography_entry-000008": []', secret: /\x00never/ },
     { name: 'the slug of a held Source, in the search index', file: 'data/bibliography-index.json', text: '"held-fixture-source"', secret: /held-fixture-source/ },
     { name: 'a private value of a public entry, in its export', file: 'bibliography/fixture-entry-4/cite.json', text: `"note": "${PRIVATE_NOTE}"`, secret: /Lyon/ },
     { name: 'a private value, in the citation of the site', file: 'data/cite/site.json', text: PRIVATE_NOTE, secret: /Lyon/ },
