@@ -1,0 +1,21 @@
+id: tc:tc:evidence:evidence-000003
+family: evidence
+origin: minted
+title: A fixture claim on the roads
+slug: fixture-claim-roads
+lifecycle: published
+release: released
+target:
+  entity: tc:tc:map:map-000002
+source: tc:tc:source:source-000004
+locator:
+  value: p. 40
+  state: verified
+  proposed_by: person
+  verified_by: A. Editor
+  verified_on: 2026-10-10
+  consulted_copy: Fixture Library copy
+evidence_type: textual
+confidence: probable
+rights:
+  licence: CC BY 4.0

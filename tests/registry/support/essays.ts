@@ -1,7 +1,7 @@
 import { scanEssayBody } from '../../../src/registry/essay-body.js';
 import { ESSAY_STAGES, lifecycleFor, stageAtLeast, type EssayStage } from '../../../src/registry/stages.js';
 import type { RegistryRecord } from '../../../src/registry/types.js';
-import { evidence, layer, map, place, record, rooms, source } from './builders.js';
+import { evidence, layer, map, place, record, rooms, source, stableId } from './builders.js';
 import { validMap } from './maps.js';
 
 /** A valid body that uses every framework tag the rules read. */
@@ -31,7 +31,7 @@ export function world(publicEntities = false): RegistryRecord[] {
       ? validMap({ ...pub })
       : map(1, { makers: ['tc:tc:cartographer:cartographer-000001'], rights: { licence: 'CC-BY-4.0' }, witness_kind: 'institutional', ...pub }),
     place(1, { names: [{ name: 'Apulum', language: 'la', kind: 'historic' }], location: { lon: 23.5, lat: 46 }, ...pub }),
-    source(1, pub),
+    source(1, { ...pub, entry: stableId('bibliography_entry', 1) }),
     evidence(1, pub),
     layer(1, { rights: { licence: 'CC-BY-4.0' }, theme: 'territories-boundaries', envelope: '0106/0271', time_mode: 'envelope_only', ...pub }),
     record('dataset', 1, { version: '1', rights: { licence: 'CC-BY-4.0' }, ...pub }),

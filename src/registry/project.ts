@@ -35,11 +35,12 @@ const BY_FAMILY: Record<string, Allow> = {
     scalarRefs: ['publication_place'],
   },
   cartographer: { fields: ['kind', 'names', 'roles', 'life_dates', 'active'], listRefs: ['bibliography'] },
-  source: { fields: ['source_kind'], scalarRefs: ['entry'] },
-  dataset: { fields: ['version', 'licence', 'rights'] },
+  source: { fields: ['source_kind', 'is_finding_aid'], scalarRefs: ['entry'] },
+  dataset: { fields: ['version', 'licence', 'rights'], listRefs: ['bibliography'] },
   // the source path (`asset`) is not projected: only the built path, derived from the slug, reaches a page
   layer: {
     fields: ['role', 'description', 'geometry', 'geometry_provenance', 'images', 'rights', 'theme', 'tags', 'synonyms', 'envelope', 'time_mode', 'facets', 'documentation'],
+    listRefs: ['bibliography'],
     scalarRefs: ['dataset'],
   },
   collection: { fields: ['description'], listRefs: ['members', 'default_layers'] },
@@ -52,7 +53,7 @@ const BY_FAMILY: Record<string, Allow> = {
   event: { fields: DATES },
   period: { fields: DATES },
   room: {},
-  bibliography_entry: { fields: ['csl', 'section'] },
+  bibliography_entry: { fields: ['csl', 'section', 'digital_copy'], scalarRefs: ['edition_of', 'translation_of'] },
   attestation: { fields: ['form', 'silence_state', 'confidence'], scalarRefs: ['place', 'source'] },
   evidence: {
     fields: ['evidence_type', 'geometry_provenance', 'reconstruction', 'confidence', 'rights', 'last_verified', ...DATES],

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { scanEssayBody } from '../../../src/registry/essay-body.js';
 import { validateRegistry } from '../../../src/registry/validate.js';
 import type { RegistryRecord } from '../../../src/registry/types.js';
-import { evidence, source } from '../support/builders.js';
+import { evidence, record, source } from '../support/builders.js';
 import { VALID_BODY, essayAt, world } from '../support/essays.js';
 
 /*
@@ -45,7 +45,12 @@ describe('ESSAY-BODY-PUBLIC', () => {
 
   it('passes when only metadata references a held entity', () => {
     expect(hits(held('layer'))).toEqual([]);
-    expect(hits(held('bibliography_entry'))).toEqual([]);
+    // the essay lists entry 1 in bibliography[], which is held; the evidence its body cites rests on entry 2, which is public
+    const listedOnly = (all: RegistryRecord[]) => [
+      ...held('bibliography_entry')(all).map((r) => (r.family === 'source' ? { ...r, entry: 'tc:tc:bibliography_entry:bibliography_entry-000002' } : r)),
+      record('bibliography_entry', 2, { csl: 'y.json', section: 'primary_sources', release: 'released', lifecycle: 'published' }),
+    ];
+    expect(hits(listedOnly)).toEqual([]);
   });
 
   it('fails a citation whose evidence is public but whose source is held', () => {

@@ -8,9 +8,28 @@ import type { RegistryRecord } from '../../../src/registry/types.js';
 
 const fixture = (name: string) => fileURLToPath(new URL(`../fixtures/${name}`, import.meta.url));
 
-/** Make every record public so renames have public urls to keep alive. */
+const ENTRY = 'tc:tc:bibliography_entry:bibliography_entry-000001';
+
+/**
+ * Make every record public so renames have public urls to keep alive. A public source must point at
+ * a public entry (SRC-ENTRY), so the fixture's source gets one.
+ */
 function publish(records: RegistryRecord[]): RegistryRecord[] {
-  return records.map((r) => ({ ...r, lifecycle: 'published', release: 'released' }));
+  const entry: RegistryRecord = {
+    id: ENTRY,
+    family: 'bibliography_entry',
+    origin: 'minted',
+    title: 'Ptolemy, Geographia (edition)',
+    slug: 'ptolemy-geographia-edition',
+    slug_history: [],
+    lifecycle: 'published',
+    release: 'released',
+    relations: [],
+    file: 'content/bibliography_entry/bibliography_entry-000001.yaml',
+    csl: 'content/bibliography_entry/bibliography_entry-000001.csl.json',
+    section: 'primary_sources',
+  };
+  return [...records.map((r) => ({ ...r, lifecycle: 'published', release: 'released', ...(r.family === 'source' ? { entry: ENTRY } : {}) })), entry];
 }
 
 /** Rename the title and slug of every record, remembering the old slug. */

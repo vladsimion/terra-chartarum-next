@@ -1,0 +1,18 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000008",
+  "type": "book",
+  "title": "A study only the held essay cites",
+  "author": [
+    {
+      "family": "Quill",
+      "given": "Ada"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        2001
+      ]
+    ]
+  }
+}

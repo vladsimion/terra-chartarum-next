@@ -45,6 +45,10 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `LAYER-ASSET-SIZE` | the source named by `asset` is within the host's per-file limit (25 MiB); judged only when the loader supplies sizes | 005 FR-006 | always |
 | `PLACE-NAMES` | at least one name; each has a name, a BCP 47 `language`, a `kind` of `historic` or `modern`, valid EDTF `valid_from`/`valid_to` in order, and is not repeated (warns from `ready_for_build`) | 005 FR-009 | `publishable` |
 | `PLACE-LOCATION` | `location` has numeric `lon` in -180 to 180 and `lat` in -90 to 90 (warns from `ready_for_build`) | 005 FR-009 | `publishable` |
+| `SRC-ENTRY` | a source's `entry` is present and resolves to a bibliography entry, and a public source's entry is published and released (warns from `ready_for_build`) | 006 FR-006 | `publishable` |
+| `BIB-EDITION` | `edition_of` and `translation_of` resolve to other bibliography entries and form no cycle through either field | 006 FR-010 | always |
+| `BIB-CSL` | the file `csl` names exists, parses as exactly one CSL-JSON item with a `type`, a `title` and an `id` equal to the entry's stable ID; judged only when the loader supplies the files | 006 FR-014 | always |
+| `BIB-LISTED-HELD` | a released essay, map, cartographer, dataset or layer lists only entries that are published and released in `bibliography[]` (warns from `ready_for_build`) | 006 FR-013 | `publishable` |
 | `LIFE-AVAILABILITY` | `published` layer has a runnable asset | US5.5 | `published` |
 | `LIFE-SUPERSEDED` | `superseded` has `superseded_by` resolving, or is withdrawn | FR-013 | always |
 | `REL-VALUE` | release is `held` or `released` | FR-015 | always |

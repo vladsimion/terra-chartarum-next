@@ -1,0 +1,64 @@
+[
+  {
+    "id": "doe-chronicle",
+    "type": "manuscript",
+    "title": "A Fixture Chronicle",
+    "author": [
+      {
+        "family": "Doe",
+        "given": "J."
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1991
+        ]
+      ]
+    }
+  },
+  {
+    "id": "marsh2",
+    "type": "book",
+    "title": "The Roads of the Province",
+    "edition": "2",
+    "author": [
+      {
+        "family": "Marsh",
+        "given": "Odo"
+      }
+    ],
+    "issued": {
+      "date-parts": [
+        [
+          1972
+        ]
+      ]
+    },
+    "ISBN": "978-0-306-40616-4"
+  },
+  {
+    "id": "no-type",
+    "title": "An item with no type"
+  },
+  {
+    "id": "wells2020",
+    "type": "article-journal",
+    "title": "Ditches and banks on the northern frontier",
+    "author": [
+      {
+        "family": "Wells",
+        "given": "Ida"
+      }
+    ],
+    "container-title": "Journal of Fixtures",
+    "issued": {
+      "date-parts": [
+        [
+          2020
+        ]
+      ]
+    },
+    "DOI": "10.1000/new.wells.2020"
+  }
+]

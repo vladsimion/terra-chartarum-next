@@ -1,0 +1,45 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "f-1",
+      "properties": {
+        "name": "Via Traiana"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            23.3,
+            45.6
+          ],
+          [
+            23.9,
+            45.8
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "f-2",
+      "properties": {
+        "name": "Via Napoca"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            23.9,
+            45.8
+          ],
+          [
+            24.4,
+            46.1
+          ]
+        ]
+      }
+    }
+  ]
+}

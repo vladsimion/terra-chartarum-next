@@ -1,0 +1,20 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000011",
+  "type": "book",
+  "title": "The Roads of the Province",
+  "edition": "2",
+  "author": [
+    {
+      "family": "Marsh",
+      "given": "Odo"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1972
+      ]
+    ]
+  },
+  "ISBN": "978-0-306-40616-4"
+}

@@ -1,0 +1,13 @@
+id: tc:tc:dataset:dataset-000001
+family: dataset
+origin: minted
+title: Bibliography fixture data
+slug: bibliography-fixture-data
+lifecycle: published
+release: released
+version: 1.0.0
+rights:
+  licence: CC BY 4.0
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000005
+  - tc:tc:bibliography_entry:bibliography_entry-000006

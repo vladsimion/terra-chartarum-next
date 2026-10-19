@@ -1,0 +1,24 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000004",
+  "type": "article-journal",
+  "title": "A fixture study of frontiers",
+  "author": [
+    {
+      "family": "Moe",
+      "given": "Jane"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1994
+      ]
+    ]
+  },
+  "container-title": "Journal of Fixtures",
+  "volume": "4",
+  "issue": "2",
+  "page": "101-120",
+  "DOI": "10.1000/fixture.4",
+  "keyword": "frontiers, surveying"
+}

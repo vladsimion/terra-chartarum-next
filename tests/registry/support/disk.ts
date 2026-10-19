@@ -32,6 +32,11 @@ export function writeRegistry(records: readonly RegistryRecord[], options: DiskO
       mkdirSync(path.dirname(path.join(root, record.asset)), { recursive: true });
       writeFileSync(path.join(root, record.asset), '');
     }
+    // an entry's CSL-JSON file, valid for it, so BIB-CSL has something to read
+    if (record.family === 'bibliography_entry' && typeof record.csl === 'string') {
+      mkdirSync(path.dirname(path.join(root, record.csl)), { recursive: true });
+      writeFileSync(path.join(root, record.csl), JSON.stringify({ id: record.id, type: 'book', title: record.title }));
+    }
     writeFileSync(target, options.yamlByFile?.[record.file] ?? stringify(storedFields(record)));
     if (record.family === 'essay') {
       const body = options.bodies?.[record.id] ?? ((record.body as { exists?: boolean } | undefined)?.exists ? VALID_BODY : null);

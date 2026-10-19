@@ -22,6 +22,7 @@ export function validateLoaded(loaded: LoadResult, records: readonly RegistryRec
     featureIndex: loaded.featureIndex,
     assetIndex: loaded.assetIndex,
     assetSizes: loaded.assetSizes,
+    cslFiles: loaded.cslFiles,
   });
 }
 
@@ -31,7 +32,7 @@ export async function loadAndCheck(
   options: ValidateOptions = {},
 ): Promise<{ report: IntegrityReport; loaded: LoadResult }> {
   const loaded = await loadRegistry(rootDir);
-  const { records, loadErrors, provenanceIndex, vocabularies, featureIndex, assetIndex, assetSizes } = loaded;
+  const { records, loadErrors, provenanceIndex, vocabularies, featureIndex, assetIndex, assetSizes, cslFiles } = loaded;
   // A whole registry on disk is checked for completeness too (ROOM-SET) unless the caller opts out.
   const report = validateRegistry(records, {
     ...options,
@@ -41,6 +42,7 @@ export async function loadAndCheck(
     featureIndex,
     assetIndex,
     assetSizes,
+    cslFiles,
   });
   const loadViolations: Violation[] = loadErrors.map((e) => ({
     rule: 'LOAD-PARSE',

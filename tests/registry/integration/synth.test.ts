@@ -44,6 +44,18 @@ describe('registry synth', () => {
     expect(Object.keys(tree(out)).filter((f) => f.startsWith('content/layer/'))).toHaveLength(12);
   });
 
+  it('writes n bibliography entries with --bibliography, each with its CSL file, passing the gate', async () => {
+    const out = mkdtempSync(path.join(tmpdir(), 'synth-'));
+    const { code, out: said } = await run(['synth', '30', '--bibliography', '--seed', '3', '--out', out]);
+    expect(code).toBe(0);
+    expect(said).toContain('30 bibliography entries');
+    const report = await checkRegistry(out);
+    expect(report.counts.errors).toBe(0);
+    const files = Object.keys(tree(out));
+    expect(files.filter((f) => /^content\/bibliography_entry\/.*\.yaml$/.test(f))).toHaveLength(30);
+    expect(files.filter((f) => /^content\/bibliography_entry\/.*\.csl\.json$/.test(f))).toHaveLength(30);
+  });
+
   it('is deterministic: the same count and seed write identical files', async () => {
     const a = mkdtempSync(path.join(tmpdir(), 'synth-a-'));
     const b = mkdtempSync(path.join(tmpdir(), 'synth-b-'));

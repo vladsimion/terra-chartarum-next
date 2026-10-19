@@ -1,0 +1,9 @@
+id: tc:tc:source:source-000003
+family: source
+origin: minted
+title: A fixture finding aid
+slug: fixture-source-3
+lifecycle: published
+release: released
+is_finding_aid: true
+entry: tc:tc:bibliography_entry:bibliography_entry-000013

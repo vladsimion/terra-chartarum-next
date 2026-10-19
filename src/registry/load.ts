@@ -27,6 +27,8 @@ export interface LoadResult {
   assetIndex: Set<string>;
   /** Bytes of each asset in `assetIndex`, for `LAYER-ASSET-SIZE`. */
   assetSizes: Map<string, number>;
+  /** The text of each CSL-JSON file the entries name, by that path, for `BIB-CSL`. A file that is missing or outside the root is absent. */
+  cslFiles: Map<string, string>;
 }
 
 async function listYaml(dir: string): Promise<string[]> {
@@ -146,7 +148,7 @@ async function resolveWithin(realRoot: string, rel: string): Promise<Resolved> {
 async function resolveNamedPaths(
   realRoot: string,
   records: readonly RegistryRecord[],
-  field: 'geometry' | 'asset',
+  field: 'geometry' | 'asset' | 'csl',
   loadErrors: LoadError[],
 ): Promise<Map<string, string>> {
   const inside = new Map<string, string>();
@@ -207,6 +209,19 @@ async function loadAssetIndex(
   return { index, sizes };
 }
 
+async function loadCslFiles(realRoot: string, records: readonly RegistryRecord[], loadErrors: LoadError[]): Promise<Map<string, string>> {
+  const files = new Map<string, string>();
+  const entries = records.filter((r) => r.family === 'bibliography_entry');
+  for (const [named, real] of await resolveNamedPaths(realRoot, entries, 'csl', loadErrors)) {
+    try {
+      files.set(named, await readFile(real, 'utf8'));
+    } catch {
+      // unreadable (a directory, say): BIB-CSL reports the file as not there
+    }
+  }
+  return files;
+}
+
 /**
  * Seam 1: filesystem to records. Reads `<root>/content/**.yaml`, `<root>/provenance/**.yaml` and
  * the geometry files records point to. Checks structure only; what it cannot read comes back as
@@ -257,6 +272,7 @@ export async function loadRegistry(rootDir: string): Promise<LoadResult> {
   const realRoot = await realpath(root);
   const featureIndex = await loadFeatureIndex(realRoot, records, loadErrors);
   const { index: assetIndex, sizes: assetSizes } = await loadAssetIndex(realRoot, records, loadErrors);
+  const cslFiles = await loadCslFiles(realRoot, records, loadErrors);
 
-  return { records, loadErrors, provenanceIndex, vocabularies, featureIndex, assetIndex, assetSizes };
+  return { records, loadErrors, provenanceIndex, vocabularies, featureIndex, assetIndex, assetSizes, cslFiles };
 }

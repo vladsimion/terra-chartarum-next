@@ -1,0 +1,19 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000014",
+  "type": "chapter",
+  "title": "A work nobody cites",
+  "author": [
+    {
+      "family": "Idle",
+      "given": "Ivy"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1988
+      ]
+    ]
+  },
+  "container-title": "Collected Fixtures"
+}

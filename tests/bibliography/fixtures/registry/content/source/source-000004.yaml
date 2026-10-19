@@ -1,0 +1,8 @@
+id: tc:tc:source:source-000004
+family: source
+origin: minted
+title: A fixture source 4
+slug: fixture-source-4
+lifecycle: published
+release: released
+entry: tc:tc:bibliography_entry:bibliography_entry-000010
