@@ -21,7 +21,9 @@ Built by `registry inventory --snapshot <path>` from the snapshot's routes (rese
 | `/collection/`, `/cartographers/`, `/rooms/`, `/rooms/<slug>/`, `/about/`, `/colophon/`, `/essays/` | `rule` to the same path on the new site |
 | `/bibliography` (one page, no per-entry pages) | `rule` to `/bibliography/` |
 | `/atlas`, `/atlas/` and any query | `rule` to `/atlas/?from=legacy` |
-| `/atlas/layers/<id>/` for an imported layer that is public at cutover | `rule` to `/atlas/?l=<id>` (the view address of that layer); otherwise `/atlas/?from=legacy` |
+| `/atlas/layers/<layer>/` (27 pages, one per Handbook document of type `layer`; they are not driven by the layers registry) | `in-place`: the page is documentation that has not moved, and the successor's Handbook has five topics, not 27 layer pages |
+
+The legacy Atlas share parameters are `layer`, `layers`, `feature`, `toponyms`, `lens`, `collection`, `relevant` and the viewport keys; none is translated (`?l=` is the successor's key, not a legacy one).
 | `/atlas/handbook/**` | `in-place` until the Handbook text is final on the new site |
 | `/`, `/privacy`, `/programmes/**`, `/series/**`, `/embeds/**`, `/data/**`, `/geo/**`, `/rss.xml`, `/search-index.json`, `/404`, `/500` | `in-place` |
 

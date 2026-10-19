@@ -8,7 +8,7 @@
 2. `npm run shell:check -- --cutover` exits 0: no stub page, no draft copy (home, About, Colophon, the Handbook topics, the seven room introductions).
 3. The site-wide link check reports nothing over the production build.
 4. The redirect file matches the inventory: no missing, extra, duplicate or dangling rule.
-5. The Lighthouse budgets hold on the listed page types.
+5. The Lighthouse budgets hold on the listed page types: the `registry` CI workflow (which runs Lighthouse CI) succeeded for this commit, read with `gh`.
 6. The v1 anchor essay (Terra Sigillata, Trench A) is `published` and `released`.
 
 ## Manual, each with a sign-off

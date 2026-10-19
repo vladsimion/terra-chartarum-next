@@ -13,7 +13,7 @@ Decisions not already settled by the grill (ADR 0016), ADR 0001 or ADR 0005.
 - **Alternatives**: keep integers (the registry rejects them); invent ranges (not in the data).
 
 ## R3. Which routes the inventory contains
-- **Decision**: the inventory is built from the snapshot, never the live site: the static page routes in `src/pages` (31 files), the dynamic routes expanded from the registries that feed them (`collection/[id]` from maps, `cartographers/[id]`, `atlas/layers/[layer]`, `rooms/[slug]`, `essays/[slug]` from `src/content/essays`, the Handbook `[...path]` from its content), and the data endpoints. Each route is normalised to a trailing-slash path and carries its kind.
+- **Decision**: the inventory is built from the snapshot, never the live site: the static page routes in `src/pages` (31 files), the dynamic routes expanded from the registries that feed them (`collection/[id]` from maps, `cartographers/[id]`, `atlas/layers/[layer]` (expanded from the Handbook documents of type `layer`, not from the layers registry), `rooms/[slug]`, `essays/[slug]` from `src/content/essays`, the Handbook `[...path]` from its content), and the data endpoints. Each route is normalised to a trailing-slash path and carries its kind.
 - **Rationale**: the snapshot is the pinned input, so the inventory is reproducible; a crawl of the live site would not be.
 - **Alternatives**: crawling the live site (non-deterministic, depends on the network).
 
@@ -41,3 +41,9 @@ Decisions not already settled by the grill (ADR 0016), ADR 0001 or ADR 0005.
 - **Decision**: since a slug equals the legacy local-id, two legacy records of different families may share one (for example a map `babylonian` and a place `babylonian`). Slugs need only be unique within a family's URL space (`/collection/` against `/atlas/`), which the registry's slug rule already enforces per family; the import fails only on a collision inside one family or with a former slug.
 - **Rationale**: the registry's `SLUG-UNIQUE` is per family.
 - **Alternatives**: prefixing slugs (breaks the one-to-one old path mapping).
+
+## R8. The snapshot re-checked (2026-10-19)
+- **Decision**: the contracts are corrected against the legacy repository at `e82afd990fd473a2cdf80896401bc64602a1bd29` (last pushed 2026-10-01). Counts: 59 maps, 19 cartographers, 34 bibliography items, 12 toponyms, 27 layers, 6 collections, 27 release assets, 31 page routes, 22 essays. Differences found: 27 layers, not 16; the toponym keys; layer `lifecycle` is `in-review` on 9 and absent on 18; `custody` is `institutional` on 10 and `unlocated` on 1 (never `held`); `recordScope` is set on 11 (3 object, 6 work, 2 concept); 24 images carry only `src`, `alt`, `credit` and `license`; 79 inline bibliography references are registry keys and 3 are inline objects; uncertainties use `wouldResolve`.
+- **Static extraction**: every registry declares `const RAW: unknown[] = [...]` of pure literals (no spread, call, template substitution or computed key); the value imports (`z` from `astro:content`, a room list from a sibling module, `RAW.map(Schema.parse)`) are all outside `RAW`. The extractor reads the initialiser of `RAW` and tolerates the type annotation; a non-literal value inside it fails the import naming the file and key. The fixture includes one deliberate non-literal case, since the real data has none.
+- **Private keys**: no price, cost, owner, donor, dealer or auction key in the six registries; `acquisition` is in the schema but set on no record. `data/dacia/reference/acquisition-dossiers.csv` is outside the v1 profile.
+- **Rationale**: the contracts were written from a survey; the pinned snapshot is the truth, and T003 repeats this check at the SHA the editor pins.

@@ -28,7 +28,7 @@ Generates the rule file from `migration/redirect-inventory.json` and the registr
 
 ## `npm run cutover:check` (`scripts/cutover-check.ts`)
 
-Runs, over the production build: the integrity gate, `shell:check --cutover`, the site-wide link check, the zero-404 check of the inventory against `archive/_redirects`, and the Lighthouse budgets. Prints each result and exits 1 if any failed, naming the page, URL or rule. Does not touch the network.
+Runs, over the production build: the integrity gate, `shell:check --cutover`, the site-wide link check, the zero-404 check of the inventory against `archive/_redirects`, and the Lighthouse budgets. Prints each result and exits 1 if any failed, naming the page, URL or rule. The Lighthouse step does not run Lighthouse: it reads the `registry` workflow run for the current commit with `gh` and fails, with a message, if `gh` is missing or the run is absent or not green. That one call is the only use of the network.
 
 ## `npm run archive:check -- <url> [<url>…]` (`scripts/archive-check.ts`)
 

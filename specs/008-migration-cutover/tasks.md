@@ -26,9 +26,10 @@ description: "Task list for 008 Migration & Cutover"
 
 ## Phase 1: Setup
 
-- [ ] T001 Agree the three seams above with Vlad (tdd skill) and record any change here
+- [x] T001 Agree the three seams above with Vlad (tdd skill) and record any change here Done 2026-10-19: agreed as written, with the grill refresh recorded in `spec.md` and `research.md` R8.
 - [ ] T002 [P] Create `tests/migration/fixtures/snapshot/` shaped like the legacy repository and trimmed: a TypeScript registry whose `RAW` array sits beside imports of `astro:content` and a sibling module (one map each of scope `object`, `work`, `concept`, one `unlocated`, one with an inline citation, one with a private-looking key, one with images including an `iiif`, one with `uncertainties`, a year of `-600`), a second TypeScript registry with a non-literal value (to fail), bibliography, cartographers, toponyms, layers, collections, `data/geo/catalog.json`, a small Dacia CSV set, `src/pages` with static and dynamic routes, `src/content/essays`, and a Handbook entry
 - [ ] T003 Re-read each legacy registry in the pinned snapshot against [contracts/field-mappings.md](./contracts/field-mappings.md) and correct the table, including the Dacia CSV headers (research R7); record the snapshot SHA and the findings in `research.md`
+- [ ] T003a [P] Move `checkLinks` from `tests/shell/support/links.ts` to `src/shell/links.ts` (the test helper re-exports it) so `scripts/cutover-check.ts` does not import from `tests/`; its tests stay green
 - [ ] T004 [P] Add `csv-parse` at an exact pinned version (at least two weeks old) and run `npm audit --omit=dev`
 
 ---
