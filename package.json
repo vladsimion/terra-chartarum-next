@@ -23,6 +23,7 @@
     "test:e2e:atlas-perf": "playwright test --config playwright.atlas-perf.config.ts",
     "lhci": "npx --yes @lhci/cli@0.15.1 autorun",
     "shell:check": "tsx scripts/shell-check.ts",
+    "archive:check": "tsx scripts/archive-check.ts",
     "cutover:check": "tsx scripts/cutover-check.ts",
     "baseline": "tsx scripts/baseline.ts"
   },

@@ -1,0 +1,40 @@
+/*
+ * Spec 008 T038 (FR-019): checks that a page of the archive carries the "archived edition" banner, the
+ * `X-Robots-Tag: noindex` header and the link to terra-chartarum.org. The comparison is pure; only
+ * `checkArchiveUrls` touches the network, and only when the editor runs `archive:check` by hand.
+ */
+export interface ArchiveResponse {
+  url: string;
+  status: number;
+  headers: Record<string, string>;
+  body: string;
+}
+export interface ArchiveFailure {
+  url: string;
+  check: 'fetch' | 'status' | 'banner' | 'noindex' | 'link';
+  message: string;
+}
+
+export function checkArchivePage(res: ArchiveResponse): ArchiveFailure[] {
+  const fail = (check: ArchiveFailure['check'], message: string): ArchiveFailure => ({ url: res.url, check, message });
+  const failures: ArchiveFailure[] = [];
+  if (res.status !== 200) failures.push(fail('status', `status ${res.status}, expected 200`));
+  if (!/archived edition/i.test(res.body)) failures.push(fail('banner', 'no "archived edition" banner'));
+  if (!/noindex/i.test(res.headers['x-robots-tag'] ?? '')) failures.push(fail('noindex', 'no X-Robots-Tag: noindex header'));
+  if (!/href=["']https:\/\/terra-chartarum\.org\/?["']/i.test(res.body)) failures.push(fail('link', 'no link to https://terra-chartarum.org/'));
+  return failures;
+}
+
+export async function checkArchiveUrls(urls: string[]): Promise<ArchiveFailure[]> {
+  const failures: ArchiveFailure[] = [];
+  for (const url of urls) {
+    try {
+      const res = await fetch(url, { redirect: 'follow' });
+      const headers = Object.fromEntries(res.headers.entries());
+      failures.push(...checkArchivePage({ url, status: res.status, headers, body: await res.text() }));
+    } catch (e) {
+      failures.push({ url, check: 'fetch', message: `could not fetch: ${e instanceof Error ? e.message : String(e)}` });
+    }
+  }
+  return failures;
+}
