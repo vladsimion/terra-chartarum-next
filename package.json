@@ -26,6 +26,7 @@
     "archive:check": "tsx scripts/archive-check.ts",
     "cutover:check": "tsx scripts/cutover-check.ts",
     "essay:preview": "tsx scripts/essay-preview.ts",
+    "essay:ledger": "tsx scripts/essay-ledger.ts",
     "baseline": "tsx scripts/baseline.ts"
   },
   "dependencies": {
