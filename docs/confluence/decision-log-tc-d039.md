@@ -1,6 +1,6 @@
 # Confluence entry: Decision Log (page 12648509)
 
-Not yet published. Number to be taken from the live Decision Log when it is appended (see README). The text below is what is to be published.
+Published 2026-10-20 in page version 17, directly after TC-D038; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
 ### TC-D039 — The migration is a repeatable, add-only import from a pinned snapshot, and the archive is the old site itself
 
