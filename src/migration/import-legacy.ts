@@ -1,4 +1,4 @@
-import { writeFile } from 'node:fs/promises';
+import { cp, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { checkRegistry } from '../registry/check.js';
 import type { CommandResult } from '../registry/promote.js';
@@ -45,6 +45,10 @@ export async function importLegacy(root: string, options: ImportLegacyOptions): 
     ];
     if (!options.dryRun) {
       await writeStaging(result, report, options.out as string);
+      // the gate reads the staging folder alone, and a record that names a vocabulary needs its mapping file (VOCAB-UNKNOWN)
+      await cp(path.join(root, 'vocab-mappings'), path.join(options.out as string, 'vocab-mappings'), { recursive: true }).catch((error: NodeJS.ErrnoException) => {
+        if (error.code !== 'ENOENT') throw error;
+      });
       const gate = await checkRegistry(options.out as string, { completeness: false, now: new Date(snapshot.date), commit: snapshot.sha });
       await writeFile(path.join(options.out as string, 'integrity-report.json'), toJson(gate));
       lines.push(`staging integrity gate: ${gate.pass ? 'PASS' : 'FAIL'} - ${gate.counts.entities} entities, ${gate.counts.errors} errors, ${gate.counts.warnings} warnings`);

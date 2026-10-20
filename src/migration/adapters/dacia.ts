@@ -13,8 +13,8 @@ const str = (row: Row, key: string): string | undefined => text(row, key);
 
 /**
  * The CND places the anchor needs (the pilot places). The geometry provenance term is checked against
- * the vocabulary and an unmapped one fails the import (FR-016); a place has no field for it in v1, so it
- * is reported as set aside and stays in the snapshot.
+ * the vocabulary and an unmapped one fails the import (FR-016); the place keeps the term as written, beside
+ * `vocabulary: cnd`, and the rules read its shared meaning (TC-D016).
  */
 export function importDaciaPlaces(rows: Row[], pilot: ReadonlySet<string>, vocabulary: Vocabulary, out: Collector): Set<string> {
   const ids = new Set<string>();
@@ -37,6 +37,8 @@ export function importDaciaPlaces(rows: Row[], pilot: ReadonlySet<string>, vocab
         location_status: str(row, 'location_status'),
         names: [{ name, language: 'und', kind: 'modern' }],
         location: lon !== undefined && lat !== undefined ? { lon, lat } : undefined,
+        vocabulary: provenance ? vocabulary.name : undefined,
+        geometry_provenance: provenance,
         same_as: pleiades || whg ? [...(pleiades ? [{ authority: 'pleiades', id: pleiades }] : []), ...(whg ? [{ authority: 'whg', id: whg }] : [])] : undefined,
         legacy_review_state: str(row, 'review_state'),
         legacy_normalization_method: str(row, 'normalization_method'),
@@ -45,7 +47,6 @@ export function importDaciaPlaces(rows: Row[], pilot: ReadonlySet<string>, vocab
       }),
     );
     ids.add(local);
-    if (provenance) out.setAside('cnd-places', 'ref_geometry_provenance');
     out.rest('cnd-places', row, PLACE_MAPPED);
   }
   return ids;
