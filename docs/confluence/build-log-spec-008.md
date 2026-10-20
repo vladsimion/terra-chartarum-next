@@ -1,10 +1,10 @@
 # Confluence entry: Build Log (page 2490370)
 
-Not yet published. To go in as section AB, directly after section AA and before "2. In progress"; the header pointer "sections U to AA" becomes "sections U to AB". The text below is what is to be published.
+Published 2026-10-20 as section AB (page version 134), directly after section AA and before "2. In progress"; the header pointer "sections U to AA" became "sections U to AB". The rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
 ## AB. The successor build: migration and cutover (spec 008)
 
-Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 19 and 20 October 2026. Jira epic TCX-44. Working detail is in the spec 008 programme dossier.
+Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 19 and 20 October 2026. Jira epic TCX-44. Working detail is in the [spec 008 programme dossier](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/39321601).
 
 | PR | Scope | Jira |
 |---|---|---|
