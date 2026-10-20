@@ -71,7 +71,7 @@ export class EntryBook {
   /** The entry for a legacy work: matched when the registry or this run has it, otherwise minted. */
   resolve(work: LegacyWork, out: Collector): string {
     const draft = toCsl(work, 'pending');
-    const hit = matchItem(draft, this.known);
+    const hit = matchItem(draft, this.known) ?? this.sameCitation(draft);
     if (hit) {
       out.matched.push({ citation: work.citation, entry: hit.id, rule: hit.rule });
       const existing = this.existing.get(hit.id);
@@ -87,6 +87,17 @@ export class EntryBook {
     this.known.push({ id, item });
     this.write(out, id, slug, item, work.title);
     return id;
+  }
+
+  /**
+   * The matcher gives a work with nothing to go on (no DOI, ISBN, author or year) no match, so a citation
+   * like that would be minted again on every run. The import keeps the site's own text in `note`, so the
+   * same text under the same title is the entry this import made before.
+   */
+  private sameCitation(draft: CslItem): { id: string; rule: string } | null {
+    if (typeof draft.note !== 'string' || draft.note === '') return null;
+    const found = this.known.find((k) => k.item.note === draft.note && k.item.title === draft.title);
+    return found ? { id: found.id, rule: 'citation' } : null;
   }
 
   private write(out: Collector, id: string, slug: string, item: CslItem, title: string): void {

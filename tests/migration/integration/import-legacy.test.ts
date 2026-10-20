@@ -93,6 +93,17 @@ describe('--apply', () => {
     expect(records(b)).toEqual(records(a));
   });
 
+  it('recognises an inline citation with no year as the entry it minted before, so a re-run mints nothing (found on the real snapshot)', async () => {
+    const dir = copyFixture();
+    edit(dir, 'src/lib/corpus.ts', (t) => t.replace("id: 'lost-chart',", "id: 'lost-chart', bibliography: [{ citation: 'British Library. Royal MS 14 C VII. Catalogue.', author: 'British Library', url: 'https://example.org/bl' }],"));
+    const root = emptyRoot();
+    await run(importArgs(dir, staging(), root, '--apply'));
+    const entries = readdirSync(path.join(root, 'content/bibliography_entry')).sort();
+    const second = await run(importArgs(dir, staging(), root, '--apply'));
+    expect(second.out).toMatch(/staged 0 new, \d+ already present, 0 changed upstream/);
+    expect(readdirSync(path.join(root, 'content/bibliography_entry')).sort()).toEqual(entries);
+  });
+
   it('leaves a hand-edited record untouched, and lists the change from upstream', async () => {
     const root = emptyRoot();
     await run(importArgs(FIXTURE, staging(), root, '--apply'));
