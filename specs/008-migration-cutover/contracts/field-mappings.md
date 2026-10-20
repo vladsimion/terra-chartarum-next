@@ -2,7 +2,7 @@
 
 The v1 profile reads the legacy repository (github.com/vladsimion/terra-chartarum) at the pinned snapshot. Counts are from the snapshot surveyed on 2026-10-17 and re-checked on 2026-10-19 against `e82afd9` (see research R8). Every field not listed as mapped stays in the snapshot (its SHA is in the manifest) and is named in the import report as report-only, so nothing is lost permanently. A first task re-reads each registry's source against this table and corrects it before any adapter is written.
 
-Boundary form of every legacy ID: `tc:atlas:<family>:<local-id>`, verbatim; the slug equals the local-id (research R8). Every record: `origin: legacy`, `release: held`, `lifecycle: researching` unless stated, `editor_confirmed` absent (TC-D024).
+Boundary form of every legacy ID: `tc:tc:<family>:<local-id>`, the local-id verbatim (authority `tc`: ADR 0006 item 1 keeps legacy IDs verbatim as the local-id under `tc`; `atlas` and `cnd` are the legacy registries, not authorities); the slug equals the local-id (research R8). Every record: `origin: legacy`, `release: held`, `lifecycle: researching` unless stated, `editor_confirmed` absent (TC-D024).
 
 ## Maps — `src/lib/corpus.ts` `RAW` (59) → family `map`
 
@@ -60,7 +60,7 @@ All 27 are imported (all vector; 9 carry `lifecycle: in-review`, 18 carry none),
 
 ## Dacia profile — `data/dacia/places.csv`, `data/dacia/sources.csv`, pilot files
 
-Mapping tables for these CSVs are written by the first Dacia task from the real headers, test-first with trimmed real rows, together with `vocab-mappings/cnd.yaml`. Imported: the 40 places of `pilot-manifest.json` and the 12 sources with a non-empty `trench_a_stela`, with the two Roman Dacia layers (`dacia-roman-sites`, `dacia-roman-network`); not imported: the other 80 places and 18 sources, `attestations.csv` and the other `dacia-*` layers (they arrive with their own profile). The CSV headers are `place_id,reference_name,place_type,region,…,pleiades_id,whg_id,…` and `source_id,short_title,title,creator,source_family,…`; the Roman Dacia layer sources are `public/geo/dacia-roman-sites.geojson` and `public/geo/dacia-roman-network.geojson`.
+Mapping tables for these CSVs are written by the first Dacia task from the real headers, test-first with trimmed real rows, together with `vocab-mappings/cnd.yaml`. Imported: the 40 places of `pilot-manifest.json` and the 12 sources with a non-empty `trench_a_stela`, with the two Roman Dacia layers (`dacia-roman-sites`, `dacia-roman-network`); not imported: the other 80 places and 18 sources, `attestations.csv` (it arrives with its own profile). All 27 atlas layers are imported, the `dacia-*` ones included, because they are in the `atlas` registry. The CSV headers are `place_id,reference_name,place_type,region,…,pleiades_id,whg_id,…` and `source_id,short_title,title,creator,source_family,…`; the Roman Dacia layer sources are `public/geo/dacia-roman-sites.geojson` and `public/geo/dacia-roman-network.geojson`.
 
 ## Essay links — `migration/essay-links.json`
 

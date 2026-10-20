@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "assets": [
+    { "id": "fixture-coast", "file": "fixture-coast.geojson", "format": "geojson", "crs": "EPSG:4326", "geometry": ["LineString"], "featureCount": 1, "yearFrom": -6000, "yearTo": 2024, "source": "Natural Earth", "license": "Public Domain", "attribution": "Made with Natural Earth" },
+    { "id": "fort-sites", "file": "fort-sites.geojson", "format": "geojson", "crs": "EPSG:4326", "geometry": ["Point"], "featureCount": 2, "yearFrom": -600, "yearTo": 106, "source": "A fixture survey", "license": "CC BY 4.0", "attribution": "The Fixture Survey" },
+    { "id": "dacia-roman-sites", "file": "dacia-roman-sites.geojson", "format": "geojson", "crs": "EPSG:4326", "geometry": ["Point"], "featureCount": 1, "yearFrom": 106, "yearTo": 271, "source": "A fixture CSV", "license": "CC BY 4.0", "attribution": "The Fixture Survey" }
+  ]
+}

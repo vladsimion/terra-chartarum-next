@@ -6,7 +6,7 @@ import { localId, map } from './builders.js';
 export const LEGACY_ID = 'plan-of-the-city';
 export const legacyMap = (over: Partial<RegistryRecord> = {}): RegistryRecord =>
   map(1, {
-    id: `tc:atlas:map:${LEGACY_ID}`,
+    id: `tc:tc:map:${LEGACY_ID}`,
     origin: 'legacy',
     slug: LEGACY_ID,
     file: `content/map/${LEGACY_ID}.yaml`,

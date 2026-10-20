@@ -1,3 +1,3 @@
-source_id,short_title,title,creator,source_family,trench_a_stela
-src-one,One,"A Stela, Described",A. Epigrapher,inscription,yes
-src-two,Two,Another Source,B. Writer,literary,
+source_id,short_title,title,creator,source_family,date_label,year_from,year_to,date_precision,witness,edition_state,repository,repository_object_id,rights_statement,citation,scope,trench_a_stela,review_state,normalization_method,reviewer,review_date,note
+src-one,One,"A Stela, Described",A. Epigrapher,inscription,"c. 150",140,160,circa,stone,first edition,A Fixture Museum,obj-1,public_domain,"Epigrapher, A. A Stela, Described. 150.",Trench A,yes,normalized,imported,,,
+src-two,Two,Another Source,B. Writer,literary,200,200,200,exact_year,codex,,,,in_copyright,"Writer, B. Another Source.",,,raw,llm_assisted,,,
