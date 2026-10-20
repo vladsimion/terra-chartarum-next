@@ -98,7 +98,7 @@ TCX-44 holds TCX-45 to TCX-48. The 2026-10-17 documents were corrected on 2026-1
 
 ## 13. Canonical ownership and propagation
 
-Owned here: the import, the three `MIG-*` rules and the `legacy_*` fields, the redirect inventory and rule file, the archive patch, the cutover check and checklist, the baseline script. Spec 001 owns the registry and its rule table (three rows added). Spec 006 owns the duplicate matcher; the DOI guard was added to it here. Spec 005 owns the Atlas page and view-address module, which now ignore and report `from`. Spec 002 owns `shell:check`, which the cutover check runs. The Build Log carries the shipped work; the Decision Log carries the migration decision (ADR 0016) as a pending entry.
+Owned here: the import, the three `MIG-*` rules and the `legacy_*` fields, the redirect inventory and rule file, the archive patch, the cutover check and checklist, the baseline script. Spec 001 owns the registry and its rule table (three rows added). Spec 006 owns the duplicate matcher; the DOI guard was added to it here. Spec 005 owns the Atlas page and view-address module, which now ignore and report `from`. Spec 002 owns `shell:check`, which the cutover check runs. The Build Log carries the shipped work; the Decision Log carries the migration decision (ADR 0016) as TC-D039.
 
 ## 14. Current checkpoint and delivery authority
 

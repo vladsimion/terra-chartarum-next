@@ -19,7 +19,7 @@ It prints each step and, under each failed one, the page, URL or rule. Exit 0 me
 
 ## Manual, each with a sign-off
 
-1. **Baseline recorded** before the freeze: `npm run baseline -- <url> …` against the live site's key templates (home, an essay, a collection record, the Atlas, the bibliography, a cartographer); commit `docs/baseline/live-site-<date>.json`.
+1. **Baseline recorded** before the freeze: `npm run baseline -- <url> …` against the live site's key templates (home, an essay, a collection record, the Atlas, the bibliography, a cartographer); commit `docs/baseline/live-site-<date>.json`. If Chrome does not start ("waiting for dynamic debugging port"), set `CHROME_PATH` to a browser that runs on the machine, for example the Chromium Playwright installed under `~/Library/Caches/ms-playwright/`.
 2. **Archive patch applied** to the archive project and deployed: the banner, the `noindex` header and the link to terra-chartarum.org (`archive/README.md` says where each file goes).
 3. **`npm run archive:check -- <url> …`** passes against a sample of archive URLs.
 4. **Redirect file applied** to the archive project by pull request, reviewed, and `redirect_switched` signed on each rebuilt essay record.
