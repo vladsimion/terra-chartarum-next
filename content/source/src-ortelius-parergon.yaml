@@ -9,6 +9,6 @@ release: held
 relations: []
 is_finding_aid: false
 source_kind: antiquarian_reconstruction
-entry: tc:tc:bibliography_entry:bibliography_entry-000039
+entry: tc:tc:bibliography_entry:bibliography_entry-000040
 legacy_review_state: normalized
 legacy_normalization_method: llm_assisted

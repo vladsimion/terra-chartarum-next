@@ -1,18 +1,18 @@
 {
   "id": "tc:tc:bibliography_entry:bibliography_entry-000043",
   "type": "document",
-  "title": "Russian General Staff map",
+  "title": "Josephinische Landesaufnahme",
   "author": [
     {
-      "literal": "Russian General Staff"
+      "literal": "Habsburg General Staff plane-table parties"
     }
   ],
   "issued": {
     "date-parts": [
       [
-        1835
+        1769
       ]
     ]
   },
-  "note": "Russian General Staff map, 1835"
+  "note": "Josephinische Landesaufnahme, 1769–73"
 }

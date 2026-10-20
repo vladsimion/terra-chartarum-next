@@ -14,7 +14,7 @@ makers:
   - tc:tc:cartographer:al-idrisi
 bibliography:
   - tc:tc:bibliography_entry:bibliography_entry-000001
-  - tc:tc:bibliography_entry:bibliography_entry-000046
+  - tc:tc:bibliography_entry:bibliography_entry-000047
 open_questions:
   - field: date
     question: The year recorded is that of the lost original. Every surviving

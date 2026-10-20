@@ -1,18 +1,12 @@
 {
   "id": "tc:tc:bibliography_entry:bibliography_entry-000034",
   "type": "document",
-  "title": "Geographia III.8 - Dacia",
+  "title": "Bryggen",
   "author": [
     {
-      "literal": "Klaudios Ptolemaios"
+      "literal": "UNESCO World Heritage Centre"
     }
   ],
-  "issued": {
-    "date-parts": [
-      [
-        150
-      ]
-    ]
-  },
-  "note": "Ptolemy, Geographia III.8"
+  "URL": "https://whc.unesco.org/en/list/59",
+  "note": "UNESCO World Heritage Centre. “Bryggen.” World Heritage List no. 59, statement of Outstanding Universal Value."
 }

@@ -9,6 +9,6 @@ release: held
 relations: []
 is_finding_aid: false
 source_kind: military_survey
-entry: tc:tc:bibliography_entry:bibliography_entry-000042
+entry: tc:tc:bibliography_entry:bibliography_entry-000043
 legacy_review_state: normalized
 legacy_normalization_method: llm_assisted

@@ -1,18 +1,18 @@
 {
   "id": "tc:tc:bibliography_entry:bibliography_entry-000035",
   "type": "document",
-  "title": "Tabula Peutingeriana segm. VII–VIII",
+  "title": "Geographia III.8 - Dacia",
   "author": [
     {
-      "literal": "Unknown imperial compilers; medieval copyist"
+      "literal": "Klaudios Ptolemaios"
     }
   ],
   "issued": {
     "date-parts": [
       [
-        350
+        150
       ]
     ]
   },
-  "note": "Tabula Peutingeriana, segm. VII–VIII"
+  "note": "Ptolemy, Geographia III.8"
 }

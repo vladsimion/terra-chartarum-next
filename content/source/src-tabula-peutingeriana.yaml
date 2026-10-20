@@ -9,6 +9,6 @@ release: held
 relations: []
 is_finding_aid: false
 source_kind: itinerary
-entry: tc:tc:bibliography_entry:bibliography_entry-000035
+entry: tc:tc:bibliography_entry:bibliography_entry-000036
 legacy_review_state: normalized
 legacy_normalization_method: llm_assisted

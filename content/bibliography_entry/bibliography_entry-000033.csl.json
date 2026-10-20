@@ -1,12 +1,19 @@
 {
   "id": "tc:tc:bibliography_entry:bibliography_entry-000033",
   "type": "document",
-  "title": "Bryggen",
+  "title": "Documents on the History of the Hanse",
   "author": [
     {
-      "literal": "UNESCO World Heritage Centre"
+      "literal": "Archives of the Hanse"
     }
   ],
-  "URL": "https://whc.unesco.org/en/list/59",
-  "note": "UNESCO World Heritage Centre. “Bryggen.” World Heritage List no. 59, statement of Outstanding Universal Value."
+  "issued": {
+    "date-parts": [
+      [
+        2017
+      ]
+    ]
+  },
+  "URL": "https://media.unesco.org/sites/default/files/webform/mow001/documents-on-the-history-of-the-hanse_nom_en_0.pdf",
+  "note": "Archives of the Hanse. Documents on the History of the Hanse. UNESCO Memory of the World International Register nomination dossier, 2017."
 }

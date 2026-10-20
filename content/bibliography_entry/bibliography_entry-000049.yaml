@@ -1,0 +1,9 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000049
+family: bibliography_entry
+origin: minted
+title: Uppsala University Library. Olaus Magnus, Carta Marina et descriptio
+  septemtrionalium terrarum. Venice, 1539. Alvin record 88495.
+slug: magnus-olaus-1539-uppsala
+lifecycle: researching
+release: held
+csl: content/bibliography_entry/bibliography_entry-000049.csl.json

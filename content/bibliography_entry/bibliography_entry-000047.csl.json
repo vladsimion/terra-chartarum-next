@@ -1,14 +1,18 @@
 {
   "id": "tc:tc:bibliography_entry:bibliography_entry-000047",
   "type": "document",
-  "title": "Rudimentum Novitiorum",
+  "title": "Cartography of al-Sharīf al-Idrīsī",
+  "author": [
+    {
+      "literal": "Ahmad, S. Maqbul"
+    }
+  ],
   "issued": {
     "date-parts": [
       [
-        1475
+        1992
       ]
     ]
   },
-  "URL": "https://www.digitale-sammlungen.de/en/view/bsb00031549",
-  "note": "Bayerische Staatsbibliothek. Rudimentum Novitiorum. Lübeck: Lucas Brandis, 1475, ff. 85v–86r. BSB bsb00031549."
+  "note": "S. Maqbul Ahmad, \"Cartography of al-Sharīf al-Idrīsī\", in The History of Cartography, vol. 2.1 (1992), 156–174."
 }

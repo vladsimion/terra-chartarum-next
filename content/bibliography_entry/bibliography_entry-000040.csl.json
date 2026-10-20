@@ -1,18 +1,18 @@
 {
   "id": "tc:tc:bibliography_entry:bibliography_entry-000040",
   "type": "document",
-  "title": "Map of Wallachia",
+  "title": "Dacia - Parergon",
   "author": [
     {
-      "literal": "Constantin Cantacuzino, stolnic; printed by Chrysanthos"
+      "literal": "Abraham Ortelius"
     }
   ],
   "issued": {
     "date-parts": [
       [
-        1700
+        1595
       ]
     ]
   },
-  "note": "Cantacuzino, Wallachia, 1700"
+  "note": "Ortelius, Parergon, 1595"
 }

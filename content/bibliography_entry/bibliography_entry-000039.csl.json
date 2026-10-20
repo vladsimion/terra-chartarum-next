@@ -1,18 +1,18 @@
 {
   "id": "tc:tc:bibliography_entry:bibliography_entry-000039",
   "type": "document",
-  "title": "Dacia - Parergon",
+  "title": "Chorographia Transylvaniae",
   "author": [
     {
-      "literal": "Abraham Ortelius"
+      "literal": "Johannes Honterus"
     }
   ],
   "issued": {
     "date-parts": [
       [
-        1595
+        1532
       ]
     ]
   },
-  "note": "Ortelius, Parergon, 1595"
+  "note": "Honterus, Chorographia Transylvaniae, 1532"
 }

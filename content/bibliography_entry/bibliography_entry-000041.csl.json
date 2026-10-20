@@ -1,18 +1,18 @@
 {
   "id": "tc:tc:bibliography_entry:bibliography_entry-000041",
   "type": "document",
-  "title": "Descriptio Moldaviae - map",
+  "title": "Map of Wallachia",
   "author": [
     {
-      "literal": "Dimitrie Cantemir"
+      "literal": "Constantin Cantacuzino, stolnic; printed by Chrysanthos"
     }
   ],
   "issued": {
     "date-parts": [
       [
-        1716
+        1700
       ]
     ]
   },
-  "note": "Cantemir, Descriptio Moldaviae"
+  "note": "Cantacuzino, Wallachia, 1700"
 }

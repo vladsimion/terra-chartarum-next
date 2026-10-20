@@ -1,18 +1,18 @@
 {
   "id": "tc:tc:bibliography_entry:bibliography_entry-000045",
   "type": "document",
-  "title": "Planurile directoare de tragere and their classified successors",
+  "title": "Charta României Meridionale",
   "author": [
     {
-      "literal": "Serviciul Geografic al Armatei, with the French military mission of 1916-17"
+      "literal": "Commonly attributed to Carol Popp de Szathmári"
     }
   ],
   "issued": {
     "date-parts": [
       [
-        1916
+        1864
       ]
     ]
   },
-  "note": "Planurile directoare de tragere, 1:20,000 (Serviciul Geografic al Armatei, 1916-1959)"
+  "note": "Charta României Meridionale, 1864"
 }

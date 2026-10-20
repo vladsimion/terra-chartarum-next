@@ -1,18 +1,18 @@
 {
   "id": "tc:tc:bibliography_entry:bibliography_entry-000046",
   "type": "document",
-  "title": "Cartography of al-Sharīf al-Idrīsī",
+  "title": "Planurile directoare de tragere and their classified successors",
   "author": [
     {
-      "literal": "Ahmad, S. Maqbul"
+      "literal": "Serviciul Geografic al Armatei, with the French military mission of 1916-17"
     }
   ],
   "issued": {
     "date-parts": [
       [
-        1992
+        1916
       ]
     ]
   },
-  "note": "S. Maqbul Ahmad, \"Cartography of al-Sharīf al-Idrīsī\", in The History of Cartography, vol. 2.1 (1992), 156–174."
+  "note": "Planurile directoare de tragere, 1:20,000 (Serviciul Geografic al Armatei, 1916-1959)"
 }

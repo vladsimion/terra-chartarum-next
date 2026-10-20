@@ -1,19 +1,14 @@
 {
   "id": "tc:tc:bibliography_entry:bibliography_entry-000048",
   "type": "document",
-  "title": "Uppsala University Library. Olaus Magnus, Carta Marina et descriptio septemtrionalium terrarum. Venice, 1539. Alvin record 88495.",
-  "author": [
-    {
-      "literal": "Magnus, Olaus"
-    }
-  ],
+  "title": "Rudimentum Novitiorum",
   "issued": {
     "date-parts": [
       [
-        1539
+        1475
       ]
     ]
   },
-  "URL": "https://www.alvin-portal.org/alvin/view.jsf?pid=alvin-record:88495",
-  "note": "Uppsala University Library. Olaus Magnus, Carta Marina et descriptio septemtrionalium terrarum. Venice, 1539. Alvin record 88495."
+  "URL": "https://www.digitale-sammlungen.de/en/view/bsb00031549",
+  "note": "Bayerische Staatsbibliothek. Rudimentum Novitiorum. Lübeck: Lucas Brandis, 1475, ff. 85v–86r. BSB bsb00031549."
 }

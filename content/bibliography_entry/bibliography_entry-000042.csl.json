@@ -1,18 +1,18 @@
 {
   "id": "tc:tc:bibliography_entry:bibliography_entry-000042",
   "type": "document",
-  "title": "Josephinische Landesaufnahme",
+  "title": "Descriptio Moldaviae - map",
   "author": [
     {
-      "literal": "Habsburg General Staff plane-table parties"
+      "literal": "Dimitrie Cantemir"
     }
   ],
   "issued": {
     "date-parts": [
       [
-        1769
+        1716
       ]
     ]
   },
-  "note": "Josephinische Landesaufnahme, 1769–73"
+  "note": "Cantemir, Descriptio Moldaviae"
 }

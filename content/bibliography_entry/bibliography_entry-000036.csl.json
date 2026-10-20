@@ -1,18 +1,18 @@
 {
   "id": "tc:tc:bibliography_entry:bibliography_entry-000036",
   "type": "document",
-  "title": "Hereford Mappa Mundi",
+  "title": "Tabula Peutingeriana segm. VII–VIII",
   "author": [
     {
-      "literal": "Circle of Richard of Haldingham (attrib.)"
+      "literal": "Unknown imperial compilers; medieval copyist"
     }
   ],
   "issued": {
     "date-parts": [
       [
-        1300
+        350
       ]
     ]
   },
-  "note": "Hereford Mappa Mundi"
+  "note": "Tabula Peutingeriana, segm. VII–VIII"
 }
