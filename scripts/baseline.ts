@@ -27,7 +27,10 @@ for (const url of urls) {
     const { stdout } = await run('npx', ['--yes', LIGHTHOUSE, url, '--output=json', '--quiet', '--chrome-flags=--headless=new --no-sandbox'], { maxBuffer: 64 * 1024 * 1024 });
     results.push(JSON.parse(stdout) as LighthouseResult);
   } catch (error) {
-    console.error(`baseline: ${url} could not be measured: ${(error as Error).message}`);
+    const message = (error as Error).message;
+    console.error(`baseline: ${url} could not be measured: ${message}`);
+    // Lighthouse takes the first Chrome it finds, which may be one this machine cannot run (a newer Chrome than the macOS supports, or an installer disk still mounted)
+    if (/debugging port/i.test(message)) console.error('baseline: Chrome did not start. Point CHROME_PATH at a browser that runs here, for example the Chromium Playwright installed: CHROME_PATH="$HOME/Library/Caches/ms-playwright/chromium-<n>/chrome-mac-x64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing" npm run baseline -- <urls>');
     process.exit(1);
   }
 }
