@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-20",
+  "profile": "lighthouse mobile (ADR 0004)",
+  "lighthouse": "12.6.1",
+  "results": [
+    {
+      "url": "https://terra-chartarum.pages.dev/",
+      "performance": 95,
+      "accessibility": 100,
+      "lcp_ms": 2646,
+      "cls": 0,
+      "tbt_ms": 36,
+      "script_bytes": 19664
+    },
+    {
+      "url": "https://terra-chartarum.pages.dev/essays/cartography/",
+      "performance": 89,
+      "accessibility": 100,
+      "lcp_ms": 3323,
+      "cls": 0.021,
+      "tbt_ms": 157,
+      "script_bytes": 21406
+    },
+    {
+      "url": "https://terra-chartarum.pages.dev/collection/babylonian/",
+      "performance": 98,
+      "accessibility": 100,
+      "lcp_ms": 2182,
+      "cls": 0,
+      "tbt_ms": 0,
+      "script_bytes": 23222
+    },
+    {
+      "url": "https://terra-chartarum.pages.dev/atlas/",
+      "performance": 61,
+      "accessibility": 96,
+      "lcp_ms": 3047,
+      "cls": 0,
+      "tbt_ms": 2462,
+      "script_bytes": 272033
+    },
+    {
+      "url": "https://terra-chartarum.pages.dev/bibliography/",
+      "performance": 98,
+      "accessibility": 100,
+      "lcp_ms": 2218,
+      "cls": 0.02,
+      "tbt_ms": 0,
+      "script_bytes": 20527
+    },
+    {
+      "url": "https://terra-chartarum.pages.dev/cartographers/mercator/",
+      "performance": 96,
+      "accessibility": 100,
+      "lcp_ms": 2502,
+      "cls": 0,
+      "tbt_ms": 0,
+      "script_bytes": 19662
+    }
+  ]
+}
