@@ -60,7 +60,34 @@ All 27 are imported (all vector; 9 carry `lifecycle: in-review`, 18 carry none),
 
 ## Dacia profile — `data/dacia/places.csv`, `data/dacia/sources.csv`, pilot files
 
-Mapping tables for these CSVs are written by the first Dacia task from the real headers, test-first with trimmed real rows, together with `vocab-mappings/cnd.yaml`. Imported: the 40 places of `pilot-manifest.json` and the 12 sources with a non-empty `trench_a_stela`, with the two Roman Dacia layers (`dacia-roman-sites`, `dacia-roman-network`); not imported: the other 80 places and 18 sources, `attestations.csv` (it arrives with its own profile). All 27 atlas layers are imported, the `dacia-*` ones included, because they are in the `atlas` registry. The CSV headers are `place_id,reference_name,place_type,region,…,pleiades_id,whg_id,…` and `source_id,short_title,title,creator,source_family,…`; the Roman Dacia layer sources are `public/geo/dacia-roman-sites.geojson` and `public/geo/dacia-roman-network.geojson`. A place keeps the CND `ref_geometry_provenance` term as written in `geometry_provenance`, beside `vocabulary: cnd` (TC-D016); the rules read its shared meaning from `vocab-mappings/cnd.yaml`, and an unmapped term fails the import (FR-016).
+Checked against the real headers at `e82afd9` (T003, research R9). Imported: the 40 places of `pilot/pilot-places.csv` (the manifest `pilot-manifest.json` only carries the count and a hash) and the 12 sources with a non-empty `trench_a_stela`, with the two Roman Dacia layers (`dacia-roman-sites`, `dacia-roman-network`, sources `public/geo/dacia-roman-sites.geojson` and `public/geo/dacia-roman-network.geojson`); not imported: the other 80 places and 18 sources, `attestations.csv` (it arrives with its own profile). All 27 atlas layers are imported, the `dacia-*` ones included, because they are in the `atlas` registry.
+
+`places.csv` (header `place_id,reference_name,place_type,region,location_status,ref_lon,ref_lat,ref_geometry_provenance,pleiades_id,whg_id,external_verified,review_state,normalization_method,reviewer,review_date,note`; the file mixes CRLF and LF line endings):
+
+| Column | Becomes |
+|---|---|
+| `place_id` | `id` (`tc:tc:place:<place_id>`), `slug` |
+| `reference_name` | `title`; `names[]` (kind `modern`, language `und`) |
+| `place_type`, `location_status` | the same fields |
+| `ref_lon`, `ref_lat` | `location` |
+| `ref_geometry_provenance` | `geometry_provenance`, with `vocabulary: cnd` (below) |
+| `pleiades_id`, `whg_id` | `same_as[]` |
+| `review_state`, `normalization_method`, `reviewer`, `review_date` | `legacy_review_state`, `legacy_normalization_method`, `legacy_reviewer`, `legacy_review_date` |
+| `region`, `external_verified`, `note` | set aside (report-only) |
+
+`sources.csv` (header `source_id,short_title,title,creator,source_family,date_label,year_from,year_to,date_precision,witness,edition_state,repository,repository_object_id,rights_statement,citation,scope,trench_a_stela,review_state,normalization_method,reviewer,review_date,note`):
+
+| Column | Becomes |
+|---|---|
+| `source_id` | `id` (`tc:tc:source:<source_id>`), `slug` |
+| `title` (else `short_title`) | `title` |
+| `source_family` | `source_kind` |
+| `citation`, `title`, `creator`, `year_from` | match or mint the bibliography entry the source points at (`entry`); `year_from` is used for the match only and is not stored |
+| `review_state`, `normalization_method`, `reviewer`, `review_date` | the `legacy_*` fields as for places |
+| `short_title` | the title when `title` is empty |
+| `date_label`, `year_to`, `date_precision`, `witness`, `edition_state`, `repository`, `repository_object_id`, `rights_statement`, `scope`, `trench_a_stela`, `year_from`, `note` | set aside (report-only); a source has no field for them at v1, and they stay in the snapshot |
+
+A place keeps the CND `ref_geometry_provenance` term as written in `geometry_provenance`, beside `vocabulary: cnd` (TC-D016); the rules read its shared meaning from `vocab-mappings/cnd.yaml`, and an unmapped term fails the import (FR-016).
 
 ## Essay links — `migration/essay-links.json`
 

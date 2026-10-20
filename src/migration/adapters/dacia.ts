@@ -6,7 +6,7 @@ import { base, defined } from './common.js';
 
 /** The CSV columns the places adapter reads; the rest are set aside by name and count. */
 const PLACE_MAPPED = new Set(['place_id', 'reference_name', 'place_type', 'location_status', 'ref_lon', 'ref_lat', 'ref_geometry_provenance', 'pleiades_id', 'whg_id', 'review_state', 'normalization_method', 'reviewer', 'review_date']);
-const SOURCE_MAPPED = new Set(['source_id', 'short_title', 'title', 'creator', 'source_family', 'witness', 'edition_state', 'repository', 'repository_object_id', 'citation', 'scope', 'review_state', 'normalization_method', 'reviewer', 'review_date']);
+const SOURCE_MAPPED = new Set(['source_id', 'short_title', 'title', 'creator', 'source_family', 'citation', 'review_state', 'normalization_method', 'reviewer', 'review_date']);
 
 const num = (value: string | undefined): number | undefined => (value !== undefined && value.trim() !== '' && Number.isFinite(Number(value)) ? Number(value) : undefined);
 const str = (row: Row, key: string): string | undefined => text(row, key);

@@ -43,6 +43,13 @@ describe('what is set aside', () => {
     expect(result.report.report_only).toEqual(expect.arrayContaining([{ registry: 'maps', key: 'coords', count: 1 }, { registry: 'layers', key: 'geometry', count: 3 }, { registry: 'geo-assets', key: 'featureCount', count: 3 }]));
   });
 
+  it('reports the CND source columns it does not carry, so none goes unnoticed (T003)', async () => {
+    const { report } = await stage();
+    for (const key of ['witness', 'edition_state', 'repository', 'repository_object_id', 'scope']) {
+      expect(report.report_only).toContainEqual(expect.objectContaining({ registry: 'cnd-sources', key }));
+    }
+  });
+
   it('is sorted, so the report is the same every time', async () => {
     const { report } = await stage();
     const keys = report.report_only.map((r) => `${r.registry}/${r.key}`);
