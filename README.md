@@ -158,6 +158,24 @@ npm run shell:check                                         # lists the draft ro
 - **The link check**: `tests/shell/support/links.ts` resolves every internal link and `#fragment` in a built site, counting a path in `_redirects` as resolved; `npm test` runs it over the shell, collection, Atlas, bibliography and rooms fixture sites.
 - Walkthrough: [`specs/007-rooms/quickstart.md`](specs/007-rooms/quickstart.md).
 
+## Migration and cutover (spec 008)
+
+Moves the legacy site's canonical data in with its identities intact, freezes the old site as an archive and checks the switch. Everything imported is `held`; nothing is ever overwritten; the legacy repository and live site are never modified from here. Decisions: [ADR 0016](docs/adr/0016-migration.md). The editor's list is [docs/cutover.md](docs/cutover.md).
+
+```bash
+npm run registry -- import-legacy --snapshot <legacy-clone> --profile v1 --out <stage>            # stage held records and import-report.json; offline and deterministic
+npm run registry -- import-legacy --snapshot <legacy-clone> --profile v1 --out <stage> --apply   # add only the records that do not exist yet
+npm run registry -- inventory --snapshot <legacy-clone>      # migration/redirect-inventory.json: every old URL, one outcome (in place, or one rule)
+npm run registry -- archive-redirects                        # archive/_redirects: the rule file, applied to the archive project by pull request
+npm run cutover:check                                        # the six automated steps over a production build; exits 1 and names each failure
+npm run archive:check -- <url> ...                           # by hand, network: the archive banner, noindex header and link
+npm run baseline -- <url> ...                                # by hand, network: Lighthouse mobile numbers of the live site, before the freeze
+```
+
+- **The archive is the old site itself.** An old URL whose content has not moved keeps working in place; only a moved page (a public record, a rebuilt essay, `/atlas/` with a query) gets a rule. `archive/` holds the patch for the archive project: `banner.html`, `_headers` and a README saying where each goes.
+- **The real snapshot is a fresh pinned clone**, never your working copy; read `import-report.json` before `--apply`.
+- **`cutover:check` is expected to fail** on the real registry until the room introductions are final and the anchor essay (`--anchor <slug>`, default `terra-sigillata-trench-a`) is published.
+
 ## The shell and design system (spec 002)
 
 An Astro static site (`output: 'static'`, no adapter): every page is generated at build time. The shell is the header, footer, breadcrumbs and skip link in `src/shell/layouts/Base.astro`; it reads only the registry's public projection, never `content/` directly.

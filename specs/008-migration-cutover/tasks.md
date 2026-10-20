@@ -107,8 +107,8 @@ description: "Task list for 008 Migration & Cutover"
 
 ## Phase 7: Polish & cross-cutting concerns
 
-- [ ] T043 [P] Run the quickstart end to end on the fixture and fix anything it exposes
-- [ ] T044 [P] Update `README.md` and `docs/` for the migration commands; add ADR 0016 to the Read-first list in `CLAUDE.md`
+- [x] T043 [P] Run the quickstart end to end on the fixture and fix anything it exposes Done (2026-10-20): the quickstart ran on the fixture: staging 26 records, byte-identical on a second run, `--apply` wrote 38 files and a second apply staged 0 new, 39 old URLs (11 rules, 28 in place), 11 rules written; a production build of that root then ran through `cutover:check`: integrity, links and the redirect file pass; draft copy, the missing anchor essay and the CI run still in progress fail, as expected. No fix was needed.
+- [x] T044 [P] Update `README.md` and `docs/` for the migration commands; add ADR 0016 to the Read-first list in `CLAUDE.md` Done: README section "Migration and cutover"; ADR 0016 was already in the Read-first list of `CLAUDE.md`.
 - [ ] T045 Run the `code-review` skill against the commit before this work began (standards and spec axes) and address findings
 - [ ] T046 Update Jira (TCX-44 description, story checklists, statuses), the Confluence dossier for spec 008, the Build Log and the Decision Log (workflow step 4); record the snapshot SHA used for v1 and the date of the cutover
 
