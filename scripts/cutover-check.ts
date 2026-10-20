@@ -49,7 +49,9 @@ async function main(): Promise<number> {
   } catch (error) {
     const out = String((error as { stdout?: string }).stdout ?? '');
     shell.push(...out.split('\n').filter((l) => l !== '' && !l.startsWith('shell:check:')));
-    if (shell.length === 0) shell.push(`shell:check failed to run: ${(error as Error).message}`);
+    // exit 1 with findings is the expected failure; anything else (exit 2, no output) means the check itself did not run
+    if ((error as { code?: number }).code !== 1) shell.push(`shell:check did not run: ${String((error as { stderr?: string }).stderr ?? (error as Error).message).trim()}`);
+    else if (shell.length === 0) shell.push('shell:check exited 1 without naming a page');
   }
 
   let sha = values.commit as string | undefined;

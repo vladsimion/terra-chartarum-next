@@ -7,7 +7,7 @@ import { checkArchivePage, checkArchiveUrls } from '../../../src/migration/archi
  * Spec 008 T037 (FR-019, US2 scenario 1): the pure core compares a response to the expectations and names the
  * URL of each failure; the same core runs over a local server that serves one good and one bad page.
  */
-const GOOD = '<!doctype html><body><aside>This is the archived edition. <a href="https://terra-chartarum.org/">Go to the new site</a></aside><main>x</main>';
+const GOOD = '<!doctype html><body><aside id="archive-banner">This is the archived edition. <a href="https://terra-chartarum.org/">Go to the new site</a></aside><main>x</main>';
 const url = 'https://archive.example/essay/';
 const good = { url, headers: { 'x-robots-tag': 'noindex' }, body: GOOD, status: 200 };
 
@@ -19,6 +19,11 @@ describe('checkArchivePage', () => {
     const failures = checkArchivePage({ url, headers: {}, body: '<main>x</main>', status: 200 });
     expect(failures.map((f) => f.check).sort()).toEqual(['banner', 'link', 'noindex']);
     expect(failures.every((f) => f.url === url)).toBe(true);
+  });
+  it('does not take the phrase in the page text for the banner, nor a link outside it', () => {
+    const body = '<aside id="archive-banner">Archived notice</aside><main>The archived edition of this essay. <a href="https://terra-chartarum.org/">x</a></main>';
+    expect(checkArchivePage({ ...good, body }).map((f) => f.check).sort()).toEqual(['banner', 'link']);
+    expect(checkArchivePage({ ...good, body: '<main>The archived edition. <a href="https://terra-chartarum.org/">x</a></main>' }).map((f) => f.check).sort()).toEqual(['banner', 'link']);
   });
   it('accepts noindex among other directives, case-insensitively', () => {
     expect(checkArchivePage({ ...good, headers: { 'x-robots-tag': 'NoFollow, NoIndex' } })).toEqual([]);

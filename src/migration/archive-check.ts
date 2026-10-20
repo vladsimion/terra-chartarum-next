@@ -15,13 +15,17 @@ export interface ArchiveFailure {
   message: string;
 }
 
+/** The banner of `archive/banner.html`, found by its id so the phrase in an essay's own text cannot stand in for it. */
+const BANNER = /<aside\b[^>]*\sid=["']archive-banner["'][^>]*>([\s\S]*?)<\/aside>/i;
+
 export function checkArchivePage(res: ArchiveResponse): ArchiveFailure[] {
   const fail = (check: ArchiveFailure['check'], message: string): ArchiveFailure => ({ url: res.url, check, message });
   const failures: ArchiveFailure[] = [];
+  const banner = BANNER.exec(res.body)?.[1] ?? '';
   if (res.status !== 200) failures.push(fail('status', `status ${res.status}, expected 200`));
-  if (!/archived edition/i.test(res.body)) failures.push(fail('banner', 'no "archived edition" banner'));
+  if (!/archived edition/i.test(banner)) failures.push(fail('banner', 'no "archived edition" banner'));
   if (!/noindex/i.test(res.headers['x-robots-tag'] ?? '')) failures.push(fail('noindex', 'no X-Robots-Tag: noindex header'));
-  if (!/href=["']https:\/\/terra-chartarum\.org\/?["']/i.test(res.body)) failures.push(fail('link', 'no link to https://terra-chartarum.org/'));
+  if (!/href=["']https:\/\/terra-chartarum\.org\/?["']/i.test(banner)) failures.push(fail('link', 'no link to https://terra-chartarum.org/ in the banner'));
   return failures;
 }
 
