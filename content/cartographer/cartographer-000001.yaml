@@ -1,0 +1,14 @@
+id: tc:tc:cartographer:cartographer-000001
+family: cartographer
+origin: minted
+title: Claudius Ptolemy
+slug: ptolemy
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+kind: person
+names:
+  - Ptolemy, Claudius
+  - Ptolemaeus, Claudius
+life_dates: 0100~/0170~

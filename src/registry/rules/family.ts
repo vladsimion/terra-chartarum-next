@@ -15,6 +15,8 @@ const REQUIRED: Record<string, string[]> = {
   bibliography_entry: ['csl'],
 };
 
+const MAKER_ANSWERED = new Set(['unknown', 'not_applicable']);
+
 function present(value: unknown): boolean {
   if (Array.isArray(value)) return value.length > 0;
   return typeof value === 'string' ? value.trim() !== '' : value !== undefined && value !== null;
@@ -29,6 +31,8 @@ export const famRequired = defineRule({
       for (const field of REQUIRED[record.family] ?? []) {
         // only a single physical object has a witness (ADR 0016); a work or a concept is not one
         if (record.family === 'map' && field === 'witness_kind' && (record.record_scope === 'work' || record.record_scope === 'concept')) continue;
+        // a maker the editor has confirmed is unknown (an anonymous work) or does not apply is an answer, not a gap; `not_yet_verified` is still a gap
+        if (record.family === 'map' && field === 'makers' && MAKER_ANSWERED.has(String((record.field_status as Record<string, unknown> | undefined)?.makers))) continue;
         if (!present(record[field])) {
           findings.push({ record, field, value: null, expected: `${field} on every ${record.family} record` });
         }
