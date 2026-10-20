@@ -24,10 +24,11 @@ images:
     licence: Public domain
     alt: Western Mediterranean portolan atlas leaf by Pietro Vesconte
     reproduction_cleared: false
+    witness_kind: institutional
 rights:
   licence: Public domain
 field_status:
   title_original: not_yet_verified
   coverage: not_yet_verified
-  witness_kind: not_yet_verified
   dimensions: not_yet_verified
+witness_kind: institutional

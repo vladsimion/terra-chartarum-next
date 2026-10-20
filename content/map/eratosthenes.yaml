@@ -20,6 +20,7 @@ open_questions:
 field_status:
   title_original: not_yet_verified
   coverage: not_yet_verified
-  makers: not_yet_verified
   dimensions: not_yet_verified
 legacy_record_scope: concept
+makers:
+  - tc:tc:cartographer:cartographer-000002

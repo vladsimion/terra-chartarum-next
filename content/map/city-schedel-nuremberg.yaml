@@ -27,11 +27,12 @@ images:
     licence: Public domain; free to use and reuse
     alt: Coloured view of walled Nuremberg in the 1493 Nuremberg Chronicle
     reproduction_cleared: false
+    witness_kind: institutional
 rights:
   licence: Public domain; free to use and reuse
 field_status:
   title_original: not_yet_verified
   coverage: not_yet_verified
-  witness_kind: not_yet_verified
   makers: not_yet_verified
   dimensions: not_yet_verified
+witness_kind: institutional

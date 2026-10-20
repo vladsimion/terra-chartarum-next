@@ -28,10 +28,11 @@ images:
     licence: No known copyright restrictions
     alt: Hand-coloured Ortelius world map printed in 1579
     reproduction_cleared: false
+    witness_kind: institutional
 rights:
   licence: No known copyright restrictions
 field_status:
   title_original: not_yet_verified
   coverage: not_yet_verified
-  witness_kind: not_yet_verified
   dimensions: not_yet_verified
+witness_kind: institutional
