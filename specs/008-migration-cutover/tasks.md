@@ -89,10 +89,10 @@ description: "Task list for 008 Migration & Cutover"
 
 ## Phase 5: User Story 2 — Freeze the old site as an archive (P1)
 
-- [ ] T035 [P] [US2] Write failing `tests/migration/unit/archive-patch.test.ts`: `archive/banner.html` carries the "archived edition" text, a link to `https://terra-chartarum.org/` and no script; `archive/_headers` sets `X-Robots-Tag: noindex` for every path; the patch README says where each file goes in the archive project
-- [ ] T036 [US2] Write the patch under `archive/`
-- [ ] T037 [P] [US2] Write failing `tests/migration/integration/archive-check.test.ts`: the pure core compares a response to the expectations (banner present, header present, link present) and reports each failure with the URL; run against a local server serving a good and a bad page
-- [ ] T038 [US2] Implement `scripts/archive-check.ts` and the `archive:check` npm script
+- [x] T035 [P] [US2] Write failing `tests/migration/unit/archive-patch.test.ts`: `archive/banner.html` carries the "archived edition" text, a link to `https://terra-chartarum.org/` and no script; `archive/_headers` sets `X-Robots-Tag: noindex` for every path; the patch README says where each file goes in the archive project
+- [x] T036 [US2] Write the patch under `archive/`
+- [x] T037 [P] [US2] Write failing `tests/migration/integration/archive-check.test.ts`: the pure core compares a response to the expectations (banner present, header present, link present) and reports each failure with the URL; run against a local server serving a good and a bad page
+- [x] T038 [US2] Implement `scripts/archive-check.ts` and the `archive:check` npm script
 
 ---
 
