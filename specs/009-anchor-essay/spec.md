@@ -32,6 +32,11 @@
 
 - Q: What if a licence statement cannot be made for one of the six maps? → A: That stone drops to source-only, the essay still publishes with the remaining figures, and the dossier records which stones lost theirs and why. A figure is an enhancement, not part of the argument.
 
+### Plan findings 2026-10-20 (amendments the design forced)
+
+- Spec 003 planned the timeline, the compare slider and the scrollytelling as shared components "built when an essay's Outline needs one", so this spec builds those three as shared components (each documented in `docs/essay-components.md` with its question, keyboard operation, reduced-motion variant and no-script equivalent). The radar chart, the squeeze toggle, the stone plate and the pit table are essay-specific. The earlier "no new framework components" out-of-scope line is corrected accordingly.
+- Spec 003 FR-016 requires each local Trench A cell to be shown as not yet corpus-backed, and keeps the cells in a cell file beside the essay. The legacy tables show neither; both are added, and the label is a ledger entry.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 — Read Trench A from start to finish (Priority: P1)
@@ -98,7 +103,7 @@ As the author, I approve every change to my text and my data before the essay mo
 
 **Why this priority**: the essay is the author's own argument; a silent edit would break trust and the record of what was published (Constitution VI).
 
-**Independent Test**: the changed-claim ledger and the reconciliation report exist, every entry is marked approved or resolved by the author, and promotion to Draft is refused while any is not.
+**Independent Test**: the changed-claim ledger and the reconciliation report exist, every entry is marked approved or resolved by the author, and the essay cannot move past Draft (a test in CI fails from the Build stage on) while any is not.
 
 **Acceptance Scenarios**:
 1. **Given** a claim the successor's data contradicts ("thirteen stones" against twelve corpus sources, `yearTo` 2024 against 2026, a derived duration such as "seventeen centuries"), **When** the port reaches it, **Then** it is on the ledger with the legacy text, the proposed text and the reason, and waits for approval.
@@ -143,7 +148,7 @@ As the editor, publishing the essay releases the twelve sources and their biblio
 - **FR-008**: There MUST be one evidence record for the source of each stone that has one (twelve), each with a locator supplied by the author and none citing a finding aid, plus the evidence for each declared interaction, and no other.
 - **FR-009**: `MapFigure` MUST be used for the six maps `ptolemy`, `peutinger`, `hereford`, `trade-vesconte-1311`, `honterus` and `ortelius`, except that a map for which the author cannot make a licence statement MUST drop to source-only (its stone keeps its text and source line), the essay MUST still publish with the remaining figures, and the dossier MUST record which stones lost theirs and why. The other six stones MUST be source-only; the satellite stone MUST carry no citation.
 - **FR-010**: Each stone's former `CorpusRef` line MUST become a plain source line backed by its evidence record, with its attestation tallies as literal text; the page MUST NOT link to a CND layer or the Atlas.
-- **FR-011**: The 52 test-pit rows MUST be the essay's own local data with no CND attestation behind them. A one-off reconciliation against the legacy `attestations.csv` MUST report every difference to the author.
+- **FR-011**: The 52 test-pit rows MUST be the essay's own local data, kept in a cell file beside the essay with no CND attestation behind them, and each row MUST be shown as not yet corpus-backed (spec 003 FR-016). A one-off reconciliation against the legacy `attestations.csv` MUST report every difference to the author.
 - **FR-012**: Each map the essay shows MUST have a `rights` object, and MUST pass the integrity gate when released, including `witness_kind` for each map that is a single object and `makers` resolved (a cartographer, or `unknown` or `not_applicable` with its status).
 - **FR-013**: Publishing MUST release exactly the twelve sources and their bibliography entries, the maps it shows (up to six) and the evidence; all other records MUST stay held; the prose MUST name only released records; the leak scan MUST pass.
 - **FR-014**: The essay MUST move through the nine stages one at a time with a contiguous `stage_history`, MUST stay held with no public page until the Publish stage, and MUST carry the four sign-offs by Vlad Simion with `published_on` the real publication date; the dossier MUST state that no independent review took place.
@@ -154,6 +159,7 @@ As the editor, publishing the essay releases the twelve sources and their biblio
 
 ### Key Entities
 - **Trench A** (the essay record), its **Stones** (thirteen: twelve anchored to a Corpus source, one satellite anchored to none), its four **Pits** and their 52 **Cells** (the essay's own local data).
+- **Cell file** (the 52 cells beside the essay, in the framework's cell shape).
 - **Evidence record** (a source plus a locator) and **Interaction declaration** (id, component, question, evidence, interpretation).
 - **Changed-claim ledger** and **reconciliation report** (the author's approval trail for the port).
 - **Release list** (the records made public by Publish), the **preview registry** (a temporary copy with the essay and its records marked released, used only for review and checks) and the **redirect rule** for `/essays/dacia/`.
@@ -172,10 +178,10 @@ As the editor, publishing the essay releases the twelve sources and their biblio
 
 ## Assumptions
 
-- Spec 003's framework, spec 007's rooms, spec 008's inventory and `cutover:check` exist as merged; nothing in the framework changes (new components are out of scope).
+- Spec 003's framework, spec 007's rooms, spec 008's inventory and `cutover:check` exist as merged; the framework changes only by gaining the three shared components spec 003 planned (timeline, compare slider, scrollytelling).
 - The author, Vlad Simion, supplies: the question and thesis; the licence statement for each map lacking `rights` (`ptolemy`, `peutinger`, `honterus`, `ortelius`); the open worksheet answers for those maps (`ptolemy` and `ortelius`: work or object scope; `peutinger` and `honterus`: which holder; `hereford`: a named maker or `unknown`); the twelve locators; approval of each ledger entry. Those are the critical path.
 - The first redirect inventory and rule file have never been committed (spec 008 generates them nearer cutover); this spec's Publish step generates and commits them for the whole site, since `cutover:check` needs both.
 - The twelve sources' bibliography entries are thin (title, author, year, note); the author may enrich them before release.
 - The other open questions in `docs/review/map-warnings-2026-10-20.csv` concern maps the essay does not use and do not matter here.
 - The essay's illustrations are authored inline SVG ("authored reconstructions rather than reproductions"), so no image rights are involved; the legacy cover and hero images are dropped.
-- Out of scope: other programmes, CND attestations, new framework components, any JavaScript, and a first-cut subset of the essay.
+- Out of scope: other programmes, CND attestations, new framework components other than the timeline, the compare slider and the scrollytelling that spec 003 planned to build when an essay needs them, any JavaScript, and a first-cut subset of the essay.
