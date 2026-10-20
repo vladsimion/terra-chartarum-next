@@ -27,6 +27,7 @@
     "cutover:check": "tsx scripts/cutover-check.ts",
     "essay:preview": "tsx scripts/essay-preview.ts",
     "essay:ledger": "tsx scripts/essay-ledger.ts",
+    "essay:reconcile": "tsx scripts/essay-reconcile.ts",
     "baseline": "tsx scripts/baseline.ts"
   },
   "dependencies": {
