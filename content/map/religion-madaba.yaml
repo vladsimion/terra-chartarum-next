@@ -42,6 +42,6 @@ open_questions:
 field_status:
   title_original: not_yet_verified
   coverage: not_yet_verified
-  makers: not_yet_verified
+  makers: unknown
   dimensions: not_yet_verified
 legacy_custody: institutional

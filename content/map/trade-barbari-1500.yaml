@@ -25,10 +25,11 @@ images:
     licence: Public Domain Mark
     alt: Jacopo de’ Barbari bird’s-eye View of Venice
     reproduction_cleared: false
+    witness_kind: institutional
 rights:
   licence: Public Domain Mark
 field_status:
   title_original: not_yet_verified
   coverage: not_yet_verified
-  witness_kind: not_yet_verified
   dimensions: not_yet_verified
+witness_kind: institutional

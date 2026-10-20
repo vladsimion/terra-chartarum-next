@@ -23,11 +23,12 @@ images:
     licence: Public domain
     alt: Anonymous portolan chart of the Mediterranean and Black Seas
     reproduction_cleared: false
+    witness_kind: institutional
 rights:
   licence: Public domain
 field_status:
   title_original: not_yet_verified
   coverage: not_yet_verified
-  witness_kind: not_yet_verified
   makers: not_yet_verified
   dimensions: not_yet_verified
+witness_kind: institutional
