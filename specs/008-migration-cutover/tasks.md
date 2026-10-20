@@ -98,10 +98,10 @@ description: "Task list for 008 Migration & Cutover"
 
 ## Phase 6: User Story 4 — Cutover checklist (P2)
 
-- [ ] T039 [P] [US4] Write failing `tests/migration/unit/cutover-check.test.ts` (scenarios 1, 2; SC-006): the check passes on a clean fixture and fails on each broken one — a stub page, a draft room, a dead link, a redirect inventory URL with no outcome, an extra rule, a dangling target, a failed gate, a CI run that is absent or not green (canned `gh` output; `gh` missing is a clear failure) — naming the page, URL or rule; it reads `migration/redirect-inventory.json` and `archive/_redirects`; the anchor essay not published fails it
-- [ ] T040 [US4] Implement `scripts/cutover-check.ts` and the `cutover:check` npm script; write `docs/cutover.md` from [contracts/cutover.md](./contracts/cutover.md)
-- [ ] T041 [P] [US4] Write failing `tests/migration/unit/baseline.test.ts` (scenario 3): the summary table and the JSON are produced from canned Lighthouse results; the file name carries the date; the command refuses to run without URLs
-- [ ] T042 [US4] Implement `scripts/baseline.ts` and the `baseline` npm script; run it by hand against the live site's key templates (home, an essay, a collection record, the Atlas, the bibliography, a cartographer) before the freeze and commit `docs/baseline/live-site-<date>.json` (a manual step)
+- [x] T039 [P] [US4] Write failing `tests/migration/unit/cutover-check.test.ts` (scenarios 1, 2; SC-006): the check passes on a clean fixture and fails on each broken one — a stub page, a draft room, a dead link, a redirect inventory URL with no outcome, an extra rule, a dangling target, a failed gate, a CI run that is absent or not green (canned `gh` output; `gh` missing is a clear failure) — naming the page, URL or rule; it reads `migration/redirect-inventory.json` and `archive/_redirects`; the anchor essay not published fails it
+- [x] T040 [US4] Implement `scripts/cutover-check.ts` and the `cutover:check` npm script; write `docs/cutover.md` from [contracts/cutover.md](./contracts/cutover.md)
+- [x] T041 [P] [US4] Write failing `tests/migration/unit/baseline.test.ts` (scenario 3): the summary table and the JSON are produced from canned Lighthouse results; the file name carries the date; the command refuses to run without URLs
+- [ ] T042 [US4] Implement `scripts/baseline.ts` and the `baseline` npm script; run it by hand against the live site's key templates (home, an essay, a collection record, the Atlas, the bibliography, a cartographer) before the freeze and commit `docs/baseline/live-site-<date>.json` (a manual step) Script done (`npm run baseline`, pinned `lighthouse@12.6.1`, mobile profile; refuses without URLs). Still the editor's step: run it against the live site before the freeze and commit `docs/baseline/live-site-<date>.json`.
 
 ---
 
