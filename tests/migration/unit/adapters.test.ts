@@ -224,6 +224,13 @@ describe('the Dacia profile', () => {
     expect(text(result, `content/bibliography_entry/${String(source.entry).split(':')[3]}.csl.json`)).toContain('A Stela, Described');
   });
 
+  it('keeps the original CND geometry term on the place and names the vocabulary that maps it (FR-016)', async () => {
+    const result = await stage();
+    expect(record(result, 'place', 'plc-nowhere')).toMatchObject({ vocabulary: 'cnd', geometry_provenance: 'scholarly_reconstruction' });
+    expect(result.report.report_only).not.toContainEqual(expect.objectContaining({ key: 'ref_geometry_provenance' }));
+    expect(result.report.dropped).not.toContainEqual(expect.objectContaining({ field: 'ref_geometry_provenance' }));
+  });
+
   it('fails for a geometry term with no mapping, naming the term, the vocabulary and the place', async () => {
     const root = emptyRoot();
     mkdirSync(path.join(root, 'vocab-mappings'), { recursive: true });

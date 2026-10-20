@@ -27,3 +27,11 @@ describe('the import-only legacy fields on a map', () => {
     expect(unknownFields([wrongPlace]).sort()).toEqual(['legacy_custody', 'legacy_publication_status', 'legacy_record_scope']);
   });
 });
+
+describe('a specialist geometry term on a place (spec 008 FR-016, TC-D016)', () => {
+  it('is a known field of a place, kept as the source wrote it beside its vocabulary', () => {
+    const cnd = { ...place(1), vocabulary: 'cnd', geometry_provenance: 'editorial_reconstruction' };
+    expect(schemaFor('place').safeParse(cnd).data).toMatchObject({ vocabulary: 'cnd', geometry_provenance: 'editorial_reconstruction' });
+    expect(unknownFields([cnd])).toEqual([]);
+  });
+});

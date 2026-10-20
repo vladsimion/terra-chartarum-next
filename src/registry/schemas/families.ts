@@ -85,6 +85,8 @@ export const PlaceSchema = EntityBase.extend({
   names: z.array(PlaceName).optional(),
   /** WGS84 decimal degrees; `PLACE-LOCATION` judges the numbers. */
   location: z.unknown().optional(),
+  /** A specialist term for how the location was derived, kept as the source wrote it; `vocabulary` names the file that maps it (TC-D016, spec 008 FR-016). */
+  geometry_provenance: z.string().optional(),
   ...DATE_FIELDS,
 });
 
