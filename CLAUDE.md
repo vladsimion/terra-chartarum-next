@@ -25,7 +25,7 @@ Do not use Matt Pocock's `/to-spec`, `/to-tickets` or `/implement` here: Spec Ki
 
 ## Agent skills
 ### Issue tracker
-Jira Cloud, site `vladsimion.atlassian.net`, project key `TCX`. TCX-1 is the ratification gate; epics: TCX-2 (001 registry), TCX-3 (002 shell), TCX-4 (003 essays), TCX-5 (004 catalogue), TCX-6 (005 Atlas), TCX-7 (006 bibliography), TCX-8 (007 rooms), TCX-44 (008 migration and cutover). One story per spec user story; Spec Kit task IDs (T001…) go in the story description as a checklist. Do not use `/speckit-taskstoissues` (it targets GitHub Issues).
+Jira Cloud, site `vladsimion.atlassian.net`, project key `TCX`. TCX-1 is the ratification gate; epics: TCX-2 (001 registry), TCX-3 (002 shell), TCX-4 (003 essays), TCX-5 (004 catalogue), TCX-6 (005 Atlas), TCX-7 (006 bibliography), TCX-8 (007 rooms), TCX-44 (008 migration and cutover), TCX-52 (009 anchor essay). One story per spec user story; Spec Kit task IDs (T001…) go in the story description as a checklist. Do not use `/speckit-taskstoissues` (it targets GitHub Issues).
 
 ### Domain docs
 `GLOSSARY.md` (single context) and `docs/adr/NNNN-slug.md`.
