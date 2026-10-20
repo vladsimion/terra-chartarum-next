@@ -1,0 +1,15 @@
+id: tc:tc:dataset:crusades-jerusalem-network
+family: dataset
+origin: legacy
+title: "The Holy Land as a network: the ports (unreviewed)"
+slug: crusades-jerusalem-network
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+version: legacy-e82afd9
+licence: CC BY 4.0
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; positions are modern reference context, and no
+    Holy Land witness is cleared

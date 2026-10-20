@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-ulpia-traiana-sarmizegetusa
+family: place
+origin: legacy
+title: Colonia Ulpia Traiana Sarmizegetusa
+slug: plc-ulpia-traiana-sarmizegetusa
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: archaeological_site
+location_status: located
+names:
+  - name: Colonia Ulpia Traiana Sarmizegetusa
+    language: und
+    kind: modern
+location:
+  lon: 22.78
+  lat: 45.51
+vocabulary: cnd
+geometry_provenance: editorial_reconstruction
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

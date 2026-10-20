@@ -1,0 +1,19 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000009",
+  "type": "document",
+  "title": "Medieval Mappaemundi",
+  "author": [
+    {
+      "literal": "Woodward, David"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1987
+      ]
+    ]
+  },
+  "URL": "https://press.uchicago.edu/books/hoc/HOC_V1/HOC_VOLUME1_chapter18.pdf",
+  "note": "Woodward, David. “Medieval Mappaemundi.” In The History of Cartography, vol. 1, 286–370. Chicago: University of Chicago Press, 1987."
+}

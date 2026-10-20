@@ -1,0 +1,27 @@
+id: tc:tc:layer:map-coverage
+family: layer
+origin: legacy
+title: Depicted extents (corpus)
+slug: map-coverage
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+role: evidence
+asset: data/layers/map-coverage.geojson
+dataset: tc:tc:dataset:map-coverage
+description: The area each corpus map depicts - one footprint polygon per map,
+  keyed by mapId.
+theme: cartographic-evidence
+tags:
+  - coverage
+  - depicted extent
+  - footprint
+  - corpus
+  - map sheets
+  - what the map shows
+envelope: -0600/1972
+time_mode: envelope_only
+rights:
+  licence: CC BY
+  attribution: Terra Chartarum

@@ -1,0 +1,14 @@
+id: tc:tc:dataset:ne-rivers
+family: dataset
+origin: legacy
+title: Natural Earth - Rivers
+slug: ne-rivers
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+version: legacy-e82afd9
+licence: Public Domain
+rights:
+  licence: Public Domain
+  attribution: Made with Natural Earth

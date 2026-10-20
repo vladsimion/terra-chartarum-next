@@ -1,0 +1,15 @@
+id: tc:tc:dataset:crusades-itinerary
+family: dataset
+origin: legacy
+title: "Matthew Paris itinerary: stages at modern positions (unreviewed)"
+slug: crusades-itinerary
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+version: legacy-e82afd9
+licence: CC BY 4.0
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; witnesses held by the British Library and the
+    Parker Library, none cleared for publication

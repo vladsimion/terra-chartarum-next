@@ -1,0 +1,21 @@
+id: tc:tc:collection:terra-incognita
+family: collection
+origin: legacy
+title: Terra Incognita
+slug: terra-incognita
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+description: "There is no default composition. Every layer here is in review and
+  not one record has been read against its source, so a reader who opens this
+  collection is shown nothing as established: the layers have to be switched on
+  deliberately. The ghost layer is a member although its asset is empty, because
+  a reader looking for the disproved features should find the record of why none
+  of them can yet be placed."
+members:
+  - tc:tc:layer:antarctica-conjectured-south
+  - tc:tc:layer:antarctica-expedition-tracks
+  - tc:tc:layer:antarctica-observations
+  - tc:tc:layer:antarctica-ghost-geographies
+default_layers: []

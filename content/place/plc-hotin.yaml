@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-hotin
+family: place
+origin: legacy
+title: Hotin
+slug: plc-hotin
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: settlement
+location_status: located
+names:
+  - name: Hotin
+    language: und
+    kind: modern
+location:
+  lon: 26.49
+  lat: 48.51
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

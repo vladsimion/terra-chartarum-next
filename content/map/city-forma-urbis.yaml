@@ -1,0 +1,27 @@
+id: tc:tc:map:city-forma-urbis
+family: map
+origin: legacy
+title: Forma Urbis Romae
+slug: city-forma-urbis
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:city-bufalini-1551
+  - tc:tc:map:city-nolli-1748
+record_scope: object
+date_published: "0210"
+significance: The Severan marble plan survives in 1,186 known fragments, turning
+  the mapped city into an evidence problem of joins, proposed locations and
+  absences.
+edition_state: "Makers as the legacy site named them: Unknown Severan-period
+  surveyors and stonecutters"
+provenance: Museo della Forma Urbis, Rome
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000020
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified

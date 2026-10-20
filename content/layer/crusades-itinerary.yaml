@@ -1,0 +1,45 @@
+id: tc:tc:layer:crusades-itinerary
+family: layer
+origin: legacy
+title: "Matthew Paris itinerary: stages at modern positions (unreviewed)"
+slug: crusades-itinerary
+slug_history: []
+lifecycle: qa
+release: held
+relations: []
+legacy_layer_status: in-review
+role: evidence
+asset: data/layers/crusades-itinerary.geojson
+dataset: tc:tc:dataset:crusades-itinerary
+description: Fourteen stages of the drawn road from London to Otranto, placed at
+  the modern coordinates of the towns they name. The manuscript gives no
+  coordinates at all, so the positions are reference context and the labels and
+  day-marks are the evidence.
+theme: cartographic-evidence
+tags:
+  - crusades
+  - matthew paris
+  - itinerary
+  - pilgrimage
+  - london to otranto
+  - strip map
+  - unreviewed
+envelope: 1250/1259
+time_mode: envelope_only
+facets:
+  - property: mode
+    label: mode
+    kind: category
+  - property: evidenceClass
+    label: evidenceClass
+    kind: category
+  - property: confidence
+    label: confidence
+    kind: category
+  - property: reviewState
+    label: reviewState
+    kind: category
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; witnesses held by the British Library and the
+    Parker Library, none cleared for publication

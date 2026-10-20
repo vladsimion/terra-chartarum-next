@@ -1,0 +1,15 @@
+id: tc:tc:dataset:antarctica-expedition-tracks
+family: dataset
+origin: legacy
+title: Antarctic expedition tracks (unreviewed)
+slug: antarctica-expedition-tracks
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+version: legacy-e82afd9
+licence: CC BY 4.0
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; sampled and generalised linework, each segment
+    declaring its provenance

@@ -1,0 +1,55 @@
+id: tc:tc:layer:dacia-attestations-research
+family: layer
+origin: legacy
+title: Dacia name attestations (research tier, unreviewed)
+slug: dacia-attestations-research
+slug_history: []
+lifecycle: qa
+release: held
+relations: []
+legacy_layer_status: in-review
+role: historical
+asset: data/layers/dacia-attestations-research.geojson
+dataset: tc:tc:dataset:dacia-attestations-research
+description: "The full CND 1.0 release candidate: every compiled attestation
+  including silences and normalized imports, none of it cleared by human review.
+  Records here may not be cited as established evidence."
+theme: names-peoples-attestations
+tags:
+  - dacia
+  - toponyms
+  - attestations
+  - place names
+  - corpus nominum daciae
+  - research tier
+  - unreviewed
+envelope: 0150/2026
+time_mode: per_feature
+facets:
+  - property: attestation_class
+    label: attestation_class
+    kind: category
+  - property: confidence
+    label: confidence
+    kind: category
+  - property: source_id
+    label: source_id
+    kind: category
+  - property: source_family
+    label: source_family
+    kind: category
+  - property: language
+    label: language
+    kind: category
+  - property: script
+    label: script
+    kind: category
+  - property: review_state
+    label: review_state
+    kind: category
+documentation:
+  - label: Data dictionary
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/dacia/data-dictionary.md
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; each source carries its own rights statement

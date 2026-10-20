@@ -1,0 +1,35 @@
+id: tc:tc:map:hse-lubeck-view
+family: map
+origin: legacy
+title: Lübeck, from Civitates Orbis Terrarum, volume I
+slug: hse-lubeck-view
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:hse-hamburg-view
+  - tc:tc:map:hse-london-view
+  - tc:tc:map:hse-bruges-view
+record_scope: object
+date_published: "1593"
+significance: The engraved city portrait calls Lübeck head of the Wendish cities
+  and the Hanseatic society while presenting an autonomous imperial city.
+makers:
+  - tc:tc:cartographer:georg-braun
+edition_state: "Edition: Civitates Orbis Terrarum, vol. I (first published
+  1572), p. 24a; cited from the 1593 issue"
+provenance: Universitätsbibliothek Heidelberg, braun1593bd1, canvas 0074
+repository: Universitätsbibliothek Heidelberg (braun1593bd1 p. 24a (canvas
+  0074), hse-obj-lubeck-view)
+  https://digi.ub.uni-heidelberg.de/diglit/braun1593bd1/0074
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000023
+  - tc:tc:bibliography_entry:bibliography_entry-000028
+rights:
+  attribution: Public Domain Mark 1.0
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified
+legacy_publication_status: published_witness

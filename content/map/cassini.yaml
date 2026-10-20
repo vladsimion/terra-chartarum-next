@@ -1,0 +1,30 @@
+id: tc:tc:map:cassini
+family: map
+origin: legacy
+title: Carte de Cassini
+slug: cassini
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+record_scope: work
+date_published: "1744"
+significance: Triangulation turns a kingdom into a survey.
+makers:
+  - tc:tc:cartographer:cassini
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000004
+open_questions:
+  - field: edition
+    question: The Carte de Cassini is a sheet series issued across the second half
+      of the eighteenth century. No sheet is named here, so the year, the scale
+      and any physical description belong to the undertaking rather than to
+      anything that can be measured.
+    would_resolve: Naming the sheet or sheets the essay actually uses and
+      cataloguing those as their own records, each with its own state and
+      holding institution.
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  dimensions: not_yet_verified
+legacy_record_scope: work

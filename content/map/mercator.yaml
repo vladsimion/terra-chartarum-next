@@ -1,0 +1,29 @@
+id: tc:tc:map:mercator
+family: map
+origin: legacy
+title: Mercator Projection
+slug: mercator
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+record_scope: concept
+date_published: "1569"
+significance: Rhumb lines made straight - navigation bought with area.
+makers:
+  - tc:tc:cartographer:mercator
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000002
+  - tc:tc:bibliography_entry:bibliography_entry-000003
+open_questions:
+  - field: edition
+    question: The year given is that of the Nova et Aucta wall map, but this record
+      describes the projection rather than that object. Whether the catalogue
+      should also carry the wall map as its own record is undecided.
+    would_resolve: An editorial decision, and if the wall map is added, a chosen
+      impression among the few that survive.
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  dimensions: not_yet_verified
+legacy_record_scope: concept

@@ -1,0 +1,14 @@
+id: tc:tc:source:src-russian-staff-1835
+family: source
+origin: legacy
+title: Russian General Staff map
+slug: src-russian-staff-1835
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+is_finding_aid: false
+source_kind: military_survey
+entry: tc:tc:bibliography_entry:bibliography_entry-000043
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

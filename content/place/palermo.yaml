@@ -1,0 +1,20 @@
+id: tc:tc:place:palermo
+family: place
+origin: legacy
+title: Palermo
+slug: palermo
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:idrisi
+names:
+  - name: Palermo
+    language: und
+    kind: modern
+  - name: Palermu
+    language: und
+    kind: historic
+location:
+  lon: 13.36
+  lat: 38.12

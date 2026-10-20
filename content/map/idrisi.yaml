@@ -1,0 +1,30 @@
+id: tc:tc:map:idrisi
+family: map
+origin: legacy
+title: Al-Idrisi's Tabula Rogeriana
+slug: idrisi
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+record_scope: work
+date_published: "1154"
+significance: Made at the Norman court of Palermo for Roger II.
+makers:
+  - tc:tc:cartographer:al-idrisi
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000001
+  - tc:tc:bibliography_entry:bibliography_entry-000046
+open_questions:
+  - field: date
+    question: The year recorded is that of the lost original. Every surviving
+      witness is a later copy, and the record does not say which copy stands
+      behind it or how much later that copy is.
+    would_resolve: Choosing a manuscript witness and recording its repository,
+      shelfmark and date, after which the year on this record has to be read
+      against it.
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  dimensions: not_yet_verified
+legacy_record_scope: work

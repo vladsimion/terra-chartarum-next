@@ -1,0 +1,27 @@
+id: tc:tc:layer:roman-empire-117
+family: layer
+origin: legacy
+title: Roman Empire, AD 117
+slug: roman-empire-117
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+role: historical
+asset: data/layers/roman-empire-117.geojson
+dataset: tc:tc:dataset:roman-empire-117
+description: Imperial extent at Trajan's greatest reach - context for the Dacia essay.
+theme: territories-boundaries
+tags:
+  - rome
+  - roman empire
+  - trajan
+  - provinces
+  - antiquity
+  - imperial extent
+envelope: 0106/0271
+time_mode: envelope_only
+rights:
+  licence: ODbL 1.0
+  attribution: Ancient World Mapping Center; derived from the Barrington Atlas and
+    OpenStreetMap (ODbL)

@@ -1,0 +1,27 @@
+id: tc:tc:map:religion-rudimentum
+family: map
+origin: legacy
+title: World map in the Rudimentum Novitiorum
+slug: religion-rudimentum
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:religion-to-1472
+  - tc:tc:map:religion-bunting
+record_scope: object
+date_published: "1475"
+significance: An incunable combines universal history, genealogical apparatus
+  and printed world maps in one book.
+edition_state: "Edition: Rudimentum Novitiorum, 5 August 1475; Makers as the
+  legacy site named them: Unknown; printed by Lucas Brandis; Lucas Brandis"
+provenance: Library of Congress, Lessing J. Rosenwald Collection
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000013
+  - tc:tc:bibliography_entry:bibliography_entry-000009
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified

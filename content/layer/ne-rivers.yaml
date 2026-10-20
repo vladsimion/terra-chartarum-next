@@ -1,0 +1,25 @@
+id: tc:tc:layer:ne-rivers
+family: layer
+origin: legacy
+title: Natural Earth - Rivers
+slug: ne-rivers
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+role: context
+asset: data/layers/ne-rivers.geojson
+dataset: tc:tc:dataset:ne-rivers
+description: Major river and lake centrelines - waterways that carried maps and trade.
+tags:
+  - rivers
+  - lakes
+  - waterways
+  - inland navigation
+  - physical geography
+  - natural earth
+envelope: -6000/2024
+time_mode: envelope_only
+rights:
+  licence: Public Domain
+  attribution: Made with Natural Earth

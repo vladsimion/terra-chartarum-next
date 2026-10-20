@@ -1,0 +1,37 @@
+id: tc:tc:map:age-ort1-1579
+family: map
+origin: legacy
+title: Typus Orbis Terrarum, plate 1, state 1.4
+slug: age-ort1-1579
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:age-ort1-1575
+  - tc:tc:map:age-ort1-1584
+  - tc:tc:map:age-ort2-1587
+record_scope: object
+date_published: "1579"
+significance: The repaired crack and reworked clouds make this high-resolution
+  impression the essay’s witness to managed age.
+makers:
+  - tc:tc:cartographer:ortelius
+edition_state: "Edition: Theatrum Orbis Terrarum, 1579; State: Ort 1, state 1.4"
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000015
+  - tc:tc:bibliography_entry:bibliography_entry-000019
+images:
+  - type: static
+    url: https://commons.wikimedia.org/wiki/Special:FilePath/Ortelius%20verdenskart%201579%20(12085012186).jpg?width=1600
+    static_url: https://commons.wikimedia.org/wiki/Special:FilePath/Ortelius%20verdenskart%201579%20(12085012186).jpg?width=1600
+    attribution: National Library of Norway via Flickr Commons and Wikimedia Commons
+    licence: No known copyright restrictions
+    alt: Hand-coloured Ortelius world map printed in 1579
+    reproduction_cleared: false
+rights:
+  licence: No known copyright restrictions
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified

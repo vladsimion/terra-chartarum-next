@@ -1,0 +1,18 @@
+id: tc:tc:map:specht
+family: map
+origin: legacy
+title: Specht Map of Dacia
+slug: specht
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+record_scope: object
+date_published: "1791"
+significance: Habsburg military survey turns territory into administered grid.
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified

@@ -1,0 +1,1 @@
+Fourteenth-century chartmaker associated with the earliest signed and dated surviving portolan chart. His nautical charts and atlas work made ordered Mediterranean coasts available to both navigation and crusading geography.

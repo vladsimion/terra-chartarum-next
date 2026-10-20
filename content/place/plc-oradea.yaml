@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-oradea
+family: place
+origin: legacy
+title: Oradea
+slug: plc-oradea
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: settlement
+location_status: located
+names:
+  - name: Oradea
+    language: und
+    kind: modern
+location:
+  lon: 21.93
+  lat: 47.06
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

@@ -1,0 +1,18 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000036",
+  "type": "document",
+  "title": "Hereford Mappa Mundi",
+  "author": [
+    {
+      "literal": "Circle of Richard of Haldingham (attrib.)"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1300
+      ]
+    ]
+  },
+  "note": "Hereford Mappa Mundi"
+}

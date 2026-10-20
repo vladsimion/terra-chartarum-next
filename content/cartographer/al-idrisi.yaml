@@ -1,0 +1,13 @@
+id: tc:tc:cartographer:al-idrisi
+family: cartographer
+origin: legacy
+title: Muhammad al-Idrisi
+slug: al-idrisi
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+kind: person
+names:
+  - Idrisi, Muhammad al-
+life_dates: 1100/1165

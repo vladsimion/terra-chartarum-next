@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-apulum
+family: place
+origin: legacy
+title: Apulum
+slug: plc-apulum
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: settlement
+location_status: located
+names:
+  - name: Apulum
+    language: und
+    kind: modern
+location:
+  lon: 23.57
+  lat: 46.07
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

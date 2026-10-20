@@ -1,0 +1,23 @@
+id: tc:tc:place:rome
+family: place
+origin: legacy
+title: Rome
+slug: rome
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:peutinger
+names:
+  - name: Rome
+    language: und
+    kind: modern
+  - name: Caput Mundi
+    language: und
+    kind: historic
+location:
+  lon: 12.49
+  lat: 41.9
+same_as:
+  - authority: pleiades
+    id: "423025"

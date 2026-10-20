@@ -1,0 +1,33 @@
+id: tc:tc:map:hse-bremen-view
+family: map
+origin: legacy
+title: Bremen, from the four-city Civitates plate
+slug: hse-bremen-view
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:hse-hamburg-view
+  - tc:tc:map:hse-cologne-view
+record_scope: object
+date_published: "1593"
+significance: Bremen appears as a river prospect on a sheet whose Lüneburg panel
+  also names the salt economy behind a major corridor.
+makers:
+  - tc:tc:cartographer:georg-braun
+edition_state: "Edition: Civitates Orbis Terrarum, vol. I (first published
+  1572), p. 23a; cited from the 1593 issue"
+provenance: Universitätsbibliothek Heidelberg, braun1593bd1, canvas 0072
+repository: Universitätsbibliothek Heidelberg (braun1593bd1 p. 23a (canvas
+  0072), hse-obj-bremen-view)
+  https://digi.ub.uni-heidelberg.de/diglit/braun1593bd1/0072
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000023
+rights:
+  attribution: Public Domain Mark 1.0
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified
+legacy_publication_status: published_witness

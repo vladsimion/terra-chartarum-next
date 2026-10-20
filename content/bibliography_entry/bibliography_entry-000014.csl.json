@@ -1,0 +1,19 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000014",
+  "type": "document",
+  "title": "Ortelius Atlas Maps: An Illustrated Guide",
+  "author": [
+    {
+      "literal": "Van den Broecke, Marcel P. R."
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1996
+      ]
+    ]
+  },
+  "URL": "https://orteliusmaps.com/ortindexnumber.html",
+  "note": "Van den Broecke, Marcel P. R. Ortelius Atlas Maps: An Illustrated Guide. ’t Goy-Houten: HES Publishers, 1996."
+}

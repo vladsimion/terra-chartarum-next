@@ -1,0 +1,1 @@
+Benedictine monk, chronicler, artist and mapmaker at St Albans Abbey. His manuscript itineraries organise travel from England toward the Holy Land as ordered stations, making sequence more important than uniform geographic scale.

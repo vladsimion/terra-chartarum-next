@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-ampelum
+family: place
+origin: legacy
+title: Ampelum
+slug: plc-ampelum
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: settlement
+location_status: located
+names:
+  - name: Ampelum
+    language: und
+    kind: modern
+location:
+  lon: 23.23
+  lat: 46.12
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

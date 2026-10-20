@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-micia
+family: place
+origin: legacy
+title: Micia
+slug: plc-micia
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: archaeological_site
+location_status: located
+names:
+  - name: Micia
+    language: und
+    kind: modern
+location:
+  lon: 22.75
+  lat: 45.9
+vocabulary: cnd
+geometry_provenance: editorial_reconstruction
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

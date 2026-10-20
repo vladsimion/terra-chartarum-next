@@ -1,0 +1,1 @@
+Flemish cartographer, engraver and instrument-maker whose 1569 projection made rhumb lines straight for navigators - at the cost of grossly inflating the high latitudes. He coined the term "atlas" for a bound collection of maps.

@@ -1,0 +1,46 @@
+id: tc:tc:layer:dacia-roman-network
+family: layer
+origin: legacy
+title: Roman Dacia · roads and frontier corridors
+slug: dacia-roman-network
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+role: historical
+asset: data/layers/dacia-roman-network.geojson
+dataset: tc:tc:dataset:dacia-roman-network
+description: "The province drawn as a network: roads are lines through attested
+  stations, and the limes are corridors this project drew. Nothing here is
+  digitised from a survey, and the dashes say which is which."
+theme: networks-circulation
+tags:
+  - dacia
+  - roman
+  - roads
+  - limes
+  - frontier
+  - antiquity
+  - network
+envelope: 0106/0271
+time_mode: per_feature
+facets:
+  - property: feature_type
+    label: feature_type
+    kind: category
+  - property: confidence
+    label: confidence
+    kind: category
+  - property: geometry_provenance
+    label: geometry_provenance
+    kind: category
+  - property: review_status
+    label: review_status
+    kind: category
+documentation:
+  - label: Shared GIS layers
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/dacia/shared-gis-layers.md
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; roads joined from corpus stations, frontier
+    corridors drawn editorially

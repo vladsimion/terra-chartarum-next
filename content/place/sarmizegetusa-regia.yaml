@@ -1,0 +1,20 @@
+id: tc:tc:place:sarmizegetusa-regia
+family: place
+origin: legacy
+title: Grădiștea de Munte
+slug: sarmizegetusa-regia
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:place:plc-sarmizegetusa-regia
+names:
+  - name: Grădiștea de Munte
+    language: und
+    kind: modern
+  - name: Grădiștea Muncelului
+    language: und
+    kind: historic
+location:
+  lon: 23.31
+  lat: 45.62

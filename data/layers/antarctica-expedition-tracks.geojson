@@ -1,0 +1,272 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            39.6,
+            -60.0
+          ],
+          [
+            0.0,
+            -66.5
+          ],
+          [
+            -60.0,
+            -68.0
+          ],
+          [
+            -106.9,
+            -71.17
+          ]
+        ],
+        "type": "LineString"
+      },
+      "properties": {
+        "act": "act_iv",
+        "confidence": "low",
+        "dateFrom": "1773-01-17",
+        "dateTo": "1774-01-30",
+        "evidenceClass": "direct_observation",
+        "expeditionId": "ant-exp-cook-second",
+        "geometryProvenance": "editorial_generalisation",
+        "id": "ant-trk-cook-resolution",
+        "kind": "track",
+        "notes": "Four points standing for a two-year track. It is a sample that proves the schema carries a line, not a route anyone may measure. The real track is compiled at ANT-5 from the journals.",
+        "reviewState": "raw",
+        "sourceId": "ant-src-beaglehole-journals-ii",
+        "sourceLocator": "pending",
+        "title": "Resolution in the high southern latitudes, 1773-1774 (sample)",
+        "trackKind": "voyage",
+        "validFrom": 1773,
+        "validTo": 1774,
+        "vessel": "Resolution"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -36.5,
+            -54.28
+          ],
+          [
+            -30.0,
+            -60.0
+          ],
+          [
+            -25.0,
+            -68.0
+          ],
+          [
+            -28.0,
+            -74.0
+          ],
+          [
+            -31.5,
+            -76.57
+          ]
+        ],
+        "type": "LineString"
+      },
+      "properties": {
+        "act": "act_viii",
+        "confidence": "low",
+        "dateFrom": "1914-12-05",
+        "dateTo": "1915-01-19",
+        "evidenceClass": "dead_reckoning",
+        "expeditionId": "ant-exp-ite",
+        "geometryProvenance": "editorial_generalisation",
+        "id": "ant-trk-endurance-approach",
+        "kind": "track",
+        "notes": "The last stretch under the ship's own power, held apart from the drift that follows it so that the moment the vessel stops navigating is a change in the data and not only in the prose.",
+        "reviewState": "raw",
+        "sourceId": "ant-src-shackleton-south-1919",
+        "sourceLocator": "pending",
+        "title": "Endurance from South Georgia into the Weddell Sea (sample)",
+        "trackKind": "voyage",
+        "validFrom": 1914,
+        "validTo": 1915,
+        "vessel": "Endurance"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -31.5,
+            -76.57
+          ],
+          [
+            -52.44,
+            -68.66
+          ]
+        ],
+        "type": "LineString"
+      },
+      "properties": {
+        "act": "act_viii",
+        "confidence": "low",
+        "dateFrom": "1915-01-19",
+        "dateTo": "1915-11-21",
+        "evidenceClass": "dead_reckoning",
+        "expeditionId": "ant-exp-ite",
+        "geometryProvenance": "editorial_interpolation",
+        "id": "ant-trk-endurance-drift",
+        "kind": "track",
+        "notes": "Two endpoints joined by a straight line, which the drift certainly was not. Present only to prove the schema can hold a drift distinct from a planned route; ANT-9 replaces it with dated positions.",
+        "reviewState": "raw",
+        "sourceId": "ant-src-worsley-endurance-1931",
+        "sourceLocator": "pending",
+        "title": "Endurance in the ice, besetment to loss (two-point sample)",
+        "trackKind": "drift",
+        "validFrom": 1915,
+        "validTo": 1915,
+        "vessel": "Endurance"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -36.5,
+            -54.3
+          ],
+          [
+            -30.0,
+            -70.0
+          ],
+          [
+            -20.0,
+            -78.0
+          ],
+          [
+            0.0,
+            -90.0
+          ],
+          [
+            170.0,
+            -78.0
+          ],
+          [
+            166.7,
+            -77.85
+          ]
+        ],
+        "type": "LineString"
+      },
+      "properties": {
+        "act": "act_viii",
+        "confidence": "low",
+        "dateFrom": "1914-08-08",
+        "evidenceClass": "editorial_interpolation",
+        "expeditionId": "ant-exp-ite",
+        "geometryProvenance": "editorial_generalisation",
+        "id": "ant-trk-endurance-plan",
+        "kind": "track",
+        "notes": "A planned route is an intention, not an observation, and this drawing of it is ours. It is filed as editorial_interpolation so that no part of the pipeline can mistake it for evidence, which is the distinction Act VIII turns on.",
+        "reviewState": "raw",
+        "sourceId": "ant-src-shackleton-south-1919",
+        "sourceLocator": "pending",
+        "title": "Planned trans-Antarctic crossing, as announced",
+        "trackKind": "planned_route",
+        "validFrom": 1914,
+        "validTo": 1914,
+        "vessel": "Endurance"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            -54.8333,
+            -61.0667
+          ],
+          [
+            -54.8333,
+            -60.0
+          ],
+          [
+            -50.8,
+            -59.7667
+          ],
+          [
+            -50.8,
+            -59.7667
+          ],
+          [
+            -50.0,
+            -59.8667
+          ],
+          [
+            -50.0,
+            -58.6333
+          ],
+          [
+            -48.6,
+            -57.5667
+          ],
+          [
+            -48.0167,
+            -57.1833
+          ],
+          [
+            -46.9667,
+            -56.7
+          ],
+          [
+            -45.6333,
+            -56.2167
+          ],
+          [
+            -44.7167,
+            -55.5167
+          ],
+          [
+            -42.6,
+            -54.5
+          ],
+          [
+            -40.7333,
+            -54.4333
+          ],
+          [
+            -39.6,
+            -54.6333
+          ],
+          [
+            -37.0333,
+            -54.3167
+          ]
+        ],
+        "type": "LineString"
+      },
+      "properties": {
+        "act": "act_viii",
+        "confidence": "medium",
+        "dateFrom": "1916-04-24",
+        "dateTo": "1916-05-08",
+        "evidenceClass": "dead_reckoning",
+        "expeditionId": "ant-exp-ite",
+        "geometryProvenance": "derived_from_log",
+        "id": "ant-trk-james-caird",
+        "kind": "track",
+        "notes": "Fifteen vertices: the departure position and the noon position the log carries for each day of the passage, in the log's own figures. It replaces the three-point sample whose middle point was ours entirely - the line is now Worsley's track and not our drawing of one, which is what derived_from_log rather than editorial_interpolation records. Where a day has both a reckoned and an observed position the observed one is the vertex, because that is the position the log carried into the next day's run; both survive as rows in observations.csv, and a test asserts the vertices are exactly those positions. Two cautions the line cannot carry itself. The class is dead_reckoning because most of these noons are reckoned - five of the fourteen are corrected by sights - and filing the whole track as a fix would overclaim the nine that are not. And a noon-to-noon line says nothing about the path between two noons; the passage ends at the 8 May position because that is the last one the log works, with the landing two days later carried by ant-obs-king-haakon-bay.",
+        "reviewState": "normalized",
+        "sourceId": "ant-src-bergman-caird-navigation",
+        "sourceLocator": "Appendix B (pp. 58-66), noon positions for Days 1 to 15",
+        "title": "James Caird, Elephant Island to South Georgia (noon positions from the log)",
+        "trackKind": "boat_journey",
+        "validFrom": 1916,
+        "validTo": 1916,
+        "vessel": "James Caird"
+      },
+      "type": "Feature"
+    }
+  ],
+  "type": "FeatureCollection"
+}

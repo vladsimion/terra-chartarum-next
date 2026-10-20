@@ -1,0 +1,14 @@
+id: tc:tc:dataset:dacia-attestations
+family: dataset
+origin: legacy
+title: Dacia name attestations (reviewed)
+slug: dacia-attestations
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+version: legacy-e82afd9
+licence: CC BY 4.0
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; each source carries its own rights statement

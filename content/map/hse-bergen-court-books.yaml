@@ -1,0 +1,30 @@
+id: tc:tc:map:hse-bergen-court-books
+family: map
+origin: legacy
+title: Bergen Kontor court books, 1633–1759
+slug: hse-bergen-court-books
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:hse-carta-marina
+record_scope: work
+date_published: "1633"
+significance: Nine court books record internal jurisdiction, fees, fire safety,
+  office holders and price lists across Bryggen’s long afterlife.
+repository: Archive of the Hanseatic City of Lübeck (5.1-1.4 Bergenfahrer,
+  1039–1047, hse-obj-bergen-court-books)
+  https://media.unesco.org/sites/default/files/webform/mow001/documents-on-the-history-of-the-hanse_nom_en_0.pdf
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000032
+  - tc:tc:bibliography_entry:bibliography_entry-000033
+rights:
+  attribution: Archive material in copyright; metadata and evidence published without image
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified
+legacy_record_scope: work
+legacy_custody: institutional
+legacy_publication_status: reference_only

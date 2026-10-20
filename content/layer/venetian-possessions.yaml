@@ -1,0 +1,35 @@
+id: tc:tc:layer:venetian-possessions
+family: layer
+origin: legacy
+title: Venetian possessions, c.1200–1500
+slug: venetian-possessions
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+role: historical
+asset: data/layers/venetian-possessions.fgb
+dataset: tc:tc:dataset:venetian-possessions
+description: Territorial extent of the stato da màr - direct rule,
+  protectorates, condominia and contested ground - as phased fills clipped to
+  the coastline.
+theme: territories-boundaries
+tags:
+  - venice
+  - stato da mar
+  - possessions
+  - protectorates
+  - condominium
+  - mediterranean
+envelope: 1200/1500
+time_mode: per_feature
+documentation:
+  - label: Data dictionary
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/vmn/data-dictionary.md
+  - label: Source log
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/vmn/source-log.md
+  - label: Deep-link guide
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/vmn/deep-links.md
+rights:
+  licence: CC BY
+  attribution: Terra Chartarum; after Lane and O'Connell

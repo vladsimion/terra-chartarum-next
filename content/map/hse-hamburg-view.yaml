@@ -1,0 +1,34 @@
+id: tc:tc:map:hse-hamburg-view
+family: map
+origin: legacy
+title: Hamburg, from Civitates Orbis Terrarum, volume I
+slug: hse-hamburg-view
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:hse-lubeck-view
+  - tc:tc:map:hse-bremen-view
+record_scope: object
+date_published: "1593"
+significance: A river city is made visible as a civic body while the commercial
+  relationships extending beyond it remain implicit.
+makers:
+  - tc:tc:cartographer:georg-braun
+edition_state: "Edition: Civitates Orbis Terrarum, vol. I (first published
+  1572), p. 24a; the Hamburg cartouche is dated M.D.LXXII, and this copy is the
+  1593 issue"
+provenance: Universitätsbibliothek Heidelberg, braun1593bd1, canvas 0074
+repository: Universitätsbibliothek Heidelberg (braun1593bd1 p. 24a (canvas
+  0074), hse-obj-hamburg-view)
+  https://digi.ub.uni-heidelberg.de/diglit/braun1593bd1/0074
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000023
+rights:
+  attribution: Public Domain Mark 1.0
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified
+legacy_publication_status: published_witness

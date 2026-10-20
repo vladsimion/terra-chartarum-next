@@ -1,0 +1,13 @@
+id: tc:tc:cartographer:ortelius
+family: cartographer
+origin: legacy
+title: Abraham Ortelius
+slug: ortelius
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+kind: person
+names:
+  - Ortelius, Abraham
+life_dates: 1527/1598

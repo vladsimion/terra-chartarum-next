@@ -1,0 +1,49 @@
+id: tc:tc:layer:antarctica-ghost-geographies
+family: layer
+origin: legacy
+title: Ghost geographies (contract only, no positions located)
+slug: antarctica-ghost-geographies
+slug_history: []
+lifecycle: qa
+release: held
+relations: []
+legacy_layer_status: in-review
+role: historical
+asset: data/layers/antarctica-ghost-geographies.geojson
+dataset: tc:tc:dataset:antarctica-ghost-geographies
+description: "Features claimed, mapped and later removed, held with their
+  original evidence rather than as a list of mistakes. The layer is currently
+  empty: five ghost features are recorded and not one of their disputed
+  positions has been located, so none carries geometry."
+theme: territories-boundaries
+tags:
+  - antarctica
+  - terra incognita
+  - ghost geography
+  - phantom islands
+  - disproved
+  - error
+  - morrell
+  - wilkes
+  - unreviewed
+envelope: 1531/1916
+time_mode: per_feature
+facets:
+  - property: evidenceClass
+    label: evidenceClass
+    kind: category
+  - property: geometryProvenance
+    label: geometryProvenance
+    kind: category
+  - property: confidence
+    label: confidence
+    kind: category
+  - property: reviewState
+    label: reviewState
+    kind: category
+  - property: act
+    label: act
+    kind: category
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; each ghost feature retains its original claimant and source

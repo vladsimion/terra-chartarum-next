@@ -1,0 +1,20 @@
+id: tc:tc:place:babylon
+family: place
+origin: legacy
+title: Hillah (Babylon)
+slug: babylon
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:babylonian
+names:
+  - name: Hillah (Babylon)
+    language: und
+    kind: modern
+  - name: Bābil
+    language: und
+    kind: historic
+location:
+  lon: 44.42
+  lat: 32.54

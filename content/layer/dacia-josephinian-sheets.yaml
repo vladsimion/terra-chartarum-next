@@ -1,0 +1,43 @@
+id: tc:tc:layer:dacia-josephinian-sheets
+family: layer
+origin: legacy
+title: Josephinian survey · sheet index
+slug: dacia-josephinian-sheets
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+role: evidence
+asset: data/layers/dacia-josephinian-sheets.geojson
+dataset: tc:tc:dataset:dacia-josephinian-sheets
+description: Where the First Military Survey of Transylvania, 1769-1773, covers
+  the corpus. Each footprint links to the repository that holds the sheet; no
+  scan is served from here, and the footprints are reconstructed rather than
+  taken from the archive index.
+theme: cartographic-evidence
+tags:
+  - josephinian
+  - first military survey
+  - transylvania
+  - sheet index
+  - kriegsarchiv
+  - survey
+envelope: 1769/1773
+time_mode: per_feature
+facets:
+  - property: confidence
+    label: confidence
+    kind: category
+  - property: footprint_provenance
+    label: footprint_provenance
+    kind: category
+  - property: review_status
+    label: review_status
+    kind: category
+documentation:
+  - label: Shared GIS layers
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/dacia/shared-gis-layers.md
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; sheets held by the Kriegsarchiv, Vienna; no scan
+    redistributed

@@ -1,0 +1,53 @@
+id: tc:tc:layer:dacia-treaty-frontiers
+family: layer
+origin: legacy
+title: Treaty frontiers, 1829-1947
+slug: dacia-treaty-frontiers
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+role: historical
+asset: data/layers/dacia-treaty-frontiers.geojson
+dataset: tc:tc:dataset:dacia-treaty-frontiers
+description: What each settlement moved, as dated phases. Not one instrument in
+  the source ledger has delimitation geometry this project can use, so every
+  line is drawn and declared editorial; where two sources give different lines
+  for one moment, both are kept rather than averaged into a frontier nobody
+  proposed.
+theme: conflict-campaigns-frontiers
+tags:
+  - dacia
+  - treaties
+  - frontiers
+  - borders
+  - diplomacy
+  - hertslet
+  - delimitation
+envelope: 1829/1947
+time_mode: per_feature
+facets:
+  - property: line_type
+    label: line_type
+    kind: category
+  - property: interpretation_status
+    label: interpretation_status
+    kind: category
+  - property: confidence
+    label: confidence
+    kind: category
+  - property: source_id
+    label: source_id
+    kind: category
+  - property: review_status
+    label: review_status
+    kind: category
+documentation:
+  - label: Treaty frontier source ledger
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/dacia/treaty-frontier-source-ledger.md
+  - label: Shared GIS layers
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/dacia/shared-gis-layers.md
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; instruments after Hertslet and the KAN-351 source
+    ledger; all linework editorial

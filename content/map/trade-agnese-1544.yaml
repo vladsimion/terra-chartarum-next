@@ -1,0 +1,23 @@
+id: tc:tc:map:trade-agnese-1544
+family: map
+origin: legacy
+title: Portolan atlas of nine charts and a world map
+slug: trade-agnese-1544
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+record_scope: object
+date_published: "1544"
+significance: Battista Agnese’s workshop joins navigational charts and a world
+  map in a richly illuminated Venetian atlas.
+makers:
+  - tc:tc:cartographer:battista-agnese
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000005
+  - tc:tc:bibliography_entry:bibliography_entry-000007
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified

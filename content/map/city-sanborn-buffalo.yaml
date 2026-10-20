@@ -1,0 +1,26 @@
+id: tc:tc:map:city-sanborn-buffalo
+family: map
+origin: legacy
+title: Sanborn fire insurance map of Buffalo, volume 1
+slug: city-sanborn-buffalo
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:city-agas-london
+  - tc:tc:map:city-nolli-1748
+record_scope: object
+date_published: "1899"
+significance: A 110-sheet insurance volume remembers blocks as materials, uses
+  and hazards selected for commercial risk assessment.
+edition_state: "Edition: Buffalo, New York, volume 1, 1899; Makers as the legacy
+  site named them: Sanborn Map Company; Sanborn–Perris Map Company"
+provenance: Library of Congress, Geography and Map Division
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000025
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified

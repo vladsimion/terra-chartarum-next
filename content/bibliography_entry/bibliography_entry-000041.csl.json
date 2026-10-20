@@ -1,0 +1,18 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000041",
+  "type": "document",
+  "title": "Descriptio Moldaviae - map",
+  "author": [
+    {
+      "literal": "Dimitrie Cantemir"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1716
+      ]
+    ]
+  },
+  "note": "Cantemir, Descriptio Moldaviae"
+}

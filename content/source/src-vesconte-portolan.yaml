@@ -1,0 +1,14 @@
+id: tc:tc:source:src-vesconte-portolan
+family: source
+origin: legacy
+title: Portolan chart
+slug: src-vesconte-portolan
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+is_finding_aid: false
+source_kind: portolan
+entry: tc:tc:bibliography_entry:bibliography_entry-000037
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

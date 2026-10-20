@@ -1,0 +1,19 @@
+id: tc:tc:map:honterus
+family: map
+origin: legacy
+title: Honterus' Transylvania
+slug: honterus
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+record_scope: object
+date_published: "1532"
+significance: A humanist maps his own Carpathian homeland.
+makers:
+  - tc:tc:cartographer:honterus
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified

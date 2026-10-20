@@ -1,0 +1,33 @@
+id: tc:tc:map:trade-loc-portolan
+family: map
+origin: legacy
+title: Portolan chart of the Mediterranean and Black Seas
+slug: trade-loc-portolan
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:carta-pisana
+record_scope: object
+date_published: "1335"
+significance: An anonymous vellum chart turns the Mediterranean and Black Seas
+  into a continuous field of named coasts and bearings.
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000005
+  - tc:tc:bibliography_entry:bibliography_entry-000001
+images:
+  - type: static
+    url: https://commons.wikimedia.org/wiki/Special:FilePath/Portolan%20chart%20of%20the%20Mediterranean%20Sea%20ca.%201320-1350%20-%20manuscript%20chart%20of%20the%20Mediterranean%20and%20Black%20seas%20on%20vellum.%20LOC%202003630429.jpg?width=1600
+    static_url: https://commons.wikimedia.org/wiki/Special:FilePath/Portolan%20chart%20of%20the%20Mediterranean%20Sea%20ca.%201320-1350%20-%20manuscript%20chart%20of%20the%20Mediterranean%20and%20Black%20seas%20on%20vellum.%20LOC%202003630429.jpg?width=1600
+    attribution: Library of Congress, Geography and Map Division
+    licence: Public domain
+    alt: Anonymous portolan chart of the Mediterranean and Black Seas
+    reproduction_cleared: false
+rights:
+  licence: Public domain
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified

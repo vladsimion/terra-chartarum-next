@@ -1,0 +1,20 @@
+id: tc:tc:collection:hanseatic-world
+family: collection
+origin: legacy
+title: The Hanseatic world
+slug: hanseatic-world
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+description: The composition is deliberately network-shaped. There is no polygon
+  to switch on here, because the League held privileges in places rather than
+  ground between them, and a fill would assert exactly the thing the programme
+  spent its evidence disproving.
+members:
+  - tc:tc:layer:hanseatic-places
+  - tc:tc:layer:hanseatic-routes
+  - tc:tc:layer:hanseatic-events
+default_layers:
+  - tc:tc:layer:hanseatic-places
+  - tc:tc:layer:hanseatic-routes

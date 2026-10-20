@@ -1,0 +1,30 @@
+id: tc:tc:map:hse-london-ordinance
+family: map
+origin: legacy
+title: London Kontor by-laws, 1554
+slug: hse-london-ordinance
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:hse-london-view
+record_scope: object
+witness_kind: institutional
+date_published: "1554"
+significance: Thirty leaves regulate elections, jurisdiction, finance, conduct
+  and training inside the Steelyard community.
+repository: Archive of the Hanseatic City of Lübeck (1.1-3.2 ASA Externa
+  Anglicana, 728, hse-obj-london-ordinance-1554)
+  https://media.unesco.org/sites/default/files/webform/mow001/documents-on-the-history-of-the-hanse_nom_en_0.pdf
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000032
+rights:
+  attribution: Archive material in copyright; metadata and evidence published without image
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified
+legacy_record_scope: object
+legacy_custody: institutional
+legacy_publication_status: reference_only

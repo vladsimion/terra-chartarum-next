@@ -1,0 +1,24 @@
+id: tc:tc:layer:ne-land
+family: layer
+origin: legacy
+title: Natural Earth - Land outline
+slug: ne-land
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+role: context
+asset: data/layers/ne-land.geojson
+dataset: tc:tc:dataset:ne-land
+description: Coastal landmass outlines - a subtle physical frame for the corpus.
+tags:
+  - landmass
+  - land outline
+  - base map
+  - physical geography
+  - natural earth
+envelope: -6000/2024
+time_mode: envelope_only
+rights:
+  licence: Public Domain
+  attribution: Made with Natural Earth

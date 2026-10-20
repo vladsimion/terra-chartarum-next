@@ -1,0 +1,15 @@
+id: tc:tc:dataset:dacia-principalities
+family: dataset
+origin: legacy
+title: Principalities and provinces, 1526-1859
+slug: dacia-principalities
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+version: legacy-e82afd9
+licence: CC BY 4.0
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; territorial phases after Hertslet, The Map of
+    Europe by Treaty

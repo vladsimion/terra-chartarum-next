@@ -1,0 +1,55 @@
+id: tc:tc:map:religion-matthew-paris
+family: map
+origin: legacy
+title: Itinerary from London toward Jerusalem
+slug: religion-matthew-paris
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:religion-madaba
+  - tc:tc:map:hereford
+record_scope: object
+witness_kind: institutional
+date_published: "1255"
+significance: Matthew Paris turns pilgrimage into a vertical sequence of cities,
+  seas and stations rather than a uniform surface.
+makers:
+  - tc:tc:cartographer:matthew-paris
+repository: British Library, London (Royal MS 14 C VII, cru-mp-royal-14-c-vii)
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000012
+  - tc:tc:bibliography_entry:bibliography_entry-000010
+images:
+  - type: static
+    url: https://terra-chartarum.pages.dev/images/invisible-maps-religion/matthew-paris.jpg
+    static_url: https://terra-chartarum.pages.dev/images/invisible-maps-religion/matthew-paris.jpg
+    attribution: British Library via Wikimedia Commons
+    licence: CC0 / public domain
+    alt: Matthew Paris itinerary from London toward the Holy Land arranged as a
+      vertical route
+    witness_kind: institutional
+    reproduction_cleared: false
+rights:
+  licence: CC0 / public domain
+open_questions:
+  - field: state
+    question: Which folios carry the itinerary in this witness is recorded here as
+      fol. 2 and has not been checked against the manuscript; the Crusades
+      source audit carries the same volume with its locator still marked
+      pending.
+    would_resolve: The British Library catalogue entry and digitised foliation for
+      Royal MS 14 C VII, which would settle the locator for both records at
+      once.
+  - field: attribution
+    question: Matthew Paris left more than one itinerary copy, and the Corpus
+      Christi College manuscripts carry versions that differ from this one.
+      Which witness this record should stand on is a choice the essay has not
+      yet had to make.
+    would_resolve: Collation of Royal MS 14 C VII against CCCC MS 26 and CCCC MS 16,
+      both already registered in the Crusades source audit.
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  dimensions: not_yet_verified
+legacy_custody: institutional

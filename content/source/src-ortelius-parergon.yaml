@@ -1,0 +1,14 @@
+id: tc:tc:source:src-ortelius-parergon
+family: source
+origin: legacy
+title: Dacia - Parergon
+slug: src-ortelius-parergon
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+is_finding_aid: false
+source_kind: antiquarian_reconstruction
+entry: tc:tc:bibliography_entry:bibliography_entry-000039
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

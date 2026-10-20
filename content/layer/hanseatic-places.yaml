@@ -1,0 +1,33 @@
+id: tc:tc:layer:hanseatic-places
+family: layer
+origin: legacy
+title: Hanseatic places and participation phases
+slug: hanseatic-places
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+role: historical
+asset: data/layers/hanseatic-places.geojson
+dataset: tc:tc:dataset:hanseatic-places
+description: Sixty source-linked city, market and Kontor phases with historical
+  and modern names and explicit participation classes.
+theme: places-settlements
+tags:
+  - hansa
+  - hanseatic league
+  - kontor
+  - cities
+  - markets
+  - baltic
+  - north sea
+envelope: 1295/1761
+time_mode: per_feature
+documentation:
+  - label: Data dictionary
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/hanseatic/data-dictionary.md
+  - label: Decisions
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/hanseatic/decisions.md
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; Marczinek, Maurer & Rauch; UNESCO; Henn; GeoNames

@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-sucidava
+family: place
+origin: legacy
+title: Sucidava
+slug: plc-sucidava
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: archaeological_site
+location_status: located
+names:
+  - name: Sucidava
+    language: und
+    kind: modern
+location:
+  lon: 24.48
+  lat: 43.77
+vocabulary: cnd
+geometry_provenance: editorial_reconstruction
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

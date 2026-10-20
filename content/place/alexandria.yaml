@@ -1,0 +1,24 @@
+id: tc:tc:place:alexandria
+family: place
+origin: legacy
+title: Alexandria
+slug: alexandria
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:eratosthenes
+  - tc:tc:map:ptolemy
+names:
+  - name: Alexandria
+    language: und
+    kind: modern
+  - name: al-Iskandariyya
+    language: und
+    kind: historic
+location:
+  lon: 29.92
+  lat: 31.2
+same_as:
+  - authority: pleiades
+    id: "727070"

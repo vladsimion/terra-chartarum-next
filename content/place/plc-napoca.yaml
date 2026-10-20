@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-napoca
+family: place
+origin: legacy
+title: Napoca
+slug: plc-napoca
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: settlement
+location_status: located
+names:
+  - name: Napoca
+    language: und
+    kind: modern
+location:
+  lon: 23.6
+  lat: 46.77
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

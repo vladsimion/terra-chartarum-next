@@ -1,0 +1,15 @@
+id: tc:tc:dataset:dacia-josephinian-sheets
+family: dataset
+origin: legacy
+title: Josephinian survey · sheet index
+slug: dacia-josephinian-sheets
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+version: legacy-e82afd9
+licence: CC BY 4.0
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; sheets held by the Kriegsarchiv, Vienna; no scan
+    redistributed

@@ -1,0 +1,18 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000037",
+  "type": "document",
+  "title": "Portolan chart",
+  "author": [
+    {
+      "literal": "Pietro Vesconte"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1311
+      ]
+    ]
+  },
+  "note": "Vesconte portolan, 1311"
+}

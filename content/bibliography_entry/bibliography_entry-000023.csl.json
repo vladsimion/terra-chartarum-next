@@ -1,0 +1,19 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000023",
+  "type": "document",
+  "title": "Civitates Orbis Terrarum",
+  "author": [
+    {
+      "literal": "Library of Congress"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1572
+      ]
+    ]
+  },
+  "URL": "https://www.loc.gov/item/2008627031/",
+  "note": "Library of Congress. Braun, Georg, Frans Hogenberg et al. Civitates Orbis Terrarum. Six-volume digitised atlas witness."
+}

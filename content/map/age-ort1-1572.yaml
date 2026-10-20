@@ -1,0 +1,36 @@
+id: tc:tc:map:age-ort1-1572
+family: map
+origin: legacy
+title: Typus Orbis Terrarum, plate 1, 1572 impression
+slug: age-ort1-1572
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:age-ort1-1571
+  - tc:tc:map:age-ort1-1575
+record_scope: object
+date_published: "1572"
+significance: A 1572 impression keeps the early plate visible across the atlas’s
+  rapid first sequence of language editions.
+makers:
+  - tc:tc:cartographer:ortelius
+edition_state: "State: Ort 1, early state"
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000015
+  - tc:tc:bibliography_entry:bibliography_entry-000018
+images:
+  - type: static
+    url: https://commons.wikimedia.org/wiki/Special:FilePath/1572%20Typus%20Orbis%20Terrarum%20Ortelius.jpg?width=1600
+    static_url: https://commons.wikimedia.org/wiki/Special:FilePath/1572%20Typus%20Orbis%20Terrarum%20Ortelius.jpg?width=1600
+    attribution: Wikimedia Commons
+    licence: Public domain
+    alt: Typus Orbis Terrarum world map in a 1572 impression
+    reproduction_cleared: false
+rights:
+  licence: Public domain
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified

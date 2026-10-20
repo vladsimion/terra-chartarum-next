@@ -1,0 +1,30 @@
+id: tc:tc:map:hse-carta-marina
+family: map
+origin: legacy
+title: Carta Marina et descriptio septemtrionalium terrarum
+slug: hse-carta-marina
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:hse-rudimentum-lubeck
+record_scope: object
+date_published: "1539"
+significance: Olaus Magnus makes the northern seas dense with places, creatures
+  and movement as Hanseatic institutions enter a later phase.
+makers:
+  - tc:tc:cartographer:olaus-magnus
+provenance: Uppsala University Library, Alvin record 88495
+repository: Uppsala University Library (alvin-record:88495,
+  hse-obj-carta-marina)
+  https://www.alvin-portal.org/alvin/view.jsf?pid=alvin-record:88495
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000048
+rights:
+  attribution: Public Domain Mark; no known copyright
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified
+legacy_publication_status: published_witness

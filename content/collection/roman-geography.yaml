@@ -1,0 +1,18 @@
+id: tc:tc:collection:roman-geography
+family: collection
+origin: legacy
+title: Roman geography
+slug: roman-geography
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+description: This collection shares three layers with the Dacia programme and
+  duplicates none of them. A layer belongs to the argument being made about it,
+  and the roads of Roman Dacia are evidence in two arguments at once.
+members:
+  - tc:tc:layer:roman-empire-117
+  - tc:tc:layer:dacia-roman-sites
+  - tc:tc:layer:dacia-roman-network
+default_layers:
+  - tc:tc:layer:roman-empire-117

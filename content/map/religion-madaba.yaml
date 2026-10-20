@@ -1,0 +1,47 @@
+id: tc:tc:map:religion-madaba
+family: map
+origin: legacy
+title: Madaba mosaic map, Jerusalem detail
+slug: religion-madaba
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:hereford
+  - tc:tc:map:religion-matthew-paris
+record_scope: object
+witness_kind: institutional
+date_published: "0570"
+significance: A sixth-century church-floor mosaic enlarges Jerusalem into a
+  legible sacred city and destination.
+edition_state: "Makers as the legacy site named them: Unknown Byzantine mosaicists"
+repository: Church of Saint George, Madaba
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000009
+  - tc:tc:bibliography_entry:bibliography_entry-000010
+images:
+  - type: static
+    url: https://commons.wikimedia.org/wiki/Special:FilePath/Madaba%20map.jpg?width=1600
+    static_url: https://commons.wikimedia.org/wiki/Special:FilePath/Madaba%20map.jpg?width=1600
+    attribution: Wikimedia Commons
+    licence: Public domain
+    alt: Surviving portion of the Madaba mosaic map with Jerusalem represented in
+      detail
+    witness_kind: institutional
+    reproduction_cleared: false
+rights:
+  licence: Public domain
+open_questions:
+  - field: date
+    question: The mosaic is dated to the second half of the sixth century on
+      stylistic and topographical grounds; the year recorded here is a midpoint
+      of that range and not a documented date.
+    would_resolve: The excavation and epigraphic literature on the Church of Saint
+      George pavement, which argues the bounds from the buildings the mosaic
+      does and does not depict.
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified
+legacy_custody: institutional

@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-brasov
+family: place
+origin: legacy
+title: Brașov
+slug: plc-brasov
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: settlement
+location_status: located
+names:
+  - name: Brașov
+    language: und
+    kind: modern
+location:
+  lon: 25.6
+  lat: 45.65
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-sighisoara
+family: place
+origin: legacy
+title: Sighișoara
+slug: plc-sighisoara
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: settlement
+location_status: located
+names:
+  - name: Sighișoara
+    language: und
+    kind: modern
+location:
+  lon: 24.79
+  lat: 46.22
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

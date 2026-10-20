@@ -1,0 +1,19 @@
+id: tc:tc:map:waldseemuller
+family: map
+origin: legacy
+title: Waldseemüller World Map
+slug: waldseemuller
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+record_scope: object
+date_published: "1507"
+significance: The map that first wrote "America".
+makers:
+  - tc:tc:cartographer:waldseemuller
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified

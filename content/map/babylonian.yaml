@@ -1,0 +1,32 @@
+id: tc:tc:map:babylonian
+family: map
+origin: legacy
+title: Babylonian World Map
+slug: babylonian
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+record_scope: object
+witness_kind: institutional
+date_published: "-0600"
+significance: The Imago Mundi - earth as a disc ringed by the bitter river.
+repository: British Museum, London
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000001
+  - tc:tc:bibliography_entry:bibliography_entry-000003
+open_questions:
+  - field: provenance
+    question: No registration number is recorded, so nothing here resolves to the
+      museum record for the tablet, and the excavation history behind it is not
+      carried.
+    would_resolve: The British Museum collection record for the Imago Mundi tablet,
+      which supplies the registration number, the findspot as recorded and the
+      reuse terms.
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified
+legacy_record_scope: object
+legacy_custody: institutional

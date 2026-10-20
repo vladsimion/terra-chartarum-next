@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-isaccea
+family: place
+origin: legacy
+title: Isaccea
+slug: plc-isaccea
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: crossing
+location_status: located
+names:
+  - name: Isaccea
+    language: und
+    kind: modern
+location:
+  lon: 28.46
+  lat: 45.27
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

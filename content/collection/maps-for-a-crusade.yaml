@@ -1,0 +1,22 @@
+id: tc:tc:collection:maps-for-a-crusade
+family: collection
+origin: legacy
+title: Maps for a Crusade
+slug: maps-for-a-crusade
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+description: "The three registers of the Crusades flagship, held together
+  because the argument runs between them: a thirteenth-century itinerary
+  organises the world as a sequence of days, fifty years earlier a fleet had
+  already organised it as ports, contracts and control, and Jerusalem is the
+  middle of a world image, the end of a road and a working port in different
+  registers at once. No member has a default, because no witness in this corpus
+  is cleared for publication and no folio has been transcribed."
+members:
+  - tc:tc:layer:crusades-itinerary
+  - tc:tc:layer:crusades-fourth-crusade-routes
+  - tc:tc:layer:crusades-fourth-crusade-events
+  - tc:tc:layer:crusades-jerusalem-network
+default_layers: []

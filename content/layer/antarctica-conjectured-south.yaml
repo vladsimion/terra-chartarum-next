@@ -1,0 +1,48 @@
+id: tc:tc:layer:antarctica-conjectured-south
+family: layer
+origin: legacy
+title: Terra Australis, the conjectured south (unreviewed)
+slug: antarctica-conjectured-south
+slug_history: []
+lifecycle: qa
+release: held
+relations: []
+legacy_layer_status: in-review
+role: historical
+asset: data/layers/antarctica-conjectured-south.geojson
+dataset: tc:tc:dataset:antarctica-conjectured-south
+description: The region within which early modern maps drew a southern
+  continent, as a schematic envelope rather than a coastline. No map in the
+  register has been examined, so there is nothing to digitise, and drawing a
+  plausible outline would manufacture the confidence this layer exists to
+  question.
+theme: territories-boundaries
+tags:
+  - antarctica
+  - terra incognita
+  - terra australis
+  - conjecture
+  - cosmography
+  - southern continent
+  - unreviewed
+envelope: 1531/1775
+time_mode: per_feature
+facets:
+  - property: evidenceClass
+    label: evidenceClass
+    kind: category
+  - property: geometryProvenance
+    label: geometryProvenance
+    kind: category
+  - property: confidence
+    label: confidence
+    kind: category
+  - property: reviewState
+    label: reviewState
+    kind: category
+  - property: act
+    label: act
+    kind: category
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; schematic envelope, declared editorial generalisation

@@ -1,0 +1,15 @@
+id: tc:tc:dataset:dacia-roman-sites
+family: dataset
+origin: legacy
+title: Roman Dacia · principal sites
+slug: dacia-roman-sites
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+version: legacy-e82afd9
+licence: CC BY 4.0
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; positions from the Corpus Nominum Daciae;
+    identifications after the Barrington Atlas and TIR L-34/L-35

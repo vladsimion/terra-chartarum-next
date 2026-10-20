@@ -1,0 +1,19 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000048",
+  "type": "document",
+  "title": "Uppsala University Library. Olaus Magnus, Carta Marina et descriptio septemtrionalium terrarum. Venice, 1539. Alvin record 88495.",
+  "author": [
+    {
+      "literal": "Magnus, Olaus"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1539
+      ]
+    ]
+  },
+  "URL": "https://www.alvin-portal.org/alvin/view.jsf?pid=alvin-record:88495",
+  "note": "Uppsala University Library. Olaus Magnus, Carta Marina et descriptio septemtrionalium terrarum. Venice, 1539. Alvin record 88495."
+}

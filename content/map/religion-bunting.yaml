@@ -1,0 +1,46 @@
+id: tc:tc:map:religion-bunting
+family: map
+origin: legacy
+title: The world in a clover leaf
+slug: religion-bunting
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:religion-to-1472
+  - tc:tc:map:religion-rudimentum
+  - tc:tc:map:hereford
+record_scope: object
+witness_kind: unlocated
+date_published: "1581"
+significance: Bünting arranges three continents as a Christian emblem whose
+  leaves meet at Jerusalem.
+makers:
+  - tc:tc:cartographer:heinrich-bunting
+edition_state: "Edition: Itinerarium Sacrae Scripturae, 1581 edition"
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000009
+  - tc:tc:bibliography_entry:bibliography_entry-000001
+images:
+  - type: static
+    url: https://commons.wikimedia.org/wiki/Special:FilePath/1581%20Clover%20Leaf%20World%20Map%20by%20Heinrich%20Buenting.jpg?width=1600
+    static_url: https://commons.wikimedia.org/wiki/Special:FilePath/1581%20Clover%20Leaf%20World%20Map%20by%20Heinrich%20Buenting.jpg?width=1600
+    attribution: Wikimedia Commons
+    licence: Public domain
+    alt: Heinrich Bünting clover-leaf world map centred on Jerusalem
+    witness_kind: unlocated
+    reproduction_cleared: false
+rights:
+  licence: Public domain
+open_questions:
+  - field: edition
+    question: The reproduction used here is not tied to an identified copy, and the
+      clover-leaf woodcut recurs across the Itinerarium reprints. Whether it
+      comes from the 1581 edition this record names is untested.
+    would_resolve: Matching the reproduction to a specific copy in an institutional
+      collection, then collating the woodcut against the edition census.
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  dimensions: not_yet_verified
+legacy_custody: unlocated

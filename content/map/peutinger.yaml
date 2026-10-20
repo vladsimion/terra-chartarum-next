@@ -1,0 +1,18 @@
+id: tc:tc:map:peutinger
+family: map
+origin: legacy
+title: Tabula Peutingeriana
+slug: peutinger
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+record_scope: object
+date_published: "0400"
+significance: The road as the unit of space - Dacia stretched along an itinerary.
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified

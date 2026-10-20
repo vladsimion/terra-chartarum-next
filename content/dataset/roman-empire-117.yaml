@@ -1,0 +1,15 @@
+id: tc:tc:dataset:roman-empire-117
+family: dataset
+origin: legacy
+title: Roman Empire, AD 117
+slug: roman-empire-117
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+version: legacy-e82afd9
+licence: ODbL 1.0
+rights:
+  licence: ODbL 1.0
+  attribution: Ancient World Mapping Center; derived from the Barrington Atlas and
+    OpenStreetMap (ODbL)

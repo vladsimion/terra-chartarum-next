@@ -1,0 +1,32 @@
+id: tc:tc:layer:hanseatic-routes
+family: layer
+origin: legacy
+title: Hanseatic trade corridors
+slug: hanseatic-routes
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+role: historical
+asset: data/layers/hanseatic-routes.geojson
+dataset: tc:tc:dataset:hanseatic-routes
+description: Seven evidence-labelled maritime, riverine, overland and mixed
+  corridors with normalized commodity joins.
+theme: networks-circulation
+tags:
+  - hansa
+  - hanseatic league
+  - trade corridors
+  - commodities
+  - baltic
+  - north sea
+envelope: 1356/1669
+time_mode: per_feature
+documentation:
+  - label: Data dictionary
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/hanseatic/data-dictionary.md
+  - label: Decisions
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/hanseatic/decisions.md
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; Wubs-Mrozewicz; UNESCO; Marczinek, Maurer & Rauch

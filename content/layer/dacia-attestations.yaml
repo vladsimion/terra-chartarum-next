@@ -1,0 +1,55 @@
+id: tc:tc:layer:dacia-attestations
+family: layer
+origin: legacy
+title: Dacia name attestations (reviewed)
+slug: dacia-attestations
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+role: historical
+asset: data/layers/dacia-attestations.geojson
+dataset: tc:tc:dataset:dacia-attestations
+description: Where a source does or does not name a place in the Dacia corpus.
+  This layer carries only records cleared by human review, and is empty until
+  that review happens.
+theme: names-peoples-attestations
+tags:
+  - dacia
+  - toponyms
+  - attestations
+  - place names
+  - corpus nominum daciae
+  - reviewed
+envelope: 0150/1959
+time_mode: per_feature
+facets:
+  - property: attestation_class
+    label: attestation_class
+    kind: category
+  - property: confidence
+    label: confidence
+    kind: category
+  - property: source_id
+    label: source_id
+    kind: category
+  - property: source_family
+    label: source_family
+    kind: category
+  - property: language
+    label: language
+    kind: category
+  - property: script
+    label: script
+    kind: category
+  - property: review_state
+    label: review_state
+    kind: category
+documentation:
+  - label: Data dictionary
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/dacia/data-dictionary.md
+  - label: Programme
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/dacia/README.md
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; each source carries its own rights statement

@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-timisoara
+family: place
+origin: legacy
+title: Timișoara
+slug: plc-timisoara
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: settlement
+location_status: located
+names:
+  - name: Timișoara
+    language: und
+    kind: modern
+location:
+  lon: 21.23
+  lat: 45.75
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

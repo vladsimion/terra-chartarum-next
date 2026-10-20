@@ -1,0 +1,18 @@
+id: tc:tc:map:ptolemy
+family: map
+origin: legacy
+title: Ptolemy Geographia
+slug: ptolemy
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+record_scope: object
+date_published: "0150"
+significance: Coordinates for 8,000 places - cartography as a table of numbers.
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified

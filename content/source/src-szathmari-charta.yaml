@@ -1,0 +1,14 @@
+id: tc:tc:source:src-szathmari-charta
+family: source
+origin: legacy
+title: Charta României Meridionale
+slug: src-szathmari-charta
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+is_finding_aid: false
+source_kind: national_survey
+entry: tc:tc:bibliography_entry:bibliography_entry-000044
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

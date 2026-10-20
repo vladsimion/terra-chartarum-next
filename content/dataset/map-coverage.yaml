@@ -1,0 +1,14 @@
+id: tc:tc:dataset:map-coverage
+family: dataset
+origin: legacy
+title: Depicted extents (corpus)
+slug: map-coverage
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+version: legacy-e82afd9
+licence: CC BY
+rights:
+  licence: CC BY
+  attribution: Terra Chartarum

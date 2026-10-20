@@ -1,0 +1,8 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000012
+family: bibliography_entry
+origin: minted
+title: Royal MS 14 C VII
+slug: british-library-nd-royal
+lifecycle: researching
+release: held
+csl: content/bibliography_entry/bibliography_entry-000012.csl.json

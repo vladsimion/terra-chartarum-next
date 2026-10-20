@@ -1,0 +1,23 @@
+id: tc:tc:map:trade-bianco-1436
+family: map
+origin: legacy
+title: Portolan leaves from the Andrea Bianco atlas
+slug: trade-bianco-1436
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+record_scope: object
+date_published: "1436"
+significance: Andrea Bianco’s atlas binds portolan leaves, tables and
+  cosmographic material into one Venetian working manuscript.
+makers:
+  - tc:tc:cartographer:andrea-bianco
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000005
+  - tc:tc:bibliography_entry:bibliography_entry-000007
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified

@@ -1,0 +1,14 @@
+id: tc:tc:source:src-tabula-peutingeriana
+family: source
+origin: legacy
+title: Tabula Peutingeriana segm. VII–VIII
+slug: src-tabula-peutingeriana
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+is_finding_aid: false
+source_kind: itinerary
+entry: tc:tc:bibliography_entry:bibliography_entry-000035
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

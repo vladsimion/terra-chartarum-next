@@ -1,0 +1,20 @@
+id: tc:tc:collection:venetian-maritime-network
+family: collection
+origin: legacy
+title: The Venetian maritime network
+slug: venetian-maritime-network
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+description: "Ports and routes come on together because the network is the
+  argument - a harbour matters here for what sailed to it. Possessions stay off
+  by default: the fills are the slowest claim on the map to read and the easiest
+  to mistake for sovereignty."
+members:
+  - tc:tc:layer:venetian-ports
+  - tc:tc:layer:venetian-routes
+  - tc:tc:layer:venetian-possessions
+default_layers:
+  - tc:tc:layer:venetian-ports
+  - tc:tc:layer:venetian-routes

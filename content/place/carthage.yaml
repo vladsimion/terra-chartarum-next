@@ -1,0 +1,19 @@
+id: tc:tc:place:carthage
+family: place
+origin: legacy
+title: Tunis (Carthage)
+slug: carthage
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+names:
+  - name: Tunis (Carthage)
+    language: und
+    kind: modern
+  - name: Carthage
+    language: und
+    kind: historic
+location:
+  lon: 10.32
+  lat: 36.85
