@@ -1,6 +1,7 @@
 node_modules/
 dist/
 dist-essays/
+dist-anchor/
 dist-collection/
 dist-bibliography/
 dist-rooms/

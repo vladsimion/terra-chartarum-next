@@ -25,14 +25,14 @@ Reads `docs/review/anchor-essay-changes.md`, a table with columns `id | legacy l
 
 ## `npm run essay:reconcile -- <legacy clone>` (`scripts/essay-reconcile.ts`) and its test
 
-Compares the essay's cell file with the legacy `data/dacia/attestations.csv` pit rows (read from the clone; the clone is an argument, never committed) and writes `docs/review/pit-cells-reconciliation.md`, one row per cell: `pit | stratum | essay name | CSV name_original | CSV name_normalized | CSV class | difference | resolution | resolved by`. The difference is `none`, `name`, `language`, `note`, `missing in CSV` or `missing in essay`.
+Compares the essay's cell file with the legacy `data/dacia/attestations.csv` pit rows (read from the clone; the clone is an argument, never committed) and writes `docs/review/pit-cells-reconciliation.md`, one row per cell, then one for each CSV row of a pit's place that no cell claims: `pit | stratum | essay name | CSV id | CSV name | CSV normalized | CSV class | difference | resolution | resolved by`. The difference is `none`, `name`, `language`, `note` (present on one side only), `missing in CSV` or `missing in essay` (stratum -1 when the row's source belongs to no stratum). A cell lists one or more names (split at a slash, a middle dot or a spaced hyphen) and agrees if any is a CSV spelling; `_extra muros_` and `_absent_` agree with the classes `extra_muros` and `source_silent`; stratum 0 is local and has no CSV row by design. Existing resolutions are kept when the report is regenerated.
 
 - `tests/essays/unit/reconcile.test.ts` fails when the stage is Build or later and a row with a difference has no `resolution`.
 - The essay's table stays the source of truth unless the author's resolution says otherwise.
 
 ## `scripts/essay-legacy-manifest.ts <legacy clone>` (run once)
 
-Reads the legacy `dacia.mdx`, normalises each paragraph (markup and whitespace removed, case folded) and writes `docs/review/anchor-essay-legacy-paragraphs.json`, `[{line, sha256}]`. `tests/essays/unit/port-fidelity.test.ts` normalises the rebuilt body the same way and requires every legacy hash to be present in it or covered by a ledger row.
+Reads the legacy `dacia.mdx`, normalises each paragraph (markup, link addresses and Markdown marks removed, whitespace collapsed, lower case) and writes `docs/review/anchor-essay-legacy-paragraphs.json`, `[{line, end, sha256}]` (the first and last line of the paragraph, so a ledger row can cover it by any line it spans). `tests/essays/unit/port-fidelity.test.ts` normalises the rebuilt body the same way and requires every legacy hash to be present in it or covered by a ledger row, from the Draft stage on (before Draft the body is incomplete by definition).
 
 ## CI
 
