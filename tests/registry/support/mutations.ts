@@ -316,6 +316,7 @@ const US2_MUTATIONS: Mutation[] = [
     rule: 'REF-FEATURE',
     apply: editOf('evidence', (r) => { r.target = { entity: (r.target as { entity: string }).entity, feature: 'f-404' }; }, 1),
   },
+  { name: 'a map has no makers and its maker status is only not_yet_verified', rule: 'FAM-REQUIRED', apply: editOf('map', (r) => { r.makers = []; r.field_status = { makers: 'not_yet_verified' }; r.lifecycle = READY; }) },
   { name: 'a place loses its place type', rule: 'FAM-REQUIRED', apply: editOf('place', (r) => { delete r.place_type; r.lifecycle = READY; }) },
   { name: 'a place misspells slug_history', rule: 'FAM-UNKNOWN', apply: editOf('place', (r) => { r.slug_histroy = ['former-slug']; }) },
   { name: 'a place names a vocabulary with no mapping file', rule: 'VOCAB-UNKNOWN', apply: editOf('place', (r) => { r.vocabulary = 'cnd'; }) },

@@ -1,0 +1,1 @@
+Greek mathematician, geographer, astronomer and librarian at Alexandria, who estimated the circumference of the Earth and is credited with an early map of the known world. No map by him survives; later writers describe it, and modern drawings of "Eratosthenes' world" are reconstructions.

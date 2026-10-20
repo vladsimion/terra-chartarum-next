@@ -38,6 +38,25 @@ describe('FAM-REQUIRED', () => {
     expect(hits([record('map', 1, { lifecycle: 'published', makers: [], witness_kind: 'institutional' })])).toHaveLength(1);
   });
 
+  describe('a map whose maker is confirmed unknown (ADR 0011 amendment)', () => {
+    const ready = (over: Record<string, unknown>) => hits([record('map', 1, { lifecycle: 'published', witness_kind: 'institutional', ...over })]);
+
+    it.each(['unknown', 'not_applicable'])('accepts no makers when field_status.makers is %s', (status) => {
+      expect(ready({ makers: [], field_status: { makers: status } })).toEqual([]);
+      expect(ready({ field_status: { makers: status } })).toEqual([]);
+    });
+
+    it('still asks for makers while the status is not_yet_verified, recorded or absent', () => {
+      expect(ready({ makers: [], field_status: { makers: 'not_yet_verified' } }).map((v) => v.field)).toEqual(['makers']);
+      expect(ready({ makers: [], field_status: { makers: 'recorded' } }).map((v) => v.field)).toEqual(['makers']);
+      expect(ready({ makers: [], field_status: { witness_kind: 'unknown' } }).map((v) => v.field)).toEqual(['makers']);
+    });
+
+    it('does not let a maker status stand in for the witness kind', () => {
+      expect(ready({ makers: [], witness_kind: undefined, field_status: { makers: 'unknown' } }).map((v) => v.field)).toEqual(['witness_kind']);
+    });
+  });
+
   it('asks nothing of families with no required fields', () => {
     for (const family of ['route', 'event', 'period', 'source', 'room', 'collection', 'essay', 'evidence']) {
       expect(hits([record(family, 1, { lifecycle: 'published' })]), family).toEqual([]);

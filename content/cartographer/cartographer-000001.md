@@ -1,0 +1,1 @@
+Greek-language mathematician, astronomer and geographer who worked in Roman Egypt in the second century CE. His Geographia is a gazetteer of places with coordinates, together with instructions for drawing maps of the known world; the maps that survive are medieval and Renaissance copies and printings.
