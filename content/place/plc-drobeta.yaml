@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-drobeta
+family: place
+origin: legacy
+title: Drobeta
+slug: plc-drobeta
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: crossing
+location_status: located
+names:
+  - name: Drobeta
+    language: und
+    kind: modern
+location:
+  lon: 22.66
+  lat: 44.63
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

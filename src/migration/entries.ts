@@ -1,7 +1,7 @@
 import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { parse } from 'yaml';
-import { matchItem, type Known } from '../bibliography/match.js';
+import { matchItem, normaliseDoi, type Known } from '../bibliography/match.js';
 import type { CslItem } from '../essays/citations.js';
 import { slugFor } from '../registry/import-bib.js';
 import { counterOf, formatCounterLocalId } from '../registry/ids.js';
@@ -71,7 +71,7 @@ export class EntryBook {
   /** The entry for a legacy work: matched when the registry or this run has it, otherwise minted. */
   resolve(work: LegacyWork, out: Collector): string {
     const draft = toCsl(work, 'pending');
-    const hit = matchItem(draft, this.known);
+    const hit = matchItem(draft, this.known) ?? this.sameCitation(draft);
     if (hit) {
       out.matched.push({ citation: work.citation, entry: hit.id, rule: hit.rule });
       const existing = this.existing.get(hit.id);
@@ -89,6 +89,17 @@ export class EntryBook {
     return id;
   }
 
+  /**
+   * The matcher gives a work with nothing to go on (no DOI, ISBN, author or year) no match, so a citation
+   * like that would be minted again on every run. The import keeps the site's own text in `note`, so the
+   * same text under the same title is the entry this import made before.
+   */
+  private sameCitation(draft: CslItem): { id: string; rule: string } | null {
+    if (typeof draft.note !== 'string' || draft.note === '') return null;
+    const found = this.known.find((k) => k.item.note === draft.note && k.item.title === draft.title);
+    return found ? { id: found.id, rule: 'citation' } : null;
+  }
+
   private write(out: Collector, id: string, slug: string, item: CslItem, title: string): void {
     this.written.add(id);
     const local = id.split(':').slice(3).join(':');
@@ -99,6 +110,8 @@ export class EntryBook {
 
 /** The CSL-JSON of a legacy work: what the site said about it and nothing else (spec 008 field-mappings.md). */
 export function toCsl(work: LegacyWork, id: string): CslItem {
+  // a legacy `url` that is a DOI address is the work's DOI, which the matcher compares
+  const doi = normaliseDoi(work.url);
   return {
     id,
     type: 'document',
@@ -106,6 +119,7 @@ export function toCsl(work: LegacyWork, id: string): CslItem {
     ...(work.author ? { author: [{ literal: work.author }] } : {}),
     ...(work.year !== undefined ? { issued: { 'date-parts': [[work.year]] } } : {}),
     ...(work.url ? { URL: work.url } : {}),
+    ...(doi ? { DOI: doi } : {}),
     ...(work.note ? { note: work.note } : {}),
   } as CslItem;
 }

@@ -1,0 +1,47 @@
+id: tc:tc:layer:crusades-fourth-crusade-routes
+family: layer
+origin: legacy
+title: "Fourth Crusade: the routes travelled (unreviewed)"
+slug: crusades-fourth-crusade-routes
+slug_history: []
+lifecycle: qa
+release: held
+relations: []
+legacy_layer_status: in-review
+role: historical
+asset: data/layers/crusades-fourth-crusade-routes.geojson
+dataset: tc:tc:dataset:crusades-fourth-crusade-routes
+description: Venice to Zara, and Zara through Corfu to Constantinople. Two
+  generalisations between ports, because no source in the corpus gives a track.
+  What the crusade intended, what it claimed and what it eventually held are
+  separate records with no geometry at all.
+theme: networks-circulation
+tags:
+  - crusades
+  - fourth crusade
+  - venice
+  - zara
+  - constantinople
+  - diversion
+  - unreviewed
+envelope: 1202/1203
+time_mode: envelope_only
+facets:
+  - property: stateKind
+    label: stateKind
+    kind: category
+  - property: held
+    label: held
+    kind: category
+  - property: evidenceClass
+    label: evidenceClass
+    kind: category
+  - property: confidence
+    label: confidence
+    kind: category
+  - property: reviewState
+    label: reviewState
+    kind: category
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; all linework editorial generalisation between named ports

@@ -1,0 +1,13 @@
+id: tc:tc:cartographer:olaus-magnus
+family: cartographer
+origin: legacy
+title: Olaus Magnus
+slug: olaus-magnus
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+kind: person
+names:
+  - Magnus, Olaus
+life_dates: 1490/1557

@@ -1,0 +1,26 @@
+id: tc:tc:map:age-ort3-1613
+family: map
+origin: legacy
+title: Typus Orbis Terrarum, plate 3, state 3.2
+slug: age-ort3-1613
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:age-ort2-1587
+  - tc:tc:map:age-ort2-1588
+record_scope: object
+date_published: "1613"
+significance: A posthumous state adds Le Maire Strait and removes the old date
+  while retaining the Ortelian world-map identity.
+makers:
+  - tc:tc:cartographer:ortelius
+edition_state: "State: Ort 3, state 3.2"
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000017
+  - tc:tc:bibliography_entry:bibliography_entry-000014
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified

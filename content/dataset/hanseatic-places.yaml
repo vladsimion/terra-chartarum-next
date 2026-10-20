@@ -1,0 +1,14 @@
+id: tc:tc:dataset:hanseatic-places
+family: dataset
+origin: legacy
+title: Hanseatic places and participation phases
+slug: hanseatic-places
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+version: legacy-e82afd9
+licence: CC BY 4.0
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; Marczinek, Maurer & Rauch; UNESCO; Henn; GeoNames

@@ -1,0 +1,20 @@
+{
+  "profile": "v1",
+  "snapshot": {
+    "repository": "github.com/vladsimion/terra-chartarum",
+    "sha": "e82afd990fd473a2cdf80896401bc64602a1bd29",
+    "date": "2026-10-01T11:43:42+00:00"
+  },
+  "importer_version": "1",
+  "counts": {
+    "bibliography_entry": 49,
+    "cartographer": 19,
+    "collection": 6,
+    "dataset": 27,
+    "layer": 27,
+    "map": 59,
+    "place": 52,
+    "source": 46
+  },
+  "created_by": "registry import-legacy"
+}

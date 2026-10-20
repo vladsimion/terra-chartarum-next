@@ -1,0 +1,15 @@
+id: tc:tc:dataset:dacia-roman-network
+family: dataset
+origin: legacy
+title: Roman Dacia · roads and frontier corridors
+slug: dacia-roman-network
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+version: legacy-e82afd9
+licence: CC BY 4.0
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; roads joined from corpus stations, frontier
+    corridors drawn editorially

@@ -1,0 +1,51 @@
+id: tc:tc:layer:antarctica-expedition-tracks
+family: layer
+origin: legacy
+title: Antarctic expedition tracks (unreviewed)
+slug: antarctica-expedition-tracks
+slug_history: []
+lifecycle: qa
+release: held
+relations: []
+legacy_layer_status: in-review
+role: historical
+asset: data/layers/antarctica-expedition-tracks.geojson
+dataset: tc:tc:dataset:antarctica-expedition-tracks
+description: "Where ships went, and how they got there. A planned crossing, a
+  voyage under sail and a drift with the ice are three different kinds of line,
+  and the encoding says which is which: nothing here that Terra Chartarum drew
+  is rendered as though a source had given it."
+theme: networks-circulation
+tags:
+  - antarctica
+  - terra incognita
+  - cook
+  - endurance
+  - shackleton
+  - worsley
+  - james caird
+  - drift
+  - southern ocean
+  - unreviewed
+envelope: 1773/1916
+time_mode: per_feature
+facets:
+  - property: evidenceClass
+    label: evidenceClass
+    kind: category
+  - property: geometryProvenance
+    label: geometryProvenance
+    kind: category
+  - property: confidence
+    label: confidence
+    kind: category
+  - property: reviewState
+    label: reviewState
+    kind: category
+  - property: act
+    label: act
+    kind: category
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; sampled and generalised linework, each segment
+    declaring its provenance

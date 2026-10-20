@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-campulung
+family: place
+origin: legacy
+title: Câmpulung
+slug: plc-campulung
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: settlement
+location_status: located
+names:
+  - name: Câmpulung
+    language: und
+    kind: modern
+location:
+  lon: 25.05
+  lat: 45.27
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

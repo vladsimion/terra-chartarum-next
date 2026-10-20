@@ -1,0 +1,18 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000035",
+  "type": "document",
+  "title": "Geographia III.8 - Dacia",
+  "author": [
+    {
+      "literal": "Klaudios Ptolemaios"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        150
+      ]
+    ]
+  },
+  "note": "Ptolemy, Geographia III.8"
+}

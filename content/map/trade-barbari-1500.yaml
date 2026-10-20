@@ -1,0 +1,34 @@
+id: tc:tc:map:trade-barbari-1500
+family: map
+origin: legacy
+title: View of Venice
+slug: trade-barbari-1500
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+record_scope: object
+date_published: "1500"
+significance: Jacopo de’ Barbari turns the lagoon into an inspectable city while
+  the wider commercial network remains beyond the frame.
+makers:
+  - tc:tc:cartographer:jacopo-de-barbari
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000006
+  - tc:tc:bibliography_entry:bibliography_entry-000007
+  - tc:tc:bibliography_entry:bibliography_entry-000021
+images:
+  - type: static
+    url: https://commons.wikimedia.org/wiki/Special:FilePath/Jacopo%20de%27%20Barbari%20-%20View%20of%20Venice%20-%20Minneapolis%20Institute%20of%20Art.jpg?width=1600
+    static_url: https://commons.wikimedia.org/wiki/Special:FilePath/Jacopo%20de%27%20Barbari%20-%20View%20of%20Venice%20-%20Minneapolis%20Institute%20of%20Art.jpg?width=1600
+    attribution: Minneapolis Institute of Art
+    licence: Public Domain Mark
+    alt: Jacopo de’ Barbari bird’s-eye View of Venice
+    reproduction_cleared: false
+rights:
+  licence: Public Domain Mark
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified

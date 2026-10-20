@@ -1,0 +1,19 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000011",
+  "type": "document",
+  "title": "Mappa Mundi",
+  "author": [
+    {
+      "literal": "Hereford Cathedral"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        2021
+      ]
+    ]
+  },
+  "URL": "https://www.herefordcathedral.org/mappa-mundi",
+  "note": "Hereford Cathedral. “Mappa Mundi.” Collection guide, updated 20 July 2021."
+}

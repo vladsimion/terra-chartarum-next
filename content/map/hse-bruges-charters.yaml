@@ -1,0 +1,29 @@
+id: tc:tc:map:hse-bruges-charters
+family: map
+origin: legacy
+title: Bruges privilege charters, 1458–1502
+slug: hse-bruges-charters
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:hse-bruges-view
+record_scope: work
+date_published: "1458"
+significance: A charter group records building, staple and excise privileges as
+  negotiated access inside a host city.
+repository: City Archives of Bruges (Political charters, 1st series 1016, 1160,
+  1434; 2nd series 1617, hse-obj-bruges-charters)
+  https://media.unesco.org/sites/default/files/webform/mow001/documents-on-the-history-of-the-hanse_nom_en_0.pdf
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000033
+rights:
+  attribution: Public-domain objects; direct repository surrogate not yet secured
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified
+legacy_record_scope: work
+legacy_custody: institutional
+legacy_publication_status: reference_only

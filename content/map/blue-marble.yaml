@@ -1,0 +1,28 @@
+id: tc:tc:map:blue-marble
+family: map
+origin: legacy
+title: The Blue Marble
+slug: blue-marble
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+record_scope: work
+date_published: "1972"
+significance: Earth seen whole, from outside - the photographic map.
+repository: NASA
+open_questions:
+  - field: edition
+    question: The record identifies no frame number and no version. The photograph
+      circulates in several orientations and crops, and the one this project
+      reproduces is not pinned to any of them.
+    would_resolve: The NASA image catalogue entry for the Apollo 17 frame, which
+      would fix the identifier, the original orientation and the reuse terms
+      together.
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified
+legacy_record_scope: work
+legacy_custody: institutional

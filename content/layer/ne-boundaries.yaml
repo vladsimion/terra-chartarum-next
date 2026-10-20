@@ -1,0 +1,26 @@
+id: tc:tc:layer:ne-boundaries
+family: layer
+origin: legacy
+title: Modern national boundaries
+slug: ne-boundaries
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+role: context
+asset: data/layers/ne-boundaries.geojson
+dataset: tc:tc:dataset:ne-boundaries
+description: Present-day land borders - an anachronistic reference grid over
+  historical maps.
+tags:
+  - modern borders
+  - national boundaries
+  - present-day
+  - anachronism
+  - reference grid
+  - natural earth
+envelope: 1949/2024
+time_mode: envelope_only
+rights:
+  licence: Public Domain
+  attribution: Made with Natural Earth

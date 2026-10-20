@@ -1,0 +1,48 @@
+id: tc:tc:map:hereford
+family: map
+origin: legacy
+title: Hereford Mappa Mundi
+slug: hereford
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:religion-ebstorf
+  - tc:tc:map:religion-psalter
+  - tc:tc:map:religion-matthew-paris
+record_scope: object
+witness_kind: institutional
+date_published: "1300"
+significance: An east-up, encyclopedic Christian world gathered around Jerusalem
+  on a single monumental skin.
+edition_state: "Makers as the legacy site named them: Richard of Haldingham
+  (traditional attribution)"
+repository: Hereford Cathedral
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000009
+  - tc:tc:bibliography_entry:bibliography_entry-000010
+  - tc:tc:bibliography_entry:bibliography_entry-000011
+images:
+  - type: static
+    url: https://terra-chartarum.pages.dev/images/invisible-maps-religion/hereford.jpg
+    static_url: https://terra-chartarum.pages.dev/images/invisible-maps-religion/hereford.jpg
+    attribution: Public-domain reproduction via Wikimedia Commons
+    licence: Public domain
+    alt: Hereford Mappa Mundi, an east-up world map centred on Jerusalem
+    witness_kind: institutional
+    reproduction_cleared: false
+rights:
+  licence: Public domain
+open_questions:
+  - field: attribution
+    question: The map names "Richard de Haldingham e de Lafford" as the author of
+      its making, but whether that names the designer, the scribe or the donor,
+      and which Richard he was, is not settled.
+    would_resolve: The Hereford Cathedral scholarly literature on the legend and the
+      Lincoln prebendary records behind the two candidate identifications.
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified
+legacy_custody: institutional

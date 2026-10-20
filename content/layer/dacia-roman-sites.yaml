@@ -1,0 +1,49 @@
+id: tc:tc:layer:dacia-roman-sites
+family: layer
+origin: legacy
+title: Roman Dacia · principal sites
+slug: dacia-roman-sites
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+role: historical
+asset: data/layers/dacia-roman-sites.geojson
+dataset: tc:tc:dataset:dacia-roman-sites
+description: "Legionary fortresses, road stations and mining centres of the
+  province. Every point is the corpus's own reference location for that place,
+  carrying the corpus's provenance: none is an excavated centroid."
+theme: places-settlements
+tags:
+  - dacia
+  - roman
+  - fortresses
+  - road stations
+  - mining
+  - antiquity
+  - sites
+envelope: 0106/0271
+time_mode: per_feature
+facets:
+  - property: feature_type
+    label: feature_type
+    kind: category
+  - property: confidence
+    label: confidence
+    kind: category
+  - property: geometry_provenance
+    label: geometry_provenance
+    kind: category
+  - property: region
+    label: region
+    kind: category
+  - property: review_status
+    label: review_status
+    kind: category
+documentation:
+  - label: Shared GIS layers
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/dacia/shared-gis-layers.md
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; positions from the Corpus Nominum Daciae;
+    identifications after the Barrington Atlas and TIR L-34/L-35

@@ -1,0 +1,52 @@
+id: tc:tc:layer:antarctica-observations
+family: layer
+origin: legacy
+title: Antarctic observations and fixes (unreviewed)
+slug: antarctica-observations
+slug_history: []
+lifecycle: qa
+release: held
+relations: []
+legacy_layer_status: in-review
+role: historical
+asset: data/layers/antarctica-observations.geojson
+dataset: tc:tc:dataset:antarctica-observations
+description: "Dated positions from Cook to the loss of Endurance: farthest
+  souths, the contested sightings of 1820 and 1840, the nineteenth-century
+  landfalls and the Endurance sequence. A sighting is filed as a report rather
+  than an observation wherever what was seen is still argued over."
+theme: places-settlements
+tags:
+  - antarctica
+  - terra incognita
+  - observations
+  - sightings
+  - navigation
+  - fixes
+  - bellingshausen
+  - bransfield
+  - ross
+  - wilkes
+  - unreviewed
+envelope: 1774/1916
+time_mode: per_feature
+facets:
+  - property: evidenceClass
+    label: evidenceClass
+    kind: category
+  - property: geometryProvenance
+    label: geometryProvenance
+    kind: category
+  - property: confidence
+    label: confidence
+    kind: category
+  - property: reviewState
+    label: reviewState
+    kind: category
+  - property: act
+    label: act
+    kind: category
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; positions recorded from the general literature and
+    not yet checked against an edition

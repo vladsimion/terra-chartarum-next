@@ -1,0 +1,24 @@
+id: tc:tc:layer:ne-coastline
+family: layer
+origin: legacy
+title: Natural Earth - Coastline
+slug: ne-coastline
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+role: context
+asset: data/layers/ne-coastline.geojson
+dataset: tc:tc:dataset:ne-coastline
+description: Small-scale physical coastline, a neutral base for historical overlays.
+tags:
+  - coastline
+  - shoreline
+  - base map
+  - physical geography
+  - natural earth
+envelope: -6000/2024
+time_mode: envelope_only
+rights:
+  licence: Public Domain
+  attribution: Made with Natural Earth

@@ -1,0 +1,14 @@
+id: tc:tc:source:src-iosephina-survey
+family: source
+origin: legacy
+title: Josephinische Landesaufnahme
+slug: src-iosephina-survey
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+is_finding_aid: false
+source_kind: military_survey
+entry: tc:tc:bibliography_entry:bibliography_entry-000043
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

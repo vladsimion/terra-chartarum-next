@@ -1,0 +1,31 @@
+id: tc:tc:map:hse-novgorod-schra
+family: map
+origin: legacy
+title: Second Novgorod Schra, Riga copy
+slug: hse-novgorod-schra
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:hse-rudimentum-lubeck
+record_scope: object
+witness_kind: institutional
+date_published: "1295"
+significance: A sixty-four-article rule text makes Peterhof’s internal
+  discipline visible without turning the merchant compound into territory.
+edition_state: "Edition: Riga copy dated before 1298; selected documentary phase AD 1295"
+repository: Latvian State Historical Archives (Fonds 673, Directory 4, Box 18,
+  no. 7, hse-obj-novgorod-peterhof)
+  https://www.hansemuseum.eu/records/die-zweite-nowgoroder-schra-kontorordnung-von-1295/
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000033
+rights:
+  attribution: Archive image in copyright; metadata and evidence published without image
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified
+legacy_record_scope: object
+legacy_custody: institutional
+legacy_publication_status: reference_only

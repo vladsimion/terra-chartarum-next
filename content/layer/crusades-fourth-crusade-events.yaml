@@ -1,0 +1,47 @@
+id: tc:tc:layer:crusades-fourth-crusade-events
+family: layer
+origin: legacy
+title: "Fourth Crusade: diversion and assaults (unreviewed)"
+slug: crusades-fourth-crusade-events
+slug_history: []
+lifecycle: qa
+release: held
+relations: []
+legacy_layer_status: in-review
+role: historical
+asset: data/layers/crusades-fourth-crusade-events.geojson
+dataset: tc:tc:dataset:crusades-fourth-crusade-events
+description: "Three events at two places: the diversion to Zara in 1202, and the
+  assaults on Constantinople in 1203 and 1204. An event is not a territory, and
+  the position is the place, not the state."
+theme: conflict-campaigns-frontiers
+tags:
+  - crusades
+  - fourth crusade
+  - zara
+  - constantinople
+  - "1204"
+  - sack
+  - unreviewed
+envelope: 1202/1204
+time_mode: envelope_only
+facets:
+  - property: stateKind
+    label: stateKind
+    kind: category
+  - property: held
+    label: held
+    kind: category
+  - property: evidenceClass
+    label: evidenceClass
+    kind: category
+  - property: confidence
+    label: confidence
+    kind: category
+  - property: reviewState
+    label: reviewState
+    kind: category
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; positions are modern reference context, and no
+    witness is cleared

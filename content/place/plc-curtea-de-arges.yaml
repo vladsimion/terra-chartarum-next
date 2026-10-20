@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-curtea-de-arges
+family: place
+origin: legacy
+title: Curtea de Argeș
+slug: plc-curtea-de-arges
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: settlement
+location_status: located
+names:
+  - name: Curtea de Argeș
+    language: und
+    kind: modern
+location:
+  lon: 24.68
+  lat: 45.14
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

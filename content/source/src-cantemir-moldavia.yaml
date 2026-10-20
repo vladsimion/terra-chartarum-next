@@ -1,0 +1,14 @@
+id: tc:tc:source:src-cantemir-moldavia
+family: source
+origin: legacy
+title: Descriptio Moldaviae - map
+slug: src-cantemir-moldavia
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+is_finding_aid: false
+source_kind: regional_print
+entry: tc:tc:bibliography_entry:bibliography_entry-000042
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

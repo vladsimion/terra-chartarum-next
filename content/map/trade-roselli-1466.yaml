@@ -1,0 +1,32 @@
+id: tc:tc:map:trade-roselli-1466
+family: map
+origin: legacy
+title: Portolan chart of the Mediterranean
+slug: trade-roselli-1466
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+record_scope: object
+date_published: "1466"
+significance: Petrus Roselli’s chart preserves the dense coastal names and rhumb
+  network of the Majorcan portolan tradition.
+makers:
+  - tc:tc:cartographer:petrus-roselli
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000005
+images:
+  - type: static
+    url: https://commons.wikimedia.org/wiki/Special:FilePath/Petrus%20Roselli%20-%20Portolan%20Chart%20of%20the%20Mediterranean%20(1466).png?width=1600
+    static_url: https://commons.wikimedia.org/wiki/Special:FilePath/Petrus%20Roselli%20-%20Portolan%20Chart%20of%20the%20Mediterranean%20(1466).png?width=1600
+    attribution: James Ford Bell Library via Wikimedia Commons
+    licence: Public domain
+    alt: Petrus Roselli portolan chart of the Mediterranean dated 1466
+    reproduction_cleared: false
+rights:
+  licence: Public domain
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified

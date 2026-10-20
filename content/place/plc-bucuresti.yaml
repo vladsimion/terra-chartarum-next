@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-bucuresti
+family: place
+origin: legacy
+title: București
+slug: plc-bucuresti
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: settlement
+location_status: located
+names:
+  - name: București
+    language: und
+    kind: modern
+location:
+  lon: 26.1
+  lat: 44.44
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

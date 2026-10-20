@@ -1,0 +1,45 @@
+id: tc:tc:layer:crusades-jerusalem-network
+family: layer
+origin: legacy
+title: "The Holy Land as a network: the ports (unreviewed)"
+slug: crusades-jerusalem-network
+slug_history: []
+lifecycle: qa
+release: held
+relations: []
+legacy_layer_status: in-review
+role: historical
+asset: data/layers/crusades-jerusalem-network.geojson
+dataset: tc:tc:dataset:crusades-jerusalem-network
+description: Four ports the sacred centre was reached, administered and supplied
+  through. The other six records in this register - the world images, the
+  itinerary’s destination, the described land, the gridded sheet and the later
+  emblem - carry no position at all, because what they record is not one.
+theme: networks-circulation
+tags:
+  - crusades
+  - holy land
+  - jerusalem
+  - acre
+  - ports
+  - pilgrimage
+  - unreviewed
+envelope: 1099/1372
+time_mode: envelope_only
+facets:
+  - property: roleKind
+    label: roleKind
+    kind: category
+  - property: evidenceClass
+    label: evidenceClass
+    kind: category
+  - property: confidence
+    label: confidence
+    kind: category
+  - property: reviewState
+    label: reviewState
+    kind: category
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; positions are modern reference context, and no
+    Holy Land witness is cleared

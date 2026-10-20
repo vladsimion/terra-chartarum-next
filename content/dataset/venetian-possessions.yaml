@@ -1,0 +1,14 @@
+id: tc:tc:dataset:venetian-possessions
+family: dataset
+origin: legacy
+title: Venetian possessions, c.1200–1500
+slug: venetian-possessions
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+version: legacy-e82afd9
+licence: CC BY
+rights:
+  licence: CC BY
+  attribution: Terra Chartarum; after Lane and O'Connell

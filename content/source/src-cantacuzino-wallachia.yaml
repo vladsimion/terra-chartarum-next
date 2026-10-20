@@ -1,0 +1,14 @@
+id: tc:tc:source:src-cantacuzino-wallachia
+family: source
+origin: legacy
+title: Map of Wallachia
+slug: src-cantacuzino-wallachia
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+is_finding_aid: false
+source_kind: regional_print
+entry: tc:tc:bibliography_entry:bibliography_entry-000041
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

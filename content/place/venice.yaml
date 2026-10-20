@@ -1,0 +1,20 @@
+id: tc:tc:place:venice
+family: place
+origin: legacy
+title: Venice
+slug: venice
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:fra-mauro
+names:
+  - name: Venice
+    language: und
+    kind: modern
+  - name: Venezia
+    language: und
+    kind: historic
+location:
+  lon: 12.34
+  lat: 45.44

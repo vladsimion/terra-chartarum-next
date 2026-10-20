@@ -1,0 +1,14 @@
+id: tc:tc:dataset:antarctica-conjectured-south
+family: dataset
+origin: legacy
+title: Terra Australis, the conjectured south (unreviewed)
+slug: antarctica-conjectured-south
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+version: legacy-e82afd9
+licence: CC BY 4.0
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; schematic envelope, declared editorial generalisation

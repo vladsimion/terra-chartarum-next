@@ -1,0 +1,32 @@
+id: tc:tc:map:fra-mauro
+family: map
+origin: legacy
+title: Fra Mauro world map
+slug: fra-mauro
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+record_scope: object
+date_published: "1459"
+significance: Venice's encyclopaedic world, drawn south-up.
+makers:
+  - tc:tc:cartographer:fra-mauro
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000001
+  - tc:tc:bibliography_entry:bibliography_entry-000003
+images:
+  - type: static
+    url: https://commons.wikimedia.org/wiki/Special:FilePath/FraMauroDetailedMap.jpg?width=1600
+    static_url: https://commons.wikimedia.org/wiki/Special:FilePath/FraMauroDetailedMap.jpg?width=1600
+    attribution: Biblioteca Nazionale Marciana via Wikimedia Commons
+    licence: Public domain
+    alt: Detailed south-up world map made by Fra Mauro
+    reproduction_cleared: false
+rights:
+  licence: Public domain
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified

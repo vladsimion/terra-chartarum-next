@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-romula
+family: place
+origin: legacy
+title: Romula
+slug: plc-romula
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: archaeological_site
+location_status: located
+names:
+  - name: Romula
+    language: und
+    kind: modern
+location:
+  lon: 24.42
+  lat: 44.3
+vocabulary: cnd
+geometry_provenance: editorial_reconstruction
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

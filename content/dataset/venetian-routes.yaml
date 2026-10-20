@@ -1,0 +1,14 @@
+id: tc:tc:dataset:venetian-routes
+family: dataset
+origin: legacy
+title: Venetian galley routes (mude), c.1200–1500
+slug: venetian-routes
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+version: legacy-e82afd9
+licence: CC BY
+rights:
+  licence: CC BY
+  attribution: Terra Chartarum; after Lane

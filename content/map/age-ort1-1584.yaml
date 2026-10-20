@@ -1,0 +1,25 @@
+id: tc:tc:map:age-ort1-1584
+family: map
+origin: legacy
+title: Typus Orbis Terrarum, plate 1, state 1.5
+slug: age-ort1-1584
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:age-ort1-1579
+  - tc:tc:map:age-ort2-1587
+record_scope: object
+date_published: "1584"
+significance: A newly added date coexists with progressively fading hachuring
+  near the end of the first plate’s working life.
+makers:
+  - tc:tc:cartographer:ortelius
+edition_state: "State: Ort 1, state 1.5"
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000015
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified

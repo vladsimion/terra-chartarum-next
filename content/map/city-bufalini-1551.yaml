@@ -1,0 +1,36 @@
+id: tc:tc:map:city-bufalini-1551
+family: map
+origin: legacy
+title: Pianta di Roma
+slug: city-bufalini-1551
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:city-forma-urbis
+  - tc:tc:map:city-nolli-1748
+record_scope: object
+date_published: "1551"
+significance: Bufalini’s large printed plan joins ancient enclosure, papal Rome
+  and surveyed urban fabric on a continuous surface.
+makers:
+  - tc:tc:cartographer:leonardo-bufalini
+provenance: Institutional witnesses including the Accademia delle Scienze di Torino
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000020
+  - tc:tc:bibliography_entry:bibliography_entry-000024
+images:
+  - type: static
+    url: https://commons.wikimedia.org/wiki/Special:FilePath/Mappa%20di%20Roma%2C%201551%20-%20Archivio%20Accademia%20delle%20Scienze%20Torino%2C%20Millon%2066%2028%20328.jpg?width=1600
+    static_url: https://commons.wikimedia.org/wiki/Special:FilePath/Mappa%20di%20Roma%2C%201551%20-%20Archivio%20Accademia%20delle%20Scienze%20Torino%2C%20Millon%2066%2028%20328.jpg?width=1600
+    attribution: Accademia delle Scienze di Torino via Wikimedia Commons
+    licence: Public Domain Mark
+    alt: Leonardo Bufalini’s 1551 printed plan of Rome
+    reproduction_cleared: false
+rights:
+  licence: Public Domain Mark
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified

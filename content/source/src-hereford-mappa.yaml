@@ -1,0 +1,14 @@
+id: tc:tc:source:src-hereford-mappa
+family: source
+origin: legacy
+title: Hereford Mappa Mundi
+slug: src-hereford-mappa
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+is_finding_aid: false
+source_kind: mappa_mundi
+entry: tc:tc:bibliography_entry:bibliography_entry-000037
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

@@ -1,0 +1,37 @@
+id: tc:tc:map:city-schedel-nuremberg
+family: map
+origin: legacy
+title: Nuremberg in the Liber Chronicarum
+slug: city-schedel-nuremberg
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:trade-barbari-1500
+  - tc:tc:map:city-civitates-1572
+record_scope: object
+date_published: "1493"
+significance: A coloured chronicle-page view remembers Nuremberg through wall,
+  gate, church towers and concentrated civic profile.
+edition_state: "Edition: Liber Chronicarum, Nuremberg, 1493; Makers as the
+  legacy site named them: Workshop of Michael Wolgemut and Wilhelm Pleydenwurff;
+  Anton Koberger"
+provenance: Bavarian State Library witness; Library of Congress WDL delivery
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000027
+images:
+  - type: static
+    url: https://terra-chartarum.pages.dev/images/cities-remember/nuremberg-chronicle.jpg
+    static_url: https://terra-chartarum.pages.dev/images/cities-remember/nuremberg-chronicle.jpg
+    attribution: Bavarian State Library via Library of Congress World Digital Library
+    licence: Public domain; free to use and reuse
+    alt: Coloured view of walled Nuremberg in the 1493 Nuremberg Chronicle
+    reproduction_cleared: false
+rights:
+  licence: Public domain; free to use and reuse
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified

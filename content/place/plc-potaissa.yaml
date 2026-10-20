@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-potaissa
+family: place
+origin: legacy
+title: Potaissa
+slug: plc-potaissa
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: settlement
+location_status: located
+names:
+  - name: Potaissa
+    language: und
+    kind: modern
+location:
+  lon: 23.79
+  lat: 46.57
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

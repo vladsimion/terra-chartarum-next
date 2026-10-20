@@ -1,0 +1,17 @@
+id: tc:tc:place:plc-vicina
+family: place
+origin: legacy
+title: Vicina
+slug: plc-vicina
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: settlement
+location_status: unlocated
+names:
+  - name: Vicina
+    language: und
+    kind: modern
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

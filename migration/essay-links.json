@@ -1,0 +1,339 @@
+{
+  "essays": {
+    "cartography": {
+      "maps": [
+        "tc:tc:map:babylonian",
+        "tc:tc:map:blue-marble",
+        "tc:tc:map:cassini",
+        "tc:tc:map:eratosthenes",
+        "tc:tc:map:hereford",
+        "tc:tc:map:mercator"
+      ],
+      "layers": [],
+      "collections": [],
+      "places": [
+        "tc:tc:place:alexandria",
+        "tc:tc:place:babylon",
+        "tc:tc:place:carthage",
+        "tc:tc:place:jerusalem",
+        "tc:tc:place:londinium"
+      ],
+      "cartographers": [
+        "tc:tc:cartographer:cassini",
+        "tc:tc:cartographer:mercator"
+      ],
+      "rooms": {
+        "primary": "tc:tc:room:map",
+        "secondary": [
+          "tc:tc:room:earth",
+          "tc:tc:room:city",
+          "tc:tc:room:border",
+          "tc:tc:room:theatre"
+        ]
+      }
+    },
+    "cities-remember": {
+      "maps": [
+        "tc:tc:map:city-agas-london",
+        "tc:tc:map:city-bufalini-1551",
+        "tc:tc:map:city-civitates-1572",
+        "tc:tc:map:city-forma-urbis",
+        "tc:tc:map:city-nolli-1748",
+        "tc:tc:map:city-sanborn-buffalo",
+        "tc:tc:map:city-schedel-nuremberg",
+        "tc:tc:map:city-turgot-paris",
+        "tc:tc:map:hse-bremen-view",
+        "tc:tc:map:hse-bruges-view",
+        "tc:tc:map:hse-cologne-view",
+        "tc:tc:map:hse-hamburg-view",
+        "tc:tc:map:hse-london-view",
+        "tc:tc:map:hse-lubeck-view",
+        "tc:tc:map:trade-barbari-1500"
+      ],
+      "layers": [],
+      "collections": [],
+      "places": [],
+      "cartographers": [
+        "tc:tc:cartographer:georg-braun",
+        "tc:tc:cartographer:giambattista-nolli",
+        "tc:tc:cartographer:jacopo-de-barbari",
+        "tc:tc:cartographer:leonardo-bufalini",
+        "tc:tc:cartographer:louis-bretez"
+      ],
+      "rooms": {
+        "primary": "tc:tc:room:city",
+        "secondary": [
+          "tc:tc:room:map",
+          "tc:tc:room:road",
+          "tc:tc:room:archive",
+          "tc:tc:room:theatre"
+        ]
+      }
+    },
+    "dacia": {
+      "maps": [
+        "tc:tc:map:honterus",
+        "tc:tc:map:peutinger",
+        "tc:tc:map:specht"
+      ],
+      "layers": [
+        "tc:tc:layer:dacia-attestations",
+        "tc:tc:layer:dacia-attestations-research",
+        "tc:tc:layer:dacia-josephinian-sheets",
+        "tc:tc:layer:dacia-principalities",
+        "tc:tc:layer:dacia-roman-network",
+        "tc:tc:layer:dacia-roman-sites",
+        "tc:tc:layer:dacia-treaty-frontiers",
+        "tc:tc:layer:roman-empire-117"
+      ],
+      "collections": [
+        "tc:tc:collection:corpus-chartarum-daciae",
+        "tc:tc:collection:roman-geography"
+      ],
+      "places": [
+        "tc:tc:place:napoca",
+        "tc:tc:place:rome",
+        "tc:tc:place:sarmizegetusa-regia",
+        "tc:tc:place:ulpia-traiana-sarmizegetusa"
+      ],
+      "cartographers": [
+        "tc:tc:cartographer:honterus"
+      ],
+      "rooms": {
+        "primary": "tc:tc:room:border",
+        "secondary": [
+          "tc:tc:room:map",
+          "tc:tc:room:road",
+          "tc:tc:room:archive"
+        ]
+      }
+    },
+    "invisible-maps-religion": {
+      "maps": [
+        "tc:tc:map:hereford",
+        "tc:tc:map:hse-rudimentum-lubeck",
+        "tc:tc:map:religion-beatus",
+        "tc:tc:map:religion-bunting",
+        "tc:tc:map:religion-ebstorf",
+        "tc:tc:map:religion-madaba",
+        "tc:tc:map:religion-matthew-paris",
+        "tc:tc:map:religion-psalter",
+        "tc:tc:map:religion-rudimentum",
+        "tc:tc:map:religion-to-1472"
+      ],
+      "layers": [],
+      "collections": [],
+      "places": [],
+      "cartographers": [
+        "tc:tc:cartographer:heinrich-bunting",
+        "tc:tc:cartographer:matthew-paris"
+      ],
+      "rooms": {
+        "primary": "tc:tc:room:theatre",
+        "secondary": [
+          "tc:tc:room:map",
+          "tc:tc:room:city",
+          "tc:tc:room:road",
+          "tc:tc:room:archive"
+        ]
+      }
+    },
+    "invisible-maps-trade": {
+      "maps": [
+        "tc:tc:map:carta-pisana",
+        "tc:tc:map:fra-mauro",
+        "tc:tc:map:hse-carta-marina",
+        "tc:tc:map:trade-agnese-1544",
+        "tc:tc:map:trade-barbari-1500",
+        "tc:tc:map:trade-bianco-1436",
+        "tc:tc:map:trade-loc-portolan",
+        "tc:tc:map:trade-roselli-1466",
+        "tc:tc:map:trade-vesconte-1311",
+        "tc:tc:map:trade-vesconte-1321"
+      ],
+      "layers": [],
+      "collections": [
+        "tc:tc:collection:venetian-maritime-network"
+      ],
+      "places": [],
+      "cartographers": [
+        "tc:tc:cartographer:andrea-bianco",
+        "tc:tc:cartographer:battista-agnese",
+        "tc:tc:cartographer:fra-mauro",
+        "tc:tc:cartographer:jacopo-de-barbari",
+        "tc:tc:cartographer:petrus-roselli",
+        "tc:tc:cartographer:pietro-vesconte"
+      ],
+      "rooms": {
+        "primary": "tc:tc:room:road",
+        "secondary": [
+          "tc:tc:room:map",
+          "tc:tc:room:city",
+          "tc:tc:room:border",
+          "tc:tc:room:theatre"
+        ]
+      }
+    },
+    "maps-for-a-crusade": {
+      "maps": [],
+      "layers": [
+        "tc:tc:layer:crusades-fourth-crusade-events",
+        "tc:tc:layer:crusades-fourth-crusade-routes",
+        "tc:tc:layer:crusades-itinerary",
+        "tc:tc:layer:crusades-jerusalem-network"
+      ],
+      "collections": [],
+      "places": [],
+      "cartographers": [],
+      "rooms": {
+        "primary": "tc:tc:room:road",
+        "secondary": [
+          "tc:tc:room:city",
+          "tc:tc:room:border",
+          "tc:tc:room:archive"
+        ]
+      }
+    },
+    "maps-that-age": {
+      "maps": [
+        "tc:tc:map:age-ort1-1570",
+        "tc:tc:map:age-ort1-1571",
+        "tc:tc:map:age-ort1-1572",
+        "tc:tc:map:age-ort1-1575",
+        "tc:tc:map:age-ort1-1579",
+        "tc:tc:map:age-ort1-1584",
+        "tc:tc:map:age-ort2-1587",
+        "tc:tc:map:age-ort2-1588",
+        "tc:tc:map:age-ort3-1613"
+      ],
+      "layers": [],
+      "collections": [],
+      "places": [],
+      "cartographers": [
+        "tc:tc:cartographer:ortelius"
+      ],
+      "rooms": {
+        "primary": "tc:tc:room:archive",
+        "secondary": [
+          "tc:tc:room:map",
+          "tc:tc:room:theatre"
+        ]
+      }
+    },
+    "speculum": {
+      "maps": [
+        "tc:tc:map:ortelius",
+        "tc:tc:map:ptolemy",
+        "tc:tc:map:waldseemuller"
+      ],
+      "layers": [],
+      "collections": [],
+      "places": [
+        "tc:tc:place:alexandria",
+        "tc:tc:place:carthage",
+        "tc:tc:place:constantinople"
+      ],
+      "cartographers": [
+        "tc:tc:cartographer:ortelius",
+        "tc:tc:cartographer:waldseemuller"
+      ],
+      "rooms": {
+        "primary": "tc:tc:room:theatre",
+        "secondary": [
+          "tc:tc:room:map"
+        ]
+      }
+    },
+    "terra-incognita": {
+      "maps": [],
+      "layers": [
+        "tc:tc:layer:antarctica-conjectured-south",
+        "tc:tc:layer:antarctica-expedition-tracks",
+        "tc:tc:layer:antarctica-ghost-geographies",
+        "tc:tc:layer:antarctica-observations"
+      ],
+      "collections": [],
+      "places": [],
+      "cartographers": [],
+      "rooms": {
+        "primary": "tc:tc:room:theatre",
+        "secondary": [
+          "tc:tc:room:map",
+          "tc:tc:room:road",
+          "tc:tc:room:archive"
+        ]
+      }
+    },
+    "the-league-that-left-no-map": {
+      "maps": [
+        "tc:tc:map:hse-bergen-court-books",
+        "tc:tc:map:hse-bremen-view",
+        "tc:tc:map:hse-bruges-charters",
+        "tc:tc:map:hse-bruges-view",
+        "tc:tc:map:hse-carta-marina",
+        "tc:tc:map:hse-cologne-view",
+        "tc:tc:map:hse-hamburg-view",
+        "tc:tc:map:hse-london-ordinance",
+        "tc:tc:map:hse-london-view",
+        "tc:tc:map:hse-lubeck-view",
+        "tc:tc:map:hse-novgorod-schra",
+        "tc:tc:map:hse-rudimentum-lubeck"
+      ],
+      "layers": [
+        "tc:tc:layer:hanseatic-events",
+        "tc:tc:layer:hanseatic-places",
+        "tc:tc:layer:hanseatic-routes"
+      ],
+      "collections": [
+        "tc:tc:collection:hanseatic-world"
+      ],
+      "places": [],
+      "cartographers": [
+        "tc:tc:cartographer:georg-braun",
+        "tc:tc:cartographer:olaus-magnus"
+      ],
+      "rooms": {
+        "primary": "tc:tc:room:city",
+        "secondary": [
+          "tc:tc:room:map",
+          "tc:tc:room:road",
+          "tc:tc:room:archive",
+          "tc:tc:room:theatre"
+        ]
+      }
+    },
+    "venice-sicily": {
+      "maps": [
+        "tc:tc:map:carta-pisana",
+        "tc:tc:map:fra-mauro",
+        "tc:tc:map:idrisi",
+        "tc:tc:map:trade-barbari-1500"
+      ],
+      "layers": [
+        "tc:tc:layer:venetian-ports",
+        "tc:tc:layer:venetian-possessions",
+        "tc:tc:layer:venetian-routes"
+      ],
+      "collections": [
+        "tc:tc:collection:venetian-maritime-network"
+      ],
+      "places": [
+        "tc:tc:place:constantinople",
+        "tc:tc:place:palermo",
+        "tc:tc:place:venice"
+      ],
+      "cartographers": [
+        "tc:tc:cartographer:al-idrisi",
+        "tc:tc:cartographer:fra-mauro"
+      ],
+      "rooms": {
+        "primary": "tc:tc:room:road",
+        "secondary": [
+          "tc:tc:room:city",
+          "tc:tc:room:border",
+          "tc:tc:room:theatre"
+        ]
+      }
+    }
+  }
+}

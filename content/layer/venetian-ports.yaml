@@ -1,0 +1,36 @@
+id: tc:tc:layer:venetian-ports
+family: layer
+origin: legacy
+title: Venetian maritime ports, c.1200–1500
+slug: venetian-ports
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+role: historical
+asset: data/layers/venetian-ports.fgb
+dataset: tc:tc:dataset:venetian-ports
+description: Stato da màr nodes - the metropole and its capital, subject cities,
+  colonies and independent rivals - graduated by status, each phase a separate
+  feature.
+theme: places-settlements
+tags:
+  - venice
+  - stato da mar
+  - ports
+  - harbours
+  - colonies
+  - mediterranean
+  - maritime
+envelope: 1200/1500
+time_mode: per_feature
+documentation:
+  - label: Data dictionary
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/vmn/data-dictionary.md
+  - label: Source log
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/vmn/source-log.md
+  - label: Deep-link guide
+    url: https://github.com/vladsimion/terra-chartarum/blob/main/docs/vmn/deep-links.md
+rights:
+  licence: CC BY
+  attribution: Terra Chartarum; after Lane and O'Connell

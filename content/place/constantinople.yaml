@@ -1,0 +1,25 @@
+id: tc:tc:place:constantinople
+family: place
+origin: legacy
+title: Istanbul
+slug: constantinople
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+names:
+  - name: Istanbul
+    language: und
+    kind: modern
+  - name: Konstantiniyye
+    language: und
+    kind: historic
+  - name: Nova Roma
+    language: und
+    kind: historic
+location:
+  lon: 28.98
+  lat: 41.01
+same_as:
+  - authority: whg
+    id: place:gn:745044

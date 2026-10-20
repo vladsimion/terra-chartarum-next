@@ -1,0 +1,34 @@
+id: tc:tc:map:city-agas-london
+family: map
+origin: legacy
+title: Civitas Londinum (the Agas map)
+slug: city-agas-london
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:city-civitates-1572
+  - tc:tc:map:city-turgot-paris
+record_scope: work
+date_published: "1561"
+significance: A bird’s-eye woodcut tradition makes early modern London
+  searchable as streets, gates, buildings and river traffic.
+edition_state: "Makers as the legacy site named them: Anonymous woodcut-map tradition"
+repository: London Metropolitan Archives
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000022
+open_questions:
+  - field: date
+    question: The year recorded is for the lost original state of the woodcut. The
+      impressions that survive are later, and the essay works from the
+      University of Victoria digital edition rather than from any of them.
+    would_resolve: Recording the impression the digital edition was made from, and
+      dating this record to that impression instead of to the conjectured first
+      state.
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified
+legacy_record_scope: work
+legacy_custody: institutional

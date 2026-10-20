@@ -1,0 +1,11 @@
+id: tc:tc:source:loc-civitates
+family: source
+origin: legacy
+title: Civitates Orbis Terrarum
+slug: loc-civitates
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+is_finding_aid: false
+entry: tc:tc:bibliography_entry:bibliography_entry-000023

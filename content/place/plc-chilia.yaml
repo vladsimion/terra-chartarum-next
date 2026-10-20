@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-chilia
+family: place
+origin: legacy
+title: Chilia
+slug: plc-chilia
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: crossing
+location_status: located
+names:
+  - name: Chilia
+    language: und
+    kind: modern
+location:
+  lon: 29.27
+  lat: 45.45
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

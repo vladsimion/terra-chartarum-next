@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-sibiu
+family: place
+origin: legacy
+title: Sibiu
+slug: plc-sibiu
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: settlement
+location_status: located
+names:
+  - name: Sibiu
+    language: und
+    kind: modern
+location:
+  lon: 24.15
+  lat: 45.79
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

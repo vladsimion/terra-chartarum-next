@@ -1,0 +1,23 @@
+id: tc:tc:place:jerusalem
+family: place
+origin: legacy
+title: Jerusalem
+slug: jerusalem
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:hereford
+names:
+  - name: Jerusalem
+    language: und
+    kind: modern
+  - name: Yerushalayim
+    language: und
+    kind: historic
+  - name: al-Quds
+    language: und
+    kind: historic
+location:
+  lon: 35.23
+  lat: 31.78

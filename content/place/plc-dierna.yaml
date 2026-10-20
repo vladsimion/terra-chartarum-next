@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-dierna
+family: place
+origin: legacy
+title: Dierna
+slug: plc-dierna
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: crossing
+location_status: located
+names:
+  - name: Dierna
+    language: und
+    kind: modern
+location:
+  lon: 22.4
+  lat: 44.72
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

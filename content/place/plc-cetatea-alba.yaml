@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-cetatea-alba
+family: place
+origin: legacy
+title: Cetatea Albă
+slug: plc-cetatea-alba
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: settlement
+location_status: located
+names:
+  - name: Cetatea Albă
+    language: und
+    kind: modern
+location:
+  lon: 30.35
+  lat: 46.19
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

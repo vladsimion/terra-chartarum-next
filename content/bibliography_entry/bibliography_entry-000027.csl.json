@@ -1,0 +1,19 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000027",
+  "type": "document",
+  "title": "Liber chronicarum (Nuremberg Chronicle)",
+  "author": [
+    {
+      "literal": "Library of Congress"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1493
+      ]
+    ]
+  },
+  "URL": "https://www.loc.gov/item/2021667043/",
+  "note": "Library of Congress. Schedel, Hartmann. Liber chronicarum. Nuremberg: Anton Koberger, 1493. World Digital Library record."
+}

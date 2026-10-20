@@ -1,0 +1,36 @@
+id: tc:tc:map:city-turgot-paris
+family: map
+origin: legacy
+title: Plan de Turgot
+slug: city-turgot-paris
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:city-agas-london
+  - tc:tc:map:city-nolli-1748
+record_scope: object
+date_published: "1739"
+significance: Twenty sectional plates assemble an oblique, building-by-building
+  performance of eighteenth-century Paris.
+makers:
+  - tc:tc:cartographer:louis-bretez
+edition_state: "Edition: Plan de Paris, 1739"
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000026
+images:
+  - type: static
+    url: https://commons.wikimedia.org/wiki/Special:FilePath/Turgot%20map%20of%20Paris%20-%20Norman%20B.%20Leventhal%20Map%20Center.jpg?width=1600
+    static_url: https://commons.wikimedia.org/wiki/Special:FilePath/Turgot%20map%20of%20Paris%20-%20Norman%20B.%20Leventhal%20Map%20Center.jpg?width=1600
+    attribution: Norman B. Leventhal Map Center via Wikimedia Commons
+    licence: Public domain
+    alt: The twenty sectional plates of the oblique Turgot plan of Paris assembled
+      as one view
+    reproduction_cleared: false
+rights:
+  licence: Public domain
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified

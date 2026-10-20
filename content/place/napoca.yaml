@@ -1,0 +1,20 @@
+id: tc:tc:place:napoca
+family: place
+origin: legacy
+title: Cluj-Napoca
+slug: napoca
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:place:plc-napoca
+names:
+  - name: Cluj-Napoca
+    language: und
+    kind: modern
+  - name: Klausenburg
+    language: und
+    kind: historic
+location:
+  lon: 23.6
+  lat: 46.77

@@ -1,0 +1,34 @@
+id: tc:tc:map:hse-rudimentum-lubeck
+family: map
+origin: legacy
+title: Rudimentum Novitiorum world map, Lübeck copy witness
+slug: hse-rudimentum-lubeck
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:religion-rudimentum
+  - tc:tc:map:hse-carta-marina
+record_scope: object
+date_published: "1475"
+significance: A world map printed in Lübeck names northern regions but does not
+  draw the commercial institution around its press.
+edition_state: "Edition: Rudimentum Novitiorum, ff. 85v–86r, 5 August 1475;
+  Makers as the legacy site named them: Unknown; printed by Lucas Brandis; Lucas
+  Brandis"
+provenance: Bayerische Staatsbibliothek, München, bsb00031549
+repository: Bayerische Staatsbibliothek, München (bsb00031549,
+  hse-obj-rudimentum-mappa)
+  https://www.digitale-sammlungen.de/en/view/bsb00031549
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000048
+  - tc:tc:bibliography_entry:bibliography_entry-000028
+rights:
+  attribution: Public Domain Mark 1.0
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified
+legacy_publication_status: published_witness

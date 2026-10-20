@@ -1,0 +1,13 @@
+id: tc:tc:cartographer:mercator
+family: cartographer
+origin: legacy
+title: Gerardus Mercator
+slug: mercator
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+kind: person
+names:
+  - Mercator, Gerardus
+life_dates: 1512/1594

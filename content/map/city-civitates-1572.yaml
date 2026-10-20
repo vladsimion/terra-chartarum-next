@@ -1,0 +1,26 @@
+id: tc:tc:map:city-civitates-1572
+family: map
+origin: legacy
+title: Civitates Orbis Terrarum
+slug: city-civitates-1572
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:map:city-schedel-nuremberg
+  - tc:tc:map:trade-barbari-1500
+  - tc:tc:map:city-agas-london
+record_scope: object
+date_published: "1572"
+significance: Braun and Hogenberg’s six-volume atlas makes hundreds of urban
+  plans and prospects available as a repeatable comparative genre.
+makers:
+  - tc:tc:cartographer:georg-braun
+provenance: Library of Congress, Geography and Map Division
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000023
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  witness_kind: not_yet_verified
+  dimensions: not_yet_verified

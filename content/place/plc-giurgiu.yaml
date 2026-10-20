@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-giurgiu
+family: place
+origin: legacy
+title: Giurgiu
+slug: plc-giurgiu
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: crossing
+location_status: located
+names:
+  - name: Giurgiu
+    language: und
+    kind: modern
+location:
+  lon: 25.97
+  lat: 43.9
+vocabulary: cnd
+geometry_provenance: modern_reference
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

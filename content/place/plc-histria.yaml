@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-histria
+family: place
+origin: legacy
+title: Histria
+slug: plc-histria
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: archaeological_site
+location_status: located
+names:
+  - name: Histria
+    language: und
+    kind: modern
+location:
+  lon: 28.77
+  lat: 44.55
+vocabulary: cnd
+geometry_provenance: editorial_reconstruction
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

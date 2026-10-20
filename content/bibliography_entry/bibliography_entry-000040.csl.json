@@ -1,0 +1,18 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000040",
+  "type": "document",
+  "title": "Dacia - Parergon",
+  "author": [
+    {
+      "literal": "Abraham Ortelius"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1595
+      ]
+    ]
+  },
+  "note": "Ortelius, Parergon, 1595"
+}

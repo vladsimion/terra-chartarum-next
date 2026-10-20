@@ -1,0 +1,24 @@
+id: tc:tc:collection:corpus-chartarum-daciae
+family: collection
+origin: legacy
+title: Corpus Chartarum Daciae
+slug: corpus-chartarum-daciae
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+description: "The defaults are the two territorial layers, which is the corpus
+  at its most legible. The research tier is a member and can be switched on, but
+  it can never be a default: nothing in it has been through human review, and a
+  layer nobody cleared should not appear because a reader opened a collection."
+members:
+  - tc:tc:layer:dacia-attestations
+  - tc:tc:layer:dacia-attestations-research
+  - tc:tc:layer:dacia-roman-sites
+  - tc:tc:layer:dacia-roman-network
+  - tc:tc:layer:dacia-principalities
+  - tc:tc:layer:dacia-josephinian-sheets
+  - tc:tc:layer:dacia-treaty-frontiers
+default_layers:
+  - tc:tc:layer:dacia-principalities
+  - tc:tc:layer:dacia-treaty-frontiers

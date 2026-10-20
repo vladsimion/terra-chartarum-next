@@ -1,0 +1,19 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000013",
+  "type": "document",
+  "title": "Rudimentum Novitiorum",
+  "author": [
+    {
+      "literal": "Library of Congress"
+    }
+  ],
+  "issued": {
+    "date-parts": [
+      [
+        1475
+      ]
+    ]
+  },
+  "URL": "https://www.loc.gov/item/48043282/",
+  "note": "Library of Congress. Rudimentum Novitiorum. Lübeck: Lucas Brandis, 5 August 1475. Lessing J. Rosenwald Collection."
+}

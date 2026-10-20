@@ -1,0 +1,25 @@
+id: tc:tc:map:eratosthenes
+family: map
+origin: legacy
+title: Eratosthenes' World
+slug: eratosthenes
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+record_scope: concept
+date_published: "-0220"
+significance: "A measured earth: the first grid of parallels and meridians."
+open_questions:
+  - field: attribution
+    question: Nothing drawn by Eratosthenes survives. What this record stands for is
+      the reconstructed geography reported by later writers, not a document.
+    would_resolve: "Nothing can: the resolution is editorial, naming which modern
+      reconstruction the essay follows and citing the ancient testimony it rests
+      on."
+field_status:
+  title_original: not_yet_verified
+  coverage: not_yet_verified
+  makers: not_yet_verified
+  dimensions: not_yet_verified
+legacy_record_scope: concept

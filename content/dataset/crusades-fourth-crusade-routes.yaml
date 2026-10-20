@@ -1,0 +1,14 @@
+id: tc:tc:dataset:crusades-fourth-crusade-routes
+family: dataset
+origin: legacy
+title: "Fourth Crusade: the routes travelled (unreviewed)"
+slug: crusades-fourth-crusade-routes
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+version: legacy-e82afd9
+licence: CC BY 4.0
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; all linework editorial generalisation between named ports

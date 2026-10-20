@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-porolissum
+family: place
+origin: legacy
+title: Porolissum
+slug: plc-porolissum
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: archaeological_site
+location_status: located
+names:
+  - name: Porolissum
+    language: und
+    kind: modern
+location:
+  lon: 23.15
+  lat: 47.18
+vocabulary: cnd
+geometry_provenance: editorial_reconstruction
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

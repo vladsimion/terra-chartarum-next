@@ -1,0 +1,15 @@
+id: tc:tc:dataset:dacia-treaty-frontiers
+family: dataset
+origin: legacy
+title: Treaty frontiers, 1829-1947
+slug: dacia-treaty-frontiers
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+version: legacy-e82afd9
+licence: CC BY 4.0
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum; instruments after Hertslet and the KAN-351 source
+    ledger; all linework editorial

@@ -1,0 +1,22 @@
+id: tc:tc:place:plc-arcidava
+family: place
+origin: legacy
+title: Arcidava
+slug: plc-arcidava
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: archaeological_site
+location_status: located
+names:
+  - name: Arcidava
+    language: und
+    kind: modern
+location:
+  lon: 21.55
+  lat: 45.02
+vocabulary: cnd
+geometry_provenance: editorial_reconstruction
+legacy_review_state: normalized
+legacy_normalization_method: llm_assisted

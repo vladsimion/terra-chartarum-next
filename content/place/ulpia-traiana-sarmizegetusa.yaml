@@ -1,0 +1,20 @@
+id: tc:tc:place:ulpia-traiana-sarmizegetusa
+family: place
+origin: legacy
+title: Sarmizegetusa
+slug: ulpia-traiana-sarmizegetusa
+slug_history: []
+lifecycle: researching
+release: held
+relations:
+  - tc:tc:place:plc-ulpia-traiana-sarmizegetusa
+names:
+  - name: Sarmizegetusa
+    language: und
+    kind: modern
+  - name: Grădiște
+    language: und
+    kind: historic
+location:
+  lon: 22.78
+  lat: 45.51
