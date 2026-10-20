@@ -8,8 +8,8 @@ import type { InventoryEntry } from './inventory.js';
  * comparison over what `scripts/cutover-check.ts` gathers from the build, the registry and `gh`, so a
  * broken fixture is tested without a build. A finding names the page, URL or rule, never page text.
  */
-/** The v1 anchor essay (ADR 0002): Terra Sigillata, Trench A. The script lets the editor name another slug. */
-export const ANCHOR_ESSAY_SLUG = 'terra-sigillata-trench-a';
+/** The v1 anchor essay (ADR 0002): Terra Sigillata · Lapidarium Dacicum, rebuilt; the editor chose this slug on 2026-10-20. The script lets the editor name another slug. */
+export const ANCHOR_ESSAY_SLUG = 'dacia-lapidarium';
 
 export type CiResult = { ok: true } | { ok: false; message: string };
 

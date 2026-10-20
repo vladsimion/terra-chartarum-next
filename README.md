@@ -174,7 +174,7 @@ npm run baseline -- <url> ...                                # by hand, network:
 
 - **The archive is the old site itself.** An old URL whose content has not moved keeps working in place; only a moved page (a public record, a rebuilt essay, `/atlas/` with a query) gets a rule. `archive/` holds the patch for the archive project: `banner.html`, `_headers` and a README saying where each goes.
 - **The real snapshot is a fresh pinned clone**, never your working copy; read `import-report.json` before `--apply`.
-- **`cutover:check` is expected to fail** on the real registry until the room introductions are final and the anchor essay (`--anchor <slug>`, default `terra-sigillata-trench-a`) is published.
+- **`cutover:check` is expected to fail** on the real registry until the room introductions are final and the anchor essay (`--anchor <slug>`, default `dacia-lapidarium`) is published.
 
 ## The shell and design system (spec 002)
 
