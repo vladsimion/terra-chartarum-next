@@ -30,6 +30,12 @@ const clean = (): CutoverInput => ({
 const failing = (input: CutoverInput) => runCutoverCheck(input).steps.filter((s) => !s.ok);
 const lines = (input: CutoverInput) => failing(input).flatMap((s) => s.findings);
 
+describe('the anchor essay', () => {
+  it("is dacia-lapidarium, the editor's choice (the rebuilt Terra Sigillata · Lapidarium Dacicum, legacy /essays/dacia/)", () => {
+    expect(ANCHOR_ESSAY_SLUG).toBe('dacia-lapidarium');
+  });
+});
+
 describe('runCutoverCheck', () => {
   it('passes a clean fixture and reports all six steps', () => {
     const result = runCutoverCheck(clean());

@@ -13,7 +13,7 @@ Run it twice: first to see what is left, and last, after the final copy is in, a
 | 3 | Links over the production build | an internal link or fragment resolves to nothing |
 | 4 | Redirect file against the inventory | an inventory URL with a rule outcome has no rule, a rule is not in the inventory, two rules share a path, or a target is not a built page |
 | 5 | Lighthouse budgets | the `registry` workflow run for this commit is absent, not finished, or not green, or `gh` is missing |
-| 6 | The v1 anchor essay (Terra Sigillata, Trench A) | its record is missing, or not `published` and `released` (`--anchor <slug>` names a different slug) |
+| 6 | The v1 anchor essay (Terra Sigillata · Lapidarium Dacicum, slug `dacia-lapidarium`) | its record is missing, or not `published` and `released` (`--anchor <slug>` names a different slug) |
 
 It prints each step and, under each failed one, the page, URL or rule. Exit 0 means every step passed, 1 that at least one failed, 2 that an input is missing. On the real registry it is expected to fail until the author finalises the room introductions and publishes the anchor essay.
 
