@@ -4,8 +4,8 @@ import type { CslItem } from '../essays/citations.js';
  * Deciding whether an imported item is a work the registry already has (spec 006 FR-012, research
  * R1). In order: the DOI, the ISBN (ISBN-10 converted to ISBN-13), then a weak key of the first
  * author's family name, the year and the first six words of the title. The first rule that matches
- * decides, and a work with nothing to go on matches nothing, because two different works must never
- * be merged. Pure: items in, a verdict out.
+ * decides, a work with nothing to go on matches nothing, and two works with different DOIs never match
+ * on the weak key, because two different works must never be merged. Pure: items in, a verdict out.
  */
 export type MatchRule = 'doi' | 'isbn' | 'weak';
 
@@ -60,6 +60,8 @@ export function weakKey(item: CslItem): string | null {
   return words === '' ? null : `${author}|${year}|${words}`;
 }
 
+const differentDois = (a: string | null, b: string | null): boolean => a !== null && b !== null && a !== b;
+
 /** The existing entry this item is, by the first rule that finds one; null when it is a new work. */
 export function matchItem(item: CslItem, known: readonly Known[]): Match | null {
   const doi = normaliseDoi(item.DOI);
@@ -74,7 +76,8 @@ export function matchItem(item: CslItem, known: readonly Known[]): Match | null 
   }
   const key = weakKey(item);
   if (key !== null) {
-    const found = known.find((k) => weakKey(k.item) === key);
+    // two different DOIs are two different works, however alike their authors, years and titles (an article and its replication data)
+    const found = known.find((k) => weakKey(k.item) === key && !differentDois(doi, normaliseDoi(k.item.DOI)));
     if (found) return { id: found.id, rule: 'weak' };
   }
   return null;

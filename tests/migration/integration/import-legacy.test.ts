@@ -34,14 +34,14 @@ describe('staging', () => {
     const out = staging();
     const { code, out: text } = await run(importArgs(FIXTURE, out, emptyRoot()));
     expect(code).toBe(0);
-    expect(text).toMatch(/staged 26 new, 0 already present, 0 changed upstream \(snapshot e82afd9\)/);
-    expect(text).toMatch(/staging integrity gate: PASS - 26 entities, 0 errors/);
+    expect(text).toMatch(/staged 30 new, 0 already present, 0 changed upstream \(snapshot e82afd9\)/);
+    expect(text).toMatch(/staging integrity gate: PASS - 30 entities, 0 errors/);
     for (const file of ['migration/import-manifest.json', 'migration/essay-links.json', 'import-report.json', 'integrity-report.json', 'data/layers/fort-sites.geojson']) expect(existsSync(path.join(out, file)), file).toBe(true);
     expect(JSON.parse(readFileSync(path.join(out, 'migration/import-manifest.json'), 'utf8'))).toEqual({
       profile: 'v1',
       snapshot: { repository: 'github.com/vladsimion/terra-chartarum', sha: SHA, date: DATE },
       importer_version: '1',
-      counts: { bibliography_entry: 5, cartographer: 2, collection: 1, dataset: 3, layer: 3, map: 5, place: 3, source: 4 },
+      counts: { bibliography_entry: 7, cartographer: 2, collection: 1, dataset: 3, layer: 3, map: 5, place: 3, source: 6 },
       created_by: 'registry import-legacy',
     });
   });
@@ -61,7 +61,7 @@ describe('staging', () => {
     const before = tree(root);
     const { code, out: text } = await run([...importArgs(FIXTURE, out, root), '--dry-run']);
     expect(code).toBe(0);
-    expect(text).toMatch(/would stage 26 new/);
+    expect(text).toMatch(/would stage 30 new/);
     expect(readdirSync(out)).toEqual([]);
     expect(tree(root)).toEqual(before);
     const staged = staging();
@@ -74,12 +74,12 @@ describe('--apply', () => {
   it('adds the new files to the registry, and nothing the second time (SC-004)', async () => {
     const root = emptyRoot();
     const first = await run(importArgs(FIXTURE, staging(), root, '--apply'));
-    expect(first.out).toMatch(/applied 38 files; nothing existing was touched/);
+    expect(first.out).toMatch(/applied 44 files; nothing existing was touched/);
     expect(existsSync(path.join(root, 'content/map/plan-of-a-fort.yaml'))).toBe(true);
     expect(existsSync(path.join(root, 'data/layers/fort-sites.geojson'))).toBe(true);
     const before = tree(root);
     const second = await run(importArgs(FIXTURE, staging(), root, '--apply'));
-    expect(second.out).toMatch(/staged 0 new, 26 already present, 0 changed upstream/);
+    expect(second.out).toMatch(/staged 0 new, 30 already present, 0 changed upstream/);
     expect(second.out).toMatch(/applied 0 files/);
     expect(tree(root)).toEqual(before);
   });

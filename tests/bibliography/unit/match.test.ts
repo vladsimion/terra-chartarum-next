@@ -79,6 +79,19 @@ describe('matchItem', () => {
     expect(matchItem(item({ author: [{ family: 'DOE' }], issued: { 'date-parts': [[1991]] }, title: 'A Fixture Chronicle, of the Northern (and more)' }), entries)).toEqual({ id: 'C', rule: 'weak' });
   });
 
+  it('never weak-matches two works whose DOIs both exist and differ (an article and its replication data)', () => {
+    const base = { author: [{ family: 'Marczinek' }], issued: { 'date-parts': [[2025]] } };
+    const article = existing('P', { ...base, title: 'Networks in trade - Evidence from the legacy of the Hanseatic league', DOI: '10.1016/j.jinteco.2025.104102' });
+    const data = item({ ...base, title: 'Networks in Trade - Evidence from the Legacy of the Hanseatic League: replication data', DOI: 'https://doi.org/10.17632/m3w5by2gdh.1' });
+    expect(matchItem(data, [article])).toBeNull();
+  });
+
+  it('still weak-matches when only one of the two has a DOI', () => {
+    const base = { author: [{ family: 'Marczinek' }], issued: { 'date-parts': [[2025]] }, title: 'Networks in trade - Evidence from the legacy' };
+    expect(matchItem(item({ ...base }), [existing('P', { ...base, DOI: '10.1016/j.jinteco.2025.104102' })])).toEqual({ id: 'P', rule: 'weak' });
+    expect(matchItem(item({ ...base, DOI: '10.1016/j.jinteco.2025.104102' }), [existing('P', { ...base })])).toEqual({ id: 'P', rule: 'weak' });
+  });
+
   it('lets the first rule that matches decide: a DOI beats an ISBN beats the weak key', () => {
     const both = item({ DOI: '10.1000/abc', ISBN: '0306406152', author: [{ family: 'Doe' }], issued: { 'date-parts': [[1991]] }, title: 'A fixture chronicle of the northern' });
     expect(matchItem(both, entries)).toEqual({ id: 'A', rule: 'doi' });

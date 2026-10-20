@@ -116,6 +116,15 @@ describe('the bibliography adapter', () => {
     expect(JSON.parse(text(result, `content/bibliography_entry/${String(source.entry).split(':')[3]}.csl.json`))).toMatchObject({ id: source.entry, type: 'document', title: 'The Fixture Atlas', author: [{ literal: 'Smith, J.' }], issued: { 'date-parts': [[2001]] }, URL: 'https://example.org/smith' });
   });
 
+  it('keeps a doi.org address as the entry\'s DOI, so an article and its replication data are two entries (found on the real snapshot)', async () => {
+    const result = await stage();
+    const article = record(result, 'source', 'roe-2025').entry as string;
+    const data = record(result, 'source', 'roe-data-2025').entry as string;
+    expect(data).not.toBe(article);
+    expect(JSON.parse(text(result, `content/bibliography_entry/${article.split(':')[3]}.csl.json`))).toMatchObject({ DOI: '10.1000/roe.article', URL: 'https://doi.org/10.1000/roe.article' });
+    expect(JSON.parse(text(result, `content/bibliography_entry/${data.split(':')[3]}.csl.json`))).toMatchObject({ DOI: '10.2000/roe.data' });
+  });
+
   it('turns an inline citation into an entry through the matcher: a work the legacy list has is matched, a new one is minted', async () => {
     const result = await stage();
     const doe = record(result, 'source', 'doe-1999').entry;
@@ -137,7 +146,7 @@ describe('the bibliography adapter', () => {
   it('mints entries in order from 1 in an empty registry', async () => {
     const result = await stage();
     expect([...result.files.keys()].filter((f) => f.endsWith('.yaml') && f.includes('bibliography_entry'))).toEqual(
-      ['000001', '000002', '000003', '000004', '000005'].map((n) => `content/bibliography_entry/bibliography_entry-${n}.yaml`),
+      ['000001', '000002', '000003', '000004', '000005', '000006', '000007'].map((n) => `content/bibliography_entry/bibliography_entry-${n}.yaml`),
     );
   });
 });

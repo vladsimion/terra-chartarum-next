@@ -1,7 +1,7 @@
 import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { parse } from 'yaml';
-import { matchItem, type Known } from '../bibliography/match.js';
+import { matchItem, normaliseDoi, type Known } from '../bibliography/match.js';
 import type { CslItem } from '../essays/citations.js';
 import { slugFor } from '../registry/import-bib.js';
 import { counterOf, formatCounterLocalId } from '../registry/ids.js';
@@ -110,6 +110,8 @@ export class EntryBook {
 
 /** The CSL-JSON of a legacy work: what the site said about it and nothing else (spec 008 field-mappings.md). */
 export function toCsl(work: LegacyWork, id: string): CslItem {
+  // a legacy `url` that is a DOI address is the work's DOI, which the matcher compares
+  const doi = normaliseDoi(work.url);
   return {
     id,
     type: 'document',
@@ -117,6 +119,7 @@ export function toCsl(work: LegacyWork, id: string): CslItem {
     ...(work.author ? { author: [{ literal: work.author }] } : {}),
     ...(work.year !== undefined ? { issued: { 'date-parts': [[work.year]] } } : {}),
     ...(work.url ? { URL: work.url } : {}),
+    ...(doi ? { DOI: doi } : {}),
     ...(work.note ? { note: work.note } : {}),
   } as CslItem;
 }
