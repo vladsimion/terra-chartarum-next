@@ -10,6 +10,9 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Trench** | An essay inside a Corpus programme, each a separate "excavation" with its own lens. | A chapter |
 | **Pit** | One of the four Sondaje test pits of Trench A, each with its own strata. | A trench |
 | **Cell** | One name at one stratum of a pit in Trench A: pit, stratum, name, language, reading, note. It is the essay's own local data (`corpus: none`) until a CND Attestation backs it; adding the Attestation ID is the only retrofit change. | A row, an Attestation |
+| **Trench A** | The v1 anchor essay, *Terra Sigillata · Lapidarium Dacicum* (slug `dacia-lapidarium`): the whole essay, its Lapidarium and its trench section together. Its sections keep their own titles. | The section titled "the trench"; the Corpus Chartarum Daciae programme |
+| **Lapidarium** | The first part of Trench A: an exhibition of Stones, each shown as a carved plate above the ground line. | The Archive room; the frozen archive |
+| **Stone** | One exhibit of the Lapidarium, anchored to one Corpus source (the satellite is anchored to none). | A map; a source; a Pit |
 | **Corpus (programme)** | A deep research programme (pattern: Corpus Chartarum) with several essays sharing one evidence corpus, GIS, object records and bibliography. | A collection of layers |
 | **Room** | One of seven reader-facing conceptual paths: Earth, Map, City, Border, Road, Archive, Theatre. Membership is metadata, never a folder or a data taxonomy: an essay declares its rooms, and a map or layer is in a room only through the public essays that use it. All seven rooms are always public; each has its own page. | Theme, Collection |
 | **Portal dimension** | Optional additive essay tag: Measure, Witness, Use, Cosmos, Power, Silence. Never replaces an essay's native lenses. | Theme |
