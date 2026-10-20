@@ -4,7 +4,7 @@ Not yet published. To go in as section AB, directly after section AA and before 
 
 ## AB. The successor build: migration and cutover (spec 008)
 
-Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 19 and 20 October 2026. Jira epic TCX-44. Working detail is in the spec 008 programme dossier.
+Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), 19 and 20 October 2026. Jira epic TCX-44. Working detail is in the [spec 008 programme dossier](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/39321601).
 
 | PR | Scope | Jira |
 |---|---|---|
