@@ -26,6 +26,17 @@
 - Q: What replaces the legacy `CorpusRef` lines? → A: A plain source line (a citation backed by its evidence record), with the per-stone attestation tallies as literal text re-verified at Design QA. No link to a CND layer or the Atlas (the CND layers stay held).
 - Q: How is it delivered? → A: About ten small pull requests by stage group, each merged by the editor, the essay held (no public page) until Publish.
 
+### Session 2026-10-20 (clarify)
+
+- Q: How are the essay and the checks to see the rendered page before Publish, when a held essay has no page? → A: A preview script copies the real registry to a temporary folder, marks the essay and the records it uses published and released in the copy only, and builds and tests that copy. The real registry is never changed, the site gains no path that renders held records, and nothing is duplicated.
+
+- Q: What if a licence statement cannot be made for one of the six maps? → A: That stone drops to source-only, the essay still publishes with the remaining figures, and the dossier records which stones lost theirs and why. A figure is an enhancement, not part of the argument.
+
+### Plan findings 2026-10-20 (amendments the design forced)
+
+- Spec 003 planned the timeline, the compare slider and the scrollytelling as shared components "built when an essay's Outline needs one", so this spec builds those three as shared components (each documented in `docs/essay-components.md` with its question, keyboard operation, reduced-motion variant and no-script equivalent). The radar chart, the squeeze toggle, the stone plate and the pit table are essay-specific. The earlier "no new framework components" out-of-scope line is corrected accordingly.
+- Spec 003 FR-016 requires each local Trench A cell to be shown as not yet corpus-backed, and keeps the cells in a cell file beside the essay. The legacy tables show neither; both are added, and the label is a ledger entry.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 — Read Trench A from start to finish (Priority: P1)
@@ -60,7 +71,7 @@ As a reader, I compare Hereford with Vesconte on the slider, follow the core sam
 
 ### User Story 3 — Check what the essay claims (Priority: P1)
 **Audience**: historians, students and researchers who cite or test the essay.
-As a reader, I can see where each stone's account comes from: a numbered source note with its locator, the source's bibliography entry, and, for the six stones that have one, a figure that gives the map's caption, credit and licence and links to its collection record.
+As a reader, I can see where each stone's account comes from: a numbered source note with its locator, the source's bibliography entry, and, for each of the stones that has one, a figure that gives the map's caption, credit and licence and links to its collection record.
 
 **Why this priority**: evidence precedes interaction (Constitution IV) and uncertainty is data (III). The legacy essay sourced its stones in prose only.
 
@@ -68,9 +79,9 @@ As a reader, I can see where each stone's account comes from: a numbered source 
 
 **Acceptance Scenarios**:
 1. **Given** a stone with a corpus source, **When** I read it, **Then** a source line cites it, with a note and locator, and no link to an Atlas layer.
-2. **Given** the six stones with maps, **When** I open a figure's link, **Then** I reach that map's collection record, which shows its image only if its reproduction is cleared.
+2. **Given** a stone shown with a map figure, **When** I open a figure's link, **Then** I reach that map's collection record, which shows its image only if its reproduction is cleared.
 3. **Given** the Hereford stone, **When** the figure is shown, **Then** the title and caption come from the record, not from the prose.
-4. **Given** the six stones with no map record and the satellite stone, **When** I read them, **Then** they show no map figure and no broken reference.
+4. **Given** a stone with no map figure (one of the six with no map record, one whose map lost its figure for want of a licence statement, or the satellite), **When** I read them, **Then** they show no map figure and no broken reference.
 5. **Given** the essay's notes and bibliography, **When** I read them, **Then** they list exactly the sources cited, grouped as the bibliography page groups them.
 
 ### User Story 4 — Old links and the cutover gate (Priority: P1)
@@ -92,7 +103,7 @@ As the author, I approve every change to my text and my data before the essay mo
 
 **Why this priority**: the essay is the author's own argument; a silent edit would break trust and the record of what was published (Constitution VI).
 
-**Independent Test**: the changed-claim ledger and the reconciliation report exist, every entry is marked approved or resolved by the author, and promotion to Draft is refused while any is not.
+**Independent Test**: the changed-claim ledger and the reconciliation report exist, every entry is marked approved or resolved by the author, and the essay cannot move past Draft (a test in CI fails from the Build stage on) while any is not.
 
 **Acceptance Scenarios**:
 1. **Given** a claim the successor's data contradicts ("thirteen stones" against twelve corpus sources, `yearTo` 2024 against 2026, a derived duration such as "seventeen centuries"), **When** the port reaches it, **Then** it is on the ledger with the legacy text, the proposed text and the reason, and waits for approval.
@@ -101,7 +112,7 @@ As the author, I approve every change to my text and my data before the essay mo
 
 ### User Story 6 — Release exactly what the essay needs (Priority: P2)
 **Audience**: the editor.
-As the editor, publishing the essay releases the twelve sources and their bibliography entries, the six maps and the evidence, and nothing else; no held record's title, slug or id appears anywhere public.
+As the editor, publishing the essay releases the twelve sources and their bibliography entries, the maps it shows and the evidence, and nothing else; no held record's title, slug or id appears anywhere public.
 
 **Why this priority**: a released record is public (TC-D019); the smallest set is the safest.
 
@@ -119,7 +130,8 @@ As the editor, publishing the essay releases the twelve sources and their biblio
 - A source's bibliography entry is thin (title, author, year, note); it is public as it is unless the author enriches it first.
 - CSS features the rebuilt interactions use (`:has()`, scroll-driven animation) are missing in an older browser: the content, the controls and the evidence remain, only the enhancement is absent.
 - Attestation tallies in the prose are literal text and would drift if the data behind them changed; they are re-verified at Design QA.
-- A map with no `rights` object cannot enter the Corpus stage; a map still missing `witness_kind` or `makers` fails the gate when it is released.
+- A map the author cannot license is left out of the essay's maps (its stone becomes source-only); a map with no `rights` object cannot enter the Corpus stage; a map still missing `witness_kind` or `makers` fails the gate when it is released.
+- The preview copy marks records released only in a temporary folder: if the real registry's records change (a map's rights, an evidence locator), the next preview run reflects it, and a preview that builds does not prove the real registry passes its own gate (that is checked separately before each promotion).
 - Re-running `registry inventory` is required after Publish; an out-of-date inventory is refused by the rule-file generator.
 
 ## Requirements *(mandatory)*
@@ -134,22 +146,23 @@ As the editor, publishing the essay releases the twelve sources and their biblio
 - **FR-006**: The essay MUST declare exactly five interactions (the compare slider, the core-sample scrollytelling, and three radar charts), each with an id, a component, a question, one or more evidence records and an interpretation; every `<Interaction>` in the body MUST be declared and every declared one used.
 - **FR-007**: The compare slider MUST be built on a native range input; the core sample MUST be a sticky static layout with the drawing always visible; each radar chart MUST be static SVG with a table of its values; the squeeze toggle MUST be a CSS-only labelled checkbox; the timeline MUST be ported unchanged.
 - **FR-008**: There MUST be one evidence record for the source of each stone that has one (twelve), each with a locator supplied by the author and none citing a finding aid, plus the evidence for each declared interaction, and no other.
-- **FR-009**: `MapFigure` MUST be used for exactly the six maps `ptolemy`, `peutinger`, `hereford`, `trade-vesconte-1311`, `honterus` and `ortelius`; the other six stones MUST be source-only; the satellite stone MUST carry no citation.
+- **FR-009**: `MapFigure` MUST be used for the six maps `ptolemy`, `peutinger`, `hereford`, `trade-vesconte-1311`, `honterus` and `ortelius`, except that a map for which the author cannot make a licence statement MUST drop to source-only (its stone keeps its text and source line), the essay MUST still publish with the remaining figures, and the dossier MUST record which stones lost theirs and why. The other six stones MUST be source-only; the satellite stone MUST carry no citation.
 - **FR-010**: Each stone's former `CorpusRef` line MUST become a plain source line backed by its evidence record, with its attestation tallies as literal text; the page MUST NOT link to a CND layer or the Atlas.
-- **FR-011**: The 52 test-pit rows MUST be the essay's own local data with no CND attestation behind them. A one-off reconciliation against the legacy `attestations.csv` MUST report every difference to the author.
-- **FR-012**: The six maps MUST each have a `rights` object, and MUST pass the integrity gate when released, including `witness_kind` for each map that is a single object and `makers` resolved (a cartographer, or `unknown` or `not_applicable` with its status).
-- **FR-013**: Publishing MUST release exactly the twelve sources and their bibliography entries, the six maps and the evidence; all other records MUST stay held; the prose MUST name only released records; the leak scan MUST pass.
+- **FR-011**: The 52 test-pit rows MUST be the essay's own local data, kept in a cell file beside the essay with no CND attestation behind them, and each row MUST be shown as not yet corpus-backed (spec 003 FR-016). A one-off reconciliation against the legacy `attestations.csv` MUST report every difference to the author.
+- **FR-012**: Each map the essay shows MUST have a `rights` object, and MUST pass the integrity gate when released, including `witness_kind` for each map that is a single object and `makers` resolved (a cartographer, or `unknown` or `not_applicable` with its status).
+- **FR-013**: Publishing MUST release exactly the twelve sources and their bibliography entries, the maps it shows (up to six) and the evidence; all other records MUST stay held; the prose MUST name only released records; the leak scan MUST pass.
 - **FR-014**: The essay MUST move through the nine stages one at a time with a contiguous `stage_history`, MUST stay held with no public page until the Publish stage, and MUST carry the four sign-offs by Vlad Simion with `published_on` the real publication date; the dossier MUST state that no independent review took place.
-- **FR-015**: The essay's page type MUST be added to the accessibility (axe) template list and to the Lighthouse URLs; the page MUST meet accessibility 100 and the ADR 0004 budgets.
-- **FR-016**: After Publish, `registry inventory` MUST be re-run so `/essays/dacia/` has one `rule` outcome to the new page, the archive redirect MUST be applied by pull request, and `redirect_switched` MUST be signed.
+- **FR-015**: The essay's page type MUST be added to the accessibility (axe) template list and to the Lighthouse URLs; the page MUST meet accessibility 100 and the ADR 0004 budgets. Before Publish, the rendered essay MUST be available to the author and to the automated checks through a preview build: a script that copies the real registry to a temporary folder, marks the essay and the records it uses as published and released in the copy only, and builds that copy. The script MUST leave the real registry untouched, MUST derive the copy on each run (nothing duplicated), and the accessibility, no-script, keyboard, reduced-motion and budget checks MUST run against that build until the essay is published, and against the production build after.
+- **FR-016**: At Publish, `registry inventory` and `registry archive-redirects` MUST be run (neither `migration/redirect-inventory.json` nor `archive/_redirects` has been committed yet) and both files committed for the whole site, so that `/essays/dacia/` has one `rule` outcome to the new page; the archive redirect MUST be applied by pull request and `redirect_switched` signed.
 - **FR-017**: `cutover:check`'s anchor-essay step MUST fail while the essay is held and pass once it is published and released.
 - **FR-018**: The spec 009 epic, its stories and the Confluence dossier, Build Log and Decision Log MUST be kept in step with `main` (workflow step 4).
 
 ### Key Entities
 - **Trench A** (the essay record), its **Stones** (thirteen: twelve anchored to a Corpus source, one satellite anchored to none), its four **Pits** and their 52 **Cells** (the essay's own local data).
+- **Cell file** (the 52 cells beside the essay, in the framework's cell shape).
 - **Evidence record** (a source plus a locator) and **Interaction declaration** (id, component, question, evidence, interpretation).
 - **Changed-claim ledger** and **reconciliation report** (the author's approval trail for the port).
-- **Release list** (the records made public by Publish) and the **redirect rule** for `/essays/dacia/`.
+- **Release list** (the records made public by Publish), the **preview registry** (a temporary copy with the essay and its records marked released, used only for review and checks) and the **redirect rule** for `/essays/dacia/`.
 
 ## Success Criteria *(mandatory)*
 
@@ -165,9 +178,10 @@ As the editor, publishing the essay releases the twelve sources and their biblio
 
 ## Assumptions
 
-- Spec 003's framework, spec 007's rooms, spec 008's inventory and `cutover:check` exist as merged; nothing in the framework changes (new components are out of scope).
+- Spec 003's framework, spec 007's rooms, spec 008's inventory and `cutover:check` exist as merged; the framework changes only by gaining the three shared components spec 003 planned (timeline, compare slider, scrollytelling).
 - The author, Vlad Simion, supplies: the question and thesis; the licence statement for each map lacking `rights` (`ptolemy`, `peutinger`, `honterus`, `ortelius`); the open worksheet answers for those maps (`ptolemy` and `ortelius`: work or object scope; `peutinger` and `honterus`: which holder; `hereford`: a named maker or `unknown`); the twelve locators; approval of each ledger entry. Those are the critical path.
-- The twelve sources' bibliography entries are thin (title, author, year, note); the author may enrich them before release.
+- The first redirect inventory and rule file have never been committed (spec 008 generates them nearer cutover); this spec's Publish step generates and commits them for the whole site, since `cutover:check` needs both.
+- The twelve sources' bibliography entries are thin (title, author, year, note) and have no `section`, which the framework requires before an entry is public; the author chooses each section and may enrich the entries before release.
 - The other open questions in `docs/review/map-warnings-2026-10-20.csv` concern maps the essay does not use and do not matter here.
 - The essay's illustrations are authored inline SVG ("authored reconstructions rather than reproductions"), so no image rights are involved; the legacy cover and hero images are dropped.
-- Out of scope: other programmes, CND attestations, new framework components, any JavaScript, and a first-cut subset of the essay.
+- Out of scope: other programmes, CND attestations, new framework components other than the timeline, the compare slider and the scrollytelling that spec 003 planned to build when an essay needs them, any JavaScript, and a first-cut subset of the essay.
