@@ -14,6 +14,9 @@ describe('archive/banner.html', () => {
   it('says this is the archived edition', () => {
     expect(banner).toMatch(/archived edition/i);
   });
+  it('is the element archive:check looks for', () => {
+    expect(banner).toMatch(/<aside[^>]*\sid="archive-banner"/);
+  });
   it('links to https://terra-chartarum.org/', () => {
     expect(banner).toMatch(/href="https:\/\/terra-chartarum\.org\/"/);
   });

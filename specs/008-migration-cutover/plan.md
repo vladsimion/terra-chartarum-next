@@ -95,12 +95,12 @@ tests/migration/{unit,integration,fixtures}/   # trimmed snapshot fixture shaped
 | US1 import | 1 (ID, slug, qualified form) | `tests/migration/unit/adapters.test.ts`, `integration/import-legacy.test.ts` |
 | | 2 (specialist vocabulary; unmapped term fails) | `unit/vocab.test.ts` |
 | | 3 (missing field recorded as status) | `unit/adapters.test.ts` |
-| | 4 (byte-identical re-run, empty apply) | `integration/determinism.test.ts` |
-| | 5 (hand-edited record untouched; upstream change listed) | `integration/no-overwrite.test.ts` |
+| | 4 (byte-identical re-run, empty apply) | `integration/import-legacy.test.ts` (determinism) |
+| | 5 (hand-edited record untouched; upstream change listed) | `integration/import-legacy.test.ts` (no overwrite) |
 | | 6 (work, concept, unlocated keep ID and scope) | `unit/adapters.test.ts` |
 | | 7 (images referenced, not copied) | `unit/adapters.test.ts`, `integration/import-legacy.test.ts` |
 | | 8 (private fields dropped and reported) | `unit/drops.test.ts` |
-| | independent test (counts, zero IDs changed) | `integration/import-legacy.test.ts`, `unit/ids-unchanged.test.ts` |
+| | independent test (counts, zero IDs changed) | `integration/import-legacy.test.ts`, `integration/ids-unchanged.test.ts` |
 | US2 archive | 1 (banner, header, link) | `unit/archive-patch.test.ts`, `archive-check` against a local server in `integration/archive-check.test.ts` |
 | | 2 (unrebuilt essay served in place) | `unit/inventory.test.ts` |
 | US3 redirects | 1 (one outcome per route) | `unit/inventory.test.ts` |
@@ -112,8 +112,8 @@ tests/migration/{unit,integration,fixtures}/   # trimmed snapshot fixture shaped
 | | 3 (baseline recorded) | `unit/baseline.test.ts` (against a local server) |
 | FR-011 static extraction | | `unit/extract-ts.test.ts` |
 | FR-021 schema | | `tests/registry/unit/migration-schema.test.ts` |
-| SC-001 IDs unchanged | | `unit/ids-unchanged.test.ts` |
-| SC-005 no overwrite, no binary | | `integration/no-overwrite.test.ts` |
+| SC-001 IDs unchanged | | `integration/ids-unchanged.test.ts` |
+| SC-005 no overwrite, no binary | | `integration/import-legacy.test.ts` (no overwrite) |
 | SC-006 cutover fixtures | | `unit/cutover-check.test.ts` |
 
 ## Complexity Tracking
