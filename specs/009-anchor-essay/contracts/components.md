@@ -27,4 +27,4 @@ Seven components, none shipping script. The page passes them to the body through
 - No hard-coded colour in the markup or the CSS; the drawings use classes whose colours come from tokens, and the build test fails on a hex colour in the essay's built SVG.
 - Contrast passes in both colour schemes (axe, `tests/shell/contrast-pairs.ts` for any new pair).
 - Under `prefers-reduced-motion: reduce` nothing moves.
-- A browser without `:has()` or scroll-driven animation still shows all the content and every control working in a plain form.
+- A browser without `:has()` or scroll-driven animation still shows all the content and every control working in a plain form: every such rule sits inside an `@supports` block (tested by `progressive-css.test.ts`) and the base rules show everything.

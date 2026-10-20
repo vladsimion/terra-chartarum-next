@@ -51,7 +51,7 @@ Each entry is a design question the plan had to settle, answered from the reposi
 - **To check in slice 6**: what an evidence record's `target` should be for the six source-only stones (the six maps are natural targets for their stones); the gate will say.
 
 ## R10. The release list
-- **Decision**: at Publish, release exactly the essay; its 17 evidence records; the 12 sources and their 12 bibliography entries; and the maps it shows (up to six). Everything else stays held.
+- **Decision**: at Publish (after each of the twelve entries has a `section`, which the minted entries lack today), release exactly the essay; its 17 evidence records; the 12 sources and their 12 bibliography entries; and the maps it shows (up to six). Everything else stays held.
 - **Checked**: releasing a map does not release what the map lists. `hereford` lists three bibliography entries and `trade-vesconte-1311` one, and a held entry is not shown (ADR 0014); `hereford`'s relations point at held maps, which are not shown; held cartographers are hidden. So the six maps add six records to the public set, not more.
 - **The maps' state today**: `hereford` and `trade-vesconte-1311` have rights and an `institutional` witness; `ptolemy`, `peutinger`, `honterus` and `ortelius` have no `rights` and no `witness_kind`; `peutinger` and `hereford` lack a maker. All of it is on the author's critical path, and the spec's fallback applies (a map without a licence statement drops to source-only).
 

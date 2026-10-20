@@ -35,7 +35,7 @@ Publishing the legacy essay "Terra Sigillata · Lapidarium Dacicum" natively, so
 - [x] **Historical question (I)**: the essay's own framing (nineteen centuries of mapping Dacia and Romania staged as an excavation); the author writes the formal `question` and `thesis`, and the process cannot pass Concept or Outline without them.
 - [x] **No duplicated canonical records or private geometry (II, V)**: maps, sources and evidence are referenced by id; a map's title and caption come from its record (the literal-copy rule enforces it); the cells are the essay's own data and live once, in the cell file.
 - [x] **Uncertainty and provenance as fields (III, VI)**: each cell is marked not yet corpus-backed; "(uncertain)" and "absent" are kept as the author wrote them; each locator starts `pending` and is verified by a person; the licence statements are the author's.
-- [x] **Evidence before interaction (IV)**: each of the five interactions declares a question, an interpretation and evidence before it is built.
+- [x] **Evidence before interaction (IV)**: each of the five interactions declares a question, an interpretation and evidence before it is built. The timeline and the squeeze toggle are not declared interactions: they change only how already-evidenced content is navigated or viewed and ask the reader to interpret nothing (ADR 0017); they are held to the same keyboard, focus and reduced-motion rules.
 - [x] **No dynamic infrastructure, static first (VII)**: the page ships no script; every interaction is native HTML and CSS with its static form always present.
 - [x] **One publication, bespoke interiors (VIII)**: the interactions sit inside the shared shell and `Interaction` wrapper, using tokens.
 - [x] **Accessibility and performance impact (IX)**: axe 100 in both colour schemes, keyboard, reduced motion, and the ADR 0004 budgets on the essay's page type, which joins the CI template lists; the drawings are moved onto tokens so they pass contrast in both schemes.
@@ -91,7 +91,7 @@ The grill said "about ten"; the shared components earned their own slice, so twe
 | 4 | Essay-specific components and the cell-file validator: `StoneGallery`, `StonePlate`, `SectionRadar`, `PitTable` | US2, US1 | none |
 | 5 | Concept and Corpus: the record, the six maps' rights, `witness_kind` and `makers` | US3, US6 | question; four licence statements; five maps' review answers |
 | 6 | Research: the twelve stone-source evidence records | US3 | twelve locators |
-| 7 | Outline: thesis and the five interaction declarations (and their five evidence records) | US2, US3 | thesis; interpretations |
+| 7 | Outline: thesis, the five interaction declarations (and their five evidence records) and a `section` for each of the twelve bibliography entries | US2, US3 | thesis; interpretations; the twelve sections |
 | 8 to 10 | Draft: the text ported section by section with the ledger (introduction and brief; the museum; comparison desk, trench, section, pits and appendix) | US1, US5 | approval of each ledger entry |
 | 11 | Build and Design QA: the preview build in CI, axe, Lighthouse, template lists, theming of the drawings, the author's QA read | US1, US2 | the Design QA read; the Vesconte naming decision |
 | 12 | Publish and Cross-link: releases, sign-offs, inventory and rule file, `redirect_switched`, `cutover:check` | US4, US6 | the four sign-offs; the archive redirect pull request |
@@ -104,7 +104,7 @@ The grill said "about ten"; the shared components earned their own slice, so twe
 | US1.2 every difference is on the ledger | `tests/essays/unit/port-fidelity.test.ts` (paragraph hashes of the legacy prose against the rebuilt text and the ledger) |
 | US1.3 listed under Border and Archive | `tests/essays/build/anchor-essay.test.ts`, `tests/rooms` (membership) |
 | US1.4 complete with no script | the same build test (no `<script>`, no JavaScript reference) |
-| US2.1 to 2.6 each interaction | `tests/essays/e2e/anchor-essay.spec.ts` (keyboard, no script, reduced motion, both schemes, axe), `tests/essays/unit/timeline.test.ts`, `component-docs.test.ts` |
+| US2.1 to 2.6 each interaction | `tests/essays/e2e/anchor-essay.spec.ts` (keyboard, no script, reduced motion, both schemes, axe), `tests/essays/unit/timeline.test.ts`, `component-docs.test.ts`, `tests/essays/unit/progressive-css.test.ts` (US2.5: the enhancements sit inside `@supports`) |
 | US3.1 to 3.5 citations, figures, notes | `tests/essays/build/anchor-essay.test.ts`, the gate rules `ESSAY-*`, `tests/essays/unit/page-model.test.ts` |
 | US4.1 inventory rule | `tests/migration/unit/inventory.test.ts` (an essay with `legacy_url`), `tests/migration/integration/anchor-redirect.test.ts` (the committed files) |
 | US4.2 archive redirect applied | a signed step in `docs/cutover.md`, not automated |

@@ -41,6 +41,10 @@ Each carries `question` and `interpretation`, written by the author (the legacy 
 
 `evidence-NNNNNN`, each: `target`, `source` (a public source record), `locator.value` (author-supplied) with `state: pending` until a person verifies it, `evidence_type`, `confidence`. Twelve rest on the stones' sources (`src-ptolemy-geographia`, `src-tabula-peutingeriana`, `src-hereford-mappa`, `src-vesconte-portolan`, `src-honterus-chorographia`, `src-ortelius-parergon`, `src-cantacuzino-wallachia`, `src-cantemir-moldavia`, `src-iosephina-survey`, `src-russian-staff-1835`, `src-szathmari-charta`, `src-secret-century`); five rest on the interactions. No evidence record cites a finding aid (`REF-FINDING-AID`).
 
+## Bibliography entries (12, `content/bibliography_entry/`)
+
+The twelve minted entries behind the stones' sources exist and are thin (title, author, year, note). Each needs, before it can be public, a `section`: one of `primary_sources`, `historical_maps`, `reference_works`, `specialised_studies`, `digital_resources`, `datasets_licences`, `further_reading` (required from `ready_for_build`; an entry without one is not public, and the essay's bibliography builder rejects one outside the seven). The author chooses each; `tests/essays/unit/bibliography-sections.test.ts` checks it.
+
 ## Cell file (`content/essay/<id>.cells.json`)
 
 An array of 52 `Cell`:
