@@ -32,7 +32,7 @@ Compares the essay's cell file with the legacy `data/dacia/attestations.csv` pit
 
 ## `scripts/essay-legacy-manifest.ts <legacy clone>` (run once)
 
-Reads the legacy `dacia.mdx`, normalises each paragraph (markup and whitespace removed, case folded) and writes `docs/review/anchor-essay-legacy-paragraphs.json`, `[{line, sha256}]`. `tests/essays/unit/port-fidelity.test.ts` normalises the rebuilt body the same way and requires every legacy hash to be present in it or covered by a ledger row.
+Reads the legacy `dacia.mdx`, normalises each paragraph (markup, link addresses and Markdown marks removed, whitespace collapsed, lower case) and writes `docs/review/anchor-essay-legacy-paragraphs.json`, `[{line, end, sha256}]` (the first and last line of the paragraph, so a ledger row can cover it by any line it spans). `tests/essays/unit/port-fidelity.test.ts` normalises the rebuilt body the same way and requires every legacy hash to be present in it or covered by a ledger row, from the Draft stage on (before Draft the body is incomplete by definition).
 
 ## CI
 
