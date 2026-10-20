@@ -273,3 +273,26 @@ describe('storage', () => {
     expect(source).not.toMatch(/localStorage|sessionStorage|document\.cookie/);
   });
 });
+
+describe('the legacy address (spec 008 FR-018)', () => {
+  it('reads ?from=legacy as the usual view with a notice that the old address could not be restored', () => {
+    const { state, report } = parseView('?from=legacy', INDEX, SLUGS);
+    expect(state).toEqual(initialState(INDEX));
+    expect(report).toEqual({ renamed: [], skipped: [], dropped: ['The Atlas address from the old site could not be restored, so the Atlas opened on its usual view.'] });
+  });
+
+  it('does not treat `from` as an unknown parameter when it carries anything else, and says nothing', () => {
+    expect(parseView('?from=essay', INDEX, SLUGS).report).toEqual({ renamed: [], skipped: [], dropped: [] });
+  });
+
+  it('keeps the rest of the address: the notice is added to whatever else did not read', () => {
+    const { state, report } = parseView('?from=legacy&l=frontier-line&y=oops', INDEX, SLUGS);
+    expect(state.active).toEqual(['frontier-line']);
+    expect(report.dropped).toHaveLength(2);
+  });
+
+  it('never writes `from` back: the address is the only saved state', () => {
+    const { state } = parseView('?from=legacy&l=roads', INDEX, SLUGS);
+    expect(viewUrl(state, INDEX)).toBe('/atlas/?l=roads');
+  });
+});

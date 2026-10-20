@@ -20,6 +20,9 @@ export interface ViewReport {
   dropped: string[];
 }
 
+/** Shown when the Atlas is opened from the old site's address (`?from=legacy`). */
+export const LEGACY_NOTICE = 'The Atlas address from the old site could not be restored, so the Atlas opened on its usual view.';
+
 const LENSES: readonly Lens[] = ['theme', 'collection', 'room'];
 const RANGE = /^(-?\d+(?:\.\d+)?)?\.\.(-?\d+(?:\.\d+)?)?$/;
 
@@ -112,6 +115,10 @@ export function parseView(search: string, index: AtlasIndex, slugs: SlugTable): 
   const layer = resolver(slugs.layers);
   const collection = resolver(slugs.collections);
   const state: AtlasState = { year: defaultYear(index), lens: 'theme', active: [], relevantOnly: false, facets: {} };
+
+  // The archive's redirect sends every old Atlas address here (spec 008 FR-018). No old parameter is
+  // translated, so say so; `from` is never written back, because the address is the only saved state.
+  if (params.get('from') === 'legacy') report.dropped.push(LEGACY_NOTICE);
 
   const year = params.get('y');
   if (year !== null) {

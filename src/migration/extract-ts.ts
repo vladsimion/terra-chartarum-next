@@ -88,8 +88,8 @@ function evaluateObject(node: ObjectExpression, file: string, record: string | n
   return out;
 }
 
-/** The records of the `RAW` array of a legacy registry file, in source order. */
-export function extractRaw(source: string, file: string): Record<string, unknown>[] {
+/** The records of the `RAW` array of a legacy registry file (or of another named array of literals, such as `ROOMS`), in source order. */
+export function extractRaw(source: string, file: string, arrayName = 'RAW'): Record<string, unknown>[] {
   let program;
   try {
     program = parse(source, { sourceType: 'module', plugins: ['typescript'] }).program;
@@ -100,11 +100,11 @@ export function extractRaw(source: string, file: string): Record<string, unknown
     const declaration = statement.type === 'ExportNamedDeclaration' ? statement.declaration : statement;
     if (declaration?.type !== 'VariableDeclaration') continue;
     for (const declarator of declaration.declarations) {
-      if (declarator.id.type !== 'Identifier' || declarator.id.name !== 'RAW' || !declarator.init) continue;
+      if (declarator.id.type !== 'Identifier' || declarator.id.name !== arrayName || !declarator.init) continue;
       const array = unwrap(declarator.init);
-      if (array.type !== 'ArrayExpression') throw new ExtractionError(file, null, null, 'RAW is not an array literal');
+      if (array.type !== 'ArrayExpression') throw new ExtractionError(file, null, null, `${arrayName} is not an array literal`);
       return array.elements.map((element, i) => {
-        if (element === null || element.type !== 'ObjectExpression') throw new ExtractionError(file, `#${i}`, null, 'RAW holds something other than an object literal');
+        if (element === null || element.type !== 'ObjectExpression') throw new ExtractionError(file, `#${i}`, null, `${arrayName} holds something other than an object literal`);
         // name the record by its literal id, so an error says which record to look at
         const id = element.properties.find((p) => p.type === 'ObjectProperty' && !p.computed && p.key.type === 'Identifier' && p.key.name === 'id');
         const name = id?.type === 'ObjectProperty' && unwrap(id.value).type === 'StringLiteral' ? (unwrap(id.value) as { value: string }).value : `#${i}`;
@@ -112,5 +112,5 @@ export function extractRaw(source: string, file: string): Record<string, unknown
       });
     }
   }
-  throw new ExtractionError(file, null, null, 'no `RAW` array found');
+  throw new ExtractionError(file, null, null, `no \`${arrayName}\` array found`);
 }

@@ -9,6 +9,7 @@ import { completenessReport, enrichmentQueue, renderQueueMarkdown } from './enri
 import { scanOutput } from './leak-scan.js';
 import { loadRegistry } from './load.js';
 import { importBib, type ImportFormat } from './import-bib.js';
+import { archiveRedirectsCommand, inventoryCommand } from '../migration/commands.js';
 import { importLegacy } from '../migration/import-legacy.js';
 import { mintNext } from './mint.js';
 import { createEssay } from './new-essay.js';
@@ -34,6 +35,8 @@ const USAGE = `Usage:
   registry new essay <title> --room <room> --question <question> --author <name> [--dir <root>]   start an essay at Concept
   registry import-bib <file> [--dir <root>] [--format bibtex|ris|csl-json] [--dry-run] [--out <dir>]   bring a reference manager's export in as held bibliography entries; duplicates are reported, never written
   registry import-legacy --snapshot <path> --profile v1 --out <dir> [--apply] [--dir <root>] [--dry-run] [--sha <sha> --date <iso>]   stage the legacy site's records (all held) from a pinned snapshot; --apply adds only files that do not exist
+  registry inventory --snapshot <path> [--dir <root>] [--out <file>]   list every old URL of the pinned snapshot with its one outcome: served in place by the archive, or one redirect rule
+  registry archive-redirects [--dir <root>] [--out <file>]   write the rule file for the archive project from the inventory and the registry (never pushes)
   registry synth <count> --seed <n> --out <dir> [--atlas | --bibliography]   write a deterministic synthetic registry (count entities plus the seven rooms; with --atlas, count layers with their collections, places and essays; with --bibliography, count entries with CSL files, Sources, Evidence and citing records)
 
 <root> is the registry root that contains content/ (default: .). Exit codes: 0 ok, 1 errors found, 2 tool failure.`;
@@ -184,6 +187,16 @@ async function importLegacyCommand(args: string[], io: Io): Promise<number> {
   return finish(await importLegacy(values.dir, { snapshot: values.snapshot, profile: values.profile, out: values.out, apply: values.apply, dryRun: values['dry-run'], sha: values.sha, date: values.date }), io);
 }
 
+async function inventoryCli(args: string[], io: Io): Promise<number> {
+  const { values } = parseArgs({ args, options: { snapshot: { type: 'string' }, dir: { type: 'string', default: '.' }, out: { type: 'string' }, sha: { type: 'string' }, date: { type: 'string' } } });
+  return finish(await inventoryCommand(values.dir, { snapshot: values.snapshot, out: values.out, sha: values.sha, date: values.date }), io);
+}
+
+async function archiveRedirectsCli(args: string[], io: Io): Promise<number> {
+  const { values } = parseArgs({ args, options: { dir: { type: 'string', default: '.' }, out: { type: 'string' } } });
+  return finish(await archiveRedirectsCommand(values.dir, { out: values.out }), io);
+}
+
 async function synth(args: string[], io: Io): Promise<number> {
   const { values, positionals } = parseArgs({
     args,
@@ -237,6 +250,8 @@ export async function main(argv: string[], io: Io): Promise<number> {
     if (command === 'synth') return await synth(rest, io);
     if (command === 'import-bib') return await importBibCommand(rest, io);
     if (command === 'import-legacy') return await importLegacyCommand(rest, io);
+    if (command === 'inventory') return await inventoryCli(rest, io);
+    if (command === 'archive-redirects') return await archiveRedirectsCli(rest, io);
     if (command === 'promote') return await promote(rest, io);
     if (command === 'new') return await newRecord(rest, io);
     return usage(io);
