@@ -82,6 +82,13 @@ jobs:
           if-no-files-found: ignore
       - name: Stub pages and draft copy left in the production build (informational until cutover)
         run: npm run build && npm run shell:check
+      - name: Leak scan over the real production build (spec 001 T111; before the Lighthouse step rebuilds dist from fixtures)
+        run: |
+          if [ -d content ]; then
+            npm run registry -- scan dist --dir .
+          else
+            echo "No content/ directory yet; skipping the dist scan."
+          fi
       - name: Lighthouse CI budgets on the listed templates (ADR 0004, mobile profile)
         run: |
           SHELL_FIXTURES=1 REGISTRY_ROOT=tests/shell/fixtures/registry npm run build
@@ -113,6 +120,8 @@ jobs:
           else
             echo "No content/ directory yet; skipping gate."
           fi
+      - name: Generated counts in docs/confluence/ match main (CLAUDE.md workflow step 4)
+        run: npm run status -- --check
       - name: Site data and leak scan on canonical content
         run: |
           if [ -d content ]; then
