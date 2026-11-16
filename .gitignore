@@ -27,3 +27,4 @@ test-results/
 reports-completeness/
 .lighthouseci/
 tests/atlas/.perf-registry/
+.claude/worktrees/
