@@ -1,0 +1,43 @@
+Three interactions, none of them needing a script.
+
+<Timeline
+  events='[{"year":150,"label":"I · Ptolemy","href":"#first-sheet"},{"year":1311,"label":"IV · Vesconte","href":"#second-sheet"},{"year":2026,"label":"XIII · Now","href":"#core-sample"}]'
+  from="150"
+  to="2026"
+  caption="Three sheets in time, on a square-root scale"
+/>
+
+<h2 id="first-sheet">The first sheet</h2>
+
+The line on the first map is not where the road runs.<Cite evidence="tc:tc:evidence:evidence-000001" />
+
+<h2 id="second-sheet">The second sheet</h2>
+
+<Interaction id="sheet-compare">
+  <CompareSlider label="Reveal the second sheet over the first">
+    <figure slot="before">
+      <svg viewBox="0 0 200 100" role="img" aria-label="The first sheet: a straight line across the valley" class="fixture-sheet"><path d="M10 50 H190" class="fixture-line" /></svg>
+      <figcaption>The first sheet</figcaption>
+    </figure>
+    <figure slot="after">
+      <svg viewBox="0 0 200 100" role="img" aria-label="The second sheet: the road bends round the valley" class="fixture-sheet"><path d="M10 50 C60 10 140 90 190 50" class="fixture-line" /></svg>
+      <figcaption>The second sheet</figcaption>
+    </figure>
+  </CompareSlider>
+</Interaction>
+
+<Interaction id="core-sample">
+  <Scrollytelling label="The core sample, topsoil to bedrock">
+    <figure slot="figure">
+      <svg viewBox="0 0 80 300" role="img" aria-label="A core sample of three strata" class="fixture-sheet"><rect x="10" y="10" width="60" height="280" class="fixture-line" /></svg>
+      <figcaption>The core</figcaption>
+    </figure>
+    <li>Topsoil: the present survey.</li>
+    <li>A sterile band: twelve centuries with no sheet.</li>
+    <li>Bedrock: the Roman road.</li>
+  </Scrollytelling>
+</Interaction>
+
+<EvidencePanel evidence="tc:tc:evidence:evidence-000002" />
+
+<CitationExport />

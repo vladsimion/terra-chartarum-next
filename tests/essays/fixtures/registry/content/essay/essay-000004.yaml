@@ -1,0 +1,80 @@
+id: tc:tc:essay:essay-000004
+family: essay
+origin: minted
+title: Fixture essay, the three shared interactions
+slug: fixture-interactions
+lifecycle: published
+release: released
+stage: Publish
+design_qa_passed: true
+question: Do the shared interactions work without a script?
+thesis: A timeline, a comparison and a core sample can each be read with no script at all.
+authors:
+  - A. Editor
+published_on: 2026-10-17
+accent: madder
+rooms:
+  primary: tc:tc:room:map
+stage_history:
+  - stage: Concept
+    on: 2026-10-01
+    by: A. Editor
+  - stage: Corpus
+    on: 2026-10-02
+    by: A. Editor
+  - stage: Research
+    on: 2026-10-03
+    by: A. Editor
+  - stage: Outline
+    on: 2026-10-04
+    by: A. Editor
+  - stage: Draft
+    on: 2026-10-05
+    by: A. Editor
+  - stage: Build
+    on: 2026-10-06
+    by: A. Editor
+  - stage: Design QA
+    on: 2026-10-07
+    by: A. Editor
+  - stage: Publish
+    on: 2026-10-08
+    by: A. Editor
+rights:
+  licence: CC BY 4.0
+maps:
+  - tc:tc:map:map-000001
+  - tc:tc:map:map-000002
+sources:
+  - tc:tc:source:source-000001
+  - tc:tc:source:source-000002
+evidence:
+  - tc:tc:evidence:evidence-000001
+  - tc:tc:evidence:evidence-000002
+interactions:
+  - id: sheet-compare
+    component: compare-slider
+    question: Where do the two sheets disagree?
+    interpretation: The second sheet moves the road east of the line.
+    evidence:
+      - tc:tc:evidence:evidence-000002
+  - id: core-sample
+    component: scrollytelling
+    question: How deep does the road go?
+    interpretation: The road is older than every sheet that draws it.
+    evidence:
+      - tc:tc:evidence:evidence-000001
+open_questions: []
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000001
+  - tc:tc:bibliography_entry:bibliography_entry-000002
+signoffs:
+  historical:
+    by: A. Editor
+    on: 2026-10-10
+  cartographic:
+    by: B. Editor
+    on: 2026-10-11
+  data:
+    by: C. Editor
+    on: 2026-10-12

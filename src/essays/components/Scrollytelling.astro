@@ -1,0 +1,81 @@
+---
+/*
+ * A sticky figure beside a list of steps (spec 009, contracts/components.md): the figure stays in
+ * view while the steps scroll past; the step in view is emphasised with a CSS scroll-driven animation
+ * where the browser supports it, and nothing else. No script (FR-005); without scroll-driven
+ * animation no step is highlighted; under reduced motion nothing animates.
+ */
+interface Props {
+  /** The accessible name of the region. */
+  label: string;
+}
+
+const { label } = Astro.props;
+---
+
+<section class="scrolly" aria-label={label}>
+  <div class="scrolly-figure"><slot name="figure" /></div>
+  <ol class="scrolly-steps"><slot /></ol>
+</section>
+
+<style>
+  .scrolly {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    gap: var(--space-5);
+    align-items: start;
+    margin: var(--space-6) 0;
+  }
+
+  .scrolly-figure {
+    position: sticky;
+    top: var(--space-4);
+  }
+
+  .scrolly-figure :global(figure) {
+    margin: 0;
+  }
+
+  .scrolly-figure :global(figcaption) {
+    color: var(--ink-muted);
+    font-size: var(--step--1);
+  }
+
+  .scrolly-steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .scrolly-steps > :global(li) {
+    margin: 0 0 var(--space-7);
+    padding-inline-start: var(--space-3);
+    border-inline-start: 3px solid var(--line);
+  }
+
+  @supports (animation-timeline: view()) {
+    .scrolly-steps > :global(li) {
+      animation: scrolly-step linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+
+    @keyframes scrolly-step {
+      from {
+        border-color: var(--line);
+        color: var(--ink-muted);
+      }
+
+      to {
+        border-color: var(--accent);
+        color: var(--ink);
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scrolly-steps > :global(li) {
+      animation: none;
+    }
+  }
+</style>
