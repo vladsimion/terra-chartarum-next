@@ -67,3 +67,21 @@ Every component in `src/essays/components/` is listed here, with the question it
 - **Keyboard:** it adds no controls; the shell's skip link and landmarks apply.
 - **Reduced motion:** nothing moves; the shell's motion tokens drop to zero.
 - **Without JavaScript:** a static page.
+
+## Timeline
+- **Question it serves:** when, in relation to one another, did the things this essay names happen? An ordered list of events on a square-root-compressed axis (`src/essays/timeline.ts`, the legacy scale ported unchanged), each event a link to its place in the essay.
+- **Keyboard:** every event is an ordinary link: Tab reaches it, Enter follows it, with visible focus and a 44px target. The axis and its ticks are `aria-hidden`.
+- **Reduced motion:** nothing moves at any time; the positions are set at build time.
+- **Without JavaScript:** the same markup; the component ships no script.
+
+## CompareSlider
+- **Question it serves:** where do two figures of the same thing agree and where do they part? Both figures are always in the page; a labelled radio group of five positions (0, 25, 50, 75, 100 %) sets how much of the second is revealed over the first, through a custom property and `:has()`.
+- **Keyboard:** the radio group is native: Tab reaches the checked position, the arrow keys move the reveal, with visible focus and 44px targets.
+- **Reduced motion:** the reveal's one transition runs on `--motion-fast`, which the tokens set to zero under `prefers-reduced-motion: reduce`.
+- **Without JavaScript:** it needs none. In a browser without `:has()` the two figures stack in full and the radios are a plain form (the rules that use `:has()` sit inside `@supports`).
+
+## Scrollytelling
+- **Question it serves:** what does this one figure show, step by step? A sticky figure stays in view beside an ordered list of steps that scroll past it.
+- **Keyboard:** the steps are prose and the figure is not a control, so there is nothing to focus; the page scrolls as any page does.
+- **Reduced motion:** the step in view is emphasised with a CSS scroll-driven animation where the browser has it; under `prefers-reduced-motion: reduce` that animation is off and the steps are plain.
+- **Without JavaScript:** it needs none. The figure is always visible; without scroll-driven animation (the rules sit inside `@supports`) no step is highlighted.

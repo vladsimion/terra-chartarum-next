@@ -2,10 +2,13 @@
 import { getEntry, render } from 'astro:content';
 import Cite from '../../essays/components/Cite.astro';
 import CitationExport from '../../essays/components/CitationExport.astro';
+import CompareSlider from '../../essays/components/CompareSlider.astro';
 import EssayLayout from '../../essays/components/EssayLayout.astro';
 import EvidencePanel from '../../essays/components/EvidencePanel.astro';
 import Interaction from '../../essays/components/Interaction.astro';
 import MapFigure from '../../essays/components/MapFigure.astro';
+import Scrollytelling from '../../essays/components/Scrollytelling.astro';
+import Timeline from '../../essays/components/Timeline.astro';
 import { buildEssayPage } from '../../essays/page-model.js';
 import { loadEssaySite } from '../../essays/site-data.js';
 import { scanEssayBody } from '../../registry/essay-body.js';
@@ -32,5 +35,5 @@ const { Content } = await render(entry);
 ---
 
 <EssayLayout>
-  <Content components={{ MapFigure, Cite, EvidencePanel, Interaction, CitationExport }} />
+  <Content components={{ MapFigure, Cite, EvidencePanel, Interaction, CitationExport, Timeline, CompareSlider, Scrollytelling }} />
 </EssayLayout>

@@ -1,0 +1,111 @@
+---
+/*
+ * A reveal comparison of two figures (spec 009, contracts/components.md): both are always in the
+ * page, the second clipped at a position chosen with a labelled native radio group, which drives a
+ * custom property through `:has()`. No script (FR-005). Without `:has()` the two figures stack in
+ * full and the radios are a plain form. Decided with the editor 2026-11-16: CSS cannot read a range
+ * input's value, so the control is a radio group of five positions.
+ */
+interface Props {
+  /** The legend of the control: what moving the reveal shows. */
+  label: string;
+}
+
+const STEPS = [0, 25, 50, 75, 100] as const;
+const DEFAULT = 50;
+const { label } = Astro.props;
+const name = `compare-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`;
+---
+
+<div class="compare">
+  <div class="compare-stage">
+    <div class="compare-layer compare-before"><slot name="before" /></div>
+    <div class="compare-layer compare-after"><slot name="after" /></div>
+  </div>
+  <fieldset class="compare-control" role="radiogroup" aria-labelledby={`${name}-legend`}>
+    <legend id={`${name}-legend`}>{label}</legend>
+    {STEPS.map((step) => (
+      <span class="compare-step">
+        <input type="radio" name={name} id={`${name}-${step}`} value={String(step)} checked={step === DEFAULT} />
+        <label for={`${name}-${step}`}>{step} %</label>
+      </span>
+    ))}
+  </fieldset>
+</div>
+
+<style>
+  .compare {
+    --pos: 50%;
+
+    margin: var(--space-6) 0;
+  }
+
+  .compare-stage {
+    display: grid;
+  }
+
+  .compare-layer {
+    grid-area: 1 / 1;
+    min-width: 0;
+  }
+
+  .compare-layer :global(figure) {
+    margin: 0;
+  }
+
+  .compare-layer :global(figcaption) {
+    color: var(--ink-muted);
+    font-size: var(--step--1);
+  }
+
+  .compare-after {
+    clip-path: inset(0 0 0 var(--pos));
+    transition: clip-path var(--motion-fast);
+  }
+
+  .compare-control {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin: var(--space-3) 0 0;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  legend {
+    padding: 0 var(--space-1);
+    color: var(--ink-muted);
+    font-size: var(--step--1);
+  }
+
+  .compare-step {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    min-height: var(--target-min);
+  }
+
+  .compare-step label {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+  }
+
+  @supports selector(:has(*)) {
+    .compare:has(input[value='0']:checked) {
+      --pos: 0%;
+    }
+
+    .compare:has(input[value='25']:checked) {
+      --pos: 25%;
+    }
+
+    .compare:has(input[value='75']:checked) {
+      --pos: 75%;
+    }
+
+    .compare:has(input[value='100']:checked) {
+      --pos: 100%;
+    }
+  }
+</style>

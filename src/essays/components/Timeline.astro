@@ -1,0 +1,155 @@
+---
+import { createHash } from 'node:crypto';
+import { axisPositions, type TimelineEvent } from '../timeline.js';
+
+/*
+ * A timeline of point events on a square-root-compressed axis (spec 009, contracts/components.md),
+ * ported from the legacy AdaptiveTimeline: an ordered list of links, the axis hidden from assistive
+ * technology, no script. Props are string literals (ESSAY-BODY-DYNAMIC): `events` is a JSON string.
+ * The positions are data, not design values, and the shell forbids `style` attributes (spec 002
+ * FR-003), so each instance writes them as one small stylesheet keyed by its own id.
+ */
+interface Props {
+  /** A JSON string: a list of `{ year, label, href }`. */
+  events: string;
+  from: string;
+  to: string;
+  caption?: string;
+}
+
+const { events, from, to, caption } = Astro.props;
+const parsed: unknown = JSON.parse(events);
+if (!Array.isArray(parsed)) throw new Error('<Timeline events> must be a JSON list of { year, label, href }');
+const list = parsed.map((e, i): TimelineEvent => {
+  const ok = e !== null && typeof e === 'object' && typeof e.year === 'number' && typeof e.label === 'string' && typeof e.href === 'string';
+  if (!ok) throw new Error(`<Timeline events> item ${i} is not { year, label, href }`);
+  return { year: e.year, label: e.label, href: e.href };
+});
+const start = Number(from);
+const end = Number(to);
+const placed = axisPositions(list, start, end);
+const pct = (position: number) => `${(position * 100).toFixed(2)}%`;
+const fmt = (y: number) => (y < 0 ? `${Math.abs(y)} BC` : `AD ${y}`);
+const id = createHash('sha256').update(`${events}|${from}|${to}`).digest('hex').slice(0, 8);
+const at = (selector: string, position: number) => `.timeline[data-timeline="${id}"] ${selector} { --x: ${pct(position)}; }`;
+const positions = [
+  at('.timeline-tick:nth-child(1)', 0),
+  at('.timeline-tick:nth-child(2)', 1),
+  ...placed.map((event, i) => at(`.timeline-event:nth-child(${i + 1})`, event.position)),
+].join('\n');
+---
+
+<figure class="timeline" data-timeline={id}>
+  <style set:html={positions}></style>
+  <div class="timeline-band">
+    <div class="timeline-axis" aria-hidden="true">
+      <span class="timeline-tick">{fmt(start)}</span>
+      <span class="timeline-tick">{fmt(end)}</span>
+    </div>
+    <ol class="timeline-events">
+      {placed.map((event, i) => (
+        <li class:list={['timeline-event', i % 2 === 0 ? 'above' : 'below']}>
+          <a href={event.href}>
+            <span class="timeline-year">{fmt(event.year)}</span>{' '}
+            <span class="timeline-name">{event.label}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .timeline {
+    margin: var(--space-6) 0;
+    /* room above and below the band for the labels that stand off the axis */
+    padding: var(--space-5) 0;
+  }
+
+  .timeline-band {
+    position: relative;
+    height: calc(var(--space-8) * 2);
+    margin: 0 var(--space-6);
+  }
+
+  .timeline-axis {
+    position: absolute;
+    inset: 50% 0 auto;
+    border-top: 1px solid var(--line);
+  }
+
+  .timeline-tick {
+    position: absolute;
+    top: 0;
+    left: var(--x);
+    transform: translateX(-50%);
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+  }
+
+  .timeline-events {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .timeline-event {
+    position: absolute;
+    left: var(--x);
+    transform: translateX(-50%);
+  }
+
+  .timeline-event.above {
+    bottom: 50%;
+  }
+
+  .timeline-event.below {
+    top: 50%;
+  }
+
+  .timeline-event a {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: var(--target-min);
+    min-width: var(--target-min);
+    padding: var(--space-1);
+    color: var(--accent);
+    font-size: var(--step--1);
+    text-align: center;
+    text-decoration: none;
+    line-height: 1.2;
+  }
+
+  .timeline-event a::before {
+    content: '';
+    display: block;
+    width: var(--space-2);
+    height: var(--space-2);
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .timeline-event.above a {
+    flex-direction: column-reverse;
+  }
+
+  .timeline-event a:hover .timeline-name,
+  .timeline-event a:focus-visible .timeline-name {
+    text-decoration: underline;
+  }
+
+  .timeline-year {
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+  }
+
+  figcaption {
+    color: var(--ink-muted);
+    font-size: var(--step--1);
+    text-align: center;
+  }
+</style>
