@@ -4,7 +4,7 @@ Three decisions are yours and nobody else's: the essay's question, a licence sta
 
 Answer in the "Your answer" line of each item, or in a reply; nothing here is applied until you do.
 
-Status: open, raised 2026-11-17. Slice 5, branch `t009-anchor-record` (draft PR #115).
+Status: raised 2026-11-17. T026 answered the same day by the instruction to find public-domain photographs and use them; T025 and T027 are open. Slice 5, branch `t009-anchor-record` (draft PR #115).
 
 ---
 
@@ -34,41 +34,44 @@ The `thesis` is a separate field and is not needed until Outline (T033); it is n
 
 ---
 
-## T026 · A licence for four maps
+## T026 · A licence for four maps — done 2026-11-17
 
-`ESSAY-CORPUS` will not let the essay reach Corpus unless every map in `maps[]` resolves and carries a rights state, and `RIGHTS-MISSING` wants a non-empty `rights.licence` from `ready_for_build` on. Two of the six already have one; four have none.
+Answered by the editor's instruction of 17 November 2026: find public-domain photographs for the four and use them with the licence and rights. Each file below was opened and looked at before it was written into the record, so what the `alt` says is what the image shows.
 
-| Map | Record today | What it still needs |
-|---|---|---|
-| `hereford` | `rights.licence: Public domain`, repository Hereford Cathedral, image attributed to a public-domain reproduction via Wikimedia Commons | nothing for T026 |
-| `trade-vesconte-1311` | `rights.licence: Public domain`, image attributed to the Archivio di Stato di Firenze via Wikimedia Commons | nothing for T026 |
-| `ptolemy` | no `rights`, no `images`, no repository | a licence statement |
-| `peutinger` | no `rights`, no `images`, no repository | a licence statement |
-| `honterus` | no `rights`, no `images`, no repository | a licence statement |
-| `ortelius` | no `rights`, no `images`, no repository | a licence statement |
+| Map | File on Wikimedia Commons | What it shows | Holder named | Licence |
+|---|---|---|---|---|
+| `ptolemy` | `Ptolemy Cosmographia Dacia+Danube.jpg` | the ninth map of Europe in a manuscript Cosmographia: Dacia between the Carpathians and the Danube, Zarmizegethusa regia inland, the Black Sea in blue | none | public domain |
+| `peutinger` | `Tabula Peutingeriana (ÖNB) 13.jpg` | the segment that carries Dacia: Napoca, Porolissum and Apulum strung above the Danube, the itinerary running on to Byzantium | Austrian National Library, Vienna | public domain |
+| `honterus` | `Chorographia Transylvaniae Sybembürgen 1532.jpg` | the 1532 Basel woodcut: the Carpathian ring in rows of hills around hundreds of named settlements, dedicated to the council of Sibiu | none | public domain |
+| `ortelius` | `Daciarum, Moesiarumque, vetus descriptio … btv1b53194602t (2 of 3).jpg` | the Parergon sheet of 1595: the Danube across the plate, Dacia above and the two Moesias below | Bibliothèque nationale de France | public domain |
 
-The four hold no image, so the statement is about the record and any reproduction it later carries, not about a file in hand today. The shape is `rights: { licence, attribution?, reproduction_cleared?, text_public_domain? }`; `licence` is the only field the rule insists on.
+Each record now carries that image and `rights: { licence: Public domain, attribution: … }`. No map was left out, so no stone drops to source-only. The gate passes: 294 entities, 0 errors.
 
-**Your answer, per map:** _(the licence text for `ptolemy`, `peutinger`, `honterus`, `ortelius`; and the attribution, if the licence needs one)_
+Two notes, both honest gaps rather than problems:
 
-A map you cannot make a statement for is left out of the essay's `maps[]`, and its stone becomes source-only: the stone keeps its heading, its drawing and its source line, and loses its map figure. That is a real option, not a failure, and the dossier records which stone lost its figure and why. Say "leave it out" and I will treat it that way.
+- For `ptolemy` and `honterus` the reproduction is public domain but Commons names no repository for the copy photographed. Each record carries an `open_question` saying so, which is the state of the evidence, not a licence doubt.
+- The Ortelius file is in three parts; part 1 is the commentary page and part 2 is the map sheet. The record takes part 2.
 
 ---
 
 ## T027 · The open review answers
 
-From `docs/review/map-warnings-2026-10-20.csv`, for the six maps this essay shows. `witness_kind` is one of `held`, `institutional` or `unlocated`. The sheet suggests a value only where the record itself names a holder; for these it names none, which is why they are still open.
+From `docs/review/map-warnings-2026-10-20.csv`, for the six maps this essay shows. `witness_kind` is one of `held`, `institutional` or `unlocated`. The sheet suggests a value only where the evidence names a holder; the table below says what each record holds after the images of T026.
 
 | Map | Open question | What the record says today |
 |---|---|---|
-| `ptolemy` | `witness_kind`, and whether `record_scope` should stay `object` | `record_scope: object`, no holder, no image. Ptolemy's own maps do not survive; what survives is later copies and printings. If this record stands for the work rather than one copy, `record_scope: work` is the honest shape and the witness question falls away |
-| `peutinger` | `witness_kind`, and a maker or `unknown` | `record_scope: object`, no holder, no makers at all, and no legacy maker text to port |
-| `honterus` | `witness_kind` | `record_scope: object`, no holder; maker already `tc:tc:cartographer:honterus` |
-| `ortelius` | `witness_kind`, and whether `record_scope` should stay `object` | `record_scope: object`, no holder; maker already `tc:tc:cartographer:ortelius`. The Theatrum exists in many copies, so the same work-or-copy question as Ptolemy |
+| `ptolemy` | `witness_kind`, and whether `record_scope` should stay `object` | `record_scope: object`; a public-domain manuscript image, but no repository named for the copy. Ptolemy's own maps do not survive; what survives is later copies and printings. If this record stands for the work rather than one copy, `record_scope: work` is the honest shape and the witness question falls away |
+| `peutinger` | `witness_kind`, and a maker or `unknown` | `record_scope: object`; the image is of the parchment at the Austrian National Library, which is a basis for `institutional`. Still no makers at all, and no legacy maker text to port |
+| `honterus` | `witness_kind` | `record_scope: object`; a public-domain image of the 1532 woodcut, but no repository named for the sheet. Maker already `tc:tc:cartographer:honterus` |
+| `ortelius` | `witness_kind`, and whether `record_scope` should stay `object` | `record_scope: object`; the image is the Parergon sheet held by the Bibliothèque nationale de France, which is a basis for `institutional`. Maker already `tc:tc:cartographer:ortelius`. The Theatrum exists in many copies, so the same work-or-copy question as Ptolemy |
 | `hereford` | a maker, or `unknown` | `witness_kind: institutional` already; `edition_state` carries the legacy line "Richard of Haldingham (traditional attribution)", and the record's own `open_questions` says it is unsettled whether that names the designer, the scribe or the donor. Naming him needs a new cartographer record; `unknown` needs nothing |
 | `trade-vesconte-1311` | none outstanding for the essay | `witness_kind: institutional` sits on the image, from the Archivio di Stato di Firenze attribution; the maker is Pietro Vesconte |
 
 **Your answers:** _(a `witness_kind` for the four; `object` or `work` for `ptolemy` and `ortelius`; a maker or `unknown` for `peutinger` and `hereford`)_
+
+What the images added on 17 November change here: `peutinger` now rests on a copy held by the Austrian National Library and `ortelius` on one held by the Bibliothèque nationale de France, which is the basis the warnings sheet uses to suggest `institutional`. `ptolemy` and `honterus` still name no holder, so they still have no suggestion. The call stays yours.
+
+One rule to keep in step: on an `object`-scope record the image's `witness_kind` must equal the record's. The four images carry none today because the records carry none; when you set a record's `witness_kind`, its image takes the same value in the same change.
 
 Everything here is applied to the map records as the CSV's `editor_witness_kind` and `editor_makers` columns describe, and the gate is run after each.
 

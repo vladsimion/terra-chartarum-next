@@ -12,6 +12,19 @@ date_published: "1570"
 significance: The first modern atlas - the world bound as a book.
 makers:
   - tc:tc:cartographer:ortelius
+images:
+  - type: static
+    url: https://commons.wikimedia.org/wiki/Special:FilePath/Daciarum,%20Moesiarumque,%20vetus%20descriptio%20-%20ex%20conatibus%20geographicis%20Abrahami%20Ortelii%201595%20-%20btv1b53194602t%20(2%20of%203).jpg?width=1400
+    static_url: https://commons.wikimedia.org/wiki/Special:FilePath/Daciarum,%20Moesiarumque,%20vetus%20descriptio%20-%20ex%20conatibus%20geographicis%20Abrahami%20Ortelii%201595%20-%20btv1b53194602t%20(2%20of%203).jpg?width=1400
+    attribution: Bibliothèque nationale de France via Wikimedia Commons
+    licence: Public domain
+    alt: Ortelius' Parergon sheet of ancient Dacia and Moesia, dated 1595, the
+      Danube crossing the plate from west to east with Dacia above it and the
+      two Moesias below, the Black Sea engraved as ruled waves at the right
+    reproduction_cleared: false
+rights:
+  licence: Public domain
+  attribution: Bibliothèque nationale de France via Wikimedia Commons
 field_status:
   title_original: not_yet_verified
   coverage: not_yet_verified
