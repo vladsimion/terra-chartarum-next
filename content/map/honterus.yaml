@@ -22,6 +22,7 @@ images:
       ring drawn as rows of hills around hundreds of named Saxon and Hungarian
       settlements, dedicated in a cartouche to the council of Sibiu
     reproduction_cleared: false
+    witness_kind: unlocated
 rights:
   licence: Public domain
   attribution: Public-domain reproduction via Wikimedia Commons
@@ -34,5 +35,5 @@ open_questions:
 field_status:
   title_original: not_yet_verified
   coverage: not_yet_verified
-  witness_kind: not_yet_verified
   dimensions: not_yet_verified
+witness_kind: unlocated

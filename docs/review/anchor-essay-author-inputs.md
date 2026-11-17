@@ -8,29 +8,15 @@ Status: raised 2026-11-17. T026 answered the same day by the instruction to find
 
 ---
 
-## T025 · The essay's question
+## T025 · The essay's question — done 2026-11-17
 
-`ESSAY-QUESTION` needs it at Concept, before the record can exist at all; it is printed at the head of the essay and is the thing the whole piece answers. The legacy essay has no `question` field, so there is nothing to port: its frontmatter carries a `summary` and the opening carries a claim, not a question.
+Answered by the editor:
 
-What the legacy opening says, at the pinned snapshot (`e82afd9`, lines 72 to 98): the maps are staged twice, as inscriptions above the ground line and as strata below it; every map of Dacia is built from the spolia of earlier maps, and buries the one before it (line 91); one year of history is one millimetre of earth, and Ptolemy waits 1.87 metres down (line 78, which is also ledger row L03).
+> If every map of Dacia is built from the spolia of the one before it, what does each new map bury, and what does it keep?
 
-Three candidates, drawn from that opening. They are drafts for you to take, cut or ignore.
+The record is minted: `tc:tc:essay:essay-000001`, `content/essay/essay-000001.yaml`, at stage Concept and held. The five fields the mint command cannot set were set by hand: slug `dacia-lapidarium`, `accent: gold`, the secondary room `tc:tc:room:archive`, `portal_dimensions: [Measure, Silence]` and `legacy_url: /essays/dacia/`. The gate passes (295 entities, 0 errors) and all eight tests in `tests/essays/unit/anchor-record.test.ts` pass, the seven that were waiting included.
 
-1. If every map of Dacia is built from the spolia of the map before it, what does each one bury, and what does it keep?
-2. What do nineteen centuries of maps of Dacia and Romania record of this land, and what do they decline to say?
-3. Read as inscriptions and dug as strata, what do thirteen maps show about Dacia, and what do they show about the states that drew them?
-
-**Your answer:** _(the question, in your words)_
-
-Once you give it, this is what runs, and nothing else:
-
-```bash
-npm run registry -- new essay "Terra Sigillata · Lapidarium Dacicum" --room border --question "<your question>" --author "Vlad Simion"
-```
-
-Then, by hand on the new record, because the command cannot: the slug `dacia-lapidarium` (it derives one from the title), `accent: gold`, the secondary room `tc:tc:room:archive`, `portal_dimensions: [Measure, Silence]` and `legacy_url: /essays/dacia/`. The seven waiting tests in `tests/essays/unit/anchor-record.test.ts` then check every one of those, and the gate is run at Concept.
-
-The `thesis` is a separate field and is not needed until Outline (T033); it is not asked for here.
+The `thesis` is a separate field and is not needed until Outline (T033).
 
 ---
 
@@ -67,13 +53,25 @@ From `docs/review/map-warnings-2026-10-20.csv`, for the six maps this essay show
 | `hereford` | a maker, or `unknown` | `witness_kind: institutional` already; `edition_state` carries the legacy line "Richard of Haldingham (traditional attribution)", and the record's own `open_questions` says it is unsettled whether that names the designer, the scribe or the donor. Naming him needs a new cartographer record; `unknown` needs nothing |
 | `trade-vesconte-1311` | none outstanding for the essay | `witness_kind: institutional` sits on the image, from the Archivio di Stato di Firenze attribution; the maker is Pietro Vesconte |
 
-**Your answers:** _(a `witness_kind` for the four; `object` or `work` for `ptolemy` and `ortelius`; a maker or `unknown` for `peutinger` and `hereford`)_
+### What was applied on 17 November, and what is still yours
 
-What the images added on 17 November change here: `peutinger` now rests on a copy held by the Austrian National Library and `ortelius` on one held by the Bibliothèque nationale de France, which is the basis the warnings sheet uses to suggest `institutional`. `ptolemy` and `honterus` still name no holder, so they still have no suggestion. The call stays yours.
+Each record's `witness_kind` now follows the copy that was photographed for it, which is what the field records: where the object the record stands for actually is.
 
-One rule to keep in step: on an `object`-scope record the image's `witness_kind` must equal the record's. The four images carry none today because the records carry none; when you set a record's `witness_kind`, its image takes the same value in the same change.
+| Map | `witness_kind` | Why |
+|---|---|---|
+| `peutinger` | `institutional` | the image is the parchment at the Austrian National Library, the one surviving copy |
+| `ortelius` | `institutional` | the image is the sheet held by the Bibliothèque nationale de France |
+| `ptolemy` | `unlocated` | the reproduction is public domain, but no holder is named for the manuscript, which is exactly what `unlocated` records |
+| `honterus` | `unlocated` | the same: a public-domain image of the 1532 sheet, no holder named |
 
-Everything here is applied to the map records as the CSV's `editor_witness_kind` and `editor_makers` columns describe, and the gate is run after each.
+Each image carries the same value, which the gate requires on an `object` record. Say the word and any of the four flips.
+
+**Still yours, two questions.**
+
+1. **A maker for `peutinger`, or `unknown`.** The record has no maker at all. The surviving parchment is an anonymous medieval copy of a Roman original, so `field_status.makers: unknown` is the usual answer, which is how `city-forma-urbis` and `city-agas-london` record an anonymous map. I have not set it, because it says the editor has confirmed there is no maker to name.
+2. **A maker for `hereford`, or `unknown`.** Here `unknown` would be wrong: the map names "Richard de Haldingham e de Lafford", and the record's own open question says what is unsettled is whether that names the designer, the scribe or the donor. The choice is to mint a cartographer record for him with the attribution marked unresolved, or to leave the field as the gap it is.
+
+**One option you may want instead.** All four records are `record_scope: object`, which is what lets them carry an image. If you would rather any of them stand for the published map instead of for one copy, it becomes `record_scope: work`, and then the gate requires it to carry no `witness_kind` and no image at all, so that stone would lose its figure and keep only its source line. Ptolemy is the one where that question really bites: his own maps do not survive, and what the image shows is a fifteenth-century manuscript of them.
 
 ---
 

@@ -22,11 +22,12 @@ images:
       Danube crossing the plate from west to east with Dacia above it and the
       two Moesias below, the Black Sea engraved as ruled waves at the right
     reproduction_cleared: false
+    witness_kind: institutional
 rights:
   licence: Public domain
   attribution: Bibliothèque nationale de France via Wikimedia Commons
 field_status:
   title_original: not_yet_verified
   coverage: not_yet_verified
-  witness_kind: not_yet_verified
   dimensions: not_yet_verified
+witness_kind: institutional

@@ -20,12 +20,13 @@ images:
       stations Napoca, Porolissum and Apulum strung west to east above the
       Danube, the itinerary running on towards Byzantium
     reproduction_cleared: false
+    witness_kind: institutional
 rights:
   licence: Public domain
   attribution: Austrian National Library, Vienna, via Wikimedia Commons
 field_status:
   title_original: not_yet_verified
   coverage: not_yet_verified
-  witness_kind: not_yet_verified
   makers: not_yet_verified
   dimensions: not_yet_verified
+witness_kind: institutional

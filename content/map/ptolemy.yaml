@@ -20,6 +20,7 @@ images:
       Carpathians and the Danube, with Zarmizegethusa regia named inland and the
       Black Sea painted blue to the east
     reproduction_cleared: false
+    witness_kind: unlocated
 rights:
   licence: Public domain
   attribution: Public-domain reproduction via Wikimedia Commons
@@ -32,7 +33,7 @@ open_questions:
 field_status:
   title_original: not_yet_verified
   coverage: not_yet_verified
-  witness_kind: not_yet_verified
   dimensions: not_yet_verified
 makers:
   - tc:tc:cartographer:cartographer-000001
+witness_kind: unlocated
