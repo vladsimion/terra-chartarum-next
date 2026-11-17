@@ -16,6 +16,7 @@
     "lint:css": "stylelint \"src/**/*.{css,astro}\"",
     "test:e2e": "playwright test",
     "test:e2e:essays": "playwright test --config playwright.essays.config.ts",
+    "test:e2e:anchor": "playwright test --config playwright.anchor.config.ts",
     "test:e2e:collection": "playwright test --config playwright.collection.config.ts",
     "test:e2e:atlas": "playwright test --config playwright.atlas.config.ts",
     "test:e2e:bibliography": "playwright test --config playwright.bibliography.config.ts",
