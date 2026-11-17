@@ -16,3 +16,5 @@ locator:
   proposed_by: ai
 evidence_type: textual
 confidence: probable
+rights:
+  licence: CC BY 4.0

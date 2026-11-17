@@ -118,6 +118,8 @@ open_questions:
     no holder; the two must be reconciled.
   - The Ortelius image is catalogued by its holder as 1595 to 1624, so the
     impression photographed may not be the 1595 one even though the plate is.
+rights:
+  licence: CC BY 4.0
 stage_history:
   - stage: Concept
     on: 2026-11-17

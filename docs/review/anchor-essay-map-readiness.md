@@ -49,3 +49,17 @@ The preview build now fails with **53 errors**, and every one of them needs a pe
 
 The first three are the author's by design: these rules exist so that no machine can mark a legacy import reviewed. The last three are the release-list decision this document already records, and they belong to the Publish slice.
 
+## After the editor's licence and adjudication, 17 November 2026
+
+Two answers from the editor, applied: the essay and its thirteen evidence notes carry `rights.licence: CC BY 4.0`, which is what ADR 0009 says original prose and data carry, and the nine sources the essay cites record his adjudication of their machine-assisted import (`adjudicated_by: Vlad Simion`, `adjudicated_on: 2026-11-17`). The three sources the essay does not yet cite, Hereford, the Russian General Staff and the secret century, still need the same adjudication when their locators are identified and they join the essay.
+
+The preview build is now at **30 errors**, none of them bookkeeping:
+
+| Rule | Count | What it still needs |
+|---|---|---|
+| `IMPORT-REVIEW` | 15 | `editor_confirmed: true`, `confirmed_by` and `confirmed_on` on the six maps and nine sources. The adjudication above is a different statement: it says the machine's normalisation was checked, not that the import as a whole is accepted |
+| `MAP-DEALER-ONLY` | 6 | an evidence record behind each map's attribution, resting on something that is not a dealer or an auction |
+| `MAP-MAKER-HELD` | 4 | the cartographers behind Ptolemy, Honterus, Ortelius and Vesconte are held: release them with the essay, or stop naming them |
+| `BIB-LISTED-HELD` | 4 | the three entries Hereford lists and the one Vesconte lists, with the same choice |
+| `FAM-REQUIRED` | 1 | the Hereford maker, left open on purpose; it blocks publication until it is `unknown` or a name |
+
