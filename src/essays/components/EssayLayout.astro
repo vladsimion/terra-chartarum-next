@@ -45,6 +45,109 @@ const published = typeof essay.published_on === 'string' ? essay.published_on : 
 </Base>
 
 <style>
+
+  /*
+   * The vocabulary an essay's drawings are inked with (spec 009 research R4): six inks and three
+   * hands, every one a token, so a drawing carries no colour of its own and the lapidarium's squeeze
+   * can exchange them all at once by rewriting the `--plate-*` properties. Global, because the
+   * drawings are written in the body and appear inside a stone plate, a comparison or on their own.
+   * A drawing's own font sizes stay as SVG attributes: they are in the drawing's units and scale
+   * with it, which a rem token cannot do.
+   */
+  /*
+   * The ported drawings need five inks and three hands. A drawing's own font sizes stay as SVG
+   * attributes: they are in the drawing's units and scale with it, which a rem token cannot do
+   * (the Timeline's positions are data in the same way).
+   */
+  :global(.plate-paper) {
+    fill: var(--plate-paper, var(--panel-raised));
+  }
+
+  :global(.plate-water-text) {
+    fill: var(--plate-water, var(--accent));
+  }
+
+  :global(.plate-mark) {
+    fill: var(--plate-mark, var(--accent));
+  }
+
+  :global(.plate-mark-rule) {
+    fill: none;
+    stroke: var(--plate-mark, var(--accent));
+  }
+
+  /* The bars struck over a classified sheet: the strongest ink the plate has. */
+  :global(.plate-redacted) {
+    fill: var(--plate-ink, var(--ink));
+  }
+
+  :global(.plate-ground) {
+    fill: var(--plate-ground, var(--panel));
+  }
+
+  :global(.plate-accent) {
+    fill: var(--plate-accent, var(--accent));
+  }
+
+  :global(.plate-accent-rule) {
+    fill: none;
+    stroke: var(--plate-accent, var(--accent));
+  }
+
+  :global(.plate-cold) {
+    fill: var(--plate-cold, var(--accent-indigo));
+  }
+
+  :global(.plate-cold-rule) {
+    fill: none;
+    stroke: var(--plate-cold, var(--accent-indigo));
+  }
+
+  :global(.plate-muted-rule) {
+    fill: none;
+    stroke: var(--plate-ink-muted, var(--ink-muted));
+  }
+
+  :global(.plate-muted) {
+    fill: var(--plate-ink-muted, var(--ink-muted));
+  }
+
+  :global(.plate-caps) {
+    font-family: var(--font-display);
+  }
+
+  :global(.plate-label) {
+    font-family: var(--font-body);
+    font-style: italic;
+  }
+
+  :global(.plate-mono) {
+    font-family: var(--font-mono);
+  }
+
+  /* The drawing's vocabulary: a carved rule, a filled mark, a watercourse and a cut letter. */
+  :global(.plate-rule) {
+    fill: none;
+    stroke: var(--plate-ink, var(--ink));
+    stroke-width: 1.4;
+  }
+
+  :global(.plate-ink) {
+    fill: var(--plate-ink, var(--ink));
+    stroke: none;
+  }
+
+  :global(.plate-water) {
+    fill: none;
+    stroke: var(--plate-water, var(--accent));
+    stroke-width: 2;
+  }
+
+  :global(.plate-text) {
+    fill: var(--plate-ink, var(--ink));
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+  }
   h1 {
     padding-bottom: var(--space-3);
     border-bottom: 3px solid var(--accent);
