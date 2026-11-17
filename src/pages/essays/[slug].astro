@@ -9,8 +9,12 @@ import Interaction from '../../essays/components/Interaction.astro';
 import MapFigure from '../../essays/components/MapFigure.astro';
 import Scrollytelling from '../../essays/components/Scrollytelling.astro';
 import Timeline from '../../essays/components/Timeline.astro';
+import PitTable from '../../essays/bespoke/PitTable.astro';
+import SectionRadar from '../../essays/bespoke/SectionRadar.astro';
+import StoneGallery from '../../essays/bespoke/StoneGallery.astro';
+import StonePlate from '../../essays/bespoke/StonePlate.astro';
 import { buildEssayPage } from '../../essays/page-model.js';
-import { loadEssaySite } from '../../essays/site-data.js';
+import { loadEssayCells, loadEssaySite } from '../../essays/site-data.js';
 import { scanEssayBody } from '../../registry/essay-body.js';
 
 /*
@@ -30,10 +34,10 @@ const local = essayId.split(':').pop()!;
 const entry = await getEntry('essay-bodies', local);
 if (!entry) throw new Error(`essay ${essayId} is public but content/essay/${local}.mdx does not exist`);
 
-Astro.locals.essayPage = buildEssayPage({ essay, records: site.records, body: scanEssayBody(entry.body ?? ''), cslFor: site.cslFor });
+Astro.locals.essayPage = buildEssayPage({ essay, records: site.records, body: scanEssayBody(entry.body ?? ''), cslFor: site.cslFor, cells: loadEssayCells(local) });
 const { Content } = await render(entry);
 ---
 
 <EssayLayout>
-  <Content components={{ MapFigure, Cite, EvidencePanel, Interaction, CitationExport, Timeline, CompareSlider, Scrollytelling }} />
+  <Content components={{ MapFigure, Cite, EvidencePanel, Interaction, CitationExport, Timeline, CompareSlider, Scrollytelling, StoneGallery, StonePlate, SectionRadar, PitTable }} />
 </EssayLayout>

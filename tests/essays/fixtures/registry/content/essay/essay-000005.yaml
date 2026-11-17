@@ -1,0 +1,70 @@
+id: tc:tc:essay:essay-000005
+family: essay
+origin: minted
+title: Fixture essay, the four essay-specific interactions
+slug: fixture-bespoke
+lifecycle: published
+release: released
+stage: Publish
+design_qa_passed: true
+question: Do the lapidarium's own components work without a script?
+thesis: A stone gallery, a section radar and a pit table can each be read with no script at all.
+authors:
+  - A. Editor
+published_on: 2026-11-17
+accent: verdigris
+rooms:
+  primary: tc:tc:room:archive
+stage_history:
+  - stage: Concept
+    on: 2026-11-01
+    by: A. Editor
+  - stage: Corpus
+    on: 2026-11-02
+    by: A. Editor
+  - stage: Research
+    on: 2026-11-03
+    by: A. Editor
+  - stage: Outline
+    on: 2026-11-04
+    by: A. Editor
+  - stage: Draft
+    on: 2026-11-05
+    by: A. Editor
+  - stage: Build
+    on: 2026-11-06
+    by: A. Editor
+  - stage: Design QA
+    on: 2026-11-07
+    by: A. Editor
+  - stage: Publish
+    on: 2026-11-08
+    by: A. Editor
+rights:
+  licence: CC BY 4.0
+maps:
+  - tc:tc:map:map-000001
+sources:
+  - tc:tc:source:source-000001
+evidence:
+  - tc:tc:evidence:evidence-000001
+interactions:
+  - id: section-compare
+    component: section-radar
+    question: Which seals move between the two strata?
+    interpretation: Measure holds and authority dissolves between the two layers.
+    evidence:
+      - tc:tc:evidence:evidence-000001
+open_questions: []
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000001
+signoffs:
+  historical:
+    by: A. Editor
+    on: 2026-11-10
+  cartographic:
+    by: B. Editor
+    on: 2026-11-11
+  data:
+    by: C. Editor
+    on: 2026-11-12

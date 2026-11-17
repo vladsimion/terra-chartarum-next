@@ -1,6 +1,7 @@
 import type { EssayBody } from '../registry/essay-body.js';
 import type { PublicRecord } from '../registry/project.js';
 import { groupBibliography, type BibliographyGroup } from './bibliography.js';
+import { renderCell, type Cell, type RenderedCell } from './cells.js';
 import { CitationError, formatBibliographyItem, formatNote, type CslItem, type Locator, type Verification } from './citations.js';
 import { figureFor, literalCopies, type Figure } from './figure.js';
 import { relatedEssays, roomLinks, type RelatedEssay, type RoomLink } from './related.js';
@@ -41,6 +42,8 @@ export interface EssayPageModel {
   noteNumber(evidence: string): number | undefined;
   /** The declaration of an interaction the body uses, by its id in the record's `interactions[]`. */
   interaction(id: string): InteractionDetail;
+  /** A pit's cells from the essay's cell file, in stratum order, each rendered with its corpus label. */
+  pitCells(pit: string): RenderedCell[];
   bibliography: BibliographyGroup[];
   rooms: RoomLink[];
   related: RelatedEssay[];
@@ -55,8 +58,10 @@ export function buildEssayPage(input: {
   body: EssayBody;
   /** The CSL-JSON item of a bibliography entry, by entry id. */
   cslFor(entryId: string): CslItem;
+  /** The essay's cell file, when it has one (spec 009 data-model.md). */
+  cells?: readonly Cell[];
 }): EssayPageModel {
-  const { essay, records, body, cslFor } = input;
+  const { essay, records, body, cslFor, cells = [] } = input;
   const byId = new Map(records.map((r) => [r.id, r]));
   const fail = (message: string): never => {
     throw new CitationError(`essay ${essay.id}: ${message}`);
@@ -136,12 +141,21 @@ export function buildEssayPage(input: {
 
   const rooms = records.filter((r) => r.family === 'room').map((r) => ({ id: r.id, title: String(r.title), slug: String(r.slug) }));
 
+  const pits = new Map<string, RenderedCell[]>();
+  for (const cell of cells) {
+    const rows = pits.get(cell.pit) ?? [];
+    rows.push(renderCell(cell));
+    pits.set(cell.pit, rows);
+  }
+  for (const rows of pits.values()) rows.sort((a, b) => a.stratum - b.stratum);
+
   return {
     essay,
     figures,
     notes,
     detail: detailOf,
     interaction: (id) => interactions.get(id) ?? fail(`<Interaction> names ${id || '(nothing)'}, which this page did not declare`),
+    pitCells: (pit) => pits.get(pit) ?? fail(`<PitTable> names the pit ${pit || '(nothing)'}, which the essay's cell file does not hold`),
     noteNumber: (evidence) => (order.includes(evidence) ? order.indexOf(evidence) + 1 : undefined),
     bibliography: groupBibliography(entries),
     rooms: roomLinks(essay.rooms as { primary?: string; secondary?: string[] } | undefined, rooms),

@@ -1,0 +1,94 @@
+---
+import { stratumLabel } from '../cells.js';
+import { pageModel } from '../locals.js';
+
+/*
+ * One test pit (spec 009, contracts/components.md): the thirteen strata of a pit, read from the
+ * essay's cell file through the page model and `renderCell`, so every row says plainly that the
+ * corpus does not yet hold its attestation (FR-016, ADR 0014). Nothing but the pit's name comes from
+ * the body; a pit the cell file does not hold fails the build. A table, so there is nothing to
+ * operate and no script.
+ */
+interface Props {
+  /** The pit's id in the cell file, such as `sarmizegetusa`. */
+  pit: string;
+}
+
+const { pit } = Astro.props;
+const cells = pageModel(Astro.locals).pitCells(pit);
+const name = `${pit.slice(0, 1).toUpperCase()}${pit.slice(1)}`;
+---
+
+<div class="pit-scroll">
+  <table class="pit" data-pit={pit}>
+    <caption>{name}</caption>
+    <thead>
+      <tr>
+        <th scope="col">Stratum</th>
+        <th scope="col">Name found</th>
+        <th scope="col">Tongue</th>
+        <th scope="col">Reading</th>
+        <th scope="col">Note</th>
+        <th scope="col">Corpus</th>
+      </tr>
+    </thead>
+    <tbody>
+      {cells.map((cell) => (
+        <tr>
+          <th scope="row">{stratumLabel(cell.stratum)}</th>
+          <td>{cell.name}</td>
+          <td>{cell.language}</td>
+          <td>{cell.reading}</td>
+          <td>{cell.note}</td>
+          <td class="pit-corpus">{cell.corpusLabel}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .pit-scroll {
+    margin: var(--space-6) 0;
+    overflow-x: auto;
+  }
+
+  .pit {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--step--1);
+  }
+
+  caption {
+    margin-bottom: var(--space-2);
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    text-align: start;
+  }
+
+  th,
+  td {
+    padding: var(--space-1) var(--space-3);
+    border-bottom: 1px solid var(--line);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  thead th {
+    color: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    font-weight: normal;
+  }
+
+  tbody th {
+    font-family: var(--font-mono);
+    white-space: nowrap;
+  }
+
+  .pit-corpus {
+    color: var(--ink-muted);
+    font-size: var(--step--2);
+    white-space: nowrap;
+  }
+</style>

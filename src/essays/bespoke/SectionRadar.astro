@@ -1,0 +1,224 @@
+---
+import { axisLabels, polygonPoints, radarPoints, ringPolygons, spokes } from '../radar.js';
+
+/*
+ * A section comparison (spec 009, contracts/components.md): two strata of the trench scored on the
+ * same seals, drawn as one static SVG and printed as a table of the values beneath it. The chart is
+ * hidden from assistive technology because the table carries the same numbers in full; a reader who
+ * cannot see the polygons reads the table, not a recited list of coordinates.
+ *
+ * No script (FR-005): each legend entry is a native button, and focusing or hovering one fades the
+ * other series through `:has()` inside `@supports`, so a browser without `:has()` simply shows both
+ * series in full. Props are string literals (ESSAY-BODY-DYNAMIC): `axes`, `a` and `b` are JSON.
+ */
+interface Props {
+  /** A JSON string: the axis names, three or more. */
+  axes: string;
+  /** A JSON string: one share per axis, 0 to 1. */
+  a: string;
+  b: string;
+  labelA: string;
+  labelB: string;
+  caption?: string;
+}
+
+const SIZE = 340;
+const RINGS = 4;
+const NODE = 3;
+
+const { axes, a, b, labelA, labelB, caption } = Astro.props;
+
+const names = (prop: string, value: string): string[] => {
+  const parsed: unknown = JSON.parse(value);
+  if (!Array.isArray(parsed) || !parsed.every((v) => typeof v === 'string')) throw new Error(`<SectionRadar ${prop}> must be a JSON list of axis names`);
+  return parsed;
+};
+const shares = (prop: string, value: string, count: number): number[] => {
+  const parsed: unknown = JSON.parse(value);
+  if (!Array.isArray(parsed) || !parsed.every((v) => typeof v === 'number')) throw new Error(`<SectionRadar ${prop}> must be a JSON list of numbers`);
+  if (parsed.length !== count) throw new Error(`<SectionRadar ${prop}> has ${parsed.length} values for ${count} axes`);
+  return parsed;
+};
+
+const seals = names('axes', axes);
+const series = [
+  { key: 'a', label: labelA, values: shares('a', a, seals.length) },
+  { key: 'b', label: labelB, values: shares('b', b, seals.length) },
+].map((s) => {
+  const points = radarPoints(s.values, SIZE);
+  return { ...s, points, polygon: polygonPoints(points) };
+});
+const rings = ringPolygons(RINGS, seals.length, SIZE);
+const lines = spokes(seals.length, SIZE);
+const labels = axisLabels(seals, SIZE);
+const percent = (value: number) => `${Math.round(value * 100)} %`;
+---
+
+<figure class="radar">
+  <svg viewBox={`0 0 ${SIZE} ${SIZE}`} aria-hidden="true">
+    {rings.map((points) => <polygon class="radar-ring" points={points} />)}
+    {lines.map((line) => <line class="radar-spoke" x1={line.x1} y1={line.y1} x2={line.x2} y2={line.y2} />)}
+    {labels.map((label) => (
+      <text class="radar-axis" x={label.x} y={label.y} text-anchor={label.anchor} dominant-baseline="middle">{label.text}</text>
+    ))}
+    {series.map((s) => (
+      <g class:list={['radar-series', `radar-series-${s.key}`]}>
+        <polygon class="radar-area" points={s.polygon} />
+        {s.points.map((point) => <circle class="radar-node" cx={point.x} cy={point.y} r={NODE} />)}
+      </g>
+    ))}
+  </svg>
+
+  <ul class="radar-legend">
+    {series.map((s) => (
+      <li>
+        <button type="button" class:list={['radar-key', `radar-key-${s.key}`]}>{s.label}</button>
+      </li>
+    ))}
+  </ul>
+
+  <table class="radar-values">
+    <thead>
+      <tr>
+        <th scope="col">Seal</th>
+        {series.map((s) => <th scope="col">{s.label}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {seals.map((seal, i) => (
+        <tr>
+          <th scope="row">{seal}</th>
+          {series.map((s) => <td>{percent(s.values[i] as number)}</td>)}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .radar {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-3);
+    margin: var(--space-6) 0;
+  }
+
+  .radar svg {
+    width: 100%;
+    max-width: var(--chart-max-width);
+    height: auto;
+    overflow: visible;
+  }
+
+  .radar-ring,
+  .radar-spoke {
+    fill: none;
+    stroke: var(--line);
+    stroke-width: 1;
+  }
+
+  .radar-axis {
+    fill: var(--ink-muted);
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+  }
+
+  .radar-series {
+    transition: opacity var(--motion-fast);
+  }
+
+  .radar-series-a .radar-area {
+    fill: var(--accent);
+    fill-opacity: 0.18;
+    stroke: var(--accent);
+  }
+
+  .radar-series-a .radar-node {
+    fill: var(--accent);
+  }
+
+  .radar-series-b .radar-area {
+    fill: var(--ink-muted);
+    fill-opacity: 0.18;
+    stroke: var(--ink-muted);
+    stroke-dasharray: 4 3;
+  }
+
+  .radar-series-b .radar-node {
+    fill: var(--ink-muted);
+  }
+
+  .radar-area {
+    stroke-width: 2;
+  }
+
+  .radar-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .radar-key {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--target-min);
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--ink);
+    background: var(--panel);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+  }
+
+  .radar-key::before {
+    content: '';
+    width: var(--space-3);
+    height: var(--space-1);
+  }
+
+  .radar-key-a::before {
+    background: var(--accent);
+  }
+
+  .radar-key-b::before {
+    background: var(--ink-muted);
+  }
+
+  .radar-values {
+    border-collapse: collapse;
+    font-size: var(--step--1);
+  }
+
+  .radar-values th,
+  .radar-values td {
+    padding: var(--space-1) var(--space-3);
+    border-bottom: 1px solid var(--line);
+    text-align: start;
+  }
+
+  .radar-values td {
+    font-family: var(--font-mono);
+  }
+
+  figcaption {
+    color: var(--ink-muted);
+    font-size: var(--step--1);
+    text-align: center;
+  }
+
+  @supports selector(:has(*)) {
+    .radar:has(.radar-key-a:hover) .radar-series-b,
+    .radar:has(.radar-key-a:focus-visible) .radar-series-b,
+    .radar:has(.radar-key-b:hover) .radar-series-a,
+    .radar:has(.radar-key-b:focus-visible) .radar-series-a {
+      opacity: 0.25;
+    }
+  }
+</style>
