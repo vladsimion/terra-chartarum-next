@@ -1,0 +1,72 @@
+---
+/*
+ * One stone of the lapidarium (spec 009, contracts/components.md): a figure holding the stone's
+ * drawing, which is slotted in from the body and given its accessible name here, so the drawing's own
+ * shapes carry no label of their own (the contents of a `role="img"` element are presentational).
+ * No script. The drawing's colours come from the four plate classes below, whose values are the
+ * `--plate-*` properties the gallery sets, so the squeeze toggle flips every plate at once
+ * (research R4: no colour is written into a drawing).
+ */
+interface Props {
+  /** A short id for the stone, such as `vesconte`; it names the plate in the markup. */
+  stone: string;
+  /** What the drawing shows: the accessible name of the plate. */
+  label: string;
+  caption?: string;
+}
+
+const { stone, label, caption } = Astro.props;
+---
+
+<figure class="stela-plate" data-stone={stone}>
+  <div class="stela-drawing" role="img" aria-label={label}><slot /></div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .stela-plate {
+    margin: var(--space-5) 0;
+  }
+
+  .stela-drawing {
+    padding: var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--plate-paper, var(--panel-raised));
+    transition: background var(--motion-slow);
+  }
+
+  .stela-drawing :global(svg) {
+    width: 100%;
+    height: auto;
+  }
+
+  /* The drawing's vocabulary: a carved rule, a filled mark, a watercourse and a cut letter. */
+  .stela-drawing :global(.plate-rule) {
+    fill: none;
+    stroke: var(--plate-ink, var(--ink));
+    stroke-width: 1.4;
+  }
+
+  .stela-drawing :global(.plate-ink) {
+    fill: var(--plate-ink, var(--ink));
+    stroke: none;
+  }
+
+  .stela-drawing :global(.plate-water) {
+    fill: none;
+    stroke: var(--plate-water, var(--accent));
+    stroke-width: 2;
+  }
+
+  .stela-drawing :global(.plate-text) {
+    fill: var(--plate-ink, var(--ink));
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+  }
+
+  figcaption {
+    color: var(--ink-muted);
+    font-size: var(--step--1);
+  }
+</style>

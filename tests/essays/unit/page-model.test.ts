@@ -112,3 +112,34 @@ describe('buildEssayPage interactions (spec 003 US4, FR-007)', () => {
     expect(() => buildEssayPage({ essay: held, records, body: scanEssayBody('<Interaction id="frontier-slider" />'), cslFor: () => CSL })).toThrow(/frontier-slider.*evidence-000099/);
   });
 });
+
+/*
+ * Spec 009 T021 (data-model.md "Cell file"): the pit cells are the essay's own local data, read from
+ * the cell file beside the record and handed to <PitTable> through the page model, rendered so that
+ * every cell says whether the corpus holds its attestation.
+ */
+describe('buildEssayPage pit cells', () => {
+  const cell = (pit: string, stratum: number) => ({ pit, stratum, name: `name ${stratum}`, language: 'la', reading: '', note: 'a note', corpus: 'none' as const });
+  const cells = [...Array.from({ length: 13 }, (_, i) => cell('sarmizegetusa', i)), ...Array.from({ length: 13 }, (_, i) => cell('drobeta', i))];
+  const page = buildEssayPage({ essay, records, body: scanEssayBody('Prose.'), cslFor: () => CSL, cells });
+
+  it('gives a pit’s thirteen cells in stratum order, each marked not yet corpus-backed', () => {
+    const rows = page.pitCells('sarmizegetusa');
+    expect(rows.map((r) => r.stratum)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+    expect(new Set(rows.map((r) => r.corpusLabel))).toEqual(new Set(['not yet corpus-backed']));
+    expect(rows.every((r) => r.attestation === null)).toBe(true);
+  });
+
+  it('keeps the pits apart', () => {
+    expect(page.pitCells('drobeta').map((r) => r.pit)).toEqual(Array.from({ length: 13 }, () => 'drobeta'));
+  });
+
+  it('names a pit the cell file does not hold, so a mistyped <PitTable pit> fails the build', () => {
+    expect(() => page.pitCells('athens')).toThrow(/essay-000001.*athens.*cell file/);
+  });
+
+  it('has no pit at all when the essay has no cell file', () => {
+    const noCells = buildEssayPage({ essay, records, body: scanEssayBody('Prose.'), cslFor: () => CSL });
+    expect(() => noCells.pitCells('sarmizegetusa')).toThrow(/cell file/);
+  });
+});

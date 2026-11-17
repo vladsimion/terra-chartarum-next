@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { renderCell, type Cell } from '../../../src/essays/cells.js';
+import { renderCell, stratumLabel, type Cell } from '../../../src/essays/cells.js';
 
 /*
  * Spec 003 T040 (FR-016): a Trench A cell that will one day be backed by a CND attestation is the
@@ -36,5 +36,20 @@ describe('renderCell', () => {
 
   it('keeps the cell’s own fields as the reader sees them', () => {
     expect(renderCell(local)).toMatchObject({ pit: 'Sondaj 1', stratum: 3, name: 'terra sigillata', language: 'la', reading: 'terra sigillata', note: 'Found in the lower fill.' });
+  });
+});
+
+/*
+ * Spec 009 T021: a pit's strata are numbered 0 to XII, as the legacy pit tables number them: the
+ * present layer is 0 and the Roman layer XII, so the numeral is the depth.
+ */
+describe('stratumLabel', () => {
+  it('writes the present layer as 0 and the rest as Roman numerals to XII', () => {
+    expect(Array.from({ length: 13 }, (_, i) => stratumLabel(i))).toEqual(['0', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']);
+  });
+
+  it('refuses a stratum outside the thirteen, so a mis-keyed cell cannot print a blank label', () => {
+    expect(() => stratumLabel(13)).toThrow(/stratum/);
+    expect(() => stratumLabel(-1)).toThrow(/stratum/);
   });
 });

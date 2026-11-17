@@ -22,6 +22,15 @@ export interface RenderedCell extends Omit<Cell, 'corpus' | 'attestation'> {
   attestation: string | null;
 }
 
+/** The thirteen strata as the pit tables number them: 0 is the present layer, XII the Roman one. */
+const STRATA = ['0', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+
+export function stratumLabel(stratum: number): string {
+  const label = STRATA[stratum];
+  if (label === undefined) throw new Error(`cells: ${stratum} is not a stratum of a pit (0 to ${STRATA.length - 1})`);
+  return label;
+}
+
 export function renderCell(cell: Cell): RenderedCell {
   const { corpus: _local, attestation, ...own } = cell;
   if (attestation === undefined) return { ...own, corpusLabel: 'not yet corpus-backed', attestation: null };

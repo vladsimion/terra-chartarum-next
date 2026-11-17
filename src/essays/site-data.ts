@@ -2,6 +2,8 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { loadPublicRecords, registryRoot } from '../shell/public-records.js';
 import type { PublicRecord } from '../registry/project.js';
+import type { Cell } from './cells.js';
+import { validateCellFile } from './cells-file.js';
 import { cslItemFor, type CslItem } from './citations.js';
 
 /*
@@ -15,6 +17,25 @@ export interface EssaySite {
 }
 
 let cached: Promise<EssaySite> | null = null;
+
+/**
+ * The cells of an essay's cell file (`content/essay/<id>.cells.json`), beside its record, or none when
+ * it has no such file (spec 009 data-model.md). A file that breaks the cell rules fails the build
+ * rather than reaching a page: `<PitTable>` must not print a cell the integrity gate would reject.
+ */
+export function loadEssayCells(localId: string): Cell[] {
+  const file = path.join(registryRoot(), 'content', 'essay', `${localId}.cells.json`);
+  let text: string;
+  try {
+    text = readFileSync(file, 'utf8');
+  } catch {
+    return [];
+  }
+  const value: unknown = JSON.parse(text);
+  const problems = validateCellFile(value);
+  if (problems.length > 0) throw new Error(`${file}: ${problems.join('; ')}`);
+  return value as Cell[];
+}
 
 export function loadEssaySite(): Promise<EssaySite> {
   cached ??= (async () => {
