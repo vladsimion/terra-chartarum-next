@@ -26,7 +26,9 @@ const ID = 'lapidarium-squeeze';
     /* What a plate inks itself with; the squeeze below exchanges them. */
     --plate-paper: var(--panel-raised);
     --plate-ink: var(--ink);
-    --plate-water: var(--accent);
+    --plate-ink-muted: var(--ink-muted);
+    --plate-water: var(--accent-verdigris);
+    --plate-mark: var(--accent-madder);
 
     margin: var(--space-6) 0;
   }
@@ -74,7 +76,9 @@ const ID = 'lapidarium-squeeze';
     .lapidarium:has(.lapidarium-switch:checked) {
       --plate-paper: var(--ink-muted);
       --plate-ink: var(--canvas);
+      --plate-ink-muted: var(--canvas);
       --plate-water: var(--canvas);
+      --plate-mark: var(--canvas);
     }
   }
 </style>
