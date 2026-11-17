@@ -8,7 +8,16 @@ import { runPreview } from '../src/essays/preview-cli.js';
  */
 const build = (registryRoot: string, outDir: string) =>
   new Promise<{ ok: boolean; output: string }>((resolve) => {
-    const child = spawn('npx', ['astro', 'build'], { env: { ...process.env, REGISTRY_ROOT: registryRoot, ASTRO_OUT_DIR: `./${outDir}` } });
+    const child = spawn('npx', ['astro', 'build'], {
+      env: {
+        ...process.env,
+        REGISTRY_ROOT: registryRoot,
+        ASTRO_OUT_DIR: `./${outDir}`,
+        // a cache of this copy's own, beside it: the content layer stores absolute paths, and the
+        // next preview would otherwise resolve a temporary folder that has been thrown away
+        ASTRO_CACHE_DIR: `${registryRoot}/.astro-cache`,
+      },
+    });
     let output = '';
     child.stdout.on('data', (d) => (output += String(d)));
     child.stderr.on('data', (d) => (output += String(d)));

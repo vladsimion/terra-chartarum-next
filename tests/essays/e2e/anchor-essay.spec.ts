@@ -107,6 +107,8 @@ for (const tag of ['', ' @nojs']) {
 }
 
 test.describe('under prefers-reduced-motion', () => {
+  test.use({ reducedMotion: 'reduce' });
+
   test('nothing on the page animates or transitions', async ({ page }) => {
     await page.goto(PAGE);
     const selectors = ['.timeline a', '.lapidarium-switch-label', '.stela-drawing', '.compare-after', '.scrolly-steps > li', '.radar-series-a'];
@@ -121,16 +123,21 @@ test.describe('under prefers-reduced-motion', () => {
 });
 
 test.describe('accessibility, in every state an interaction can take', () => {
+  // four axe runs over a page of thirteen drawings: slow on its own, slower beside three other projects
+  test.slow();
+
   test('axe finds nothing on the page as served, in the squeeze, and at both ends of the reveal', async ({ page }) => {
     await page.goto(PAGE);
     await axeClean(page, 'as served');
 
-    await page.getByRole('checkbox', { name: 'Show as squeeze' }).check();
+    // the checkbox is visually hidden behind its own label, which is what a reader clicks
+    await page.locator('.lapidarium-switch-label').click();
+    await expect(page.getByRole('checkbox', { name: 'Show as squeeze' })).toBeChecked();
     await axeClean(page, 'in the squeeze');
 
-    await page.locator('.compare').getByRole('radio', { name: '0 %' }).check();
+    await page.locator('.compare').getByRole('radio', { name: '0 %', exact: true }).check();
     await axeClean(page, 'with the reveal closed');
-    await page.locator('.compare').getByRole('radio', { name: '100 %' }).check();
+    await page.locator('.compare').getByRole('radio', { name: '100 %', exact: true }).check();
     await axeClean(page, 'with the reveal open');
   });
 });

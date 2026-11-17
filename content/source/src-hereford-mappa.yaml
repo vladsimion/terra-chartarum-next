@@ -12,3 +12,8 @@ source_kind: mappa_mundi
 entry: tc:tc:bibliography_entry:bibliography_entry-000037
 legacy_review_state: normalized
 legacy_normalization_method: llm_assisted
+adjudicated_by: Vlad Simion
+adjudicated_on: 2026-11-17
+editor_confirmed: true
+confirmed_by: Vlad Simion
+confirmed_on: 2026-11-17

@@ -16,6 +16,9 @@ export default defineConfig({
   output: 'static',
   // the essay end-to-end build writes elsewhere so it never overwrites the shell build
   outDir: process.env.ASTRO_OUT_DIR ?? './dist',
+  // the content layer's store pins the absolute path of the registry it read; a preview build runs
+  // from a throwaway copy, so it needs a cache of its own or the next run resolves a deleted path
+  cacheDir: process.env.ASTRO_CACHE_DIR ?? './node_modules/.astro',
   site: 'https://terra-chartarum.org',
   trailingSlash: 'always',
   build: { format: 'directory' },

@@ -59,6 +59,12 @@ const published = typeof essay.published_on === 'string' ? essay.published_on : 
    * attributes: they are in the drawing's units and scale with it, which a rem token cannot do
    * (the Timeline's positions are data in the same way).
    */
+  /* A stroke in the paper's own tone: a gap drawn over an inked line, not an ink of its own. */
+  :global(.plate-paper-rule) {
+    fill: none;
+    stroke: var(--plate-paper, var(--panel-raised));
+  }
+
   :global(.plate-paper) {
     fill: var(--plate-paper, var(--panel-raised));
   }

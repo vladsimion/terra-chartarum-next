@@ -30,6 +30,9 @@ const end = Number(to);
 const placed = axisPositions(list, start, end);
 const pct = (position: number) => `${(position * 100).toFixed(2)}%`;
 const fmt = (y: number) => (y < 0 ? `${Math.abs(y)} BC` : `AD ${y}`);
+/* Thirteen events on two rows overlapped each other's 44px targets, which axe reports as
+ * target-size. Four rows keep neighbours apart: an event sits two places from the one beside it. */
+const ROWS = 4;
 const id = createHash('sha256').update(`${events}|${from}|${to}`).digest('hex').slice(0, 8);
 const at = (selector: string, position: number) => `.timeline[data-timeline="${id}"] ${selector} { --x: ${pct(position)}; }`;
 const positions = [
@@ -48,7 +51,7 @@ const positions = [
     </div>
     <ol class="timeline-events">
       {placed.map((event, i) => (
-        <li class:list={['timeline-event', i % 2 === 0 ? 'above' : 'below']}>
+        <li class:list={['timeline-event', `row-${i % ROWS}`]}>
           <a href={event.href}>
             <span class="timeline-year">{fmt(event.year)}</span>{' '}
             <span class="timeline-name">{event.label}</span>
@@ -62,14 +65,20 @@ const positions = [
 
 <style>
   .timeline {
+    --row-near: var(--space-3);
+    --row-far: calc(var(--space-8) + var(--space-6));
+
     margin: var(--space-6) 0;
     /* room above and below the band for the labels that stand off the axis */
     padding: var(--space-5) 0;
+    /* below its own width the events crowd each other's targets, so the axis scrolls instead */
+    overflow-x: auto;
   }
 
   .timeline-band {
     position: relative;
-    height: calc(var(--space-8) * 2);
+    height: calc(var(--space-8) * 4 + var(--space-6));
+    min-width: var(--timeline-min-width);
     margin: 0 var(--space-6);
   }
 
@@ -101,12 +110,25 @@ const positions = [
     transform: translateX(-50%);
   }
 
-  .timeline-event.above {
-    bottom: 50%;
+  /*
+   * Four rows, each clear of the next by more than a finger's width. Two events close in time
+   * overlap horizontally whatever the axis does, so the clearance has to be vertical, and the two
+   * rows nearest the axis stand off it as well, or they meet on the line itself (axe target-size).
+   */
+  .timeline-event.row-0 {
+    bottom: calc(50% + var(--row-far));
   }
 
-  .timeline-event.below {
-    top: 50%;
+  .timeline-event.row-1 {
+    bottom: calc(50% + var(--row-near));
+  }
+
+  .timeline-event.row-2 {
+    top: calc(50% + var(--row-near));
+  }
+
+  .timeline-event.row-3 {
+    top: calc(50% + var(--row-far));
   }
 
   .timeline-event a {
@@ -132,7 +154,8 @@ const positions = [
     background: var(--accent);
   }
 
-  .timeline-event.above a {
+  .timeline-event.row-0 a,
+  .timeline-event.row-1 a {
     flex-direction: column-reverse;
   }
 

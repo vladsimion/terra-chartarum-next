@@ -64,6 +64,8 @@
   --map-min-height: 24rem;
   /* The widest a square figure in an essay grows: a radar chart reads at arm's length, not at column width */
   --chart-max-width: 24rem;
+  /* The narrowest a timeline may be drawn before it scrolls: below this its events crowd each other */
+  --timeline-min-width: 64rem;
 
   /* Shape and motion */
   --radius: 4px;
