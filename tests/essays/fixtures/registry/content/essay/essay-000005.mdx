@@ -1,0 +1,46 @@
+Four interactions of the lapidarium's own, none of them needing a script.
+
+<h2 id="the-wall">The wall, stone by stone</h2>
+
+Two stones, read as drawings or as squeezes.
+
+<StoneGallery>
+  <StonePlate stone="first" label="The first stone: a straight rule across the valley">
+    <svg viewBox="0 0 200 120">
+      <path d="M10 60 H190" class="plate-rule" />
+      <circle cx="100" cy="60" r="6" class="plate-ink" />
+      <text x="10" y="24" class="plate-text">PRIMVS</text>
+    </svg>
+  </StonePlate>
+  <StonePlate stone="second" label="The second stone: the road bends round the valley">
+    <svg viewBox="0 0 200 120">
+      <path d="M10 60 C60 20 140 100 190 60" class="plate-water" />
+      <text x="10" y="24" class="plate-text">SECVNDVS</text>
+    </svg>
+  </StonePlate>
+</StoneGallery>
+
+<h2 id="the-section">The section comparison</h2>
+
+<Interaction id="section-compare">
+  <SectionRadar
+    axes='["MENSVRA","AVCTORITAS","NOMINA","LIMES","SILENTIVM"]'
+    a='[0.6,0.4,0.6,0.4,0.8]'
+    labelA="XII · the first stratum"
+    b='[0.9,1,0.8,0.8,0.9]'
+    labelB="IV · the fourth stratum"
+    caption="Two strata of the fixture trench, five seals each"
+  />
+</Interaction>
+
+<h2 id="the-pits">The test pits</h2>
+
+<PitTable pit="sarmizegetusa" />
+
+<PitTable pit="apulum" />
+
+<PitTable pit="napoca" />
+
+<PitTable pit="drobeta" />
+
+<CitationExport />

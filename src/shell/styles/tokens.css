@@ -62,6 +62,8 @@
   --target-min: 44px;
   --thumb-width: 6rem;
   --map-min-height: 24rem;
+  /* The widest a square figure in an essay grows: a radar chart reads at arm's length, not at column width */
+  --chart-max-width: 24rem;
 
   /* Shape and motion */
   --radius: 4px;

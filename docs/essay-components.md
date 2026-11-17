@@ -85,3 +85,31 @@ Every component in `src/essays/components/` is listed here, with the question it
 - **Keyboard:** the steps are prose and the figure is not a control, so there is nothing to focus; the page scrolls as any page does.
 - **Reduced motion:** the step in view is emphasised with a CSS scroll-driven animation where the browser has it; under `prefers-reduced-motion: reduce` that animation is off and the steps are plain.
 - **Without JavaScript:** it needs none. The figure is always visible; without scroll-driven animation (the rules sit inside `@supports`) no step is highlighted.
+
+# Essay-specific components
+
+The four components in `src/essays/bespoke/` serve the anchor essay alone (spec 009 research R1): a squeeze toggle, a stone plate, a section radar and a pit table. They are documented to the same four lines, and they meet the same rules: no script, every colour from the tokens, visible focus, 44px targets, nothing moving under `prefers-reduced-motion: reduce`, and every `:has()` rule inside an `@supports` block so a browser without it still shows all the content.
+
+## StoneGallery
+- **Question it serves:** do I read these stones as drawings, or as the epigrapher's squeeze, the stone's negative? It wraps the lapidarium's plates and offers one control, a checkbox labelled "Show as squeeze", which exchanges ink and paper on every plate at once by rewriting the `--plate-*` properties the plates read.
+- **Keyboard:** the control is a native checkbox, visually hidden with its label as the visible control: Tab reaches it, Space toggles it, the label carries the focus ring and is at least 44px tall.
+- **Reduced motion:** the plates' one background transition runs on `--motion-slow`, which the tokens set to zero under `prefers-reduced-motion: reduce`.
+- **Without JavaScript:** it needs none. In a browser without `:has()` every plate stays a drawing and nothing is lost; the drawing is the reading that is served by default.
+
+## StonePlate
+- **Question it serves:** what does this one stone show? A figure holding the stone's drawing, named for assistive technology from the record of what it is, so the drawing itself carries no text that a reader has to decode.
+- **Keyboard:** nothing to operate; it is a figure, not a control.
+- **Reduced motion:** nothing moves; only the gallery's background change applies, and that is zeroed with the token.
+- **Without JavaScript:** it needs none. The drawing is inline SVG written at build time, inked from the four plate classes (`plate-rule`, `plate-ink`, `plate-water`, `plate-text`) whose colours come from the tokens.
+
+## SectionRadar
+- **Question it serves:** which of the Five Seals move between two strata, and by how much? One static SVG of two series on the same axes, with a table of the same values beneath it; the chart is hidden from assistive technology because the table says everything it says.
+- **Keyboard:** each legend entry is a native button: Tab reaches it, focus emphasises its series and fades the other, with visible focus and a 44px target. Nothing is only available on hover.
+- **Reduced motion:** the fade runs on `--motion-fast`, zero under `prefers-reduced-motion: reduce`; the chart itself is drawn at build time and never animates.
+- **Without JavaScript:** it needs none. Both series and the whole table are always in the page; in a browser without `:has()` neither series fades and both read in full.
+
+## PitTable
+- **Question it serves:** what was this one place called in each of the thirteen strata, and does the corpus hold that attestation yet? The pit's cells from the essay's cell file, each row marked "not yet corpus-backed" until the Corpus Chartarum Daciae holds its attestation (ADR 0014).
+- **Keyboard:** nothing to operate; it is a table. On a narrow screen it scrolls inside its own container.
+- **Reduced motion:** nothing moves.
+- **Without JavaScript:** it needs none. The rows are written at build time from the cell file through `renderCell`, so the corpus label is the same for every reader.

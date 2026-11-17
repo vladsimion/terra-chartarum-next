@@ -1,0 +1,80 @@
+---
+/*
+ * The lapidarium wall (spec 009, contracts/components.md): it wraps the stone plates and offers one
+ * control, a native checkbox labelled "Show as squeeze", which turns every plate from a drawing into
+ * an epigrapher's squeeze: the stone's negative, ink and paper exchanged. The checkbox is visually
+ * hidden and its label is the visible control, so there is no custom widget and no script (FR-005);
+ * the flip is `:has()` rewriting the four `--plate-*` properties the plates read, inside `@supports`,
+ * so a browser without `:has()` shows every plate as a drawing and loses nothing. The legacy
+ * treatment used CSS filters, which the shell forbids; the tokens carry it instead.
+ *
+ * One gallery to a page (the essay has one wall), so the checkbox's id is fixed.
+ */
+const ID = 'lapidarium-squeeze';
+---
+
+<div class="lapidarium">
+  <div class="lapidarium-bar">
+    <input class="lapidarium-switch" type="checkbox" id={ID} />
+    <label class="lapidarium-switch-label" for={ID}>Show as squeeze</label>
+  </div>
+  <slot />
+</div>
+
+<style>
+  .lapidarium {
+    /* What a plate inks itself with; the squeeze below exchanges them. */
+    --plate-paper: var(--panel-raised);
+    --plate-ink: var(--ink);
+    --plate-water: var(--accent);
+
+    margin: var(--space-6) 0;
+  }
+
+  .lapidarium-bar {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* Visually hidden, never unfocusable: the label beside it is the control the reader sees. */
+  .lapidarium-switch {
+    position: absolute;
+    width: var(--space-1);
+    height: var(--space-1);
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .lapidarium-switch-label {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+  }
+
+  .lapidarium-switch:focus-visible + .lapidarium-switch-label {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  .lapidarium-switch:checked + .lapidarium-switch-label {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  @supports selector(:has(*)) {
+    .lapidarium:has(.lapidarium-switch:checked) {
+      --plate-paper: var(--ink-muted);
+      --plate-ink: var(--canvas);
+      --plate-water: var(--canvas);
+    }
+  }
+</style>
