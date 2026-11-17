@@ -1,0 +1,18 @@
+id: tc:tc:evidence:evidence-000012
+family: evidence
+origin: minted
+title: "The Josephine survey as the later term of the section comparison"
+slug: ev-iosephina-authority-reading
+slug_history: []
+relations: []
+lifecycle: researching
+release: held
+target:
+  entity: tc:tc:essay:essay-000001
+source: tc:tc:source:src-iosephina-survey
+locator:
+  value: "Josephinische Landesaufnahme, Siebenbürgen, 1769–1773; Kriegsarchiv, B IX 715"
+  state: pending
+  proposed_by: ai
+evidence_type: cartographic
+confidence: possible

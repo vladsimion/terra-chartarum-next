@@ -10,10 +10,30 @@ relations: []
 record_scope: object
 date_published: "0150"
 significance: Coordinates for 8,000 places - cartography as a table of numbers.
+images:
+  - type: static
+    url: https://commons.wikimedia.org/wiki/Special:FilePath/Ptolemy%20Cosmographia%20Dacia+Danube.jpg?width=1400
+    static_url: https://commons.wikimedia.org/wiki/Special:FilePath/Ptolemy%20Cosmographia%20Dacia+Danube.jpg?width=1400
+    attribution: Public-domain reproduction via Wikimedia Commons
+    licence: Public domain
+    alt: The ninth map of Europe in a manuscript Cosmographia, Dacia between the
+      Carpathians and the Danube, with Zarmizegethusa regia named inland and the
+      Black Sea painted blue to the east
+    reproduction_cleared: false
+    witness_kind: unlocated
+rights:
+  licence: Public domain
+  attribution: Public-domain reproduction via Wikimedia Commons
+open_questions:
+  - field: images
+    question: The reproduction is public domain, but no repository is named for
+      the manuscript it was photographed from.
+    would_resolve: The Wikimedia Commons file's own source, or a holder's
+      catalogue record for the copy.
 field_status:
   title_original: not_yet_verified
   coverage: not_yet_verified
-  witness_kind: not_yet_verified
   dimensions: not_yet_verified
 makers:
   - tc:tc:cartographer:cartographer-000001
+witness_kind: unlocated
