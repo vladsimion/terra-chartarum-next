@@ -115,20 +115,29 @@ const positions = [
    * overlap horizontally whatever the axis does, so the clearance has to be vertical, and the two
    * rows nearest the axis stand off it as well, or they meet on the line itself (axe target-size).
    */
-  .timeline-event.row-0 {
-    bottom: calc(50% + var(--row-far));
-  }
-
+  .timeline-event.row-0,
   .timeline-event.row-1 {
-    bottom: calc(50% + var(--row-near));
+    bottom: 50%;
+    /* the box reaches the axis and the label stands off it, so the leader has room to be drawn */
+    padding-bottom: var(--leader);
+    background: linear-gradient(var(--line), var(--line)) no-repeat center bottom / 1px var(--leader);
   }
 
-  .timeline-event.row-2 {
-    top: calc(50% + var(--row-near));
-  }
-
+  .timeline-event.row-2,
   .timeline-event.row-3 {
-    top: calc(50% + var(--row-far));
+    top: 50%;
+    padding-top: var(--leader);
+    background: linear-gradient(var(--line), var(--line)) no-repeat center top / 1px var(--leader);
+  }
+
+  .timeline-event.row-0,
+  .timeline-event.row-3 {
+    --leader: var(--row-far);
+  }
+
+  .timeline-event.row-1,
+  .timeline-event.row-2 {
+    --leader: var(--row-near);
   }
 
   .timeline-event a {
