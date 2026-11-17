@@ -42,3 +42,6 @@ field_status:
   provenance: not_yet_verified
 witness_kind: unlocated
 georeferencing_status: none
+editor_confirmed: true
+confirmed_by: Vlad Simion
+confirmed_on: 2026-11-17

@@ -63,3 +63,16 @@ The preview build is now at **30 errors**, none of them bookkeeping:
 | `BIB-LISTED-HELD` | 4 | the three entries Hereford lists and the one Vesconte lists, with the same choice |
 | `FAM-REQUIRED` | 1 | the Hereford maker, left open on purpose; it blocks publication until it is `unknown` or a name |
 
+## After the editor's import confirmations, 17 November 2026
+
+All fifteen legacy imports the essay uses are confirmed (`editor_confirmed: true`, `confirmed_by: Vlad Simion`, `confirmed_on: 2026-11-17`): the six maps and the nine sources. The import rules stop constraining a record once its import is accepted, so the preview build is now at **15 errors**, and every one of them is a decision about what becomes public:
+
+| Rule | Count | The decision |
+|---|---|---|
+| `MAP-DEALER-ONLY` | 6 | each map's attribution needs an evidence record behind it. Several sheets name their own maker in the cartouche, which is evidence; saying which is a scholarly call, and then the records are quick to write |
+| `MAP-MAKER-HELD` | 4 | Ptolemy, Honterus, Ortelius and Vesconte name cartographer records that are held. A public map may only name public makers, so either those four join the release list or the maps stop naming them |
+| `BIB-LISTED-HELD` | 4 | Hereford lists three bibliography entries and Vesconte one, all held, with the same choice |
+| `FAM-REQUIRED` | 1 | the Hereford maker, deliberately left open; it blocks publication until it is `unknown` or a name |
+
+The middle two are the release-list gap this document has recorded since the first preview run: research R10's list is short by the cartographers the maps name and the bibliography entries they list. That is the Publish slice's to settle, and `tests/essays/unit/release-list.test.ts` (T053) will pin whatever is decided.
+
