@@ -76,3 +76,13 @@ All fifteen legacy imports the essay uses are confirmed (`editor_confirmed: true
 
 The middle two are the release-list gap this document has recorded since the first preview run: research R10's list is short by the cartographers the maps name and the bibliography entries they list. That is the Publish slice's to settle, and `tests/essays/unit/release-list.test.ts` (T053) will pin whatever is decided.
 
+## After the editor's three decisions, 17 November 2026
+
+Named: the Hereford map now names Richard of Haldingham, a minted cartographer record whose biography says plainly that the name is the map's own and that the role it describes is unsettled; the map's open question stays.
+
+Released: what a map names comes with it. `selectUsedRecords` in the preview now carries a map's makers, the bibliography entries it lists and the evidence behind its attribution, which is what `MAP-MAKER-HELD` and `BIB-LISTED-HELD` require of anything public. Research R10's release list is short by exactly those, and T053's test will pin the wider set. Releasing a legacy record means accepting its import, so the three legacy cartographers the maps name carry the editor's confirmation too.
+
+Attributed: six evidence records, one per map, each resting on what the sheet itself offers — the codex heading for Ptolemy, the absence of any name on the Peutinger parchment, the legend for Hereford, the signature and date for Vesconte, the imprint cartouche for Honterus, and the cartouche naming Ortelius. Every locator is `pending`, as all of ours are.
+
+The preview build is at **2 errors**, both on one record: `src-hereford-mappa`, which the Hereford attribution evidence rests on and which therefore becomes public. It needs the same two statements the other sources already have, an import confirmation and an adjudication of its machine-assisted normalisation. Neither can be made by a machine.
+

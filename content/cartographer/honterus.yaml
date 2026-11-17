@@ -11,3 +11,6 @@ kind: person
 names:
   - Honterus, Johannes
 life_dates: 1498/1549
+editor_confirmed: true
+confirmed_by: Vlad Simion
+confirmed_on: 2026-11-17

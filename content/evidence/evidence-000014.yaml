@@ -1,0 +1,20 @@
+id: tc:tc:evidence:evidence-000014
+family: evidence
+origin: minted
+title: "The codex attributes the ninth map of Europe to Ptolemy"
+slug: ev-ptolemy-attribution
+slug_history: []
+relations: []
+lifecycle: researching
+release: held
+target:
+  entity: tc:tc:map:ptolemy
+source: tc:tc:source:src-ptolemy-geographia
+locator:
+  value: "The heading of the sheet, Nona Europe tabula, in a manuscript Cosmographia Claudii Ptolomaei: the attribution is the work’s, not a signature on the drawing"
+  state: pending
+  proposed_by: ai
+evidence_type: textual
+confidence: probable
+rights:
+  licence: CC BY 4.0

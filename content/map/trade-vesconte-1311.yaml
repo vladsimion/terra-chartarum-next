@@ -27,6 +27,8 @@ images:
     witness_kind: institutional
 rights:
   licence: Public domain
+attribution_evidence:
+  - tc:tc:evidence:evidence-000017
 field_status:
   title_original: not_yet_verified
   publication_place: not_yet_verified

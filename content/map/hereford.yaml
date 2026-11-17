@@ -38,9 +38,13 @@ open_questions:
       settled.
     would_resolve: The Hereford Cathedral scholarly literature on the legend and the Lincoln prebendary
       records behind the two candidate identifications.
+makers:
+  - tc:tc:cartographer:cartographer-000003
+attribution_evidence:
+  - tc:tc:evidence:evidence-000016
 field_status:
   title_original: not_yet_verified
-  makers: not_yet_verified
+  makers: recorded
   publication_place: not_yet_verified
   atlas_context: not_applicable
   dimensions: not_yet_verified

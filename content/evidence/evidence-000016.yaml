@@ -1,0 +1,20 @@
+id: tc:tc:evidence:evidence-000016
+family: evidence
+origin: minted
+title: "The Hereford map names Richard de Haldingham in its own legend"
+slug: ev-hereford-attribution
+slug_history: []
+relations: []
+lifecycle: researching
+release: held
+target:
+  entity: tc:tc:map:hereford
+source: tc:tc:source:src-hereford-mappa
+locator:
+  value: "The legend on the map itself, naming \"Richard de Haldingham e de Lafford\" as the author of its making; what that role was is the record’s open question"
+  state: pending
+  proposed_by: ai
+evidence_type: cartographic
+confidence: probable
+rights:
+  licence: CC BY 4.0

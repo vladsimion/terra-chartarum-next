@@ -1,0 +1,20 @@
+id: tc:tc:evidence:evidence-000018
+family: evidence
+origin: minted
+title: "The 1532 sheet carries its imprint and dedication"
+slug: ev-honterus-attribution
+slug_history: []
+relations: []
+lifecycle: researching
+release: held
+target:
+  entity: tc:tc:map:honterus
+source: tc:tc:source:src-honterus-chorographia
+locator:
+  value: "The imprint cartouche of the woodcut, \"Ornatiss. senatui Cibiniensi dicatum, Basileae anno MDXXXII\": the sheet gives the place, the year and the dedicatee, and the maker’s name is to be confirmed against the impression"
+  state: pending
+  proposed_by: ai
+evidence_type: cartographic
+confidence: possible
+rights:
+  licence: CC BY 4.0

@@ -14,13 +14,34 @@ function essayBySlug(records: readonly RegistryRecord[], slug: string): Registry
   return essay;
 }
 
-/** The essay and every record it needs to be public: its maps, evidence, sources and entries, plus each evidence record's source and that source's entry. */
+/** The essay and every record it needs to be public: its maps, evidence, sources and entries, each evidence record's source and that source's entry, and what a map itself names: its makers, its listed entries and the evidence behind its attribution. */
 export function selectUsedRecords(records: readonly RegistryRecord[], slug: string, omittedMaps: readonly string[] = []): Set<string> {
   const essay = essayBySlug(records, slug);
   const byId = new Map(records.map((r) => [r.id, r]));
   const used = new Set<string>([essay.id]);
   for (const key of ['maps', 'evidence', 'sources', 'bibliography'] as const) {
     for (const id of ids(essay[key])) if (!omittedMaps.includes(id)) used.add(id);
+  }
+  for (const id of [...used]) {
+    const record = byId.get(id);
+    if (record?.family === 'evidence' && typeof record.source === 'string') used.add(record.source);
+  }
+  for (const id of [...used]) {
+    const record = byId.get(id);
+    if (record?.family === 'source' && typeof record.entry === 'string') used.add(record.entry);
+  }
+  /*
+   * A public map may only name makers that are public and list entries that are public
+   * (MAP-MAKER-HELD, BIB-LISTED-HELD), so what a map names comes with it. Research R10's list was
+   * short by exactly this: the cartographers the maps name, the bibliography entries they list and
+   * the evidence behind their attributions. Decided with the editor, 2026-11-17.
+   */
+  for (const id of [...used]) {
+    const record = byId.get(id);
+    if (record?.family !== 'map') continue;
+    for (const key of ['makers', 'bibliography', 'attribution_evidence'] as const) {
+      for (const named of ids(record[key])) used.add(named);
+    }
   }
   for (const id of [...used]) {
     const record = byId.get(id);

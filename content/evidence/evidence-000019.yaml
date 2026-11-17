@@ -1,0 +1,20 @@
+id: tc:tc:evidence:evidence-000019
+family: evidence
+origin: minted
+title: "The Parergon sheet names Ortelius in its own cartouche"
+slug: ev-ortelius-attribution
+slug_history: []
+relations: []
+lifecycle: researching
+release: held
+target:
+  entity: tc:tc:map:ortelius
+source: tc:tc:source:src-ortelius-parergon
+locator:
+  value: "The sheet’s lower cartouche, \"Ex conatibus Abrahami Ortelij 1595\", with the dedication cartouche naming Abrah. Ortelius"
+  state: pending
+  proposed_by: ai
+evidence_type: cartographic
+confidence: probable
+rights:
+  licence: CC BY 4.0

@@ -24,6 +24,8 @@ images:
 rights:
   licence: Public domain
   attribution: Austrian National Library, Vienna, via Wikimedia Commons
+attribution_evidence:
+  - tc:tc:evidence:evidence-000015
 field_status:
   title_original: not_yet_verified
   makers: unknown

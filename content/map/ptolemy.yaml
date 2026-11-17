@@ -28,6 +28,8 @@ open_questions:
     question: The reproduction is public domain, but no repository is named for the manuscript it was
       photographed from.
     would_resolve: The Wikimedia Commons file's own source, or a holder's catalogue record for the copy.
+attribution_evidence:
+  - tc:tc:evidence:evidence-000014
 field_status:
   title_original: not_yet_verified
   publication_place: not_yet_verified

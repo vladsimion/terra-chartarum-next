@@ -26,6 +26,8 @@ images:
 rights:
   licence: Public domain
   attribution: Bibliothèque nationale de France via Wikimedia Commons
+attribution_evidence:
+  - tc:tc:evidence:evidence-000019
 field_status:
   title_original: not_yet_verified
   publication_place: not_yet_verified
