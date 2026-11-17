@@ -91,6 +91,22 @@ const { stone, label, caption } = Astro.props;
     fill: var(--plate-ink-muted, var(--ink-muted));
   }
 
+  /*
+   * The second half of the wall draws two lines the first half never needed: a faint rule in the
+   * muted ink (the Josephine sheet's plane-table grid) and a line cut in the paper itself, which a
+   * dark drawing uses as a knockout (the Russian scale bar). Both read the same `--plate-*`
+   * properties as the rest, so the squeeze flips them with everything else.
+   */
+  .stela-drawing :global(.plate-rule-muted) {
+    fill: none;
+    stroke: var(--plate-ink-muted, var(--ink-muted));
+  }
+
+  .stela-drawing :global(.plate-paper-rule) {
+    fill: none;
+    stroke: var(--plate-paper, var(--panel-raised));
+  }
+
   .stela-drawing :global(.plate-caps) {
     font-family: var(--font-display);
   }
