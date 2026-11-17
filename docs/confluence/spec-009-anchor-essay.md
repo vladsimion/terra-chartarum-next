@@ -5,13 +5,13 @@ Programme dossier for spec 009, written against the fourteen-point contract in [
 | | |
 |---|---|
 | Programme type | Content: the v1 anchor essay "Terra Sigillata · Lapidarium Dacicum" (Trench A), rebuilt natively on the essay framework (spec 003) and published, so that spec 008's `cutover:check` step 6 passes |
-| Status | **In progress.** Grilled, specified, clarified, planned, tasked and analysed (#105 to #107, 20 October 2026). Slice 2, the review tooling, merged (#108, 20 October 2026). Slice 3, the three shared components, merged (#110, 16 November 2026). Slice 4, the four essay-specific components, open (17 November 2026). The essay record does not exist yet; nothing is published. |
+| Status | **In progress.** Grilled, specified, clarified, planned, tasked and analysed (#105 to #107, 20 October 2026). Slice 2, the review tooling, merged (#108, 20 October 2026). Slice 3, the three shared components, merged (#110, 16 November 2026). Slice 4, the four essay-specific components and the checks on them (T019 to T023), open with the gate green (#114, 17 November 2026). Slice 5 begun: T024 fixes the record's shape before it exists (#115, draft). The essay record does not exist yet; nothing is published. |
 | Jira | **TCX-52** epic (In Progress); stories **TCX-53** (US1 the text; also holds Setup and Foundation), **TCX-54** (US2 the interactions), **TCX-55** (US3 the record and the evidence), **TCX-56** (US4 old links and the cutover gate), **TCX-57** (US5 approvals), **TCX-58** (US6 release). TCX-51, the earlier placeholder epic for the same essay, is superseded by TCX-52. |
 | Canonical parent | A standalone page at the root of the space, as for specs 001 to 008 |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). Spec `specs/009-anchor-essay/`; code `src/essays/{preview,ledger,reconcile,port-fidelity,cells-file,timeline,radar}.ts`, `src/essays/components/{Timeline,CompareSlider,Scrollytelling}.astro`, `src/essays/bespoke/{StoneGallery,StonePlate,SectionRadar,PitTable}.astro`; scripts `scripts/essay-{preview,ledger,reconcile}.ts`; review files `docs/review/anchor-essay-changes.md`, `docs/review/anchor-essay-legacy-paragraphs.json`; decision `docs/adr/0017` |
 | Successor relationship | The legacy essay at `/essays/dacia/` on the archive is ported whole; at Publish its URL gains one redirect rule to `/essays/dacia-lapidarium/` (spec 008, ADR 0010) |
 | Pinned snapshot | The legacy repository `github.com/vladsimion/terra-chartarum` at `e82afd990fd473a2cdf80896401bc64602a1bd29`, read from a fresh clone; the legacy text itself is not copied into this repository, only a manifest of its 245 paragraphs' hashes |
-| Last reconciliation | 2026-11-17 against the slice 4 branch: 2619 Vitest tests in 221 files, all passing; `npm run test:e2e:essays` 93 tests (light, dark, no-JavaScript); `lint:css` and `typecheck` clean. Registry rules and mutations unchanged by this spec so far (91 and 121 at `c72f02e`, the spec 008 count). |
+| Last reconciliation | 2026-11-17 against the slice 4 branch: 2619 Vitest tests in 221 files, all passing; `npm run test:e2e:essays` 93 tests (light, dark, no-JavaScript), and 275 in a wider one-off matrix; Lighthouse CI over both fixture essay pages at accessibility 1.00 and 0 script bytes; `lint:css` and `typecheck` clean. Registry rules and mutations unchanged by this spec so far (91 and 121 at `c72f02e`, the spec 008 count). |
 
 ## 2. Purpose / thesis
 
@@ -63,11 +63,11 @@ The `gate` workflow runs typecheck, Vitest (the essay fixture build included), s
 
 ## 9. Implementation phases and dependency model
 
-Setup → Foundation (the review tooling) → US2 (the seven components, on the fixture) → US3 (the record and the evidence) → US1 (the text, in three parts) → US5 (approvals) → Build and Design QA → US6 and US4 (Publish and the redirect) → Polish. Twelve pull-request slices (tasks.md); slices 1 to 3 merged, slice 4 open. The components block every Draft task; the author's inputs block slices 5 to 7.
+Setup → Foundation (the review tooling) → US2 (the seven components, on the fixture) → US3 (the record and the evidence) → US1 (the text, in three parts) → US5 (approvals) → Build and Design QA → US6 and US4 (Publish and the redirect) → Polish. Twelve pull-request slices (tasks.md); slices 1 to 3 merged, slice 4 open and complete, slice 5 begun. The components block every Draft task; the author's inputs block slices 5 to 7.
 
 ## 10. Jira hierarchy and reconciliation history
 
-TCX-52 carries the design paragraph, the critical path and the "next" pointer; each story carries its task checklist. Reconciled 2026-10-20 (#107, #108: TCX-53 In Progress), 2026-11-16 (slice 3: TCX-54 In Progress, this dossier and Build Log section AC drafted) and 2026-11-17 (slice 4: TCX-54's checklist ticked to T021, #110 recorded as merged). No numbers are typed here that a test or script owns; the counts in §1 are true at the commit named there.
+TCX-52 carries the design paragraph, the critical path and the "next" pointer; each story carries its task checklist. Reconciled 2026-10-20 (#107, #108: TCX-53 In Progress), 2026-11-16 (slice 3: TCX-54 In Progress, this dossier and Build Log section AC drafted) and 2026-11-17 (slice 4: TCX-54's checklist ticked to T023 and #110 recorded as merged; TCX-55 moved to In Progress for T024). No numbers are typed here that a test or script owns; the counts in §1 are true at the commit named there.
 
 ## 11. Programme acceptance criteria
 
@@ -80,6 +80,7 @@ The spec's SC-001 to SC-007: all six sections, thirteen stones and four pits pre
 | 2026-10-20 | Slice 2 (#108): 51 tests written first; `essay:reconcile` tried on the real data | 47 of 52 cells agree, 5 differ, 2 CSV rows unclaimed; suite 2505 tests green |
 | 2026-11-16 | Slice 3: T012 red then green; the fixture build red (components undefined) then green; the e2e spec red then green in light, dark and no-JavaScript | `npm test` 2574 tests in 219 files; `test:e2e:essays` 74 tests; lint and typecheck clean; one shell test (no `style` attributes) caught the Timeline's first form and the positions moved to a per-instance stylesheet |
 | 2026-11-17 | Slice 4: the radar geometry red then green; the bespoke build cases red (components undefined) then green; the squeeze and legend cases red then green in light, dark and no-JavaScript | `npm test` 2619 tests in 221 files; `test:e2e:essays` 93 tests, axe clean on both fixture pages; lint and typecheck clean; the squeeze had to be rebuilt on tokens because the shell forbids the CSS `filter` the legacy used, and the built fixture page is 3.6 KB gzipped with no script |
+| 2026-11-17 | Slice 4 finished: Lighthouse CI over both fixture essay pages, three runs each; the whole fixture suite in five further combinations (JavaScript off and reduced motion, in both schemes); T024's record test seen red against a stub and green against the shape the data model fixes | Accessibility 1.00, script transfer 0 bytes against the 100 KB budget, performance 0.99, largest contentful paint 1.7 s, no layout shift; 266 passed and 9 skipped in the wider matrix, which exposed only that axe-core cannot run with scripts disabled (it is itself a script) and now skips itself there |
 
 ## 13. Canonical ownership and propagation
 
@@ -87,4 +88,4 @@ The repository owns the spec, the contracts, the tasks, this dossier, the Build 
 
 ## 14. Current checkpoint and delivery authority
 
-Checkpoint: slice 4 open on `t009-bespoke-components` (T019 to T021 done; T022's registration done with them, its Lighthouse checks and T023 left). Next: finish slice 4, then slice 5, while the author supplies the inputs for slices 5 to 7. Delivery authority: the editor merges each slice; the author signs the four sign-offs at Publish and opens the archive-project pull request for the redirect; the dossier records that no independent review took place.
+Checkpoint: slice 4 complete and open on `t009-bespoke-components` (#114, gate green); slice 5 begun on `t009-anchor-record` (#115, draft) with T024, the record's shape fixed before the record exists. Next: the author's inputs, which are now the only thing in the way of slices 5 to 7 — the `question` for T025, then the four licence statements and the open map answers. Delivery authority: the editor merges each slice; the author signs the four sign-offs at Publish and opens the archive-project pull request for the redirect; the dossier records that no independent review took place.
