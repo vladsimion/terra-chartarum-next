@@ -11,7 +11,7 @@ The files here are the repository copies of Confluence pages and entries. A file
 | `spec-005-atlas.md` | Spec 005 programme dossier, page 38469633 (whole page; keep identical; version 2 carries the #63 correction) |
 | `spec-006-bibliography.md` | Spec 006 programme dossier, page 38633475 (whole page; keep identical) |
 | `spec-007-rooms.md` | Spec 007 programme dossier, page 38928393 (whole page; keep identical) |
-| `spec-008-migration.md` | Spec 008 programme dossier, page 39321601 (whole page; keep identical; version 2 has the same body as version 1, left over from a first attempt to move the page to the root; version 3 is the refresh after T042 and the stories reaching Done) |
+| `spec-008-migration.md` | Spec 008 programme dossier, page 39321601 (whole page; keep identical; version 2 has the same body as version 1, left over from a first attempt to move the page to the root; version 3 is the refresh after T042 and the stories reaching Done; version 4, published 2026-11-17 from `main` at 73affea, carries the map-review refresh (#102) and TCX-44's closure (#112); the last sentence of §14 still needs version 5) |
 | `spec-009-anchor-essay.md` | Spec 009 programme dossier, not yet published (no page yet; publish whole when it is) |
 | `build-log-*.md` | One section of the Build Log, page 2490370 (`build-log-spec-009.md` is drafted, not yet published) |
 | `decision-log-tc-dNNN.md` | One published Decision Log entry, page 12648509 |

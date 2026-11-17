@@ -1,6 +1,6 @@
 # Confluence entry: Build Log (page 2490370)
 
-Published 2026-10-20 as section AB (page version 134), directly after section AA and before "2. In progress"; the header pointer "sections U to AA" became "sections U to AB". The rest of the page was left unchanged (checked by reading the page back). The text below is what was published, except the last sentence of the final paragraph, which was changed on 16 November 2026 when TCX-44 was closed and needs republishing.
+Published 2026-10-20 as section AB (page version 134), directly after section AA and before "2. In progress"; the header pointer "sections U to AA" became "sections U to AB". The rest of the page was left unchanged (checked by reading the page back). Republished on 17 November 2026 as page version 135 after TCX-44 was closed (#112): only section AB changed, and the rest of the page was read back identical (checked by hash). The text below is what was published.
 
 ## AB. The successor build: migration and cutover (spec 008)
 
