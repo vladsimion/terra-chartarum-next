@@ -173,6 +173,9 @@ test.describe('under prefers-reduced-motion', () => {
 });
 
 test.describe('accessibility', () => {
+  // axe-core runs inside the page, so it needs JavaScript there even though these pages ship none (T023).
+  test.skip(({ javaScriptEnabled }) => javaScriptEnabled === false, 'axe-core is itself a script');
+
   for (const [name, at] of [['the shared components', PAGE], ['the essay-specific components', BESPOKE]] as const) {
     test(`axe finds nothing on the fixture essay with ${name}`, async ({ page }) => {
       await page.goto(at);

@@ -73,7 +73,9 @@ test.describe('the fixture essay page', () => {
     await expect(page.locator('body')).toHaveAttribute('data-accent', 'verdigris');
   });
 
-  test('has no accessibility violations', async ({ page }) => {
+  test('has no accessibility violations', async ({ page, javaScriptEnabled }) => {
+    // axe-core runs inside the page, so it needs JavaScript there even though this page ships none (spec 009 T023).
+    test.skip(javaScriptEnabled === false, 'axe-core is itself a script');
     const results = await new AxeBuilder({ page }).analyze();
     expect(results.violations.map((v) => v.id)).toEqual([]);
   });
