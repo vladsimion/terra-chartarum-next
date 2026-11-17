@@ -13,6 +13,6 @@ source: tc:tc:source:src-cantemir-moldavia
 locator:
   value: "Principatus Moldaviae nova & accurata descriptio, Amsterdam, 1737; British Library, Maps K.Top.113.64"
   state: pending
-  proposed_by: ai
+  proposed_by: person
 evidence_type: cartographic
 confidence: probable

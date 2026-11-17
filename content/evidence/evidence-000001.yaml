@@ -13,6 +13,6 @@ source: tc:tc:source:src-ptolemy-geographia
 locator:
   value: "Geographia III.8, the Dacia chapter of the coordinate catalogue"
   state: pending
-  proposed_by: ai
+  proposed_by: person
 evidence_type: textual
 confidence: probable

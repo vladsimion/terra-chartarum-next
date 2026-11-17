@@ -13,6 +13,6 @@ source: tc:tc:source:src-tabula-peutingeriana
 locator:
   value: "Tabula Peutingeriana, segm. VII–VIII, Dacia and the lower Danube; the parchment at the Österreichische Nationalbibliothek, Vienna"
   state: pending
-  proposed_by: ai
+  proposed_by: person
 evidence_type: cartographic
 confidence: probable

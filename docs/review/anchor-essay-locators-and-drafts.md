@@ -2,7 +2,9 @@
 
 Written 2026-11-17 for spec 009 T031 and T033. Three things are asked of the author here, and each is laid out so the answer is a line, not an essay. The drafts are drawn from the author's own legacy text at the pinned snapshot `e82afd9`, with the line cited, so nothing below is invented.
 
-**Status, 17 November 2026.** Sections 1 to 3 are answered and applied: the author supplied catalogue and archival references, nine of which are now evidence records with `state: pending` and `proposed_by: ai`, while Hereford, the Russian sheet and the firing-plan sheet stay uncited until they are identified; the thesis is in, and four of the five interactions are declared with his revised wording. What is written below in those sections is what was asked and drafted, kept as the record of it. Section 4, the bibliography sections, is still open.
+**Status, 17 November 2026.** Sections 1 to 4 are answered and applied: the author supplied catalogue and archival references, nine of which are now evidence records with `state: pending` and `proposed_by: person`, while Hereford, the Russian sheet and the firing-plan sheet stay uncited until they are identified; the thesis is in, and four of the five interactions are declared with his revised wording. What is written below in those sections is what was asked and drafted, kept as the record of it.
+
+**Correction, 17 November 2026 (provenance).** The nine locators were first written as `proposed_by: ai`. That was wrong: the author gave these pointers, and the field now reads `proposed_by: person` on all thirteen evidence records. `proposed_by` is an enumeration of `person` and `ai` (`src/registry/schemas/shared.ts`), so it records the kind of proposer, not the name; the author's name is recorded in `locator.verified_by` and only once he has verified the pointer. All thirteen stay `state: pending`, so `LOC-AI-VERIFIED` no longer applies to them and `LOC-VERIFIED-FIELDS` is what will hold them at Publish until a person records `verified_by`, `verified_on` and `consulted_copy`. The four interaction records (`evidence-000010` to `evidence-000013`) were changed with the nine because they carry the author's same pointers verbatim; say so if any of them should read `ai` instead.
 
 ---
 
@@ -91,5 +93,7 @@ Each of the twelve entries behind the stones' sources needs one of the seven sec
 | the other eleven, from Peutinger to the secret century | `historical_maps` | each is a map, chart, survey or sheet, which is what that section is for |
 
 If you would rather the Cantemir entry went under `primary_sources`, because the Descriptio is a book, say so: we cite the 1737 printed map rather than the book, which is why it is proposed as a map.
+
+**Answered 2026-11-17 and applied as proposed.** `bibliography_entry-000035` (Ptolemy's Geographia) carries `section: primary_sources`; entries `-000036` to `-000046`, Peutinger to the secret century, carry `section: historical_maps`. Cantemir stayed under `historical_maps`, as proposed, because the entry cites the 1737 printed map and not the book. `tests/essays/unit/bibliography-sections.test.ts` passes on all twelve. None of the twelve is enriched beyond a title, an author, a year and a note; the test only insists on the section and the CSL file, so enrichment is still open before Publish.
 
 None of the twelve is enriched yet. They are thin by design: a title, an author, a year and a note. Anything you want public as more than that needs the fields filled before Publish, and the test only insists on the section and the CSL file.

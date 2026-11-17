@@ -13,6 +13,6 @@ source: tc:tc:source:src-iosephina-survey
 locator:
   value: "Josephinische Landesaufnahme, Siebenbürgen, 1769–1773; Kriegsarchiv, B IX 715"
   state: pending
-  proposed_by: ai
+  proposed_by: person
 evidence_type: cartographic
 confidence: possible

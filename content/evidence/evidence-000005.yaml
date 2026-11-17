@@ -13,6 +13,6 @@ source: tc:tc:source:src-ortelius-parergon
 locator:
   value: "Daciarum, Moesiarumque, vetus descriptio, Parergon, 1595, plate XXVI; Van den Broecke 212"
   state: pending
-  proposed_by: ai
+  proposed_by: person
 evidence_type: cartographic
 confidence: probable

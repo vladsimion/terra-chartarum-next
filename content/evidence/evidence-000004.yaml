@@ -13,6 +13,6 @@ source: tc:tc:source:src-honterus-chorographia
 locator:
   value: "Chorographia Transylvaniae – Sybembürgen, 1532; the complete woodcut sheet, RMK III 296"
   state: pending
-  proposed_by: ai
+  proposed_by: person
 evidence_type: cartographic
 confidence: probable

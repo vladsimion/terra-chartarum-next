@@ -13,6 +13,6 @@ source: tc:tc:source:src-szathmari-charta
 locator:
   value: "Charta României Meridionale, 1864, 1:57,600"
   state: pending
-  proposed_by: ai
+  proposed_by: person
 evidence_type: cartographic
 confidence: possible
