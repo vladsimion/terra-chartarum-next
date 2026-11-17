@@ -13,18 +13,27 @@ interface Props {
   /** What the drawing shows: the accessible name of the plate. */
   label: string;
   caption?: string;
+  /**
+   * `stone` (the default) is one of the lapidarium's thirteen and is marked `.stela-plate`.
+   * `drawing` is one of the essay's other drawings — the two squeezes on the comparison desk and the
+   * trench's core sample — which need the same drawing vocabulary but are not stones of the wall, so
+   * they carry `.essay-drawing` instead and the count of thirteen plates stays true.
+   */
+  variant?: 'stone' | 'drawing';
 }
 
-const { stone, label, caption } = Astro.props;
+const { stone, label, caption, variant = 'stone' } = Astro.props;
+const wrapper = variant === 'stone' ? 'stela-plate' : 'essay-drawing';
 ---
 
-<figure class="stela-plate" data-stone={stone}>
+<figure class={wrapper} data-stone={stone}>
   <div class="stela-drawing" role="img" aria-label={label}><slot /></div>
   {caption && <figcaption>{caption}</figcaption>}
 </figure>
 
 <style>
-  .stela-plate {
+  .stela-plate,
+  .essay-drawing {
     margin: var(--space-5) 0;
   }
 
@@ -105,6 +114,42 @@ const { stone, label, caption } = Astro.props;
   .stela-drawing :global(.plate-paper-rule) {
     fill: none;
     stroke: var(--plate-paper, var(--panel-raised));
+  }
+
+  /*
+   * The trench's core sample is drawn in earth, not in ink: a soil body, a paler band, the ochre of a
+   * find, the rust of an iron horizon and the slate of the modern surface. These five are the
+   * section's own vocabulary and take the shell's accents, so the drawing changes with the scheme and
+   * still carries no colour of its own.
+   */
+  .stela-drawing :global(.plate-soil) {
+    fill: var(--accent-umber);
+  }
+
+  .stela-drawing :global(.plate-soil-rule) {
+    fill: none;
+    stroke: var(--accent-umber);
+  }
+
+  .stela-drawing :global(.plate-soil-pale) {
+    fill: var(--panel-raised);
+  }
+
+  .stela-drawing :global(.plate-find) {
+    fill: var(--accent-gold);
+  }
+
+  .stela-drawing :global(.plate-rust) {
+    fill: var(--accent-madder);
+  }
+
+  .stela-drawing :global(.plate-slate) {
+    fill: var(--accent-indigo);
+  }
+
+  .stela-drawing :global(.plate-slate-rule) {
+    fill: none;
+    stroke: var(--accent-indigo);
   }
 
   .stela-drawing :global(.plate-caps) {

@@ -92,6 +92,30 @@ describe('the fixture essay with the essay-specific components', () => {
     });
   });
 
+  describe('StonePlate as a drawing that is not a stone', () => {
+    it('holds the essay\u2019s other drawings without counting them among the plates', () => {
+      const drawings = bespoke.root.querySelectorAll('.essay-drawing');
+      expect(drawings, 'one non-stone drawing in the fixture').toHaveLength(1);
+      const drawing = drawings[0]!;
+      expect(drawing.tagName.toLowerCase()).toBe('figure');
+      expect(drawing.getAttribute('data-stone')).toBe('core-sample');
+      expect(drawing.classList.contains('stela-plate'), 'not a plate of the lapidarium').toBe(false);
+      const inner = drawing.querySelector('[role="img"]');
+      expect(inner?.getAttribute('aria-label')).toMatch(/core sample/i);
+      expect(inner!.querySelector('svg'), 'the drawing holds the slotted SVG').not.toBeNull();
+      expect(drawing.querySelector('figcaption')?.textContent).toContain('0 to 60 centimetres');
+    });
+
+    it('takes the section\u2019s own earth vocabulary, with no colour of its own', () => {
+      const svg = bespoke.root.querySelector('.essay-drawing svg')!;
+      expect(svg.outerHTML).not.toMatch(/#[0-9a-f]{3,8}\b/i);
+      const classes = svg.querySelectorAll('[class]').map((el) => el.getAttribute('class'));
+      expect(classes).toContain('plate-soil');
+      expect(classes).toContain('plate-soil-pale');
+      expect(classes).toContain('plate-find');
+    });
+  });
+
   describe('StonePlate', () => {
     it('is a figure whose drawing carries role="img" and the plate’s label', () => {
       const plates = bespoke.root.querySelectorAll('.lapidarium .stela-plate');
