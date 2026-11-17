@@ -16,9 +16,9 @@ images:
     static_url: https://commons.wikimedia.org/wiki/Special:FilePath/Tabula%20Peutingeriana%20(%C3%96NB)%2013.jpg?width=1400
     attribution: Austrian National Library, Vienna, via Wikimedia Commons
     licence: Public domain
-    alt: The segment of the Tabula Peutingeriana that carries Dacia, the road
-      stations Napoca, Porolissum and Apulum strung west to east above the
-      Danube, the itinerary running on towards Byzantium
+    alt: The segment of the Tabula Peutingeriana that carries Dacia, the road stations Napoca,
+      Porolissum and Apulum strung west to east above the Danube, the itinerary running on towards
+      Byzantium
     reproduction_cleared: false
     witness_kind: institutional
 rights:
@@ -26,7 +26,13 @@ rights:
   attribution: Austrian National Library, Vienna, via Wikimedia Commons
 field_status:
   title_original: not_yet_verified
-  coverage: not_yet_verified
   makers: unknown
+  publication_place: not_yet_verified
+  edition_state: not_yet_verified
+  atlas_context: not_applicable
   dimensions: not_yet_verified
+  language: not_yet_verified
+  coverage: not_yet_verified
+  provenance: not_yet_verified
 witness_kind: institutional
+georeferencing_status: none

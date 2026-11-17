@@ -28,3 +28,24 @@ The build fails with **61 errors**. Four are the essay's own and are simply late
 Research R10 lists what Publish releases: the essay, its seventeen evidence records, the twelve sources and their entries, and the maps it shows. This run says that list is short by two kinds of record: **the cartographers the maps name**, and **the bibliography entries the maps list**. Either they are released with the maps, or those references come off the map records. That is a decision for the Publish slice (T053 onwards), not for Corpus, and it is recorded here so that it is not met for the first time on the day of publication.
 
 Nothing above blocks the stage the essay is at. It reached Corpus on 2026-11-17, which needs only that every map resolves and carries a rights state, and all six do.
+
+---
+
+## After the field-status answers, 17 November 2026
+
+The thirty-five `MAP-FIELD-STATUS` errors are cleared. Nothing was invented to do it: `georeferencing_status` is now the value `none`, which is true of all six, `atlas_context` is `not_applicable` on the two that come from no atlas or series (the Peutinger roll and the Hereford map), and every other missing field carries `not_yet_verified`, which says exactly what is the case, that nobody has checked it yet. Any of them can be upgraded to a value later; the rule then wants the status to read `recorded`.
+
+The preview build now fails with **53 errors**, and every one of them needs a person or a decision:
+
+| Rule | Count | What it needs |
+|---|---|---|
+| `IMPORT-REVIEW` | 15 | each legacy record (the six maps and nine sources) needs `editor_confirmed: true`, `confirmed_by` naming a person and `confirmed_on`. The rule refuses a confirmation that looks automated, which is the point of it |
+| `RIGHTS-MISSING` | 14 | a `rights.licence` on the essay itself and on its thirteen evidence records. One decision, applied fourteen times: what licence does the essay and its own notes carry? |
+| `AUTO-UNADJUDICATED` | 9 | the nine sources imported with machine assistance need `adjudicated_by` and `adjudicated_on`, again a named person |
+| `MAP-DEALER-ONLY` | 6 | each map's attribution needs at least one evidence record behind it. Some of the sheets name their own maker in a cartouche, which is attribution evidence, but saying so is a scholarly call |
+| `MAP-MAKER-HELD` | 4 | the cartographers the maps name are held; either they join the release list or the maps stop naming them |
+| `BIB-LISTED-HELD` | 4 | the bibliography entries the Hereford and Vesconte records list are held, with the same choice |
+| `FAM-REQUIRED` | 1 | the Hereford maker, left open deliberately on 17 November |
+
+The first three are the author's by design: these rules exist so that no machine can mark a legacy import reviewed. The last three are the release-list decision this document already records, and they belong to the Publish slice.
+

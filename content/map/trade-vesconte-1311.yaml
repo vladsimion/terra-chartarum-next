@@ -10,8 +10,8 @@ relations:
   - tc:tc:map:trade-vesconte-1321
 record_scope: object
 date_published: "1311"
-significance: Pietro Vesconte’s signed chart presents the eastern Mediterranean
-  as an ordered sequence of coasts and crossings.
+significance: Pietro Vesconte’s signed chart presents the eastern Mediterranean as an ordered
+  sequence of coasts and crossings.
 makers:
   - tc:tc:cartographer:pietro-vesconte
 bibliography:
@@ -29,6 +29,12 @@ rights:
   licence: Public domain
 field_status:
   title_original: not_yet_verified
-  coverage: not_yet_verified
+  publication_place: not_yet_verified
+  edition_state: not_yet_verified
+  atlas_context: not_yet_verified
   dimensions: not_yet_verified
+  language: not_yet_verified
+  coverage: not_yet_verified
+  provenance: not_yet_verified
 witness_kind: institutional
+georeferencing_status: none

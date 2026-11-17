@@ -18,9 +18,9 @@ images:
     static_url: https://commons.wikimedia.org/wiki/Special:FilePath/Chorographia%20Transylvaniae%20Sybemb%C3%BCrgen%201532.jpg?width=1400
     attribution: Public-domain reproduction via Wikimedia Commons
     licence: Public domain
-    alt: Honterus' woodcut of Transylvania, printed at Basel in 1532, the Carpathian
-      ring drawn as rows of hills around hundreds of named Saxon and Hungarian
-      settlements, dedicated in a cartouche to the council of Sibiu
+    alt: Honterus' woodcut of Transylvania, printed at Basel in 1532, the Carpathian ring drawn as rows
+      of hills around hundreds of named Saxon and Hungarian settlements, dedicated in a cartouche to
+      the council of Sibiu
     reproduction_cleared: false
     witness_kind: unlocated
 rights:
@@ -28,12 +28,17 @@ rights:
   attribution: Public-domain reproduction via Wikimedia Commons
 open_questions:
   - field: images
-    question: The reproduction is public domain, but no repository is named for
-      the printed sheet it was photographed from.
-    would_resolve: The Wikimedia Commons file's own source, or a holder's
-      catalogue record for the copy.
+    question: The reproduction is public domain, but no repository is named for the printed sheet it was
+      photographed from.
+    would_resolve: The Wikimedia Commons file's own source, or a holder's catalogue record for the copy.
 field_status:
   title_original: not_yet_verified
-  coverage: not_yet_verified
+  publication_place: not_yet_verified
+  edition_state: not_yet_verified
+  atlas_context: not_yet_verified
   dimensions: not_yet_verified
+  language: not_yet_verified
+  coverage: not_yet_verified
+  provenance: not_yet_verified
 witness_kind: unlocated
+georeferencing_status: none
