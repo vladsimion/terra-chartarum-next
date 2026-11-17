@@ -2,7 +2,7 @@
 
 Written 2026-11-17 for spec 009 T031 and T033. Three things are asked of the author here, and each is laid out so the answer is a line, not an essay. The drafts are drawn from the author's own legacy text at the pinned snapshot `e82afd9`, with the line cited, so nothing below is invented.
 
-Answer in the blank column, or in a reply; nothing is written into a record until you do.
+**Status, 17 November 2026.** Sections 1 to 3 are answered and applied: the author supplied catalogue and archival references, nine of which are now evidence records with `state: pending` and `proposed_by: ai`, while Hereford, the Russian sheet and the firing-plan sheet stay uncited until they are identified; the thesis is in, and four of the five interactions are declared with his revised wording. What is written below in those sections is what was asked and drafted, kept as the record of it. Section 4, the bibliography sections, is still open.
 
 ---
 
@@ -78,3 +78,18 @@ Each declared interaction prints a question above it and an expected interpretat
 - **Interpretation:** Authority and silence together. Measure and limit do not move, both layers measuring to the limit of their instruments, but authority halves and silence falls by more than half, the only reversal of that size in the section. *(legacy lines 2084 to 2089)*
 
 Each of the five also needs one evidence record of its own, which I mint once the questions are settled; several can rest on a stone's source with a different locator.
+
+---
+
+## 4. The twelve bibliography sections (T034)
+
+Each of the twelve entries behind the stones' sources needs one of the seven sections before it can be public, and the essay's bibliography builder rejects anything else. The test is written; the choice is yours. My proposal is the obvious split, and I would not expect you to change more than one or two.
+
+| Entry, behind | Proposed section | Why |
+|---|---|---|
+| `src-ptolemy-geographia` | `primary_sources` | a coordinate catalogue in a text, not a drawn map |
+| the other eleven, from Peutinger to the secret century | `historical_maps` | each is a map, chart, survey or sheet, which is what that section is for |
+
+If you would rather the Cantemir entry went under `primary_sources`, because the Descriptio is a book, say so: we cite the 1737 printed map rather than the book, which is why it is proposed as a map.
+
+None of the twelve is enriched yet. They are thin by design: a title, an author, a year and a note. Anything you want public as more than that needs the fields filled before Publish, and the test only insists on the section and the CSL file.
