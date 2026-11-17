@@ -38,10 +38,14 @@ const sourceId = (slug: string) => `tc:tc:source:${slug}`;
  */
 const anchor = registry.records.find((r) => r.family === 'essay' && r.slug === 'dacia-lapidarium');
 const declarations = (Array.isArray(anchor?.interactions) ? anchor.interactions : []) as { evidence?: unknown }[];
-const interactionEvidence = new Set(
-  declarations.flatMap((d) => (Array.isArray(d.evidence) ? d.evidence.filter((e): e is string => typeof e === 'string') : [])),
-);
-const stoneEvidence = registry.records.filter((r) => r.family === 'evidence' && !interactionEvidence.has(r.id));
+const strings = (value: unknown) => (Array.isArray(value) ? value.filter((v): v is string => typeof v === 'string') : []);
+/* An interaction's evidence is named by the essay's declarations; a map's attribution evidence is
+   named by the map (MAP-DEALER-ONLY). What is left over is a stone's. */
+const spokenFor = new Set([
+  ...declarations.flatMap((d) => strings(d.evidence)),
+  ...registry.records.filter((r) => r.family === 'map').flatMap((r) => strings(r.attribution_evidence)),
+]);
+const stoneEvidence = registry.records.filter((r) => r.family === 'evidence' && !spokenFor.has(r.id));
 const evidenceFor = (slug: string) => stoneEvidence.filter((r) => r.source === sourceId(slug));
 
 /** The locator as the schema shapes it; the author fills `value` and a person later verifies it. */
