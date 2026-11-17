@@ -1,0 +1,18 @@
+id: tc:tc:evidence:evidence-000002
+family: evidence
+origin: minted
+title: "The Peutinger table carries Dacia along its roads"
+slug: ev-peutinger-dacia
+slug_history: []
+relations: []
+lifecycle: researching
+release: held
+target:
+  entity: tc:tc:map:peutinger
+source: tc:tc:source:src-tabula-peutingeriana
+locator:
+  value: "Tabula Peutingeriana, segm. VII–VIII, Dacia and the lower Danube; the parchment at the Österreichische Nationalbibliothek, Vienna"
+  state: pending
+  proposed_by: ai
+evidence_type: cartographic
+confidence: probable

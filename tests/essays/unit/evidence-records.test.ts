@@ -29,7 +29,20 @@ const SOURCES = [
 const registry = await loadRegistry('.');
 const byId = new Map(registry.records.map((r) => [r.id, r]));
 const sourceId = (slug: string) => `tc:tc:source:${slug}`;
-const evidenceFor = (slug: string) => registry.records.filter((r) => r.family === 'evidence' && r.source === sourceId(slug));
+
+/*
+ * A stone's evidence is not every evidence record that rests on its source: an interaction may rest
+ * on the same source with a different locator (research R9), which is why the essay has seventeen
+ * records for twelve sources. The interaction records are the ones the essay's own declarations
+ * name, so the stones' records are the rest, read from the record rather than from a naming habit.
+ */
+const anchor = registry.records.find((r) => r.family === 'essay' && r.slug === 'dacia-lapidarium');
+const declarations = (Array.isArray(anchor?.interactions) ? anchor.interactions : []) as { evidence?: unknown }[];
+const interactionEvidence = new Set(
+  declarations.flatMap((d) => (Array.isArray(d.evidence) ? d.evidence.filter((e): e is string => typeof e === 'string') : [])),
+);
+const stoneEvidence = registry.records.filter((r) => r.family === 'evidence' && !interactionEvidence.has(r.id));
+const evidenceFor = (slug: string) => stoneEvidence.filter((r) => r.source === sourceId(slug));
 
 /** The locator as the schema shapes it; the author fills `value` and a person later verifies it. */
 const locatorOf = (record: RegistryRecord) => (record.locator ?? {}) as { value?: unknown; state?: unknown };
@@ -47,7 +60,7 @@ describe('the twelve stone sources', () => {
 describe.each(SOURCES)('the evidence record for %s', (slug) => {
   const records = evidenceFor(slug);
 
-  it('is one record, or none while the author is still supplying the twelve locators (T031)', () => {
+  it('is one stone record, or none while a pointer is still being identified (T031)', () => {
     expect(records.length).toBeLessThanOrEqual(1);
   });
 
@@ -79,5 +92,19 @@ describe('the twelve together', () => {
   it('rest on twelve different sources, one each, once they are all written', () => {
     expect(new Set(all.map((r) => r.source)).size).toBe(all.length);
     if (all.length === SOURCES.length) expect(new Set(all.map((r) => r.id)).size).toBe(SOURCES.length);
+  });
+
+  it('leaves a stone without a citation rather than a locator that points nowhere', () => {
+    const uncited = SOURCES.filter((slug) => evidenceFor(slug).length === 0);
+    for (const record of all) {
+      const value = String(locatorOf(record).value ?? '');
+      expect(value, `${record.id} has a placeholder locator`).not.toMatch(/\[|\bto identify\b|\bTBD\b/i);
+    }
+    // the essay's open_questions must say why each uncited stone is uncited, by naming its source
+    const questions = (Array.isArray(anchor?.open_questions) ? anchor.open_questions : []).join(' ').toLowerCase();
+    for (const slug of uncited) {
+      const stone = slug.replace(/^src-/, '').split('-')[0] as string;
+      expect(questions, `no open question explains why ${slug} has no citation`).toContain(stone);
+    }
   });
 });

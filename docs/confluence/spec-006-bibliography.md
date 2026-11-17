@@ -102,7 +102,7 @@ Owned here: the entry, the Source's `entry`, `bibliography[]` on datasets and la
 <!-- status:begin -->
 - Registry rules: 93
 - Named mutations: 121
-- Entities: 295 (0 errors, 123 warnings)
+- Entities: 308 (0 errors, 136 warnings)
 <!-- status:end -->
 
 Everything is merged, Polish (#73) last: `relations.json` no longer names an unlisted entry (decided by Vlad), quickstart and README, and the code review. Left open: essay pages do not link bibliography entries to entry pages; a Finding-aid badge needs the flagged Source to be published (a warning rule is undecided); follow-up smells from the review (repeated small helpers, three spellings of the format name). Delivery authority: Vlad merges; no story is marked Done until this page is published.

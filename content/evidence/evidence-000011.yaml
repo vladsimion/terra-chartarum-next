@@ -1,0 +1,18 @@
+id: tc:tc:evidence:evidence-000011
+family: evidence
+origin: minted
+title: "The last Roman witness before the documentary gap"
+slug: ev-peutinger-last-roman-witness
+slug_history: []
+relations: []
+lifecycle: researching
+release: held
+target:
+  entity: tc:tc:essay:essay-000001
+source: tc:tc:source:src-tabula-peutingeriana
+locator:
+  value: "Tabula Peutingeriana, segm. VII–VIII, Dacia and the lower Danube"
+  state: pending
+  proposed_by: ai
+evidence_type: cartographic
+confidence: possible

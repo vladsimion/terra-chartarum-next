@@ -1,0 +1,18 @@
+id: tc:tc:evidence:evidence-000001
+family: evidence
+origin: minted
+title: "Ptolemy places Dacia by coordinate"
+slug: ev-ptolemy-dacia
+slug_history: []
+relations: []
+lifecycle: researching
+release: held
+target:
+  entity: tc:tc:map:ptolemy
+source: tc:tc:source:src-ptolemy-geographia
+locator:
+  value: "Geographia III.8, the Dacia chapter of the coordinate catalogue"
+  state: pending
+  proposed_by: ai
+evidence_type: textual
+confidence: probable

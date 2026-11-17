@@ -1,0 +1,18 @@
+id: tc:tc:evidence:evidence-000005
+family: evidence
+origin: minted
+title: "Ortelius reconstructs Dacia and Moesia for the Parergon"
+slug: ev-ortelius-parergon-dacia
+slug_history: []
+relations: []
+lifecycle: researching
+release: held
+target:
+  entity: tc:tc:map:ortelius
+source: tc:tc:source:src-ortelius-parergon
+locator:
+  value: "Daciarum, Moesiarumque, vetus descriptio, Parergon, 1595, plate XXVI; Van den Broecke 212"
+  state: pending
+  proposed_by: ai
+evidence_type: cartographic
+confidence: probable

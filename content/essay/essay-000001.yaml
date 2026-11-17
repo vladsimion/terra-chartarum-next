@@ -4,12 +4,17 @@ origin: minted
 title: Terra Sigillata · Lapidarium Dacicum
 slug: dacia-lapidarium
 slug_history: []
-stage: Corpus
+stage: Research
 lifecycle: researching
 release: held
 relations: []
 question: If every map of Dacia is built from the spolia of the one before it,
   what does each new map bury, and what does it keep?
+thesis: "Each new map of Dacia takes from its predecessors what it can still
+  use, their measurements, their names and the shape of a coast, and overwrites
+  the authority that once gave them meaning: across nineteen centuries the
+  places endure on the sheets, while the political worlds that claimed them are
+  buried and remade."
 authors:
   - Vlad Simion
 accent: gold
@@ -28,10 +33,98 @@ maps:
   - tc:tc:map:trade-vesconte-1311
   - tc:tc:map:honterus
   - tc:tc:map:ortelius
+sources:
+  - tc:tc:source:src-ptolemy-geographia
+  - tc:tc:source:src-tabula-peutingeriana
+  - tc:tc:source:src-vesconte-portolan
+  - tc:tc:source:src-honterus-chorographia
+  - tc:tc:source:src-ortelius-parergon
+  - tc:tc:source:src-cantacuzino-wallachia
+  - tc:tc:source:src-cantemir-moldavia
+  - tc:tc:source:src-iosephina-survey
+  - tc:tc:source:src-szathmari-charta
+evidence:
+  - tc:tc:evidence:evidence-000001
+  - tc:tc:evidence:evidence-000002
+  - tc:tc:evidence:evidence-000003
+  - tc:tc:evidence:evidence-000004
+  - tc:tc:evidence:evidence-000005
+  - tc:tc:evidence:evidence-000006
+  - tc:tc:evidence:evidence-000007
+  - tc:tc:evidence:evidence-000008
+  - tc:tc:evidence:evidence-000009
+  - tc:tc:evidence:evidence-000010
+  - tc:tc:evidence:evidence-000011
+  - tc:tc:evidence:evidence-000012
+  - tc:tc:evidence:evidence-000013
+interactions:
+  - id: hereford-against-vesconte
+    component: compare-slider
+    question: Where do two near-contemporary maps agree, and what does their shared
+      emptiness mean?
+    interpretation: Both leave the interior empty, but not for the same reason. One
+      organises the world around scripture, the other around what a pilot could
+      sail. The same absence, produced by two different systems of knowledge.
+    evidence:
+      - tc:tc:evidence:evidence-000010
+  - id: core-sample
+    component: scrollytelling
+    question: How much of Dacia’s cartographic history is documented, and how much
+      is the space between the witnesses that survive?
+    interpretation: The sequence is not continuous. Between the Roman geographical
+      traditions and the Renaissance prints lies a gap of twelve centuries with
+      no surviving witness, so a wall of thirteen stones reads as a sequence
+      that the section does not support.
+    evidence:
+      - tc:tc:evidence:evidence-000011
+  - id: radar-ptolemy-iosephina
+    component: section-radar
+    question: "Across sixteen centuries, what changed: the capacity to measure, the
+      authority to claim, or the willingness to disclose?"
+    interpretation: "Unevenly, all three. On this essay’s readings the Josephine
+      survey raises authority far more than measure, and raises silence with
+      them: greater precision does not produce greater transparency, because
+      what is surveyed and what is shown are set by the surveying state’s
+      purpose."
+    evidence:
+      - tc:tc:evidence:evidence-000012
+  - id: radar-vesconte-secretum
+    component: section-radar
+    question: Two developed instruments six centuries apart are equally silent about
+      the interior. Are they silent for the same reason?
+    interpretation: No. The chart’s silence follows from its maritime purpose and
+      the coverage that purpose implies; the military survey’s follows from what
+      it chose to circulate. An absence set by an instrument’s limits is not the
+      same as one set by institutional control.
+    evidence:
+      - tc:tc:evidence:evidence-000013
+open_questions:
+  - "The Hereford stone has no citation yet: the claim rests on one numbered
+    inscription in Westrem’s catalogue, and which inscription it is must be
+    chosen against the claim before an evidence record can carry a locator."
+  - "The Russian General Staff stone has no citation yet: the 1835 series and
+    its sheet index must be identified before a sheet number can be proposed."
+  - "The secret-century stone has no citation yet, and for the same reason the
+    fifth interaction, the secret century against the satellite, is not
+    declared: the firing-plan series, sheet and year of issue must be identified
+    first."
+  - The Josephine and Szathmari locators name the archival series and the work,
+    not the individual sheet; the sheet must be resolved against the claim each
+    stone makes.
+  - "Every locator was proposed by a machine and none is verified: each needs a
+    person to read the source, with the date and the copy consulted recorded."
+  - The Honterus locator names the surviving impression, which is held in
+    Budapest, while the map record is still marked unlocated and its image names
+    no holder; the two must be reconciled.
+  - The Ortelius image is catalogued by its holder as 1595 to 1624, so the
+    impression photographed may not be the 1595 one even though the plate is.
 stage_history:
   - stage: Concept
     on: 2026-11-17
     by: Vlad Simion
   - stage: Corpus
+    on: 2026-11-17
+    by: Vlad Simion
+  - stage: Research
     on: 2026-11-17
     by: Vlad Simion

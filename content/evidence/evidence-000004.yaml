@@ -1,0 +1,18 @@
+id: tc:tc:evidence:evidence-000004
+family: evidence
+origin: minted
+title: "Honterus prints Transylvania as a ring of mountains"
+slug: ev-honterus-1532-sheet
+slug_history: []
+relations: []
+lifecycle: researching
+release: held
+target:
+  entity: tc:tc:map:honterus
+source: tc:tc:source:src-honterus-chorographia
+locator:
+  value: "Chorographia Transylvaniae – Sybembürgen, 1532; the complete woodcut sheet, RMK III 296"
+  state: pending
+  proposed_by: ai
+evidence_type: cartographic
+confidence: probable
