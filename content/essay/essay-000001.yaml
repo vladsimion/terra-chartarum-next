@@ -4,8 +4,8 @@ origin: minted
 title: Terra Sigillata · Lapidarium Dacicum
 slug: dacia-lapidarium
 slug_history: []
-stage: Concept
-lifecycle: proposed
+stage: Corpus
+lifecycle: researching
 release: held
 relations: []
 question: If every map of Dacia is built from the spolia of the one before it,
@@ -21,7 +21,17 @@ portal_dimensions:
   - Measure
   - Silence
 legacy_url: /essays/dacia/
+maps:
+  - tc:tc:map:ptolemy
+  - tc:tc:map:peutinger
+  - tc:tc:map:hereford
+  - tc:tc:map:trade-vesconte-1311
+  - tc:tc:map:honterus
+  - tc:tc:map:ortelius
 stage_history:
   - stage: Concept
+    on: 2026-11-17
+    by: Vlad Simion
+  - stage: Corpus
     on: 2026-11-17
     by: Vlad Simion
