@@ -65,6 +65,45 @@ const { stone, label, caption } = Astro.props;
     font-size: var(--step--2);
   }
 
+  /*
+   * The ported drawings need five inks and three hands. A drawing's own font sizes stay as SVG
+   * attributes: they are in the drawing's units and scale with it, which a rem token cannot do
+   * (the Timeline's positions are data in the same way).
+   */
+  .stela-drawing :global(.plate-paper) {
+    fill: var(--plate-paper, var(--panel-raised));
+  }
+
+  .stela-drawing :global(.plate-water-text) {
+    fill: var(--plate-water, var(--accent));
+  }
+
+  .stela-drawing :global(.plate-mark) {
+    fill: var(--plate-mark, var(--accent));
+  }
+
+  .stela-drawing :global(.plate-mark-rule) {
+    fill: none;
+    stroke: var(--plate-mark, var(--accent));
+  }
+
+  .stela-drawing :global(.plate-muted) {
+    fill: var(--plate-ink-muted, var(--ink-muted));
+  }
+
+  .stela-drawing :global(.plate-caps) {
+    font-family: var(--font-display);
+  }
+
+  .stela-drawing :global(.plate-label) {
+    font-family: var(--font-body);
+    font-style: italic;
+  }
+
+  .stela-drawing :global(.plate-mono) {
+    font-family: var(--font-mono);
+  }
+
   figcaption {
     color: var(--ink-muted);
     font-size: var(--step--1);
