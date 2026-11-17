@@ -40,38 +40,21 @@ Two notes, both honest gaps rather than problems:
 
 ---
 
-## T027 · The open review answers
+## T027 · The open review answers — done 2026-11-17
 
-From `docs/review/map-warnings-2026-10-20.csv`, for the six maps this essay shows. `witness_kind` is one of `held`, `institutional` or `unlocated`. The sheet suggests a value only where the evidence names a holder; the table below says what each record holds after the images of T026.
-
-| Map | Open question | What the record says today |
-|---|---|---|
-| `ptolemy` | `witness_kind`, and whether `record_scope` should stay `object` | `record_scope: object`; a public-domain manuscript image, but no repository named for the copy. Ptolemy's own maps do not survive; what survives is later copies and printings. If this record stands for the work rather than one copy, `record_scope: work` is the honest shape and the witness question falls away |
-| `peutinger` | `witness_kind`, and a maker or `unknown` | `record_scope: object`; the image is of the parchment at the Austrian National Library, which is a basis for `institutional`. Still no makers at all, and no legacy maker text to port |
-| `honterus` | `witness_kind` | `record_scope: object`; a public-domain image of the 1532 woodcut, but no repository named for the sheet. Maker already `tc:tc:cartographer:honterus` |
-| `ortelius` | `witness_kind`, and whether `record_scope` should stay `object` | `record_scope: object`; the image is the Parergon sheet held by the Bibliothèque nationale de France, which is a basis for `institutional`. Maker already `tc:tc:cartographer:ortelius`. The Theatrum exists in many copies, so the same work-or-copy question as Ptolemy |
-| `hereford` | a maker, or `unknown` | `witness_kind: institutional` already; `edition_state` carries the legacy line "Richard of Haldingham (traditional attribution)", and the record's own `open_questions` says it is unsettled whether that names the designer, the scribe or the donor. Naming him needs a new cartographer record; `unknown` needs nothing |
-| `trade-vesconte-1311` | none outstanding for the essay | `witness_kind: institutional` sits on the image, from the Archivio di Stato di Firenze attribution; the maker is Pietro Vesconte |
-
-### What was applied on 17 November, and what is still yours
-
-Each record's `witness_kind` now follows the copy that was photographed for it, which is what the field records: where the object the record stands for actually is.
+**Where each copy is.** Every map record now carries the `witness_kind` of the copy its image was made from, and each image carries the same value, which the gate requires on an `object` record.
 
 | Map | `witness_kind` | Why |
 |---|---|---|
 | `peutinger` | `institutional` | the image is the parchment at the Austrian National Library, the one surviving copy |
 | `ortelius` | `institutional` | the image is the sheet held by the Bibliothèque nationale de France |
-| `ptolemy` | `unlocated` | the reproduction is public domain, but no holder is named for the manuscript, which is exactly what `unlocated` records |
+| `ptolemy` | `unlocated` | the reproduction is public domain, but no holder is named for the manuscript, which is what `unlocated` records |
 | `honterus` | `unlocated` | the same: a public-domain image of the 1532 sheet, no holder named |
+| `hereford`, `trade-vesconte-1311` | `institutional` | already set before this slice |
 
-Each image carries the same value, which the gate requires on an `object` record. Say the word and any of the four flips.
+**Who made it.** Answered by the editor on 17 November: mark `peutinger`'s maker unknown, leave `hereford` as it is. So `peutinger` carries `field_status.makers: unknown`, the way an anonymous map is recorded elsewhere in the catalogue, and its gate warning is gone; `hereford` keeps `makers: not_yet_verified` and its open question about whether the map's own "Richard de Haldingham" names the designer, the scribe or the donor. That gap is deliberate and its warning stands.
 
-**Still yours, two questions.**
-
-1. **A maker for `peutinger`, or `unknown`.** The record has no maker at all. The surviving parchment is an anonymous medieval copy of a Roman original, so `field_status.makers: unknown` is the usual answer, which is how `city-forma-urbis` and `city-agas-london` record an anonymous map. I have not set it, because it says the editor has confirmed there is no maker to name.
-2. **A maker for `hereford`, or `unknown`.** Here `unknown` would be wrong: the map names "Richard de Haldingham e de Lafford", and the record's own open question says what is unsettled is whether that names the designer, the scribe or the donor. The choice is to mint a cartographer record for him with the attribution marked unresolved, or to leave the field as the gap it is.
-
-**One option you may want instead.** All four records are `record_scope: object`, which is what lets them carry an image. If you would rather any of them stand for the published map instead of for one copy, it becomes `record_scope: work`, and then the gate requires it to carry no `witness_kind` and no image at all, so that stone would lose its figure and keep only its source line. Ptolemy is the one where that question really bites: his own maps do not survive, and what the image shows is a fifteenth-century manuscript of them.
+**One copy or the published map.** All six stay `record_scope: object`. That follows from the instruction to use the images: the gate allows an image only on an object record, so a `work` record would have cost that stone its figure. If any of them should stand for the published map after all, say so and the image comes off with it.
 
 ---
 
