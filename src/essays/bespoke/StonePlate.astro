@@ -46,6 +46,14 @@ const wrapper = variant === 'stone' ? 'stela-plate' : 'essay-drawing';
   }
 
   .stela-drawing {
+    /*
+     * The anchor essay carries sixteen of these drawings in one document, and rendering them all
+     * before the first paint pushed its largest contentful paint past the ADR 0004 budget on the
+     * mobile profile. Offscreen drawings are skipped until they are near the viewport; the
+     * remembered size keeps the scrollbar honest, so nothing shifts (the CLS budget is unmoved).
+     */
+    content-visibility: auto;
+    contain-intrinsic-size: auto 420px;
     padding: var(--space-3);
     border: 1px solid var(--line);
     border-radius: var(--radius);

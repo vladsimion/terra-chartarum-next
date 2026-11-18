@@ -82,6 +82,10 @@ jobs:
           if-no-files-found: ignore
       - name: Stub pages and draft copy left in the production build (informational until cutover)
         run: npm run build && npm run shell:check
+      - name: Anchor essay end-to-end specs (the real registry through essay:preview; Chromium dark and light, no JavaScript)
+        run: npm run test:e2e:anchor
+        env:
+          CI: 'true'
       - name: Leak scan over the real production build (spec 001 T111; before the Lighthouse step rebuilds dist from fixtures)
         run: |
           if [ -d content ]; then
@@ -93,6 +97,8 @@ jobs:
         run: |
           SHELL_FIXTURES=1 REGISTRY_ROOT=tests/shell/fixtures/registry npm run build
           npm run lhci
+      - name: Lighthouse CI budgets on the anchor essay itself (ADR 0004, mobile profile; built from the preview)
+        run: npm run lhci:anchor
       - name: Budget guard proof (a page over the JavaScript budget must fail the same assertions)
         run: |
           if out=$(npm run lhci -- --collect.url=http://localhost:4322/fixtures/budget/ 2>&1); then

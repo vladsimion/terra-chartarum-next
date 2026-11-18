@@ -1,0 +1,53 @@
+{
+  "ci": {
+    "collect": {
+      "url": [
+        "http://localhost:4328/essays/dacia-lapidarium/"
+      ],
+      "numberOfRuns": 3,
+      "startServerCommand": "npm run essay:preview -- dacia-lapidarium && ASTRO_OUT_DIR=./dist-anchor npx astro preview --port 4328 --ignore-lock",
+      "startServerReadyPattern": "localhost:4328",
+      "settings": {
+        "chromeFlags": "--no-sandbox --headless=new"
+      },
+      "startServerReadyTimeout": 180000
+    },
+    "assert": {
+      "assertions": {
+        "categories:accessibility": [
+          "error",
+          {
+            "minScore": 1
+          }
+        ],
+        "largest-contentful-paint": [
+          "error",
+          {
+            "maxNumericValue": 2500,
+            "aggregationMethod": "median"
+          }
+        ],
+        "cumulative-layout-shift": [
+          "error",
+          {
+            "maxNumericValue": 0.1,
+            "aggregationMethod": "median"
+          }
+        ],
+        "total-blocking-time": [
+          "error",
+          {
+            "maxNumericValue": 200,
+            "aggregationMethod": "median"
+          }
+        ],
+        "resource-summary:script:size": [
+          "error",
+          {
+            "maxNumericValue": 102400
+          }
+        ]
+      }
+    }
+  }
+}
