@@ -16,6 +16,7 @@ The files here are the repository copies of Confluence pages and entries. A file
 | `build-log-*.md` | One section of the Build Log, page 2490370 (`build-log-spec-009.md` is drafted, not yet published) |
 | `decision-log-tc-dNNN.md` | One published Decision Log entry, page 12648509 |
 | `decision-log-pending-<slug>.md` | A Decision Log entry not yet published |
+| (generated, not stored) `npm run sdd:pages` → `sdd-confluence/` | The `[SDD]` pages: an index page under page 2457601 and one child page per spec, holding the Spec Kit artefacts of `specs/` at a commit. Regenerate and paste after the specs change; never edit them in Confluence |
 
 ## Pending Decision Log entries have no number
 

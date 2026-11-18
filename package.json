@@ -30,6 +30,7 @@
     "essay:reconcile": "tsx scripts/essay-reconcile.ts",
     "baseline": "tsx scripts/baseline.ts",
     "status": "tsx scripts/status.ts",
+    "sdd:pages": "tsx scripts/sdd-pages.ts",
     "hooks:install": "git config core.hooksPath .githooks"
   },
   "dependencies": {
