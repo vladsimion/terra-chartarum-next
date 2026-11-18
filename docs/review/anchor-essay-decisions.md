@@ -37,7 +37,35 @@ unidentified. That one is B5.
 
 > **Your answer:**
 >
-> _(write `All as proposed — Vlad Simion, <date>.` here, or answer row by row)_
+> **All as proposed — Vlad Simion, 2026-11-18.**
+>
+> Applied the same day. Three things to know about how it was read:
+>
+> 1. **L21 was rejected**, because rejecting it was the proposal. `StonePlate` gained a fourth hand,
+>    `plate-label-upright`, and the eleven upright Garamond groups in the drawings moved onto it, so
+>    the letterforms stand as you drew them.
+> 2. **L07 and the `att-0130` reconciliation row stay open.** Neither carried a proposal, so neither
+>    could be answered by accepting one. L07 now holds the promotion to Build, because a pending
+>    ledger row blocks it.
+> 3. **Two publication places could not be filled** as B8 proposed: `publication_place` takes a place
+>    record and the registry holds none for Basel or Antwerp, so both are declared
+>    `not_yet_verified`. Your text names them; the field wants a record. Of B8's 35, eight carry a
+>    value from your own text and 27 are declared.
+>
+> Two things were decided beyond the sheet, both flagged rather than buried. The fifth interaction's
+> question and interpretation had to be written for the declaration to be valid at all, so they are
+> adapted closely from your prose at legacy lines 2084 to 2089 and recorded in the record's
+> `open_questions` as yours to confirm at Design QA. And `drobeta` stratum III reads
+> `Turnu Severin (uncertain)` against a corpus class of `exact`: taking the class would have erased
+> your hedge on a row the sheet never asked about, so the hedge was kept as `survival_unknown`.
+>
+> Six readiness errors appeared as a consequence of these decisions and were cleared the same way:
+> A1's release list pulled in three legacy cartographers and B1's evidence record pulled in the
+> secret-century source, all needing the editorial confirmation of B6, and Hereford's
+> `field_status.makers` became `recorded` once B5 gave it a maker.
+>
+> **Where that leaves the essay: stage Draft, and its page builds.** T036's nine build cases run
+> against the real page and pass. What is left is §D, plus L07, `att-0130`, and T049 to T051.
 
 | # | Decision | My proposal | The one line of context |
 |---|---|---|---|
