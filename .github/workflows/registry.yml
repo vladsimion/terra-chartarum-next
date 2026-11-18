@@ -25,8 +25,34 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm test
-      - name: Production dependencies have no known vulnerabilities
-        run: npm audit --omit=dev
+      - name: Production dependencies have no known vulnerabilities (bar the listed exceptions)
+        # Each exception names its advisory, why it is accepted, and when to remove it.
+        # GHSA-fc5q-39xc-vjpf: picomatch ReDoS (<= 4.0.7, no patched release), pulled in by
+        #   Astro, Vite and @astrojs/mdx. Build-time only, on globs this repository writes;
+        #   nothing of it reaches the static site. Remove once picomatch ships the fix
+        #   (micromatch/picomatch#194) and `npm update` takes it. Added 2026-11-18.
+        env:
+          ALLOWED_ADVISORIES: |
+            https://github.com/advisories/GHSA-fc5q-39xc-vjpf
+        run: |
+          npm audit --omit=dev --json > audit.json || true
+          if ! jq -e '.vulnerabilities | type == "object"' audit.json > /dev/null; then
+            echo "npm audit did not return a report:"; cat audit.json; exit 1
+          fi
+          found=$(jq -r '[.vulnerabilities[].via[] | objects | .url] | unique | .[]' audit.json)
+          unexpected=$(grep -vxF -f <(printf '%s\n' "$ALLOWED_ADVISORIES" | sed '/^$/d') <<<"$found" || true)
+          while read -r url; do
+            [ -n "$url" ] || continue
+            grep -qxF "$url" <<<"$found" || echo "::warning::$url no longer appears in npm audit; remove its exception from this step"
+          done <<<"$ALLOWED_ADVISORIES"
+          if [ -n "$unexpected" ]; then
+            echo "Production dependencies have advisories that are not listed exceptions:"
+            echo "$unexpected"
+            npm audit --omit=dev
+            exit 1
+          fi
+          echo "No production advisories beyond the listed exceptions."
+          [ -z "$found" ] || echo "Accepted: $found"
       - run: npm run lint:css
       - name: Browsers for the end-to-end specs
         run: npx playwright install --with-deps chromium firefox webkit
