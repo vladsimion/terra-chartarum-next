@@ -117,7 +117,16 @@ Thirteen decisions, all accepted as recommended:
 - The archive banner, `noindex` header and link are a patch for the archive project with a hand-run `archive:check`; `cutover:check` automates the gate, shell check, link check, inventory zero-404 check and budgets, with a signed manual list in `docs/cutover.md`; a one-off `baseline` script measures the live site before the freeze.
 - Specialist vocabulary mapping files ship for the Dacia profile and an unmapped term fails the import.
 
+## Authoring tooling (epic 010) — DONE 2026-11-18 (TCX-60, ADRs 0018, 0019)
+Origin: triage of an external review. Brief: remove friction for one maintainer without weakening any rule; no automation writes a canonical record.
+- Item 18, scaffolding: ADR 0006's counter IDs, authority and collision handling stand; base32 IDs were proposed and dropped once ADR 0006 was read. `registry new <family>` for every family but rooms, at `proposed` and `held`, rolled back if it adds errors; provenance fields with a "not yet" value get it (`pending`, `unknown`), the rest are a commented checklist; R calls the CLI through `system2()` (ADR 0018).
+- Item 17, editor schemas: every YAML record (essays included), generated from Zod and not committed, glossary definitions as hover text (a missing one fails the generator), ID suggestions regenerated on demand (ADR 0019 §1).
+- Item 19, dependents graph: built from `referenceFields`, held records included, `dependents.json` plus an HTML viewer as CI artefacts on every build, `registry deps <id>` with direct and indirect dependents marked; not public in v1 (ADR 0019 §2).
+- Item 20, link and manifest checker: weekly workflow, outside the gate; one Jira issue per broken URL; never changes a locator's verified state; changed IIIF manifests get a review issue; archived copies proposed by pull request as `archived_copy` and `archived_on` on the locator (ADR 0019 §3).
+- Checks carried to TCX-65: a test that a slug rename touches only the record and its slug history; dataset `version` is optional free text and should pin a DOI, tag or checksum for external sources. Draft relaxation is already ADR 0006 item 6.
+
 ## Still open
-- All eight specs are now grilled. Remaining before implementation: Confluence publication of the drafted entries (no write tool yet), and `/speckit-implement` per spec.
+- Specs 001 to 009 are grilled. Remaining before implementation: Confluence publication of the drafted entries (no write tool yet), and `/speckit-implement` per spec.
+- Spec 010: `/speckit-specify` from ADRs 0018 and 0019; TCX-65.
 
 Constitution ratified as v1.0.0 on 2026-10-15. /speckit-analyze runs per feature once tasks.md exists.
