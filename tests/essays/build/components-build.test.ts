@@ -101,9 +101,10 @@ describe('the fixture essay with the essay-specific components', () => {
       expect(drawing.tagName.toLowerCase()).toBe('figure');
       expect(drawing.getAttribute('data-stone')).toBe('core-sample');
       expect(drawing.classList.contains('stela-plate'), 'not a plate of the lapidarium').toBe(false);
-      const inner = drawing.querySelector('[role="img"]');
-      expect(inner?.getAttribute('aria-label')).toMatch(/core sample/i);
-      expect(inner!.querySelector('svg'), 'the drawing holds the slotted SVG').not.toBeNull();
+      // the name sits on the inner `role="img"`, or on the figure itself when the drawing is interactive
+      const named = drawing.getAttribute('aria-label') ?? drawing.querySelector('[role="img"]')?.getAttribute('aria-label');
+      expect(named).toMatch(/core sample/i);
+      expect(drawing.querySelector('svg'), 'the drawing holds the slotted SVG').not.toBeNull();
       expect(drawing.querySelector('figcaption')?.textContent).toContain('0 to 60 centimetres');
     });
 
@@ -114,6 +115,21 @@ describe('the fixture essay with the essay-specific components', () => {
       expect(classes.some((c) => c?.includes('plate-label') && !c.includes('plate-label-upright')), 'an italic body label').toBe(true);
       const styles = readFileSync('src/essays/bespoke/StonePlate.astro', 'utf8');
       expect(styles).toMatch(/\.plate-label-upright\)?\s*\{[^}]*font-style:\s*normal/);
+    });
+
+    it('does not call a drawing an image when the drawing carries its own links', () => {
+      /*
+       * The trench's core sample has a link on every stratum, which jumps to that stratum's step.
+       * The contents of a `role="img"` element are presentational, so a drawing that holds links
+       * must not carry that role: axe reports it as nested-interactive on the real page, and a
+       * keyboard user cannot reach the links. The figure keeps the accessible name instead.
+       */
+      const drawing = bespoke.root.querySelector('.essay-drawing')!;
+      expect(drawing.querySelector('[role="img"]'), 'an interactive drawing is not an image').toBeNull();
+      expect(drawing.getAttribute('aria-label'), 'the figure carries the name').toMatch(/core sample/i);
+      const links = drawing.querySelectorAll('a[href]');
+      expect(links.length, 'the drawing keeps its links').toBeGreaterThan(0);
+      for (const link of links) expect(link.getAttribute('aria-label'), 'each link says where it goes').not.toBeNull();
     });
 
     it('takes the section\u2019s own earth vocabulary, with no colour of its own', () => {

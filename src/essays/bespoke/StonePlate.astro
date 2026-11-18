@@ -20,14 +20,22 @@ interface Props {
    * they carry `.essay-drawing` instead and the count of thirteen plates stays true.
    */
   variant?: 'stone' | 'drawing';
+  /**
+   * True when the drawing carries its own links, as the trench's core sample does: a link on every
+   * stratum, jumping to that stratum's step. The contents of a `role="img"` element are
+   * presentational, so such a drawing must not carry that role — a keyboard user could not reach
+   * the links, and axe reports it as nested-interactive. The figure takes the accessible name
+   * instead, and each link says for itself where it goes.
+   */
+  interactive?: boolean;
 }
 
-const { stone, label, caption, variant = 'stone' } = Astro.props;
+const { stone, label, caption, variant = 'stone', interactive = false } = Astro.props;
 const wrapper = variant === 'stone' ? 'stela-plate' : 'essay-drawing';
 ---
 
-<figure class={wrapper} data-stone={stone}>
-  <div class="stela-drawing" role="img" aria-label={label}><slot /></div>
+<figure class={wrapper} data-stone={stone} aria-label={interactive ? label : undefined}>
+  <div class="stela-drawing" role={interactive ? undefined : 'img'} aria-label={interactive ? undefined : label}><slot /></div>
   {caption && <figcaption>{caption}</figcaption>}
 </figure>
 
