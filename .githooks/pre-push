@@ -1,0 +1,8 @@
+#!/bin/sh
+# The checks that most often fail CI, run before a push (about a minute). Install once with
+# `npm run hooks:install`; skip one push with `git push --no-verify`.
+set -e
+echo "pre-push: generated counts, types, unit tests"
+npm run --silent status -- --check
+npm run --silent typecheck
+npm test --silent

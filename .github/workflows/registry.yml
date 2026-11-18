@@ -11,8 +11,17 @@ on:
         type: boolean
         default: false
 
+# A newer push to the same pull request cancels the run it supersedes; runs on main always finish.
+concurrency:
+  group: registry-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+# Three jobs run in parallel and `gate` (the required check on main) passes only when all of them
+# pass. The cheap checks come first so the common failures (stale counts, the gate, a unit test)
+# are reported in a few minutes, not after Lighthouse.
 jobs:
-  gate:
+  checks:
+    name: checks (types, unit, audit, lint, integrity gate, counts, leak scans)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,39 +32,133 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - name: Generated counts in docs/confluence/ match main (CLAUDE.md workflow step 4)
+        run: npm run status -- --check
       - run: npm run typecheck
-      - run: npm test
-      - name: Production dependencies have no known vulnerabilities
-        run: npm audit --omit=dev
       - run: npm run lint:css
+      - name: Production dependencies have no known vulnerabilities (bar the listed exceptions)
+        # Each exception names its advisory, why it is accepted, and when to remove it.
+        # GHSA-fc5q-39xc-vjpf: picomatch ReDoS (<= 4.0.7, no patched release), pulled in by
+        #   Astro, Vite and @astrojs/mdx. Build-time only, on globs this repository writes;
+        #   nothing of it reaches the static site. Remove once picomatch ships the fix
+        #   (micromatch/picomatch#194) and `npm update` takes it. Added 2026-11-18.
+        env:
+          ALLOWED_ADVISORIES: |
+            https://github.com/advisories/GHSA-fc5q-39xc-vjpf
+        run: |
+          npm audit --omit=dev --json > audit.json || true
+          if ! jq -e '.vulnerabilities | type == "object"' audit.json > /dev/null; then
+            echo "npm audit did not return a report:"; cat audit.json; exit 1
+          fi
+          found=$(jq -r '[.vulnerabilities[].via[] | objects | .url] | unique | .[]' audit.json)
+          unexpected=$(grep -vxF -f <(printf '%s\n' "$ALLOWED_ADVISORIES" | sed '/^$/d') <<<"$found" || true)
+          while read -r url; do
+            [ -n "$url" ] || continue
+            grep -qxF "$url" <<<"$found" || echo "::warning::$url no longer appears in npm audit; remove its exception from this step"
+          done <<<"$ALLOWED_ADVISORIES"
+          if [ -n "$unexpected" ]; then
+            echo "Production dependencies have advisories that are not listed exceptions:"
+            echo "$unexpected"
+            npm audit --omit=dev
+            exit 1
+          fi
+          echo "No production advisories beyond the listed exceptions."
+          [ -z "$found" ] || echo "Accepted: $found"
+      - name: Integrity gate on canonical content
+        run: |
+          if [ -d content ]; then
+            npm run registry -- check --dir . --out reports
+          else
+            echo "No content/ directory yet; skipping gate."
+          fi
+      - run: npm test
+      - name: Site data and leak scan on canonical content
+        run: |
+          if [ -d content ]; then
+            npm run registry -- build --dir . --out build-site-data
+            npm run registry -- scan build-site-data --dir .
+          else
+            echo "No content/ directory yet; skipping site data."
+          fi
+      - name: Stub pages and draft copy left in the production build (informational until cutover)
+        run: npm run build && npm run shell:check
+      - name: Leak scan over the real production build (spec 001 T111)
+        run: |
+          if [ -d content ]; then
+            npm run registry -- scan dist --dir .
+          else
+            echo "No content/ directory yet; skipping the dist scan."
+          fi
+      - name: Completeness report and enrichment queue (editor artefacts, never part of the site)
+        run: |
+          if [ -d content ]; then
+            npm run registry -- completeness --dir . --out reports-completeness
+          else
+            echo "No content/ directory yet; skipping the completeness report."
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: integrity-report
+          path: reports/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: completeness-and-enrichment
+          path: reports-completeness/
+          if-no-files-found: ignore
+
+  e2e:
+    name: e2e (Playwright and axe on every fixture registry)
+    runs-on: ubuntu-latest
+    env:
+      CI: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Playwright version (the browser cache key)
+        id: playwright
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+      - name: Browser cache
+        id: browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.playwright.outputs.version }}
       - name: Browsers for the end-to-end specs
+        if: steps.browsers.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium firefox webkit
+      - name: System libraries for the cached browsers
+        if: steps.browsers.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium firefox webkit
       - name: End-to-end specs (Chromium dark and light, Firefox, WebKit, 360 px phone, no JavaScript)
         run: npm run test:e2e -- ${{ inputs.update_snapshots && '--update-snapshots' || '' }}
-        env:
-          CI: 'true'
       - name: Essay end-to-end specs (the essay fixture registry; Chromium dark and light, no JavaScript)
+        if: ${{ !cancelled() }}
         run: npm run test:e2e:essays
-        env:
-          CI: 'true'
       - name: Collection end-to-end specs (the collection fixture registry; Chromium dark and light, no JavaScript)
+        if: ${{ !cancelled() }}
         run: npm run test:e2e:collection
-        env:
-          CI: 'true'
       - name: Bibliography end-to-end specs (the bibliography fixture registry; Chromium dark and light, no JavaScript)
+        if: ${{ !cancelled() }}
         run: npm run test:e2e:bibliography
-        env:
-          CI: 'true'
       - name: Rooms end-to-end specs (the rooms fixture registry; Chromium dark and light, phone, no JavaScript)
+        if: ${{ !cancelled() }}
         run: npm run test:e2e:rooms
-        env:
-          CI: 'true'
       - name: Atlas end-to-end specs (the Atlas fixture registry; Chromium dark and light, phone, no JavaScript)
+        if: ${{ !cancelled() }}
         run: npm run test:e2e:atlas
-        env:
-          CI: 'true'
       - name: Atlas performance (a seeded 200-layer catalogue on an emulated phone; spec 005 SC-001)
+        if: ${{ !cancelled() }}
         run: npm run test:e2e:atlas-perf
+      - name: Anchor essay end-to-end specs (the real registry through essay:preview; Chromium dark and light, no JavaScript)
+        if: ${{ !cancelled() }}
+        run: npm run test:e2e:anchor
         env:
           CI: 'true'
       - name: Visual baselines (only on an update run)
@@ -80,26 +183,44 @@ jobs:
             playwright-report-atlas-perf/
             test-results/
           if-no-files-found: ignore
-      - name: Stub pages and draft copy left in the production build (informational until cutover)
-        run: npm run build && npm run shell:check
-      - name: Anchor essay end-to-end specs (the real registry through essay:preview; Chromium dark and light, no JavaScript)
-        run: npm run test:e2e:anchor
-        env:
-          CI: 'true'
-      - name: Leak scan over the real production build (spec 001 T111; before the Lighthouse step rebuilds dist from fixtures)
+
+  lighthouse:
+    # The URLs in lighthouserc.json are dealt round-robin to the shards: every URL is measured
+    # by exactly one shard, with the same runs, profile and assertions as before (ADR 0004).
+    name: lighthouse (shard ${{ matrix.shard }} of 4)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Build the shell fixture site
+        run: SHELL_FIXTURES=1 REGISTRY_ROOT=tests/shell/fixtures/registry npm run build
+      - name: Lighthouse CI budgets on this shard's templates (ADR 0004, mobile profile)
         run: |
-          if [ -d content ]; then
-            npm run registry -- scan dist --dir .
-          else
-            echo "No content/ directory yet; skipping the dist scan."
-          fi
-      - name: Lighthouse CI budgets on the listed templates (ADR 0004, mobile profile)
-        run: |
-          SHELL_FIXTURES=1 REGISTRY_ROOT=tests/shell/fixtures/registry npm run build
-          npm run lhci
+          args=$(node -e '
+            const urls = require("./lighthouserc.json").ci.collect.url;
+            const [shard, total] = process.argv.slice(1).map(Number);
+            const mine = urls.filter((_, i) => i % total === shard - 1);
+            if (mine.length === 0) { console.error("shard " + shard + " has no URLs"); process.exit(1); }
+            console.log(mine.map((u) => "--collect.url=" + u).join(" "));
+          ' ${{ matrix.shard }} 4)
+          echo "Measuring: $args"
+          npm run lhci -- $args
       - name: Lighthouse CI budgets on the anchor essay itself (ADR 0004, mobile profile; built from the preview)
+        # Not one of this job's sharded URLs: `lhci:anchor` builds the held essay through
+        # `essay:preview` and serves dist-anchor itself, so one shard runs it.
+        if: matrix.shard == 3
         run: npm run lhci:anchor
       - name: Budget guard proof (a page over the JavaScript budget must fail the same assertions)
+        # One shard is enough; the last one has the fewest URLs.
+        if: matrix.shard == 4
         run: |
           if out=$(npm run lhci -- --collect.url=http://localhost:4322/fixtures/budget/ 2>&1); then
             echo "$out"
@@ -116,42 +237,19 @@ jobs:
         if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
-          name: lighthouse
+          name: lighthouse-shard-${{ matrix.shard }}
           path: .lighthouseci/
           if-no-files-found: ignore
-      - name: Integrity gate on canonical content
+
+  gate:
+    # The required status check on main. It passes only when every job above passed.
+    needs: [checks, e2e, lighthouse]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Every job passed
+        env:
+          RESULTS: ${{ toJSON(needs) }}
         run: |
-          if [ -d content ]; then
-            npm run registry -- check --dir . --out reports
-          else
-            echo "No content/ directory yet; skipping gate."
-          fi
-      - name: Generated counts in docs/confluence/ match main (CLAUDE.md workflow step 4)
-        run: npm run status -- --check
-      - name: Site data and leak scan on canonical content
-        run: |
-          if [ -d content ]; then
-            npm run registry -- build --dir . --out build-site-data
-            npm run registry -- scan build-site-data --dir .
-          else
-            echo "No content/ directory yet; skipping site data."
-          fi
-      - name: Completeness report and enrichment queue (editor artefacts, never part of the site)
-        run: |
-          if [ -d content ]; then
-            npm run registry -- completeness --dir . --out reports-completeness
-          else
-            echo "No content/ directory yet; skipping the completeness report."
-          fi
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: integrity-report
-          path: reports/
-          if-no-files-found: ignore
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: completeness-and-enrichment
-          path: reports-completeness/
-          if-no-files-found: ignore
+          echo "$RESULTS" | jq -r 'to_entries[] | "\(.key): \(.value.result)"'
+          echo "$RESULTS" | jq -e 'all(.[]; .result == "success")' > /dev/null
