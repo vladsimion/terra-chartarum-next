@@ -15,7 +15,7 @@ Nothing here adds a registry family or a rule. The essay, evidence and cell shap
 | `portal_dimensions` | `[Measure, Silence]` | |
 | `question`, `thesis` | the author's | `ESSAY-QUESTION` (Concept), `ESSAY-OUTLINE` (Outline) |
 | `maps` | up to six: `ptolemy`, `peutinger`, `hereford`, `trade-vesconte-1311`, `honterus`, `ortelius` | `ESSAY-CORPUS`: each resolves and has `rights` |
-| `sources`, `evidence`, `bibliography` | the twelve sources; the 17 evidence records; the twelve entries | `ESSAY-RESEARCH`, `ESSAY-BUILD` |
+| `sources`, `evidence`, `bibliography` | the sources it rests on (ten, amended 2026-11-18 from twelve: see SC-004); the 14 evidence records (nine stones and five interactions, amended from 17); the entries behind them | `ESSAY-RESEARCH`, `ESSAY-BUILD` |
 | `interactions` | five (below) | `ESSAY-INTERACTION` |
 | `legacy_url` | `/essays/dacia/` | private field; `ESSAY-CROSSLINK` needs `redirect_switched` |
 | `stage`, `stage_history`, `lifecycle` | one stage at a time from Concept; `lifecycle` derived | `ESSAY-HISTORY`, `LIFE-ESSAY-DERIVED` |
@@ -37,9 +37,9 @@ Not carried over from the legacy frontmatter: `eras`, `regions`, `mapCount`, `ye
 
 Each carries `question` and `interpretation`, written by the author (the legacy text supplies candidates). The timeline and the squeeze toggle are not declared: they ask the reader to interpret nothing.
 
-## Evidence records (17, `content/evidence/`)
+## Evidence records (15, `content/evidence/`; 14 on the essay)
 
-`evidence-NNNNNN`, each: `target`, `source` (a public source record), `locator.value` (author-supplied) with `state: pending` until a person verifies it, `evidence_type`, `confidence`. Twelve rest on the stones' sources (`src-ptolemy-geographia`, `src-tabula-peutingeriana`, `src-hereford-mappa`, `src-vesconte-portolan`, `src-honterus-chorographia`, `src-ortelius-parergon`, `src-cantacuzino-wallachia`, `src-cantemir-moldavia`, `src-iosephina-survey`, `src-russian-staff-1835`, `src-szathmari-charta`, `src-secret-century`); five rest on the interactions. No evidence record cites a finding aid (`REF-FINDING-AID`).
+`evidence-NNNNNN`, each: `target`, `source` (a public source record), `locator.value` (author-supplied) with `state: pending` until a person verifies it, `evidence_type`, `confidence`. Nine rest on the stones' sources (amended 2026-11-18 from twelve, SC-004): `src-ptolemy-geographia`, `src-tabula-peutingeriana`, `src-vesconte-portolan`, `src-honterus-chorographia`, `src-ortelius-parergon`, `src-cantacuzino-wallachia`, `src-cantemir-moldavia`, `src-iosephina-survey`, `src-szathmari-charta`. `src-hereford-mappa` and `src-russian-staff-1835` have no record and stay held, because their pointers are unidentified; `src-secret-century` has none of its own but is cited at series level by the fifth interaction, so it is released. Five rest on the interactions, and one more carries the Hereford map's attribution, read from the map's own legend rather than from Westrem's catalogue, which is a different claim from the stone's. No evidence record cites a finding aid (`REF-FINDING-AID`).
 
 ## Bibliography entries (12, `content/bibliography_entry/`)
 

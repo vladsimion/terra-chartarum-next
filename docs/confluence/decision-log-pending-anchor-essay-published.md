@@ -15,6 +15,7 @@ Not yet published. To be appended after the last entry on the page; the rest of 
 
 **Consequences:**
 
+- **Three stones ship uncited, and the criterion was amended to say so.** SC-004 asked that all twelve stone sources be cited; nine are. The author ruled on 18 November 2026 that it should read nine and that the two unidentified pointers stay open, because a stone whose pointer nobody has identified is better shown uncited than cited to a locator nobody can follow. SC-004, FR-008 and FR-013 were amended together, since they count the same fact in three places.
 - A locator proposed by a person and a locator proposed by a machine are different facts, and `proposed_by` records which; neither can be marked verified without a person, a date and the copy consulted. Three stones carry no citation at all rather than a placeholder, which is visible on the page and recorded in the essay's open questions.
 - The pit cells take the corpus's own attestation classes as their `reading`, so when a CND attestation backs a cell the two line up without a translation step. Filling that vocabulary resolved six of the seven reconciliation differences by itself.
 - A held essay can only be read through a preview that copies the registry, releases the copy and throws it away. A record that is not ready makes the preview fail with the gate's own errors, which is the release-readiness report; it is also why the essay's readiness was known long before it was published.
