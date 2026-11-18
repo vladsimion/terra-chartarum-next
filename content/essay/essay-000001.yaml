@@ -4,9 +4,9 @@ origin: minted
 title: Terra Sigillata · Lapidarium Dacicum
 slug: dacia-lapidarium
 slug_history: []
-stage: Draft
-lifecycle: verified
-release: held
+stage: Publish
+lifecycle: published
+release: released
 relations: []
 question: If every map of Dacia is built from the spolia of the one before it,
   what does each new map bury, and what does it keep?
@@ -133,6 +133,18 @@ open_questions:
     no holder; the two must be reconciled.
   - The Ortelius image is catalogued by its holder as 1595 to 1624, so the
     impression photographed may not be the 1595 one even though the plate is.
+design_qa_passed: true
+published_on: "2026-11-18"
+signoffs:
+  historical:
+    by: Vlad Simion
+    on: "2026-11-18"
+  cartographic:
+    by: Vlad Simion
+    on: "2026-11-18"
+  data:
+    by: Vlad Simion
+    on: "2026-11-18"
 rights:
   licence: CC BY 4.0
 stage_history:
@@ -149,5 +161,14 @@ stage_history:
     on: 2026-11-18
     by: Vlad Simion
   - stage: Draft
+    on: 2026-11-18
+    by: Vlad Simion
+  - stage: Build
+    on: 2026-11-18
+    by: Vlad Simion
+  - stage: Design QA
+    on: 2026-11-18
+    by: Vlad Simion
+  - stage: Publish
     on: 2026-11-18
     by: Vlad Simion

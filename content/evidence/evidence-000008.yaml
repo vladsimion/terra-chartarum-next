@@ -5,8 +5,8 @@ title: "The Josephine survey measures Transylvania for the state"
 slug: ev-iosephina-siebenburgen
 slug_history: []
 relations: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 target:
   entity: tc:tc:essay:essay-000001
 source: tc:tc:source:src-iosephina-survey

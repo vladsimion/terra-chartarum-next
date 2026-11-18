@@ -5,8 +5,8 @@ title: "Cantacuzino maps Wallachia from inside it"
 slug: ev-cantacuzino-wallachia-1700
 slug_history: []
 relations: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 target:
   entity: tc:tc:essay:essay-000001
 source: tc:tc:source:src-cantacuzino-wallachia

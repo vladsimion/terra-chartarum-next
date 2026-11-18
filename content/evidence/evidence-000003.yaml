@@ -5,8 +5,8 @@ title: "Vesconte charts the coast and leaves the interior"
 slug: ev-vesconte-1311-chart
 slug_history: []
 relations: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 target:
   entity: tc:tc:map:trade-vesconte-1311
 source: tc:tc:source:src-vesconte-portolan

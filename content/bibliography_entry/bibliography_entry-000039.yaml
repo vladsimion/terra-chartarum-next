@@ -3,7 +3,7 @@ family: bibliography_entry
 origin: minted
 title: Chorographia Transylvaniae
 slug: johannes-honterus-1532-chorographia
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 section: historical_maps
 csl: content/bibliography_entry/bibliography_entry-000039.csl.json

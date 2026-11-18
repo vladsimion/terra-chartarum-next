@@ -5,8 +5,8 @@ title: "Honterus prints Transylvania as a ring of mountains"
 slug: ev-honterus-1532-sheet
 slug_history: []
 relations: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 target:
   entity: tc:tc:map:honterus
 source: tc:tc:source:src-honterus-chorographia

@@ -5,8 +5,8 @@ title: "Ptolemy places Dacia by coordinate"
 slug: ev-ptolemy-dacia
 slug_history: []
 relations: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 target:
   entity: tc:tc:map:ptolemy
 source: tc:tc:source:src-ptolemy-geographia

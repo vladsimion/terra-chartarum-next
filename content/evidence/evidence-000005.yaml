@@ -5,8 +5,8 @@ title: "Ortelius reconstructs Dacia and Moesia for the Parergon"
 slug: ev-ortelius-parergon-dacia
 slug_history: []
 relations: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 target:
   entity: tc:tc:map:ortelius
 source: tc:tc:source:src-ortelius-parergon

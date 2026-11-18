@@ -5,8 +5,8 @@ title: "The Peutinger table carries Dacia along its roads"
 slug: ev-peutinger-dacia
 slug_history: []
 relations: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 target:
   entity: tc:tc:map:peutinger
 source: tc:tc:source:src-tabula-peutingeriana

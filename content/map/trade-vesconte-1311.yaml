@@ -4,8 +4,8 @@ origin: legacy
 title: Black Sea and eastern Mediterranean chart
 slug: trade-vesconte-1311
 slug_history: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 relations:
   - tc:tc:map:trade-vesconte-1321
 record_scope: object

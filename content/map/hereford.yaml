@@ -4,8 +4,8 @@ origin: legacy
 title: Hereford Mappa Mundi
 slug: hereford
 slug_history: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 relations:
   - tc:tc:map:religion-ebstorf
   - tc:tc:map:religion-psalter
