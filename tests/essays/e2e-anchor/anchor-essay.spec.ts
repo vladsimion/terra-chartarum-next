@@ -83,7 +83,7 @@ test.describe('the anchor essay', () => {
     const targets = page.locator('article.essay label, article.essay button, article.essay summary');
     for (let i = 0; i < (await targets.count()); i++) {
       const box = await targets.nth(i).boundingBox();
-      if (box) expect(box.height, `target ${i} is tall enough to hit`).toBeGreaterThanOrEqual(24);
+      if (box) expect(box.height, `target ${i} is tall enough to hit`).toBeGreaterThanOrEqual(44);
     }
   });
 

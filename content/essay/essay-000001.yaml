@@ -43,6 +43,7 @@ sources:
   - tc:tc:source:src-cantemir-moldavia
   - tc:tc:source:src-iosephina-survey
   - tc:tc:source:src-szathmari-charta
+  - tc:tc:source:src-secret-century
 evidence:
   - tc:tc:evidence:evidence-000001
   - tc:tc:evidence:evidence-000002

@@ -87,6 +87,14 @@ const name = `compare-${label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(
   }
 
   .compare-step label {
+    /*
+     * The label is the thing a reader hits, so it carries the target, not the row around it: the
+     * wrapper was already 44px tall while the label inside it was 27, which the anchor essay's own
+     * target test caught once it asserted the 44 the contract documents.
+     */
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--target-min);
     font-family: var(--font-mono);
     font-size: var(--step--1);
   }

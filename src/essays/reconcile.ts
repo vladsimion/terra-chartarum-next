@@ -1,5 +1,6 @@
 import { stageAtLeast } from '../registry/stages.js';
 import type { Cell } from './cells.js';
+import { ABSENCES } from './cells-file.js';
 
 /*
  * The pit cells against the legacy attestation CSV (spec 009, contracts/review-tooling.md). Pure: cells and
@@ -65,10 +66,16 @@ const fold = (text: string): string =>
     .replace(/\s+/g, ' ')
     .trim();
 
-/** The author's marks for a stratum a sheet does not cover (`extra muros`) or covers and leaves unnamed (`absent`), and the CSV class each corresponds to. */
-const MARKS: Record<string, string> = { 'extra muros': 'extra_muros', absent: 'source_silent' };
+/**
+ * The author's marks for a stratum a sheet does not cover (`extra muros`) or covers and leaves
+ * unnamed (`absent`), and the CSV class each corresponds to. The classes themselves are named once,
+ * in `cells-file.ts`, which is also what the cell file is validated against.
+ */
+const [EXTRA_MUROS, SOURCE_SILENT] = ABSENCES;
+const MARKS: Record<string, string> = { 'extra muros': EXTRA_MUROS, absent: SOURCE_SILENT };
 
-function sameName(essayName: string, row: CsvRow, reading = ''): boolean {
+function sameName(cell: Pick<Cell, 'name' | 'reading'>, row: CsvRow): boolean {
+  const { name: essayName, reading } = cell;
   const name = fold(essayName);
   /*
    * Since T047 the mark lives in the cell's `reading`, in the corpus's own vocabulary, and the name
@@ -97,7 +104,7 @@ function sameLanguage(essayTongue: string, code: string): boolean {
 }
 
 function difference(cell: Cell, row: CsvRow): ReconRow['difference'] {
-  if (!sameName(cell.name, row, cell.reading)) return 'name';
+  if (!sameName(cell, row)) return 'name';
   if (!sameLanguage(cell.language, row.language)) return 'language';
   if ((cell.note.trim() === '') !== (row.note.trim() === '')) return 'note';
   return 'none';
@@ -127,7 +134,7 @@ export function reconcile(cells: readonly Cell[], csv: readonly CsvRow[]): Recon
       continue;
     }
     const candidates = pitRows.filter((r) => PIT_PLACES[cell.pit]?.includes(r.place_id) && r.source_id === STRATUM_SOURCES[cell.stratum] && !claimed.has(r.attestation_id));
-    const match = candidates.find((r) => sameName(cell.name, r, cell.reading)) ?? candidates[0];
+    const match = candidates.find((r) => sameName(cell, r)) ?? candidates[0];
     if (!match) {
       out.push({ ...base(cell), ...none, difference: 'missing in CSV' });
       continue;

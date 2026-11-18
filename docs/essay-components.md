@@ -111,6 +111,6 @@ The four components in `src/essays/bespoke/` serve the anchor essay alone (spec 
 
 ## PitTable
 - **Question it serves:** what was this one place called in each of the thirteen strata, and does the corpus hold that attestation yet? The pit's cells from the essay's cell file, each row marked "not yet corpus-backed" until the Corpus Chartarum Daciae holds its attestation (ADR 0014).
-- **Keyboard:** nothing to operate; it is a table. On a narrow screen it scrolls inside its own container.
+- **Keyboard:** the table itself has nothing to operate, but its container scrolls sideways when the six columns do not fit, so that container is a labelled, focusable region: Tab reaches it, the arrow keys scroll it, and it shows focus. A region that scrolls and cannot be reached by keyboard fails WCAG 2.1.1, which the real essay's axe run caught where the fixtures could not.
 - **Reduced motion:** nothing moves.
 - **Without JavaScript:** it needs none. The rows are written at build time from the cell file through `renderCell`, so the corpus label is the same for every reader.

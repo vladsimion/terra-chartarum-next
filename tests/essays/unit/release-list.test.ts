@@ -22,6 +22,38 @@ const isPublic = (r: { lifecycle?: unknown; release?: unknown }) => r.release ==
 describe.runIf(published)('the anchor essay at Publish', () => {
   const used = selectUsedRecords(records, 'dacia-lapidarium');
 
+  /*
+   * SC-005 asks that the newly public records equal the release list exactly. Comparing the public
+   * set with `selectUsedRecords` alone would prove nothing, because that function is what produced
+   * the release: it would agree with itself however wrong it was. So the list is also stated here,
+   * from the record's own fields and the spec's own counts, and the public set is held to that.
+   */
+  it('is exactly the set the spec names, counted', () => {
+    const essayRecord = essay!;
+    const evidence = (essayRecord.evidence as string[] | undefined) ?? [];
+    const sources = (essayRecord.sources as string[] | undefined) ?? [];
+    const maps = (essayRecord.maps as string[] | undefined) ?? [];
+    const entries = records.filter((r) => r.family === 'bibliography_entry' && isPublic(r));
+    const makers = records.filter((r) => r.family === 'cartographer' && isPublic(r));
+
+    const stated = new Set<string>([essayRecord.id, ...evidence, ...sources, ...maps, ...entries.map((r) => r.id), ...makers.map((r) => r.id)]);
+    // the seven rooms are public by rule, not by this release (ADR 0015, ROOM-PUBLIC), and were public before it
+    const publicIds = new Set(records.filter((r) => isPublic(r) && r.family !== 'room').map((r) => r.id));
+
+    expect([...publicIds].filter((id) => !stated.has(id)), 'public but not on the stated list').toEqual([]);
+    expect([...stated].filter((id) => !publicIds.has(id)), 'on the stated list but not public').toEqual([]);
+    expect(records.filter((r) => r.family === 'room' && isPublic(r)), 'the seven rooms stay public by rule').toHaveLength(7);
+    expect(maps.length, 'the maps it shows').toBe(6);
+    expect(evidence.length, 'its evidence records').toBe(14);
+    /*
+     * Ten, not the twelve the data model names: the Hereford and Russian General Staff stones ship
+     * uncited, because their pointers are unidentified, so their sources stay held. That is the
+     * deviation ledger rows L17 and L19 record, and this number is where it shows.
+     */
+    expect(sources.length, 'the sources the essay rests on').toBe(10);
+    expect(publicIds.size, 'the release list in all').toBe(50);
+  });
+
   it('releases every record it uses', () => {
     const held = [...used]
       .map((id) => records.find((r) => r.id === id))
@@ -35,9 +67,10 @@ describe.runIf(published)('the anchor essay at Publish', () => {
      * Spec 008 imported the legacy registry held (ADR 0002). Publishing this essay must not have
      * released any of it beyond what the essay needs: every other imported record stays held.
      */
+    // every record, not only the imported ones: a minted record released beyond the list leaks too
     const leaked = records
-      .filter((r) => r.origin === 'legacy' && !used.has(r.id) && isPublic(r))
-      .map((r) => `${r.id} is released but the essay does not use it`);
+      .filter((r) => !used.has(r.id) && isPublic(r) && r.family !== 'room')
+      .map((r) => `${r.id} (${String(r.family)}, origin ${String(r.origin)}) is released but the essay does not use it`);
     expect(leaked).toEqual([]);
   });
 

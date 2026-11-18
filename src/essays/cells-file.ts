@@ -14,7 +14,7 @@ const STRATA = 13;
 const READINGS = ['exact', 'variant', 'alternative', 'textual_only', 'reconstructed', 'extra_muros', 'source_silent', 'survival_unknown', 'local'];
 
 /** The readings that are themselves the reason there is no name: the sheet does not cover the ground, or covers it and says nothing. */
-const ABSENCES = ['extra_muros', 'source_silent'];
+export const ABSENCES = ['extra_muros', 'source_silent'] as const;
 
 export function validateCellFile(value: unknown): string[] {
   if (!Array.isArray(value)) return ['the cell file must be a list of cells'];
@@ -35,7 +35,7 @@ export function validateCellFile(value: unknown): string[] {
     if (typeof c.reading === 'string' && !READINGS.includes(c.reading)) {
       problems.push(`cell ${i} has the reading "${c.reading}", which is not one of ${READINGS.join(', ')}`);
     }
-    const absence = typeof c.reading === 'string' && ABSENCES.includes(c.reading);
+    const absence = typeof c.reading === 'string' && (ABSENCES as readonly string[]).includes(c.reading);
     if ((typeof c.name !== 'string' || c.name.trim() === '') && !absence) {
       problems.push(`cell ${i} has no name, and its reading does not say why there is none (${ABSENCES.join(' or ')})`);
     }

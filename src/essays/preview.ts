@@ -35,7 +35,7 @@ export function selectUsedRecords(records: readonly RegistryRecord[], slug: stri
   for (const id of [...used]) {
     const record = byId.get(id);
     if (record?.family !== 'map') continue;
-    for (const key of ['makers', 'bibliography'] as const) for (const used_id of ids(record[key])) used.add(used_id);
+    for (const key of ['makers', 'bibliography'] as const) for (const referenced of ids(record[key])) used.add(referenced);
   }
   for (const id of [...used]) {
     const record = byId.get(id);
