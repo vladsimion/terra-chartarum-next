@@ -48,6 +48,7 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Cited as evidence** | The route by which an entry is cited through a claim citation: essay → Evidence record → Source → entry, with the locator and its verification state. Not merely listed. |
 | **Listed in bibliography** | The route by which a record names an entry in its `bibliography[]`, without a locator. Not a claim citation. |
 | **Edition relation** | A link from one Bibliography entry to another that it is an edition of (`edition_of`) or a translation of (`translation_of`). Not a version of a record. |
+| **Dependents** | Every record, held or public, that relies on a given record directly or through others: what a correction to it would touch. Not "Cited in" or "Used by", which list public, direct referrers only. |
 
 ## Evidence and uncertainty
 
@@ -63,6 +64,7 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Lifecycle** | Shared state of any entity: proposed → researching → verified → ready_for_build → in_build → qa → publishable → published; superseded / blocked. For essays it is derived from the editorial stage. |
 | **Availability** | Derived build-time fact that a layer's runnable asset exists. Never stored; never a lifecycle value. |
 | **Pending locator** | A locator not yet read against `consulted_copy` by a person. Publishable, shown as pending; cannot support a `secure` claim. |
+| **Archived copy** | A web-archive snapshot of the copy a verified locator was read against, recorded so that the reading stays checkable after the live scan moves or disappears. Not the frozen archive, and not the Archive room. |
 
 ## Atlas
 
