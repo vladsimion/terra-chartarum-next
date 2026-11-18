@@ -186,7 +186,10 @@ npm run build                                       # registry gate, pages, then
 npm run shell:check                                 # lists stub pages and draft copy left in the build
 npm run shell:check -- --cutover                    # exits 1 while any remain (a required step of spec 008)
 npm run test:e2e                                    # Playwright and axe; Lighthouse CI is `npm run lhci`
+npm run hooks:install                               # once per clone: a pre-push hook runs the counts check, typecheck and unit tests
 ```
+
+CI (`.github/workflows/registry.yml`) runs three jobs in parallel: `checks` (counts, types, lint, audit, integrity gate, unit tests, leak scans), `e2e` (every Playwright suite) and `lighthouse` (four shards of the `lighthouserc.json` URLs). The required check `gate` passes only when all of them pass. A newer push to a pull request cancels the run it replaces.
 
 Rules that tests enforce:
 

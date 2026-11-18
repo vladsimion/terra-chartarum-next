@@ -29,7 +29,8 @@
     "essay:ledger": "tsx scripts/essay-ledger.ts",
     "essay:reconcile": "tsx scripts/essay-reconcile.ts",
     "baseline": "tsx scripts/baseline.ts",
-    "status": "tsx scripts/status.ts"
+    "status": "tsx scripts/status.ts",
+    "hooks:install": "git config core.hooksPath .githooks"
   },
   "dependencies": {
     "@allmaps/maplibre": "1.0.0-beta.44",
