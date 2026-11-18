@@ -153,8 +153,8 @@ description: "Task list for 009 The Anchor Essay"
 
 ## Phase 9: Polish & cross-cutting concerns
 
-- [ ] T061 [P] Run the quickstart end to end and fix anything it exposes
-- [ ] T062 [P] Update `README.md` and `docs/` for the review tooling and the essay; refresh the spec 008 dossier line that still named the old default slug
+- [x] T061 [P] Run the quickstart end to end and fix anything it exposes Done 2026-11-18: every command in it runs, including `npm run essay:preview -- dacia-lapidarium --without ptolemy`, which drops that stone to source-only (the figure goes, the thirteen plates stay), and `npx astro preview --outDir dist-anchor` exactly as the quickstart writes it. What it exposed over the slice is already fixed: `essay:preview` could only run once per content store, and the first fix for that cleared a shared cache and broke an unrelated build test, so each preview now takes a cache of its own. Two lines were added to the quickstart: the Lighthouse run, and `CHROME_PATH` beside `PW_CHROMIUM_PATH`.
+- [x] T062 [P] Update `README.md` and `docs/` for the review tooling and the essay; refresh the spec 008 dossier line that still named the old default slug Done 2026-11-18: the README gains a section on the anchor essay and its three review scripts, what the preview does and why a held essay can only be read that way, and where an essay's own local data lives. `docs/essay-components.md` already carries the plate vocabulary and the two drawing variants from T041 and T046. The spec 008 dossier no longer asks which slug `cutover:check` looks for: it is `dacia-lapidarium`, the essay is published, and the step passes.
 - [ ] T063 Run the `code-review` skill against the commit before this work began (standards and spec axes) and address findings
 - [ ] T064 Update Jira (TCX-52 description, story checklists, statuses), the Confluence dossier for spec 009, the Build Log and the Decision Log (workflow step 4); record the Publish date
 

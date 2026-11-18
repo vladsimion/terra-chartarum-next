@@ -95,6 +95,34 @@ The id is the full one the command prints (`tc:tc:essay:essay-000004`) and stage
 
 Essay end-to-end specs build the fixture registry: `npm run test:e2e:essays`. Walkthrough: [`specs/003-essay-framework/quickstart.md`](specs/003-essay-framework/quickstart.md).
 
+### The anchor essay and its review tooling (spec 009)
+
+The v1 anchor essay, *Terra Sigillata · Lapidarium Dacicum*, is the legacy site's essay rebuilt
+natively: one page, thirteen stones, five interactions, four test pits and no JavaScript, published
+at `/essays/dacia-lapidarium/` with `/essays/dacia/` redirecting to it from the archive. It is a
+faithful port, so three scripts exist to prove it and to keep the author's judgement in the record
+rather than in a diff.
+
+```bash
+npm run essay:preview -- <slug> [--without <map>]  # build a held essay from a temporary registry copy, so it can be read before Publish
+npm run essay:ledger                               # the changed-claim ledger: every change to the author's text, approved or not
+npm run essay:reconcile -- <legacy clone>          # the 52 pit cells against the legacy attestation rows
+npm run test:e2e:anchor                            # the real page: both schemes, scripts off, keyboard, reduced motion, axe
+npm run lhci:anchor                                # the ADR 0004 budgets on the real page
+```
+
+The preview is the only way to see a held essay as a reader will: it copies the registry, marks the
+essay and the records it uses released **in the copy**, builds, and throws the copy away, leaving the
+real registry byte-identical. A record that is not ready to be published makes the preview fail with
+the gate's own errors, which is the release-readiness report. Each preview takes a cache of its own,
+so it can be run repeatedly.
+
+An essay's own local data lives beside its record: `content/essay/<id>.cells.json` holds the pit
+cells, each marked `corpus: none` and shown as *not yet corpus-backed* until an attestation backs it.
+Their `reading` uses the corpus's own attestation classes, so a cell and the attestation that will
+one day back it line up without a translation step. Decisions: [ADR 0017](docs/adr/0017-anchor-essay.md);
+walkthrough: [`specs/009-anchor-essay/quickstart.md`](specs/009-anchor-essay/quickstart.md).
+
 ## The collection and cartographers (spec 004)
 
 One canonical record per map witness (a copy this project holds, or one an institution holds), under `content/map/`, with its makers in `content/cartographer/` and a biography beside each in `<id>.md`. Every field a record page shows has a value or a stated status (`field_status`), so nothing unestablished looks established. Decision: [ADR 0011](docs/adr/0011-map-record-model.md).
