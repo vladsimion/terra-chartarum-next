@@ -1,5 +1,7 @@
 import { spawn } from 'node:child_process';
-import { rmSync } from 'node:fs';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
 import { runPreview } from '../src/essays/preview-cli.js';
 
 /*
@@ -9,23 +11,26 @@ import { runPreview } from '../src/essays/preview-cli.js';
  */
 
 /*
- * Astro's content layer keeps a data store that records the absolute path of every entry it has
- * loaded. Each preview builds from a fresh temporary copy of the registry, so a store left from an
- * earlier run names a directory that has since been thrown away, and the next build fails resolving
- * the essay's body from a path that no longer exists. The store is a cache and is rebuilt, so it is
- * cleared before each preview: without this, `essay:preview` works once and then fails until
- * someone deletes it by hand.
+ * Astro's content layer keeps a store that records the absolute path of every entry it has loaded.
+ * Each preview builds from a fresh temporary copy of the registry, so a store left from an earlier
+ * run names a directory that has since been thrown away and the next build fails resolving the
+ * essay's body. The preview therefore takes a cache of its own, thrown away with the copy: clearing
+ * the shared one instead would pull the cache out from under everything else that uses it, which in
+ * a test run means the next build picks up whichever registry happens to be configured.
  */
-const CONTENT_CACHES = ['.astro', 'node_modules/.astro'];
-
 const build = (registryRoot: string, outDir: string) =>
   new Promise<{ ok: boolean; output: string }>((resolve) => {
-    for (const dir of CONTENT_CACHES) rmSync(dir, { recursive: true, force: true });
-    const child = spawn('npx', ['astro', 'build'], { env: { ...process.env, REGISTRY_ROOT: registryRoot, ASTRO_OUT_DIR: `./${outDir}` } });
+    const cacheDir = mkdtempSync(path.join(tmpdir(), 'essay-preview-cache-'));
+    const child = spawn('npx', ['astro', 'build'], {
+      env: { ...process.env, REGISTRY_ROOT: registryRoot, ASTRO_OUT_DIR: `./${outDir}`, ASTRO_CACHE_DIR: cacheDir },
+    });
     let output = '';
     child.stdout.on('data', (d) => (output += String(d)));
     child.stderr.on('data', (d) => (output += String(d)));
-    child.on('close', (code) => resolve({ ok: code === 0, output }));
+    child.on('close', (code) => {
+      rmSync(cacheDir, { recursive: true, force: true });
+      resolve({ ok: code === 0, output });
+    });
   });
 
 process.exitCode = await runPreview(process.argv.slice(2).filter((a) => a !== '--'), {
