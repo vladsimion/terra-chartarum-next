@@ -4,7 +4,7 @@
     "stratum": 0,
     "name": "Sarmizegetusa",
     "language": "ro",
-    "reading": "",
+    "reading": "local",
     "note": "A fixture note for stratum 0.",
     "corpus": "none"
   },
@@ -13,25 +13,25 @@
     "stratum": 1,
     "name": "Sarmizegetusa",
     "language": "ro",
-    "reading": "",
+    "reading": "exact",
     "note": "A fixture note for stratum 1.",
     "corpus": "none"
   },
   {
     "pit": "sarmizegetusa",
     "stratum": 2,
-    "name": "Sarmizegetusa",
+    "name": "",
     "language": "ro",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "A fixture note for stratum 2.",
     "corpus": "none"
   },
   {
     "pit": "sarmizegetusa",
     "stratum": 3,
-    "name": "Sarmizegetusa",
+    "name": "",
     "language": "ro",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "A fixture note for stratum 3.",
     "corpus": "none"
   },
@@ -40,7 +40,7 @@
     "stratum": 4,
     "name": "Sarmizegetusa",
     "language": "ro",
-    "reading": "",
+    "reading": "variant",
     "note": "A fixture note for stratum 4.",
     "corpus": "none"
   },
@@ -49,7 +49,7 @@
     "stratum": 5,
     "name": "Sarmizegetusa",
     "language": "ro",
-    "reading": "",
+    "reading": "alternative",
     "note": "A fixture note for stratum 5.",
     "corpus": "none"
   },
@@ -58,7 +58,7 @@
     "stratum": 6,
     "name": "Sarmizegetusa",
     "language": "ro",
-    "reading": "",
+    "reading": "textual_only",
     "note": "A fixture note for stratum 6.",
     "corpus": "none"
   },
@@ -67,16 +67,16 @@
     "stratum": 7,
     "name": "Sarmizegetusa (uncertain)",
     "language": "ro",
-    "reading": "",
+    "reading": "reconstructed",
     "note": "A fixture note for stratum 7.",
     "corpus": "none"
   },
   {
     "pit": "sarmizegetusa",
     "stratum": 8,
-    "name": "Sarmizegetusa",
+    "name": "",
     "language": "ro",
-    "reading": "",
+    "reading": "source_silent",
     "note": "A fixture note for stratum 8.",
     "corpus": "none"
   },
@@ -85,7 +85,7 @@
     "stratum": 9,
     "name": "extra muros",
     "language": "la",
-    "reading": "",
+    "reading": "survival_unknown",
     "note": "A fixture note for stratum 9.",
     "corpus": "none"
   },
@@ -94,7 +94,7 @@
     "stratum": 10,
     "name": "Sarmizegetusa",
     "language": "la",
-    "reading": "",
+    "reading": "variant",
     "note": "A fixture note for stratum 10.",
     "corpus": "none"
   },
@@ -103,7 +103,7 @@
     "stratum": 11,
     "name": "absent",
     "language": "la",
-    "reading": "",
+    "reading": "exact",
     "note": "A fixture note for stratum 11.",
     "corpus": "none"
   },
@@ -112,7 +112,7 @@
     "stratum": 12,
     "name": "Sarmizegetusa",
     "language": "la",
-    "reading": "",
+    "reading": "textual_only",
     "note": "A fixture note for stratum 12.",
     "corpus": "none"
   },
@@ -121,7 +121,7 @@
     "stratum": 0,
     "name": "Apulum",
     "language": "ro",
-    "reading": "",
+    "reading": "local",
     "note": "A fixture note for stratum 0.",
     "corpus": "none"
   },
@@ -130,25 +130,25 @@
     "stratum": 1,
     "name": "Apulum",
     "language": "ro",
-    "reading": "",
+    "reading": "exact",
     "note": "A fixture note for stratum 1.",
     "corpus": "none"
   },
   {
     "pit": "apulum",
     "stratum": 2,
-    "name": "Apulum",
+    "name": "",
     "language": "ro",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "A fixture note for stratum 2.",
     "corpus": "none"
   },
   {
     "pit": "apulum",
     "stratum": 3,
-    "name": "Apulum",
+    "name": "",
     "language": "ro",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "A fixture note for stratum 3.",
     "corpus": "none"
   },
@@ -157,7 +157,7 @@
     "stratum": 4,
     "name": "Apulum",
     "language": "ro",
-    "reading": "",
+    "reading": "variant",
     "note": "A fixture note for stratum 4.",
     "corpus": "none"
   },
@@ -166,7 +166,7 @@
     "stratum": 5,
     "name": "Apulum",
     "language": "ro",
-    "reading": "",
+    "reading": "alternative",
     "note": "A fixture note for stratum 5.",
     "corpus": "none"
   },
@@ -175,7 +175,7 @@
     "stratum": 6,
     "name": "Apulum",
     "language": "ro",
-    "reading": "",
+    "reading": "textual_only",
     "note": "A fixture note for stratum 6.",
     "corpus": "none"
   },
@@ -184,16 +184,16 @@
     "stratum": 7,
     "name": "Apulum (uncertain)",
     "language": "ro",
-    "reading": "",
+    "reading": "reconstructed",
     "note": "A fixture note for stratum 7.",
     "corpus": "none"
   },
   {
     "pit": "apulum",
     "stratum": 8,
-    "name": "Apulum",
+    "name": "",
     "language": "ro",
-    "reading": "",
+    "reading": "source_silent",
     "note": "A fixture note for stratum 8.",
     "corpus": "none"
   },
@@ -202,7 +202,7 @@
     "stratum": 9,
     "name": "extra muros",
     "language": "la",
-    "reading": "",
+    "reading": "survival_unknown",
     "note": "A fixture note for stratum 9.",
     "corpus": "none"
   },
@@ -211,7 +211,7 @@
     "stratum": 10,
     "name": "Apulum",
     "language": "la",
-    "reading": "",
+    "reading": "variant",
     "note": "A fixture note for stratum 10.",
     "corpus": "none"
   },
@@ -220,7 +220,7 @@
     "stratum": 11,
     "name": "absent",
     "language": "la",
-    "reading": "",
+    "reading": "exact",
     "note": "A fixture note for stratum 11.",
     "corpus": "none"
   },
@@ -229,7 +229,7 @@
     "stratum": 12,
     "name": "Apulum",
     "language": "la",
-    "reading": "",
+    "reading": "textual_only",
     "note": "A fixture note for stratum 12.",
     "corpus": "none"
   },
@@ -238,7 +238,7 @@
     "stratum": 0,
     "name": "Napoca",
     "language": "ro",
-    "reading": "",
+    "reading": "local",
     "note": "A fixture note for stratum 0.",
     "corpus": "none"
   },
@@ -247,25 +247,25 @@
     "stratum": 1,
     "name": "Napoca",
     "language": "ro",
-    "reading": "",
+    "reading": "exact",
     "note": "A fixture note for stratum 1.",
     "corpus": "none"
   },
   {
     "pit": "napoca",
     "stratum": 2,
-    "name": "Napoca",
+    "name": "",
     "language": "ro",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "A fixture note for stratum 2.",
     "corpus": "none"
   },
   {
     "pit": "napoca",
     "stratum": 3,
-    "name": "Napoca",
+    "name": "",
     "language": "ro",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "A fixture note for stratum 3.",
     "corpus": "none"
   },
@@ -274,7 +274,7 @@
     "stratum": 4,
     "name": "Napoca",
     "language": "ro",
-    "reading": "",
+    "reading": "variant",
     "note": "A fixture note for stratum 4.",
     "corpus": "none"
   },
@@ -283,7 +283,7 @@
     "stratum": 5,
     "name": "Napoca",
     "language": "ro",
-    "reading": "",
+    "reading": "alternative",
     "note": "A fixture note for stratum 5.",
     "corpus": "none"
   },
@@ -292,7 +292,7 @@
     "stratum": 6,
     "name": "Napoca",
     "language": "ro",
-    "reading": "",
+    "reading": "textual_only",
     "note": "A fixture note for stratum 6.",
     "corpus": "none"
   },
@@ -301,16 +301,16 @@
     "stratum": 7,
     "name": "Napoca (uncertain)",
     "language": "ro",
-    "reading": "",
+    "reading": "reconstructed",
     "note": "A fixture note for stratum 7.",
     "corpus": "none"
   },
   {
     "pit": "napoca",
     "stratum": 8,
-    "name": "Napoca",
+    "name": "",
     "language": "ro",
-    "reading": "",
+    "reading": "source_silent",
     "note": "A fixture note for stratum 8.",
     "corpus": "none"
   },
@@ -319,7 +319,7 @@
     "stratum": 9,
     "name": "extra muros",
     "language": "la",
-    "reading": "",
+    "reading": "survival_unknown",
     "note": "A fixture note for stratum 9.",
     "corpus": "none"
   },
@@ -328,7 +328,7 @@
     "stratum": 10,
     "name": "Napoca",
     "language": "la",
-    "reading": "",
+    "reading": "variant",
     "note": "A fixture note for stratum 10.",
     "corpus": "none"
   },
@@ -337,7 +337,7 @@
     "stratum": 11,
     "name": "absent",
     "language": "la",
-    "reading": "",
+    "reading": "exact",
     "note": "A fixture note for stratum 11.",
     "corpus": "none"
   },
@@ -346,7 +346,7 @@
     "stratum": 12,
     "name": "Napoca",
     "language": "la",
-    "reading": "",
+    "reading": "textual_only",
     "note": "A fixture note for stratum 12.",
     "corpus": "none"
   },
@@ -355,7 +355,7 @@
     "stratum": 0,
     "name": "Drobeta",
     "language": "ro",
-    "reading": "",
+    "reading": "local",
     "note": "A fixture note for stratum 0.",
     "corpus": "none"
   },
@@ -364,25 +364,25 @@
     "stratum": 1,
     "name": "Drobeta",
     "language": "ro",
-    "reading": "",
+    "reading": "exact",
     "note": "A fixture note for stratum 1.",
     "corpus": "none"
   },
   {
     "pit": "drobeta",
     "stratum": 2,
-    "name": "Drobeta",
+    "name": "",
     "language": "ro",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "A fixture note for stratum 2.",
     "corpus": "none"
   },
   {
     "pit": "drobeta",
     "stratum": 3,
-    "name": "Drobeta",
+    "name": "",
     "language": "ro",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "A fixture note for stratum 3.",
     "corpus": "none"
   },
@@ -391,7 +391,7 @@
     "stratum": 4,
     "name": "Drobeta",
     "language": "ro",
-    "reading": "",
+    "reading": "variant",
     "note": "A fixture note for stratum 4.",
     "corpus": "none"
   },
@@ -400,7 +400,7 @@
     "stratum": 5,
     "name": "Drobeta",
     "language": "ro",
-    "reading": "",
+    "reading": "alternative",
     "note": "A fixture note for stratum 5.",
     "corpus": "none"
   },
@@ -409,7 +409,7 @@
     "stratum": 6,
     "name": "Drobeta",
     "language": "ro",
-    "reading": "",
+    "reading": "textual_only",
     "note": "A fixture note for stratum 6.",
     "corpus": "none"
   },
@@ -418,16 +418,16 @@
     "stratum": 7,
     "name": "Drobeta (uncertain)",
     "language": "ro",
-    "reading": "",
+    "reading": "reconstructed",
     "note": "A fixture note for stratum 7.",
     "corpus": "none"
   },
   {
     "pit": "drobeta",
     "stratum": 8,
-    "name": "Drobeta",
+    "name": "",
     "language": "ro",
-    "reading": "",
+    "reading": "source_silent",
     "note": "A fixture note for stratum 8.",
     "corpus": "none"
   },
@@ -436,7 +436,7 @@
     "stratum": 9,
     "name": "extra muros",
     "language": "la",
-    "reading": "",
+    "reading": "survival_unknown",
     "note": "A fixture note for stratum 9.",
     "corpus": "none"
   },
@@ -445,7 +445,7 @@
     "stratum": 10,
     "name": "Drobeta",
     "language": "la",
-    "reading": "",
+    "reading": "variant",
     "note": "A fixture note for stratum 10.",
     "corpus": "none"
   },
@@ -454,7 +454,7 @@
     "stratum": 11,
     "name": "absent",
     "language": "la",
-    "reading": "",
+    "reading": "exact",
     "note": "A fixture note for stratum 11.",
     "corpus": "none"
   },
@@ -463,7 +463,7 @@
     "stratum": 12,
     "name": "Drobeta",
     "language": "la",
-    "reading": "",
+    "reading": "textual_only",
     "note": "A fixture note for stratum 12.",
     "corpus": "none"
   }

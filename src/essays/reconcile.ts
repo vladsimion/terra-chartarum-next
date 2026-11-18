@@ -68,8 +68,15 @@ const fold = (text: string): string =>
 /** The author's marks for a stratum a sheet does not cover (`extra muros`) or covers and leaves unnamed (`absent`), and the CSV class each corresponds to. */
 const MARKS: Record<string, string> = { 'extra muros': 'extra_muros', absent: 'source_silent' };
 
-function sameName(essayName: string, row: CsvRow): boolean {
+function sameName(essayName: string, row: CsvRow, reading = ''): boolean {
   const name = fold(essayName);
+  /*
+   * Since T047 the mark lives in the cell's `reading`, in the corpus's own vocabulary, and the name
+   * column is empty where no name was found: such a cell matches a row of the class its reading
+   * names. The older shape, where the mark was written in the name column, is still read, because
+   * the legacy table is what the manifest and the port fidelity check are measured against.
+   */
+  if (name === '' && reading !== '') return row.attestation_class === reading;
   const mark = MARKS[name];
   if (mark !== undefined) return row.attestation_class === mark;
   // one cell may list several names ("Klausenburg / Kolozsvár"): it matches when any of them is a spelling the CSV has
@@ -90,7 +97,7 @@ function sameLanguage(essayTongue: string, code: string): boolean {
 }
 
 function difference(cell: Cell, row: CsvRow): ReconRow['difference'] {
-  if (!sameName(cell.name, row)) return 'name';
+  if (!sameName(cell.name, row, cell.reading)) return 'name';
   if (!sameLanguage(cell.language, row.language)) return 'language';
   if ((cell.note.trim() === '') !== (row.note.trim() === '')) return 'note';
   return 'none';
@@ -120,7 +127,7 @@ export function reconcile(cells: readonly Cell[], csv: readonly CsvRow[]): Recon
       continue;
     }
     const candidates = pitRows.filter((r) => PIT_PLACES[cell.pit]?.includes(r.place_id) && r.source_id === STRATUM_SOURCES[cell.stratum] && !claimed.has(r.attestation_id));
-    const match = candidates.find((r) => sameName(cell.name, r)) ?? candidates[0];
+    const match = candidates.find((r) => sameName(cell.name, r, cell.reading)) ?? candidates[0];
     if (!match) {
       out.push({ ...base(cell), ...none, difference: 'missing in CSV' });
       continue;

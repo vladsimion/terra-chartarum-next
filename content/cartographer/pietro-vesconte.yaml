@@ -10,3 +10,6 @@ relations: []
 kind: person
 names:
   - Vesconte, Pietro
+editor_confirmed: true
+confirmed_by: Vlad Simion
+confirmed_on: "2026-11-18"

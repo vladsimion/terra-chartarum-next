@@ -4,8 +4,8 @@ origin: minted
 title: Terra Sigillata · Lapidarium Dacicum
 slug: dacia-lapidarium
 slug_history: []
-stage: Research
-lifecycle: researching
+stage: Draft
+lifecycle: verified
 release: held
 relations: []
 question: If every map of Dacia is built from the spolia of the one before it,
@@ -57,6 +57,7 @@ evidence:
   - tc:tc:evidence:evidence-000011
   - tc:tc:evidence:evidence-000012
   - tc:tc:evidence:evidence-000013
+  - tc:tc:evidence:evidence-000014
 interactions:
   - id: hereford-against-vesconte
     component: compare-slider
@@ -98,19 +99,30 @@ interactions:
       same as one set by institutional control.
     evidence:
       - tc:tc:evidence:evidence-000013
+  - id: radar-secretum-satelles
+    component: section-radar
+    question: "When the satellite survey displaced the military one, what fell away:
+      the measuring, or the control of what the measuring showed?"
+    interpretation: The control, and the silence with it. On this essay’s readings
+      measure and limit do not move, because both layers measure to the limit of
+      their instruments, while authority halves and silence falls by more than
+      half, the only reversal of that size in the section. What changed is not
+      how well the ground could be seen but who was permitted to see it.
+    evidence:
+      - tc:tc:evidence:evidence-000014
 open_questions:
   - "The Hereford stone has no citation yet: the claim rests on one numbered
     inscription in Westrem’s catalogue, and which inscription it is must be
     chosen against the claim before an evidence record can carry a locator."
   - "The Russian General Staff stone has no citation yet: the 1835 series and
     its sheet index must be identified before a sheet number can be proposed."
-  - "The secret-century stone has no citation yet, and for the same reason the
-    fifth interaction, the secret century against the satellite, is not
-    declared: the firing-plan series, sheet and year of issue must be identified
-    first. The body carries that comparison's heading, chart and prose with no
-    interaction frame around them, because the framework refuses an id the
-    record does not declare; the frame appears as soon as the declaration
-    lands."
+  - "The secret-century stone has no citation yet, though the fifth interaction
+    now rests on a series-level pointer to the same source: the individual
+    firing-plan sheet, and the year of its issue, are still to be identified
+    before the stone itself can carry a citation."
+  - "The fifth interaction's question and interpretation were drafted from the
+    author's own prose at legacy lines 2084 to 2089 and are his to confirm or
+    rewrite at Design QA; the other four carry his revised wording."
   - The Josephine and Szathmari locators name the archival series and the work,
     not the individual sheet; the sheet must be resolved against the claim each
     stone makes.
@@ -121,6 +133,8 @@ open_questions:
     no holder; the two must be reconciled.
   - The Ortelius image is catalogued by its holder as 1595 to 1624, so the
     impression photographed may not be the 1595 one even though the plate is.
+rights:
+  licence: CC BY 4.0
 stage_history:
   - stage: Concept
     on: 2026-11-17
@@ -130,4 +144,10 @@ stage_history:
     by: Vlad Simion
   - stage: Research
     on: 2026-11-17
+    by: Vlad Simion
+  - stage: Outline
+    on: 2026-11-18
+    by: Vlad Simion
+  - stage: Draft
+    on: 2026-11-18
     by: Vlad Simion

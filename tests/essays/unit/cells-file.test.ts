@@ -13,7 +13,7 @@ import { validateCellFile } from '../../../src/essays/cells-file.js';
 const PITS = ['sarmizegetusa', 'apulum', 'napoca', 'drobeta'] as const;
 const cells = (): Cell[] =>
   PITS.flatMap((pit) =>
-    Array.from({ length: 13 }, (_, stratum): Cell => ({ pit, stratum, name: `name ${pit} ${stratum}`, language: 'Latin', reading: '', note: 'a note', corpus: 'none' })),
+    Array.from({ length: 13 }, (_, stratum): Cell => ({ pit, stratum, name: `name ${pit} ${stratum}`, language: 'Latin', reading: 'variant', note: 'a note', corpus: 'none' })),
   );
 
 describe('validateCellFile', () => {
@@ -23,6 +23,41 @@ describe('validateCellFile', () => {
 
   it('renders every cell of a valid file as not yet corpus-backed', () => {
     for (const cell of cells()) expect(renderCell(cell).corpusLabel).toBe('not yet corpus-backed');
+  });
+});
+
+describe('validateCellFile: the reading vocabulary (T047, answered 2026-11-18)', () => {
+  /*
+   * The author settled the vocabulary as the corpus's own attestation classes, so that when a CND
+   * attestation backs a cell the two line up without a translation step, plus `local` for a cell the
+   * corpus holds nothing for. A mark like "extra muros" is a reading, not a name, so a cell whose
+   * reading says the sheet does not cover the ground or does not name the place may have no name.
+   */
+  const with_ = (i: number, patch: Partial<Cell>): Cell[] => {
+    const all = cells();
+    all[i] = { ...(all[i] as Cell), ...patch };
+    return all;
+  };
+
+  it('takes each of the corpus classes, and `local` for a cell no attestation backs', () => {
+    for (const reading of ['exact', 'variant', 'alternative', 'textual_only', 'reconstructed', 'extra_muros', 'source_silent', 'survival_unknown', 'local']) {
+      expect(validateCellFile(with_(0, { reading })), reading).toEqual([]);
+    }
+  });
+
+  it('refuses a reading that is not one of them, and refuses none at all', () => {
+    expect(validateCellFile(with_(0, { reading: 'absent' }))).toEqual([expect.stringContaining('cell 0')]);
+    expect(validateCellFile(with_(0, { reading: '' }))).toEqual([expect.stringContaining('cell 0')]);
+  });
+
+  it('lets a cell have no name when its reading is why there is none', () => {
+    expect(validateCellFile(with_(0, { name: '', reading: 'extra_muros' }))).toEqual([]);
+    expect(validateCellFile(with_(0, { name: '', reading: 'source_silent' }))).toEqual([]);
+  });
+
+  it('still asks for a name when the reading is not an absence', () => {
+    expect(validateCellFile(with_(0, { name: '', reading: 'variant' }))).toEqual([expect.stringContaining('cell 0')]);
+    expect(validateCellFile(with_(0, { name: '', reading: 'survival_unknown' }))).toEqual([expect.stringContaining('cell 0')]);
   });
 });
 
@@ -57,12 +92,14 @@ describe('validateCellFile: a cell is local data', () => {
     expect(validateCellFile(withCell(3, { attestation: 'att-0001' }))).toEqual(['cell 3 must not have an attestation yet (it is local data until the corpus holds one)']);
   });
 
-  it('has a name, a tongue, a note and a reading as text (the reading may be empty until the author confirms it)', () => {
-    expect(validateCellFile(withCell(5, { name: '' }))).toEqual(['cell 5 has no name']);
+  it('has a name, a tongue, a note and a reading as text, the reading from the settled vocabulary', () => {
+    expect(validateCellFile(withCell(5, { name: '' }))).toEqual([expect.stringContaining('cell 5 has no name')]);
     expect(validateCellFile(withCell(5, { language: 7 }))).toEqual(['cell 5 needs language as text']);
     expect(validateCellFile(withCell(5, { note: undefined }))).toEqual(['cell 5 needs note as text']);
     expect(validateCellFile(withCell(5, { reading: undefined }))).toEqual(['cell 5 needs reading as text']);
-    expect(validateCellFile(withCell(5, { reading: '' }))).toEqual([]);
+    // before 2026-11-18 an empty reading was the deliberate state; the author has since settled the
+    // vocabulary (T047), so a cell without one is now incomplete
+    expect(validateCellFile(withCell(5, { reading: '' }))).toEqual([expect.stringContaining('cell 5')]);
   });
 });
 

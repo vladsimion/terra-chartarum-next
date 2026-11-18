@@ -10,6 +10,8 @@ relations: []
 record_scope: object
 date_published: "0150"
 significance: Coordinates for 8,000 places - cartography as a table of numbers.
+attribution_evidence:
+  - tc:tc:evidence:evidence-000001
 images:
   - type: static
     url: https://commons.wikimedia.org/wiki/Special:FilePath/Ptolemy%20Cosmographia%20Dacia+Danube.jpg?width=1400
@@ -30,10 +32,19 @@ open_questions:
       the manuscript it was photographed from.
     would_resolve: The Wikimedia Commons file's own source, or a holder's
       catalogue record for the copy.
+language: Greek
 field_status:
+  atlas_context: not_yet_verified
+  edition_state: not_yet_verified
+  georeferencing_status: not_yet_verified
+  provenance: not_yet_verified
+  publication_place: not_yet_verified
   title_original: not_yet_verified
   coverage: not_yet_verified
   dimensions: not_yet_verified
 makers:
   - tc:tc:cartographer:cartographer-000001
 witness_kind: unlocated
+editor_confirmed: true
+confirmed_by: Vlad Simion
+confirmed_on: "2026-11-18"

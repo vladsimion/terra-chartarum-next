@@ -12,6 +12,8 @@ date_published: "1532"
 significance: A humanist maps his own Carpathian homeland.
 makers:
   - tc:tc:cartographer:honterus
+attribution_evidence:
+  - tc:tc:evidence:evidence-000004
 images:
   - type: static
     url: https://commons.wikimedia.org/wiki/Special:FilePath/Chorographia%20Transylvaniae%20Sybemb%C3%BCrgen%201532.jpg?width=1400
@@ -32,8 +34,17 @@ open_questions:
       the printed sheet it was photographed from.
     would_resolve: The Wikimedia Commons file's own source, or a holder's
       catalogue record for the copy.
+edition_state: Basel 1532 woodcut, reworked into the Rudimenta Cosmographica at Brașov, 1542
+language: German foremost, with Hungarian and Romanian beneath
 field_status:
+  publication_place: not_yet_verified
+  atlas_context: not_yet_verified
+  georeferencing_status: not_yet_verified
+  provenance: not_yet_verified
   title_original: not_yet_verified
   coverage: not_yet_verified
   dimensions: not_yet_verified
 witness_kind: unlocated
+editor_confirmed: true
+confirmed_by: Vlad Simion
+confirmed_on: "2026-11-18"

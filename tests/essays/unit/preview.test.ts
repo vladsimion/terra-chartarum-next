@@ -19,9 +19,15 @@ describe('selectUsedRecords', () => {
   });
   const records = [
     essay,
-    record('map', 1),
+    // a shown map's maker and its own bibliography entries must be released with it, or the public
+    // map record links to a held one (research R10, spec 009 A1)
+    record('map', 1, { makers: [id('cartographer', 1)], bibliography: [id('bibliography_entry', 4)] }),
     record('map', 2),
-    record('map', 3),
+    record('map', 3, { makers: [id('cartographer', 2)], bibliography: [id('bibliography_entry', 5)] }),
+    record('cartographer', 1),
+    record('cartographer', 2),
+    record('bibliography_entry', 4),
+    record('bibliography_entry', 5),
     // the evidence's source is not among the essay's own `sources`, and that source has its own entry
     record('evidence', 1, { source: id('source', 2) }),
     record('source', 1),
@@ -43,8 +49,25 @@ describe('selectUsedRecords', () => {
         id('source', 2),
         id('bibliography_entry', 1),
         id('bibliography_entry', 2),
+        id('cartographer', 1),
+        id('bibliography_entry', 4),
       ].sort(),
     );
+  });
+
+  it('releases a shown map\u2019s makers and its own bibliography entries, and nothing from a map it does not show', () => {
+    const used = selectUsedRecords(records, 'a-held-essay');
+    expect(used.has(id('cartographer', 1)), 'the maker of a shown map').toBe(true);
+    expect(used.has(id('bibliography_entry', 4)), 'a shown map\u2019s own entry').toBe(true);
+    expect(used.has(id('cartographer', 2)), 'the maker of a map the essay does not show').toBe(false);
+    expect(used.has(id('bibliography_entry', 5)), 'an unshown map\u2019s entry').toBe(false);
+  });
+
+  it('leaves out the maker and entries of a map omitted with --without', () => {
+    const used = selectUsedRecords(records, 'a-held-essay', [id('map', 1)]);
+    expect(used.has(id('map', 1))).toBe(false);
+    expect(used.has(id('cartographer', 1)), 'the omitted map\u2019s maker').toBe(false);
+    expect(used.has(id('bibliography_entry', 4)), 'the omitted map\u2019s entry').toBe(false);
   });
 });
 

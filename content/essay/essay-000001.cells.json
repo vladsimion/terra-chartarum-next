@@ -4,7 +4,7 @@
     "stratum": 0,
     "name": "Sarmizegetusa",
     "language": "Romanian",
-    "reading": "",
+    "reading": "local",
     "note": "the colonia's village keeps the name; Regia is a UNESCO site",
     "corpus": "none"
   },
@@ -13,25 +13,25 @@
     "stratum": 1,
     "name": "Sarmizegetusa",
     "language": "Romanian, Hung.",
-    "reading": "",
+    "reading": "variant",
     "note": "the village of Grădiștea (Várhely), formally renamed in 1941",
     "corpus": "none"
   },
   {
     "pit": "sarmizegetusa",
     "stratum": 2,
-    "name": "extra muros",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "the Charta covers Wallachia, not Hațeg country",
     "corpus": "none"
   },
   {
     "pit": "sarmizegetusa",
     "stratum": 3,
-    "name": "extra muros",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "the Russian sheets stop at the mountains",
     "corpus": "none"
   },
@@ -40,25 +40,25 @@
     "stratum": 4,
     "name": "Várhely",
     "language": "Hungarian",
-    "reading": "",
+    "reading": "alternative",
     "note": "\"castle place\" over the colonia's ruins",
     "corpus": "none"
   },
   {
     "pit": "sarmizegetusa",
     "stratum": 5,
-    "name": "extra muros",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "Moldavia only",
     "corpus": "none"
   },
   {
     "pit": "sarmizegetusa",
     "stratum": 6,
-    "name": "extra muros",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "Wallachia only",
     "corpus": "none"
   },
@@ -67,34 +67,34 @@
     "stratum": 7,
     "name": "Zarmizegethusa regia",
     "language": "Latin",
-    "reading": "",
+    "reading": "reconstructed",
     "note": "restored to the sheet from the ancient authors",
     "corpus": "none"
   },
   {
     "pit": "sarmizegetusa",
     "stratum": 8,
-    "name": "Várhely (uncertain)",
+    "name": "Várhely",
     "language": "Hungarian",
-    "reading": "",
+    "reading": "survival_unknown",
     "note": "the village existed; whether the single surviving print marks it is unverified",
     "corpus": "none"
   },
   {
     "pit": "sarmizegetusa",
     "stratum": 9,
-    "name": "absent",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "a coastal chart has no use for an inland ruin",
     "corpus": "none"
   },
   {
     "pit": "sarmizegetusa",
     "stratum": 10,
-    "name": "absent",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "source_silent",
     "note": "the region itself has dissolved into Gothia and Scythia",
     "corpus": "none"
   },
@@ -103,7 +103,7 @@
     "stratum": 11,
     "name": "Sarmategte",
     "language": "Latin",
-    "reading": "",
+    "reading": "variant",
     "note": "a road station on the Tibiscum line, miles marked",
     "corpus": "none"
   },
@@ -112,7 +112,7 @@
     "stratum": 12,
     "name": "Zarmizegethousa",
     "language": "Greek, Dacian",
-    "reading": "",
+    "reading": "variant",
     "note": "the royal seat - βασίλειον - of Decebalus",
     "corpus": "none"
   },
@@ -121,7 +121,7 @@
     "stratum": 0,
     "name": "Alba Iulia",
     "language": "Romanian",
-    "reading": "",
+    "reading": "local",
     "note": "the union city of 1918",
     "corpus": "none"
   },
@@ -130,25 +130,25 @@
     "stratum": 1,
     "name": "Alba Iulia",
     "language": "Romanian",
-    "reading": "",
+    "reading": "alternative",
     "note": "standardised on the secret sheets",
     "corpus": "none"
   },
   {
     "pit": "apulum",
     "stratum": 2,
-    "name": "extra muros",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "Transylvania is not on the Charta",
     "corpus": "none"
   },
   {
     "pit": "apulum",
     "stratum": 3,
-    "name": "extra muros",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "beyond the Russian survey",
     "corpus": "none"
   },
@@ -157,25 +157,25 @@
     "stratum": 4,
     "name": "Karlsburg",
     "language": "German",
-    "reading": "",
+    "reading": "exact",
     "note": "the citadel cut for Charles VI, 1715–38, renames the town",
     "corpus": "none"
   },
   {
     "pit": "apulum",
     "stratum": 5,
-    "name": "extra muros",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "Moldavia only",
     "corpus": "none"
   },
   {
     "pit": "apulum",
     "stratum": 6,
-    "name": "extra muros",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "Wallachia only",
     "corpus": "none"
   },
@@ -184,7 +184,7 @@
     "stratum": 7,
     "name": "Apulum",
     "language": "Latin",
-    "reading": "",
+    "reading": "reconstructed",
     "note": "the legion town restored to the sheet",
     "corpus": "none"
   },
@@ -193,25 +193,25 @@
     "stratum": 8,
     "name": "Weissenburg",
     "language": "German, Slavic",
-    "reading": "",
+    "reading": "alternative",
     "note": "Saxon name first; Slavic Bălgrad lies beneath it",
     "corpus": "none"
   },
   {
     "pit": "apulum",
     "stratum": 9,
-    "name": "absent",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "far inland of any pilot's interest",
     "corpus": "none"
   },
   {
     "pit": "apulum",
     "stratum": 10,
-    "name": "absent",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "source_silent",
     "note": "no town of this country is named",
     "corpus": "none"
   },
@@ -220,7 +220,7 @@
     "stratum": 11,
     "name": "Apula",
     "language": "Latin",
-    "reading": "",
+    "reading": "variant",
     "note": "the vulgar spelling of a road-book hand",
     "corpus": "none"
   },
@@ -229,7 +229,7 @@
     "stratum": 12,
     "name": "Apoulon",
     "language": "Greek, Dacian",
-    "reading": "",
+    "reading": "variant",
     "note": "a Dacian name in Greek dress",
     "corpus": "none"
   },
@@ -238,7 +238,7 @@
     "stratum": 0,
     "name": "Cluj-Napoca",
     "language": "Romanian",
-    "reading": "",
+    "reading": "local",
     "note": "the Roman name re-attached by decree, 1974",
     "corpus": "none"
   },
@@ -247,25 +247,25 @@
     "stratum": 1,
     "name": "Cluj",
     "language": "Romanian",
-    "reading": "",
+    "reading": "alternative",
     "note": "on the classified sheets, plain Cluj",
     "corpus": "none"
   },
   {
     "pit": "napoca",
     "stratum": 2,
-    "name": "extra muros",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "north of the Charta",
     "corpus": "none"
   },
   {
     "pit": "napoca",
     "stratum": 3,
-    "name": "extra muros",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "beyond the Russian survey",
     "corpus": "none"
   },
@@ -274,25 +274,25 @@
     "stratum": 4,
     "name": "Klausenburg / Kolozsvár",
     "language": "German, Hung.",
-    "reading": "",
+    "reading": "alternative",
     "note": "German official, Hungarian beside it",
     "corpus": "none"
   },
   {
     "pit": "napoca",
     "stratum": 5,
-    "name": "extra muros",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "Moldavia only",
     "corpus": "none"
   },
   {
     "pit": "napoca",
     "stratum": 6,
-    "name": "extra muros",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "Wallachia only",
     "corpus": "none"
   },
@@ -301,7 +301,7 @@
     "stratum": 7,
     "name": "Napoca",
     "language": "Latin",
-    "reading": "",
+    "reading": "reconstructed",
     "note": "restored from Ptolemy and the itineraries",
     "corpus": "none"
   },
@@ -310,25 +310,25 @@
     "stratum": 8,
     "name": "Clausenburg",
     "language": "German",
-    "reading": "",
+    "reading": "alternative",
     "note": "the Saxon town, drawn by a man who knew it",
     "corpus": "none"
   },
   {
     "pit": "napoca",
     "stratum": 9,
-    "name": "absent",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "no rhumb line reaches the Someș",
     "corpus": "none"
   },
   {
     "pit": "napoca",
     "stratum": 10,
-    "name": "absent",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "source_silent",
     "note": "the map has stopped looking",
     "corpus": "none"
   },
@@ -337,7 +337,7 @@
     "stratum": 11,
     "name": "Napoca",
     "language": "Latin",
-    "reading": "",
+    "reading": "exact",
     "note": "a station on the road to Porolissum",
     "corpus": "none"
   },
@@ -346,7 +346,7 @@
     "stratum": 12,
     "name": "Napouka",
     "language": "Greek, Dacian",
-    "reading": "",
+    "reading": "variant",
     "note": "a Dacian name in Greek transliteration",
     "corpus": "none"
   },
@@ -355,7 +355,7 @@
     "stratum": 0,
     "name": "Drobeta-Turnu Severin",
     "language": "Romanian",
-    "reading": "",
+    "reading": "local",
     "note": "hyphenated back to its Roman self in 1972",
     "corpus": "none"
   },
@@ -364,7 +364,7 @@
     "stratum": 1,
     "name": "Turnu Severin",
     "language": "Romanian",
-    "reading": "",
+    "reading": "alternative",
     "note": "a county seat on the artillery sheets",
     "corpus": "none"
   },
@@ -373,34 +373,34 @@
     "stratum": 2,
     "name": "Turnu-Severinu",
     "language": "Romanian",
-    "reading": "",
+    "reading": "variant",
     "note": "a town barely thirty years old when printed",
     "corpus": "none"
   },
   {
     "pit": "drobeta",
     "stratum": 3,
-    "name": "Turnu Severin (uncertain)",
+    "name": "Turnu Severin",
     "language": "Romanian",
-    "reading": "",
+    "reading": "survival_unknown",
     "note": "the survey straddles the town's founding, 1833",
     "corpus": "none"
   },
   {
     "pit": "drobeta",
     "stratum": 4,
-    "name": "extra muros",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "Oltenia lies outside the Transylvanian survey",
     "corpus": "none"
   },
   {
     "pit": "drobeta",
     "stratum": 5,
-    "name": "extra muros",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "Moldavia only",
     "corpus": "none"
   },
@@ -409,7 +409,7 @@
     "stratum": 6,
     "name": "Severin - ruin",
     "language": "Romanian",
-    "reading": "",
+    "reading": "alternative",
     "note": "the Tower of Severin remembered; the Banat of Severin attested",
     "corpus": "none"
   },
@@ -418,34 +418,34 @@
     "stratum": 7,
     "name": "Drubetis · Pons Traiani",
     "language": "Latin",
-    "reading": "",
+    "reading": "reconstructed",
     "note": "Trajan's bridge drawn across the Danube",
     "corpus": "none"
   },
   {
     "pit": "drobeta",
     "stratum": 8,
-    "name": "extra muros",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "beyond the Carpathian ring",
     "corpus": "none"
   },
   {
     "pit": "drobeta",
     "stratum": 9,
-    "name": "absent",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "extra_muros",
     "note": "far upstream of any pilot's chart",
     "corpus": "none"
   },
   {
     "pit": "drobeta",
     "stratum": 10,
-    "name": "absent",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "source_silent",
     "note": "the crossing survives only in the authors",
     "corpus": "none"
   },
@@ -454,16 +454,16 @@
     "stratum": 11,
     "name": "Drubetis",
     "language": "Latin",
-    "reading": "",
+    "reading": "variant",
     "note": "first station north of the river on the Lederata road",
     "corpus": "none"
   },
   {
     "pit": "drobeta",
     "stratum": 12,
-    "name": "absent",
+    "name": "",
     "language": "-",
-    "reading": "",
+    "reading": "source_silent",
     "note": "not securely among Ptolemy's forty-four poleis",
     "corpus": "none"
   }

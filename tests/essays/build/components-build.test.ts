@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { readEssayPage } from '../support/build.js';
 
@@ -104,6 +105,15 @@ describe('the fixture essay with the essay-specific components', () => {
       expect(inner?.getAttribute('aria-label')).toMatch(/core sample/i);
       expect(inner!.querySelector('svg'), 'the drawing holds the slotted SVG').not.toBeNull();
       expect(drawing.querySelector('figcaption')?.textContent).toContain('0 to 60 centimetres');
+    });
+
+    it('offers a body hand in both slants, so a name the author drew upright is not slanted (L21, rejected 2026-11-18)', () => {
+      const svg = bespoke.root.querySelector('.lapidarium .stela-plate svg')!;
+      const classes = svg.querySelectorAll('text[class]').map((el) => el.getAttribute('class'));
+      expect(classes.some((c) => c?.includes('plate-label-upright')), 'an upright body label').toBe(true);
+      expect(classes.some((c) => c?.includes('plate-label') && !c.includes('plate-label-upright')), 'an italic body label').toBe(true);
+      const styles = readFileSync('src/essays/bespoke/StonePlate.astro', 'utf8');
+      expect(styles).toMatch(/\.plate-label-upright\)?\s*\{[^}]*font-style:\s*normal/);
     });
 
     it('takes the section\u2019s own earth vocabulary, with no colour of its own', () => {

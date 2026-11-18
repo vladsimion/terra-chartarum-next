@@ -161,6 +161,17 @@ const wrapper = variant === 'stone' ? 'stela-plate' : 'essay-drawing';
     font-style: italic;
   }
 
+  /*
+   * The fourth hand. The author's drawings set some place names upright and some italic, and the
+   * first three hands could only say display, body italic or mono, so the port slanted every
+   * Garamond label. Ledger row L21 was rejected on 2026-11-18, which is what this class answers:
+   * the body hand, upright, for the names he drew upright.
+   */
+  .stela-drawing :global(.plate-label-upright) {
+    font-family: var(--font-body);
+    font-style: normal;
+  }
+
   .stela-drawing :global(.plate-mono) {
     font-family: var(--font-mono);
   }

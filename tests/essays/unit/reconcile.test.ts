@@ -53,6 +53,19 @@ describe('reconcile: the name', () => {
     expect(reconcile([cell({ name: '_absent_', language: '-' })], [csv({ attestation_class: 'source_silent', name_transliterated: '', language: '' })])[0]!.difference).toBe('none');
     expect(reconcile([cell({ name: '_absent_', language: '-' })], [csv({ attestation_class: 'extra_muros', name_transliterated: '', language: '' })])[0]!.difference).toBe('name');
   });
+
+  /*
+   * Since T047 the mark is the cell's `reading`, in the corpus's own vocabulary, and the name column
+   * is empty where no name was found. A cell in that shape matches a CSV row of the same class.
+   */
+  it('matches a nameless cell against the class its reading names', () => {
+    expect(reconcile([cell({ name: '', reading: 'extra_muros', language: '-' })], [csv({ attestation_class: 'extra_muros', name_transliterated: '', language: '' })])[0]!.difference).toBe('none');
+    expect(reconcile([cell({ name: '', reading: 'source_silent', language: '-' })], [csv({ attestation_class: 'source_silent', name_transliterated: '', language: '' })])[0]!.difference).toBe('none');
+  });
+
+  it('still reports a nameless cell whose reading names a different class than the CSV', () => {
+    expect(reconcile([cell({ name: '', reading: 'source_silent', language: '-' })], [csv({ attestation_class: 'extra_muros', name_transliterated: '', language: '' })])[0]!.difference).toBe('name');
+  });
 });
 
 describe('reconcile: the tongue and the note', () => {

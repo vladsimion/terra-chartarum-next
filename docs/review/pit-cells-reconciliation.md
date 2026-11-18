@@ -6,55 +6,55 @@ Spec 009 (FR-011). The essay's table is the source of truth; each row below is a
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | sarmizegetusa | 0 | Sarmizegetusa |  |  |  | local | none |  |  |
 | sarmizegetusa | 1 | Sarmizegetusa | att-0046 | Sarmizegetusa | Sarmizegetusa | variant | none |  |  |
-| sarmizegetusa | 2 | extra muros | att-0011 |  |  | extra_muros | none |  |  |
-| sarmizegetusa | 3 | extra muros | att-0010 |  |  | extra_muros | none |  |  |
+| sarmizegetusa | 2 |  | att-0011 |  |  | extra_muros | none |  |  |
+| sarmizegetusa | 3 |  | att-0010 |  |  | extra_muros | none |  |  |
 | sarmizegetusa | 4 | Várhely | att-0009 | Varhely | Varhely | alternative | none |  |  |
-| sarmizegetusa | 5 | extra muros | att-0008 |  |  | extra_muros | none |  |  |
-| sarmizegetusa | 6 | extra muros | att-0007 |  |  | extra_muros | none |  |  |
+| sarmizegetusa | 5 |  | att-0008 |  |  | extra_muros | none |  |  |
+| sarmizegetusa | 6 |  | att-0007 |  |  | extra_muros | none |  |  |
 | sarmizegetusa | 7 | Zarmizegethusa regia | att-0006 | Zarmizegethusa regia | Sarmizegetusa Regia | reconstructed | none |  |  |
-| sarmizegetusa | 8 | Várhely (uncertain) | att-0005 |  |  | survival_unknown | name |  |  |
-| sarmizegetusa | 9 | absent | att-0004 |  |  | extra_muros | name |  |  |
-| sarmizegetusa | 10 | absent | att-0003 |  |  | source_silent | none |  |  |
+| sarmizegetusa | 8 | Várhely | att-0005 |  |  | survival_unknown | name | The essay keeps its name and takes the corpus's class: the cell reads Várhely with the reading survival_unknown, which says what the author's "(uncertain)" said. The attestation carries no name, so the difference stands and is accepted. | Vlad Simion |
+| sarmizegetusa | 9 |  | att-0004 |  |  | extra_muros | none |  |  |
+| sarmizegetusa | 10 |  | att-0003 |  |  | source_silent | none |  |  |
 | sarmizegetusa | 11 | Sarmategte | att-0002 | Sarmategte | Sarmizegetusa | variant | none |  |  |
 | sarmizegetusa | 12 | Zarmizegethousa | att-0001 | Zarmizegethousa | Sarmizegetusa Regia | variant | none |  |  |
 | apulum | 0 | Alba Iulia |  |  |  | local | none |  |  |
 | apulum | 1 | Alba Iulia | att-0047 | Alba Iulia | Alba Iulia | alternative | none |  |  |
-| apulum | 2 | extra muros | att-0022 |  |  | extra_muros | none |  |  |
-| apulum | 3 | extra muros | att-0021 |  |  | extra_muros | none |  |  |
+| apulum | 2 |  | att-0022 |  |  | extra_muros | none |  |  |
+| apulum | 3 |  | att-0021 |  |  | extra_muros | none |  |  |
 | apulum | 4 | Karlsburg | att-0020 | Karlsburg | Karlsburg | exact | none |  |  |
-| apulum | 5 | extra muros | att-0019 |  |  | extra_muros | none |  |  |
-| apulum | 6 | extra muros | att-0018 |  |  | extra_muros | none |  |  |
+| apulum | 5 |  | att-0019 |  |  | extra_muros | none |  |  |
+| apulum | 6 |  | att-0018 |  |  | extra_muros | none |  |  |
 | apulum | 7 | Apulum | att-0017 | Apulum | Apulum | reconstructed | none |  |  |
 | apulum | 8 | Weissenburg | att-0016 | Weissenburg | Weissenburg | alternative | none |  |  |
-| apulum | 9 | absent | att-0015 |  |  | extra_muros | name |  |  |
-| apulum | 10 | absent | att-0014 |  |  | source_silent | none |  |  |
+| apulum | 9 |  | att-0015 |  |  | extra_muros | none |  |  |
+| apulum | 10 |  | att-0014 |  |  | source_silent | none |  |  |
 | apulum | 11 | Apula | att-0013 | Apula | Apulum | variant | none |  |  |
 | apulum | 12 | Apoulon | att-0012 | Apoulon | Apulum | variant | none |  |  |
 | napoca | 0 | Cluj-Napoca |  |  |  | local | none |  |  |
 | napoca | 1 | Cluj | att-0048 | Cluj | Cluj | alternative | none |  |  |
-| napoca | 2 | extra muros | att-0034 |  |  | extra_muros | none |  |  |
-| napoca | 3 | extra muros | att-0033 |  |  | extra_muros | none |  |  |
+| napoca | 2 |  | att-0034 |  |  | extra_muros | none |  |  |
+| napoca | 3 |  | att-0033 |  |  | extra_muros | none |  |  |
 | napoca | 4 | Klausenburg / Kolozsvár | att-0031 | Klausenburg | Klausenburg | alternative | none |  |  |
-| napoca | 5 | extra muros | att-0030 |  |  | extra_muros | none |  |  |
-| napoca | 6 | extra muros | att-0029 |  |  | extra_muros | none |  |  |
+| napoca | 5 |  | att-0030 |  |  | extra_muros | none |  |  |
+| napoca | 6 |  | att-0029 |  |  | extra_muros | none |  |  |
 | napoca | 7 | Napoca | att-0028 | Napoca | Napoca | reconstructed | none |  |  |
 | napoca | 8 | Clausenburg | att-0027 | Clausenburg | Klausenburg | alternative | none |  |  |
-| napoca | 9 | absent | att-0026 |  |  | extra_muros | name |  |  |
-| napoca | 10 | absent | att-0025 |  |  | source_silent | none |  |  |
+| napoca | 9 |  | att-0026 |  |  | extra_muros | none |  |  |
+| napoca | 10 |  | att-0025 |  |  | source_silent | none |  |  |
 | napoca | 11 | Napoca | att-0024 | Napoca | Napoca | exact | none |  |  |
 | napoca | 12 | Napouka | att-0023 | Napouka | Napoca | variant | none |  |  |
 | drobeta | 0 | Drobeta-Turnu Severin |  |  |  | local | none |  |  |
 | drobeta | 1 | Turnu Severin | att-0049 | Turnu Severin | Turnu Severin | alternative | none |  |  |
 | drobeta | 2 | Turnu-Severinu | att-0045 | Turnu-Severinu | Turnu Severin | variant | none |  |  |
-| drobeta | 3 | Turnu Severin (uncertain) | att-0044 | Turnu Severin | Turnu Severin | exact | none |  |  |
-| drobeta | 4 | extra muros | att-0043 |  |  | extra_muros | none |  |  |
-| drobeta | 5 | extra muros | att-0042 |  |  | extra_muros | none |  |  |
+| drobeta | 3 | Turnu Severin | att-0044 | Turnu Severin | Turnu Severin | exact | none |  |  |
+| drobeta | 4 |  | att-0043 |  |  | extra_muros | none |  |  |
+| drobeta | 5 |  | att-0042 |  |  | extra_muros | none |  |  |
 | drobeta | 6 | Severin - ruin | att-0041 | Severin | Severin | alternative | none |  |  |
 | drobeta | 7 | Drubetis · Pons Traiani | att-0040 | Drubetis | Drobeta | reconstructed | none |  |  |
-| drobeta | 8 | extra muros | att-0039 |  |  | extra_muros | none |  |  |
-| drobeta | 9 | absent | att-0038 |  |  | extra_muros | name |  |  |
-| drobeta | 10 | absent | att-0037 |  |  | source_silent | none |  |  |
+| drobeta | 8 |  | att-0039 |  |  | extra_muros | none |  |  |
+| drobeta | 9 |  | att-0038 |  |  | extra_muros | none |  |  |
+| drobeta | 10 |  | att-0037 |  |  | source_silent | none |  |  |
 | drobeta | 11 | Drubetis | att-0036 | Drubetis | Drobeta | variant | none |  |  |
-| drobeta | 12 | absent | att-0035 |  |  | source_silent | none |  |  |
-| napoca | 4 |  | att-0032 | Kolozsvar | Kolozsvar | alternative | missing in essay |  |  |
+| drobeta | 12 |  | att-0035 |  |  | source_silent | none |  |  |
+| napoca | 4 |  | att-0032 | Kolozsvar | Kolozsvar | alternative | missing in essay | The essay's table is right: one cell carries both names, "Klausenburg / Kolozsvár", German official with Hungarian beside it, where the corpus holds them as two attestations. The retrofit splits the cell when the attestations land; nothing changes now. | Vlad Simion |
 | sarmizegetusa | -1 |  | att-0130 | Vlpia Traiana Zarmisgetusa | Ulpia Traiana Sarmizegetusa | variant | missing in essay |  |  |

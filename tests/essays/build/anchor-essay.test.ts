@@ -24,7 +24,7 @@ const SECTIONS = [
   /the lapidarium, stone by stone/i,
   /the comparison desk/i,
   /below the wall, the trench/i,
-  /the section comparison/i,
+  /section comparison/i,
   /the test pits/i,
 ];
 
@@ -37,7 +37,16 @@ let root: HTMLElement;
 
 describe.runIf(ready)('the anchor essay, built through essay:preview', () => {
   beforeAll(() => {
-    execFileSync('npm', ['run', 'essay:preview', '--', 'dacia-lapidarium'], { encoding: 'utf8', maxBuffer: 32 * 1024 * 1024 });
+    /*
+     * The preview must read the real registry, so `REGISTRY_ROOT` is cleared for the subprocess: a
+     * global setup points it at a fixture registry for the suite, and the subprocess would inherit
+     * it and look for this essay where it does not exist.
+     */
+    execFileSync('npm', ['run', 'essay:preview', '--', 'dacia-lapidarium'], {
+      encoding: 'utf8',
+      maxBuffer: 32 * 1024 * 1024,
+      env: { ...process.env, REGISTRY_ROOT: '.' },
+    });
     expect(existsSync(PAGE), `${PAGE} was not written by the preview build`).toBe(true);
     html = readFileSync(PAGE, 'utf8');
     root = parse(html);
@@ -81,9 +90,16 @@ describe.runIf(ready)('the anchor essay, built through essay:preview', () => {
   });
 
   it('never sends the reader to the Atlas or to a corpus layer', () => {
-    expect(html).not.toMatch(/href="\/atlas\//);
-    expect(html).not.toMatch(/tc:tc:layer:/);
-    expect(html).not.toMatch(/tc:tc:attestation:/);
+    /*
+     * The essay's own article, not the whole document: the shell's navigation links to the Atlas and
+     * to the Handbook on every page, which spec 002 owns and tests. What this rule is about is the
+     * essay never sending a reader to a held layer (ADR 0002), so it is the article that must be clean.
+     */
+    const article = root.querySelector('article.essay');
+    expect(article, 'no essay article on the page').not.toBeNull();
+    expect(article!.innerHTML).not.toMatch(/href="\/atlas\//);
+    expect(article!.innerHTML).not.toMatch(/tc:tc:layer:/);
+    expect(article!.innerHTML).not.toMatch(/tc:tc:attestation:/);
   });
 
   it('leaves the satellite stone uncited, as the essay says it must', () => {
@@ -101,7 +117,8 @@ describe.runIf(ready)('the anchor essay, built through essay:preview', () => {
   });
 
   it('stands in Border first and Archive after it', () => {
-    const rooms = root.querySelectorAll('a[href^="/rooms/"]').map((a) => a.getAttribute('href'));
+    // the article's own room links; the shell's navigation carries a `/rooms/` index link of its own
+    const rooms = root.querySelectorAll('article.essay a[href^="/rooms/"]').map((a) => a.getAttribute('href'));
     expect(rooms[0]).toBe('/rooms/border/');
     expect(rooms).toContain('/rooms/archive/');
   });

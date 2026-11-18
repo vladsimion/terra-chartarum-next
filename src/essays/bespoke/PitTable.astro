@@ -36,7 +36,8 @@ const name = `${pit.slice(0, 1).toUpperCase()}${pit.slice(1)}`;
       {cells.map((cell) => (
         <tr>
           <th scope="row">{stratumLabel(cell.stratum)}</th>
-          <td>{cell.name}</td>
+          {/* A cell with no name found prints the dash the author's own tables use for "none"; its reading says why there is none. */}
+          <td>{cell.name === '' ? '–' : cell.name}</td>
           <td>{cell.language}</td>
           <td>{cell.reading}</td>
           <td>{cell.note}</td>

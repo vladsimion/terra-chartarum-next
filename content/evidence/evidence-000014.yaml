@@ -1,0 +1,21 @@
+id: tc:tc:evidence:evidence-000014
+family: evidence
+origin: minted
+title: "The secret century's own sheets, as the earlier term of the section comparison"
+slug: ev-secretum-sheets-reading
+slug_history: []
+relations: []
+lifecycle: researching
+release: held
+target:
+  entity: tc:tc:essay:essay-000001
+source: tc:tc:source:src-secret-century
+locator:
+  value: "Planurile directoare de tragere, 1:20,000 Lambert–Cholesky series from
+    1916–17; the sheets georeferenced by geo-spatial.org"
+  state: pending
+  proposed_by: person
+evidence_type: cartographic
+confidence: possible
+rights:
+  licence: CC BY 4.0
