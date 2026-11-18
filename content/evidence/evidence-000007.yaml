@@ -5,14 +5,16 @@ title: "Cantemir maps Moldavia for a European readership"
 slug: ev-cantemir-moldavia-1737
 slug_history: []
 relations: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 target:
   entity: tc:tc:essay:essay-000001
 source: tc:tc:source:src-cantemir-moldavia
 locator:
   value: "Principatus Moldaviae nova & accurata descriptio, Amsterdam, 1737; British Library, Maps K.Top.113.64"
   state: pending
-  proposed_by: ai
+  proposed_by: person
 evidence_type: cartographic
 confidence: probable
+rights:
+  licence: CC BY 4.0

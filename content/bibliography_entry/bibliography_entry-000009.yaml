@@ -3,6 +3,6 @@ family: bibliography_entry
 origin: minted
 title: Medieval Mappaemundi
 slug: woodward-david-1987-medieval
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 csl: content/bibliography_entry/bibliography_entry-000009.csl.json

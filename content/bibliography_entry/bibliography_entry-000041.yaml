@@ -3,6 +3,7 @@ family: bibliography_entry
 origin: minted
 title: Map of Wallachia
 slug: constantin-cantacuzino-stolnic-printed-by-chrysanthos-1700-map
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
+section: historical_maps
 csl: content/bibliography_entry/bibliography_entry-000041.csl.json

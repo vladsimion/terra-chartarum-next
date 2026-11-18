@@ -1,6 +1,6 @@
 # Quickstart: validating the anchor essay
 
-Prerequisites: Node 24, `npm ci`, Playwright browsers (`npx playwright install`); for the one-off scripts, a fresh clone of the legacy repository pinned at `e82afd990fd473a2cdf80896401bc64602a1bd29` (never your working copy). `PW_CHROMIUM_PATH` points Playwright at a Chromium it does not manage, for a machine its own build does not support.
+Prerequisites: Node 24, `npm ci`, Playwright browsers (`npx playwright install`); for the one-off scripts, a fresh clone of the legacy repository pinned at `e82afd990fd473a2cdf80896401bc64602a1bd29` (never your working copy). The clone is named on the command line and is never copied into this repository, so it can live anywhere and is expected to be re-made rather than found. `PW_CHROMIUM_PATH` points Playwright at a Chromium it does not manage, and `CHROME_PATH` does the same for Lighthouse, for a machine their own builds do not support.
 
 ```bash
 npm test                                    # Vitest: components' pure parts, the cell file, ledger, reconciliation, port fidelity, release list, preview
@@ -10,6 +10,7 @@ npm run essay:preview -- dacia-lapidarium --without ptolemy   # the same with on
 npm run test:e2e:anchor                     # builds the preview and runs the essay's Playwright and axe specs: both colour schemes, JavaScript off, keyboard, reduced motion
 npm run essay:ledger                        # lists any changed claim still pending; exits 1 while there is one
 npm run essay:reconcile -- <legacy clone>   # writes docs/review/pit-cells-reconciliation.md
+npm run lhci:anchor                         # the ADR 0004 budgets on the real page, built from the preview (CHROME_PATH points Lighthouse at a Chromium)
 npm run cutover:check                       # at Publish: the anchor-essay step now passes (the other steps are the editor's)
 ```
 

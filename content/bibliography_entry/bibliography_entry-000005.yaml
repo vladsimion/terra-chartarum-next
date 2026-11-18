@@ -3,6 +3,6 @@ family: bibliography_entry
 origin: minted
 title: Portolan Charts from the Late Thirteenth Century to 1500
 slug: campbell-tony-1987-portolan
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 csl: content/bibliography_entry/bibliography_entry-000005.csl.json

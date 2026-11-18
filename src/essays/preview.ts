@@ -14,13 +14,28 @@ function essayBySlug(records: readonly RegistryRecord[], slug: string): Registry
   return essay;
 }
 
-/** The essay and every record it needs to be public: its maps, evidence, sources and entries, plus each evidence record's source and that source's entry. */
+/**
+ * The essay and every record it needs to be public: its maps, evidence, sources and entries, plus
+ * each evidence record's source and that source's entry, and each shown map's makers and its own
+ * bibliography entries.
+ *
+ * The makers and the maps' entries are here because a released map that points at a held
+ * cartographer or entry is a link the reader cannot follow, which `MAP-MAKER-HELD` and
+ * `BIB-LISTED-HELD` say in so many words. Research R10 foresaw that the release list would be short
+ * by exactly these and left it to the Publish slice. A map left out with `--without` takes its
+ * makers and entries with it, since nothing on the page points at them.
+ */
 export function selectUsedRecords(records: readonly RegistryRecord[], slug: string, omittedMaps: readonly string[] = []): Set<string> {
   const essay = essayBySlug(records, slug);
   const byId = new Map(records.map((r) => [r.id, r]));
   const used = new Set<string>([essay.id]);
   for (const key of ['maps', 'evidence', 'sources', 'bibliography'] as const) {
     for (const id of ids(essay[key])) if (!omittedMaps.includes(id)) used.add(id);
+  }
+  for (const id of [...used]) {
+    const record = byId.get(id);
+    if (record?.family !== 'map') continue;
+    for (const key of ['makers', 'bibliography'] as const) for (const referenced of ids(record[key])) used.add(referenced);
   }
   for (const id of [...used]) {
     const record = byId.get(id);

@@ -4,11 +4,16 @@ origin: legacy
 title: Charta României Meridionale
 slug: src-szathmari-charta
 slug_history: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 relations: []
 is_finding_aid: false
 source_kind: national_survey
 entry: tc:tc:bibliography_entry:bibliography_entry-000045
 legacy_review_state: normalized
 legacy_normalization_method: llm_assisted
+adjudicated_by: Vlad Simion
+adjudicated_on: "2026-11-18"
+editor_confirmed: true
+confirmed_by: Vlad Simion
+confirmed_on: "2026-11-18"

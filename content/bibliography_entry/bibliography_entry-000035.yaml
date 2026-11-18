@@ -3,6 +3,7 @@ family: bibliography_entry
 origin: minted
 title: Geographia III.8 - Dacia
 slug: klaudios-ptolemaios-150-geographia
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
+section: primary_sources
 csl: content/bibliography_entry/bibliography_entry-000035.csl.json

@@ -4,10 +4,13 @@ origin: legacy
 title: Abraham Ortelius
 slug: ortelius
 slug_history: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 relations: []
 kind: person
 names:
   - Ortelius, Abraham
 life_dates: 1527/1598
+editor_confirmed: true
+confirmed_by: Vlad Simion
+confirmed_on: "2026-11-18"

@@ -1,0 +1,862 @@
+[
+  {
+    "path": "/",
+    "kind": "home",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/404",
+    "kind": "error",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/500",
+    "kind": "error",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/about/",
+    "kind": "page",
+    "outcome": "rule",
+    "to": "/about/"
+  },
+  {
+    "path": "/atlas/",
+    "kind": "atlas",
+    "outcome": "rule",
+    "to": "/atlas/?from=legacy"
+  },
+  {
+    "path": "/atlas/handbook/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/data-fields/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/data-fields/antarctica/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/data-fields/crusades/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/data-fields/dacia/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/data-fields/hanseatic/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/data-fields/vmn/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/decisions/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/decisions/network-not-territory/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/evidence/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/evidence/dacia-treaty-frontiers/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/evidence/vmn-sources/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/glossary/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/layers/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/methods/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/methods/dacia-shared-gis/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/technical/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/technical/geo-layers/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/handbook/technical/reproducibility/",
+    "kind": "handbook",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/antarctica-conjectured-south/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/antarctica-expedition-tracks/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/antarctica-ghost-geographies/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/antarctica-observations/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/crusades-fourth-crusade-events/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/crusades-fourth-crusade-routes/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/crusades-itinerary/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/crusades-jerusalem-network/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/dacia-attestations-research/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/dacia-attestations/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/dacia-josephinian-sheets/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/dacia-principalities/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/dacia-roman-network/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/dacia-roman-sites/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/dacia-treaty-frontiers/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/hanseatic-events/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/hanseatic-places/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/hanseatic-routes/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/map-coverage/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/ne-boundaries/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/ne-coastline/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/ne-land/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/ne-rivers/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/roman-empire-117/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/venetian-ports/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/venetian-possessions/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/atlas/layers/venetian-routes/",
+    "kind": "atlas-layer",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/bibliography/",
+    "kind": "bibliography",
+    "outcome": "rule",
+    "to": "/bibliography/"
+  },
+  {
+    "path": "/cartographers/",
+    "kind": "cartographer-index",
+    "outcome": "rule",
+    "to": "/cartographers/"
+  },
+  {
+    "path": "/cartographers/al-idrisi/",
+    "kind": "cartographer-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/cartographers/andrea-bianco/",
+    "kind": "cartographer-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/cartographers/battista-agnese/",
+    "kind": "cartographer-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/cartographers/cassini/",
+    "kind": "cartographer-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/cartographers/fra-mauro/",
+    "kind": "cartographer-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/cartographers/georg-braun/",
+    "kind": "cartographer-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/cartographers/giambattista-nolli/",
+    "kind": "cartographer-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/cartographers/heinrich-bunting/",
+    "kind": "cartographer-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/cartographers/honterus/",
+    "kind": "cartographer-record",
+    "outcome": "rule",
+    "to": "/cartographers/honterus/"
+  },
+  {
+    "path": "/cartographers/jacopo-de-barbari/",
+    "kind": "cartographer-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/cartographers/leonardo-bufalini/",
+    "kind": "cartographer-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/cartographers/louis-bretez/",
+    "kind": "cartographer-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/cartographers/matthew-paris/",
+    "kind": "cartographer-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/cartographers/mercator/",
+    "kind": "cartographer-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/cartographers/olaus-magnus/",
+    "kind": "cartographer-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/cartographers/ortelius/",
+    "kind": "cartographer-record",
+    "outcome": "rule",
+    "to": "/cartographers/ortelius/"
+  },
+  {
+    "path": "/cartographers/petrus-roselli/",
+    "kind": "cartographer-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/cartographers/pietro-vesconte/",
+    "kind": "cartographer-record",
+    "outcome": "rule",
+    "to": "/cartographers/pietro-vesconte/"
+  },
+  {
+    "path": "/cartographers/waldseemuller/",
+    "kind": "cartographer-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/",
+    "kind": "collection-index",
+    "outcome": "rule",
+    "to": "/collection/"
+  },
+  {
+    "path": "/collection/age-ort1-1570/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/age-ort1-1571/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/age-ort1-1572/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/age-ort1-1575/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/age-ort1-1579/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/age-ort1-1584/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/age-ort2-1587/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/age-ort2-1588/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/age-ort3-1613/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/babylonian/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/blue-marble/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/carta-pisana/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/cassini/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/city-agas-london/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/city-bufalini-1551/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/city-civitates-1572/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/city-forma-urbis/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/city-nolli-1748/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/city-sanborn-buffalo/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/city-schedel-nuremberg/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/city-turgot-paris/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/eratosthenes/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/fra-mauro/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/hereford/",
+    "kind": "collection-record",
+    "outcome": "rule",
+    "to": "/collection/hereford/"
+  },
+  {
+    "path": "/collection/honterus/",
+    "kind": "collection-record",
+    "outcome": "rule",
+    "to": "/collection/honterus/"
+  },
+  {
+    "path": "/collection/hse-bergen-court-books/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/hse-bremen-view/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/hse-bruges-charters/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/hse-bruges-view/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/hse-carta-marina/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/hse-cologne-view/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/hse-hamburg-view/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/hse-london-ordinance/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/hse-london-view/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/hse-lubeck-view/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/hse-novgorod-schra/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/hse-rudimentum-lubeck/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/idrisi/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/mercator/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/ortelius/",
+    "kind": "collection-record",
+    "outcome": "rule",
+    "to": "/collection/ortelius/"
+  },
+  {
+    "path": "/collection/peutinger/",
+    "kind": "collection-record",
+    "outcome": "rule",
+    "to": "/collection/peutinger/"
+  },
+  {
+    "path": "/collection/ptolemy/",
+    "kind": "collection-record",
+    "outcome": "rule",
+    "to": "/collection/ptolemy/"
+  },
+  {
+    "path": "/collection/religion-beatus/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/religion-bunting/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/religion-ebstorf/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/religion-madaba/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/religion-matthew-paris/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/religion-psalter/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/religion-rudimentum/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/religion-to-1472/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/specht/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/trade-agnese-1544/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/trade-barbari-1500/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/trade-bianco-1436/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/trade-loc-portolan/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/trade-roselli-1466/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/trade-vesconte-1311/",
+    "kind": "collection-record",
+    "outcome": "rule",
+    "to": "/collection/trade-vesconte-1311/"
+  },
+  {
+    "path": "/collection/trade-vesconte-1321/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/collection/waldseemuller/",
+    "kind": "collection-record",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/colophon/",
+    "kind": "page",
+    "outcome": "rule",
+    "to": "/colophon/"
+  },
+  {
+    "path": "/data/atlas-catalogue.json",
+    "kind": "data",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/data/collection-completeness.json",
+    "kind": "data",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/data/corpus-status.json",
+    "kind": "data",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/data/handbook-coverage.json",
+    "kind": "data",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/data/vmn/reference/manifest.json",
+    "kind": "data",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/data/vmn/reference/shepherd-byzantine-1265-1355.json",
+    "kind": "data",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/embeds/vmn-network/",
+    "kind": "embed",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/essays/",
+    "kind": "essays-index",
+    "outcome": "rule",
+    "to": "/essays/"
+  },
+  {
+    "path": "/essays/cartography/",
+    "kind": "essay",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/essays/cities-remember/",
+    "kind": "essay",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/essays/dacia/",
+    "kind": "essay",
+    "outcome": "rule",
+    "to": "/essays/dacia-lapidarium/"
+  },
+  {
+    "path": "/essays/invisible-maps-religion/",
+    "kind": "essay",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/essays/invisible-maps-trade/",
+    "kind": "essay",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/essays/maps-that-age/",
+    "kind": "essay",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/essays/nomen-errans/",
+    "kind": "essay",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/essays/speculum/",
+    "kind": "essay",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/essays/the-league-that-left-no-map/",
+    "kind": "essay",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/essays/the-shape-of-a-civilization/",
+    "kind": "essay",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/essays/venice-sicily/",
+    "kind": "essay",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/geo/toponyms.geojson",
+    "kind": "geo",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/geo/toponyms.lpf.json",
+    "kind": "geo",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/privacy/",
+    "kind": "page",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/programmes/corpus-chartarum-daciae/",
+    "kind": "programme",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/rooms/",
+    "kind": "room-index",
+    "outcome": "rule",
+    "to": "/rooms/"
+  },
+  {
+    "path": "/rooms/archive/",
+    "kind": "room",
+    "outcome": "rule",
+    "to": "/rooms/archive/"
+  },
+  {
+    "path": "/rooms/border/",
+    "kind": "room",
+    "outcome": "rule",
+    "to": "/rooms/border/"
+  },
+  {
+    "path": "/rooms/city/",
+    "kind": "room",
+    "outcome": "rule",
+    "to": "/rooms/city/"
+  },
+  {
+    "path": "/rooms/earth/",
+    "kind": "room",
+    "outcome": "rule",
+    "to": "/rooms/earth/"
+  },
+  {
+    "path": "/rooms/map/",
+    "kind": "room",
+    "outcome": "rule",
+    "to": "/rooms/map/"
+  },
+  {
+    "path": "/rooms/road/",
+    "kind": "room",
+    "outcome": "rule",
+    "to": "/rooms/road/"
+  },
+  {
+    "path": "/rooms/theatre/",
+    "kind": "room",
+    "outcome": "rule",
+    "to": "/rooms/theatre/"
+  },
+  {
+    "path": "/rss.xml",
+    "kind": "feed",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/search-index.json",
+    "kind": "search-index",
+    "outcome": "in-place"
+  },
+  {
+    "path": "/series/invisible-maps/",
+    "kind": "series",
+    "outcome": "in-place"
+  }
+]

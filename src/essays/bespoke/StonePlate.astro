@@ -13,22 +13,47 @@ interface Props {
   /** What the drawing shows: the accessible name of the plate. */
   label: string;
   caption?: string;
+  /**
+   * `stone` (the default) is one of the lapidarium's thirteen and is marked `.stela-plate`.
+   * `drawing` is one of the essay's other drawings — the two squeezes on the comparison desk and the
+   * trench's core sample — which need the same drawing vocabulary but are not stones of the wall, so
+   * they carry `.essay-drawing` instead and the count of thirteen plates stays true.
+   */
+  variant?: 'stone' | 'drawing';
+  /**
+   * True when the drawing carries its own links, as the trench's core sample does: a link on every
+   * stratum, jumping to that stratum's step. The contents of a `role="img"` element are
+   * presentational, so such a drawing must not carry that role — a keyboard user could not reach
+   * the links, and axe reports it as nested-interactive. The figure takes the accessible name
+   * instead, and each link says for itself where it goes.
+   */
+  interactive?: boolean;
 }
 
-const { stone, label, caption } = Astro.props;
+const { stone, label, caption, variant = 'stone', interactive = false } = Astro.props;
+const wrapper = variant === 'stone' ? 'stela-plate' : 'essay-drawing';
 ---
 
-<figure class="stela-plate" data-stone={stone}>
-  <div class="stela-drawing" role="img" aria-label={label}><slot /></div>
+<figure class={wrapper} data-stone={stone} aria-label={interactive ? label : undefined}>
+  <div class="stela-drawing" role={interactive ? undefined : 'img'} aria-label={interactive ? undefined : label}><slot /></div>
   {caption && <figcaption>{caption}</figcaption>}
 </figure>
 
 <style>
-  .stela-plate {
+  .stela-plate,
+  .essay-drawing {
     margin: var(--space-5) 0;
   }
 
   .stela-drawing {
+    /*
+     * The anchor essay carries sixteen of these drawings in one document, and rendering them all
+     * before the first paint pushed its largest contentful paint past the ADR 0004 budget on the
+     * mobile profile. Offscreen drawings are skipped until they are near the viewport; the
+     * remembered size keeps the scrollbar honest, so nothing shifts (the CLS budget is unmoved).
+     */
+    content-visibility: auto;
+    contain-intrinsic-size: auto 420px;
     padding: var(--space-3);
     border: 1px solid var(--line);
     border-radius: var(--radius);
@@ -91,6 +116,58 @@ const { stone, label, caption } = Astro.props;
     fill: var(--plate-ink-muted, var(--ink-muted));
   }
 
+  /*
+   * The second half of the wall draws two lines the first half never needed: a faint rule in the
+   * muted ink (the Josephine sheet's plane-table grid) and a line cut in the paper itself, which a
+   * dark drawing uses as a knockout (the Russian scale bar). Both read the same `--plate-*`
+   * properties as the rest, so the squeeze flips them with everything else.
+   */
+  .stela-drawing :global(.plate-rule-muted) {
+    fill: none;
+    stroke: var(--plate-ink-muted, var(--ink-muted));
+  }
+
+  .stela-drawing :global(.plate-paper-rule) {
+    fill: none;
+    stroke: var(--plate-paper, var(--panel-raised));
+  }
+
+  /*
+   * The trench's core sample is drawn in earth, not in ink: a soil body, a paler band, the ochre of a
+   * find, the rust of an iron horizon and the slate of the modern surface. These five are the
+   * section's own vocabulary and take the shell's accents, so the drawing changes with the scheme and
+   * still carries no colour of its own.
+   */
+  .stela-drawing :global(.plate-soil) {
+    fill: var(--accent-umber);
+  }
+
+  .stela-drawing :global(.plate-soil-rule) {
+    fill: none;
+    stroke: var(--accent-umber);
+  }
+
+  .stela-drawing :global(.plate-soil-pale) {
+    fill: var(--panel-raised);
+  }
+
+  .stela-drawing :global(.plate-find) {
+    fill: var(--accent-gold);
+  }
+
+  .stela-drawing :global(.plate-rust) {
+    fill: var(--accent-madder);
+  }
+
+  .stela-drawing :global(.plate-slate) {
+    fill: var(--accent-indigo);
+  }
+
+  .stela-drawing :global(.plate-slate-rule) {
+    fill: none;
+    stroke: var(--accent-indigo);
+  }
+
   .stela-drawing :global(.plate-caps) {
     font-family: var(--font-display);
   }
@@ -98,6 +175,17 @@ const { stone, label, caption } = Astro.props;
   .stela-drawing :global(.plate-label) {
     font-family: var(--font-body);
     font-style: italic;
+  }
+
+  /*
+   * The fourth hand. The author's drawings set some place names upright and some italic, and the
+   * first three hands could only say display, body italic or mono, so the port slanted every
+   * Garamond label. Ledger row L21 was rejected on 2026-11-18, which is what this class answers:
+   * the body hand, upright, for the names he drew upright.
+   */
+  .stela-drawing :global(.plate-label-upright) {
+    font-family: var(--font-body);
+    font-style: normal;
   }
 
   .stela-drawing :global(.plate-mono) {

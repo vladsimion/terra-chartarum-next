@@ -1,0 +1,1 @@
+Named on the Hereford Mappa Mundi as the author of its making. Whether the legend names the designer, the scribe or the donor, and which Richard he was, is not settled; the map record carries that open question. This record exists so the legend has somewhere to point, and asserts nothing beyond what the legend says.

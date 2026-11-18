@@ -109,6 +109,39 @@ const positions = [
     top: 50%;
   }
 
+  /*
+   * Thirteen events placed by year overlap each other on a phone, and overlapping links fail the
+   * target-size rule however large each one is (WCAG 2.5.8, and Lighthouse reports it on the real
+   * essay). Below the breakpoint the events stop being placed and flow as a list instead: the same
+   * links in the same order, each with room to be hit. The axis keeps its two ticks, which still
+   * read as the span the essay covers, and stops being the line the events hang from.
+   */
+  @media (max-width: 47rem) {
+    .timeline-band {
+      height: auto;
+      margin: 0;
+      padding-block-start: var(--space-5);
+    }
+
+    .timeline-axis {
+      inset: 0 0 auto;
+    }
+
+    .timeline-events {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2) var(--space-4);
+    }
+
+    .timeline-event,
+    .timeline-event.above,
+    .timeline-event.below {
+      position: static;
+      inset: auto;
+      transform: none;
+    }
+  }
+
   .timeline-event a {
     display: inline-flex;
     flex-direction: column;

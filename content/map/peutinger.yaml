@@ -4,12 +4,14 @@ origin: legacy
 title: Tabula Peutingeriana
 slug: peutinger
 slug_history: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 relations: []
 record_scope: object
 date_published: "0400"
 significance: The road as the unit of space - Dacia stretched along an itinerary.
+attribution_evidence:
+  - tc:tc:evidence:evidence-000002
 images:
   - type: static
     url: https://commons.wikimedia.org/wiki/Special:FilePath/Tabula%20Peutingeriana%20(%C3%96NB)%2013.jpg?width=1400
@@ -24,9 +26,18 @@ images:
 rights:
   licence: Public domain
   attribution: Austrian National Library, Vienna, via Wikimedia Commons
+language: Latin
 field_status:
+  atlas_context: not_yet_verified
+  edition_state: not_yet_verified
+  georeferencing_status: not_yet_verified
+  provenance: not_yet_verified
+  publication_place: not_yet_verified
   title_original: not_yet_verified
   coverage: not_yet_verified
   makers: unknown
   dimensions: not_yet_verified
 witness_kind: institutional
+editor_confirmed: true
+confirmed_by: Vlad Simion
+confirmed_on: "2026-11-18"

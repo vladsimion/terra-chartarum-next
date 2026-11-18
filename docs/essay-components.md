@@ -100,7 +100,8 @@ The four components in `src/essays/bespoke/` serve the anchor essay alone (spec 
 - **Question it serves:** what does this one stone show? A figure holding the stone's drawing, named for assistive technology from the record of what it is, so the drawing itself carries no text that a reader has to decode.
 - **Keyboard:** nothing to operate; it is a figure, not a control.
 - **Reduced motion:** nothing moves; only the gallery's background change applies, and that is zeroed with the token.
-- **Without JavaScript:** it needs none. The drawing is inline SVG written at build time, inked from the four plate classes (`plate-rule`, `plate-ink`, `plate-water`, `plate-text`) whose colours come from the tokens.
+- **Without JavaScript:** it needs none. The drawing is inline SVG written at build time, inked from the plate classes, whose colours come from the tokens. The vocabulary grew with the real drawings: five inks and three hands for the stones (`plate-rule`, `plate-ink`, `plate-water`, `plate-text`, `plate-paper`, `plate-muted`, `plate-water-text`, `plate-mark`, `plate-mark-rule`, `plate-caps`, `plate-label`, `plate-mono`), then `plate-rule-muted` and `plate-paper-rule` for a faint rule and a line cut in the paper, then the section's earth (`plate-soil`, `plate-soil-rule`, `plate-soil-pale`, `plate-find`, `plate-rust`, `plate-slate`, `plate-slate-rule`) for the trench's core sample.
+- **A drawing that is not a stone:** `variant="drawing"` marks the figure `.essay-drawing` instead of `.stela-plate`. The essay's other three drawings use it — the two squeezes on the comparison desk and the core sample — so they take the same vocabulary and the same accessible name while the lapidarium's count of thirteen plates stays true.
 
 ## SectionRadar
 - **Question it serves:** which of the Five Seals move between two strata, and by how much? One static SVG of two series on the same axes, with a table of the same values beneath it; the chart is hidden from assistive technology because the table says everything it says.
@@ -110,6 +111,6 @@ The four components in `src/essays/bespoke/` serve the anchor essay alone (spec 
 
 ## PitTable
 - **Question it serves:** what was this one place called in each of the thirteen strata, and does the corpus hold that attestation yet? The pit's cells from the essay's cell file, each row marked "not yet corpus-backed" until the Corpus Chartarum Daciae holds its attestation (ADR 0014).
-- **Keyboard:** nothing to operate; it is a table. On a narrow screen it scrolls inside its own container.
+- **Keyboard:** the table itself has nothing to operate, but its container scrolls sideways when the six columns do not fit, so that container is a labelled, focusable region: Tab reaches it, the arrow keys scroll it, and it shows focus. A region that scrolls and cannot be reached by keyboard fails WCAG 2.1.1, which the real essay's axe run caught where the fixtures could not.
 - **Reduced motion:** nothing moves.
 - **Without JavaScript:** it needs none. The rows are written at build time from the cell file through `renderCell`, so the corpus label is the same for every reader.

@@ -5,14 +5,16 @@ title: "The portolan silence, as the earlier term of the section comparison"
 slug: ev-vesconte-silence-reading
 slug_history: []
 relations: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 target:
   entity: tc:tc:essay:essay-000001
 source: tc:tc:source:src-vesconte-portolan
 locator:
   value: "Archivio di Stato di Firenze, Carte nautiche 1 (CN 01), 1311; the eastern Mediterranean and Black Sea chart"
   state: pending
-  proposed_by: ai
+  proposed_by: person
 evidence_type: cartographic
 confidence: possible
+rights:
+  licence: CC BY 4.0

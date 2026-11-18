@@ -3,6 +3,6 @@ family: bibliography_entry
 origin: minted
 title: Mappa Mundi
 slug: hereford-cathedral-2021-mappa
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 csl: content/bibliography_entry/bibliography_entry-000011.csl.json

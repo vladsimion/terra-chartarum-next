@@ -4,8 +4,8 @@ origin: legacy
 title: Hereford Mappa Mundi
 slug: hereford
 slug_history: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 relations:
   - tc:tc:map:religion-ebstorf
   - tc:tc:map:religion-psalter
@@ -18,6 +18,10 @@ significance: An east-up, encyclopedic Christian world gathered around Jerusalem
 edition_state: "Makers as the legacy site named them: Richard of Haldingham
   (traditional attribution)"
 repository: Hereford Cathedral
+makers:
+  - tc:tc:cartographer:cartographer-000003
+attribution_evidence:
+  - tc:tc:evidence:evidence-000015
 bibliography:
   - tc:tc:bibliography_entry:bibliography_entry-000009
   - tc:tc:bibliography_entry:bibliography_entry-000010
@@ -41,8 +45,16 @@ open_questions:
     would_resolve: The Hereford Cathedral scholarly literature on the legend and the
       Lincoln prebendary records behind the two candidate identifications.
 field_status:
+  atlas_context: not_yet_verified
+  georeferencing_status: not_yet_verified
+  language: not_yet_verified
+  provenance: not_yet_verified
+  publication_place: not_yet_verified
   title_original: not_yet_verified
   coverage: not_yet_verified
-  makers: not_yet_verified
+  makers: recorded
   dimensions: not_yet_verified
 legacy_custody: institutional
+editor_confirmed: true
+confirmed_by: Vlad Simion
+confirmed_on: "2026-11-18"

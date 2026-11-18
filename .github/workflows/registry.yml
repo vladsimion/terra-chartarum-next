@@ -156,6 +156,11 @@ jobs:
       - name: Atlas performance (a seeded 200-layer catalogue on an emulated phone; spec 005 SC-001)
         if: ${{ !cancelled() }}
         run: npm run test:e2e:atlas-perf
+      - name: Anchor essay end-to-end specs (the real registry through essay:preview; Chromium dark and light, no JavaScript)
+        if: ${{ !cancelled() }}
+        run: npm run test:e2e:anchor
+        env:
+          CI: 'true'
       - name: Visual baselines (only on an update run)
         if: ${{ inputs.update_snapshots }}
         uses: actions/upload-artifact@v4
@@ -208,6 +213,11 @@ jobs:
           ' ${{ matrix.shard }} 4)
           echo "Measuring: $args"
           npm run lhci -- $args
+      - name: Lighthouse CI budgets on the anchor essay itself (ADR 0004, mobile profile; built from the preview)
+        # Not one of this job's sharded URLs: `lhci:anchor` builds the held essay through
+        # `essay:preview` and serves dist-anchor itself, so one shard runs it.
+        if: matrix.shard == 3
+        run: npm run lhci:anchor
       - name: Budget guard proof (a page over the JavaScript budget must fail the same assertions)
         # One shard is enough; the last one has the fewest URLs.
         if: matrix.shard == 4

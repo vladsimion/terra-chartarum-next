@@ -5,14 +5,16 @@ title: "Cantacuzino maps Wallachia from inside it"
 slug: ev-cantacuzino-wallachia-1700
 slug_history: []
 relations: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 target:
   entity: tc:tc:essay:essay-000001
 source: tc:tc:source:src-cantacuzino-wallachia
 locator:
   value: "Harta Țării Românești, 1700; British Library, Maps *44170(1), the complete sheet"
   state: pending
-  proposed_by: ai
+  proposed_by: person
 evidence_type: cartographic
 confidence: probable
+rights:
+  licence: CC BY 4.0

@@ -4,14 +4,16 @@ origin: legacy
 title: Ortelius Theatrum
 slug: ortelius
 slug_history: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 relations: []
 record_scope: object
 date_published: "1570"
 significance: The first modern atlas - the world bound as a book.
 makers:
   - tc:tc:cartographer:ortelius
+attribution_evidence:
+  - tc:tc:evidence:evidence-000005
 images:
   - type: static
     url: https://commons.wikimedia.org/wiki/Special:FilePath/Daciarum,%20Moesiarumque,%20vetus%20descriptio%20-%20ex%20conatibus%20geographicis%20Abrahami%20Ortelii%201595%20-%20btv1b53194602t%20(2%20of%203).jpg?width=1400
@@ -26,8 +28,17 @@ images:
 rights:
   licence: Public domain
   attribution: Bibliothèque nationale de France via Wikimedia Commons
+edition_state: 1595, first state
+language: Latin
 field_status:
+  publication_place: not_yet_verified
+  atlas_context: not_yet_verified
+  georeferencing_status: not_yet_verified
+  provenance: not_yet_verified
   title_original: not_yet_verified
   coverage: not_yet_verified
   dimensions: not_yet_verified
 witness_kind: institutional
+editor_confirmed: true
+confirmed_by: Vlad Simion
+confirmed_on: "2026-11-18"

@@ -3,6 +3,7 @@ family: bibliography_entry
 origin: minted
 title: Josephinische Landesaufnahme
 slug: habsburg-general-staff-plane-table-parties-1769-josephinische
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
+section: historical_maps
 csl: content/bibliography_entry/bibliography_entry-000043.csl.json

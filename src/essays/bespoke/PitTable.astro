@@ -19,7 +19,12 @@ const cells = pageModel(Astro.locals).pitCells(pit);
 const name = `${pit.slice(0, 1).toUpperCase()}${pit.slice(1)}`;
 ---
 
-<div class="pit-scroll">
+{/*
+  A table of six columns scrolls sideways on a narrow viewport, and a region that scrolls must be
+  reachable by keyboard or a keyboard-only reader cannot scroll it (axe scrollable-region-focusable,
+  WCAG 2.1.1). So the scroller is focusable and named for the pit it holds.
+*/}
+<div class="pit-scroll" role="region" aria-label={`${name}: the pit's thirteen strata`} tabindex="0">
   <table class="pit" data-pit={pit}>
     <caption>{name}</caption>
     <thead>
@@ -36,7 +41,8 @@ const name = `${pit.slice(0, 1).toUpperCase()}${pit.slice(1)}`;
       {cells.map((cell) => (
         <tr>
           <th scope="row">{stratumLabel(cell.stratum)}</th>
-          <td>{cell.name}</td>
+          {/* A cell with no name found prints the dash the author's own tables use for "none"; its reading says why there is none. */}
+          <td>{cell.name === '' ? '–' : cell.name}</td>
           <td>{cell.language}</td>
           <td>{cell.reading}</td>
           <td>{cell.note}</td>
@@ -48,6 +54,11 @@ const name = `${pit.slice(0, 1).toUpperCase()}${pit.slice(1)}`;
 </div>
 
 <style>
+  .pit-scroll:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
   .pit-scroll {
     margin: var(--space-6) 0;
     overflow-x: auto;

@@ -4,9 +4,12 @@ origin: legacy
 title: Pietro Vesconte
 slug: pietro-vesconte
 slug_history: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 relations: []
 kind: person
 names:
   - Vesconte, Pietro
+editor_confirmed: true
+confirmed_by: Vlad Simion
+confirmed_on: "2026-11-18"

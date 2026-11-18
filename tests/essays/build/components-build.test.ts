@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { readEssayPage } from '../support/build.js';
 
@@ -89,6 +90,55 @@ describe('the fixture essay with the essay-specific components', () => {
       expect(boxes[0]!.hasAttribute('checked'), 'the squeeze is off until the reader asks for it').toBe(false);
       const label = gallery!.querySelector(`label[for="${boxes[0]!.getAttribute('id')}"]`);
       expect(label?.textContent.trim()).toBe('Show as squeeze');
+    });
+  });
+
+  describe('StonePlate as a drawing that is not a stone', () => {
+    it('holds the essay\u2019s other drawings without counting them among the plates', () => {
+      const drawings = bespoke.root.querySelectorAll('.essay-drawing');
+      expect(drawings, 'one non-stone drawing in the fixture').toHaveLength(1);
+      const drawing = drawings[0]!;
+      expect(drawing.tagName.toLowerCase()).toBe('figure');
+      expect(drawing.getAttribute('data-stone')).toBe('core-sample');
+      expect(drawing.classList.contains('stela-plate'), 'not a plate of the lapidarium').toBe(false);
+      // the name sits on the inner `role="img"`, or on the figure itself when the drawing is interactive
+      const named = drawing.getAttribute('aria-label') ?? drawing.querySelector('[role="img"]')?.getAttribute('aria-label');
+      expect(named).toMatch(/core sample/i);
+      expect(drawing.querySelector('svg'), 'the drawing holds the slotted SVG').not.toBeNull();
+      expect(drawing.querySelector('figcaption')?.textContent).toContain('0 to 60 centimetres');
+    });
+
+    it('offers a body hand in both slants, so a name the author drew upright is not slanted (L21, rejected 2026-11-18)', () => {
+      const svg = bespoke.root.querySelector('.lapidarium .stela-plate svg')!;
+      const classes = svg.querySelectorAll('text[class]').map((el) => el.getAttribute('class'));
+      expect(classes.some((c) => c?.includes('plate-label-upright')), 'an upright body label').toBe(true);
+      expect(classes.some((c) => c?.includes('plate-label') && !c.includes('plate-label-upright')), 'an italic body label').toBe(true);
+      const styles = readFileSync('src/essays/bespoke/StonePlate.astro', 'utf8');
+      expect(styles).toMatch(/\.plate-label-upright\)?\s*\{[^}]*font-style:\s*normal/);
+    });
+
+    it('does not call a drawing an image when the drawing carries its own links', () => {
+      /*
+       * The trench's core sample has a link on every stratum, which jumps to that stratum's step.
+       * The contents of a `role="img"` element are presentational, so a drawing that holds links
+       * must not carry that role: axe reports it as nested-interactive on the real page, and a
+       * keyboard user cannot reach the links. The figure keeps the accessible name instead.
+       */
+      const drawing = bespoke.root.querySelector('.essay-drawing')!;
+      expect(drawing.querySelector('[role="img"]'), 'an interactive drawing is not an image').toBeNull();
+      expect(drawing.getAttribute('aria-label'), 'the figure carries the name').toMatch(/core sample/i);
+      const links = drawing.querySelectorAll('a[href]');
+      expect(links.length, 'the drawing keeps its links').toBeGreaterThan(0);
+      for (const link of links) expect(link.getAttribute('aria-label'), 'each link says where it goes').not.toBeNull();
+    });
+
+    it('takes the section\u2019s own earth vocabulary, with no colour of its own', () => {
+      const svg = bespoke.root.querySelector('.essay-drawing svg')!;
+      expect(svg.outerHTML).not.toMatch(/#[0-9a-f]{3,8}\b/i);
+      const classes = svg.querySelectorAll('[class]').map((el) => el.getAttribute('class'));
+      expect(classes).toContain('plate-soil');
+      expect(classes).toContain('plate-soil-pale');
+      expect(classes).toContain('plate-find');
     });
   });
 

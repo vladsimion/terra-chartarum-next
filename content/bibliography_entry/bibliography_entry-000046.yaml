@@ -3,6 +3,7 @@ family: bibliography_entry
 origin: minted
 title: Planurile directoare de tragere and their classified successors
 slug: serviciul-geografic-al-armatei-with-the-french-military-mission-of-1916-17-1916-planurile
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
+section: historical_maps
 csl: content/bibliography_entry/bibliography_entry-000046.csl.json

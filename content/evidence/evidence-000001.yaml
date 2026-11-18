@@ -5,14 +5,16 @@ title: "Ptolemy places Dacia by coordinate"
 slug: ev-ptolemy-dacia
 slug_history: []
 relations: []
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 target:
   entity: tc:tc:map:ptolemy
 source: tc:tc:source:src-ptolemy-geographia
 locator:
   value: "Geographia III.8, the Dacia chapter of the coordinate catalogue"
   state: pending
-  proposed_by: ai
+  proposed_by: person
 evidence_type: textual
 confidence: probable
+rights:
+  licence: CC BY 4.0

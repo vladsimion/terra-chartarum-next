@@ -3,6 +3,6 @@ family: bibliography_entry
 origin: minted
 title: "Mapping Time and Space: How Medieval Mapmakers Viewed Their World"
 slug: edson-evelyn-1997-mapping
-lifecycle: researching
-release: held
+lifecycle: published
+release: released
 csl: content/bibliography_entry/bibliography_entry-000010.csl.json
