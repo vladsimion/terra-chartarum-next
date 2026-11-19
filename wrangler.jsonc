@@ -9,6 +9,16 @@
     "directory": "./dist",
     "not_found_handling": "404-page"
   },
+  // The production domain (ADR 0012, cutover step 7). It is declared here and not
+  // attached in the dashboard: a dashboard-defined route is not added alongside a
+  // Wrangler-defined one, and Wrangler overrides dashboard routes on the next
+  // deploy, so a domain attached by hand would not survive the next push to main.
+  //
+  // Declaring routes also makes Wrangler infer `workers_dev = false`, so the
+  // *.workers.dev hostname stops serving. That is wanted: ADR 0012 required it to
+  // carry `noindex` until cutover, and this removes it instead. Branch Preview URLs
+  // and Version URLs are unaffected, so Workers Builds previews keep working.
+  "routes": [{ "pattern": "terra-chartarum.org", "custom_domain": true }],
   // Required by `wrangler preview`, which Workers Builds runs for non-production
   // branches. Empty: Previews inherit assets and compatibility settings from the top level.
   "previews": {}
