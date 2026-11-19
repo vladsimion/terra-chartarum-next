@@ -23,6 +23,7 @@ Merged to `main` of [github.com/vladsimion/terra-chartarum-next](https://github.
 | #96 | T042: the live-site baseline of six templates, `docs/baseline/live-site-2026-10-20.json` | TCX-48 |
 | #100 | `FAM-REQUIRED` accepts an empty `makers` when the maker is confirmed unknown (ADR 0011 amendment); the cartographers `ptolemy` and `eratosthenes` | TCX-44 |
 | #101 | The editor's map review applied: 26 `witness_kind` values and 10 makers, with the worksheet kept under `docs/review/` | TCX-44 |
+| #123 | Cutover step 7: the production domain declared in `wrangler.jsonc`, not attached in the dashboard; `docs/cutover.md` re-ordered so step 4 follows step 7; ADR 0012 amended | TCX-44 |
 | #124 | T036: the archive banner's link carries its own underline, so the patch survives the archive's `a { text-decoration: none }` and does not fail axe `link-in-text-block` on every page | TCX-46 |
 
 The two defects the fixture could not show. First, an inline citation with no year matches nothing in the matcher, so the importer minted a new entry for it on every run and a re-apply moved the citing records; it now recognises the site's own citation text as the entry it made before. Second, a journal article and its replication data (Marczinek, Maurer and Rauch, 2025) were merged into one entry by the weak key; the importer now keeps a doi.org address as the entry's DOI and the matcher never weak-matches two works with different DOIs. The lesson: run an import twice on the real data before applying it, and compare identifiers, not titles.

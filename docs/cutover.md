@@ -1,6 +1,6 @@
 # Cutover checklist
 
-The list the editor works through before terra-chartarum.org replaces the archive as the public site (spec 008, ADR 0005, ADR 0016). The automated part is `npm run cutover:check`; every manual step is signed with a name and a date in the table at the end. The domain is attached only after steps 2 to 5 are signed and the automated check passes.
+The list the editor works through before terra-chartarum.org replaces the archive as the public site (spec 008, ADR 0005, ADR 0016). The automated part is `npm run cutover:check`; every manual step is signed with a name and a date in the table at the end. The domain is attached only after steps 1, 2, 3, 5 and 6 are signed and the automated check passes. Step 4 follows it, not precedes it: every rule in `archive/_redirects` targets `https://terra-chartarum.org/…`, so applying the redirect file before the domain is attached would send each old URL to a host the project does not serve yet.
 
 ## Automated: `npm run cutover:check`
 
@@ -25,12 +25,14 @@ It prints each step and, under each failed one, the page, URL or rule. Exit 0 me
 4. **Redirect file applied** to the archive project by pull request, reviewed, and `redirect_switched` signed on each rebuilt essay record.
 5. **Image rights**: every image shown at cutover has been cleared by the editor, or is withheld.
 6. **Final copy**: the author's text replaces the placeholders (step 2 of the automated check proves none remain).
-7. **Custom domain** terra-chartarum.org attached to the Worker (ADR 0012); `*.workers.dev` previews carry `noindex`.
+7. **Custom domain** terra-chartarum.org attached to the Worker (ADR 0012), through the `routes` key in `wrangler.jsonc` and never in the dashboard: a dashboard-defined route is not added alongside a Wrangler-defined one, and Wrangler overrides dashboard routes on the next deploy, so Workers Builds would drop a domain attached by hand on the next push to `main`. The zone must be active on Cloudflare before the configuration is merged, because a Custom Domain cannot be created on a zone the account does not own; `terra-chartarum.org` was delegated to Wix until cutover. Declaring routes makes Wrangler infer `workers_dev = false`, which retires the `*.workers.dev` hostname rather than leaving it to carry `noindex`; branch Preview URLs are unaffected.
 8. **After the switch**: a sample of old URLs is opened and lands where the inventory says.
 
 ## Order
 
-Automated check first; steps 1 to 5; automated check again; step 7; step 8.
+Automated check first; steps 1, 2, 3, 5 and 6; automated check again; step 7; step 4; step 8.
+
+Step 4 sits after step 7 for the reason given above, and its `redirect_switched` signature is the last thing in it: the signature records that the redirect was seen working, so it cannot be given before step 8's sample is opened.
 
 ## Sign-offs
 
