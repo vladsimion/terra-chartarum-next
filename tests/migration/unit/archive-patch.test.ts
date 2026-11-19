@@ -20,6 +20,18 @@ describe('archive/banner.html', () => {
   it('links to https://terra-chartarum.org/', () => {
     expect(banner).toMatch(/href="https:\/\/terra-chartarum\.org\/"/);
   });
+  /*
+   * The patch is dropped into a project whose stylesheet it does not control, and the archive's
+   * own global.css sets `a { text-decoration: none }`, scoping underlines to `p a` and
+   * `.linklist li a` because those are "the contexts axe flags as text blocks". The banner's link
+   * is in neither, and it is the same colour as the text around it, so without an underline of its
+   * own it is distinguished by colour alone: axe `link-in-text-block` (WCAG 1.4.1, in the archive's
+   * own wcag2a tag set) fails on every page. The inline style beats the host rule.
+   */
+  it('underlines its link, so colour is not the only distinction', () => {
+    const anchor = banner.match(/<a\s[^>]*>/)?.[0] ?? '';
+    expect(anchor).toMatch(/text-decoration:\s*underline/);
+  });
   it('carries no script', () => {
     expect(banner).not.toMatch(/<script/i);
     expect(banner).not.toMatch(/\son[a-z]+\s*=/i);
