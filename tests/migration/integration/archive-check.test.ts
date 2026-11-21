@@ -1,7 +1,7 @@
 import { createServer, type Server } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { checkArchivePage, checkArchiveUrls } from '../../../src/migration/archive-check.js';
+import { checkArchivePage, checkArchiveUrls, proxyNotice } from '../../../src/migration/archive-check.js';
 
 /*
  * Spec 008 T037 (FR-019, US2 scenario 1): the pure core compares a response to the expectations and names the
@@ -30,6 +30,32 @@ describe('checkArchivePage', () => {
   });
   it('fails a non-200 response', () => {
     expect(checkArchivePage({ ...good, status: 404 }).map((f) => f.check)).toContain('status');
+  });
+});
+
+describe('proxyNotice explains a fetch that never left the machine', () => {
+  /*
+   * `fetch` does not read HTTPS_PROXY by itself; Node only parses it with
+   * --use-env-proxy (NODE_USE_ENV_PROXY=1), which `npm run archive:check` sets.
+   * Run any other way behind a proxy, every URL fails with a bare "fetch
+   * failed" that looks like the archive being down. This says otherwise.
+   */
+  it('says nothing when no proxy is configured', () => {
+    expect(proxyNotice({})).toBe('');
+  });
+  it('says nothing when the proxy is configured and Node is using it', () => {
+    expect(proxyNotice({ HTTPS_PROXY: 'http://127.0.0.1:3128', NODE_USE_ENV_PROXY: '1' })).toBe('');
+  });
+  it('names the variable and the remedy when the proxy is set and unused', () => {
+    const notice = proxyNotice({ HTTPS_PROXY: 'http://127.0.0.1:3128' });
+    expect(notice).toContain('HTTPS_PROXY');
+    expect(notice).toContain('NODE_USE_ENV_PROXY');
+  });
+  it('reads the lowercase spelling too', () => {
+    expect(proxyNotice({ https_proxy: 'http://127.0.0.1:3128' })).toContain('https_proxy');
+  });
+  it('carries no proxy URL, which can hold credentials', () => {
+    expect(proxyNotice({ HTTPS_PROXY: 'http://user:pw@127.0.0.1:3128' })).not.toContain('pw');
   });
 });
 
