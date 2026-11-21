@@ -97,8 +97,16 @@ export const SourceSchema = EntityBase.extend({
   entry: z.string().optional(),
 });
 
+/**
+ * Where a dataset built from someone else's data came from, and which release of it (TCX-65). Types
+ * only; `DATASET-PIN` judges the parts. A dataset of the project's own making has none.
+ */
+const Upstream = z.looseObject({ url: z.string().optional(), pin: z.string().optional() });
+
 export const DatasetSchema = EntityBase.extend({
+  /** This project's own label for the dataset; the upstream release, if any, is `upstream.pin`. */
   version: z.string().optional(),
+  upstream: Upstream.optional(),
   licence: z.string().optional(),
   /** Entries the dataset is documented by (spec 006 FR-003). */
   bibliography: z.array(z.string()).optional(),

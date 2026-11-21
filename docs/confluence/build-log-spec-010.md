@@ -1,0 +1,12 @@
+# Confluence entry: Build Log (page 2490370)
+
+Not yet published. To be appended as the next section after AC (spec 009), with the header pointer extended to it; the rest of the page is left unchanged. The text below is what will be published, and it grows by one row per merged slice.
+
+## AD. The successor build: authoring tooling (spec 010)
+
+Under way on `main` of [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next), from 18 November 2026. Jira epic TCX-59. Spec 010 is not yet specified; the decisions are ADR 0018 and ADR 0019.
+
+| PR | Scope | Jira |
+|---|---|---|
+| #122 | The authoring-tooling grill: ADR 0018 (`registry new <family>`, ADR 0006 counters unchanged, provenance as a commented checklist, R calls the CLI) and ADR 0019 (generated editor schemas, the dependents graph as a CI artefact, a weekly link and manifest checker that never writes records); the glossary terms Archived copy and Dependents | TCX-59, TCX-60 |
+| #— | The three checks carried from the grill. A slug rename, run on a copy of the real registry against a published cartographer his published map cites, changes one file and adds one 301, and the gate reports exactly what it did before. A bare stub validates as a draft in all fourteen scaffoldable families, and the nine that have publication requirements reject the same stub at `publishable`; collection, route, event and period have none, so an empty record of theirs passes at `publishable`, left for spec 010 to settle. Datasets gain `upstream` (`url`, `pin`) and the rule `DATASET-PIN`: a dataset built from someone else's data names the release it was built from, as a DOI, release tag or sha256. No record carries `upstream` yet: which Natural Earth release the legacy site used is not known, and is not guessed | TCX-65 |

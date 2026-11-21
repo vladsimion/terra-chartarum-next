@@ -72,6 +72,7 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 |---|---|
 | **Atlas** | The interactive historical-GIS workspace: a historical argument-building instrument, not a file manager. |
 | **Layer (GeoLayer)** | One canonical registered dataset rendering; role is `context`, `historical`, `evidence` or `map-overlay`. |
+| **Upstream pin** | The release of someone else's data a dataset was built from, as `upstream.pin` on the dataset: a DOI, a release tag or a sha256 checksum, never a moving name such as `latest`. Distinct from the dataset's `version`, which is this project's own label. |
 | **Map Context** | Physical geography and modern reference layers. Never historical evidence. |
 | **Theme** | One of seven canonical meaning-based families (Territories & Boundaries, Networks & Circulation, Places & Settlements, Names/Peoples/Attestations, Conflict/Campaigns/Frontiers, Cartographic Evidence, Historical Map Overlays). |
 | **Collection** | A curated bundle of canonical layers that together answer a historical question. Owns defaults; never owns geometry. |
