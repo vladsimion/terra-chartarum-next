@@ -8,8 +8,8 @@ import { HANDBOOK_LINKS, HANDBOOK_TOPICS } from '../../../src/atlas/handbook-lin
 import { atlasSite, readPage } from '../support/build.js';
 
 /*
- * Spec 005 T052 (US5, FR-018, research R10): the Handbook is five topic entries of draft skeleton
- * copy with stable anchors; the index lists them, each renders, and every link to the Handbook from
+ * Spec 005 T052 (US5, FR-018, research R10): the Handbook is five topic entries with stable anchors,
+ * written by the author and final since cutover step 6; the index lists them, each renders, and every link to the Handbook from
  * the Atlas, the layer controls, the inspector, the home page and the footer resolves to an
  * existing topic and anchor.
  */
@@ -27,10 +27,10 @@ const entry = (file: string) => {
 const topicPage = (slug: string) => readPage(dir, `atlas/handbook/${slug}/index.html`);
 
 describe('the entries', () => {
-  it('are the five topics of the spec, in order, each draft skeleton copy', () => {
+  it('are the five topics of the spec, in order, each final copy', () => {
     expect(entryFiles).toEqual(['keyboard-and-accessibility.md', 'provenance-and-reconstruction.md', 'reading-the-time-control.md', 'sharing-a-view.md', 'themes-and-collections.md']);
     expect(HANDBOOK_TOPICS.map((t) => t.slug)).toEqual(['reading-the-time-control', 'provenance-and-reconstruction', 'themes-and-collections', 'sharing-a-view', 'keyboard-and-accessibility']);
-    for (const file of entryFiles) expect(entry(file).draft, file).toBe(true);
+    for (const file of entryFiles) expect(entry(file).draft, file).toBe(false);
     expect(entryFiles.map((f) => entry(f).order).sort()).toEqual([1, 2, 3, 4, 5]);
   });
 
@@ -57,15 +57,14 @@ describe('the pages', () => {
     }
   });
 
-  it('marks the copy as draft, so the cutover check can find it', () => {
-    expect(readPage(dir, 'atlas/handbook/index.html').querySelector('[data-draft]')).not.toBeNull();
-    for (const topic of HANDBOOK_TOPICS) expect(topicPage(topic.slug).querySelector('[data-draft]'), topic.slug).not.toBeNull();
+  it('carries no draft marker, on the index or any topic, now the copy is final', () => {
+    expect(readPage(dir, 'atlas/handbook/index.html').querySelector('[data-draft]')).toBeNull();
+    for (const topic of HANDBOOK_TOPICS) expect(topicPage(topic.slug).querySelector('[data-draft]'), topic.slug).toBeNull();
   });
 
-  it('is listed by shell:check as draft copy, and fails the cutover check while it is', async () => {
+  it('is not listed by shell:check as draft copy', async () => {
     const { stdout } = await run('npx', ['tsx', 'scripts/shell-check.ts', '--dist', dir]);
-    for (const topic of HANDBOOK_TOPICS) expect(stdout, topic.slug).toContain(`draft: atlas/handbook/${topic.slug}/index.html`);
-    await expect(run('npx', ['tsx', 'scripts/shell-check.ts', '--dist', dir, '--cutover'])).rejects.toMatchObject({ code: 1 });
+    expect(stdout).not.toContain('draft: atlas/handbook/');
   });
 });
 

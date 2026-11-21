@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import { builtSite, readPage } from '../support/build.js';
 
-/* US5: About and Colophon are real pages in the shell, marked as draft copy, and the footer's licences link lands on the Colophon's Licences section. */
+/* US5: About and Colophon are real pages in the shell, in the author's final copy, and the footer's licences link lands on the Colophon's Licences section. */
 let dir = '';
 beforeAll(async () => {
   dir = await builtSite();
@@ -21,8 +21,8 @@ describe.each([
     expect(page.querySelector('footer')).not.toBeNull();
   });
 
-  it('is marked data-draft while its copy is draft', () => {
-    expect(readPage(dir, file).querySelector('main [data-draft]')).not.toBeNull();
+  it('is final copy, with no draft marker', () => {
+    expect(readPage(dir, file).querySelector('main [data-draft]')).toBeNull();
   });
 });
 

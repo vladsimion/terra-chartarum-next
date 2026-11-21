@@ -15,11 +15,11 @@ beforeAll(async () => {
 }, 180_000);
 
 describe('home page (US4)', () => {
-  it('exists, says what the site is, and is marked as draft copy until the author writes it', () => {
+  it("exists, says what the site is, in the author's final copy", () => {
     const page = readPage(dir, 'index.html');
     expect(page.querySelector('main h1')?.text.trim()).toBe('Terra Chartarum');
     expect((page.querySelector('main .intro')?.text.trim() ?? '').length).toBeGreaterThan(40);
-    expect(page.querySelector('main [data-draft]')).not.toBeNull();
+    expect(page.querySelector('main [data-draft]')).toBeNull();
   });
 
   it('lists exactly the public essays, in title order', () => {

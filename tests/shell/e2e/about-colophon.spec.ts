@@ -1,15 +1,15 @@
 import { expect, test } from '@playwright/test';
 
-/* US5: About and Colophon render with the shell, are marked as draft copy, and the footer's licences link goes to the Colophon's Licences section. */
+/* US5: About and Colophon render with the shell in the author's final copy, and the footer's licences link goes to the Colophon's Licences section. */
 for (const [path, title] of [
   ['/about/', 'About'],
   ['/colophon/', 'Colophon'],
 ] as const) {
-  test(`${title} renders with the shell and is marked draft`, async ({ page }) => {
+  test(`${title} renders with the shell in final copy`, async ({ page }) => {
     await page.goto(path);
     await expect(page.locator('main h1')).toHaveText(title);
     await expect(page.locator('header nav a')).toHaveCount(7);
-    await expect(page.locator('main [data-draft]')).toBeVisible();
+    await expect(page.locator('main [data-draft]')).toHaveCount(0);
     await expect(page.locator('[data-stub]')).toHaveCount(0);
   });
 }
