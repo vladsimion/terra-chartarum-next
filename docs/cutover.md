@@ -41,8 +41,8 @@ Step 4 sits after step 7 for the reason given above, and its `redirect_switched`
 | 1 Baseline | | |
 | 2 Archive patch | | |
 | 3 archive:check | | |
-| 4 Redirect file | | |
+| 4 Redirect file | Vlad Simion | 2026-11-21 |
 | 5 Image rights | | |
 | 6 Final copy | | |
-| 7 Custom domain | | |
+| 7 Custom domain | | (attached 2026-11-21, unsigned) |
 | 8 After the switch | | |

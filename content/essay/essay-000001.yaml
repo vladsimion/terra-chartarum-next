@@ -4,7 +4,7 @@ origin: minted
 title: Terra Sigillata · Lapidarium Dacicum
 slug: dacia-lapidarium
 slug_history: []
-stage: Publish
+stage: Cross-link
 lifecycle: published
 release: released
 relations: []
@@ -146,6 +146,9 @@ signoffs:
   data:
     by: Vlad Simion
     on: "2026-11-18"
+redirect_switched:
+  by: Vlad Simion
+  on: "2026-11-21"
 rights:
   licence: CC BY 4.0
 stage_history:
@@ -172,4 +175,7 @@ stage_history:
     by: Vlad Simion
   - stage: Publish
     on: 2026-11-18
+    by: Vlad Simion
+  - stage: Cross-link
+    on: 2026-11-21
     by: Vlad Simion
