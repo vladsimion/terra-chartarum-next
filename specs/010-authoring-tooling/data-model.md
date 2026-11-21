@@ -21,14 +21,12 @@ The new rule `LOC-ARCHIVED` is added to `specs/001-scholarly-registry/contracts/
 
 ```text
 requires?: Array<{
-  family: string | '*'     # which family the field is demanded of
-  field: string            # dotted path, e.g. 'locator.verified_by', 'rights.licence'
-  notYet?: unknown         # the honest "not yet" value, when the vocabulary has one
-  when?: (record) => bool  # for conditional demands (e.g. witness_kind only on an object map)
+  family: string           # which family the field is demanded of
+  field: string            # the field the rule's finding names on a bare record, e.g. 'rights', 'place_type'
 }>
 ```
 
-Declarative only: the rule's `check` is unchanged, and `requires` never decides a finding. Its threshold is the rule's own `from`.
+Declarative only: the rule's `check` is unchanged, and `requires` never decides a finding. Its threshold is the rule's own `from`. As built (US1), it has no `notYet` or `when`: no current rule needs either (research R2, amended); each is added with the first rule that does.
 
 ## Derived structures (never committed, never deployed)
 
@@ -56,19 +54,13 @@ slug_history: []
 lifecycle: proposed
 release: held
 relations: []
-# "not yet" values, e.g.
-confidence: unknown
-locator:
-  state: pending
 # To complete before ready_for_build
 # source:
 # evidence_type:
-# locator.verified_by:     (written as nested commented keys)
 # rights:
-#   licence:
-# To complete before publishable
-# ...
 ```
+
+That is an evidence stub as written. A place's has `# place_type:` before `ready_for_build` and `# names:`, `# location:` under `# To complete before publishable`; a collection, route, event or period has no headings (FR-019).
 
 Lifecycle `proposed`, release `held`. Becomes an ordinary record when edited; nothing marks it as a stub afterwards.
 

@@ -5,7 +5,7 @@
 **Status**: Draft (grill 2026-11-18, ADR 0018 and ADR 0019)
 **Input**: Jira epic TCX-59. Tooling that removes authoring friction for a single maintainer **without weakening any validation rule**; no automation writes a canonical record. Stories TCX-61 (editor schemas), TCX-62 (record scaffolding), TCX-63 (dependents graph), TCX-64 (link and manifest checker); the checks of TCX-65 are done on `claude/modest-noether-nlycur`.
 
-**Historical question served**: none directly. This spec serves the work that serves every question: it makes a new record, a correction and a dead citation cheaper for the one person who maintains the registry, so that the scholarly rules stay strict without becoming a reason to stop adding evidence.
+**Historical question served**: How can one maintainer keep every claim traceable to its evidence as the registry grows, without loosening the rules that make it traceable? The spec answers it by making a new record, a correction and a dead citation cheaper for the one person who maintains the registry, so that the scholarly rules stay strict without becoming a reason to stop adding evidence.
 
 ## Clarifications
 
@@ -23,6 +23,17 @@
 
 - Q: TCX-65 found that collection, route, event and period records have no publication requirements, so an empty one passes at `publishable`. Does spec 010 add them? → A: No. Spec 010 stays tooling and adds or weakens no rule for them; their stubs carry an empty checklist, and the gap is owned by the first spec that publishes such a record (FR-019).
 
+### Session 2026-11-21 (`/speckit-analyze`)
+
+The analysis found the spec out of step with the plan in five places and the constitution in one; the spec was amended, the plan and tasks already described the intended behaviour.
+
+- Principle I: the spec now names the question it serves (above) instead of "none directly".
+- FR-007 and US1 scenario 6: the R side is a fixed CLI output contract, tested by running the real command; the R helper and its `testthat` test land with the first R pipeline (research R5).
+- FR-003 and US1 scenarios 2 and 3: the checklist has two headings, `ready_for_build` and `publishable` (research R1).
+- FR-016 and US4 scenario 2: a dead URL is reported on the run that finds it, an unreachable one after three consecutive runs (research R8).
+- FR-009 and US2 scenario 5: the graph is written by every `registry check --out`, which CI runs on every push.
+- Edge case: `same_as[]` makes no graph edge (research R6).
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 — A new record, minted and checklisted (Priority: P1) · TCX-62
@@ -38,11 +49,11 @@ The maintainer runs one command naming a family and a title, and gets a new reco
 **Acceptance Scenarios**:
 
 1. **Given** a registry, **When** the maintainer scaffolds a record of any family except `room`, **Then** one file is written with the next free counter ID for that family, at lifecycle `proposed` and release `held`, and the gate reports no new error.
-2. **Given** a family whose rules require provenance from `ready_for_build`, **When** its stub is written, **Then** each required field with a "not yet" value carries it, each without one is a commented-out key under `# To complete before ready_for_build`, and the list matches the rules' own field list for that family.
-3. **Given** a stub, **When** it is promoted to `ready_for_build` with nothing filled in, **Then** the gate reports an error for each checklist item and for nothing else.
+2. **Given** a family whose rules require provenance from `ready_for_build`, **When** its stub is written, **Then** each required field with a "not yet" value carries it, each without one is a commented-out key under `# To complete before ready_for_build` (or `# To complete before publishable`, for a field required only from `publishable`), and the lists match the rules' own field lists for that family.
+3. **Given** a stub, **When** it is promoted to `ready_for_build` with nothing filled in, **Then** the gate reports an error for each item under `# To complete before ready_for_build` and for nothing else; promoted to `publishable`, it reports an error for each item under both headings and for nothing else.
 4. **Given** the maintainer asks for `room`, or for a family that does not exist, **When** the command runs, **Then** it refuses, writes nothing and says why.
 5. **Given** a write that would leave the registry with more errors than before, **When** the command finishes, **Then** what it wrote is removed again and the registry is byte-for-byte as it was.
-6. **Given** an R pipeline needs an ID, **When** it calls the registry command, **Then** it receives the same ID the command line would have minted, and its tests can replace the call with a stand-in.
+6. **Given** a caller outside TypeScript (an R pipeline) needs an ID, **When** it runs the registry command as a child process, **Then** it reads the same ID the command line would have minted from a fixed output contract (one line from `mint`, ID then path from `new`), and a failure is a non-zero exit with nothing on stdout.
 
 ---
 
@@ -62,7 +73,7 @@ Before correcting a record, the maintainer asks which other records rely on it, 
 2. **Given** a held record that depends on the queried one, **When** the query runs, **Then** it is listed and marked held.
 3. **Given** a reference cycle, **When** the query runs, **Then** it terminates and lists each record once.
 4. **Given** an ID that does not exist, **When** the query runs, **Then** it says so and exits with a failure.
-5. **Given** a build, **When** it finishes, **Then** the full graph (nodes and typed edges) and a static viewer are written as build artefacts beside the integrity report, and neither is committed nor deployed.
+5. **Given** a gate run that writes the integrity report, **When** it finishes, **Then** the full graph (nodes and typed edges) and a static viewer are written as build artefacts beside the integrity report, and neither is committed nor deployed.
 6. **Given** a record kind of reference the gate recognises, **When** the graph is built, **Then** it contains that edge: the graph and the gate share one definition of a reference.
 
 ---
@@ -100,7 +111,7 @@ Once a week, every external URL the registry depends on is checked. A broken one
 **Acceptance Scenarios**:
 
 1. **Given** the registry, **When** the weekly check runs, **Then** it checks the URLs in locators' consulted copies, map image sources and institutional IIIF manifests, bibliography entries' digital copies and datasets' upstream URLs, with per-host rate limits and retries.
-2. **Given** a URL that fails after retries, **When** the run ends, **Then** one Jira issue exists for it, listing every record that uses it; **given** the same failure next week, **Then** no second issue is opened.
+2. **Given** a URL that is dead after retries (404, 410 or no DNS), **When** the run ends, **Then** one Jira issue exists for it, listing every record that uses it; **given** the same failure next week, **Then** no second issue is opened; **given** a URL unreachable after retries (429, 5xx or a timeout), **Then** no issue is opened until it has been unreachable on three consecutive runs.
 3. **Given** a verified locator whose consulted copy is now dead, **When** the run ends, **Then** the locator is still verified: a dead link never changes a reading that happened.
 4. **Given** a IIIF manifest whose canvases changed by ID or count since the last run, **When** the run ends, **Then** a separate, lower-severity review issue names the manifest and the records and georeferences that point into it.
 5. **Given** a verified locator with no archived copy, **When** the run ends, **Then** a snapshot has been requested and a pull request proposes the archived copy's URL and date on that locator; nothing is merged automatically.
@@ -113,7 +124,7 @@ Once a week, every external URL the registry depends on is checked. A broken one
 - Two branches each scaffold the next place before either merges: both mint the same counter; `ID-DUPLICATE` fails the second merge and that branch re-mints (ADR 0006). No lock or central counter is introduced.
 - The scaffold command is run in a registry that already has errors: the rollback compares error counts before and after, so pre-existing errors neither block it nor are blamed on it.
 - A family gains a new provenance rule after this spec: its field appears in the next stub with no edit to the scaffold, because the checklist is read from the rules.
-- A reference field holds an ID from an external authority (`same_as[]`): the graph records it as an external edge and the checker does not treat it as a URL.
+- A record names an external authority in `same_as[]`: that is not a reference between records, so the graph has no edge for it, and the checker does not treat it as a URL.
 - A record cited only by held records: the dependents query lists them; the public "Cited in" still shows nothing.
 - A host rate-limits or blocks the checker: after retries the URL is reported as unreachable, not as dead, and is retried next week before an issue is opened.
 - The same broken URL is used by twenty records: one issue, listing the twenty.
@@ -128,16 +139,16 @@ Once a week, every external URL the registry depends on is checked. A broken one
 
 - **FR-001**: The registry command MUST scaffold a record of any family except `room` from a family and a title, minting its ID with the existing counter minter (ADR 0006 item 1), at lifecycle `proposed` and release `held`.
 - **FR-002**: The command MUST refuse `room` and unknown families, writing nothing.
-- **FR-003**: The stub MUST carry, for each field the family's rules require from `ready_for_build` upward, either the field's defined "not yet" value or a commented-out key under the heading `# To complete before ready_for_build`. The list MUST be derived from the rules, not typed into the scaffold.
+- **FR-003**: The stub MUST carry, for each field the family's rules require from `ready_for_build` upward, either the field's defined "not yet" value or a commented-out key under the heading `# To complete before ready_for_build`, or `# To complete before publishable` for a field whose rule is an error only from `publishable`. The lists MUST be derived from the rules, not typed into the scaffold.
 - **FR-004**: The stub MUST validate as a draft: the gate reports no new error after it is written.
 - **FR-005**: If the registry has more errors after the write than before, the command MUST remove what it wrote and report failure.
 - **FR-006**: `registry new essay` MUST keep its current options, record and MDX body stub.
-- **FR-007**: R data-prep pipelines MUST obtain IDs only by calling the registry command; the call MUST be pinned and recorded like any external tool, and one integration test MUST run the real command.
+- **FR-007**: R data-prep pipelines MUST obtain IDs only by calling the registry command, never by computing one. This spec fixes the command's output contract for such callers and tests it by running the real command as a child process. No R code exists yet, so the R helper (a pinned, recorded `system2()` call) and its `testthat` test, with the call replaced by a stand-in, land with the first R pipeline (research R5).
 
 **Dependents (US2, TCX-63, ADR 0019 §2)**
 
 - **FR-008**: The dependents graph MUST be built from the same definition of a reference the gate and the public reverse lists use, and MUST include held records.
-- **FR-009**: Every build MUST write the graph (nodes and typed edges) and a static viewer as artefacts beside the integrity report; neither may be committed or deployed.
+- **FR-009**: Every gate run that writes the integrity report (`registry check --out`, which CI runs on every push) MUST write the graph (nodes and typed edges) and a static viewer beside it, uploaded with it as a CI artefact; neither may be committed or deployed.
 - **FR-010**: A query by ID MUST list direct dependents separately from indirect ones, each with its reference type, its path, and whether it is held; it MUST terminate on cycles and fail on an unknown ID.
 
 **Editor schemas (US3, TCX-61, ADR 0019 §1)**
@@ -150,7 +161,7 @@ Once a week, every external URL the registry depends on is checked. A broken one
 **Link and manifest checker (US4, TCX-64, ADR 0019 §3)**
 
 - **FR-015**: A weekly scheduled workflow MUST check the URLs of locators' consulted copies, map image sources and institutional IIIF manifests, bibliography entries' digital copies and datasets' upstream URLs, with per-host rate limits and retries. It MUST NOT run in the build or the gate.
-- **FR-016**: Each URL still failing after retries MUST have exactly one open Jira issue listing the records that use it, not duplicated across runs. A failure MUST NOT change any record, and in particular never a locator's verified state.
+- **FR-016**: Each URL dead after retries (404, 410 or a DNS failure), and each URL unreachable after retries on three consecutive runs, MUST have exactly one open Jira issue listing the records that use it, not duplicated across runs. A failure MUST NOT change any record, and in particular never a locator's verified state.
 - **FR-017**: A IIIF manifest whose canvases changed by ID or count since the last run MUST open a separate, lower-severity review issue. The fingerprints MUST be kept in the workflow's cache, not in the repository.
 - **FR-018**: For a verified locator with no archived copy, the checker MUST request a web-archive snapshot and open a pull request adding `archived_copy` (URL) and `archived_on` (date) to that locator. The evidence locator MUST gain these two optional fields, with valid and invalid fixtures.
 

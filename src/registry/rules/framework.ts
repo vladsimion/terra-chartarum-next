@@ -96,7 +96,19 @@ export interface Rule {
   from: Threshold;
   /** Registry-level rule that needs the whole registry to be present; skipped unless requested. */
   completeness?: boolean;
+  /**
+   * The fields this rule reports missing on a bare record of each family, at the rule's own `from`
+   * (spec 010 research R1). Declarative only: `check` never reads it. `registry new <family>` writes
+   * the stub's checklist from these, and a test holds them to what `check` actually reports.
+   */
+  requires?: readonly Requirement[];
   check(ctx: RuleContext): Finding[];
+}
+
+/** One field a rule demands of a family; `field` is the path its finding names (`rights`, `place_type`). */
+export interface Requirement {
+  family: string;
+  field: string;
 }
 
 export function defineRule(rule: Rule): Rule {

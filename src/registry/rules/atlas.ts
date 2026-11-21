@@ -46,6 +46,7 @@ function intervalProblem(value: unknown): string | null {
 export const layerTheme = defineRule({
   id: 'LAYER-THEME',
   from: 'publishable',
+  requires: [{ family: 'layer', field: 'theme' }],
   check: ({ records }) => {
     const findings: Finding[] = [];
     for (const record of layers(records)) {
@@ -60,6 +61,10 @@ export const layerTheme = defineRule({
 export const layerTime = defineRule({
   id: 'LAYER-TIME',
   from: 'publishable',
+  requires: [
+    { family: 'layer', field: 'envelope' },
+    { family: 'layer', field: 'time_mode' },
+  ],
   check: ({ records }) => {
     const findings: Finding[] = [];
     for (const record of layers(records)) {
@@ -182,6 +187,7 @@ const isLanguageTag = (value: unknown): boolean => typeof value === 'string' && 
 export const placeNames = defineRule({
   id: 'PLACE-NAMES',
   from: 'publishable',
+  requires: [{ family: 'place', field: 'names' }],
   check: ({ records }) => {
     const findings: Finding[] = [];
     for (const record of places(records)) {
@@ -222,6 +228,7 @@ const inRange = (value: unknown, limit: number): boolean => typeof value === 'nu
 export const placeLocation = defineRule({
   id: 'PLACE-LOCATION',
   from: 'publishable',
+  requires: [{ family: 'place', field: 'location' }],
   check: ({ records }) => {
     const findings: Finding[] = [];
     for (const record of places(records)) {

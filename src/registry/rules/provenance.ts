@@ -52,6 +52,10 @@ export const provReconstruction = defineRule({
 export const provSource = defineRule({
   id: 'PROV-SOURCE',
   from: 'ready_for_build',
+  requires: [
+    { family: 'evidence', field: 'source' },
+    { family: 'evidence', field: 'evidence_type' },
+  ],
   check: ({ records }) => {
     const findings: Finding[] = [];
     for (const record of records.filter(isEvidence)) {

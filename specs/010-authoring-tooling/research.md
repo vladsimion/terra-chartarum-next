@@ -11,6 +11,8 @@ The open questions were settled by the grill (ADR 0018, ADR 0019) and by the spe
 
 ## R2. Which fields have a "not yet" value
 
+> **Amended 2026-11-21 (US1, T005).** Built against the rules as they are, no rule asks a bare record for a field with a "not yet" value: no rule demands a locator or a confidence of a new evidence record, and a map's `field_status: not_yet_verified` is an *answer* `MAP-FIELD-STATUS` accepts at `publishable`, so writing it would let an untouched map pass publication checks on fields nobody has looked at. Every checklist item is therefore a commented key, and `Rule.requires` carries no `notYet` value; it is added with the first rule that needs one. The original decision follows.
+
 - **Decision**: only those the vocabularies already define as an honest absence: locator `state: pending`, `confidence: unknown`, and for maps the `field_status` answers the editor already uses (`not_yet_verified`). Everything else (`verified_by`, `verified_on`, `consulted_copy`, `source`, `rights.licence`, `version`, `kind`, `place_type`, …) is a commented key.
 - **Rationale**: Principle VI. A "not yet" value must be a value the rules read as "not yet", never a placeholder string that might be mistaken for an answer.
 - **Alternatives**: empty strings (`present()` treats them as missing, but they read as answers in a diff and invite a guess).
@@ -34,7 +36,7 @@ The open questions were settled by the grill (ADR 0018, ADR 0019) and by the spe
 - **Finding**: there is no R code in the repository yet (`find . -name '*.R'` finds nothing outside `node_modules`), so there is no R pipeline, no `testthat` suite and no R in CI.
 - **Decision**: spec 010 fixes the **calling contract** on the TypeScript side: `npm run --silent registry -- mint <family> --dir <root>` prints exactly one line, the local-id; `registry new <family>` prints the ID then the path; both exit non-zero with a message on stderr on failure. An integration test runs the real CLI as a child process, the way `system2()` would, and asserts that contract (FR-007's "one integration test runs the real command"). The R helper (`registry_mint()` via `system2()`) and its `testthat` test with a mocked call land with the first R pipeline, which will also add R to CI.
 - **Rationale**: Principle X forbids closing a task with an untested path, and R cannot be tested in CI today. Writing the helper now would mean shipping untested R.
-- **Flagged for the author**: this narrows FR-007 for now. If an R pipeline is planned before spec 010 closes, the helper should move into US1.
+- **Spec amended**: FR-007 and US1 scenario 6 were reworded to match on 2026-11-21 (`/speckit-analyze` finding I1). If an R pipeline is planned before spec 010 closes, the helper should move into US1.
 - **Alternatives**: add R and `testthat` to CI now for a three-line helper (cost without a consumer).
 
 ## R6. The dependents graph
