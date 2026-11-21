@@ -27,10 +27,11 @@ It prints each step and, under each failed one, the page, URL or rule. Exit 0 me
 6. **Final copy**: the author's text replaces the placeholders (step 2 of the automated check proves none remain).
 7. **Custom domain** terra-chartarum.org attached to the Worker (ADR 0012), through the `routes` key in `wrangler.jsonc` and never in the dashboard: a dashboard-defined route is not added alongside a Wrangler-defined one, and Wrangler overrides dashboard routes on the next deploy, so Workers Builds would drop a domain attached by hand on the next push to `main`. The zone must be active on Cloudflare before the configuration is merged, because a Custom Domain cannot be created on a zone the account does not own; `terra-chartarum.org` was delegated to Wix until cutover. Declaring routes makes Wrangler infer `workers_dev = false`, which retires the `*.workers.dev` hostname rather than leaving it to carry `noindex`; branch Preview URLs are unaffected.
 8. **After the switch**: a sample of old URLs is opened and lands where the inventory says.
+9. **`www.terra-chartarum.org`** sends every request to the same path on `https://terra-chartarum.org/` with a 301. Until this step, `www` is a CNAME to `terra-chartarum.pages.dev` and serves the archive under the project's own name. The Worker's route covers the apex only, so the redirect is a Cloudflare Redirect Rule on the zone (or a second `routes` entry), not a change to the archive.
 
 ## Order
 
-Automated check first; steps 1, 2, 3, 5 and 6; automated check again; step 7; step 4; step 8.
+Automated check first; steps 1, 2, 3, 5 and 6; automated check again; step 7; step 4; step 8; step 9.
 
 Step 4 sits after step 7 for the reason given above, and its `redirect_switched` signature is the last thing in it: the signature records that the redirect was seen working, so it cannot be given before step 8's sample is opened.
 
@@ -39,10 +40,16 @@ Step 4 sits after step 7 for the reason given above, and its `redirect_switched`
 | Step | Signed by | Date |
 |---|---|---|
 | 1 Baseline | | |
-| 2 Archive patch | | |
-| 3 archive:check | | |
+| 2 Archive patch | Vlad Simion | 2026-11-21 |
+| 3 archive:check | Vlad Simion | 2026-11-21 |
 | 4 Redirect file | Vlad Simion | 2026-11-21 |
 | 5 Image rights | | |
 | 6 Final copy | | |
-| 7 Custom domain | | (attached 2026-11-21, unsigned) |
+| 7 Custom domain | Vlad Simion | 2026-11-21 |
 | 8 After the switch | | |
+| 9 www | | |
+
+### As run
+
+The cutover did not follow the order above. On 21 November 2026 the zone moved from Wix to Cloudflare and the domain was attached (step 7) while the final copy (step 6) and image rights (step 5) were still open, so terra-chartarum.org serves the new build with draft copy on its shell pages until step 6 is signed. The same evening the archive patch was merged (`vladsimion/terra-chartarum#205`) and `npm run archive:check` passed on four archive URLs that the inventory serves in place (`/`, `/essays/cartography/`, `/essays/maps-that-age/`, `/atlas/handbook/`), and the redirect file was applied (`vladsimion/terra-chartarum#200`). `/essays/dacia/` is no longer a valid sample for `archive:check`: it now 301s to the new site, where there is no banner to find.
+
