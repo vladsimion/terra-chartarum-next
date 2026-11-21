@@ -11,6 +11,8 @@ The open questions were settled by the grill (ADR 0018, ADR 0019) and by the spe
 
 ## R2. Which fields have a "not yet" value
 
+> **Amended 2026-11-21 (US1, T005).** Built against the rules as they are, no rule asks a bare record for a field with a "not yet" value: no rule demands a locator or a confidence of a new evidence record, and a map's `field_status: not_yet_verified` is an *answer* `MAP-FIELD-STATUS` accepts at `publishable`, so writing it would let an untouched map pass publication checks on fields nobody has looked at. Every checklist item is therefore a commented key, and `Rule.requires` carries no `notYet` value; it is added with the first rule that needs one. The original decision follows.
+
 - **Decision**: only those the vocabularies already define as an honest absence: locator `state: pending`, `confidence: unknown`, and for maps the `field_status` answers the editor already uses (`not_yet_verified`). Everything else (`verified_by`, `verified_on`, `consulted_copy`, `source`, `rights.licence`, `version`, `kind`, `place_type`, …) is a commented key.
 - **Rationale**: Principle VI. A "not yet" value must be a value the rules read as "not yet", never a placeholder string that might be mistaken for an answer.
 - **Alternatives**: empty strings (`present()` treats them as missing, but they read as answers in a diff and invite a guess).

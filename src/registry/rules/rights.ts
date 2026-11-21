@@ -13,6 +13,7 @@ function rightsOf(record: RegistryRecord): Record<string, unknown> | null {
 export const rightsMissing = defineRule({
   id: 'RIGHTS-MISSING',
   from: 'ready_for_build',
+  requires: [...NEEDS_RIGHTS].map((family) => ({ family, field: 'rights' })),
   check: ({ records }) => {
     const findings: Finding[] = [];
     for (const record of records) {

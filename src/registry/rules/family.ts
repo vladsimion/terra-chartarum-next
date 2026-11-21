@@ -25,6 +25,7 @@ function present(value: unknown): boolean {
 export const famRequired = defineRule({
   id: 'FAM-REQUIRED',
   from: 'ready_for_build',
+  requires: Object.entries(REQUIRED).flatMap(([family, fields]) => fields.map((field) => ({ family, field }))),
   check: ({ records }) => {
     const findings: Finding[] = [];
     for (const record of records) {

@@ -21,6 +21,7 @@ const ofFamily = (records: readonly RegistryRecord[], family: string) => records
 export const srcEntry = defineRule({
   id: 'SRC-ENTRY',
   from: 'publishable',
+  requires: [{ family: 'source', field: 'entry' }],
   check: ({ records, index }) => {
     const findings: Finding[] = [];
     for (const record of ofFamily(records, 'source')) {
