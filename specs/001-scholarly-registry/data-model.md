@@ -85,7 +85,7 @@ Minimum fields per family beyond the Entity base. Everything not listed is optio
 | cartographer | `kind` | `names`, `roles`, `life_dates`, `active`, `bibliography` (spec 004's data model) |
 | place | `place_type` (a port is `port`) | `location_status`, `names`, `location` (spec 005's data model; judged by `PLACE-NAMES` and `PLACE-LOCATION` from `ready_for_build`) |
 | source | `is_finding_aid` (boolean, default `false`) | `source_kind`, `entry` (the bibliography entry the source is cited as; `SRC-ENTRY`, [spec 006's data model](../006-bibliography/data-model.md)) |
-| dataset | `version` | `licence`, `bibliography[]` (spec 006) |
+| dataset | `version` (the project's own label for the dataset) | `licence`, `bibliography[]` (spec 006), `upstream` (`url`, `pin`: the release of someone else's data the dataset was built from, as a DOI, release tag or sha256; `DATASET-PIN`, TCX-65) |
 | layer | `role` (`context, historical, evidence, map-overlay`), `asset` (path), `dataset` | `geometry_provenance`, and from [spec 005's data model](../005-atlas/data-model.md) `theme`, `tags`, `synonyms`, `envelope`, `time_mode`, `facets`, `documentation`, `georef` (judged by the `LAYER-*` rules; the layer's source path is never projected), and `bibliography[]` (spec 006) |
 | route, event, period | none | `valid_from`, `valid_to`, `date_label` |
 | bibliography_entry | `csl` (path to CSL-JSON) | `section` (spec 003), `edition_of`, `translation_of` (entries; `BIB-EDITION`) and `digital_copy` (an `https` URL); the CSL-JSON is one item whose `id` is the entry's stable ID (`BIB-CSL`); identifiers and keywords live there, not in the YAML ([spec 006's data model](../006-bibliography/data-model.md)) |

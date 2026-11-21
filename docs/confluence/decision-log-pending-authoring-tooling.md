@@ -28,6 +28,6 @@ Not yet published. Numbered when it is (`docs/confluence/README.md`).
 - the evidence locator gains `archived_copy` and `archived_on`;
 - `GLOSSARY.md` gains Archived copy and Dependents;
 - the repository needs a Jira API token and a GitHub token with pull-request write as Actions secrets;
-- TCX-65 adds a slug-rename test and asks for a version pin on dataset records with external sources.
+- TCX-65 adds a slug-rename test and a version pin on dataset records with external sources (`upstream.pin`, judged by `DATASET-PIN`).
 
 **Evidence:** `docs/adr/0018-record-scaffolding.md`, `docs/adr/0019-authoring-tooling.md`, `GRILL-AGENDA.md`; Jira TCX-59 to TCX-65. Refines ADR 0006 items 1, 6, 9 and 17 and ADR 0010.

@@ -515,4 +515,10 @@ const MIGRATION_MUTATIONS: Mutation[] = [
   { name: 'a legacy map’s image is cleared with no named confirmation', rule: 'MIG-IMAGE-CLEARED', apply: (rs) => [...rs, legacyMapOf({ images: [{ type: 'static', url: 'https://terra-chartarum.pages.dev/a.jpg', static_url: 'https://terra-chartarum.pages.dev/a.jpg', attribution: 'x', licence: 'CC BY 4.0', alt: 'x', witness_kind: 'institutional', reproduction_cleared: true }] })] },
 ];
 
-export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS, ...ESSAY_MUTATIONS, ...MAP_MUTATIONS, ...ATLAS_MUTATIONS, ...BIBLIOGRAPHY_MUTATIONS, ...ROOM_MUTATIONS, ...MIGRATION_MUTATIONS];
+/* TCX-65: a dataset built from upstream data names the release it was built from. */
+const DATASET_MUTATIONS: Mutation[] = [
+  { name: 'a dataset’s upstream pin is a moving name', rule: 'DATASET-PIN', apply: editOf('dataset', (r) => { r.lifecycle = 'ready_for_build'; r.upstream = { url: 'https://example.org/data', pin: 'latest' }; }) },
+  { name: 'a dataset’s upstream has no https url', rule: 'DATASET-PIN', apply: editOf('dataset', (r) => { r.lifecycle = 'ready_for_build'; r.upstream = { url: 'http://example.org/data', pin: 'tag:v1.0.0' }; }) },
+];
+
+export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS, ...ESSAY_MUTATIONS, ...MAP_MUTATIONS, ...ATLAS_MUTATIONS, ...BIBLIOGRAPHY_MUTATIONS, ...ROOM_MUTATIONS, ...MIGRATION_MUTATIONS, ...DATASET_MUTATIONS];
