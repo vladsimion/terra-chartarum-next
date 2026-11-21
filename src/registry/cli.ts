@@ -13,6 +13,7 @@ import { archiveRedirectsCommand, inventoryCommand } from '../migration/commands
 import { importLegacy } from '../migration/import-legacy.js';
 import { mintNext } from './mint.js';
 import { createEssay } from './new-essay.js';
+import { createRecord } from './new-record.js';
 import { promoteEssay, type CommandResult } from './promote.js';
 import { writeSyntheticAtlas, writeSyntheticBibliography, writeSyntheticRegistry } from './synthetic.js';
 import { toJson, type IntegrityReport } from './report.js';
@@ -32,6 +33,7 @@ const USAGE = `Usage:
   registry completeness [--dir <root>] --out <dir>     write the editor's completeness report and enrichment queue; the gate result does not change the exit code
   registry scan <distDir> [--dir <root>]               fail if built output holds a private value or the id of a non-public entity
   registry promote <essay-id> <stage> --by <person> [--check] [--dir <root>]   move an essay to the next editorial stage if its checks pass
+  registry new <family> <title> [--dir <root>]   write a held, proposed record with a minted id and its provenance checklist (every family but room and essay)
   registry new essay <title> --room <room> --question <question> --author <name> [--dir <root>]   start an essay at Concept
   registry import-bib <file> [--dir <root>] [--format bibtex|ris|csl-json] [--dry-run] [--out <dir>]   bring a reference manager's export in as held bibliography entries; duplicates are reported, never written
   registry import-legacy --snapshot <path> --profile v1 --out <dir> [--apply] [--dir <root>] [--dry-run] [--sha <sha> --date <iso>]   stage the legacy site's records (all held) from a pinned snapshot; --apply adds only files that do not exist
@@ -162,7 +164,8 @@ async function newRecord(args: string[], io: Io): Promise<number> {
     },
   });
   const [kind, title] = positionals;
-  if (kind !== 'essay' || title === undefined || positionals.length > 2) return usage(io);
+  if (kind === undefined || title === undefined || positionals.length > 2) return usage(io);
+  if (kind !== 'essay') return finish(await createRecord(values.dir, kind, title), io);
   if (values.room === undefined || values.question === undefined || values.author === undefined) return usage(io);
   return finish(await createEssay(values.dir, { title, room: values.room, question: values.question, author: values.author }), io);
 }

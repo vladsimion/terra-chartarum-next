@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://terra-chartarum.org/schemas/dependents.schema.json",
+  "title": "Dependents graph (spec 010, FR-008 and FR-009)",
+  "description": "Every record and every declared reference, held records included. A CI artefact beside integrity-report.json; never committed or deployed.",
+  "type": "object",
+  "required": ["commit", "generated_at", "counts", "nodes", "edges"],
+  "additionalProperties": false,
+  "properties": {
+    "commit": { "type": "string" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "counts": {
+      "type": "object",
+      "required": ["nodes", "edges"],
+      "additionalProperties": false,
+      "properties": {
+        "nodes": { "type": "integer", "minimum": 0 },
+        "edges": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "family", "held", "unknown"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "family": { "type": "string" },
+          "title": { "type": "string" },
+          "held": { "type": "boolean", "description": "True unless the record is published and released." },
+          "unknown": { "type": "boolean", "description": "True for an ID that is referenced but has no record; the gate reports it as REF-UNKNOWN." }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from", "to", "field"],
+        "additionalProperties": false,
+        "properties": {
+          "from": { "type": "string", "description": "The referring record." },
+          "to": { "type": "string", "description": "The referenced record." },
+          "field": { "type": "string", "description": "The reference field path from referenceFields, e.g. makers[0]." }
+        }
+      }
+    }
+  }
+}

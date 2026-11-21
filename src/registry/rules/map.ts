@@ -60,6 +60,7 @@ const isHttps = (value: unknown): boolean => {
 export const mapFieldStatus = defineRule({
   id: 'MAP-FIELD-STATUS',
   from: 'publishable',
+  requires: DISPLAYED_FIELDS.map((field) => ({ family: 'map', field })),
   check: ({ records }) => {
     const findings: Finding[] = [];
     for (const record of maps(records)) {
@@ -189,6 +190,7 @@ export const mapAttribution = defineRule({
 export const mapScope = defineRule({
   id: 'MAP-SCOPE',
   from: 'publishable',
+  requires: [{ family: 'map', field: 'witness_kind' }],
   check: ({ records }) => {
     const findings: Finding[] = [];
     for (const record of maps(records)) {
@@ -219,6 +221,7 @@ export const mapScope = defineRule({
 export const mapDealerOnly = defineRule({
   id: 'MAP-DEALER-ONLY',
   from: 'publishable',
+  requires: [{ family: 'map', field: 'attribution_evidence' }],
   check: ({ records, index }) => {
     const findings: Finding[] = [];
     for (const record of maps(records)) {

@@ -19,3 +19,12 @@ Delete the Worker and recreate it as a Pages project (matches ADR 0005 as writte
 - Non-production branches get Workers Builds preview URLs; the `*.workers.dev` hostname must carry `noindex` until cutover (spec 008).
 - Cutover attaches terra-chartarum.org as a custom domain on the Worker rather than on a Pages project.
 - Constitution PATCH bump to 1.0.1: the hosting line now reads "Cloudflare (Workers static assets for the successor; Pages for the frozen archive)".
+
+## Amendment, 19 November 2026: the custom domain is declared in `wrangler.jsonc`
+
+Decided while preparing cutover step 7. The custom domain of consequence three is attached through the `routes` key in `wrangler.jsonc`, with `custom_domain: true`, and never in the dashboard. Cloudflare does not merge the two: a dashboard-defined route is not added alongside a Wrangler-defined one, and Wrangler overrides dashboard routes on the next deploy. Workers Builds runs `wrangler deploy` on every push to `main`, so a domain attached by hand would be dropped by the next merge.
+
+Two things follow, and one of them revises consequence two:
+
+- Declaring routes makes Wrangler infer `workers_dev = false`. The `*.workers.dev` hostname therefore stops serving at cutover rather than carrying `noindex`, which is the stronger form of what consequence two asked for and what spec 008 wanted; no `public/_headers` file was ever added for it. Branch Preview URLs and Version URLs are not affected, so Workers Builds previews keep working.
+- The configuration cannot be merged before the zone is active on Cloudflare. A Custom Domain cannot be created on a zone the account does not own, and terra-chartarum.org was delegated to Wix (`ns0`/`ns1.wixdns.net`) until cutover, so an early merge would fail the Workers Build on `main`.

@@ -2,6 +2,7 @@ import type { Rule } from './framework.js';
 import { ATLAS_RULES } from './atlas.js';
 import { BIBLIOGRAPHY_RULES } from './bibliography.js';
 import { AUTOMATED_RULES } from './automated.js';
+import { DATASET_RULES } from './dataset.js';
 import { DATE_RULES } from './dates.js';
 import { ENUM_RULES } from './enums.js';
 import { ESSAY_RULES } from './essay.js';
@@ -42,6 +43,7 @@ export const ALL_RULES: Rule[] = [
   refFeature,
   famRequired,
   famUnknown,
+  ...DATASET_RULES,
   ...LIFECYCLE_RULES,
   ...VOCAB_RULES,
   ...ESSAY_RULES,

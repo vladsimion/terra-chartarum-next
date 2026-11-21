@@ -1,10 +1,10 @@
-import { mkdir, rm, rmdir, stat, writeFile } from 'node:fs/promises';
-import path from 'node:path';
 import { stringify } from 'yaml';
 import { loadAndCheck } from './check.js';
 import { mintNext } from './mint.js';
-import { describeViolation, localToday, type CommandResult } from './promote.js';
-import type { Violation } from './report.js';
+import { localToday, type CommandResult } from './promote.js';
+import { slugFromTitle, writeWithRollback } from './scaffold.js';
+
+export { slugFromTitle } from './scaffold.js';
 
 export interface NewEssayOptions {
   title: string;
@@ -16,20 +16,7 @@ export interface NewEssayOptions {
   today?: string;
 }
 
-/** A URL slug from a title: lower case, accents folded, anything else a single hyphen. */
-export function slugFromTitle(title: string): string {
-  return title
-    .normalize('NFKD')
-    .replace(/\p{M}/gu, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
 const STUB = '{/* Write the essay here. The shell supplies the framework components; see docs/essay-components.md. */}\n';
-
-const errorKey = (v: Violation) => `${v.rule}|${v.entity ?? ''}|${v.file}|${v.field ?? ''}`;
-const exists = async (target: string) => (await stat(target).catch(() => null)) !== null;
 
 /**
  * Start a new essay at Concept (FR-015): a minted id, a slug from the title, a one-entry stage
@@ -68,26 +55,15 @@ export async function createEssay(rootDir: string, options: NewEssayOptions): Pr
     stage_history: [{ stage: 'Concept', on: today, by: options.author.trim() }],
   };
 
-  const dir = path.join(rootDir, 'content', 'essay');
-  const yamlFile = path.join(dir, `${local}.yaml`);
-  const mdxFile = path.join(dir, `${local}.mdx`);
-  const madeDir = !(await exists(dir));
-  await mkdir(dir, { recursive: true });
-  await writeFile(yamlFile, stringify(record));
-  await writeFile(mdxFile, STUB);
-
-  const after = await loadAndCheck(rootDir);
-  const known = new Set(before.report.violations.filter((v) => v.severity === 'error').map(errorKey));
-  const introduced = after.report.violations.filter((v) => v.severity === 'error' && !known.has(errorKey(v)));
-  if (introduced.length > 0) {
-    await rm(yamlFile, { force: true });
-    await rm(mdxFile, { force: true });
-    if (madeDir) await rmdir(dir).catch(() => undefined);
-    return {
-      code: 1,
-      stdout: '',
-      stderr: `registry new essay: the new essay is not valid, so nothing was written:\n${introduced.map(describeViolation).join('\n')}\n`,
-    };
-  }
-  return { code: 0, stdout: `${id}\n${path.relative(rootDir, yamlFile)}\n${path.relative(rootDir, mdxFile)}\n`, stderr: '' };
+  const outcome = await writeWithRollback(
+    rootDir,
+    'essay',
+    [
+      { name: `${local}.yaml`, text: stringify(record) },
+      { name: `${local}.mdx`, text: STUB },
+    ],
+    'registry new essay: the new essay',
+  );
+  if (!outcome.ok) return outcome.result;
+  return { code: 0, stdout: `${id}\n${outcome.written.join('\n')}\n`, stderr: '' };
 }
