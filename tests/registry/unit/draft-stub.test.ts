@@ -13,7 +13,7 @@ const STUB_FAMILIES = FAMILIES.filter((family) => family !== 'room');
 /**
  * Families whose rules require something of a publishable record: a family field (`FAM-REQUIRED`) or
  * rights (`RIGHTS-MISSING`). Collection, route, event and period have neither, so a bare record of
- * theirs is publishable as it stands; that is a gap for spec 010 to settle, not something to assert.
+ * theirs is publishable as it stands. Spec 010 FR-019 leaves that to the first spec that publishes one.
  */
 const HELD_TO_RULES = ['essay', 'map', 'cartographer', 'place', 'attestation', 'dataset', 'layer', 'bibliography_entry', 'evidence'];
 
