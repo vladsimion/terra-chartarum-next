@@ -17,3 +17,12 @@ npm run archive:check -- https://terra-chartarum.pages.dev/ <a few old essay URL
 ```
 
 It exits 1 and names the URL and the missing banner, header or link for each failure.
+
+Run it through `npm run archive:check`, not `tsx scripts/archive-check.ts`. The script's `fetch` does
+not read `HTTPS_PROXY` by itself: Node parses the proxy environment only with `--use-env-proxy`,
+which the npm script turns on. Behind a proxy, any other way of running it fails on every URL before
+a request leaves the machine; the failure then says so rather than reading as the archive being down.
+
+Sample URLs the inventory serves **in place**. An address with a rule in `_redirects` now answers
+301 and the check follows it to the new site, where there is no banner to find — `/essays/dacia/` is
+the obvious trap (`docs/cutover.md` records it).
