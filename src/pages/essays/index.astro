@@ -1,0 +1,64 @@
+---
+import { byId } from '../../shell/destinations.js';
+import Base from '../../shell/layouts/Base.astro';
+import { loadPublicRecords, registryRoot } from '../../shell/public-records.js';
+
+/*
+ * The Essays index (spec 003, destination `essays`): the public essays in title order, each with
+ * the question it answers and its primary room. Built from the registry's public records only,
+ * like the home page, so a held or draft essay can never appear. Static HTML, no script.
+ */
+const records = await loadPublicRecords(registryRoot());
+const byRecordId = new Map(records.map((r) => [String(r.id), r]));
+const essays = records
+  .filter((r) => r.family === 'essay')
+  .sort((a, b) => a.title.localeCompare(b.title, 'en'))
+  .map((e) => {
+    const primary = (e.rooms as { primary?: string } | undefined)?.primary;
+    const room = primary ? byRecordId.get(primary) : undefined;
+    return {
+      slug: e.slug,
+      title: e.title,
+      question: typeof e.question === 'string' ? e.question : '',
+      room: room ? { name: room.title, href: `${byId('rooms').href}${room.slug}/` } : null,
+    };
+  });
+---
+
+<Base title="Essays | Terra Chartarum" description="Essays that each answer one historical question from the evidence of maps.">
+  <h1>Essays</h1>
+  <p class="intro">Each essay answers one historical question from the evidence, and shows what every claim rests on.</p>
+  {essays.length === 0 ? (
+    <p>The first essays are in preparation.</p>
+  ) : (
+    <ul class="essays">
+      {essays.map((e) => (
+        <li data-essay={e.slug}>
+          <h2><a href={`${byId('essays').href}${e.slug}/`}>{e.title}</a></h2>
+          {e.question && <p class="question">{e.question}</p>}
+          {e.room && <p class="room">Room: <a href={e.room.href}>{e.room.name}</a></p>}
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>
+
+<style>
+  .essays {
+    display: grid;
+    gap: var(--space-5);
+    margin: var(--space-5) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .essays h2 {
+    margin: 0 0 var(--space-2);
+  }
+  .question {
+    margin: 0 0 var(--space-2);
+    font-style: italic;
+  }
+  .room {
+    margin: 0;
+  }
+</style>

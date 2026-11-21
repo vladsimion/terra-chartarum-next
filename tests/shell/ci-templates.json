@@ -4,7 +4,7 @@
     { "name": "home", "path": "/" },
     { "name": "about", "path": "/about/" },
     { "name": "colophon", "path": "/colophon/" },
-    { "name": "stub", "path": "/essays/" },
+    { "name": "essays-index", "path": "/essays/" },
     { "name": "essay", "path": "/essays/terra-nova/" },
     { "name": "cartographer-list", "path": "/cartographers/" },
     { "name": "cartographer-profile", "path": "/cartographers/fixture-cartographer/" },

@@ -8,5 +8,5 @@ lifecycle: published
 release: released
 relations: []
 order: 2
-short_description: "The map as an object and an argument: who made it, for whom, and what it claims."
-copy_status: draft
+short_description: "The map as object and argument: who made it, for whom, and what it claims."
+copy_status: final

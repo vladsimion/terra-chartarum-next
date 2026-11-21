@@ -49,7 +49,7 @@ describe('the Colophon source', () => {
     expect(source).toMatch(/its own licence/i);
   });
 
-  it('is draft copy until the author writes it', () => {
-    expect(source).toMatch(/^draft: true$/m);
+  it("is the author's final copy", () => {
+    expect(source).toMatch(/^draft: false$/m);
   });
 });

@@ -8,5 +8,5 @@ lifecycle: published
 release: released
 relations: []
 order: 1
-short_description: "The ground a map stands on: land, water and the shape of a region."
-copy_status: draft
+short_description: "The ground a map stands on: land, water and the changing shape of the world."
+copy_status: final

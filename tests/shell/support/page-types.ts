@@ -17,6 +17,7 @@ export function pageType(file: string, page: HTMLElement): string {
     return 'test-only';
   }
   if (page.querySelector('[data-stub]')) return 'stub';
+  if (file === 'essays/index.html') return 'essays-index';
   if (file.startsWith('essays/') && page.querySelector('article.essay')) return 'essay';
   if (file === 'cartographers/index.html' && page.querySelector('ol.cartographers')) return 'cartographer-list';
   if (file.startsWith('cartographers/') && page.querySelector('article.cartographer')) return 'cartographer-profile';

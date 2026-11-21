@@ -8,5 +8,5 @@ lifecycle: published
 release: released
 relations: []
 order: 3
-short_description: "Towns and settlements as places on a map, and as ideas of order."
-copy_status: draft
+short_description: "Towns and settlements as inhabited places and as ideas of order."
+copy_status: final
