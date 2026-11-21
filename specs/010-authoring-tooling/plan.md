@@ -16,7 +16,7 @@ Four pieces of maintainer tooling, none of which changes what the integrity gate
 ## Technical Context
 
 **Language/Version**: TypeScript (strict) on Node ≥ 24, as the rest of the registry; run through `tsx`.
-**Primary Dependencies**: existing only: `zod` 4 (`z.toJSONSchema`), `yaml`, Node's `fetch` and `node:util` `parseArgs`. No new runtime dependency. CI uses `actions/cache` and `actions/checkout`, already in use.
+**Primary Dependencies**: existing only: `zod` 4 (`z.toJSONSchema`), `yaml`, Node's `fetch` and `node:util` `parseArgs`. No new runtime dependency; one devDependency, `ajv`, so the editor-schema test can validate records against the generated schemas (T032). CI uses `actions/cache` and `actions/checkout`, already in use.
 **Storage**: files. Records under `content/`; generated schemas under `.schemas/` (ignored); graph and report under the `--out` directory (CI artefact); manifest fingerprints in the link-check workflow's cache.
 **Testing**: Vitest, with valid and invalid fixtures (Principle X). Network, Jira, GitHub and the web archive are injected interfaces with in-memory stand-ins; no test touches the network.
 **Target Platform**: the maintainer's machine (VS Code with the Red Hat YAML extension) and GitHub Actions `ubuntu-latest`.
@@ -29,7 +29,7 @@ Four pieces of maintainer tooling, none of which changes what the integrity gate
 
 *GATE: must pass before Phase 0 research. Re-checked after Phase 1 design (below).*
 
-- [x] **I. Historical question.** Stated in the spec: the tooling serves every question by making new evidence and corrections cheaper without loosening the rules. It adds no reader-facing feature, so no new historical claim is made.
+- [x] **I. Historical question.** Stated in the spec: *how can one maintainer keep every claim traceable to its evidence as the registry grows, without loosening the rules that make it traceable?* The tooling adds no reader-facing feature, so no new historical claim is made.
 - [x] **II, V. No duplicated records or private geometry.** The scaffold writes one canonical record per ID and never copies a description; the graph and the schemas are derived and uncommitted; IDs are minted by the one minter (ADR 0006), and R calls it rather than reimplementing it.
 - [x] **III, VI. Uncertainty and provenance as fields.** The stub writes `pending` and `unknown` as values and leaves the fields that need a person as commented keys, so nothing is guessed at creation. A dead link never changes `verified` (FR-016); an archived copy is a new pair of fields, proposed and merged by a person (FR-018).
 - [x] **IV. Interactions.** None: the dependents viewer is an editor artefact, not deployed, and has no evidentiary claim to make.
@@ -105,7 +105,7 @@ tests/linkcheck/           collect, probe, manifest, jira dedupe, archive PR, ru
 
 ## Delivery
 
-Four pull requests, one per story, in priority order: US1 (TCX-62), then US2 (TCX-63), then US3 (TCX-61), then US4 (TCX-64). US2 and US3 do not depend on US1 and may swap; US4 depends on US1 only for the locator's `archived_copy` fixtures, which it adds itself. Each PR updates `docs/confluence/build-log-spec-010.md`, `GLOSSARY.md` where a term is added, the spec 001 rule table and data model where they change, and the status blocks.
+Four pull requests, one per story, in priority order: US1 (TCX-62), then US2 (TCX-63), then US3 (TCX-61), then US4 (TCX-64). US2, US3 and US4 do not depend on US1 or on each other; US2 and US3 may swap. US4 adds the locator's `archived_copy` and `archived_on` itself (T042, T043). Each PR updates `docs/confluence/build-log-spec-010.md`, `GLOSSARY.md` where a term is added, the spec 001 rule table and data model where they change, and the status blocks.
 
 ## Complexity Tracking
 

@@ -34,7 +34,7 @@ The open questions were settled by the grill (ADR 0018, ADR 0019) and by the spe
 - **Finding**: there is no R code in the repository yet (`find . -name '*.R'` finds nothing outside `node_modules`), so there is no R pipeline, no `testthat` suite and no R in CI.
 - **Decision**: spec 010 fixes the **calling contract** on the TypeScript side: `npm run --silent registry -- mint <family> --dir <root>` prints exactly one line, the local-id; `registry new <family>` prints the ID then the path; both exit non-zero with a message on stderr on failure. An integration test runs the real CLI as a child process, the way `system2()` would, and asserts that contract (FR-007's "one integration test runs the real command"). The R helper (`registry_mint()` via `system2()`) and its `testthat` test with a mocked call land with the first R pipeline, which will also add R to CI.
 - **Rationale**: Principle X forbids closing a task with an untested path, and R cannot be tested in CI today. Writing the helper now would mean shipping untested R.
-- **Flagged for the author**: this narrows FR-007 for now. If an R pipeline is planned before spec 010 closes, the helper should move into US1.
+- **Spec amended**: FR-007 and US1 scenario 6 were reworded to match on 2026-11-21 (`/speckit-analyze` finding I1). If an R pipeline is planned before spec 010 closes, the helper should move into US1.
 - **Alternatives**: add R and `testthat` to CI now for a three-line helper (cost without a consumer).
 
 ## R6. The dependents graph
