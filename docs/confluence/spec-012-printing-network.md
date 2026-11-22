@@ -14,7 +14,7 @@ This is the programme dossier for spec 012. It follows the fourteen-point contra
 <!-- status:begin -->
 - Registry rules: 96
 - Named mutations: 126
-- Entities: 312 (0 errors, 112 warnings)
+- Entities: 316 (0 errors, 112 warnings)
 <!-- status:end -->
 
 ## 2. Purpose / thesis
