@@ -36,8 +36,11 @@ Four pieces of maintainer tooling, none of which changes what the integrity gate
 - [x] **VII. No dynamic infrastructure.** A scheduled GitHub Actions workflow is CI, not runtime infrastructure; nothing is added to the published site.
 - [x] **IX. Accessibility and performance.** No change to any deployed page. The static viewer is built to the same standards as the integrity report's HTML (`report-html.ts`: semantic table, no script required), but it is not held to the ADR 0004 budgets because it is never served.
 - [x] **X. Test strategy.** Every acceptance scenario maps to a test written first; the map is in [quickstart.md](quickstart.md) and becomes the task list.
+- [x] **XI. One analytical framework.** Added on 2026-11-22 for constitution 1.1.0 (ADR 0020). The tooling makes no historical claim, so its user stories draw only on the `methodological` dimension (validation: keeping claims traceable and checkable). The framework applies unchanged: no rule, vocabulary or methodological step is restated or forked, and US3's editor schemas read the `analytical_dimension` values and their definitions from the shared vocabulary and `FRAMEWORK.md`.
 
 **Result: PASS.** No violation, so Complexity Tracking is empty.
+
+**Re-check under constitution 1.1.0 (2026-11-22, TCX-70):** PASS with the XI line above; `/speckit-analyze` finding D1.
 
 **Re-check after Phase 1:** PASS. The design added two things worth checking against the constitution. (a) Rules declare the fields they require (`requires`): this moves no rule and weakens none; SC-003's test compares every rule's ID and threshold before and after. (b) Vocabulary values get definitions in `GLOSSARY.md` (research R4): this is the glossary's job, and the values already live in ADR 0003; no value is added or removed.
 
