@@ -1,6 +1,6 @@
 # Confluence entry: Build Log (page 2490370)
 
-Not yet published. To be appended as the next section after AC (spec 009), with the header pointer extended to it; the rest of the page is left unchanged. The text below is what will be published, and it grows by one row per merged slice.
+Published 2026-11-22 in page version 136 as section AD, directly after AC (spec 009); the rest of the page was left unchanged (checked by reading the page back). The text below is what was published; it grows by one row per merged slice and is republished whole.
 
 ## AD. The successor build: authoring tooling (spec 010)
 

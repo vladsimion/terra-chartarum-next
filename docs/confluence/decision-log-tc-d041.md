@@ -1,8 +1,8 @@
 # Confluence entry: Decision Log (page 12648509)
 
-Not yet published. To be appended after the last entry on the page; the rest of the page is left unchanged. When it is published, read the live Decision Log, take the next free number, replace `TC-D???` with it, rename this file to `decision-log-tc-dNNN.md` and record the page version (`docs/confluence/README.md`).
+Published 2026-11-22 in page version 18, with TC-D040 to TC-D044 appended together in that order directly after TC-D039; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
-### TC-D??? — The anchor essay is published, and what the author decides stays in the repository as data
+### TC-D041 — The anchor essay is published, and what the author decides stays in the repository as data
 
 **Date:** 18 November 2026 (spec 009; extends ADR 0017)
 **Status:** Accepted (spec 009, complete; the essay reached Cross-link on 21 November 2026)
