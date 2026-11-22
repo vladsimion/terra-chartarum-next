@@ -50,6 +50,8 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Listed in bibliography** | The route by which a record names an entry in its `bibliography[]`, without a locator. Not a claim citation. |
 | **Edition relation** | A link from one Bibliography entry to another that it is an edition of (`edition_of`) or a translation of (`translation_of`). Not a version of a record. |
 | **Dependents** | Every record, held or public, that relies on a given record directly or through others: what a correction to it would touch. Not "Cited in" or "Used by", which list public, direct referrers only. |
+| **Place role** | How a record is tied to a place: `produced_at` (where it was made) or `held_at` (where a copy is kept, over a dated interval; a closed interval reads as "formerly at"). Each link says whether the record itself states the place or scholarship attributes it, and carries its own confidence. A place shown for an object always says which role it shows. What a map or source shows of a place is not a place role: that is coverage or an Attestation with form `depiction`. Settled in the Stage III grill (TCX-80), 22 November 2026. |
+| **Term (record)** | A word or phrase whose history is itself studied, such as "Carpato-Danubiano-Pontic": its ancient witnesses, first documented use and later critiques are each evidence about it, and who coined it is a stated value that may be `unknown`. A modern analytical term is never presented as an ancient identity. Not a Glossary entry, which defines this project's own language. |
 
 ## Evidence and uncertainty
 
