@@ -101,7 +101,7 @@ Owned here: the room fields, the two rules, `membership.ts`, the Rooms pages and
 <!-- status:begin -->
 - Registry rules: 96
 - Named mutations: 126
-- Entities: 315 (0 errors, 111 warnings)
+- Entities: 316 (0 errors, 112 warnings)
 <!-- status:end -->
 
 Everything is merged, Polish (#80) last: quickstart run and corrected, README and Read-first, and the code review with its fixes. Left for the author: the seven introductions (placeholder copy) and each room's `copy_status`. Open follow-ups from the code review (judgement calls, listed in `tasks.md` T032): a shared `roomRecordId` helper, the duplicated lookups in `roomsOf` and `membership`, a smaller `RoomGroups.astro`, splitting `ROOM-COPY`. Delivery authority: Vlad merges; no story is marked Done until this page is published.
