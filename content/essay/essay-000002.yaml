@@ -1,0 +1,22 @@
+id: tc:tc:essay:essay-000002
+family: essay
+origin: minted
+title: "Târgoviște: seat, press and frontier"
+slug: targoviste-seat-press-and-frontier
+slug_history: []
+stage: Concept
+lifecycle: proposed
+release: held
+relations: []
+question: What made Târgoviște, for three centuries the princely seat of
+  Wallachia, a place where the three Romanian lands met, and how much of its
+  later image as a national capital is evidence, contemporary representation or
+  later myth?
+authors:
+  - Vlad Simion
+rooms:
+  primary: tc:tc:room:city
+stage_history:
+  - stage: Concept
+    on: 2026-11-22
+    by: Vlad Simion
