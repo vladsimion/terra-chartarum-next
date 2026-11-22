@@ -34,7 +34,7 @@ A fifth "(to verify)" in the doc is not a bibliography entry: it is a timeline f
 | | |
 |---|---|
 | As cited | Bianu, Ioan and Nerva Hodoș, *Bibliografia românească veche, 1508–1830*, vol. 1 (Bucharest: Socec, 1903). |
-| Verified | **Confirmed.** Ioan Bianu and Nerva Hodoș, *Bibliografia românească veche, 1508–1830*, Tomul I: *1508–1716* (Bucharest: Academia Română / Atelierele Socec & Co., 1903). The series ran to 1936 (vols II–IV later, with Dan Simonescu); vol. I is the one that records the 1508 Liturghier. |
+| Verified | **Confirmed.** Ioan Bianu and Nerva Hodoș, *Bibliografia românească veche, 1508–1830*, Tomul I: *1508–1716* (Bucharest: Academia Română / Atelierele Socec & Co., 1903). Later volumes followed over several decades (catalogues give 1903–12, 1903–30 or 1903–36 for the series); vol. I is the one covering 1508. |
 | Corrected citation | Bianu, Ioan and Nerva Hodoș, *Bibliografia românească veche, 1508–1830*, vol. I: *1508–1716* (Bucharest: Academia Română / Socec, 1903). RO. Cite as BRV I with the item number. |
 | Note | The early title pages spell it *Bibliografia românescă veche*; catalogues use both. |
 | Sources | WorldCat 511343 and 22254804; HathiTrust 001763918 and 001170338; Stanford SearchWorks 2197423; Ghent University Library; University of Illinois Slavic guide, "National Bibliography of Romania". |
