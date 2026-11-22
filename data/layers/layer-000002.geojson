@@ -1,0 +1,77 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     24.68,
+     45.14
+    ]
+   },
+   "properties": {
+    "id": "seat-arges",
+    "name": "Argeș",
+    "place_id": "tc:tc:place:plc-curtea-de-arges",
+    "principality": "wallachia",
+    "interval_kind": "envelope",
+    "valid_from": 1300,
+    "valid_to": 1400,
+    "geometry_provenance": "generalized_editorial",
+    "confidence": "low",
+    "review_status": "candidate",
+    "note": "Century envelope for Argeș as a seat in the 14th century. Not a dated residence interval: pending until traced to charters (TCX-85). The point marks the town, not the site of the residence.",
+    "citation": "Envelope only; no source yet"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     25.46,
+     44.93
+    ]
+   },
+   "properties": {
+    "id": "seat-targoviste",
+    "name": "Târgoviște",
+    "place_id": "tc:tc:place:plc-targoviste",
+    "principality": "wallachia",
+    "interval_kind": "envelope",
+    "valid_from": 1400,
+    "valid_to": 1714,
+    "geometry_provenance": "generalized_editorial",
+    "confidence": "low",
+    "review_status": "candidate",
+    "note": "Envelope from the programme: princely seat for much of the 15th–17th centuries, c. 1400–1714. Residence alternated with Bucharest; the intervals are pending (TCX-85). The point marks the town, not the site of the residence.",
+    "citation": "Research programme, Stage III (Târgoviște and the 1508 Leitourgikon); intervals pending"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     26.1,
+     44.44
+    ]
+   },
+   "properties": {
+    "id": "seat-bucuresti",
+    "name": "Bucharest",
+    "place_id": "tc:tc:place:plc-bucuresti",
+    "principality": "wallachia",
+    "interval_kind": "envelope",
+    "valid_from": 1459,
+    "valid_to": 1862,
+    "geometry_provenance": "generalized_editorial",
+    "confidence": "low",
+    "review_status": "candidate",
+    "note": "Starts at the first attestation, a 1459 charter of Vlad III (programme, corrected against the external drafts); capital of Romania from 1862. Residence alternated with Târgoviște before; the intervals are pending (TCX-85). The point marks the town, not the site of the residence.",
+    "citation": "Charter of Vlad III, 1459 (locator pending); research programme, Stage III"
+   }
+  }
+ ]
+}

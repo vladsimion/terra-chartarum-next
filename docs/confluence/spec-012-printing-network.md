@@ -14,7 +14,7 @@ This is the programme dossier for spec 012. It follows the fourteen-point contra
 <!-- status:begin -->
 - Registry rules: 102
 - Named mutations: 134
-- Entities: 320 (0 errors, 112 warnings)
+- Entities: 324 (0 errors, 112 warnings)
 <!-- status:end -->
 
 ## 2. Purpose / thesis
@@ -123,7 +123,7 @@ SC-001 to SC-006 of the spec. None are met yet. SC-003 (five readers) is the aut
 | 2026-11-22 | `place-roles.test.ts` (US1 scenarios 1 to 4; FR-001 to FR-003, FR-011) | 15 tests: one production place and two holdings pass. A second production place, a holding without holder or start, a missing place, role, basis or confidence, a bad EDTF date, a map with place roles, a role without evidence at `ready_for_build`, and `secure` on pending locators each fail with their own rule and field |
 | 2026-11-22 | `entry-public.test.ts`, `bibliography-project.test.ts` (FR-014, ADR 0014 amended) | an uncited, published and released edition with place roles is public; without them it is not; a held one never is; a role on a held place, held Evidence or a held Source is dropped from the projection, a historiography note on a held place note and all |
 | 2026-11-22 | `entry-page.test.ts` on the bibliography fixture site (T011) | the section shows the production place with basis, confidence, date and "locator pending"; current then former copies; earlier attributions as a note; no held holder or place in the HTML |
-| 2026-11-22 | `registry check` on the real registry | PASS, 320 entities, 0 errors; the eight new records add no warning |
+| 2026-11-22 | `registry check` on the real registry | PASS, 324 entities after merging `main`, 0 errors; the eight new records add no warning |
 
 ## 13. Canonical ownership and propagation
 

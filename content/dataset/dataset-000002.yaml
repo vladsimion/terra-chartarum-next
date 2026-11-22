@@ -1,0 +1,14 @@
+id: tc:tc:dataset:dataset-000002
+family: dataset
+origin: minted
+title: Princely seats of Wallachia and Moldavia
+slug: princely-seats-of-wallachia-and-moldavia
+slug_history: []
+lifecycle: proposed
+release: held
+relations: []
+# Stage III rank 4 (TCX-85): compiled by this project; no upstream release.
+version: stage3-wallachian-slice-2026-11-22
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum
