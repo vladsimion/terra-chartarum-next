@@ -18,7 +18,7 @@ The files here are the repository copies of Confluence pages and entries. A file
 | `build-log-*.md` | One section of the Build Log, page 2490370 (sections AC and AD, `build-log-spec-009.md` and `build-log-spec-010.md`, published 2026-11-22 in page version 136) |
 | `decision-log-tc-dNNN.md` | One published Decision Log entry, page 12648509 |
 | `decision-log-pending-<slug>.md` | A Decision Log entry not yet published |
-| (generated, not stored) `npm run sdd:pages` → `sdd-confluence/` | The `[SDD]` pages: an index page under page 2457601 and one child page per spec, holding the Spec Kit artefacts of `specs/` at a commit. Regenerate and paste after the specs change; never edit them in Confluence |
+| (generated, not stored) `npm run sdd:pages` → `sdd-confluence/` | The `[SDD]` pages: an index page under page 2457601 and one child page per spec, holding the Spec Kit artefacts of `specs/` at a commit. Regenerate and publish after the specs change (see below); never edit them in Confluence by hand. The index is page 46333953 |
 
 ## Pending Decision Log entries have no number
 
@@ -32,7 +32,7 @@ If two drafts are published together, number them in the order they are appended
 
 ## Publishing with the Atlassian connector
 
-Since 22 November 2026 the Atlassian connector writes Confluence. A page is published from its file at a merged commit: a new page is created whole; an existing page is changed by targeted edits to the nodes that differ (the page's own node ids, read from its current version), so that nothing else on the page moves; and the page is read back. The generated `[SDD]` spec pages are too large to send through the connector and are still pasted from `npm run sdd:pages`.
+Since 22 November 2026 the Atlassian connector writes Confluence. A page is published from its file at a merged commit: a new page is created whole; an existing page is changed by targeted edits to the nodes that differ (the page's own node ids, read from its current version), so that nothing else on the page moves; and the page is read back. The generated `[SDD]` pages go the same way: run `npm run sdd:pages`, then edit only the blocks that differ from the live page (a new spec's page is created in chunks, appended in order), and read the page back to compare it block by block with the generated HTML. Confluence rejects the `contains-task-list` class the generator puts on task lists, so strip it before sending. Pasting a generated file by hand still works as a fallback.
 
 ## Publishing without a Confluence write tool
 
