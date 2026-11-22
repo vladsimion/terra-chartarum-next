@@ -50,7 +50,8 @@ Terms follow `GLOSSARY.md`. Rules cite the spec (FR-/US-) and ADR 0006. `*` mark
 | `date_label` | free text for display; `date_precision` is derived and a record that sets it fails (`DATE-PRECISION-AUTHORED`) |
 | `geometry_provenance` | required when the target is a feature; `scholarly_reconstruction` also requires `reconstruction: true` (US2.1) |
 | `reconstruction` | boolean; reconstructions are always flagged |
-| `confidence*` | `Confidence`; `secure` forbidden if any supporting locator is `pending` (US2.5) |
+| `confidence*` | `Confidence` (`secure` · `probable` · `possible` · `conjectural` · `unsupported` · `unknown`, ADR 0020); `secure` forbidden if any supporting locator is `pending` (US2.5) |
+| `analytical_dimensions` | list of `AnalyticalDimension` (13 values, `FRAMEWORK.md`); unknown values fail `ENUM-INVALID`; one or more required from `ready_for_build` (`DIM-MISSING`; constitution XI, ADR 0020) |
 | `rights` | `Rights`; required from `ready_for_build` (US2.3). Families that carry rights: evidence, layer, dataset, map, attestation, essay. A place is an authority record: its rights ride on its sources and evidence. |
 | `last_verified` | date |
 | `provenance_chain[]` | refs to `provenance/` steps (FR-008) |

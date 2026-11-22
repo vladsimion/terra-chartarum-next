@@ -18,3 +18,5 @@ geometry_provenance: source_geometry
 confidence: probable
 rights:
   licence: CC-BY-4.0
+analytical_dimensions:
+  - historical

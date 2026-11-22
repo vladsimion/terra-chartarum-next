@@ -70,6 +70,7 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `PROV-GEOMETRY` | geometry provenance present for feature targets | US2.1 | `ready_for_build` |
 | `PROV-RECONSTRUCTION` | `scholarly_reconstruction` carries `reconstruction: true` | US2.1 | `ready_for_build` |
 | `PROV-SOURCE` | evidence has a source and evidence type | FR-003 | `ready_for_build` |
+| `DIM-MISSING` | evidence names one or more analytical dimensions (constitution XI, ADR 0020) | FR-003 | `ready_for_build` |
 | `PROV-MODERN-AS-EVIDENCE` | no evidence record, and no layer with role `historical`, `evidence` or `map-overlay`, has geometry provenance `modern_reference` | Constitution III | always |
 | `LOC-VERIFIED-FIELDS` | `verified` requires `verified_by`, `verified_on`, `consulted_copy` | US2.2 | always |
 | `LOC-SECURE-PENDING` | `secure` claim with a `pending` locator | US2.5 | always |

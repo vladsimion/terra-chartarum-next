@@ -21,3 +21,5 @@ valid_from: '-0101'
 valid_to: '0106'
 rights:
   licence: CC-BY-4.0
+analytical_dimensions:
+  - historical

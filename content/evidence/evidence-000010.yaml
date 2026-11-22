@@ -16,5 +16,9 @@ locator:
   proposed_by: person
 evidence_type: cartographic
 confidence: possible
+analytical_dimensions:
+  - geographical
+  - religious
+  - methodological
 rights:
   licence: CC BY 4.0

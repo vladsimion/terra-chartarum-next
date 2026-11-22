@@ -21,7 +21,7 @@ Three overlaps existed:
 6. **Stage exit checks (ADR 0003 §5).** Research additionally requires every claim tagged with its dimensions and the competing hypotheses written with what would weaken each; Draft additionally requires the bias-audit score for every secondary source cited.
 7. **Rollout.** Agreed as "warning first, then error before Stage II Phase 1". In the repository this is done in two steps, because the integrity gate has no warning-only rules: every registered rule must be provable as an error by a named mutation (spec 001 SC-003, `rule-coverage.test.ts`).
    - **Now:** the vocabulary, the field, the membership check and `unsupported` land. Nothing yet requires the field, so the cutover is not blocked.
-   - **Before Stage II Phase 1 opens:** a rule requiring `analytical_dimensions` on Evidence records (proposed `DIM-MISSING`, error from `ready_for_build`) lands in the same change that tags Stage I's evidence records (15 at the time of writing: 14 `published`, 1 `researching`; none `secure`). The tagging is the author's judgement, not generated.
+   - **Before Stage II Phase 1 opens:** a rule requiring `analytical_dimensions` on Evidence records (`DIM-MISSING`, error from `ready_for_build`) lands in the same change that tags Stage I's evidence records (15 at the time of writing: 14 `published`, 1 `researching`; none `secure`). The tagging is the author's judgement, not generated. **Done 2026-11-22** (TCX-71, TCX-73): the author approved the tags record by record; test fixtures and synthetic registries carry a placeholder `historical`.
 
 ## Alternatives considered
 

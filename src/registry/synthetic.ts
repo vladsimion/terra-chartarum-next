@@ -175,6 +175,7 @@ export function generateRegistry(count: number, seed: number): RegistryRecord[] 
         record.locator = { value: `p. ${evidenceSeen}`, state: 'pending', proposed_by: 'person' };
         record.evidence_type = 'textual';
         record.confidence = 'probable';
+        record.analytical_dimensions = ['historical'];
         record.rights = rights();
         if (evidenceSeen === 1) {
           // a claim about a whole map, resting on a logged automated step
@@ -276,6 +277,7 @@ export function generateMapRegistry(count: number, seed: number): RegistryRecord
         locator: { value: `p. ${n}`, state: 'pending', proposed_by: 'person' },
         evidence_type: 'textual',
         confidence: 'probable',
+        analytical_dimensions: ['historical'],
         rights: { licence: 'CC-BY-4.0' },
       }),
     );
@@ -537,6 +539,7 @@ export function generateBibliographyRegistry(count: number, seed: number): Regis
           : { value: `p. ${n}`, state: 'pending', proposed_by: 'person' },
         evidence_type: 'textual',
         confidence: 'probable',
+        analytical_dimensions: ['historical'],
         rights: { licence: 'CC-BY-4.0' },
       }),
     );

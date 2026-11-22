@@ -99,4 +99,29 @@ export const provModernAsEvidence = defineRule({
   },
 });
 
-export const PROVENANCE_RULES = [provGeometry, provReconstruction, provSource, provModernAsEvidence];
+/**
+ * Every claim names the analytical dimensions it draws on (constitution Principle XI, ADR 0020 §7).
+ * Which values are allowed is ENUM-INVALID's call; this rule asks only that there is at least one.
+ */
+export const dimMissing = defineRule({
+  id: 'DIM-MISSING',
+  from: 'ready_for_build',
+  requires: [{ family: 'evidence', field: 'analytical_dimensions' }],
+  check: ({ records }) => {
+    const findings: Finding[] = [];
+    for (const record of records.filter(isEvidence)) {
+      const dimensions = record.analytical_dimensions;
+      if (!Array.isArray(dimensions) || dimensions.length === 0) {
+        findings.push({
+          record,
+          field: 'analytical_dimensions',
+          value: dimensions ?? null,
+          expected: 'one or more analytical dimensions (FRAMEWORK.md)',
+        });
+      }
+    }
+    return findings;
+  },
+});
+
+export const PROVENANCE_RULES = [provGeometry, provReconstruction, provSource, provModernAsEvidence, dimMissing];
