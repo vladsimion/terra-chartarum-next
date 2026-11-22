@@ -48,6 +48,36 @@ describe('ENUM-INVALID', () => {
     const early = record('evidence', 1, { lifecycle: 'proposed', confidence: 'certain' });
     expect(rules([early], 'ENUM-INVALID')[0]?.severity).toBe('error');
   });
+
+  it('accepts unsupported as a confidence (ADR 0020)', () => {
+    expect(rules([record('evidence', 1, { confidence: 'unsupported' })], 'ENUM-INVALID')).toEqual([]);
+  });
+
+  it('checks every entry of analytical_dimensions on a claim (ADR 0020, Principle XI)', () => {
+    const claim = record('evidence', 1, { analytical_dimensions: ['historical', 'vibes'] });
+    const hits = rules([claim], 'ENUM-INVALID');
+    expect(hits).toHaveLength(1);
+    expect(hits[0]).toMatchObject({ field: 'analytical_dimensions[1]', value: 'vibes', severity: 'error' });
+  });
+
+  it('rejects a portal facet used as an analytical dimension', () => {
+    const hits = rules([record('evidence', 1, { analytical_dimensions: ['Witness'] })], 'ENUM-INVALID');
+    expect(hits[0]).toMatchObject({ field: 'analytical_dimensions[0]', value: 'Witness' });
+  });
+
+  it('accepts all thirteen analytical dimensions, and a claim without any', () => {
+    const all = [
+      'historical', 'geographical', 'social_demographic', 'anthropological_archaeological', 'linguistic',
+      'religious', 'economic', 'political', 'historiographical', 'sociological', 'mythological',
+      'philosophical', 'methodological',
+    ];
+    expect(rules([record('evidence', 1, { analytical_dimensions: all }), record('evidence', 2)], 'ENUM-INVALID')).toEqual([]);
+  });
+
+  it('fails when analytical_dimensions is not a list', () => {
+    const hits = rules([record('evidence', 1, { analytical_dimensions: 'historical' })], 'ENUM-INVALID');
+    expect(hits[0]).toMatchObject({ field: 'analytical_dimensions', value: 'historical', severity: 'error' });
+  });
 });
 
 describe('SAMEAS-SYNTAX', () => {

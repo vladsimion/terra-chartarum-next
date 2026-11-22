@@ -28,6 +28,8 @@ export const EvidenceSchema = EntityBase.extend({
   geometry_provenance: z.string().optional(),
   reconstruction: z.boolean().optional(),
   confidence: z.string().optional(),
+  /** Analytical dimensions the claim draws on (ADR 0020); membership is ENUM-INVALID's call. */
+  analytical_dimensions: z.unknown().optional(),
   rights: RightsShape.optional(),
   last_verified: z.string().optional(),
   provenance_chain: z.array(z.string()).optional(),

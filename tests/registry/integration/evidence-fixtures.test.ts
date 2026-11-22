@@ -9,6 +9,7 @@ const OPTIONS = { now: new Date('2026-10-16T12:00:00.000Z'), commit: 'test', com
 describe('invalid evidence fixtures', () => {
   it.each([
     ['bad-enum', 'ENUM-INVALID', 'confidence', 'error'],
+    ['bad-dimension', 'ENUM-INVALID', 'analytical_dimensions[1]', 'error'],
     ['verified-missing-fields', 'LOC-VERIFIED-FIELDS', 'locator.consulted_copy', 'error'],
     ['secure-pending', 'LOC-SECURE-PENDING', 'confidence', 'error'],
     ['missing-rights', 'RIGHTS-MISSING', 'rights', 'error'],

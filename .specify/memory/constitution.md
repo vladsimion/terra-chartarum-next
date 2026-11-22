@@ -36,6 +36,9 @@ Keyboard operability, visible focus, reduced-motion behaviour, no colour-only en
 ### X. Test-First Delivery (NON-NEGOTIABLE)
 Implementation follows red-green-refactor via the `tdd` skill, one vertical slice at a time. Every acceptance scenario in a spec maps to at least one automated test written before the code that satisfies it. Data contracts are tested with valid and invalid fixtures. This applies equally to R data-prep code (`testthat`). No task is closed with a failing or skipped test.
 
+### XI. One Analytical Framework
+Every stage, phase, essay, Atlas layer and dataset of Terra Chartarum is researched and assessed through one framework: the 13 analytical dimensions (eight empirical, four interpretative, one for validation) and the research methodology — epistemic rules, evidence hierarchy, source-criticism protocol, triangulation, confidence scale, standards of proof, quantitative methods, bias audit, symmetry rule and comparative control. The framework is defined once, in `FRAMEWORK.md`; specs and essays reference it and MUST NOT restate or fork it. Every claim in an evidence register is tagged with each analytical dimension it draws on; unknown values fail validation. Worked examples may come from one territory; the rules apply to all. Changing a dimension or a methodological rule is a constitutional amendment (ADR 0020).
+
 ## Editorial Governance
 
 Each essay progresses through: **Concept → Corpus → Research → Outline → Draft → Build → Design QA → Publish → Cross-link**. Each stage has an exit check (ADR 0003 §5; spec 003), and an essay's lifecycle is derived from its stage, never set by hand. Research-gated essays MAY have outcome-dependent publication paths; a compelling visual cannot freeze an unsupported claim.
@@ -60,8 +63,8 @@ Every spec MUST state which of these audiences each user story serves.
   requires an ADR.
 - Data-prep pipelines MAY be written in R; their outputs are canonical files validated by the
   TypeScript integrity gate, and they are tested with `testthat` under Principle X.
-- Shared vocabularies (lifecycle, confidence, geometry provenance, silence states) are defined once
-  in ADR 0003 and `GLOSSARY.md`; unknown values fail validation.
+- Shared vocabularies (lifecycle, confidence, geometry provenance, silence states, analytical
+  dimensions) are defined once in ADR 0003 and `GLOSSARY.md`; unknown values fail validation.
 - Hosting: Cloudflare (Workers static assets for the successor; Pages for the frozen archive),
   static output only, unless an ADR satisfies Principle VII (ADR 0012).
 
@@ -83,6 +86,7 @@ Every spec MUST state which of these audiences each user story serves.
 - [ ] No dynamic infrastructure without an ADR (VII)
 - [ ] Accessibility and performance-budget impact stated (IX)
 - [ ] Test strategy maps every acceptance scenario to a test (X)
+- [ ] Names the analytical dimensions each user story draws on and confirms the framework applies unchanged (XI)
 
 ## Governance
 
@@ -92,6 +96,6 @@ Compliance review: every `plan.md` passes the Constitution Check; every change i
 `code-review` skill against its spec and this constitution before merge; `/speckit-analyze` runs
 after `/speckit-tasks` for every feature.
 
-Ratification basis: ADRs 0001–0005 (2026-10-15) resolved every item left open in the draft.
+Ratification basis: ADRs 0001–0005 (2026-10-15) resolved every item left open in the draft. Amended by ADR 0020 (2026-11-22): Principle XI, One Analytical Framework.
 
-**Version**: 1.0.1 | **Ratified**: 2026-10-15 | **Last Amended**: 2026-10-17
+**Version**: 1.1.0 | **Ratified**: 2026-10-15 | **Last Amended**: 2026-11-22

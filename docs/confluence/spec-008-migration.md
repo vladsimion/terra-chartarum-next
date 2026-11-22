@@ -111,7 +111,7 @@ Owned here: the import, the three `MIG-*` rules and the `legacy_*` fields, the r
 
 <!-- status:begin -->
 - Registry rules: 94
-- Named mutations: 123
+- Named mutations: 124
 - Entities: 311 (0 errors, 111 warnings)
 <!-- status:end -->
 

@@ -16,6 +16,10 @@ locator:
 evidence_type: cartographic
 geometry_provenance: source_geometry
 confidence: probable
+analytical_dimensions:
+  - historical
+  - geographical
+  - methodological
 valid_from: '0106'
 valid_to: '0271'
 rights:
