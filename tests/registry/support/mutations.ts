@@ -518,9 +518,14 @@ const MIGRATION_MUTATIONS: Mutation[] = [
 ];
 
 /* TCX-65: a dataset built from upstream data names the release it was built from. */
+/** Spec 010 US4 (T042): an archived copy of a locator's consulted copy, recorded with its date. */
+const ARCHIVED_COPY_MUTATIONS: Mutation[] = [
+  { name: 'a locator has an archived copy with no date', rule: 'LOC-ARCHIVED', apply: editOf('evidence', (r) => { r.locator = { ...(r.locator as object), archived_copy: 'https://web.archive.org/web/2026/https://example.org/scan' }; }) },
+];
+
 const DATASET_MUTATIONS: Mutation[] = [
   { name: 'a dataset’s upstream pin is a moving name', rule: 'DATASET-PIN', apply: editOf('dataset', (r) => { r.lifecycle = 'ready_for_build'; r.upstream = { url: 'https://example.org/data', pin: 'latest' }; }) },
   { name: 'a dataset’s upstream has no https url', rule: 'DATASET-PIN', apply: editOf('dataset', (r) => { r.lifecycle = 'ready_for_build'; r.upstream = { url: 'http://example.org/data', pin: 'tag:v1.0.0' }; }) },
 ];
 
-export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS, ...ESSAY_MUTATIONS, ...MAP_MUTATIONS, ...ATLAS_MUTATIONS, ...BIBLIOGRAPHY_MUTATIONS, ...ROOM_MUTATIONS, ...MIGRATION_MUTATIONS, ...DATASET_MUTATIONS];
+export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS, ...ESSAY_MUTATIONS, ...MAP_MUTATIONS, ...ATLAS_MUTATIONS, ...BIBLIOGRAPHY_MUTATIONS, ...ROOM_MUTATIONS, ...MIGRATION_MUTATIONS, ...DATASET_MUTATIONS, ...ARCHIVED_COPY_MUTATIONS];

@@ -44,7 +44,7 @@ Terms follow `GLOSSARY.md`. Rules cite the spec (FR-/US-) and ADR 0006. `*` mark
 |---|---|
 | `target*` | `{ entity: StableId, feature?: string }`; entity must resolve; `feature` must exist in the referenced geometry file when given |
 | `source*` | `StableId` of a source; finding aids are rejected (stage-5 rule) |
-| `locator` | `{ value*, state*: LocatorState, proposed_by*: person | ai, verified_by?, verified_on?, consulted_copy? }`; `verified` requires all three of `verified_by`, `verified_on`, `consulted_copy` (US2.2); a locator with `proposed_by = ai` cannot be `verified` unless `verified_by` names a person |
+| `locator` | `{ value*, state*: LocatorState, proposed_by*: person | ai, verified_by?, verified_on?, consulted_copy?, archived_copy?, archived_on? }`; `verified` requires all three of `verified_by`, `verified_on`, `consulted_copy` (US2.2); a locator with `proposed_by = ai` cannot be `verified` unless `verified_by` names a person; `archived_copy` (an `https` web-archive snapshot of the consulted copy) and `archived_on` (`YYYY-MM-DD`, not in the future) come together or not at all, and never change the verification (spec 010 FR-018, `LOC-ARCHIVED`) |
 | `evidence_type*` | `EvidenceType` |
 | `valid_from`, `valid_to` | `HistoricalDate`; the start is not definitely later than the end (`DATE-INVALID`, `DATE-ORDER`) |
 | `date_label` | free text for display; `date_precision` is derived and a record that sets it fails (`DATE-PRECISION-AUTHORED`) |

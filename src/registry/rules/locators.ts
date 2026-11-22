@@ -8,6 +8,8 @@ interface Locator {
   verified_by?: unknown;
   verified_on?: unknown;
   consulted_copy?: unknown;
+  archived_copy?: unknown;
+  archived_on?: unknown;
 }
 
 function locatorOf(record: RegistryRecord): Locator | null {
@@ -111,4 +113,43 @@ export const refFindingAid = defineRule({
   },
 });
 
-export const LOCATOR_RULES = [locVerifiedFields, locAiVerified, locSecurePending, refFindingAid];
+/** A real calendar date written `YYYY-MM-DD`. */
+function isIsoDate(value: unknown): value is string {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(`${value}T00:00:00Z`);
+  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
+}
+
+/**
+ * An archived copy of the copy a locator was read against (spec 010 FR-018, ADR 0019 §3) is a
+ * snapshot URL with the date it was taken: both or neither, an https URL, a real date not in the
+ * future. It never changes the locator's verification.
+ */
+export const locArchived = defineRule({
+  id: 'LOC-ARCHIVED',
+  from: 'always',
+  check: ({ records, options }) => {
+    const findings: Finding[] = [];
+    const today = (options.now ?? new Date()).toISOString().slice(0, 10);
+    for (const record of records) {
+      const locator = locatorOf(record);
+      if (!locator || (locator.archived_copy === undefined && locator.archived_on === undefined)) continue;
+      const { archived_copy: copy, archived_on: on } = locator;
+      if (copy === undefined) {
+        findings.push({ record, field: 'locator.archived_copy', value: null, expected: 'the archived copy itself, since archived_on is given' });
+      } else if (typeof copy !== 'string' || !/^https:\/\/\S+$/.test(copy)) {
+        findings.push({ record, field: 'locator.archived_copy', value: copy, expected: 'an https URL of a web-archive snapshot' });
+      }
+      if (on === undefined) {
+        findings.push({ record, field: 'locator.archived_on', value: null, expected: 'the date the archived copy was taken (YYYY-MM-DD)' });
+      } else if (!isIsoDate(on)) {
+        findings.push({ record, field: 'locator.archived_on', value: on, expected: 'a date written YYYY-MM-DD' });
+      } else if (on > today) {
+        findings.push({ record, field: 'locator.archived_on', value: on, expected: `a date not after ${today}` });
+      }
+    }
+    return findings;
+  },
+});
+
+export const LOCATOR_RULES = [locVerifiedFields, locAiVerified, locSecurePending, refFindingAid, locArchived];

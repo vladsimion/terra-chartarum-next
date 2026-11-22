@@ -27,7 +27,8 @@ Published 2026-11-22 in page version 18, with TC-D040 to TC-D044 appended togeth
 **Consequences:**
 - the evidence locator gains `archived_copy` and `archived_on`;
 - `GLOSSARY.md` gains Archived copy and Dependents;
-- the repository needs a Jira API token and a GitHub token with pull-request write as Actions secrets;
+- the repository needs a Jira API token as an Actions secret (`JIRA_USER`, `JIRA_API_TOKEN`); the link-check workflow uses its own `GITHUB_TOKEN` with `contents`, `pull-requests` and `actions` write, the last to start the gate on the archived-copy pull request, which GitHub would not otherwise run for a pull request that token opened;
+- `LOC-ARCHIVED` judges the two new locator fields;
 - TCX-65 adds a slug-rename test and a version pin on dataset records with external sources (`upstream.pin`, judged by `DATASET-PIN`).
 
 **Evidence:** `docs/adr/0018-record-scaffolding.md`, `docs/adr/0019-authoring-tooling.md`, `GRILL-AGENDA.md`; Jira TCX-59 to TCX-65. Refines ADR 0006 items 1, 6, 9 and 17 and ADR 0010.
