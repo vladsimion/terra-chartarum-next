@@ -4,7 +4,9 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { parseArgs, promisify } from 'node:util';
 import { buildSiteData } from './build.js';
-import { checkRegistry, loadAndCheck } from './check.js';
+import { loadAndCheck } from './check.js';
+import { buildDependents, dependentsOf } from './dependents.js';
+import { renderDependentsHtml } from './dependents-html.js';
 import { completenessReport, enrichmentQueue, renderQueueMarkdown } from './enrichment.js';
 import { scanOutput } from './leak-scan.js';
 import { loadRegistry } from './load.js';
@@ -27,9 +29,10 @@ export interface Io {
 }
 
 const USAGE = `Usage:
-  registry check [--dir <root>] [--out <reportsDir>]   validate the registry and write the integrity report
+  registry check [--dir <root>] [--out <reportsDir>]   validate the registry and write the integrity report and the dependents graph
   registry build --out <siteDir> [--dir <root>]        run the gate, and only if it passes write _redirects and data/relations.json for the site
   registry mint <family> [--dir <root>]                print the next unused local-id for a family
+  registry deps <id> [--dir <root>] [--json]           list the records that depend on an id, directly and through others, held ones included and marked
   registry completeness [--dir <root>] --out <dir>     write the editor's completeness report and enrichment queue; the gate result does not change the exit code
   registry scan <distDir> [--dir <root>]               fail if built output holds a private value or the id of a non-public entity
   registry promote <essay-id> <stage> --by <person> [--check] [--dir <root>]   move an essay to the next editorial stage if its checks pass
@@ -69,12 +72,55 @@ function summary(report: IntegrityReport): string {
 
 async function check(args: string[], io: Io): Promise<number> {
   const { values } = parseArgs({ args, options: { dir: { type: 'string', default: '.' }, out: { type: 'string', default: 'reports' } } });
-  const report = await checkRegistry(values.dir, { commit: await currentCommit(values.dir) });
+  const { report, loaded } = await loadAndCheck(values.dir, { commit: await currentCommit(values.dir) });
   await mkdir(values.out, { recursive: true });
   await writeFile(path.join(values.out, 'integrity-report.json'), toJson(report));
   await writeFile(path.join(values.out, 'integrity-report.html'), renderHtml(report));
+  // Spec 010 FR-009: the dependents graph and its viewer go beside the report, pass or fail.
+  const graph = buildDependents(loaded.records);
+  const meta = { commit: report.commit, generated_at: report.timestamp };
+  const dependents = { ...meta, counts: { nodes: graph.nodes.length, edges: graph.edges.length }, nodes: graph.nodes, edges: graph.edges };
+  await writeFile(path.join(values.out, 'dependents.json'), `${JSON.stringify(dependents, null, 2)}\n`);
+  await writeFile(path.join(values.out, 'dependents.html'), renderDependentsHtml(graph, meta));
   io.stdout(summary(report));
   return report.pass ? 0 : 1;
+}
+
+/**
+ * Spec 010 FR-010 (contracts/cli.md): who depends on an id. Reads the registry, writes nothing.
+ * 0 answered; 1 no record with that id; 2 usage.
+ */
+async function deps(args: string[], io: Io): Promise<number> {
+  const { values, positionals } = parseArgs({
+    args,
+    allowPositionals: true,
+    options: { dir: { type: 'string', default: '.' }, json: { type: 'boolean', default: false } },
+  });
+  const [id] = positionals;
+  if (id === undefined || positionals.length > 1) return usage(io);
+  const { records } = await loadRegistry(values.dir);
+  const graph = buildDependents(records);
+  const node = graph.nodes.find((n) => n.id === id);
+  if (node === undefined) {
+    io.stderr(`registry deps: no record ${id}\n`);
+    return 1;
+  }
+  const result = dependentsOf(graph, id);
+  if (values.json) {
+    io.stdout(`${JSON.stringify(result, null, 2)}\n`);
+    return 0;
+  }
+  const mark = (held: boolean) => (held ? '   held' : '');
+  const width = Math.max(0, ...[...result.direct, ...result.indirect].map((d) => d.id.length)) + 2;
+  const lines = [`${id}  (${node.unknown ? 'no record' : node.held ? 'held' : 'published'})`, `direct (${result.direct.length})`];
+  for (const d of result.direct) lines.push(`  ${d.id.padEnd(width)}${d.field}${mark(d.held)}`);
+  lines.push(`indirect (${result.indirect.length})`);
+  for (const d of result.indirect) {
+    const through = d.path.map((step, i) => `${step.field} → ${d.path[i + 1]?.id ?? id}`).join(' · ');
+    lines.push(`  ${d.id.padEnd(width)}${through}${mark(d.held)}`);
+  }
+  io.stdout(`${lines.join('\n')}\n`);
+  return 0;
 }
 
 /**
@@ -248,6 +294,7 @@ export async function main(argv: string[], io: Io): Promise<number> {
     if (command === 'check') return await check(rest, io);
     if (command === 'build') return await build(rest, io);
     if (command === 'mint') return await mint(rest, io);
+    if (command === 'deps') return await deps(rest, io);
     if (command === 'scan') return await scan(rest, io);
     if (command === 'completeness') return await completeness(rest, io);
     if (command === 'synth') return await synth(rest, io);
