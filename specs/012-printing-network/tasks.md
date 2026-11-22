@@ -115,7 +115,8 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
     - BRV I and the Panaitescu facsimile are not online here.
 
     No holding is written until a source naming the holder is read. **(author)**
-- [ ] T023 [US1] Full checks green (`npm test`, `typecheck`, gate, `status --check`). Update the dossier and Build Log rows. Move TCX-82 to In Review when the PR opens.
+- [x] T023 [US1] Full checks green (`npm test`, `typecheck`, gate, `status --check`). Update the dossier and Build Log rows. Move TCX-82 to In Review when the PR opens.
+  - *Done 2026-11-22:* `npm test` (3,162 passed), `typecheck`, `lint`, the gate (PASS, 324 entities after merging `main`), `status --check`, and `test:e2e:bibliography` with axe on fixture entry 15. TCX-82 stays In Progress: it is the story for the whole spec, and US2–US5 are open.
 
 ---
 

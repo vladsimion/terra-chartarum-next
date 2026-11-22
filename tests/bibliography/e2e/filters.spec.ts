@@ -109,8 +109,9 @@ test('the list page and an entry page have no accessibility violations', async (
   expect(await violations()).toEqual([]);
   await form(page).getByLabel('Primary sources').check();
   expect(await violations()).toEqual([]);
-  // a pending locator, a verified one, editions and translations, a finding aid with its badge and an external copy
-  for (const n of [1, 2, 11, 13]) {
+  // a pending locator, a verified one, editions and translations, a finding aid with its badge and an external copy;
+  // 15 is an edition with its places, current and former copies and earlier attributions (spec 012)
+  for (const n of [1, 2, 11, 13, 15]) {
     await page.goto(`/bibliography/fixture-entry-${n}/`);
     expect(await violations(), `entry ${n}`).toEqual([]);
   }
