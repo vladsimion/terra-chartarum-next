@@ -168,7 +168,50 @@ Each main hypothesis is written down before evidence is graded: what it predicts
 Where a dispute can be measured, it is measured: proportions, densities, attestation dates, census series, cartographic name and border frequencies, each with its uncertainty and corrected for how the data were collected (for example excavation intensity). Analysis is done in R, with data and code published so results can be repeated.
 
 ### Bias audit
-Every secondary source is scored on a defined rubric rather than an impression: the author's institution and country, funding, date, the share of claims supported by citations, use of primary sources, engagement with opposing scholarship, and tone. Scores are recorded with their evidence so others can contest a rating. The rubric itself is defined in Stage II Phase 0 (TCX-77) and added here.
+Every secondary source is scored on a defined rubric rather than an impression: the author's institution and country, funding, date, the share of claims supported by citations, use of primary sources, engagement with opposing scholarship, and tone. Scores are recorded with their evidence so others can contest a rating.
+
+**Status: draft for the author's approval (TCX-77, 22 November 2026).** Until it is approved, no score from it enters the evidence register.
+
+The rubric has two parts that are never added together. **Context** describes where a text comes from: it raises questions, but it is not a verdict on the text. **Practice** scores what the text does on the page. A well-funded state project can practise well, and an independent author can practise badly, so a single total would hide exactly what the audit is for.
+
+**Unit.** One chapter, or one section covering one period. A whole book is audited chapter by chapter; its profile is the list of chapter scores, never an average.
+
+**Context (risk flags: 0 none found, 1 possible, 2 clear).** Each flag records its evidence: a title page, an acknowledgement, a dated event.
+
+| Code | Criterion | 0 | 1 | 2 |
+|---|---|---|---|---|
+| C1 | Institution and country | Author independent of any body with a stake in the conclusion | Author's institution belongs to one national tradition in the dispute | Institution or editor directed by a state or party body with a declared position on the question |
+| C2 | Funding and sponsorship | None stated, or a funder with no stake | A funder from one side of the dispute, with no stated position | A sponsor with a declared position on the question, or the work commissioned for a political purpose |
+| C3 | Date and setting | Written outside an active dispute over the question | Written during a public dispute over the question | Written as a direct intervention in a dispute (a reply, a rebuttal, or for an anniversary or treaty) |
+
+**Practice (0 to 3 each, higher is better).** Each score is measured on the sample below and records its counts and page references.
+
+| Code | Criterion | How measured | 0 | 1 | 2 | 3 |
+|---|---|---|---|---|---|---|
+| P1 | Claims supported by citations | Share of the sampled factual claims with a citation that, when followed, supports that claim | under 25% | 25–49% | 50–74% | 75% or more |
+| P2 | Use of primary sources | Share of the sampled citations that reach tiers A–F of the evidence hierarchy, directly or through a named edition | under 25% | 25–49% | 50–74% | 75% or more |
+| P3 | Engagement with opposing scholarship | Whether the main works of the other tradition on the chapter's question are cited, stated fairly, and answered with evidence | not cited | cited, not engaged, or stated in a form its authors would not recognise | engaged on some points | stated fairly and answered on the main points, with evidence |
+| P4 | Tone | Evaluative or loaded terms about peoples, scholars or traditions, per 1,000 words of the sample, plus the use of national "we" or "our" for a past population | more than 5, or national "we" throughout | 2–5, or national "we" in places | under 2 | none, and contested terms named as contested |
+
+**Sampling.**
+- *Claims (P1):* take every tenth sentence that states a fact about the past, from the start of the chapter, until 30 claims (all of them if fewer).
+- *Citations (P2):* the citations attached to those claims.
+- *Tone (P4):* the same pages as the claims.
+- The sample's start, step and page range are recorded, so another reader can draw the same sample.
+
+**Engagement (P3).** List first, before scoring, the three to five works of the opposing tradition that any specialist would expect this chapter to answer. Use the bibliography and the comparative control text. Then score against that list.
+
+**Symmetry.** The rule of comparative control applies. Both texts are audited on the same period, with the same sample rule and the same list length for P3, and by the same scorer in the same week. Where two scorers are available, each scores alone, and differences of more than one point are discussed and recorded.
+
+**Recording.** One sheet per unit:
+- the text, edition siglum (`docs/research/transylvania/edition-register.md`), chapter and pages;
+- the sample (start, step, pages);
+- each score with its evidence;
+- the scorer and date.
+
+A score without evidence is not recorded. The sheets live with the research data, and the essays cite them.
+
+**What the rubric does not do.** It does not decide whether a chapter's conclusions are true; the evidence hierarchy, triangulation and the confidence scale do that. It measures how a text argues, so that a reader can weigh it, and so that the same weighing is applied to both traditions.
 
 ### Comparative control
 A national synthesis is read side by side with its counterpart, by the same rubric, chapter by chapter and period by period. A claim about one tradition needs the comparison with the other.
