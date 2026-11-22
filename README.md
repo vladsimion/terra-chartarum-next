@@ -74,7 +74,8 @@ The scholarly registry is a framework-free TypeScript module in `src/registry/`:
 ```bash
 npm ci                                     # Node 24, see .nvmrc
 npm test && npm run typecheck              # unit, integration, mutation and timing tests
-npm run registry -- check --dir <root>     # validate <root>/content, write reports/integrity-report.{json,html}
+npm run registry -- check --dir <root>     # validate <root>/content, write reports/integrity-report.{json,html} and reports/dependents.{json,html}
+npm run registry -- deps <id>              # every record that depends on <id>, directly or through others, held ones marked (spec 010)
 npm run registry -- build --out dist       # run the gate; only if it passes, write _redirects and data/relations.json for the site
 npm run registry -- mint place             # next unused local-id for a family
 npm run registry -- new place "Apulum"     # a held, proposed record with a minted id and its provenance checklist (spec 010)
@@ -84,6 +85,8 @@ npm run registry -- scan dist              # fail if built output leaks a privat
 Walkthrough: [`specs/001-scholarly-registry/quickstart.md`](specs/001-scholarly-registry/quickstart.md). Decisions: [ADR 0006](docs/adr/0006-registry-identity-and-record-model.md).
 
 Never type an ID. `registry new <family> <title>` (every family but `room` and `essay`) writes `content/<family>/<local-id>.yaml` at `proposed` and `held`, followed by what the rules will ask for, as commented keys under `# To complete before ready_for_build` and `# To complete before publishable`; that list is read from the rules, so a new rule appears in the next stub by itself ([ADR 0018](docs/adr/0018-record-scaffolding.md)). If the stub would add a gate error (a slug already taken, say), nothing is written. A pipeline outside TypeScript, such as an R script, gets an ID the same way, by running `registry mint` or `registry new` and reading stdout, and never computes one ([contracts](specs/010-authoring-tooling/contracts/cli.md)).
+
+Before correcting a record, ask what the correction touches. `registry deps <id>` lists every record that refers to it, directly (with the field) and through other records (with the path), held records included and marked; `--json` gives the same as data. `registry check --out reports` writes the whole graph beside the integrity report as `dependents.json` and a static `dependents.html`, which CI uploads with the report. A reference is whatever the gate counts as one (`referenceFields`), so the graph and the gate never disagree; `same_as[]` points outside the registry and makes no edge. Neither file is committed or deployed: `registry scan` fails if one appears in the built site ([ADR 0019](docs/adr/0019-authoring-tooling.md)).
 
 ## The essay framework and editorial pipeline (spec 003)
 

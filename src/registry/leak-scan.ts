@@ -14,8 +14,8 @@ const TEXT_EXTENSIONS = new Set([
 ]);
 const TEXT_NAMES = new Set(['_redirects', '_headers']);
 
-/** The editor's reports (spec 004 US5, contracts/cli-additions.md): never part of a site, so neither their names nor a link to them may appear in its output. */
-export const EDITOR_REPORTS = ['completeness.json', 'enrichment-queue.json', 'enrichment-queue.md'] as const;
+/** The editor's reports (spec 004 US5, contracts/cli-additions.md; spec 010 FR-009 the dependents graph): never part of a site, so neither their names nor a link to them may appear in its output. */
+export const EDITOR_REPORTS = ['completeness.json', 'enrichment-queue.json', 'enrichment-queue.md', 'dependents.json', 'dependents.html'] as const;
 
 /** Private values shorter than this cannot be told apart from ordinary text, so they are not searched for. */
 const MIN_PRIVATE_LENGTH = 5;

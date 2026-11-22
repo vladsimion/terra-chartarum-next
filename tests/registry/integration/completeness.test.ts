@@ -144,5 +144,17 @@ describe('the reports and the site', () => {
       expect(out).toContain('PRIV-LEAK');
       expect(out).toContain('enrichment-queue.json');
     });
+
+    // Spec 010 T028: the dependents graph and its viewer are CI artefacts too, never site output.
+    it.each(['dependents.json', 'dependents.html'])('fails, naming the file, when %s is copied into the output', async (name) => {
+      const site = tmp('site-deps');
+      cpSync(dir, site, { recursive: true });
+      writeFileSync(path.join(site, name), '{}');
+      const { code, out } = await run(['scan', site, '--dir', FIXTURE_ROOT]);
+      rmSync(site, { recursive: true, force: true });
+      expect(code).toBe(1);
+      expect(out).toContain('PRIV-LEAK');
+      expect(out).toContain(name);
+    });
   });
 });
