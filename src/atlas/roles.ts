@@ -1,4 +1,3 @@
-import type { FacetSummary } from './build/convert-assets.js';
 import type { FacetSelection } from './types.js';
 
 /*
@@ -52,11 +51,12 @@ export function roleValueLabel(property: string, value: string): string {
 }
 
 /**
- * The selection a layer opens with: production places only, when its role facet has them (FR-006).
- * Copies are one checkbox away, labelled "Copies kept here". Null for a layer without such a facet.
+ * The selection a network layer opens with: production places only (FR-006). Read from the features
+ * the map already loaded, so adding a layer still requests nothing but its own file (spec 005
+ * FR-006). A place-role feature names its `edition`; another layer's own `role` property is left
+ * alone. Copies are one checkbox away, labelled "Copies kept here". Null for any other layer.
  */
-export function defaultRoleSelection(facets: readonly FacetSummary[]): Record<string, FacetSelection> | null {
-  const role = facets.find((f) => f.property === 'role' && f.kind === 'category');
-  if (!role || role.kind !== 'category' || !role.values.some((v) => v.value === 'produced_at')) return null;
-  return { role: { kind: 'category', values: ['produced_at'] } };
+export function defaultRoleSelection(features: readonly Record<string, unknown>[]): Record<string, FacetSelection> | null {
+  const produced = features.some((p) => p.role === 'produced_at' && typeof p.edition === 'string');
+  return produced ? { role: { kind: 'category', values: ['produced_at'] } } : null;
 }

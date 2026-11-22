@@ -50,13 +50,15 @@ describe('the role facet', () => {
     expect(roleValueLabel('confidence', 'probable')).toBe('probable');
   });
 
-  it('opens on production places when the layer has a role facet with them', () => {
-    const facets = [{ property: 'role', label: 'Role', kind: 'category' as const, values: [{ value: 'held_at', count: 2 }, { value: 'produced_at', count: 1 }] }];
-    expect(defaultRoleSelection(facets)).toEqual({ role: { kind: 'category', values: ['produced_at'] } });
+  it('opens a network layer on its production places, read from the features it already loaded (no extra request)', () => {
+    const network = [{ role: 'produced_at', edition: 'e1' }, { role: 'held_at', edition: 'e1' }];
+    expect(defaultRoleSelection(network)).toEqual({ role: { kind: 'category', values: ['produced_at'] } });
   });
 
-  it('chooses nothing for a layer without one', () => {
-    expect(defaultRoleSelection([{ property: 'status', label: 'Status', kind: 'category', values: [{ value: 'built', count: 1 }] }])).toBeNull();
-    expect(defaultRoleSelection([{ property: 'role', label: 'Role', kind: 'category', values: [{ value: 'held_at', count: 2 }] }])).toBeNull();
+  it('chooses nothing for other layers, or a network with no production place', () => {
+    expect(defaultRoleSelection([{ name: 'Apulum', status: 'built' }])).toBeNull();
+    // a layer's own `role` property that is not a place role is left alone
+    expect(defaultRoleSelection([{ role: 'produced_at' }])).toBeNull();
+    expect(defaultRoleSelection([{ role: 'held_at', edition: 'e1' }])).toBeNull();
   });
 });

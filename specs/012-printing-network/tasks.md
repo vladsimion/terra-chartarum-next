@@ -177,7 +177,13 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 - [x] T034 [P] [US2] Document the derived asset kind in `specs/005-atlas/contracts/` (the build-outputs contract) and the README's Atlas section
   - *Done 2026-11-22:* `specs/005-atlas/contracts/build-outputs.md`, `atlas-rule-ids.md` and the README's Atlas section are updated.
 
-- [ ] T035 [US2] Full checks green, including `npm run test:e2e:atlas`. Update the dossier and Build Log rows.
+- [x] T035 [US2] Full checks green, including `npm run test:e2e:atlas`. Update the dossier and Build Log rows.
+  - *Done 2026-11-22:* the checks pass:
+    - `npm test` (3,186), `typecheck`, `lint`, the gate (PASS, 327 entities) and `status --check`;
+    - `test:e2e:atlas` (207);
+    - `test:e2e:network` (10).
+
+    Found on the way: taking the opening selection from `facets.json` made adding a layer fetch a second file, against spec 005 FR-006 (`catalogue-requests.spec.ts` failed). It is now read from the features the map already loaded, and an open inspector redraws when the selection applies.
 
 ---
 

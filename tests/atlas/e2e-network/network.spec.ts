@@ -19,6 +19,8 @@ async function openNetwork(page: Page): Promise<void> {
   await page.getByRole('button', { name: 'Add the default layers of The printing network fixtures to the map' }).click();
   await expect(page.locator('[data-active] .title')).toHaveText(['The printing network', 'Roads of the province']);
   await page.locator('#atlas-year').fill('1550');
+  // the network has opened on its production places once its features are in
+  await expect(row(page)).toHaveText('1 of 3 features at 1550');
 }
 
 test('the network opens on its production places, with the corridors beside it', async ({ page }) => {

@@ -410,6 +410,17 @@ async function start(): Promise<void> {
 
   // the map follows the store: layers added or removed, the year changed
   let previous: AtlasState = { ...store.get(), active: [] };
+  /** A network layer opens on its production places, once its features are in; copies are one checkbox away (spec 012 FR-006). */
+  function openOnProductionPlaces(slug: string, loaded: readonly LoadedFeature[]): void {
+    const now = store.get();
+    if (now.facets[slug] || !now.active.includes(slug)) return;
+    const selection = defaultRoleSelection(loaded.map((f) => f.properties as Record<string, unknown>));
+    if (!selection?.role) return;
+    store.set(setFacet(now, slug, 'role', selection.role));
+    // an inspector already open on this layer redraws, so its checkboxes show the selection the map applies
+    if (store.get().focused === slug) showInspector(store.get());
+  }
+
   store.subscribe((state) => {
     const added = state.active.filter((slug) => !previous.active.includes(slug));
     const removed = previous.active.filter((slug) => !state.active.includes(slug));
@@ -428,21 +439,12 @@ async function start(): Promise<void> {
       features.delete(slug);
     }
     if (yearChanged) controller?.setYear(state.year);
-    // a layer with a role facet opens on its production places; copies are one checkbox away (spec 012 FR-006)
-    for (const slug of added) {
-      if (state.facets[slug]) continue;
-      void fetchJson<{ facets: FacetSummary[] }>(`/data/layers/${slug}.facets.json`).then((summary) => {
-        const selection = defaultRoleSelection(summary?.facets ?? []);
-        const now = store.get();
-        if (selection?.role && now.active.includes(slug) && !now.facets[slug]) store.set(setFacet(now, slug, 'role', selection.role));
-      });
-    }
     render(state);
     if (added.length > 0 && noWebgl) {
       say('The map needs WebGL, which this browser does not offer. The overview and a table for each layer stand in for it.');
       for (const slug of added) {
         const layer = index.layers.find((l) => l.slug === slug);
-        if (layer) void fetchFeatures(slug, layer.provenance).then((loaded) => { features.set(slug, loaded); render(store.get()); });
+        if (layer) void fetchFeatures(slug, layer.provenance).then((loaded) => { features.set(slug, loaded); openOnProductionPlaces(slug, loaded); render(store.get()); });
       }
     } else if (added.length > 0) {
       void ensureMap().then(async (map) => {
@@ -453,6 +455,7 @@ async function start(): Promise<void> {
           if (!colours.has(slug)) colours.set(slug, colours.size);
           const loaded = await map.add(slug, layer.provenance, colours.get(slug) ?? 0, layer.role === 'map-overlay' ? { opacity: () => opacities.get(slug) ?? DEFAULT_OVERLAY_OPACITY } : undefined);
           features.set(slug, loaded.features);
+          openOnProductionPlaces(slug, loaded.features);
           map.setFacet(slug, facetExpression(store.get().facets[slug] ?? {}));
           // a layer added already hidden (the address said so) is drawn for no one
           if (store.get().hidden?.includes(slug)) map.setVisible(slug, false);
