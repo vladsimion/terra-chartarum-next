@@ -23,7 +23,7 @@ Decisions: ADR 0021 (place roles), ADR 0023 (person records), ADR 0014 as amende
 | `valid_to` | EDTF | no | open interval = currently held; closed = "formerly at" |
 | `holder` | text (institution) | `held_at`: yes | `PLACE-ROLE-HOLDING` |
 | `shelfmark` | text | no | — |
-| `evidence[]` | Evidence IDs | from `ready_for_build`: one or more | `PLACE-ROLE-EVIDENCE` |
+| `evidence[]` | Evidence IDs | from `ready_for_build`: one or more | `PLACE-ROLE-EVIDENCE`; a `secure` role needs one with a verified locator (`PLACE-ROLE-SECURE`) |
 
 Record-level rules:
 - `PLACE-ROLE-PRODUCED`: at most one `produced_at`.
@@ -37,7 +37,7 @@ Record-level rules:
 | `role` | `printer` (`PERSON_ROLE_VALUES`) | yes |
 | `basis` | `stated \| attributed` | yes |
 | `confidence` | shared Confidence | yes |
-| `evidence[]` | Evidence IDs | from `ready_for_build` |
+| `evidence[]` | Evidence IDs | from `ready_for_build` (`PLACE-ROLE-EVIDENCE`, `PLACE-ROLE-SECURE`) |
 
 ## Person (new family, ADR 0023)
 
@@ -72,7 +72,7 @@ Each gets a table in GLOSSARY.md's Vocabulary values section, so the editor sche
 
 | Record | Family | Notes |
 |---|---|---|
-| Liturghier, 1508 (Macarie) | bibliography_entry | `produced_at` Dealu (attributed, high); `held_at` per located copy; `survival: surviving`; `attribution_history`: Venice, Bistrița, Snagov, Govora, Cetinje |
+| Liturghier, 1508 (Macarie) | bibliography_entry | `produced_at` Dealu (attributed, `probable`: the literature's "high confidence"; `secure` only once a cited locator is verified); `held_at` per located copy; `survival: surviving`; `attribution_history`: Venice, Bistrița, Snagov, Govora, Cetinje |
 | Molitvenic, 1545; Apostol, 1547 (Ljubavić) | bibliography_entry | `produced_at` Târgoviște (stated if the colophon names it; locator pending until read) |
 | Catechism, Sibiu, 1544 | bibliography_entry | `produced_at` Sibiu; `survival: none_known` |
 | Coresi's first Târgoviște and Brașov editions | bibliography_entry | one `produced_at` each, with dates |

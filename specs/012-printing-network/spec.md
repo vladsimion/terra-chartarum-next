@@ -140,7 +140,7 @@ A reader learns that the paper of the 1508 book was Venetian and reached Wallach
   - a `held_at` without a holder or a start date;
   - a role, basis or confidence outside its vocabulary;
   - place roles on any family other than the bibliography entry.
-- **FR-003**: Each holding MUST name its holder (institution) and MAY carry a shelfmark. A copy that moved MUST be recorded as consecutive dated holdings.
+- **FR-003**: Each holding MUST name its holder (institution) and MAY carry a shelfmark. A copy that moved is recorded as consecutive dated holdings. This is an authoring convention, not a gate rule: a copy has no identity of its own apart from its holdings (ADR 0021 decision 4), so overlap between them cannot be checked.
 - **FR-004**: An edition MUST be able to carry a historiography note listing superseded attributions with their sources. These MUST NOT be drawn on the map.
 - **FR-005**: The Atlas MUST draw a pin for an edition only with its role, using one pin per role, styled by role, with a legend entry for each role shown.
 - **FR-006**: The default Atlas view MUST show production places only. Holdings MUST appear only when the reader turns them on, and current and former holdings MUST be told apart in text.

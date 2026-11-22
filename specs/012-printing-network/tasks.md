@@ -25,12 +25,12 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 | PR | Tasks | Slice |
 |---|---|---|
 | 1 | spec, plan, tasks, analysis; T001–T003 | this directory, the claim |
-| 2 | T004–T021 | US1 the record model, rules, publicity, the 1508 edition |
-| 3 | T022–T033 | US2 the derived layer, collection and map |
-| 4 | T034–T044 | US3 the person family and pages |
-| 5 | T045–T050 | US4 survival and pending |
-| 6 | T051–T054 | US5 paper through Evidence |
-| after | T055–T058 | Polish |
+| 2 | T004–T023 | US1 the record model, rules, publicity, the 1508 edition |
+| 3 | T024–T035 | US2 the derived layer, collection and map |
+| 4 | T036–T046 | US3 the person family and pages |
+| 5 | T047–T052 | US4 survival and pending |
+| 6 | T053–T056 | US5 paper through Evidence |
+| after | T057–T061 | Polish |
 
 ---
 
@@ -60,38 +60,47 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
   - `place_roles` on a `map` gives `PLACE-ROLE-FAMILY`;
   - a role, basis or confidence outside its vocabulary gives `ENUM-INVALID`;
   - a place role without `evidence` gives `PLACE-ROLE-EVIDENCE`, a warning before `ready_for_build` and an error from it;
-  - `place` pointing at a non-place gives `REF-FAMILY`.
-- [ ] T007 [P] [US1] Add named mutations for each new rule to `tests/registry/support/mutations.ts`: `PLACE-ROLE-PRODUCED`, `PLACE-ROLE-HOLDING`, `PLACE-ROLE-FAMILY`, `PLACE-ROLE-EVIDENCE`.
+  - `place` pointing at a non-place gives `REF-FAMILY`;
+  - a place role rated `secure` whose Evidence records all carry pending locators gives `PLACE-ROLE-SECURE` (FR-011); the same role citing one verified locator passes.
+- [ ] T007 [P] [US1] Add named mutations for each new rule to `tests/registry/support/mutations.ts`: `PLACE-ROLE-PRODUCED`, `PLACE-ROLE-HOLDING`, `PLACE-ROLE-FAMILY`, `PLACE-ROLE-EVIDENCE`, `PLACE-ROLE-SECURE`.
 - [ ] T008 [P] [US1] Add cases to `tests/registry/unit/citations.test.ts` (ADR 0014 amended):
   - a published, released entry with `place_roles` and no citing record is in `publicEntryIds`;
   - the same entry without `place_roles` is not;
   - a held entry with `place_roles` never is.
 - [ ] T009 [P] [US1] Add cases to `tests/registry/unit/references.test.ts`: `place_roles[].place` and `place_roles[].evidence[]`, and `attribution_history[].place` and `.source`, appear in `referenceFields`, with the expected families from `expectedFamily`.
 - [ ] T010 [P] [US1] Add a case to `tests/registry/unit/dependents.test.ts`: an edition with a place role is a direct dependent of that place through `place_roles[0].place`.
+- [ ] T011 [P] [US1] Add cases to `tests/bibliography/build/entry-page.test.ts` for the section **Where it was made and where it is kept** (`contracts/pages.md`):
+  - shown only when the entry has place roles;
+  - the production place, with its basis and confidence in words;
+  - holdings, current then former, each with holder and shelfmark;
+  - the `attribution_history` note, each superseded place with its source;
+  - the link to the network layer, present only when that layer is public;
+  - no held place, held holder or held Evidence named.
 
 ### Implementation
 
-- [ ] T011 [US1] Extend `BibliographyEntrySchema` in `src/registry/schemas/families.ts` with `place_roles`, `attribution_history` and `survival`. Every key is optional and typed only, so the rules judge the values. The Place role shape is `{ place, role, basis, confidence, valid_from, valid_to, holder, shelfmark, evidence[] }`.
-- [ ] T012 [US1] Add the reference paths to `src/registry/schemas/references.ts`:
+- [ ] T012 [US1] Extend `BibliographyEntrySchema` in `src/registry/schemas/families.ts` with `place_roles`, `attribution_history` and `survival`. Every key is optional and typed only, so the rules judge the values. The Place role shape is `{ place, role, basis, confidence, valid_from, valid_to, holder, shelfmark, evidence[] }`.
+- [ ] T013 [US1] Add the reference paths to `src/registry/schemas/references.ts`:
   - `LISTS` and `POINTS_AT`: `place_roles[].place` → place, `place_roles[].evidence` → evidence;
   - `attribution_history[].place` → place, `attribution_history[].source` → source.
   
   Handle list-of-object paths as the existing `rooms.secondary` does, or extend `valueAt` for `[]` paths. T009 and T010 go green.
-- [ ] T013 [US1] Add `place_roles[].role`, `.basis` and `.confidence` to the enumerated fields checked by `src/registry/rules/enums.ts`.
-- [ ] T014 [US1] Implement `PLACE-ROLE-PRODUCED`, `PLACE-ROLE-HOLDING`, `PLACE-ROLE-FAMILY` and `PLACE-ROLE-EVIDENCE` in a new `src/registry/rules/place-roles.ts`. Declare `requires` where a field is demanded (spec 010 R1), and register them in `src/registry/rules/index.ts`. T006 and T007 go green, and `rules-not-weakened` still passes.
-- [ ] T015 [US1] Widen `publicEntryIds` in `src/registry/citations.ts`: a published, released entry with one or more `place_roles` is public. T008 goes green, and the existing citation and reverse tests stay green.
-- [ ] T016 [US1] Project `place_roles` (without evidence IDs of held Evidence), `attribution_history` and `survival` for public entries in `src/registry/project.ts`. Extend the leak-scan fixtures so a held place or held Evidence named in a public edition's roles is caught.
-- [ ] T017 [P] [US1] Add the rule rows to `specs/001-scholarly-registry/contracts/rule-ids.md` and the fields to `specs/001-scholarly-registry/data-model.md`. Run `npm run status -- --write`.
-- [ ] T018 [US1] Mint the place **Dealu Monastery** (`registry new place "Dealu Monastery"`), distinct from Târgoviște, with its location and `geometry_provenance`. Held.
-- [ ] T019 [US1] Mint the 1508 Liturghier as a bibliography entry (`registry new bibliography_entry`), with its CSL file. Give it:
-  - `produced_at` Dealu, `basis: attributed`, `confidence: probable` or `secure` as the Evidence supports;
+- [ ] T014 [US1] Add `place_roles[].role`, `.basis` and `.confidence` to the enumerated fields checked by `src/registry/rules/enums.ts`.
+- [ ] T015 [US1] Implement `PLACE-ROLE-PRODUCED`, `PLACE-ROLE-HOLDING`, `PLACE-ROLE-FAMILY`, `PLACE-ROLE-EVIDENCE` and `PLACE-ROLE-SECURE` (reading each cited Evidence record's locator state as `LOC-SECURE-PENDING` does) in a new `src/registry/rules/place-roles.ts`. Declare `requires` where a field is demanded (spec 010 R1), and register them in `src/registry/rules/index.ts`. T006 and T007 go green, and `rules-not-weakened` still passes.
+- [ ] T016 [US1] Widen `publicEntryIds` in `src/registry/citations.ts`: a published, released entry with one or more `place_roles` is public. T008 goes green, and the existing citation and reverse tests stay green.
+- [ ] T017 [US1] Project `place_roles` (without evidence IDs of held Evidence), `attribution_history` and `survival` for public entries in `src/registry/project.ts`. Extend the leak-scan fixtures so a held place or held Evidence named in a public edition's roles is caught.
+- [ ] T018 [US1] Render the section in `src/pages/bibliography/[slug].astro` as in `contracts/pages.md`, reading the projected `place_roles` and `attribution_history`. T011 goes green.
+- [ ] T019 [P] [US1] Add the rule rows to `specs/001-scholarly-registry/contracts/rule-ids.md` and the fields to `specs/001-scholarly-registry/data-model.md`. Run `npm run status -- --write`.
+- [ ] T020 [US1] Mint the place **Dealu Monastery** (`registry new place "Dealu Monastery"`), distinct from Târgoviște, with its location and `geometry_provenance`. Held.
+- [ ] T021 [US1] Mint the 1508 Liturghier as a bibliography entry (`registry new bibliography_entry`), with its CSL file. Give it:
+  - `produced_at` Dealu, `basis: attributed`, `confidence: probable` (the literature's "high confidence"; `secure` only once a cited locator is verified, `PLACE-ROLE-SECURE`);
   - a date stated by the epilogue;
   - `attribution_history` with Venice, Bistrița, Snagov, Govora and Cetinje, each with its source;
   - one `held_at` per copy located in the literature, each with its holder (locators pending).
   
-  Each claim gets an Evidence record citing the sources in `docs/research/transylvania/bibliography-verification.md`. Held.
-- [ ] T020 [US1] Record in this file how many copies were located against the "twelve" reported (SC-002), and why any differ
-- [ ] T021 [US1] Full checks green (`npm test`, `typecheck`, gate, `status --check`). Update the dossier and Build Log rows. Move TCX-82 to In Review when the PR opens.
+  Each claim gets an Evidence record citing the sources in `docs/research/transylvania/bibliography-verification.md`, with its `analytical_dimensions` (FR-013). Held.
+- [ ] T022 [US1] Record in this file how many copies were located against the "twelve" reported (SC-002), and why any differ
+- [ ] T023 [US1] Full checks green (`npm test`, `typecheck`, gate, `status --check`). Update the dossier and Build Log rows. Move TCX-82 to In Review when the PR opens.
 
 ---
 
@@ -101,15 +110,15 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 
 ### Tests (write first, see them fail)
 
-- [ ] T022 [P] [US2] Write `tests/atlas/unit/network-features.test.ts` for `networkFeatures(records)`:
+- [ ] T024 [P] [US2] Write `tests/atlas/unit/network-features.test.ts` for `networkFeatures(records)`:
   - one feature per public edition × place role, at the place's `location`;
   - properties as in `contracts/network-layer.md`, including `formerly: true` exactly when a `held_at` has `valid_to`;
   - a place role on a held place yields no feature and an `ATLAS-ROLE-PLACE-HELD` failure naming edition and place;
   - `attribution_history` yields no feature;
   - a held edition yields nothing.
-- [ ] T023 [P] [US2] Add a case to `tests/atlas/build/convert.test.ts`: a layer with `asset: derived:place-roles` is built from the registry into `data/layers/<slug>.fgb`, with facets `role`, `basis`, `confidence`. `LAYER-TIME` and `LAYER-FACET` accept it.
-- [ ] T024 [P] [US2] Add a case to `tests/atlas/build/leak.test.ts`: the built network layer contains no held edition, held place or held holder.
-- [ ] T025 [P] [US2] Write `tests/atlas/e2e/network.spec.ts` on a fixture registry with one edition (attributed production place, one current and one former holding):
+- [ ] T025 [P] [US2] Add a case to `tests/atlas/build/convert.test.ts`: a layer with `asset: derived:place-roles` is built from the registry into `data/layers/<slug>.fgb`, with facets `role`, `basis`, `confidence`. `LAYER-TIME` and `LAYER-FACET` accept it.
+- [ ] T026 [P] [US2] Add a case to `tests/atlas/build/leak.test.ts`: the built network layer contains no held edition, held place or held holder.
+- [ ] T027 [P] [US2] Write `tests/atlas/e2e/network.spec.ts` on a fixture registry with one edition (attributed production place, one current and one former holding):
   - the default view shows one production pin;
   - "Show copies" adds two pins, labelled "A copy is kept here: …" and "Formerly kept here: …";
   - the attributed pin's accessible name says "attributed";
@@ -119,21 +128,22 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 
 ### Implementation
 
-- [ ] T026 [US2] Implement `networkFeatures` in `src/atlas/build/network-features.ts` (pure). T022 goes green.
-- [ ] T027 [US2] Accept the `derived:place-roles` asset kind in the layer rules (`src/registry/rules/atlas.ts`) and in `src/atlas/build/write-outputs.ts`, building the FlatGeobuf from `networkFeatures`. T023 and T024 go green.
-- [ ] T028 [US2] In `src/atlas-client`:
+- [ ] T028 [US2] Implement `networkFeatures` in `src/atlas/build/network-features.ts` (pure). T024 goes green.
+- [ ] T029 [US2] Accept the `derived:place-roles` asset kind in the layer rules (`src/registry/rules/atlas.ts`) and in `src/atlas/build/write-outputs.ts`, building the FlatGeobuf from `networkFeatures`. T025 and T026 go green.
+- [ ] T030 [US2] In `src/atlas-client`:
   - a role filter with `produced_at` as the default;
   - the "Show copies" toggle;
   - role symbols (produced, held, formerly as hollow, attributed as dashed);
   - a legend listing only the roles shown;
+  - the corridors drawn and labelled as approximations from their `generalized_editorial` provenance (FR-008);
   - accessible names and inspector headings that state the role in words, as in `contracts/network-layer.md`.
   
-  T025 goes green.
-- [ ] T029 [US2] Mint the network layer (`registry new layer`), with `asset: derived:place-roles`, `role: historical`, `theme: networks-circulation`, `envelope: 1508/1570`, `time_mode: per_feature`, and facets `role`, `basis`, `confidence`. Held.
-- [ ] T030 [US2] Mint the collection "The printing network, 1508–1560s" (`registry new collection`), with `default_layers` set to the network layer and the corridors layer (`tc:tc:layer:layer-000001`). Held.
-- [ ] T031 [US2] Run the Lighthouse budgets (ADR 0004) on the Atlas with the network collection; record the result here
-- [ ] T032 [P] [US2] Document the derived asset kind in `specs/005-atlas/contracts/` (the build-outputs contract) and the README's Atlas section
-- [ ] T033 [US2] Full checks green, including `npm run test:e2e:atlas`. Update the dossier and Build Log rows.
+  T027 goes green.
+- [ ] T031 [US2] Mint the network layer (`registry new layer`), with `asset: derived:place-roles`, `role: historical`, `theme: networks-circulation`, `envelope: 1508/1570`, `time_mode: per_feature`, and facets `role`, `basis`, `confidence`. Held.
+- [ ] T032 [US2] Mint the collection "The printing network, 1508–1560s" (`registry new collection`), with `default_layers` set to the network layer and the corridors layer (`tc:tc:layer:layer-000001`). Held.
+- [ ] T033 [US2] Run the Lighthouse budgets (ADR 0004) on the Atlas with the network collection; record the result here
+- [ ] T034 [P] [US2] Document the derived asset kind in `specs/005-atlas/contracts/` (the build-outputs contract) and the README's Atlas section
+- [ ] T035 [US2] Full checks green, including `npm run test:e2e:atlas`. Update the dossier and Build Log rows.
 
 ---
 
@@ -143,15 +153,16 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 
 ### Tests (write first, see them fail)
 
-- [ ] T034 [P] [US3] Write `tests/registry/unit/person.test.ts`:
+- [ ] T036 [P] [US3] Write `tests/registry/unit/person.test.ts`:
   - a person record with names and life dates passes;
   - with no names from `ready_for_build` it gives `PERSON-NAMES`;
   - a person link missing role, basis or confidence, or with a role outside `PERSON_ROLE_VALUES`, gives `PERSON-LINK`;
   - `people[].person` pointing at a non-person gives `REF-FAMILY`;
+  - a person link without Evidence gives `PLACE-ROLE-EVIDENCE` from `ready_for_build`, and one rated `secure` on pending locators only gives `PLACE-ROLE-SECURE`;
   - `person` is in `FAMILIES`.
-- [ ] T035 [P] [US3] Add named mutations for `PERSON-NAMES` and `PERSON-LINK` to `tests/registry/support/mutations.ts`
-- [ ] T036 [P] [US3] Write `tests/registry/integration/new-record.test.ts` cases for `registry new person "Coresi"`: one stub, held, with its checklist (spec 010 FR-001)
-- [ ] T037 [P] [US3] Write a page test for `src/pages/people/[slug].astro`, following the existing page tests:
+- [ ] T037 [P] [US3] Add named mutations for `PERSON-NAMES` and `PERSON-LINK` to `tests/registry/support/mutations.ts`
+- [ ] T038 [P] [US3] Write `tests/registry/integration/new-record.test.ts` cases for `registry new person "Coresi"`: one stub, held, with its checklist (spec 010 FR-001)
+- [ ] T039 [P] [US3] Write a page test for `src/pages/people/[slug].astro`, following the existing page tests:
   - editions listed in date order with their production place and date;
   - only public editions listed;
   - no path element on the page;
@@ -159,13 +170,13 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 
 ### Implementation
 
-- [ ] T038 [US3] Add `person` to `FAMILIES` (`src/registry/families.ts`) and `PersonSchema` to `src/registry/schemas/families.ts` and `index.ts`: `names[]` of `{ name, language, kind }`, `life_dates`, `bibliography[]`.
-- [ ] T039 [US3] Add `people` to `BibliographyEntrySchema`: `{ person, role, basis, confidence, evidence[] }`. Add its reference paths (`people[].person` → person, `people[].evidence` → evidence) and enum fields.
-- [ ] T040 [US3] Implement `PERSON-NAMES` and `PERSON-LINK` in `src/registry/rules/place-roles.ts`, with `requires` declarations. Project `person` and `people` in `src/registry/project.ts`. T034–T036 go green.
-- [ ] T041 [US3] Build `src/pages/people/[slug].astro` and `src/pages/people/index.astro` as in `contracts/pages.md`, and add the printer line to the edition section. T037 goes green.
-- [ ] T042 [US3] Mint Macarie, Ljubavić and Coresi (`registry new person`), and link them from their editions, with basis and confidence. Mint the 1545 Molitvenic and 1547 Apostol (`produced_at` Târgoviște; locators pending until the colophons are read), and Coresi's first Târgoviște and Brașov editions. All held, with Evidence.
-- [ ] T043 [P] [US3] Spec amendment (ADR 0023): add `person` to the family table in `specs/001-scholarly-registry/spec.md` and `data-model.md`, and the rules to `contracts/rule-ids.md`. Run `npm run status -- --write`.
-- [ ] T044 [US3] Full checks green. Update the dossier and Build Log rows.
+- [ ] T040 [US3] Add `person` to `FAMILIES` (`src/registry/families.ts`) and `PersonSchema` to `src/registry/schemas/families.ts` and `index.ts`: `names[]` of `{ name, language, kind }`, `life_dates`, `bibliography[]`.
+- [ ] T041 [US3] Add `people` to `BibliographyEntrySchema`: `{ person, role, basis, confidence, evidence[] }`. Add its reference paths (`people[].person` → person, `people[].evidence` → evidence) and enum fields.
+- [ ] T042 [US3] Implement `PERSON-NAMES` and `PERSON-LINK` in `src/registry/rules/place-roles.ts`, with `requires` declarations, and apply `PLACE-ROLE-EVIDENCE` and `PLACE-ROLE-SECURE` to `people[]` links. Project `person` and `people` in `src/registry/project.ts`. T036–T038 go green.
+- [ ] T043 [US3] Build `src/pages/people/[slug].astro` and `src/pages/people/index.astro` as in `contracts/pages.md`, and add the printer line to the edition section. T039 goes green.
+- [ ] T044 [US3] Mint Macarie, Ljubavić and Coresi (`registry new person`), and link them from their editions, with basis and confidence. Mint the 1545 Molitvenic and 1547 Apostol (`produced_at` Târgoviște; locators pending until the colophons are read), and Coresi's first Târgoviște and Brașov editions. All held, with Evidence carrying its `analytical_dimensions`.
+- [ ] T045 [P] [US3] Spec amendment (ADR 0023): add `person` to the family table in `specs/001-scholarly-registry/spec.md` and `data-model.md`, and the rules to `contracts/rule-ids.md`. Run `npm run status -- --write`.
+- [ ] T046 [US3] Full checks green. Update the dossier and Build Log rows.
 
 ---
 
@@ -173,17 +184,17 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 
 **Goal**: absence is stated, and pending readings are shown as pending. **Independent test**: the 1544 catechism shows its production place and "no copy is known"; the 1545 place-naming claim is marked pending.
 
-- [ ] T045 [P] [US4] Write `tests/registry/unit/edition-survival.test.ts`:
+- [ ] T047 [P] [US4] Write `tests/registry/unit/edition-survival.test.ts`:
   - `survival: none_known` with a current `held_at` gives `EDITION-SURVIVAL` (error);
   - `surviving` with no `held_at` warns from `ready_for_build`;
   - `unknown` with none passes.
   
   Add the named mutation.
-- [ ] T046 [P] [US4] Add an edition page test: `survival: none_known` renders "No copy is known" and no holdings list, and a claim on a pending locator renders as pending.
-- [ ] T047 [US4] Implement `EDITION-SURVIVAL` in `src/registry/rules/place-roles.ts`. T045 goes green.
-- [ ] T048 [US4] Render survival and pending states in the edition section (`src/pages/bibliography/[slug].astro`). T046 goes green.
-- [ ] T049 [US4] Mint the 1544 Sibiu catechism with `produced_at` Sibiu and `survival: none_known`, with Evidence. Held.
-- [ ] T050 [US4] Full checks green. Update the dossier and Build Log rows.
+- [ ] T048 [P] [US4] Add an edition page test: `survival: none_known` renders "No copy is known" and no holdings list, and a claim on a pending locator renders as pending.
+- [ ] T049 [US4] Implement `EDITION-SURVIVAL` in `src/registry/rules/place-roles.ts`. T047 goes green.
+- [ ] T050 [US4] Render survival and pending states in the edition section (`src/pages/bibliography/[slug].astro`). T048 goes green.
+- [ ] T051 [US4] Mint the 1544 Sibiu catechism with `produced_at` Sibiu and `survival: none_known`, with Evidence carrying its `analytical_dimensions`. Held.
+- [ ] T052 [US4] Full checks green. Update the dossier and Build Log rows.
 
 ---
 
@@ -191,19 +202,20 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 
 **Goal**: the paper claim exists only as Evidence. **Independent test**: the edition shows the paper claim with its source, locator state and confidence, and nothing about paper is drawn without it.
 
-- [ ] T051 [P] [US5] Add a case to `tests/atlas/unit/network-features.test.ts`: no feature or property is produced for paper. Add an edition page test: an Evidence record about the paper, targeting the edition, is listed with its source, locator state and confidence.
-- [ ] T052 [US5] List Evidence about the edition (other than place roles) on the edition section, under "What else is known". T051 goes green.
-- [ ] T053 [US5] Add the paper Evidence for the 1508 edition: Venetian paper through Sibiu merchants, `analytical_dimensions` including `economic`, `relations[]` to the corridors layer, locator pending until read. Held.
-- [ ] T054 [US5] Full checks green. Update the dossier and Build Log rows.
+- [ ] T053 [P] [US5] Add a case to `tests/atlas/unit/network-features.test.ts`: no feature or property is produced for paper. Add an edition page test: an Evidence record about the paper, targeting the edition, is listed with its source, locator state and confidence.
+- [ ] T054 [US5] List Evidence about the edition (other than place roles) on the edition section, under "What else is known". T053 goes green.
+- [ ] T055 [US5] Add the paper Evidence for the 1508 edition: Venetian paper through Sibiu merchants, `analytical_dimensions` including `economic`, `relations[]` to the corridors layer, locator pending until read. Held.
+- [ ] T056 [US5] Full checks green. Update the dossier and Build Log rows.
 
 ---
 
 ## Phase 8: Polish & cross-cutting concerns
 
-- [ ] T055 [P] Run `quickstart.md` end to end and fix anything it exposes
-- [ ] T056 Run the `code-review` skill (standards and spec axes) against the spec 012 PRs and address the findings
-- [ ] T057 [P] Re-run `rules-not-weakened`, and record the rules spec 012 added
-- [ ] T058 Update Jira (TCX-82 and epic TCX-79), the dossier, Build Log and any Decision Log draft (workflow step 4)
+- [ ] T057 [P] Run `quickstart.md` end to end and fix anything it exposes
+- [ ] T058 Run the `code-review` skill (standards and spec axes) against the spec 012 PRs and address the findings
+- [ ] T059 [P] Re-run `rules-not-weakened`, and record the rules spec 012 added
+- [ ] T060 **(author)** Run the SC-003 check: five readers, the 1508 edition in the default map view, asked "where was this book made?". Record the answers in the dossier
+- [ ] T061 Update Jira (TCX-82 and epic TCX-79), the dossier, Build Log and any Decision Log draft (workflow step 4)
 
 ---
 
@@ -212,19 +224,19 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 - Setup → Foundation (T004, T005) → US1 → US2. US2 needs the place roles and the publicity rule from US1.
 - US3 needs US1 (the edition entry it links from). US4 and US5 need US1 only, and are independent of US2 and US3.
 - Within each story: tests first and red → schema and references → rules → projection and pages → content → checks.
-- The content tasks (T018, T019, T042, T049, T053) need the author's reading for anything stated as `verified`. Until then, locators are `pending`.
+- The content tasks (T020, T021, T044, T051, T055) need the author's reading for anything stated as `verified`. Until then, locators are `pending`.
 
 ### Parallel opportunities
 
 - In every story, the test tasks marked [P] touch different files.
-- T017 and T043 (spec 001 documentation) run beside implementation.
+- T019 and T045 (spec 001 documentation) run beside implementation.
 - US4 and US5 can run in parallel once US1 is merged.
 
 ### Parallel example: User Story 1
 
 ```text
-T006 place-roles.test.ts   T007 mutations   T008 citations.test.ts   T009 references.test.ts   T010 dependents.test.ts
-→ T011 schema → T012 references → T013 enums → T014 rules → T015 publicEntryIds → T016 projection
+T006 place-roles.test.ts   T007 mutations   T008 citations.test.ts   T009 references.test.ts   T010 dependents.test.ts   T011 entry-page.test.ts
+→ T012 schema → T013 references → T014 enums → T015 rules → T016 publicEntryIds → T017 projection → T018 edition section
 ```
 
 ## Implementation Strategy
