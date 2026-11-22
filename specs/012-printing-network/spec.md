@@ -22,6 +22,7 @@ It builds on ADR 0021 (place roles) and, where a term's history is shown, on ADR
 
 - Q: Which record family holds a printer (Macarie, Ljubavić, Coresi)? → A: A new `person` family, added to ADR 0006's closed family list by a spec amendment, as ADR 0022 does for `term`. Cartographer stays the profile of a maker of maps. A person who also made maps is one person record, which a Cartographer profile may point to; the two are not merged in this spec.
 - Q: What do readers see from this spec? → A: The Atlas layer of the network, plus edition and printer pages. A short essay on the network is a later story, under the essay framework (spec 003). The Târgoviște essay (TCX-84) already tells part of the story.
+- Q: Should a printed edition that is published and released get its own public page even when no public record cites it, overriding ADR 0014's rule for bibliography entries? → A: Yes, for an edition that carries place roles. It is studied for its own sake, like a map, so it is public when published and released. Every other bibliography entry keeps ADR 0014's rule (public only when a public record cites it). Recorded as an amendment to ADR 0014.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -150,7 +151,7 @@ A reader learns that the paper of the 1508 book was Venetian and reached Wallach
 - **FR-011**: A claim resting on a pending locator MUST be shown as pending and MUST NOT be rated `secure`.
 - **FR-012**: The paper claim, and any claim about materials or trade, MUST appear only through Evidence records. Nothing about paper is drawn without one.
 - **FR-013**: Every claim in the network MUST carry its analytical dimensions (Principle XI, `DIM-MISSING` from `ready_for_build`).
-- **FR-014**: Readers MUST see the network through the Atlas layer and through a page for each edition and each printer. Each page lists the record's place roles in words, and those places link to the layer. An essay on the network is out of scope for this spec.
+- **FR-014**: Readers MUST see the network through the Atlas layer and through a page for each edition and each printer. An edition that carries place roles is public when published and released, whether or not a public record cites it. A bibliography entry without place roles keeps ADR 0014's rule (amended 2026-11-22). Each page lists the record's place roles in words, and those places link to the layer. An essay on the network is out of scope for this spec.
 - **FR-015**: The `person` family MUST be added to the closed family list by amending spec 001 and ADR 0006 (decided in ADR 0023). A person record carries names (with language and kind), life dates in EDTF, and the editions linked to it. It follows the same held/released and lifecycle rules as every other family, so a person appears publicly only when published and released.
 
 ### Key Entities
@@ -177,7 +178,7 @@ A reader learns that the paper of the 1508 book was Venetian and reached Wallach
 
 - ADR 0021 and ADR 0022 are accepted and merged (PR #147). This spec implements ADR 0021's rules and uses ADR 0022 only if a term record is needed for a name. None is planned in this spec.
 - The corridor geometry comes from a thin slice of TCX-86. If it is not ready, the layer ships without corridors, and they are added when they arrive.
-- The bibliography entries for the editions follow spec 006: one CSL file each, and held until a public record cites them.
+- The bibliography entries for the editions follow spec 006: one CSL file each. Because they carry place roles, they are public when published and released, without waiting for a citing record (FR-014, ADR 0014 as amended).
 - Holdings are taken from published catalogues and literature, with pending locators until a person checks the institution's own record. No library is visited for this spec.
 - The 1508 edition's attribution, date and copies are taken from the sources checked in `docs/research/transylvania/bibliography-verification.md` and from the Princeton "Mapping Eastern Europe" entry. Each becomes an Evidence record with its locator.
 - Scope ends with Coresi's Brașov work of the 1560s. Later Romanian printing belongs to later work, and to *Between Three Empires* where it falls after 1700.
