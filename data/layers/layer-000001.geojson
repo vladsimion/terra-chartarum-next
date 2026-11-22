@@ -1,0 +1,87 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      24.15,
+      45.79
+     ],
+     [
+      24.26,
+      45.57
+     ],
+     [
+      24.37,
+      45.1
+     ],
+     [
+      24.68,
+      45.14
+     ],
+     [
+      25.46,
+      44.93
+     ]
+    ]
+   },
+   "properties": {
+    "id": "cor-olt-red-tower",
+    "name": "Sibiu to Târgoviște by the Red Tower pass and the Olt",
+    "corridor": "olt-red-tower",
+    "geometry_provenance": "generalized_editorial",
+    "confidence": "low",
+    "review_status": "candidate",
+    "valid_from": 1400,
+    "valid_to": 1700,
+    "via": "Sibiu | Turnu Roșu (Red Tower) pass | Râmnicu Vâlcea | Curtea de Argeș | Târgoviște",
+    "note": "Schematic: the Olt gorge south of Sibiu, then east along the hills to the seats of Argeș and Târgoviște. The line joins named towns and the pass; it is not the road's course.",
+    "citation": "Editorial corridor, Stage III thin slice (TCX-86); route evidence to be added as Evidence records"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      25.6,
+      45.65
+     ],
+     [
+      25.37,
+      45.52
+     ],
+     [
+      25.17,
+      45.4
+     ],
+     [
+      25.05,
+      45.27
+     ],
+     [
+      25.46,
+      44.93
+     ]
+    ]
+   },
+   "properties": {
+    "id": "cor-bran-rucar",
+    "name": "Brașov to Târgoviște by the Bran–Rucăr pass",
+    "corridor": "bran-rucar",
+    "geometry_provenance": "generalized_editorial",
+    "confidence": "low",
+    "review_status": "candidate",
+    "valid_from": 1400,
+    "valid_to": 1700,
+    "via": "Brașov | Bran | Rucăr | Câmpulung | Târgoviște",
+    "note": "Schematic: the Bran–Rucăr crossing and Câmpulung, one route between Brașov and Târgoviște (the Prahova valley is another, not drawn yet). The line joins named places; it is not the road's course.",
+    "citation": "Editorial corridor, Stage III thin slice (TCX-86); route evidence to be added as Evidence records"
+   }
+  }
+ ]
+}
