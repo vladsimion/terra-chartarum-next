@@ -60,7 +60,7 @@ Canonical seven, in order: **Earth, Map, City, Border, Road, Archive, Theatre**.
 - **interpretative**: `historiographical`, `sociological`, `mythological`, `philosophical`
 - **validation**: `methodological`
 
-An Evidence record carries `analytical_dimensions` (a list). Unknown values fail validation (`ENUM-INVALID`). A rule that requires the field lands with the tagging of Stage I's evidence (ADR 0020 §7).
+An Evidence record carries `analytical_dimensions` (a list). Unknown values fail validation (`ENUM-INVALID`). `DIM-MISSING` requires one or more values from `ready_for_build` (a warning before that); it landed with the tagging of Stage I's evidence (ADR 0020 §7, TCX-71, TCX-73).
 
 ## Consequences
 - Spec 007 US1 moves into v1 scope.

@@ -65,6 +65,7 @@ export const evidence = (n = 1, o: Partial<RegistryRecord> = {}) =>
     locator: { value: 'p. 12', state: 'pending', proposed_by: 'person' },
     evidence_type: 'textual',
     confidence: 'probable',
+    analytical_dimensions: ['historical'],
     rights: { licence: 'CC-BY-4.0' },
     ...o,
   });

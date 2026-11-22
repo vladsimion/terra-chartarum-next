@@ -14,3 +14,5 @@ locator:
   proposed_by: person
 evidence_type: textual
 confidence: possible
+analytical_dimensions:
+  - historical

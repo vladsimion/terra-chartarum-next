@@ -24,6 +24,6 @@ Not yet published. Numbered when it is (`docs/confluence/README.md`).
 - a warning-only rule (the gate's mutation harness requires every rule to be provable as an error).
 
 **Consequences:**
-- the rule requiring `analytical_dimensions` lands with the tagging of Stage I's evidence, before Stage II Phase 1 opens;
+- the rule requiring `analytical_dimensions` (`DIM-MISSING`, error from `ready_for_build`) landed with the tagging of Stage I's 15 evidence records, before Stage II Phase 1 opens;
 - research exits now need tagged claims and written hypotheses; draft exits need bias-audit scores;
 - the `portal_dimensions` field keeps its name until a later migration.

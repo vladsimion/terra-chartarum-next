@@ -18,3 +18,5 @@ rights:
   licence: CC-BY-4.0
 provenance_chain:
   - prov-0001
+analytical_dimensions:
+  - historical

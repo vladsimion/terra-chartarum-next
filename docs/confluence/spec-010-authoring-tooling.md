@@ -12,8 +12,8 @@ Programme dossier for spec 010, written against the fourteen-point contract in [
 | Last reconciliation | 2026-11-21, US1 on `claude/modest-noether-nlycur`. The counts this spec does not own are generated below. |
 
 <!-- status:begin -->
-- Registry rules: 94
-- Named mutations: 124
+- Registry rules: 95
+- Named mutations: 125
 - Entities: 311 (0 errors, 111 warnings)
 <!-- status:end -->
 

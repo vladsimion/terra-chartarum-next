@@ -199,6 +199,7 @@ const US2_MUTATIONS: Mutation[] = [
     apply: editOf('evidence', (r) => { r.geometry_provenance = 'scholarly_reconstruction'; r.lifecycle = READY; }, 1),
   },
   { name: 'evidence loses its source', rule: 'PROV-SOURCE', apply: editOf('evidence', (r) => { delete r.source; r.lifecycle = READY; }, PLAIN) },
+  { name: 'evidence loses its analytical dimensions', rule: 'DIM-MISSING', apply: editOf('evidence', (r) => { delete r.analytical_dimensions; r.lifecycle = READY; }, PLAIN) },
   {
     name: 'evidence uses modern reference geometry',
     rule: 'PROV-MODERN-AS-EVIDENCE',
