@@ -21,7 +21,8 @@ export const LIFECYCLE_VALUES = [
 /** Lifecycle values outside the main line, reachable from any state (ADR 0003 §1). */
 export const SIDE_STATES = ['superseded', 'blocked'] as const;
 export const RELEASE_VALUES = ['held', 'released'] as const;
-export const CONFIDENCE_VALUES = ['secure', 'probable', 'possible', 'conjectural', 'unknown'] as const;
+/** Ordinal 4 → 0, then `unknown` (ADR 0003 §3 as amended by ADR 0020; never the lowest level). */
+export const CONFIDENCE_VALUES = ['secure', 'probable', 'possible', 'conjectural', 'unsupported', 'unknown'] as const;
 export const GEOMETRY_PROVENANCE_VALUES = [
   'source_geometry',
   'georeferenced_trace',
@@ -40,7 +41,32 @@ export const SILENCE_STATE_VALUES = [
   'meaningful_silence',
 ] as const;
 export const LOCATOR_STATE_VALUES = ['verified', 'pending'] as const;
+/** Portal facets (ADR 0003 §6). The field keeps its old name, `portal_dimensions`, until it is migrated. */
 export const PORTAL_DIMENSION_VALUES = ['Measure', 'Witness', 'Use', 'Cosmos', 'Power', 'Silence'] as const;
+
+/**
+ * The 13 analytical dimensions (constitution Principle XI, ADR 0020, ADR 0003 §8), by group.
+ * Definitions live once, in FRAMEWORK.md.
+ */
+export const ANALYTICAL_DIMENSION_GROUPS = {
+  empirical: [
+    'historical',
+    'geographical',
+    'social_demographic',
+    'anthropological_archaeological',
+    'linguistic',
+    'religious',
+    'economic',
+    'political',
+  ],
+  interpretative: ['historiographical', 'sociological', 'mythological', 'philosophical'],
+  validation: ['methodological'],
+} as const;
+export const ANALYTICAL_DIMENSION_VALUES = [
+  ...ANALYTICAL_DIMENSION_GROUPS.empirical,
+  ...ANALYTICAL_DIMENSION_GROUPS.interpretative,
+  ...ANALYTICAL_DIMENSION_GROUPS.validation,
+] as const;
 
 export const LAYER_ROLE_VALUES = ['context', 'historical', 'evidence', 'map-overlay'] as const;
 export const ATTESTATION_FORM_VALUES = ['name', 'depiction', 'silence'] as const;
@@ -55,6 +81,7 @@ export const EvidenceType = z.enum(EVIDENCE_TYPE_VALUES);
 export const SilenceState = z.enum(SILENCE_STATE_VALUES);
 export const LocatorState = z.enum(LOCATOR_STATE_VALUES);
 export const PortalDimension = z.enum(PORTAL_DIMENSION_VALUES);
+export const AnalyticalDimension = z.enum(ANALYTICAL_DIMENSION_VALUES);
 
 export type LifecycleValue = (typeof LIFECYCLE_VALUES)[number];
 

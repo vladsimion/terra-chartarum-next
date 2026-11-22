@@ -1,6 +1,7 @@
 import { AUTHORITIES } from '../families.js';
 import { BIBLIOGRAPHY_SECTIONS } from '../schemas/bibliography-section.js';
 import {
+  ANALYTICAL_DIMENSION_VALUES,
   ATTESTATION_FORM_VALUES,
   CONFIDENCE_VALUES,
   EVIDENCE_TYPE_VALUES,
@@ -41,6 +42,25 @@ const ENUM_FIELDS: { path: string; values: readonly string[] }[] = [
   { path: 'section', values: BIBLIOGRAPHY_SECTIONS },
 ];
 
+/**
+ * Every entry of a list field must be a known value. `strict` also reports a field that is present
+ * but not a list (analytical_dimensions, ADR 0020); portal_dimensions keeps its looser original check.
+ */
+function listMembers(record: RegistryRecord, field: string, values: readonly string[], strict: boolean): Finding[] {
+  const list = record[field];
+  if (list === undefined) return [];
+  if (!Array.isArray(list)) {
+    return strict ? [{ record, field, value: list, expected: `a list of ${values.join(' | ')}` }] : [];
+  }
+  const findings: Finding[] = [];
+  list.forEach((value, i) => {
+    if (typeof value !== 'string' || !values.includes(value)) {
+      findings.push({ record, field: `${field}[${i}]`, value, expected: `one of ${values.join(' | ')}` });
+    }
+  });
+  return findings;
+}
+
 export const enumInvalid = defineRule({
   id: 'ENUM-INVALID',
   from: 'always',
@@ -54,19 +74,8 @@ export const enumInvalid = defineRule({
           findings.push({ record, field: path, value, expected: `one of ${values.join(' | ')}` });
         }
       }
-      const dimensions = record.portal_dimensions;
-      if (Array.isArray(dimensions)) {
-        dimensions.forEach((value, i) => {
-          if (typeof value !== 'string' || !(PORTAL_DIMENSION_VALUES as readonly string[]).includes(value)) {
-            findings.push({
-              record,
-              field: `portal_dimensions[${i}]`,
-              value,
-              expected: `one of ${PORTAL_DIMENSION_VALUES.join(' | ')}`,
-            });
-          }
-        });
-      }
+      findings.push(...listMembers(record, 'portal_dimensions', PORTAL_DIMENSION_VALUES, false));
+      findings.push(...listMembers(record, 'analytical_dimensions', ANALYTICAL_DIMENSION_VALUES, true));
     }
     return findings;
   },

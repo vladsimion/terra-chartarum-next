@@ -101,7 +101,7 @@ Owned here: the entry, the Source's `entry`, `bibliography[]` on datasets and la
 
 <!-- status:begin -->
 - Registry rules: 94
-- Named mutations: 123
+- Named mutations: 124
 - Entities: 311 (0 errors, 111 warnings)
 <!-- status:end -->
 

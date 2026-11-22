@@ -97,7 +97,7 @@ Owned here: the essay record, the stage table and the body tags. Spec 001 owns t
 
 <!-- status:begin -->
 - Registry rules: 94
-- Named mutations: 123
+- Named mutations: 124
 - Entities: 311 (0 errors, 111 warnings)
 <!-- status:end -->
 
