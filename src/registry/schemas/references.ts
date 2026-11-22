@@ -99,3 +99,21 @@ export function referenceFields(record: RegistryRecord): RefField[] {
   }
   return refs;
 }
+
+/** A declared reference path of a family, for tools that describe references without a record (spec 010 editor schemas). */
+export interface ReferencePath {
+  /** Dotted path, without an index: `rooms.secondary`. */
+  path: string;
+  /** True for a list of ids, false for one id. */
+  list: boolean;
+  /** The family the id must be of, or null when it may point at any. */
+  family: string | null;
+}
+
+/** Every reference path a record of this family may carry, from the same tables `referenceFields` reads. */
+export function referencePaths(family: string): ReferencePath[] {
+  const lists = [...(LISTS['*'] ?? []), ...(LISTS[family] ?? [])].map((path) => ({ path, list: true, family: expectedFamily(family, path) }));
+  const scalars = [...(SCALARS['*'] ?? []), ...(SCALARS[family] ?? [])].map((path) => ({ path, list: false, family: expectedFamily(family, path) }));
+  const target = family === 'evidence' ? [{ path: 'target.entity', list: false, family: null }] : [];
+  return [...lists, ...scalars, ...target];
+}

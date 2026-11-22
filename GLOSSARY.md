@@ -110,5 +110,81 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Import snapshot** | The pinned checkout of the legacy repository, at a recorded commit, that the importer reads. | A backup |
 | **Redirect inventory** | Every old URL with its one outcome: served in place by the frozen archive, or one redirect rule. | The redirect file (which is generated from it) |
 
+## Vocabulary values
+
+One table per shared vocabulary, one row per value. The editor schemas (spec 010 US3) show these definitions as hover text, and generation fails if a value of the vocabulary's constant in `src/registry/schemas/shared.ts` has no row here, or a row names a value the constant does not have. The analytical dimensions have no table here: their definitions live once, in `FRAMEWORK.md` (Principle XI).
+
+### `lifecycle`
+
+| value | definition |
+|---|---|
+| `proposed` | Recorded as a candidate; research has not started. An essay at Concept. |
+| `researching` | Sources are being found and read. An essay at Corpus or Research. |
+| `verified` | What the record states has been checked against its sources. An essay at Outline or Draft. |
+| `ready_for_build` | Complete enough to build from; the gate's `ready_for_build` checks apply. |
+| `in_build` | Being built into pages, layers or assets. |
+| `qa` | Under quality assurance: accessibility, performance and the scholarly sign-offs. An essay at Design QA. |
+| `publishable` | Every check passed; becomes public once released. |
+| `published` | Live; public only when also released. An essay at Publish or Cross-link. |
+| `superseded` | Replaced by its successor (`superseded_by`) or withdrawn; its address keeps a tombstone. Reachable from any state. |
+| `blocked` | Stopped by a problem that must be solved before it can move on. Reachable from any state. |
+
+### `release`
+
+| value | definition |
+|---|---|
+| `held` | Not public. Every entity starts held, and held metadata never appears in public pages, payloads or URLs. |
+| `released` | Released by the editor; public once its lifecycle is `published`. |
+
+### `confidence`
+
+| value | definition |
+|---|---|
+| `secure` | 4: two or more independent tier A–C sources agree, no credible contrary evidence, and a verified locator. |
+| `probable` | 3: one strong source plus consistent indirect evidence. |
+| `possible` | 2: consistent with the evidence but not directly supported, or contested. |
+| `conjectural` | 1: resting on inference or late sources; editorial inference. |
+| `unsupported` | 0: contradicted, or no evidential basis; recorded so it can be shown as refuted. |
+| `unknown` | Not yet assessed. Not a level, and never treated as the lowest one. |
+
+### `geometry_provenance`
+
+| value | definition |
+|---|---|
+| `source_geometry` | Geometry taken directly from a source. Documentary. |
+| `georeferenced_trace` | Traced from a georeferenced historical map. Documentary. |
+| `scholarly_reconstruction` | Reconstructed by scholarly inference, not read off a source; the record also carries `reconstruction: true`. |
+| `generalized_editorial` | Simplified or generalised by the editor for display; an editorial reading, not evidence. |
+| `modern_reference` | Present-day geometry used for orientation. Never historical evidence, so only on context layers. |
+
+### `silence_state`
+
+| value | definition |
+|---|---|
+| `non_survival` | The source, or the part that would name the place, does not survive. |
+| `non_survey` | The source's makers did not survey or visit the area. |
+| `non_request` | The source was not made to record places of this kind. |
+| `alternative_naming` | The place may be in the source under another name that has not been matched. |
+| `outside_frame` | The place lies outside the area or period the source covers. |
+| `source_not_applicable` | The source is not of a kind that would name the place. |
+| `meaningful_silence` | The source covers the place and would be expected to name it; the omission is itself evidence. |
+
+### `locator.state`
+
+| value | definition |
+|---|---|
+| `verified` | Read against `consulted_copy` by a person, who is named with the date (`verified_by`, `verified_on`). |
+| `pending` | Not yet read against the page by a person, including every locator found or proposed by AI. Shown to readers as pending; cannot support a `secure` claim. |
+
+### `evidence_type`
+
+| value | definition |
+|---|---|
+| `textual` | A written source: chronicle, charter, letter, itinerary, inscription read as text. |
+| `cartographic` | A map, chart or plan. |
+| `archaeological` | Material remains: excavated features, finds, survey data. |
+| `archival` | An administrative record kept in an archive: census, tax register, cadastre, court record. |
+| `other` | A witness of a kind not listed; the record says what it is. |
+
 ## Rule of thumb
 *The essay interprets; the Atlas spatialises; the Handbook documents; the dataset substantiates.*
