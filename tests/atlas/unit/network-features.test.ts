@@ -41,6 +41,8 @@ describe('networkFeatures', () => {
 
   it('carries the contract’s properties, and says in words what each pin is', () => {
     const [m, c, f] = build([dealu, library, venice, edition()]).features;
+    // from its printing to the end of the layer's envelope: no valid_to of its own
+    expect(m?.properties.valid_to).toBeUndefined();
     expect(m?.properties).toMatchObject({
       edition: entry(1).id,
       title: 'Liturghier, 1508',
@@ -50,7 +52,6 @@ describe('networkFeatures', () => {
       basis: 'attributed',
       confidence: 'probable',
       valid_from: '1508-11-10',
-      valid_to: '1508-11-10',
       formerly: false,
       label: 'Made here (attributed, probable): Liturghier, 1508',
     });

@@ -4,6 +4,7 @@ import { geojson } from 'flatgeobuf';
 import { clampOpacity } from '../atlas/overlay.js';
 import { DATE_UNCERTAIN, STYLE_CLASSES, lineDash, styleFor, type StyleClass } from '../atlas/provenance-style.js';
 import { fetchFeatures, type LoadedFeature } from './features.js';
+import { ROLE_SYMBOLS, type RoleSymbol } from '../atlas/roles.js';
 
 /*
  * The map (spec 005 US1, research R1, R4, R7): MapLibre, loaded only when the first layer is added,
@@ -42,6 +43,35 @@ const css = (name: string): string => getComputedStyle(document.documentElement)
 const colourFor = (index: number): string => css(PALETTE[index % PALETTE.length] ?? PALETTE[0]!);
 
 /** A repeating hatch tile in one colour, as the image a polygon fill uses. */
+/** A place-role symbol (spec 012): its shape, outline and fill as `roles.ts` describes them in words. */
+function roleImage(symbol: RoleSymbol, colour: string, panel: string): { width: number; height: number; data: Uint8Array } {
+  const style = ROLE_SYMBOLS[symbol];
+  const size = 28;
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d')!;
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = colour;
+  ctx.fillStyle = style.filled ? colour : panel;
+  if (style.outline === 'dashed') ctx.setLineDash([4, 3]);
+  ctx.beginPath();
+  if (style.shape === 'square') ctx.rect(5, 5, size - 10, size - 10);
+  else ctx.arc(size / 2, size / 2, size / 2 - 5, 0, Math.PI * 2);
+  ctx.fill();
+  // a dashed outline needs a gap to read as one: the panel shows through it
+  if (style.outline === 'dashed') {
+    ctx.strokeStyle = panel;
+    ctx.setLineDash([]);
+    ctx.stroke();
+    ctx.strokeStyle = colour;
+    ctx.setLineDash([4, 3]);
+  }
+  ctx.stroke();
+  const { data, width, height } = ctx.getImageData(0, 0, size, size);
+  return { width, height, data: new Uint8Array(data.buffer) };
+}
+
 function hatchImage(kind: 'diagonal-hatch' | 'cross-hatch', colour: string): { width: number; height: number; data: Uint8Array } {
   const size = 16;
   const canvas = document.createElement('canvas');
@@ -107,7 +137,7 @@ const opacityAt = (year: number, base: number): ExpressionSpecification => ['cas
 
 interface Drawn {
   /** Style layer ids with the opacity they have when certain. */
-  styleLayers: { id: string; property: 'fill-opacity' | 'line-opacity' | 'circle-opacity'; base: number; where: ExpressionSpecification }[];
+  styleLayers: { id: string; property: 'fill-opacity' | 'line-opacity' | 'circle-opacity' | 'icon-opacity'; base: number; where: ExpressionSpecification }[];
   features: LoadedFeature[];
 }
 
@@ -236,7 +266,8 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
       styleLayers.push({ id: id('line'), property: 'line-opacity', base: 1, where: lineWhere });
       // a point cannot be dashed: a documentary point is solid, the other classes are a ring, wider for the generalised
       const hollow = cls.id !== 'documentary';
-      const pointWhere = forClass(isPoint);
+      // a point with a place role is drawn by its role's symbol below, never as a plain dot (spec 012 FR-005)
+      const pointWhere: ExpressionSpecification = ['all', forClass(isPoint), ['!', ['has', 'role']]];
       map.addLayer({
         id: id('point'),
         type: 'circle',
@@ -252,6 +283,37 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
         },
       });
       styleLayers.push({ id: id('point'), property: 'circle-opacity', base: hollow ? 0.1 : 1, where: pointWhere });
+    }
+    if (features.some((f) => typeof f.properties.role === 'string')) {
+      const panel = css('--panel') || '#0e0c08';
+      const image = (symbol: RoleSymbol) => {
+        const name = `role:${symbol}:${colour}`;
+        if (!map.hasImage(name)) map.addImage(name, roleImage(symbol, colour, panel), { pixelRatio: 2 });
+        return name;
+      };
+      const roleWhere: ExpressionSpecification = ['all', isPoint, ['has', 'role']];
+      const symbolId = `atlas:${slug}:roles`;
+      map.addLayer({
+        id: symbolId,
+        type: 'symbol',
+        source: `atlas:${slug}`,
+        filter: filterOf(slug, roleWhere),
+        layout: {
+          'icon-image': [
+            'case',
+            ['==', ['get', 'role'], 'produced_at'],
+            ['case', ['==', ['get', 'basis'], 'attributed'], image('made-attributed'), image('made')],
+            ['==', ['get', 'formerly'], true],
+            image('formerly'),
+            image('kept'),
+          ],
+          'icon-allow-overlap': true,
+          'icon-ignore-placement': true,
+        },
+        paint: { 'icon-opacity': opacityAt(year, 1) },
+      });
+      styleLayers.push({ id: symbolId, property: 'icon-opacity', base: 1, where: roleWhere });
+      container.dataset.roleSymbols = JSON.stringify({ ...JSON.parse(container.dataset.roleSymbols ?? '{}'), [slug]: true });
     }
     return { styleLayers, features };
   }

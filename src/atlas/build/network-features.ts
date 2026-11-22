@@ -78,8 +78,8 @@ export function networkFeatures(records: readonly RegistryRecord[], layer: strin
       // the feature table and every list that names a feature read `name` (spec 005 FR-016): the same words as the pin
       properties.name = properties.label;
       if (produced) {
-        // the moment of printing is the network's own time
-        if (text(role.valid_from)) Object.assign(properties, { valid_from: role.valid_from, valid_to: text(role.valid_to) ?? role.valid_from });
+        // the network accumulates: a place where a book was made is on the map from its printing to the end of the layer's envelope
+        if (text(role.valid_from)) Object.assign(properties, { valid_from: role.valid_from });
       } else {
         // custody dates are text: a copy kept since 1950 is not part of the network's 1508-1570
         Object.assign(properties, {

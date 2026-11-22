@@ -1,3 +1,4 @@
+import { roleValueLabel } from '../atlas/roles.js';
 import type { FacetSummary } from '../atlas/build/convert-assets.js';
 import type { Georef, LayerInfo } from '../atlas/inspector-data.js';
 import { HANDBOOK_LINKS } from '../atlas/handbook-links.js';
@@ -53,7 +54,7 @@ function facetControls(summaries: readonly FacetSummary[], selections: Readonly<
           const values = [...group.querySelectorAll<HTMLInputElement>('input:checked')].map((b) => b.value);
           handlers.onFacet(facet.property, values.length > 0 ? { kind: 'category', values } : null);
         });
-        label.append(box, ` ${value} (${count})`);
+        label.append(box, ` ${roleValueLabel(facet.property, value)} (${count})`);
         group.append(label);
       }
       section.append(group);

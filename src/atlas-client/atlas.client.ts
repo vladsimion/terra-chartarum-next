@@ -4,6 +4,7 @@ import type { FacetSummary } from '../atlas/build/convert-assets.js';
 import type { LayerInfo } from '../atlas/inspector-data.js';
 import { kindOf, themeLabel } from '../atlas/labels.js';
 import { legendOf } from '../atlas/provenance-style.js';
+import { defaultRoleSelection, roleLegend } from '../atlas/roles.js';
 import type { AtlasIndex, AtlasState } from '../atlas/types.js';
 import { classesPresent, summarise, type BuiltFeature } from '../atlas/visible.js';
 import { activate, activateDefaults, activeLayers, clearFacet, deactivate, focus, initialState, resetFacets, setFacet, setLens, setVisible, setYear, toggleRelevant } from '../atlas/view-state.js';
@@ -322,7 +323,9 @@ async function start(): Promise<void> {
       const shown = layers.filter((a) => !a.hidden);
       const classes = shown.flatMap(({ slug, layer }) => classesPresent((features.get(slug) ?? []).map((f) => f.properties as BuiltFeature), layer.provenance));
       const uncertain = shown.some(({ slug }) => summarise((features.get(slug) ?? []).map((f) => f.properties as BuiltFeature), state.year).uncertain > 0);
-      const entries = legendOf(classes, uncertain);
+      // the roles drawn (spec 012): only those the facet selection keeps, so the legend never lists a pin that is not there
+      const roles = roleLegend(shown.flatMap(({ slug }) => (features.get(slug) ?? []).map((f) => f.properties as Record<string, unknown>).filter((p) => matchesFacets(p, state.facets[slug] ?? {}))));
+      const entries = [...legendOf(classes, uncertain), ...roles];
       legend.hidden = entries.length === 0;
       const items = $<HTMLElement>('ul', legend);
       items?.replaceChildren(
@@ -425,6 +428,15 @@ async function start(): Promise<void> {
       features.delete(slug);
     }
     if (yearChanged) controller?.setYear(state.year);
+    // a layer with a role facet opens on its production places; copies are one checkbox away (spec 012 FR-006)
+    for (const slug of added) {
+      if (state.facets[slug]) continue;
+      void fetchJson<{ facets: FacetSummary[] }>(`/data/layers/${slug}.facets.json`).then((summary) => {
+        const selection = defaultRoleSelection(summary?.facets ?? []);
+        const now = store.get();
+        if (selection?.role && now.active.includes(slug) && !now.facets[slug]) store.set(setFacet(now, slug, 'role', selection.role));
+      });
+    }
     render(state);
     if (added.length > 0 && noWebgl) {
       say('The map needs WebGL, which this browser does not offer. The overview and a table for each layer stand in for it.');
