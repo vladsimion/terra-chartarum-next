@@ -5,7 +5,7 @@ Programme dossier for spec 010, written against the fourteen-point contract in [
 | | |
 |---|---|
 | Programme type | Tooling: four maintainer tools that remove authoring friction without weakening a validation rule; no automation writes a canonical record |
-| Status | **Under way.** Grilled (#122, ADR 0018 and ADR 0019), specified (#125), planned and tasked (#126), analysed and amended (#127). **US1, `registry new <family>`, built on #127. US2, the dependents graph and `registry deps`, built on #136. US3, editor schemas, built on #138.** US4, the link and manifest checker, built on #PR. |
+| Status | **Under way.** Grilled (#122, ADR 0018 and ADR 0019), specified (#125), planned and tasked (#126), analysed and amended (#127). **US1, `registry new <family>`, built on #127. US2, the dependents graph and `registry deps`, built on #136. US3, editor schemas, built on #138.** US4, the link and manifest checker, built on #141. |
 | Jira | **TCX-59** epic (In Progress); stories **TCX-62** (US1 scaffolding), **TCX-63** (US2 dependents), **TCX-61** (US3 editor schemas), **TCX-64** (US4 link and manifest checker); **TCX-65** (the grill's carried checks, Done, #125); TCX-60 (the grill, Done) |
 | Canonical parent | A standalone page at the root of the space, as for specs 001 to 009 |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). Spec `specs/010-authoring-tooling/`; code so far `src/registry/{checklist,new-record,scaffold}.ts` and the `requires` declarations on the rules; decisions `docs/adr/0018`, `docs/adr/0019` |
@@ -93,4 +93,4 @@ The repository is canonical (CLAUDE.md step 4). This dossier, Build Log section 
 
 ## 14. Current checkpoint and delivery authority
 
-US1 is merged (#127). US2 (dependents, TCX-63) is built and under review on #136. US3 (editor schemas, TCX-61) is built and under review on #138; the author confirms the new Vocabulary values definitions (T033) and checks the editor by hand (T039). US4 (link and manifest checker, TCX-64) is built and under review on #PR; the author adds the Jira Actions secrets (T061) and runs the workflow twice after merge (T062). Then polish (T063 to T066). Author inputs outstanding: the vocabulary definitions (T033, US3) and the Jira Actions secrets (T061, US4).
+US1 is merged (#127). US2 (dependents, TCX-63) is built and under review on #136. US3 (editor schemas, TCX-61) is built and under review on #138; the author confirms the new Vocabulary values definitions (T033) and checks the editor by hand (T039). US4 (link and manifest checker, TCX-64) is built and under review on #141; the author adds the Jira Actions secrets (T061) and runs the workflow twice after merge (T062). Then polish (T063 to T066). Author inputs outstanding: the vocabulary definitions (T033, US3) and the Jira Actions secrets (T061, US4).
