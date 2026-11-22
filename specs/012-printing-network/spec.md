@@ -16,6 +16,13 @@ It builds on ADR 0021 (place roles) and, where a term's history is shown, on ADR
 
 **Analytical dimensions** (`FRAMEWORK.md`, Principle XI): historical, geographical, religious, economic and linguistic (Church Slavonic, then Romanian-language printing), and methodological (stated against attributed, and silence). Each claim carries its own dimensions in the evidence register.
 
+## Clarifications
+
+### Session 2026-11-22
+
+- Q: Which record family holds a printer (Macarie, Ljubavić, Coresi)? → A: A new `person` family, added to ADR 0006's closed family list by a spec amendment, as ADR 0022 does for `term`. Cartographer stays the profile of a maker of maps. A person who also made maps is one person record, which a Cartographer profile may point to; the two are not merged in this spec.
+- Q: What do readers see from this spec? → A: The Atlas layer of the network, plus edition and printer pages. A short essay on the network is a later story, under the essay framework (spec 003). The Târgoviște essay (TCX-84) already tells part of the story.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 — An edition with its places (Priority: P1)
@@ -138,19 +145,20 @@ A reader learns that the paper of the 1508 book was Venetian and reached Wallach
 - **FR-006**: The default Atlas view MUST show production places only. Holdings MUST appear only when the reader turns them on, and current and former holdings MUST be told apart in text.
 - **FR-007**: An attributed place MUST be drawn and labelled differently from a stated one, and the inspector MUST say which it is in words, with the confidence.
 - **FR-008**: The corridors joining the network's places MUST be drawn with editorial geometry provenance and labelled as approximations (Constitution III). They are taken from the Stage III passes-and-corridors work (TCX-86).
-- **FR-009**: A printer MUST be linked to the editions they made, and a printer's movement MUST be shown only through dated editions, never as a path the sources do not give. [NEEDS CLARIFICATION: Which record family holds a printer? The registry has none for people: Cartographer covers makers of maps (cartographer, engraver, publisher). The options are to widen Cartographer to "maker" so printers fit, to add a person family by spec amendment, or to keep printers as names inside each edition's citation for now.]
+- **FR-009**: A printer MUST be linked to the editions they made, and a printer's movement MUST be shown only through dated editions, never as a path the sources do not give. A printer is a record of the new `person` family (Clarifications, 2026-11-22). Its link to an edition names the role (printer) and carries a basis (stated in the book, or attributed) and a confidence.
 - **FR-010**: An edition with no known copy MUST state non-survival as a value, not as an empty list of holdings.
 - **FR-011**: A claim resting on a pending locator MUST be shown as pending and MUST NOT be rated `secure`.
 - **FR-012**: The paper claim, and any claim about materials or trade, MUST appear only through Evidence records. Nothing about paper is drawn without one.
 - **FR-013**: Every claim in the network MUST carry its analytical dimensions (Principle XI, `DIM-MISSING` from `ready_for_build`).
-- **FR-014**: What readers see of the network MUST be [NEEDS CLARIFICATION: What is the reader-facing output in this spec? (a) the Atlas layer and the edition and printer pages only; (b) the same plus a short essay on the network under the essay framework (spec 003); (c) records only, with the layer and any essay in later specs.]
+- **FR-014**: Readers MUST see the network through the Atlas layer and through a page for each edition and each printer. Each page lists the record's place roles in words, and those places link to the layer. An essay on the network is out of scope for this spec.
+- **FR-015**: The `person` family MUST be added to the closed family list by amending spec 001 and ADR 0006. A person record carries names (with language and kind), life dates in EDTF, and the editions linked to it. It follows the same held/released and lifecycle rules as every other family, so a person appears publicly only when published and released.
 
 ### Key Entities
 
 - **Edition**: a printed book as published. Its record is a bibliography entry, with a title, a date (stated or attributed), a language, one production place, its holdings, a historiography note and a non-survival value where no copy is known.
 - **Holding**: one copy at one institution for one dated interval: its holder, an optional shelfmark, its start and end dates, a basis and a confidence. A closed holding is read as "formerly at".
 - **Place**: an existing Place record (Târgoviște, Sibiu, Brașov, Bucharest and others). New places are minted where needed, such as Dealu Monastery as distinct from the town.
-- **Printer**: a person who made editions, linked to them. Which family holds this record is open (FR-009).
+- **Person**: a record of the new `person` family (FR-015). In this spec, a printer is linked to the editions they made, with a role, basis and confidence. Not a Cartographer profile, which is a maker of maps.
 - **Corridor**: a route across the Carpathians, with editorial geometry, from the passes-and-corridors work (TCX-86).
 - **Evidence**: as the registry defines it; it carries every claim about date, place, printer, paper and survival.
 
@@ -167,7 +175,7 @@ A reader learns that the paper of the 1508 book was Venetian and reached Wallach
 
 ## Assumptions
 
-- ADR 0021 and ADR 0022 are accepted (PR #147). This spec implements ADR 0021's rules and uses ADR 0022 only if a term record is needed for a name. None is planned in this spec.
+- ADR 0021 and ADR 0022 are accepted and merged (PR #147). This spec implements ADR 0021's rules and uses ADR 0022 only if a term record is needed for a name. None is planned in this spec.
 - The corridor geometry comes from a thin slice of TCX-86. If it is not ready, the layer ships without corridors, and they are added when they arrive.
 - The bibliography entries for the editions follow spec 006: one CSL file each, and held until a public record cites them.
 - Holdings are taken from published catalogues and literature, with pending locators until a person checks the institution's own record. No library is visited for this spec.
