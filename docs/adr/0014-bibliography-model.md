@@ -1,6 +1,6 @@
 # ADR 0014 — Bibliography model: sources point at entries, citations are derived, entries are public only when cited
 
-**Status**: Accepted · **Date**: 2026-10-17 · **Jira**: TCX-7 · **Spec**: 006 · **Extends**: TC-D003, TC-D019, ADR 0004 §3 and §4
+**Status**: Accepted, amended 2026-11-22 (spec 012) · **Date**: 2026-10-17 · **Jira**: TCX-7 · **Spec**: 006 · **Extends**: TC-D003, TC-D019, ADR 0004 §3 and §4
 
 ## Context
 Spec 003 renders a claim citation "from the source's bibliography entry plus the locator", but a Source record in the registry has no link to an entry (only `is_finding_aid` and `source_kind`). Spec 006's draft lists a stored "Citation" entity (citing entity, entry, locator, verification) that overlaps spec 003's decision that a claim citation points at an Evidence record. And spec 006 requires an entry cited only by held content to stay hidden, which is a visibility rule beyond "published and released".
@@ -19,3 +19,6 @@ A stored Citation entity (a second place to keep in step with the Evidence chain
 - Publishing a record that lists a held entry fails or warns through the existing body-public checks; the Bibliography page can never show an entry that nothing public cites.
 - The spec 008 adapter maps each legacy source to a Source with its `entry`, and legacy bibliography section types onto the seven sections; everything arrives held.
 - The glossary's claim that "a finding aid is not a source" is corrected to match the registry: it is a Source that is never evidence.
+
+## Amendment, 2026-11-22 (spec 012, TCX-82; ADR 0021)
+A bibliography entry that carries **place roles** (ADR 0021) is an edition studied for its own sake, not reading cited for an argument. Such an entry is **public when it is published and released**, like a map or a place, whether or not a public record cites it, and it has its own page. Every other entry keeps the rule above: public only when published, released and cited by at least one public record. The derived "Cited in" list is unchanged. The leak scan still refuses any held entry in public output.
