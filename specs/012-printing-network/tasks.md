@@ -8,7 +8,7 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 
 **Tests**: REQUIRED (Constitution X). In every phase the test tasks come first and must be seen failing before the task that makes them pass (`tdd` skill). Refactoring happens in review. Steps only the author can take are marked **(author)**.
 
-**Seams** (to confirm with Vlad at T001):
+**Seams** (agreed with Vlad at T001, 2026-11-22):
 1. the registry, through `validateRegistry`, `loadAndCheck` and `publicEntryIds`;
 2. the pure layer builder `networkFeatures(records)`;
 3. the built site, through the Atlas e2e fixture registry and the page tests.
@@ -36,9 +36,9 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 
 ## Phase 1: Setup
 
-- [ ] T001 Confirm the three seams above with Vlad and record the answer in this file
-- [ ] T002 Open the draft PR `012: The Printing Network, 1508–1560s` from `012-printing-network`, linked to TCX-82 and epic TCX-79 (CLAUDE.md workflow step 0)
-- [ ] T003 [P] Create `docs/confluence/spec-012-printing-network.md` (dossier) and `docs/confluence/build-log-spec-012.md`, following `docs/confluence/README.md` and the spec 010 dossier's sections
+- [x] T001 Confirm the three seams above with Vlad and record the answer in this file
+- [x] T002 Open the draft PR `012: The Printing Network, 1508–1560s` from `012-printing-network`, linked to TCX-82 and epic TCX-79 (CLAUDE.md workflow step 0)
+- [x] T003 [P] Create `docs/confluence/spec-012-printing-network.md` (dossier) and `docs/confluence/build-log-spec-012.md`, following `docs/confluence/README.md` and the spec 010 dossier's sections
 
 ## Phase 2: Foundation (blocks every story)
 

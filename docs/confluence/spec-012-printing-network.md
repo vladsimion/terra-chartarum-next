@@ -1,0 +1,136 @@
+This is the programme dossier for spec 012. It follows the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169), like the dossiers for specs 001 to 010. It has not been published yet.
+
+## 1. Programme metadata
+
+| | |
+|---|---|
+| Programme type | Research capability: the first Stage III slice (Wallachia and Moldavia). It adds place roles on editions, a `person` family and a network layer derived from the records. |
+| Status | **Specified, planned and tasked.** The claim PR is #152 (draft). `/speckit-analyze` found two high findings and six smaller ones, all fixed on #152. US1 has not started. |
+| Jira | **TCX-79** is the Stage III epic. **TCX-82** (III-1, the printing network) is In Progress. The grill that preceded it is TCX-80 and TCX-81. |
+| Canonical parent | A standalone page at the root of the space, like specs 001 to 010. It is linked from the Stage III programme note (page 47120387). |
+| Repository | https://github.com/vladsimion/terra-chartarum-next (public). The spec is in `specs/012-printing-network/`. The decisions are `docs/adr/0021` (place roles), `docs/adr/0023` (person records) and `docs/adr/0014` as amended on 2026-11-22. |
+| Last reconciliation | 2026-11-22, on `012-printing-network`. The counts this spec does not own are generated below. |
+
+<!-- status:begin -->
+- Registry rules: 96
+- Named mutations: 126
+- Entities: 312 (0 errors, 112 warnings)
+<!-- status:end -->
+
+## 2. Purpose / thesis
+
+How closely were Wallachia, Transylvania and Moldavia tied by the making and circulation of printed books between 1508 and the 1560s?
+
+The falsifiable claim is that the registry can say **where each edition was made and where each surviving copy is now, as two different things, with the basis and confidence of each**. On that basis, the Atlas shows a production network crossing the Carpathians: Dealu and Târgoviște, Sibiu, Brașov. That network would be hidden by any map that pins a book to the library that holds it.
+
+## 3. Scope and non-goals
+
+### In scope
+- Place roles (`produced_at`, dated `held_at`) on bibliography entries, enforced by the gate (ADR 0021).
+- The `person` family for printers (ADR 0023), and the link from an edition to its printer.
+- A network layer derived at build time from public editions, shown with the Carpathian corridors (layer-000001) as one collection.
+- The edition section on the bibliography page, and a new person page.
+- Non-survival as a stated value. Superseded attributions as a historiography note that is never drawn. Paper recorded only through Evidence.
+- The content: the 1508 Liturghier, the 1544 Sibiu catechism, the 1545 Molitvenic, the 1547 Apostol, and Coresi's first Târgoviște and Brașov editions. Also the printers Macarie, Ljubavić and Coresi, and Dealu Monastery as a place distinct from Târgoviște.
+
+### Non-goals
+- An essay on the network.
+- Place roles on maps, which wait for their own migration (ADR 0021 decision 6).
+- Drawn paths for a printer's movement.
+- A paper layer.
+- A header lens for people (a shell question for spec 002).
+
+## 4. Outputs / deliverables
+
+There are six pull requests: the claim (#152), then one per user story.
+- **US1:** the record model, the rules, the publicity amendment, the edition section and the 1508 edition.
+- **US2:** the derived layer, the collection and the map.
+- **US3:** people and their pages.
+- **US4:** survival and pending locators.
+- **US5:** paper through Evidence.
+
+## 5. Research, sources and rights framework
+
+The sources are listed in `docs/research/transylvania/bibliography-verification.md` and the Stage III programme note:
+- the Panaitescu facsimile (1961);
+- *Liturghierul lui Macarie 1508/2008* (Mihăilă on the epilogues);
+- Demény and Demény (1986);
+- Bianu–Hodoș, BRV;
+- Negoiță (Princeton, Mapping Eastern Europe).
+
+Every locator starts `pending` until the author reads it. Under the new rule `PLACE-ROLE-SECURE`, no place role or person link may be rated `secure` until a cited locator is verified.
+
+## 6. Evidence and data architecture
+
+- **New fields on a bibliography entry:**
+  - `place_roles[]`: role, basis, confidence, EDTF dates, holder, shelfmark, evidence;
+  - `people[]`: person, role, basis, confidence, evidence;
+  - `survival`;
+  - `attribution_history[]`.
+- **New family:** `person`, with names, life dates and bibliography.
+- **New rules:**
+  - `PLACE-ROLE-PRODUCED`, `PLACE-ROLE-HOLDING`, `PLACE-ROLE-FAMILY`, `PLACE-ROLE-EVIDENCE` and `PLACE-ROLE-SECURE`;
+  - `PERSON-LINK` and `PERSON-NAMES`;
+  - `EDITION-SURVIVAL`.
+- **Derived, never stored:**
+  - the network layer's features, one per public edition and place role, at the place's location (asset kind `derived:place-roles`);
+  - which editions are public: `publicEntryIds` gains a third route, for an edition with place roles that is published and released;
+  - a person's editions.
+
+## 7. Essay and editorial architecture
+
+No essay in this spec. The edition and person pages are static and need no script.
+
+## 8. Interaction and technical implementation
+
+- By default the map shows production places only.
+- "Show copies" adds the holdings. Current and former holdings are told apart in words and by symbol.
+- An attributed place is dashed and says "attributed" in its accessible name.
+- The legend lists only the roles drawn.
+- The corridors are labelled as approximations.
+
+## 9. Implementation phases and dependency model
+
+The phases run Setup → Foundation (vocabularies, GLOSSARY) → US1 → US2. US3 needs US1. US4 and US5 need US1 only. Polish comes last. The task list is `specs/012-printing-network/tasks.md` (canonical, 61 tasks).
+
+The agreed test seams (T001, 2026-11-22) are:
+1. the registry;
+2. the pure builder `networkFeatures(records)`;
+3. the built site.
+
+## 10. Jira hierarchy and reconciliation history
+
+- 2026-11-22: the Stage III grill (TCX-80, TCX-81) produced ADR 0021 (place roles) and ADR 0022 (term records).
+- 2026-11-22: spec 012 was specified and clarified:
+  - printers are a `person` family (ADR 0023);
+  - readers see the network through the layer and through edition and person pages;
+  - an edition with place roles is public when published and released (ADR 0014 amended).
+- 2026-11-22: planned and tasked, and claimed on #152.
+- 2026-11-22: `/speckit-analyze` raised two high findings, both fixed on #152:
+  - the edition section had no task;
+  - `secure` was not blocked on pending locators for place roles.
+
+  Six smaller findings were also fixed. FR-003 (consecutive holdings for a copy that moved) became an authoring convention.
+
+## 11. Programme acceptance criteria
+
+SC-001 to SC-006 of the spec. None are met yet. SC-003 (five readers) is the author's.
+
+## 12. Verification ledger
+
+| Date | What | Result |
+|---|---|---|
+| — | — | Nothing verified yet; rows are added as each story merges |
+
+## 13. Canonical ownership and propagation
+
+The repository is canonical (CLAUDE.md step 4). This dossier and the Build Log section (`build-log-spec-012.md`) are published from their files after merge.
+
+## 14. Current checkpoint and delivery authority
+
+The claim PR #152 holds the spec documents and the analysis fixes. US1 (TCX-82) starts next, on its own branch, red → green.
+
+The author's open items for this spec:
+- the readings that turn locators from `pending` to `verified`;
+- confirming the new Vocabulary values definitions (T005);
+- the SC-003 five-reader check (T060).

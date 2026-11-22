@@ -14,6 +14,7 @@ The files here are the repository copies of Confluence pages and entries. A file
 | `spec-008-migration.md` | Spec 008 programme dossier, page 39321601 (whole page; keep identical; version 2 has the same body as version 1, left over from a first attempt to move the page to the root; version 3 is the refresh after T042 and the stories reaching Done; version 4, published 2026-11-17 from `main` at 73affea, carries the map-review refresh (#102) and TCX-44's closure (#112); version 5, published 2026-11-22 from `main` at 0ea65b2, carries §14 as it stands, the custom-domain re-ordering and the closed epic) |
 | `spec-009-anchor-essay.md` | Spec 009 programme dossier, page 47120430 (whole page; keep identical; published 2026-11-22) |
 | `spec-010-authoring-tooling.md` | Spec 010 programme dossier, page 47120410 (whole page; keep identical; published 2026-11-22) |
+| `spec-012-printing-network.md` | Spec 012 programme dossier (not yet published; a new root page when it is) |
 | `stage-3-wallachia-moldavia.md` | Stage III (Wallachia and Moldavia) programme note, page 47120387 under Projects (whole page; keep identical; published 2026-11-22; Jira epic TCX-79) |
 | `build-log-*.md` | One section of the Build Log, page 2490370 (sections AC and AD, `build-log-spec-009.md` and `build-log-spec-010.md`, published 2026-11-22 in page version 136) |
 | `decision-log-tc-dNNN.md` | One published Decision Log entry, page 12648509 |
