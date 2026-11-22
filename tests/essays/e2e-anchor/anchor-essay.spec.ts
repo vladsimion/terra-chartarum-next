@@ -101,6 +101,13 @@ test.describe('the anchor essay', () => {
   });
 
   test('is clean under axe, and in each state the interactions can take', async ({ page }) => {
+    /*
+     * Seven full axe passes over a fifteen-thousand-word page with sixteen drawings: about 23 s on
+     * a normal CI runner, so the default 30 s left no room for a slower one (PR #137, where every
+     * suite ran about a quarter slower, timed out here twice in a row). The budget is the work's,
+     * not a retry: the assertions are unchanged.
+     */
+    test.slow();
     await page.goto(PAGE);
     expect((await axe(page)).violations).toEqual([]);
 

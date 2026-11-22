@@ -1,8 +1,8 @@
 # Confluence entry: Decision Log (page 12648509)
 
-Not yet published. Numbered when it is (`docs/confluence/README.md`).
+Published 2026-11-22 in page version 18, with TC-D040 to TC-D044 appended together in that order directly after TC-D039; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
-### TC-D??? — Authoring tooling removes friction without weakening a rule, and no automation writes a canonical record
+### TC-D042 — Authoring tooling removes friction without weakening a rule, and no automation writes a canonical record
 
 **Date:** 18 November 2026 (ADRs 0018, 0019)    
 **Status:** Accepted (grill TCX-60; epic TCX-59, spec 010 not yet specified)

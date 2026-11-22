@@ -168,7 +168,7 @@ description: "Task list for 010 Authoring Tooling"
 - [ ] T056 [US4] Implement `src/linkcheck/run.ts` (load registry, collect, probe, compare with `linkcheck-state.json`, report, propose archived copies, write the new state) and `scripts/link-check.ts` (`--dir`, `--state`, `--dry-run`; real clients built from `JIRA_USER`, `JIRA_API_TOKEN`, `GITHUB_TOKEN`); T049 and T050 go green
 - [ ] T057 [US4] Add `.github/workflows/link-check.yml` per contracts/link-check.md: `schedule` `17 3 * * 1` and `workflow_dispatch`; `permissions: contents: write, pull-requests: write`; `actions/cache` for `linkcheck-state.json`; not referenced by `gate` in `registry.yml`
 - [ ] T058 [US4] Run `npx tsx scripts/link-check.ts --dir . --state /tmp/state.json --dry-run` against the real registry and record here how many URLs and hosts it collects
-- [ ] T059 [P] [US4] Update the README (what the checker does and never does), the Build Log row, the dossier and the Decision Log draft `docs/confluence/decision-log-pending-authoring-tooling.md` if anything in it changed
+- [ ] T059 [P] [US4] Update the README (what the checker does and never does), the Build Log row, the dossier and the Decision Log entry `docs/confluence/decision-log-tc-d042.md` (TC-D042) if anything in it changed
 - [ ] T060 [US4] Full checks green (`npm test`, `typecheck`, gate, `status --check`)
 - [ ] T061 [US4] **(author)** Add the Actions secrets `JIRA_USER` and `JIRA_API_TOKEN` to the repository
 - [ ] T062 [US4] **(author)** After merge, run the `link-check` workflow once by hand, confirm issues carry `linkcheck-*` labels, run it again and confirm none is duplicated; record the result here; then Jira TCX-64 → Done

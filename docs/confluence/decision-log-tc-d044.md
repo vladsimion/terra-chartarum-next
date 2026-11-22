@@ -1,8 +1,8 @@
 # Confluence entry: Decision Log (page 12648509)
 
-Not yet published. Numbered when it is (`docs/confluence/README.md`).
+Published 2026-11-22 in page version 18, with TC-D040 to TC-D044 appended together in that order directly after TC-D039; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
-### TC-D??? — One analytical framework governs every programme stage and phase
+### TC-D044 — One analytical framework governs every programme stage and phase
 
 **Date:** 22 November 2026 (ADR 0020; constitution 1.1.0)    
 **Status:** Accepted (epic TCX-66)
