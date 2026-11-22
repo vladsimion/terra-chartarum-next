@@ -64,6 +64,7 @@ Setup and the rule guard (SC-003) → US1 → US2 → US3 → US4 → polish. Th
 
 - 2026-11-18: grill done (TCX-60), ADR 0018 and ADR 0019 merged (#122).
 - 2026-11-21: TCX-65 done (#125); spec 010 specified (#125), planned and tasked (#126); `/speckit-analyze` found one critical finding (no historical question named, Principle I) and four high ones, all fixed in the spec (#127); US1 built on #127.
+- 2026-11-22: constitution 1.1.0 (ADR 0020, #133). `/speckit-analyze` re-run for TCX-70: one critical finding (the plan had no Principle XI line) and three high or medium ones on US3 (the analytical-dimension vocabulary, its definitions' home in `FRAMEWORK.md`, a mistyped value count), all fixed in the spec, plan, research, contract and tasks before US3 starts.
 
 ## 11. Programme acceptance criteria
 

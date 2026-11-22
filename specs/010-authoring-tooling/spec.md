@@ -2,7 +2,7 @@
 
 **Feature Branch**: `010-authoring-tooling`
 **Created**: 2026-11-21
-**Status**: Draft (grill 2026-11-18, ADR 0018 and ADR 0019)
+**Status**: In progress, US1 merged (#127); grill 2026-11-18 (ADR 0018, ADR 0019); re-checked against constitution 1.1.0 on 2026-11-22
 **Input**: Jira epic TCX-59. Tooling that removes authoring friction for a single maintainer **without weakening any validation rule**; no automation writes a canonical record. Stories TCX-61 (editor schemas), TCX-62 (record scaffolding), TCX-63 (dependents graph), TCX-64 (link and manifest checker); the checks of TCX-65 are done on `claude/modest-noether-nlycur`.
 
 **Historical question served**: How can one maintainer keep every claim traceable to its evidence as the registry grows, without loosening the rules that make it traceable? The spec answers it by making a new record, a correction and a dead citation cheaper for the one person who maintains the registry, so that the scholarly rules stay strict without becoming a reason to stop adding evidence.
@@ -33,6 +33,14 @@ The analysis found the spec out of step with the plan in five places and the con
 - FR-016 and US4 scenario 2: a dead URL is reported on the run that finds it, an unreachable one after three consecutive runs (research R8).
 - FR-009 and US2 scenario 5: the graph is written by every `registry check --out`, which CI runs on every push.
 - Edge case: `same_as[]` makes no graph edge (research R6).
+
+### Session 2026-11-22 (`/speckit-analyze` after constitution 1.1.0, TCX-70)
+
+ADR 0020 made the analytical framework a constitutional principle (XI), added `unsupported` to the confidence vocabulary and added the `analytical_dimension` vocabulary. The analysis found the plan missing its Principle XI line (fixed in plan.md) and US3 out of step with the new vocabularies; the spec was amended.
+
+- FR-012: the editor schemas cover eight shared vocabularies, the seven before plus `analytical_dimension`. Its definitions are read from `FRAMEWORK.md`, their one home under Principle XI, never copied into `GLOSSARY.md`.
+- FR-012 and SC-005: the number of values is derived from the constants, never typed (it was given as 43 when the seven vocabularies held 36; with `unsupported` they hold 37, and 50 with the 13 dimensions).
+- US3 scenario 3 and SC-005: the seeded typos include an unknown entry in `analytical_dimensions` and in `portal_dimensions` (whose values are now called portal facets).
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -154,7 +162,7 @@ Once a week, every external URL the registry depends on is checked. A broken one
 **Editor schemas (US3, TCX-61, ADR 0019 §1)**
 
 - **FR-011**: A schema for every family's YAML record, essays included, MUST be generated from the registry's own schemas on install, on starting the development server and on build, and MUST NOT be committed.
-- **FR-012**: Every value of a shared vocabulary (lifecycle, release, confidence, geometry provenance, silence state, locator state, evidence type) MUST carry its `GLOSSARY.md` definition; a value with no definition MUST fail generation.
+- **FR-012**: Every value of a shared vocabulary (lifecycle, release, confidence, geometry provenance, silence state, locator state, evidence type, analytical dimension) MUST carry its definition: from `GLOSSARY.md` for the first seven, from `FRAMEWORK.md` for the analytical dimensions (constitution Principle XI). A value with no definition MUST fail generation.
 - **FR-013**: Reference fields MUST offer existing IDs of the right family with their titles, regenerated on demand. The suggestions MUST NOT change what the gate accepts.
 - **FR-014**: The repository MUST recommend the editor extension that reads the schemas and point it at them. The schemas are a convenience and never a gate.
 
@@ -188,7 +196,7 @@ Once a week, every external URL the registry depends on is checked. A broken one
 - **SC-002**: For every scaffoldable family, promoting an untouched stub to `ready_for_build` produces exactly the errors its checklist names: no checklist item without a rule, no rule without a checklist item.
 - **SC-003**: The number of validation rules, and the lifecycle from which each is an error, is the same after this spec as before it, apart from rules this spec adds. No rule is weakened.
 - **SC-004**: For any record, the maintainer can list everything a correction would touch, held included, in one command that answers in under five seconds on the current registry (311 entities).
-- **SC-005**: Every record the gate accepts structurally is accepted by its editor schema, and every one of a set of seeded typos (misspelt field, unknown vocabulary value) is rejected by both.
+- **SC-005**: Every record the gate accepts structurally is accepted by its editor schema, and every one of a set of seeded typos (misspelt field, unknown vocabulary value, unknown entry in `analytical_dimensions` or `portal_dimensions`) is rejected by both.
 - **SC-006**: A URL that breaks is reported within eight days, as one issue, however many records use it; a second run opens no duplicate.
 - **SC-007**: Across a full checker run, the number of record files changed by the run itself is zero; every change to a record arrives as a pull request a person merges.
 - **SC-008**: The build and the gate make zero network requests attributable to this spec.
