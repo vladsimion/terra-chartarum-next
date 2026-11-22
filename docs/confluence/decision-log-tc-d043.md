@@ -1,8 +1,8 @@
 # Confluence entry: Decision Log (page 12648509)
 
-Not yet published. Numbered when it is (`docs/confluence/README.md`).
+Published 2026-11-22 in page version 18, with TC-D040 to TC-D044 appended together in that order directly after TC-D039; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published.
 
-### TC-D??? — terra-chartarum.org is declared in `wrangler.jsonc`, not attached in the dashboard, and step 4 of the cutover follows step 7
+### TC-D043 — terra-chartarum.org is declared in `wrangler.jsonc`, not attached in the dashboard, and step 4 of the cutover follows step 7
 
 **Date:** 19 November 2026    
 **Status:** Proposed · **Amends:** TC-D029 (consequence two), ADR 0012

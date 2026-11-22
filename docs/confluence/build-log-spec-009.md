@@ -1,6 +1,6 @@
 # Confluence entry: Build Log (page 2490370)
 
-Not yet published. To be appended as the next section after AB (spec 008), with the header pointer extended to it; the rest of the page is left unchanged. The text below is what will be published, and it grows by one row per merged slice.
+Published 2026-11-22 in page version 136 as section AC, directly after AB (spec 008), with the header pointer extended to AD; the rest of the page was left unchanged (checked by reading the page back). The text below is what was published; it grows by one row per merged slice and is republished whole.
 
 ## AC. The successor build: the anchor essay (spec 009)
 
