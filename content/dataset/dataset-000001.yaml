@@ -1,0 +1,15 @@
+id: tc:tc:dataset:dataset-000001
+family: dataset
+origin: minted
+title: Carpathian corridors between Transylvania and Wallachia
+slug: carpathian-corridors-between-transylvania-and-wallachia
+slug_history: []
+lifecycle: proposed
+release: held
+relations: []
+# Stage III rank 5, thin slice (TCX-86): drawn by this project, not taken from
+# anyone else's data, so it has no upstream release to pin.
+version: stage3-thin-slice-2026-11-22
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum
