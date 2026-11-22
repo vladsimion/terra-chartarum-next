@@ -5,7 +5,7 @@ This is the programme dossier for spec 012. It follows the fourteen-point contra
 | | |
 |---|---|
 | Programme type | Research capability: the first Stage III slice (Wallachia and Moldavia). It adds place roles on editions, a `person` family and a network layer derived from the records. |
-| Status | **Specified, planned and tasked.** The claim PR is #152 (draft). `/speckit-analyze` found two high findings and six smaller ones, all fixed on #152. **US1** (place roles, the rules, publicity, the edition section, the 1508 edition) is built on `012-us1-place-roles` and under review. |
+| Status | **Specified, planned and tasked.** The claim PR is #152 (draft). `/speckit-analyze` found two high findings and six smaller ones, all fixed on #152. **US1** (place roles, the rules, publicity, the edition section, the 1508 edition) is built and under review on #153. |
 | Jira | **TCX-79** is the Stage III epic. **TCX-82** (III-1, the printing network) is In Progress. The grill that preceded it is TCX-80 and TCX-81. |
 | Canonical parent | A standalone page at the root of the space, like specs 001 to 010. It is linked from the Stage III programme note (page 47120387). |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). The spec is in `specs/012-printing-network/`. The decisions are `docs/adr/0021` (place roles), `docs/adr/0023` (person records) and `docs/adr/0014` as amended on 2026-11-22. |
