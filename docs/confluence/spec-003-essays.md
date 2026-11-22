@@ -98,7 +98,7 @@ Owned here: the essay record, the stage table and the body tags. Spec 001 owns t
 <!-- status:begin -->
 - Registry rules: 96
 - Named mutations: 126
-- Entities: 312 (0 errors, 112 warnings)
+- Entities: 314 (0 errors, 112 warnings)
 <!-- status:end -->
 
 Foundation, User Stories 1 to 4 and Polish are merged (PRs #35 to #38, with the plan in PR #17 and the grill in PR #16). PR #40 put page paths in one route table, so essays are at `/essays/<slug>/` for the pages, the redirects and the leak scan alike, and amended ADR 0010 to say `promote` prints the CI requirement. 1249 Vitest tests on `main`. Open: the colophon credit for the CC BY-SA style; T002 (the tree it names, `tests/registry/fixtures/essays/`, does not exist: the registry tests build their registries in code and the site uses `tests/essays/fixtures/registry`, so the task should be reworded or closed); T034; the `ESSAY-BODY-PUBLIC` row in spec 001's rule table; small refactors the review left (duplicate string helpers, the length of `buildEssayPage`). `main` and the TCX board are the delivery authority; this page summarises them.

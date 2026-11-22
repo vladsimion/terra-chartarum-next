@@ -16,7 +16,7 @@ Programme dossier for spec 009, written against the fourteen-point contract in [
 <!-- status:begin -->
 - Registry rules: 96
 - Named mutations: 126
-- Entities: 312 (0 errors, 112 warnings)
+- Entities: 314 (0 errors, 112 warnings)
 <!-- status:end -->
 
 ## 2. Purpose / thesis
