@@ -151,12 +151,13 @@ npm run test:e2e:collection                                            # viewer,
 
 ## The Atlas (spec 005)
 
-A time-aware map: pick a year, switch on layers from the catalogue (by theme, collection or room), and see only what was valid then, each line drawn by how it is known (documentary, reconstruction, generalised, present-day reference) and each uncertain date drawn paler. A layer is a record under `content/layer/` with a GeoJSON or PMTiles source; the build converts each public layer to FlatGeobuf with year bounds in every feature. Decisions: [ADR 0013](docs/adr/0013-atlas-contracts.md).
+A time-aware map: pick a year, switch on layers from the catalogue (by theme, collection or room), and see only what was valid then, each line drawn by how it is known (documentary, reconstruction, generalised, present-day reference) and each uncertain date drawn paler. A layer is a record under `content/layer/` with a GeoJSON or PMTiles source; the build converts each public layer to FlatGeobuf with year bounds in every feature. A layer whose `asset` is `derived:place-roles` has no source file: the build makes it from the registry, one pin per public edition and place role, each saying its role in words (spec 012). Decisions: [ADR 0013](docs/adr/0013-atlas-contracts.md).
 
 ```bash
 npm run registry -- check --dir tests/atlas/fixtures/registry         # the Atlas fixtures pass the gate
 REGISTRY_ROOT=tests/atlas/fixtures/registry npm run build              # pages, then the Atlas files under data/
 npm run test:e2e:atlas                                                 # year, lens, inspector, share, place search, overlay, no WebGL, keyboard, no outside requests
+npm run test:e2e:network                                               # the printing network (spec 012): the Atlas fixture with the network overlay
 npm run test:e2e:atlas-perf                                            # timings on a seeded 200-layer catalogue (registry synth --atlas)
 ```
 

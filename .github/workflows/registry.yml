@@ -153,6 +153,9 @@ jobs:
       - name: Atlas end-to-end specs (the Atlas fixture registry; Chromium dark and light, phone, no JavaScript)
         if: ${{ !cancelled() }}
         run: npm run test:e2e:atlas
+      - name: Printing network end-to-end specs (the Atlas fixture with the spec 012 network overlay; Chromium dark and light)
+        if: ${{ !cancelled() }}
+        run: npm run test:e2e:network
       - name: Atlas performance (a seeded 200-layer catalogue on an emulated phone; spec 005 SC-001)
         if: ${{ !cancelled() }}
         run: npm run test:e2e:atlas-perf
@@ -181,6 +184,7 @@ jobs:
             playwright-report-rooms/
             playwright-report-atlas/
             playwright-report-atlas-perf/
+            playwright-report-network/
             test-results/
           if-no-files-found: ignore
 

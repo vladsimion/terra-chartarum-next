@@ -29,4 +29,6 @@ These read layer assets, which the gate does not, and fail the build with the la
 | `ATLAS-FACET-PROPERTY` | a declared facet property is absent from every feature, or a `range` facet has a non-numeric value |
 | `ATLAS-PLACE-REF` | a feature's `place` property is not a public place ID |
 | `ATLAS-OVERLAY-ANNOTATION` | the `georef.annotation` file is missing or not parseable JSON |
+| `ATLAS-ROLE-PLACE-HELD` | a derived network layer (spec 012): a public edition's place role names a place that is not public, so its pin cannot be drawn. The edition and the place are named; nothing is written |
+| `ATLAS-ROLE-PLACE-LOCATION` | a derived network layer (spec 012): a place role names a public place with no `location` to draw it at |
 | `ATLAS-LEAK` | an output file contains the id, slug or title of a held entity, or a private value (the registry leak scan applied to the Atlas outputs) |

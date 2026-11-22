@@ -1,0 +1,16 @@
+id: tc:tc:dataset:dataset-000003
+family: dataset
+origin: minted
+title: Place roles of editions
+slug: place-roles-of-editions
+slug_history: []
+lifecycle: proposed
+release: held
+relations: []
+# Spec 012 R4: not a file but the registry itself. The network layer is built at build time from
+# the place roles of public editions and the locations of public places, so this dataset is
+# versioned by the registry's own commit and has no upstream release to pin.
+version: registry-place-roles
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum

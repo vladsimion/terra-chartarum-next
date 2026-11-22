@@ -1,0 +1,17 @@
+id: tc:tc:collection:collection-000001
+family: collection
+origin: minted
+title: The printing network, 1508–1560s
+slug: the-printing-network-1508-1560s
+slug_history: []
+lifecycle: proposed
+release: held
+relations: []
+description: The printing network of Wallachia and Transylvania, 1508 to the 1560s, shown
+  with the Carpathian corridors that joined its places (spec 012).
+members:
+  - tc:tc:layer:layer-000003
+  - tc:tc:layer:layer-000001
+default_layers:
+  - tc:tc:layer:layer-000003
+  - tc:tc:layer:layer-000001

@@ -8,6 +8,7 @@ The Atlas build is an Astro integration (`src/integrations/atlas.ts`) that runs 
 |---|---|
 | `data/layers/<slug>.fgb` | a GeoJSON source converted to FlatGeobuf, each feature with `_from_min`, `_from_max`, `_to_min`, `_to_max`, `_from_unc` and `_to_unc` added |
 | `data/layers/<slug>.pmtiles` | a pre-tiled source copied unchanged |
+| `data/layers/<slug>.fgb` (derived) | a layer whose `asset` is `derived:place-roles` has no source file: the build makes it from the registry, one point per public edition and place role at its place's location (`src/atlas/build/network-features.ts`; [spec 012 contract](../../012-printing-network/contracts/network-layer.md)), then converts it as any GeoJSON source. `LIFE-AVAILABILITY` treats the asset as available; `ATLAS-ASSET-SIZE` judges the built file |
 | `data/layers/<slug>.info.json` | what the inspector shows about the layer: the whole description, role, theme, envelope, provenance, source dataset title, licence line, methodology links, public essays that use it, rooms and collections (`src/atlas/inspector-data.ts`) |
 | `data/layers/<slug>.facets.json` | per declared facet: category values with counts, or the range minimum and maximum |
 | `data/overlays/<slug>.json` | the georeferencing annotation of an overlay layer, copied |

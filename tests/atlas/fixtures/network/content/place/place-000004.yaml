@@ -1,0 +1,11 @@
+id: tc:tc:place:place-000004
+family: place
+origin: minted
+title: Fixture Press Monastery
+slug: fixture-press-monastery
+lifecycle: published
+release: released
+place_type: settlement
+names:
+  - { name: Fixture Press Monastery, language: en, kind: modern }
+location: { lon: 25.45, lat: 44.93 }

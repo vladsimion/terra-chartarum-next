@@ -96,6 +96,14 @@ describe('LIFE-AVAILABILITY (US5.5)', () => {
     expect(hits([published('data/roads.pmtiles')], 'LIFE-AVAILABILITY', { assetIndex })).toEqual([]);
   });
 
+  it('passes a layer built from the registry (spec 012 R4): its asset is derived, not a file', () => {
+    expect(hits([published('derived:place-roles')], 'LIFE-AVAILABILITY', { assetIndex: new Set<string>() })).toEqual([]);
+  });
+
+  it('fails a derived kind it does not know', () => {
+    expect(hits([published('derived:paper-routes')], 'LIFE-AVAILABILITY', { assetIndex: new Set<string>() })).toHaveLength(1);
+  });
+
   it('is only a warning before published', () => {
     const early = layer(1, { lifecycle: 'in_build', asset: 'data/missing.pmtiles' });
     expect(hits([early], 'LIFE-AVAILABILITY', { assetIndex: new Set<string>() })[0]?.severity).toBe('warning');

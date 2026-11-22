@@ -4,6 +4,7 @@ import type { FacetSummary } from '../atlas/build/convert-assets.js';
 import type { LayerInfo } from '../atlas/inspector-data.js';
 import { kindOf, themeLabel } from '../atlas/labels.js';
 import { legendOf } from '../atlas/provenance-style.js';
+import { defaultRoleSelection, roleLegend } from '../atlas/roles.js';
 import type { AtlasIndex, AtlasState } from '../atlas/types.js';
 import { classesPresent, summarise, type BuiltFeature } from '../atlas/visible.js';
 import { activate, activateDefaults, activeLayers, clearFacet, deactivate, focus, initialState, resetFacets, setFacet, setLens, setVisible, setYear, toggleRelevant } from '../atlas/view-state.js';
@@ -322,7 +323,9 @@ async function start(): Promise<void> {
       const shown = layers.filter((a) => !a.hidden);
       const classes = shown.flatMap(({ slug, layer }) => classesPresent((features.get(slug) ?? []).map((f) => f.properties as BuiltFeature), layer.provenance));
       const uncertain = shown.some(({ slug }) => summarise((features.get(slug) ?? []).map((f) => f.properties as BuiltFeature), state.year).uncertain > 0);
-      const entries = legendOf(classes, uncertain);
+      // the roles drawn (spec 012): only those the facet selection keeps, so the legend never lists a pin that is not there
+      const roles = roleLegend(shown.flatMap(({ slug }) => (features.get(slug) ?? []).map((f) => f.properties as Record<string, unknown>).filter((p) => matchesFacets(p, state.facets[slug] ?? {}))));
+      const entries = [...legendOf(classes, uncertain), ...roles];
       legend.hidden = entries.length === 0;
       const items = $<HTMLElement>('ul', legend);
       items?.replaceChildren(
@@ -407,6 +410,17 @@ async function start(): Promise<void> {
 
   // the map follows the store: layers added or removed, the year changed
   let previous: AtlasState = { ...store.get(), active: [] };
+  /** A network layer opens on its production places, once its features are in; copies are one checkbox away (spec 012 FR-006). */
+  function openOnProductionPlaces(slug: string, loaded: readonly LoadedFeature[]): void {
+    const now = store.get();
+    if (now.facets[slug] || !now.active.includes(slug)) return;
+    const selection = defaultRoleSelection(loaded.map((f) => f.properties as Record<string, unknown>));
+    if (!selection?.role) return;
+    store.set(setFacet(now, slug, 'role', selection.role));
+    // an inspector already open on this layer redraws, so its checkboxes show the selection the map applies
+    if (store.get().focused === slug) showInspector(store.get());
+  }
+
   store.subscribe((state) => {
     const added = state.active.filter((slug) => !previous.active.includes(slug));
     const removed = previous.active.filter((slug) => !state.active.includes(slug));
@@ -430,7 +444,7 @@ async function start(): Promise<void> {
       say('The map needs WebGL, which this browser does not offer. The overview and a table for each layer stand in for it.');
       for (const slug of added) {
         const layer = index.layers.find((l) => l.slug === slug);
-        if (layer) void fetchFeatures(slug, layer.provenance).then((loaded) => { features.set(slug, loaded); render(store.get()); });
+        if (layer) void fetchFeatures(slug, layer.provenance).then((loaded) => { features.set(slug, loaded); openOnProductionPlaces(slug, loaded); render(store.get()); });
       }
     } else if (added.length > 0) {
       void ensureMap().then(async (map) => {
@@ -441,6 +455,7 @@ async function start(): Promise<void> {
           if (!colours.has(slug)) colours.set(slug, colours.size);
           const loaded = await map.add(slug, layer.provenance, colours.get(slug) ?? 0, layer.role === 'map-overlay' ? { opacity: () => opacities.get(slug) ?? DEFAULT_OVERLAY_OPACITY } : undefined);
           features.set(slug, loaded.features);
+          openOnProductionPlaces(slug, loaded.features);
           map.setFacet(slug, facetExpression(store.get().facets[slug] ?? {}));
           // a layer added already hidden (the address said so) is drawn for no one
           if (store.get().hidden?.includes(slug)) map.setVisible(slug, false);

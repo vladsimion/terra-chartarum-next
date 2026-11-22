@@ -35,5 +35,11 @@ export const GEOREF_CONFIDENCE_VALUES = ['secure', 'probable', 'possible', 'conj
 /** The parts a georeferencing must state (FR-019). */
 export const GEOREF_PARTS = ['map', 'annotation', 'transformation', 'residual_error_m', 'control_points', 'confidence'] as const;
 
+/**
+ * Layer assets the Atlas build makes from the registry itself, not from a file (spec 012 R4). A
+ * layer naming one is available by construction; its built size is judged by the build.
+ */
+export const DERIVED_ASSETS = ['derived:place-roles'] as const;
+
 /** One static asset on the host, in bytes: 25 MiB (Cloudflare Workers static assets, research R3). */
 export const STATIC_ASSET_LIMIT_BYTES = 25 * 1024 * 1024;

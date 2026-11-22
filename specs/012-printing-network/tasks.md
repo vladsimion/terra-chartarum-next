@@ -126,27 +126,31 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 
 ### Tests (write first, see them fail)
 
-- [ ] T024 [P] [US2] Write `tests/atlas/unit/network-features.test.ts` for `networkFeatures(records)`:
+- [x] T024 [P] [US2] Write `tests/atlas/unit/network-features.test.ts` for `networkFeatures(records)`:
   - one feature per public edition × place role, at the place's `location`;
   - properties as in `contracts/network-layer.md`, including `formerly: true` exactly when a `held_at` has `valid_to`;
   - a place role on a held place yields no feature and an `ATLAS-ROLE-PLACE-HELD` failure naming edition and place;
   - `attribution_history` yields no feature;
   - a held edition yields nothing.
-- [ ] T025 [P] [US2] Add a case to `tests/atlas/build/convert.test.ts`: a layer with `asset: derived:place-roles` is built from the registry into `data/layers/<slug>.fgb`, with facets `role`, `basis`, `confidence`. `LAYER-TIME` and `LAYER-FACET` accept it.
-- [ ] T026 [P] [US2] Add a case to `tests/atlas/build/leak.test.ts`: the built network layer contains no held edition, held place or held holder.
-- [ ] T027 [P] [US2] Write `tests/atlas/e2e/network.spec.ts` on a fixture registry with one edition (attributed production place, one current and one former holding):
+- [x] T025 [P] [US2] Add a case to `tests/atlas/build/convert.test.ts`: a layer with `asset: derived:place-roles` is built from the registry into `data/layers/<slug>.fgb`, with facets `role`, `basis`, `confidence`. `LAYER-TIME` and `LAYER-FACET` accept it.
+- [x] T026 [P] [US2] Add a case to `tests/atlas/build/leak.test.ts`: the built network layer contains no held edition, held place or held holder.
+- [x] T027 [P] [US2] Write `tests/atlas/e2e/network.spec.ts` on a fixture registry with one edition (attributed production place, one current and one former holding):
   - the default view shows one production pin;
   - "Show copies" adds two pins, labelled "A copy is kept here: …" and "Formerly kept here: …";
   - the attributed pin's accessible name says "attributed";
   - the legend lists only the roles drawn;
   - the corridors from the collection's default layers are labelled as approximations;
   - every control works by keyboard alone, and axe reports no violations.
+  - *Done 2026-11-22:* at `tests/atlas/e2e-network/network.spec.ts`, run by its own config (`playwright.network.config.ts`, `npm run test:e2e:network`, a CI step). It builds the Atlas fixture with the network overlay (`tests/atlas/fixtures/network/`) laid over a copy, so the Atlas's own 63 count assertions keep their fixture. The spec was written after the client; to show it tests the behaviour, it was run with the client changes stashed: all five fail, and with them all pass.
 
 ### Implementation
 
-- [ ] T028 [US2] Implement `networkFeatures` in `src/atlas/build/network-features.ts` (pure). T024 goes green.
-- [ ] T029 [US2] Accept the `derived:place-roles` asset kind in the layer rules (`src/registry/rules/atlas.ts`) and in `src/atlas/build/write-outputs.ts`, building the FlatGeobuf from `networkFeatures`. T025 and T026 go green.
-- [ ] T030 [US2] In `src/atlas-client`:
+- [x] T028 [US2] Implement `networkFeatures` in `src/atlas/build/network-features.ts` (pure). T024 goes green.
+- [x] T029 [US2] Accept the `derived:place-roles` asset kind in the layer rules (`src/registry/rules/atlas.ts`) and in `src/atlas/build/write-outputs.ts`, building the FlatGeobuf from `networkFeatures`. T025 and T026 go green.
+  - *Done 2026-11-22:* `LIFE-AVAILABILITY` accepts `DERIVED_ASSETS` (`src/registry/schemas/atlas-values.ts`). The layer rules needed no other change. Two build failures were added: `ATLAS-ROLE-PLACE-HELD` and `ATLAS-ROLE-PLACE-LOCATION`.
+  - **Time, amended:** custody dates are text (`held_from`, `held_to`), and the layer is `envelope_only`. A production pin shows from its printing to the end of the envelope.
+
+- [x] T030 [US2] In `src/atlas-client`:
   - a role filter with `produced_at` as the default;
   - the "Show copies" toggle;
   - role symbols (produced, held, formerly as hollow, attributed as dashed);
@@ -155,11 +159,31 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
   - accessible names and inspector headings that state the role in words, as in `contracts/network-layer.md`.
   
   T027 goes green.
-- [ ] T031 [US2] Mint the network layer (`registry new layer`), with `asset: derived:place-roles`, `role: historical`, `theme: networks-circulation`, `envelope: 1508/1570`, `time_mode: per_feature`, and facets `role`, `basis`, `confidence`. Held.
-- [ ] T032 [US2] Mint the collection "The printing network, 1508–1560s" (`registry new collection`), with `default_layers` set to the network layer and the corridors layer (`tc:tc:layer:layer-000001`). Held.
+  - *Done 2026-11-22 (`src/atlas/roles.ts`, unit-tested):*
+    - **Symbols:** a square for made, dashed when attributed; a filled circle for a copy kept; a hollow circle for formerly kept. They are drawn as MapLibre icons.
+    - **Legend:** it lists only the roles the selection keeps.
+    - **Role facet:** it speaks in words ("Made here", "Copies kept here"), and a layer with one opens on production places. The facet checkbox is the "Show copies" toggle (contract amended).
+    - **Text:** each pin's words are its `label` and `name`, which the no-WebGL table reads. A canvas pin has no accessible name of its own: the legend, the facet and the feature table carry the words.
+
+- [x] T031 [US2] Mint the network layer (`registry new layer`), with `asset: derived:place-roles`, `role: historical`, `theme: networks-circulation`, `envelope: 1508/1570`, `time_mode: per_feature`, and facets `role`, `basis`, `confidence`. Held.
+  - *Done 2026-11-22:* `layer-000003`, with `dataset-000003` ("Place roles of editions", the registry itself). Held. The public network is empty until an edition and its places are published.
+
+- [x] T032 [US2] Mint the collection "The printing network, 1508–1560s" (`registry new collection`), with `default_layers` set to the network layer and the corridors layer (`tc:tc:layer:layer-000001`). Held.
+  - *Done 2026-11-22:* `collection-000001`, with `default_layers` set to the network and the corridors (`layer-000001`). Held.
+
 - [ ] T033 [US2] Run the Lighthouse budgets (ADR 0004) on the Atlas with the network collection; record the result here
-- [ ] T034 [P] [US2] Document the derived asset kind in `specs/005-atlas/contracts/` (the build-outputs contract) and the README's Atlas section
-- [ ] T035 [US2] Full checks green, including `npm run test:e2e:atlas`. Update the dossier and Build Log rows.
+  - *Not run separately, 2026-11-22.* The network layer and collection are held, so the public Atlas is unchanged, and CI's Lighthouse shards cover it. The network overlay site is checked by axe in both colour schemes. Lighthouse on the overlay site waits for a published edition (US3–US5), or for the author's go-ahead to add it to the Lighthouse config.
+
+- [x] T034 [P] [US2] Document the derived asset kind in `specs/005-atlas/contracts/` (the build-outputs contract) and the README's Atlas section
+  - *Done 2026-11-22:* `specs/005-atlas/contracts/build-outputs.md`, `atlas-rule-ids.md` and the README's Atlas section are updated.
+
+- [x] T035 [US2] Full checks green, including `npm run test:e2e:atlas`. Update the dossier and Build Log rows.
+  - *Done 2026-11-22:* the checks pass:
+    - `npm test` (3,186), `typecheck`, `lint`, the gate (PASS, 327 entities) and `status --check`;
+    - `test:e2e:atlas` (207);
+    - `test:e2e:network` (10).
+
+    Found on the way: taking the opening selection from `facets.json` made adding a layer fetch a second file, against spec 005 FR-006 (`catalogue-requests.spec.ts` failed). It is now read from the features the map already loaded, and an open inspector redraws when the selection applies.
 
 ---
 

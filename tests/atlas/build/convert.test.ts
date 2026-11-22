@@ -4,7 +4,7 @@ import { geojson } from 'flatgeobuf';
 import { describe, expect, it } from 'vitest';
 import { buildAtlas } from '../../../src/atlas/build/write-outputs.js';
 import { MAPLIBRE_FILES } from '../../../src/atlas/build/vendor.js';
-import { copyFixture, editFeatures, editRecord, FIXTURE, tempDir, tree } from '../support/variant.js';
+import { copyFixture, editFeatures, editRecord, FIXTURE, networkFixture, tempDir, tree } from '../support/variant.js';
 
 /*
  * Spec 005 T027 (FR-006, FR-011, contracts/build-outputs.md, atlas-rule-ids.md "Build-time checks"):
@@ -298,3 +298,53 @@ describe('serializeFeatures', () => {
     expect(out[2]).toMatchObject({ c: '3' });
   });
 });
+
+/*
+ * Spec 012 T025 (R4, contracts/network-layer.md): a layer whose asset is `derived:place-roles` is
+ * built from the registry: one point per public edition and place role, faceted by role, basis and
+ * confidence, with no file of its own in the repository.
+ */
+describe('the derived printing network', () => {
+  it('writes the network layer, its facets and its collection’s overview, and nothing for a file it does not have', async () => {
+    const { written, failures } = await built(networkFixture());
+    expect(failures).toEqual([]);
+    expect(written).toEqual(expect.arrayContaining(['data/layers/printing-network.fgb', 'data/layers/printing-network.info.json', 'data/layers/printing-network.facets.json', 'data/overview/printing-network-fixtures.svg']));
+  });
+
+  it('is built from the registry into a FlatGeobuf, with one point per place role', async () => {
+    const { outDir, failures } = await built(networkFixture());
+    expect(failures).toEqual([]);
+    const features = await featuresOf(outDir, 'printing-network');
+    expect(features.map((f) => [f.properties.role, f.properties.place_name, f.properties.formerly])).toEqual([
+      ['produced_at', 'Fixture Press Monastery', false],
+      ['held_at', 'Fixture Library Town', false],
+      ['held_at', 'Fixture Press Monastery', true],
+    ]);
+    expect(features.every((f) => typeof f.properties.label === 'string' && f.properties.label !== '')).toBe(true);
+  });
+
+  it('summarises its role, basis and confidence facets', async () => {
+    const { outDir } = await built(networkFixture());
+    const facets = json(outDir, 'data/layers/printing-network.facets.json').facets as { property: string; values: { value: string; count: number }[] }[];
+    expect(facets.map((f) => [f.property, f.values])).toEqual([
+      ['role', [{ value: 'held_at', count: 2 }, { value: 'produced_at', count: 1 }]],
+      ['basis', [{ value: 'attributed', count: 1 }, { value: 'stated', count: 2 }]],
+      ['confidence', [{ value: 'possible', count: 1 }, { value: 'probable', count: 2 }]],
+    ]);
+  });
+
+  it('fails, writing nothing, when a role names a held place (ATLAS-ROLE-PLACE-HELD)', async () => {
+    const root = networkFixture();
+    editRecord(root, 'content/place/place-000005.yaml', (r) => { r.lifecycle = 'researching'; r.release = 'held'; });
+    const { written, failures } = await built(root);
+    expect(written).toEqual([]);
+    expect(failures.map((f) => [f.check, f.layer])).toEqual([['ATLAS-ROLE-PLACE-HELD', 'printing-network']]);
+    expect(failures[0]?.message).toContain('bibliography_entry-000008');
+  });
+
+  it('applies the host’s size limit to the built asset (ATLAS-ASSET-SIZE)', async () => {
+    const { failures } = await built(networkFixture(), { limitBytes: 200 });
+    expect(failures.some((f) => f.check === 'ATLAS-ASSET-SIZE' && f.layer === 'printing-network')).toBe(true);
+  });
+});
+

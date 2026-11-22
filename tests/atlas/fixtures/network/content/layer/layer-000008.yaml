@@ -1,0 +1,21 @@
+id: tc:tc:layer:layer-000008
+family: layer
+origin: minted
+title: The printing network
+slug: printing-network
+lifecycle: published
+release: released
+role: historical
+asset: derived:place-roles
+dataset: tc:tc:dataset:dataset-000002
+geometry_provenance: generalized_editorial
+theme: networks-circulation
+tags: [fixture]
+envelope: 1500/1570
+time_mode: envelope_only
+facets:
+  - { property: role, label: Role, kind: category }
+  - { property: basis, label: Basis, kind: category }
+  - { property: confidence, label: Confidence, kind: category }
+rights:
+  licence: CC BY 4.0

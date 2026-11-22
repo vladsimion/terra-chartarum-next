@@ -1,0 +1,31 @@
+id: tc:tc:layer:layer-000003
+family: layer
+origin: minted
+title: The printing network, 1508–1560s
+slug: the-printing-network-1508-1560s
+slug_history: []
+lifecycle: proposed
+release: held
+relations: []
+role: historical
+asset: derived:place-roles
+dataset: tc:tc:dataset:dataset-000003
+geometry_provenance: generalized_editorial
+description: Where the books of the three lands were made, 1508 to the 1560s, and,
+  on request, where their copies are kept now. Built from the editions' place
+  roles, never drawn by hand; every pin says its role, and an attributed place
+  says so. Earlier attributions and paper are not drawn.
+theme: networks-circulation
+tags:
+  - printing
+  - wallachia
+  - transylvania
+envelope: 1508/1570
+time_mode: envelope_only
+facets:
+  - { property: role, label: Role, kind: category }
+  - { property: basis, label: Basis, kind: category }
+  - { property: confidence, label: Confidence, kind: category }
+rights:
+  licence: CC BY 4.0
+  attribution: Terra Chartarum

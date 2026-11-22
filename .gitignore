@@ -7,6 +7,7 @@ dist-bibliography/
 dist-rooms/
 dist-atlas/
 dist-atlas-perf/
+dist-atlas-network/
 reports/
 .astro/
 .env
@@ -23,10 +24,12 @@ playwright-report-bibliography/
 playwright-report-rooms/
 playwright-report-atlas/
 playwright-report-atlas-perf/
+playwright-report-network/
 test-results/
 reports-completeness/
 .lighthouseci/
 tests/atlas/.perf-registry/
+tests/atlas/.network-registry/
 .claude/worktrees/
 sdd-confluence/
 

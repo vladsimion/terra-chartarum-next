@@ -5,7 +5,7 @@ This is the programme dossier for spec 012. It follows the fourteen-point contra
 | | |
 |---|---|
 | Programme type | Research capability: the first Stage III slice (Wallachia and Moldavia). It adds place roles on editions, a `person` family and a network layer derived from the records. |
-| Status | **Specified, planned and tasked.** The claim PR is #152 (draft). `/speckit-analyze` found two high findings and six smaller ones, all fixed on #152. **US1** (place roles, the rules, publicity, the edition section, the 1508 edition) is built and under review on #153. |
+| Status | **Under way.** Specified, planned and tasked; `/speckit-analyze` found two high findings and six smaller ones, all fixed (#152, merged 2026-11-22). **US1** (place roles, the rules, publicity, the edition section, the 1508 edition) merged with #153 on 2026-11-22. **US2** (the derived network layer, its collection and the map) is built and under review on #154. |
 | Jira | **TCX-79** is the Stage III epic. **TCX-82** (III-1, the printing network) is In Progress. The grill that preceded it is TCX-80 and TCX-81. |
 | Canonical parent | A standalone page at the root of the space, like specs 001 to 010. It is linked from the Stage III programme note (page 47120387). |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). The spec is in `specs/012-printing-network/`. The decisions are `docs/adr/0021` (place roles), `docs/adr/0023` (person records) and `docs/adr/0014` as amended on 2026-11-22. |
@@ -14,7 +14,7 @@ This is the programme dossier for spec 012. It follows the fourteen-point contra
 <!-- status:begin -->
 - Registry rules: 102
 - Named mutations: 134
-- Entities: 324 (0 errors, 112 warnings)
+- Entities: 327 (0 errors, 112 warnings)
 <!-- status:end -->
 
 ## 2. Purpose / thesis
@@ -124,6 +124,9 @@ SC-001 to SC-006 of the spec. None are met yet. SC-003 (five readers) is the aut
 | 2026-11-22 | `entry-public.test.ts`, `bibliography-project.test.ts` (FR-014, ADR 0014 amended) | an uncited, published and released edition with place roles is public; without them it is not; a held one never is; a role on a held place, held Evidence or a held Source is dropped from the projection, a historiography note on a held place note and all |
 | 2026-11-22 | `entry-page.test.ts` on the bibliography fixture site (T011) | the section shows the production place with basis, confidence, date and "locator pending"; current then former copies; earlier attributions as a note; no held holder or place in the HTML |
 | 2026-11-22 | `registry check` on the real registry | PASS, 324 entities after merging `main`, 0 errors; the eight new records add no warning |
+| 2026-11-22 | `network-features.test.ts`, `roles.test.ts` (US2; FR-004 to FR-007, FR-012) | one point per public edition and place role at the place's location, labelled in words; nothing for a held edition or an earlier attribution; a held place or a place without a location fails the build by name; each role its own symbol; the legend only the roles drawn; the role facet in words, opening on production places |
+| 2026-11-22 | `convert.test.ts`, `leak.test.ts` on the network overlay | `derived:place-roles` is built into a FlatGeobuf with role, basis and confidence facets; a held place writes nothing; the size limit applies; no held edition, holder or place reaches the built layer |
+| 2026-11-22 | `test:e2e:network` (US2 scenarios 1 to 4; SC-004) | 10 passed in both colour schemes: production places by default, copies by one checkbox, the legend in words, the keyboard alone, axe clean; with the client changes stashed, all five specs fail |
 
 ## 13. Canonical ownership and propagation
 
