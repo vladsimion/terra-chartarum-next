@@ -1,0 +1,8 @@
+id: tc:tc:place:place-000002
+family: place
+origin: minted
+title: A held library town
+slug: held-library-town
+lifecycle: researching
+release: held
+place_type: settlement

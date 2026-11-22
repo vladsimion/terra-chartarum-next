@@ -1,3 +1,4 @@
+import { placesView, type PlacesView } from './places-view.js';
 import { formatBibliographyItem, type CslItem } from '../essays/citations.js';
 import { layerAddress } from './addresses.js';
 import type { PublicRecord } from '../registry/project.js';
@@ -102,6 +103,8 @@ export interface EntryView {
   identifiers: Identifier[];
   digitalCopy: string | null;
   editions: { relation: EditionRelation; label: string; title: string; href: string }[];
+  /** Where it was made and where it is kept (spec 012); null when the entry has no place roles. */
+  places: PlacesView | null;
   evidence: CitedItem[];
   listed: CitedItem[];
 }
@@ -136,6 +139,7 @@ export function entryView(entry: PublicRecord, records: readonly PublicRecord[],
     identifiers: identifiersOf(item),
     digitalCopy: typeof entry.digital_copy === 'string' ? entry.digital_copy : null,
     editions: editionsOf(entry.id, publicEntries(records)).map((e) => ({ relation: e.relation, label: RELATION_LABELS[e.relation], title: e.entry.title, href: address(e.entry.slug) })),
+    places: placesView(entry, records),
     evidence: mine.filter((c) => c.route === 'evidence').map(cited),
     listed: mine.filter((c) => c.route === 'listed').map(cited),
   };

@@ -15,6 +15,7 @@ import { LOCATOR_RULES } from './locators.js';
 import { MAP_RULES } from './map.js';
 import { MIGRATION_RULES } from './migration.js';
 import { loadPath } from './path.js';
+import { PLACE_ROLE_RULES } from './place-roles.js';
 import { PROVENANCE_RULES } from './provenance.js';
 import { REFERENCE_RULES } from './references.js';
 import { roomCopy, roomPublic, roomSet } from './rooms.js';
@@ -51,4 +52,5 @@ export const ALL_RULES: Rule[] = [
   ...ATLAS_RULES,
   ...BIBLIOGRAPHY_RULES,
   ...MIGRATION_RULES,
+  ...PLACE_ROLE_RULES,
 ];

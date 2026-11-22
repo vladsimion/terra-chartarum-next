@@ -5,7 +5,7 @@ import { GLOSSARY_VOCABULARIES, vocabularyDefinitions } from '../../../src/regis
 import { ANALYTICAL_DIMENSION_VALUES } from '../../../src/registry/schemas/shared.js';
 
 /*
- * Spec 010 T031 (US3 scenario 2; FR-012; research R4): every value of the seven glossary
+ * Spec 010 T031 (US3 scenario 2; FR-012; research R4): every value of the glossary
  * vocabularies has its definition in GLOSSARY.md's Vocabulary values section, and every analytical
  * dimension its definition in FRAMEWORK.md, both ways round.
  */
@@ -15,7 +15,7 @@ const FRAMEWORK = readFileSync(fileURLToPath(new URL('../../../FRAMEWORK.md', im
 describe('vocabularyDefinitions over the real GLOSSARY.md and FRAMEWORK.md', () => {
   const definitions = vocabularyDefinitions(GLOSSARY, FRAMEWORK);
 
-  it('defines every value of the seven glossary vocabularies', () => {
+  it('defines every value of the glossary vocabularies', () => {
     for (const [vocabulary, values] of Object.entries(GLOSSARY_VOCABULARIES)) {
       expect(Object.keys(definitions[vocabulary] ?? {}).sort(), vocabulary).toEqual([...values].sort());
       for (const value of values) expect(definitions[vocabulary]?.[value], `${vocabulary} ${value}`).toMatch(/\S/);

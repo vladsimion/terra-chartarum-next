@@ -161,12 +161,34 @@ export const LayerSchema = EntityBase.extend({
  * relations and an external digital copy to the common fields. Identifiers and keywords live in the
  * CSL-JSON file `csl` names, and an entry carries no `rights` in v1 (FR-011).
  */
+/**
+ * A place role on an edition (ADR 0021, spec 012 data-model.md). Every key optional and typed only:
+ * the PLACE-ROLE-* rules and ENUM-INVALID judge the values, so a draft still loads.
+ */
+export const PlaceRoleSchema = z.looseObject({
+  place: z.string().optional(),
+  role: z.string().optional(),
+  basis: z.string().optional(),
+  confidence: z.string().optional(),
+  valid_from: z.string().optional(),
+  valid_to: z.string().optional(),
+  holder: z.string().optional(),
+  shelfmark: z.string().optional(),
+  evidence: z.array(z.string()).optional(),
+});
+
+/** A superseded attribution of an edition (FR-004): a historiography note, never a place role and never drawn. */
+const AttributionNote = z.looseObject({ place: z.string().optional(), source: z.string().optional(), note: z.string().optional() });
+
 export const BibliographyEntrySchema = EntityBase.extend({
   csl: z.string().optional(),
   section: z.string().optional(),
   edition_of: z.string().optional(),
   translation_of: z.string().optional(),
   digital_copy: HttpsUrl.optional(),
+  place_roles: z.array(PlaceRoleSchema).optional(),
+  attribution_history: z.array(AttributionNote).optional(),
+  survival: z.string().optional(),
 });
 
 export const CollectionSchema = EntityBase.extend({

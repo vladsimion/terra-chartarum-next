@@ -2,6 +2,7 @@
 import { citeFiles } from '../cite-inputs.js';
 import type { CitedItem, EntryView } from '../views.js';
 import CiteLinks from './CiteLinks.astro';
+import EditionPlaces from './EditionPlaces.astro';
 
 interface Props {
   view: EntryView;
@@ -42,6 +43,8 @@ const groups: { name: 'evidence' | 'listed'; heading: string; items: CitedItem[]
       )}
     </dl>
   )}
+
+  {view.places && <EditionPlaces view={view.places} />}
 
   {view.editions.length > 0 && (
     <section class="editions" aria-labelledby="editions-heading">

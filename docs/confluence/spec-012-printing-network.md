@@ -5,16 +5,16 @@ This is the programme dossier for spec 012. It follows the fourteen-point contra
 | | |
 |---|---|
 | Programme type | Research capability: the first Stage III slice (Wallachia and Moldavia). It adds place roles on editions, a `person` family and a network layer derived from the records. |
-| Status | **Specified, planned and tasked.** The claim PR is #152 (draft). `/speckit-analyze` found two high findings and six smaller ones, all fixed on #152. US1 has not started. |
+| Status | **Specified, planned and tasked.** The claim PR is #152 (draft). `/speckit-analyze` found two high findings and six smaller ones, all fixed on #152. **US1** (place roles, the rules, publicity, the edition section, the 1508 edition) is built on `012-us1-place-roles` and under review. |
 | Jira | **TCX-79** is the Stage III epic. **TCX-82** (III-1, the printing network) is In Progress. The grill that preceded it is TCX-80 and TCX-81. |
 | Canonical parent | A standalone page at the root of the space, like specs 001 to 010. It is linked from the Stage III programme note (page 47120387). |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). The spec is in `specs/012-printing-network/`. The decisions are `docs/adr/0021` (place roles), `docs/adr/0023` (person records) and `docs/adr/0014` as amended on 2026-11-22. |
 | Last reconciliation | 2026-11-22, on `012-printing-network`. The counts this spec does not own are generated below. |
 
 <!-- status:begin -->
-- Registry rules: 96
-- Named mutations: 126
-- Entities: 312 (0 errors, 112 warnings)
+- Registry rules: 102
+- Named mutations: 134
+- Entities: 320 (0 errors, 112 warnings)
 <!-- status:end -->
 
 ## 2. Purpose / thesis
@@ -120,7 +120,10 @@ SC-001 to SC-006 of the spec. None are met yet. SC-003 (five readers) is the aut
 
 | Date | What | Result |
 |---|---|---|
-| — | — | Nothing verified yet; rows are added as each story merges |
+| 2026-11-22 | `place-roles.test.ts` (US1 scenarios 1 to 4; FR-001 to FR-003, FR-011) | 15 tests: one production place and two holdings pass. A second production place, a holding without holder or start, a missing place, role, basis or confidence, a bad EDTF date, a map with place roles, a role without evidence at `ready_for_build`, and `secure` on pending locators each fail with their own rule and field |
+| 2026-11-22 | `entry-public.test.ts`, `bibliography-project.test.ts` (FR-014, ADR 0014 amended) | an uncited, published and released edition with place roles is public; without them it is not; a held one never is; a role on a held place, held Evidence or a held Source is dropped from the projection, a historiography note on a held place note and all |
+| 2026-11-22 | `entry-page.test.ts` on the bibliography fixture site (T011) | the section shows the production place with basis, confidence, date and "locator pending"; current then former copies; earlier attributions as a note; no held holder or place in the HTML |
+| 2026-11-22 | `registry check` on the real registry | PASS, 320 entities, 0 errors; the eight new records add no warning |
 
 ## 13. Canonical ownership and propagation
 

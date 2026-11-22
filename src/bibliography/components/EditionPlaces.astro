@@ -1,0 +1,89 @@
+---
+import type { PlaceLine, PlacesView } from '../places-view.js';
+
+/*
+ * Spec 012 contracts/pages.md "Edition": where the edition was made and where its copies are kept,
+ * in words. A production place and a library are never confused: each is headed by its role.
+ */
+interface Props {
+  view: PlacesView;
+}
+
+const { view } = Astro.props;
+const qualifiers = (l: PlaceLine) => `${l.basis}, confidence: ${l.confidence}`;
+---
+
+<section id="where-made-kept" class="where-made-kept" aria-labelledby="where-made-kept-heading">
+  <h2 id="where-made-kept-heading">Where it was made and where it is kept</h2>
+
+  {view.made && (
+    <p class="made-at">
+      <strong>Made at {view.made.place}</strong>{view.made.from && <>, {view.made.from}</>} ({qualifiers(view.made)}){view.made.pending && <span class="pending"> (locator pending)</span>}.
+    </p>
+  )}
+
+  {view.noneKnown && <p class="no-copy-known"><strong>No copy is known</strong> to survive.</p>}
+
+  {view.current.length > 0 && (
+    <section class="copies-kept">
+      <h3>Copies kept at</h3>
+      <ul>
+        {view.current.map((l) => (
+          <li>
+            {l.holder}{l.shelfmark && <>, {l.shelfmark}</>}, {l.place}{l.from && <>, since {l.from}</>} ({qualifiers(l)}){l.pending && <span class="pending"> (locator pending)</span>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {view.former.length > 0 && (
+    <section class="formerly-kept">
+      <h3>Formerly kept at</h3>
+      <ul>
+        {view.former.map((l) => (
+          <li>
+            {l.holder}{l.shelfmark && <>, {l.shelfmark}</>}, {l.place}, {l.from} to {l.to} ({qualifiers(l)}){l.pending && <span class="pending"> (locator pending)</span>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {view.earlier.length > 0 && (
+    <section class="earlier-attributions">
+      <h3>Earlier attributions</h3>
+      <p class="earlier-note">Places proposed before and since set aside. They are not where the book was made, and are not shown on the map.</p>
+      <ul>
+        {view.earlier.map((e) => (
+          <li>{e.place}: {e.note}{e.source && <span class="source"> Source: {e.source}.</span>}</li>
+        ))}
+      </ul>
+    </section>
+  )}
+</section>
+
+<style>
+  .where-made-kept {
+    margin: 0 0 var(--space-5);
+    max-width: var(--prose-max);
+  }
+
+  ul {
+    margin: 0 0 var(--space-4);
+    padding-inline-start: var(--space-5);
+  }
+
+  li {
+    margin-bottom: var(--space-2);
+  }
+
+  .earlier-note {
+    color: var(--ink-muted);
+  }
+
+  /* pending is said in words and set in italic, never shown by colour alone */
+  .pending {
+    font-style: italic;
+  }
+</style>

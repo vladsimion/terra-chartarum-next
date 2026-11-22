@@ -1,0 +1,17 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000050",
+  "type": "book",
+  "title": "Liturghier",
+  "language": "cu",
+  "publisher": "Macarie (typographer), for Radu the Great",
+  "issued": {
+    "date-parts": [
+      [
+        1508,
+        11,
+        10
+      ]
+    ]
+  },
+  "note": "Slavonic Leitourgikon. Date stated in the epilogue; place not stated (attributed to Dealu Monastery, Târgoviște)."
+}
