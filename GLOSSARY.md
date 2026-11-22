@@ -41,6 +41,7 @@ This glossary is maintained by `/grill-with-docs`. Specs, plans, code identifier
 | **Enrichment queue** | The editor-only ranked list of records that most need work (publication impact × scholarly risk × reuse value). Never published. Not a to-do list on the site. |
 | **Record scope** | What a Map object record stands for: an `object` (a concrete witness), a `work` (an edition known from the literature) or a `concept` (an idea with no artefact). Not a lifecycle state. |
 | **Cartographer** | A maker (cartographer, engraver, publisher) with a profile record. |
+| **Person** | Someone who made, sponsored or handled the objects the project studies, such as a printer of books, with names and life dates. One person record, whatever the roles; a Cartographer profile describes a maker of maps and may point to the person. Added for the printing network (spec 012), 22 November 2026. |
 | **Place** | A historical place authority with alternate names and temporal validity. |
 | **Source** | A primary or secondary work cited as evidence, pointing at one Bibliography entry. A finding aid (a work used only to find sources) is recorded as a Source flagged as a finding aid and is never cited as evidence. |
 | **Attestation** | place × source × form: evidence that a source names or depicts a place. A source's silence about a place is also an Attestation (form `silence`) carrying one silence state. |
