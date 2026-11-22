@@ -75,6 +75,7 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `LOC-VERIFIED-FIELDS` | `verified` requires `verified_by`, `verified_on`, `consulted_copy` | US2.2 | always |
 | `LOC-SECURE-PENDING` | `secure` claim with a `pending` locator | US2.5 | always |
 | `LOC-AI-VERIFIED` | AI-proposed locator cannot be `verified` without a person | FR-008 | always |
+| `LOC-ARCHIVED` | a locator's `archived_copy` (an `https` snapshot URL) and `archived_on` (`YYYY-MM-DD`, not in the future) come together | spec 010 FR-018 | always |
 | `RIGHTS-MISSING` | rights/licence present | US2.3 | `ready_for_build` |
 | `RIGHTS-CLEARED` | reproduction rights cleared for images | ADR 0003 §5 | `publishable` |
 | `SIL-STATE` | silence attestation has exactly one silence state | US2.4 | always |

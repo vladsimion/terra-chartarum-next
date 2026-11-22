@@ -1,0 +1,51 @@
+# The weekly link and manifest checker (spec 010 US4, ADR 0019 §3, contracts/link-check.md).
+# Reports dead links and changed IIIF manifests to Jira and proposes archived copies in one pull
+# request. It never writes a record on main, never merges, and is not part of `gate`: a broken
+# external site cannot block a deploy.
+name: link-check
+
+on:
+  schedule:
+    - cron: '17 3 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  # to start the registry workflow (the gate) on the archived-copy branch; see GitHubClient.runGate
+  actions: write
+
+concurrency:
+  group: link-check
+  cancel-in-progress: false
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Restore the previous runs' state
+        uses: actions/cache/restore@v4
+        with:
+          path: linkcheck-state.json
+          key: linkcheck-state-${{ github.run_id }}
+          restore-keys: linkcheck-state-
+      - name: Check links and manifests
+        env:
+          JIRA_USER: ${{ secrets.JIRA_USER }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: npx tsx scripts/link-check.ts --dir . --state linkcheck-state.json
+      - name: Save this run's state
+        if: always() && hashFiles('linkcheck-state.json') != ''
+        uses: actions/cache/save@v4
+        with:
+          path: linkcheck-state.json
+          key: linkcheck-state-${{ github.run_id }}

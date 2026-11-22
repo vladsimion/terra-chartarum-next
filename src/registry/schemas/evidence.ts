@@ -17,6 +17,9 @@ export const LocatorShape = z.looseObject({
   verified_by: z.string().optional(),
   verified_on: z.string().optional(),
   consulted_copy: z.string().optional(),
+  /** A web-archive snapshot of the consulted copy and the date it was taken (spec 010 FR-018); LOC-ARCHIVED judges them. */
+  archived_copy: z.string().optional(),
+  archived_on: z.string().optional(),
 });
 
 /** Evidence record structure (data-model.md "Evidence record"); presence of fields is judged by rules. */

@@ -14,8 +14,8 @@ Programme dossier for spec 009, written against the fourteen-point contract in [
 | Last reconciliation | 2026-11-18 after T062, on `claude/elegant-gates-j2rlor`: 2769 Vitest tests in 228 files, all passing; `typecheck` and `lint:css` clean; `essay:ledger` 0 of 31 rows pending and `essay:reconcile` 0 differences without a resolution; the leak scan over the real production build reports 0 leaks; Lighthouse on the real page gives accessibility 1.00, LCP 2.4 s, CLS 0.029 and 0 script bytes. The counts this spec does not own are generated below. |
 
 <!-- status:begin -->
-- Registry rules: 95
-- Named mutations: 125
+- Registry rules: 96
+- Named mutations: 126
 - Entities: 311 (0 errors, 111 warnings)
 <!-- status:end -->
 

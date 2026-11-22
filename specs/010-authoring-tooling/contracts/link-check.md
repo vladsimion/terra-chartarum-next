@@ -6,7 +6,7 @@
 |---|---|
 | Triggers | `schedule` weekly (Monday 03:17 UTC) and `workflow_dispatch` |
 | Required check | no; `gate` in `registry.yml` does not depend on it |
-| Permissions | `contents: write`, `pull-requests: write` (this workflow only) |
+| Permissions | `contents: write`, `pull-requests: write`, `actions: write` (this workflow only; `actions` to start the gate on the archived-copy branch, amended 2026-11-22) |
 | Secrets | `JIRA_USER`, `JIRA_API_TOKEN`; checked before any request, the run fails if either is missing |
 | Cache | `linkcheck-state.json`, keyed per run and restored from the latest |
 | Entry point | `npx tsx scripts/link-check.ts --dir . --state linkcheck-state.json` |
@@ -44,6 +44,7 @@ Rate limit: one request per host per second; three attempts with backoff (2 s, 8
 - Only for a locator with `state: verified`, a `consulted_copy` URL and no `archived_copy`.
 - The checker requests a snapshot (`https://web.archive.org/save/<url>`), then reads the snapshot URL from `https://archive.org/wayback/available?url=<url>`. No snapshot, no change.
 - One branch per run, `linkcheck/archived-copies-<YYYY-MM-DD>`, one pull request listing each locator changed, adding only `locator.archived_copy` and `locator.archived_on`. The pull request runs the normal `registry` workflow, so the gate checks the change. A person merges it.
+- Amended 2026-11-22 (TCX-64): a pull request opened with the workflow's own `GITHUB_TOKEN` starts no other workflow, which is GitHub's rule against recursive runs. So the checker starts `registry.yml` on the branch through `workflow_dispatch`, the exception GitHub allows, and the `gate` check appears on the pull request's head commit. The two fields are inserted as text at the end of the locator block, so every other byte of the record, comments and spacing included, stays as written.
 
 ## What the checker never does
 
