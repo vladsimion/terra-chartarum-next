@@ -151,7 +151,7 @@ A reader learns that the paper of the 1508 book was Venetian and reached Wallach
 - **FR-012**: The paper claim, and any claim about materials or trade, MUST appear only through Evidence records. Nothing about paper is drawn without one.
 - **FR-013**: Every claim in the network MUST carry its analytical dimensions (Principle XI, `DIM-MISSING` from `ready_for_build`).
 - **FR-014**: Readers MUST see the network through the Atlas layer and through a page for each edition and each printer. Each page lists the record's place roles in words, and those places link to the layer. An essay on the network is out of scope for this spec.
-- **FR-015**: The `person` family MUST be added to the closed family list by amending spec 001 and ADR 0006. A person record carries names (with language and kind), life dates in EDTF, and the editions linked to it. It follows the same held/released and lifecycle rules as every other family, so a person appears publicly only when published and released.
+- **FR-015**: The `person` family MUST be added to the closed family list by amending spec 001 and ADR 0006 (decided in ADR 0023). A person record carries names (with language and kind), life dates in EDTF, and the editions linked to it. It follows the same held/released and lifecycle rules as every other family, so a person appears publicly only when published and released.
 
 ### Key Entities
 
