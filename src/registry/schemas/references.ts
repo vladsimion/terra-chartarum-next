@@ -33,6 +33,18 @@ const LISTS: Record<string, string[]> = {
 };
 
 /*
+ * References inside a list of objects (spec 012): each item of `list` has these scalar and list
+ * fields. Their paths are written `place_roles[].place`; a record's field names the item,
+ * `place_roles[0].place`, `place_roles[0].evidence[1]`.
+ */
+const NESTED: Record<string, { list: string; scalars: string[]; lists: string[] }[]> = {
+  bibliography_entry: [
+    { list: 'place_roles', scalars: ['place'], lists: ['evidence'] },
+    { list: 'attribution_history', scalars: ['place', 'source'], lists: [] },
+  ],
+};
+
+/*
  * The family a typed reference must point at. `relations[]` and an evidence `target.entity` are
  * deliberately untyped: they may point at anything. A successor (`superseded_by`) must be of the
  * record's own family, which `expectedFamilies` returns as that family.
@@ -53,7 +65,14 @@ const POINTS_AT: Record<string, Record<string, string>> = {
   cartographer: { bibliography: 'bibliography_entry' },
   layer: { dataset: 'dataset', 'georef.map': 'map', bibliography: 'bibliography_entry' },
   dataset: { bibliography: 'bibliography_entry' },
-  bibliography_entry: { edition_of: 'bibliography_entry', translation_of: 'bibliography_entry' },
+  bibliography_entry: {
+    edition_of: 'bibliography_entry',
+    translation_of: 'bibliography_entry',
+    'place_roles[].place': 'place',
+    'place_roles[].evidence': 'evidence',
+    'attribution_history[].place': 'place',
+    'attribution_history[].source': 'source',
+  },
   evidence: { source: 'source' },
   source: { entry: 'bibliography_entry' },
   attestation: { place: 'place', source: 'source' },
@@ -61,7 +80,8 @@ const POINTS_AT: Record<string, Record<string, string>> = {
 
 /** The family a reference field must point at, or null when it may point at any. */
 export function expectedFamily(recordFamily: string, field: string): string | null {
-  const base = field.replace(/\[\d+\]$/, '');
+  // an item index inside the path becomes `[]`; a trailing list index is dropped: place_roles[0].evidence[1] -> place_roles[].evidence
+  const base = field.replace(/\[\d+\](?=\.)/g, '[]').replace(/\[\d+\]$/, '');
   if (base === 'superseded_by') return recordFamily;
   return POINTS_AT[recordFamily]?.[base] ?? null;
 }
@@ -93,6 +113,24 @@ export function referenceFields(record: RegistryRecord): RefField[] {
     const value = valueAt(record, field);
     if (typeof value === 'string') refs.push({ field, id: value });
   }
+  for (const { list, scalars, lists } of NESTED[record.family] ?? []) {
+    const items = record[list];
+    if (!Array.isArray(items)) continue;
+    items.forEach((item, i) => {
+      if (item === null || typeof item !== 'object') return;
+      const fields = item as Record<string, unknown>;
+      for (const name of scalars) {
+        if (typeof fields[name] === 'string') refs.push({ field: `${list}[${i}].${name}`, id: fields[name] });
+      }
+      for (const name of lists) {
+        const values = fields[name];
+        if (!Array.isArray(values)) continue;
+        values.forEach((value, j) => {
+          if (typeof value === 'string') refs.push({ field: `${list}[${i}].${name}[${j}]`, id: value });
+        });
+      }
+    });
+  }
   if (record.family === 'evidence') {
     const target = record.target as { entity?: unknown } | undefined;
     if (target && typeof target.entity === 'string') refs.push({ field: 'target.entity', id: target.entity });
@@ -102,7 +140,7 @@ export function referenceFields(record: RegistryRecord): RefField[] {
 
 /** A declared reference path of a family, for tools that describe references without a record (spec 010 editor schemas). */
 export interface ReferencePath {
-  /** Dotted path, without an index: `rooms.secondary`. */
+  /** Dotted path, without an index: `rooms.secondary`; an item of a list of objects is `[]`: `place_roles[].place`. */
   path: string;
   /** True for a list of ids, false for one id. */
   list: boolean;
@@ -114,6 +152,10 @@ export interface ReferencePath {
 export function referencePaths(family: string): ReferencePath[] {
   const lists = [...(LISTS['*'] ?? []), ...(LISTS[family] ?? [])].map((path) => ({ path, list: true, family: expectedFamily(family, path) }));
   const scalars = [...(SCALARS['*'] ?? []), ...(SCALARS[family] ?? [])].map((path) => ({ path, list: false, family: expectedFamily(family, path) }));
+  const nested = (NESTED[family] ?? []).flatMap(({ list, scalars, lists: inner }) => [
+    ...scalars.map((name) => `${list}[].${name}`).map((path) => ({ path, list: false, family: expectedFamily(family, path) })),
+    ...inner.map((name) => `${list}[].${name}`).map((path) => ({ path, list: true, family: expectedFamily(family, path) })),
+  ]);
   const target = family === 'evidence' ? [{ path: 'target.entity', list: false, family: null }] : [];
-  return [...lists, ...scalars, ...target];
+  return [...lists, ...scalars, ...nested, ...target];
 }

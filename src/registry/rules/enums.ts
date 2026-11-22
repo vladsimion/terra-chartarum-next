@@ -3,14 +3,17 @@ import { BIBLIOGRAPHY_SECTIONS } from '../schemas/bibliography-section.js';
 import {
   ANALYTICAL_DIMENSION_VALUES,
   ATTESTATION_FORM_VALUES,
+  BASIS_VALUES,
   CONFIDENCE_VALUES,
   EVIDENCE_TYPE_VALUES,
   GEOMETRY_PROVENANCE_VALUES,
   LAYER_ROLE_VALUES,
   LOCATOR_STATE_VALUES,
+  PLACE_ROLE_VALUES,
   PORTAL_DIMENSION_VALUES,
   PROPOSED_BY_VALUES,
   SILENCE_STATE_VALUES,
+  SURVIVAL_VALUES,
 } from '../schemas/shared.js';
 import type { RegistryRecord } from '../types.js';
 import { defineRule, type Finding } from './framework.js';
@@ -40,7 +43,42 @@ const ENUM_FIELDS: { path: string; values: readonly string[] }[] = [
   { path: 'locator.state', values: LOCATOR_STATE_VALUES },
   { path: 'locator.proposed_by', values: PROPOSED_BY_VALUES },
   { path: 'section', values: BIBLIOGRAPHY_SECTIONS },
+  { path: 'survival', values: SURVIVAL_VALUES },
 ];
+
+/*
+ * Enumerated fields of each item of a list of objects (spec 012). A missing value is not judged
+ * here: PLACE-ROLE-LINK reports it, so each failure has one rule.
+ */
+const ITEM_ENUM_FIELDS: { list: string; fields: { name: string; values: readonly string[] }[] }[] = [
+  {
+    list: 'place_roles',
+    fields: [
+      { name: 'role', values: PLACE_ROLE_VALUES },
+      { name: 'basis', values: BASIS_VALUES },
+      { name: 'confidence', values: CONFIDENCE_VALUES },
+    ],
+  },
+];
+
+function itemMembers(record: RegistryRecord): Finding[] {
+  const findings: Finding[] = [];
+  for (const { list, fields } of ITEM_ENUM_FIELDS) {
+    const items = record[list];
+    if (!Array.isArray(items)) continue;
+    items.forEach((item, i) => {
+      if (item === null || typeof item !== 'object') return;
+      for (const { name, values } of fields) {
+        const value = (item as Record<string, unknown>)[name];
+        if (value === undefined) continue;
+        if (typeof value !== 'string' || !values.includes(value)) {
+          findings.push({ record, field: `${list}[${i}].${name}`, value, expected: `one of ${values.join(' | ')}` });
+        }
+      }
+    });
+  }
+  return findings;
+}
 
 /**
  * Every entry of a list field must be a known value. `strict` also reports a field that is present
@@ -76,6 +114,7 @@ export const enumInvalid = defineRule({
       }
       findings.push(...listMembers(record, 'portal_dimensions', PORTAL_DIMENSION_VALUES, false));
       findings.push(...listMembers(record, 'analytical_dimensions', ANALYTICAL_DIMENSION_VALUES, true));
+      findings.push(...itemMembers(record));
     }
     return findings;
   },

@@ -40,7 +40,7 @@ describe('importing BibTeX', () => {
     const before = tree(root);
     const { code, out } = await importFile(root, sample('sample.bib'));
     expect(code).toBe(0);
-    expect(added(before, tree(root))).toEqual(['content/bibliography_entry/bibliography_entry-000015.csl.json', 'content/bibliography_entry/bibliography_entry-000015.yaml']);
+    expect(added(before, tree(root))).toEqual(['content/bibliography_entry/bibliography_entry-000016.csl.json', 'content/bibliography_entry/bibliography_entry-000016.yaml']);
     expect(out).toMatch(/created 1, matched 2, skipped 0/);
     expect(out).toContain(`${stable(4)} (doi)`);
     expect(out).toContain(`${stable(10)} (isbn)`);
@@ -49,16 +49,16 @@ describe('importing BibTeX', () => {
   it('gives the new entry a minted id, a slug from author, year and first word, no section, and the held and researching state', async () => {
     const root = copyFixture();
     await importFile(root, sample('sample.bib'));
-    const record = entryYaml(root, 15);
+    const record = entryYaml(root, 16);
     expect(record).toMatchObject({
-      id: stable(15),
+      id: stable(16),
       family: 'bibliography_entry',
       origin: 'minted',
       title: 'Milestones and Mile-Castles: a new survey',
       slug: 'vale-2019-milestones',
       lifecycle: 'researching',
       release: 'held',
-      csl: 'content/bibliography_entry/bibliography_entry-000015.csl.json',
+      csl: 'content/bibliography_entry/bibliography_entry-000016.csl.json',
     });
     expect(record).not.toHaveProperty('section');
   });
@@ -66,8 +66,8 @@ describe('importing BibTeX', () => {
   it('writes a CSL file whose id is the stable id and which holds nothing of the reference manager', async () => {
     const root = copyFixture();
     await importFile(root, sample('sample.bib'));
-    const csl = entryCsl(root, 15);
-    expect(csl).toMatchObject({ id: stable(15), type: 'book', title: 'Milestones and Mile-Castles: a new survey', DOI: '10.1000/new.vale.2019', author: [{ family: 'Vale', given: 'Rowan' }] });
+    const csl = entryCsl(root, 16);
+    expect(csl).toMatchObject({ id: stable(16), type: 'book', title: 'Milestones and Mile-Castles: a new survey', DOI: '10.1000/new.vale.2019', author: [{ family: 'Vale', given: 'Rowan' }] });
     expect(Object.keys(csl)).not.toContain('_graph');
     expect(Object.keys(csl)).not.toContain('citation-key');
     expect(JSON.stringify(csl)).not.toContain('newwork1');
@@ -86,14 +86,14 @@ describe('importing RIS and CSL-JSON', () => {
     const root = copyFixture();
     const { out } = await importFile(root, sample('sample.ris'));
     expect(out).toMatch(/created 2, matched 2, skipped 0/);
-    expect(entryYaml(root, 15).slug).toBe('moe-1994-fixture');
-    expect(entryYaml(root, 16).slug).toBe('orme-2021-quarries');
+    expect(entryYaml(root, 16).slug).toBe('moe-1994-fixture');
+    expect(entryYaml(root, 17).slug).toBe('orme-2021-quarries');
   });
 
   it('does not take a same-author, same-year work for the one it has: the title words differ', async () => {
     const root = copyFixture();
     await importFile(root, sample('sample.ris'));
-    expect(entryYaml(root, 15).title).toBe('A fixture study of frontiers, revisited in detail for the record');
+    expect(entryYaml(root, 16).title).toBe('A fixture study of frontiers, revisited in detail for the record');
   });
 
   it('CSL-JSON: matches on ISBN and on the weak key, skips an item with no type and says why, creates the rest', async () => {
@@ -103,7 +103,7 @@ describe('importing RIS and CSL-JSON', () => {
     expect(out).toContain(`${stable(11)} (isbn)`);
     expect(out).toContain(`${stable(1)} (weak)`);
     expect(out).toMatch(/skipped .*An item with no type.*no type/i);
-    expect(entryYaml(root, 15).slug).toBe('wells-2020-ditches');
+    expect(entryYaml(root, 16).slug).toBe('wells-2020-ditches');
   });
 
   it('reads the format from the extension, or from --format', async () => {
@@ -212,7 +212,7 @@ describe('--out', () => {
     const out = mkdtempSync(path.join(tmpdir(), 'bib-report-'));
     await importFile(root, sample('sample.csl.json'), '--out', out);
     const report = JSON.parse(readFileSync(path.join(out, 'import-report.json'), 'utf8')) as Record<string, Record<string, unknown>[]>;
-    expect(report.created).toEqual([{ id: stable(15), slug: 'wells-2020-ditches', title: 'Ditches and banks on the northern frontier' }]);
+    expect(report.created).toEqual([{ id: stable(16), slug: 'wells-2020-ditches', title: 'Ditches and banks on the northern frontier' }]);
     expect(report.matched).toEqual([
       { title: 'A Fixture Chronicle', id: stable(1), rule: 'weak' },
       { title: 'The Roads of the Province', id: stable(11), rule: 'isbn' },

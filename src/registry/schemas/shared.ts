@@ -71,6 +71,14 @@ export const ANALYTICAL_DIMENSION_VALUES = [
 export const LAYER_ROLE_VALUES = ['context', 'historical', 'evidence', 'map-overlay'] as const;
 export const ATTESTATION_FORM_VALUES = ['name', 'depiction', 'silence'] as const;
 export const PROPOSED_BY_VALUES = ['person', 'ai'] as const;
+/** Place roles on an edition (ADR 0021): where it was made, and where a copy is kept for a dated interval. */
+export const PLACE_ROLE_VALUES = ['produced_at', 'held_at'] as const;
+/** Whether a link is named by the source itself or inferred by scholars (ADR 0021, ADR 0023). */
+export const BASIS_VALUES = ['stated', 'attributed'] as const;
+/** A person's role in an edition (ADR 0023). Adding one is a vocabulary change with its GLOSSARY.md row. */
+export const PERSON_ROLE_VALUES = ['printer'] as const;
+/** Whether any copy of an edition is known to survive (spec 012 FR-010): stated, never read from an empty list. */
+export const SURVIVAL_VALUES = ['surviving', 'none_known', 'unknown'] as const;
 
 export const Origin = z.enum(ORIGIN_VALUES);
 export const Lifecycle = z.enum(LIFECYCLE_VALUES);

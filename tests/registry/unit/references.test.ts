@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { referenceFields } from '../../../src/registry/schemas/references.js';
+import { expectedFamily, referenceFields, referencePaths } from '../../../src/registry/schemas/references.js';
 import { validateRegistry } from '../../../src/registry/validate.js';
 import { evidence, place, record, source } from '../support/builders.js';
 
@@ -21,6 +21,11 @@ const ROWS: { name: string; family: string; extra: Record<string, unknown>; fiel
   { name: 'essay maps[]', family: 'essay', extra: { maps: [MISSING] }, field: 'maps[0]' },
   { name: 'essay places[]', family: 'essay', extra: { places: [MISSING] }, field: 'places[0]' },
   { name: 'essay sources[]', family: 'essay', extra: { sources: [MISSING] }, field: 'sources[0]' },
+  // spec 012 T009: references inside a list of objects carry the item's index
+  { name: 'edition place_roles[].place', family: 'bibliography_entry', extra: { place_roles: [{ place: MISSING }] }, field: 'place_roles[0].place' },
+  { name: 'edition place_roles[].evidence[]', family: 'bibliography_entry', extra: { place_roles: [{ evidence: [MISSING] }] }, field: 'place_roles[0].evidence[0]' },
+  { name: 'edition attribution_history[].place', family: 'bibliography_entry', extra: { attribution_history: [{ place: MISSING }] }, field: 'attribution_history[0].place' },
+  { name: 'edition attribution_history[].source', family: 'bibliography_entry', extra: { attribution_history: [{ source: MISSING }] }, field: 'attribution_history[0].source' },
 ];
 
 describe('referenceFields', () => {
@@ -30,6 +35,38 @@ describe('referenceFields', () => {
       { field: 'relations[0]', id: 'tc:tc:map:map-000001' },
       { field: 'maps[0]', id: 'tc:tc:map:map-000002' },
     ]);
+  });
+
+  it('lists references inside a list of objects, item by item (spec 012 T009)', () => {
+    const edition = record('bibliography_entry', 1, {
+      place_roles: [
+        { place: 'tc:tc:place:place-000001', evidence: ['tc:tc:evidence:evidence-000001', 'tc:tc:evidence:evidence-000002'] },
+        { place: 'tc:tc:place:place-000002' },
+      ],
+      attribution_history: [{ place: 'tc:tc:place:place-000003', source: 'tc:tc:source:source-000001' }],
+    });
+    expect(referenceFields(edition)).toEqual([
+      { field: 'place_roles[0].place', id: 'tc:tc:place:place-000001' },
+      { field: 'place_roles[0].evidence[0]', id: 'tc:tc:evidence:evidence-000001' },
+      { field: 'place_roles[0].evidence[1]', id: 'tc:tc:evidence:evidence-000002' },
+      { field: 'place_roles[1].place', id: 'tc:tc:place:place-000002' },
+      { field: 'attribution_history[0].place', id: 'tc:tc:place:place-000003' },
+      { field: 'attribution_history[0].source', id: 'tc:tc:source:source-000001' },
+    ]);
+  });
+
+  it('gives each nested path its family, and lists the paths for the editor schemas', () => {
+    expect(expectedFamily('bibliography_entry', 'place_roles[3].place')).toBe('place');
+    expect(expectedFamily('bibliography_entry', 'place_roles[0].evidence[2]')).toBe('evidence');
+    expect(expectedFamily('bibliography_entry', 'attribution_history[1].source')).toBe('source');
+    expect(referencePaths('bibliography_entry')).toEqual(
+      expect.arrayContaining([
+        { path: 'place_roles[].place', list: false, family: 'place' },
+        { path: 'place_roles[].evidence', list: true, family: 'evidence' },
+        { path: 'attribution_history[].place', list: false, family: 'place' },
+        { path: 'attribution_history[].source', list: false, family: 'source' },
+      ]),
+    );
   });
 
   it('returns nothing for a record with no references', () => {
@@ -51,6 +88,10 @@ describe('REF-FAMILY: a reference points at the right kind of entity', () => {
     ['evidence source', 'evidence', 'source', (t) => ({ source: t }), 'source'],
     ['attestation place', 'attestation', 'place', (t) => ({ place: t }), 'place'],
     ['attestation source', 'attestation', 'source', (t) => ({ source: t }), 'source'],
+    ['edition place_roles[].place', 'bibliography_entry', 'place_roles[0].place', (t) => ({ place_roles: [{ place: t }] }), 'place'],
+    ['edition place_roles[].evidence[]', 'bibliography_entry', 'place_roles[0].evidence[0]', (t) => ({ place_roles: [{ evidence: [t] }] }), 'evidence'],
+    ['edition attribution_history[].place', 'bibliography_entry', 'attribution_history[0].place', (t) => ({ attribution_history: [{ place: t }] }), 'place'],
+    ['edition attribution_history[].source', 'bibliography_entry', 'attribution_history[0].source', (t) => ({ attribution_history: [{ source: t }] }), 'source'],
   ];
 
   const WRONG = (right: string) => (right === 'cartographer' ? 'place' : 'cartographer');

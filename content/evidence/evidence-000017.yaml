@@ -1,0 +1,23 @@
+id: tc:tc:evidence:evidence-000017
+family: evidence
+origin: minted
+title: The Liturghier was printed at Dealu Monastery (attributed)
+slug: the-liturghier-was-printed-at-dealu-monastery-attributed
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+target:
+  entity: tc:tc:bibliography_entry:bibliography_entry-000050
+source: tc:tc:source:source-000001
+locator:
+  value: "Panaitescu's introductory study, on the place of printing (page to read)"
+  state: pending
+  proposed_by: person
+evidence_type: textual
+confidence: probable
+analytical_dimensions:
+  - historical
+  - methodological
+rights:
+  licence: CC BY 4.0

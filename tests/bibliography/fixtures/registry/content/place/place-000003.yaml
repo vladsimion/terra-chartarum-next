@@ -1,0 +1,16 @@
+id: tc:tc:place:place-000003
+family: place
+origin: minted
+title: Fixture Venice
+slug: fixture-venice
+lifecycle: published
+release: released
+place_type: settlement
+names:
+  - name: Fixture Venice
+    language: en
+    kind: modern
+location:
+  lon: 12.33
+  lat: 45.44
+geometry_provenance: generalized_editorial

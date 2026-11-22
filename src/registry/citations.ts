@@ -12,6 +12,11 @@ import { list } from './values.js';
  *
  *   listed    a public record's `bibliography[]`: essay, map, cartographer, dataset, layer
  *   evidence  a public essay's `evidence[]` -> Evidence -> Source (not a finding aid) -> `entry`
+ *
+ * And one route that is not a citation (ADR 0014 as amended 2026-11-22, spec 012 FR-014): an
+ * edition that says where it was made or kept is a record of its own, public when published and
+ * released. Its place roles, as projected, name only public places, so a role on a held place does
+ * not count.
  */
 /** The families whose `bibliography[]` lists entries (FR-003). */
 export const LISTING_FAMILIES = ['essay', 'map', 'cartographer', 'dataset', 'layer'];
@@ -51,12 +56,17 @@ export function evidenceCitations(records: readonly PublicRecord[]): EvidenceCit
   return out;
 }
 
-/** The ids of the public entries: in a section, and cited by a public record by either route. */
+/** True when a public entry carries at least one place role (projected, so on a public place). */
+export function hasPlaceRoles(record: PublicRecord): boolean {
+  return Array.isArray(record.place_roles) && record.place_roles.length > 0;
+}
+
+/** The ids of the public entries: in a section, and cited by a public record by either route, or an edition with place roles. */
 export function publicEntryIds(records: readonly PublicRecord[]): Set<string> {
   const cited = new Set([...listedCitations(records), ...evidenceCitations(records)].map((c) => c.entry));
   return new Set(
     records
-      .filter((r) => r.family === 'bibliography_entry' && (BIBLIOGRAPHY_SECTIONS as readonly string[]).includes(String(r.section)) && cited.has(r.id))
+      .filter((r) => r.family === 'bibliography_entry' && (BIBLIOGRAPHY_SECTIONS as readonly string[]).includes(String(r.section)) && (cited.has(r.id) || hasPlaceRoles(r)))
       .map((r) => r.id),
   );
 }

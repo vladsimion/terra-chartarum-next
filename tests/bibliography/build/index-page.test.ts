@@ -26,7 +26,8 @@ describe('the index page', () => {
 
   it('lists each public entry once, as its Chicago form linking to its page', () => {
     const links = page().querySelectorAll('section.bibliography-section li a').map((a) => a.getAttribute('href'));
-    expect(links.sort()).toEqual([1, 2, 3, 4, 5, 6, 10, 11, 12, 13].map((n) => `/bibliography/fixture-entry-${n}/`).sort());
+    // 15 is an edition with place roles, public though nothing cites it (spec 012, ADR 0014 amended)
+    expect(links.sort()).toEqual([1, 2, 3, 4, 5, 6, 10, 11, 12, 13, 15].map((n) => `/bibliography/fixture-entry-${n}/`).sort());
     const first = page().querySelector('li[data-slug="fixture-entry-1"]');
     expect(textOf(first)).toMatch(/Doe/);
     expect(textOf(first)).toMatch(/a fixture chronicle/i); // the Chicago style capitalises the title
@@ -71,7 +72,7 @@ describe('the filter form', () => {
   });
 
   it('says how many entries it shows', () => {
-    expect(textOf(page().querySelector('[data-result-count]'))).toBe('10 of 10 entries');
+    expect(textOf(page().querySelector('[data-result-count]'))).toBe('11 of 11 entries');
   });
 });
 
@@ -79,7 +80,7 @@ describe('the search index', () => {
   it('is written, with the contract’s fields and public entries only', () => {
     expect(hasFile(dir, 'data/bibliography-index.json')).toBe(true);
     const index = JSON.parse(readHtml(dir, 'data/bibliography-index.json')) as Record<string, unknown>[];
-    expect(index).toHaveLength(10);
+    expect(index).toHaveLength(11);
     expect(Object.keys(index[0]!).sort()).toEqual(['author', 'authors', 'essays', 'keywords', 'section', 'slug', 'title', 'year']);
     expect(JSON.stringify(index)).not.toMatch(/fixture-entry-(7|8|9|14)"|zephyr/);
   });

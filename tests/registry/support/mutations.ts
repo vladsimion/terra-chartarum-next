@@ -528,4 +528,25 @@ const DATASET_MUTATIONS: Mutation[] = [
   { name: 'a dataset’s upstream has no https url', rule: 'DATASET-PIN', apply: editOf('dataset', (r) => { r.lifecycle = 'ready_for_build'; r.upstream = { url: 'http://example.org/data', pin: 'tag:v1.0.0' }; }) },
 ];
 
-export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS, ...ESSAY_MUTATIONS, ...MAP_MUTATIONS, ...ATLAS_MUTATIONS, ...BIBLIOGRAPHY_MUTATIONS, ...ROOM_MUTATIONS, ...MIGRATION_MUTATIONS, ...DATASET_MUTATIONS, ...ARCHIVED_COPY_MUTATIONS];
+/* Spec 012 US1: place roles on an edition (ADR 0021). Each adds one edition to the base registry. */
+const roleOf = (rs: RegistryRecord[], o: Record<string, unknown> = {}) => ({
+  place: nth(rs, 'place').id,
+  role: 'produced_at',
+  basis: 'attributed',
+  confidence: 'probable',
+  evidence: [nth(rs, 'evidence').id],
+  ...o,
+});
+const withRoles = (roles: (rs: RegistryRecord[]) => unknown[], over: Partial<RegistryRecord> = {}) => (rs: RegistryRecord[]) => [...rs, entryOf(90, { place_roles: roles(rs), ...over })];
+const PLACE_ROLE_MUTATIONS: Mutation[] = [
+  { name: 'an edition has two production places', rule: 'PLACE-ROLE-PRODUCED', apply: withRoles((rs) => [roleOf(rs), roleOf(rs, { place: nth(rs, 'place', 1).id })]) },
+  { name: 'a holding names no holder', rule: 'PLACE-ROLE-HOLDING', apply: withRoles((rs) => [roleOf(rs, { role: 'held_at', valid_from: '1900' })]) },
+  { name: 'a holding has no start date', rule: 'PLACE-ROLE-HOLDING', apply: withRoles((rs) => [roleOf(rs, { role: 'held_at', holder: 'A Library' })]) },
+  { name: 'a place role has no basis', rule: 'PLACE-ROLE-LINK', apply: withRoles((rs) => [roleOf(rs, { basis: undefined })]) },
+  { name: 'a place role’s date is not EDTF', rule: 'PLACE-ROLE-LINK', apply: withRoles((rs) => [roleOf(rs, { valid_from: 'about 1508' })]) },
+  { name: 'a map carries place roles', rule: 'PLACE-ROLE-FAMILY', apply: editOf('map', (r, rs) => { r.place_roles = [roleOf(rs)]; }) },
+  { name: 'a ready edition’s place role cites no evidence', rule: 'PLACE-ROLE-EVIDENCE', apply: withRoles((rs) => [roleOf(rs, { evidence: [] })], { lifecycle: READY }) },
+  { name: 'a secure place role rests on pending locators only', rule: 'PLACE-ROLE-SECURE', apply: withRoles((rs) => [roleOf(rs, { confidence: 'secure', evidence: [nth(rs, 'evidence', PLAIN).id] })]) },
+];
+
+export const MUTATIONS: Mutation[] = [...US1_MUTATIONS, ...US3_MUTATIONS, ...US2_MUTATIONS, ...US5_MUTATIONS, ...ESSAY_MUTATIONS, ...MAP_MUTATIONS, ...ATLAS_MUTATIONS, ...BIBLIOGRAPHY_MUTATIONS, ...ROOM_MUTATIONS, ...MIGRATION_MUTATIONS, ...DATASET_MUTATIONS, ...ARCHIVED_COPY_MUTATIONS, ...PLACE_ROLE_MUTATIONS];

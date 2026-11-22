@@ -1,16 +1,20 @@
 import {
   ANALYTICAL_DIMENSION_VALUES,
+  BASIS_VALUES,
   CONFIDENCE_VALUES,
   EVIDENCE_TYPE_VALUES,
   GEOMETRY_PROVENANCE_VALUES,
   LIFECYCLE_VALUES,
   LOCATOR_STATE_VALUES,
+  PERSON_ROLE_VALUES,
+  PLACE_ROLE_VALUES,
   RELEASE_VALUES,
   SILENCE_STATE_VALUES,
+  SURVIVAL_VALUES,
 } from './schemas/shared.js';
 
 /*
- * Value definitions for the editor schemas (spec 010 US3, FR-012, research R4). The seven shared
+ * Value definitions for the editor schemas (spec 010 US3, FR-012, research R4). The shared
  * vocabularies are defined in GLOSSARY.md's "Vocabulary values" section; the analytical dimensions
  * once, in FRAMEWORK.md (Principle XI). Both are checked both ways against the constants, so a
  * value without a definition, or a definition without a value, fails generation by name.
@@ -25,6 +29,10 @@ export const GLOSSARY_VOCABULARIES: Record<string, readonly string[]> = {
   silence_state: SILENCE_STATE_VALUES,
   'locator.state': LOCATOR_STATE_VALUES,
   evidence_type: EVIDENCE_TYPE_VALUES,
+  place_role: PLACE_ROLE_VALUES,
+  basis: BASIS_VALUES,
+  person_role: PERSON_ROLE_VALUES,
+  survival: SURVIVAL_VALUES,
 };
 
 /** Vocabulary name → value → definition. The analytical dimensions are under `analytical_dimension`. */

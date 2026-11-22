@@ -20,14 +20,14 @@ async function open(page: Page, query = ''): Promise<void> {
 
 test('the list is complete as it loads, with every public entry', async ({ page }) => {
   await open(page);
-  await expect(visible(page)).toHaveCount(10);
-  await expect(count(page)).toHaveText('10 of 10 entries');
+  await expect(visible(page)).toHaveCount(11);
+  await expect(count(page)).toHaveText('11 of 11 entries');
 });
 
 test('a section filter narrows the list, hides a section with nothing left, and writes the address', async ({ page }) => {
   await open(page);
   await form(page).getByLabel('Historical maps').check();
-  await expect(count(page)).toHaveText('1 of 10 entries');
+  await expect(count(page)).toHaveText('1 of 11 entries');
   expect(await slugs(page)).toEqual(['fixture-entry-2']);
   await expect(page.locator('section[data-section-group="primary_sources"]')).toBeHidden();
   await expect(page.locator('section[data-section-group="historical_maps"]')).toBeVisible();
@@ -51,7 +51,7 @@ test('search matches author, title, year and keyword, ignoring case and diacriti
   await search.fill('surveying');
   expect(await slugs(page)).toEqual(['fixture-entry-4']);
   await search.fill('zzz');
-  await expect(count(page)).toHaveText('0 of 10 entries');
+  await expect(count(page)).toHaveText('0 of 11 entries');
 });
 
 test('the filters combine', async ({ page }) => {
@@ -88,7 +88,7 @@ test('clearing the filters shows everything again', async ({ page }) => {
   await open(page, '?section=historical_maps');
   expect(await slugs(page)).toEqual(['fixture-entry-2']);
   await page.getByRole('link', { name: 'Clear filters' }).click();
-  await expect(visible(page)).toHaveCount(10);
+  await expect(visible(page)).toHaveCount(11);
 });
 
 test('the filters answer in under 200 ms', async ({ page }) => {
@@ -109,8 +109,9 @@ test('the list page and an entry page have no accessibility violations', async (
   expect(await violations()).toEqual([]);
   await form(page).getByLabel('Primary sources').check();
   expect(await violations()).toEqual([]);
-  // a pending locator, a verified one, editions and translations, a finding aid with its badge and an external copy
-  for (const n of [1, 2, 11, 13]) {
+  // a pending locator, a verified one, editions and translations, a finding aid with its badge and an external copy;
+  // 15 is an edition with its places, current and former copies and earlier attributions (spec 012)
+  for (const n of [1, 2, 11, 13, 15]) {
     await page.goto(`/bibliography/fixture-entry-${n}/`);
     expect(await violations(), `entry ${n}`).toEqual([]);
   }
@@ -140,12 +141,12 @@ test('the first load is under 100 KB of script', async ({ page }) => {
 
 test('without JavaScript the list is complete and the form filters by reloading @nojs', async ({ page }) => {
   await page.goto('/bibliography/');
-  await expect(page.locator('li[data-slug]')).toHaveCount(10);
+  await expect(page.locator('li[data-slug]')).toHaveCount(11);
   await form(page).getByLabel('Historical maps').check();
   await page.getByRole('button', { name: 'Apply filters' }).click();
   await expect(page).toHaveURL(/section=historical_maps/);
   // a static page cannot filter on the server: the list stays complete, and the reader can still search it
-  await expect(page.locator('li[data-slug]')).toHaveCount(10);
+  await expect(page.locator('li[data-slug]')).toHaveCount(11);
   await expect(page.locator('form.filters')).toBeVisible();
 });
 

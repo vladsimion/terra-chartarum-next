@@ -1,0 +1,23 @@
+id: tc:tc:evidence:evidence-000016
+family: evidence
+origin: minted
+title: The epilogue dates the Liturghier 10 November 1508
+slug: the-epilogue-dates-the-liturghier-10-november-1508
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+target:
+  entity: tc:tc:bibliography_entry:bibliography_entry-000050
+source: tc:tc:source:source-000001
+locator:
+  value: "the epilogue, in the 1961 facsimile (folio to read)"
+  state: pending
+  proposed_by: person
+evidence_type: textual
+confidence: probable
+analytical_dimensions:
+  - historical
+  - methodological
+rights:
+  licence: CC BY 4.0

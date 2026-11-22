@@ -1,0 +1,15 @@
+id: tc:tc:place:place-000001
+family: place
+origin: minted
+title: Dealu Monastery
+slug: dealu-monastery
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: settlement
+names:
+  - name: Mănăstirea Dealu
+    language: ro
+    kind: modern
+# Distinct from Târgoviște (spec 012 edge case). location: to add from a cited source, with geometry_provenance; not guessed.

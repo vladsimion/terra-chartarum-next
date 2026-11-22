@@ -1,0 +1,21 @@
+id: tc:tc:evidence:evidence-000005
+family: evidence
+origin: minted
+title: The epilogue names patron, typographer and date, not the place
+slug: fixture-epilogue
+lifecycle: published
+release: released
+target:
+  entity: tc:tc:bibliography_entry:bibliography_entry-000015
+source: tc:tc:source:source-000001
+locator:
+  value: f. 120v
+  state: pending
+  proposed_by: person
+evidence_type: textual
+confidence: probable
+rights:
+  licence: CC BY 4.0
+analytical_dimensions:
+  - historical
+  - methodological

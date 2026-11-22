@@ -42,8 +42,8 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 
 ## Phase 2: Foundation (blocks every story)
 
-- [ ] T004 Add the four vocabularies to `src/registry/schemas/shared.ts`: `PLACE_ROLE_VALUES = ['produced_at', 'held_at']`, `BASIS_VALUES = ['stated', 'attributed']`, `PERSON_ROLE_VALUES = ['printer']`, `SURVIVAL_VALUES = ['surviving', 'none_known', 'unknown']`
-- [ ] T005 Add one table per new vocabulary to GLOSSARY.md's Vocabulary values section (`place_role`, `basis`, `person_role`, `survival`) and to `GLOSSARY_VOCABULARIES` in `src/registry/glossary.ts`. The spec 010 two-way test (`tests/registry/unit/glossary.test.ts`) must stay green. **(author confirms the definitions)**
+- [x] T004 Add the four vocabularies to `src/registry/schemas/shared.ts`: `PLACE_ROLE_VALUES = ['produced_at', 'held_at']`, `BASIS_VALUES = ['stated', 'attributed']`, `PERSON_ROLE_VALUES = ['printer']`, `SURVIVAL_VALUES = ['surviving', 'none_known', 'unknown']`
+- [x] T005 Add one table per new vocabulary to GLOSSARY.md's Vocabulary values section (`place_role`, `basis`, `person_role`, `survival`) and to `GLOSSARY_VOCABULARIES` in `src/registry/glossary.ts`. The spec 010 two-way test (`tests/registry/unit/glossary.test.ts`) must stay green. **(author confirms the definitions)**
 
 ---
 
@@ -53,7 +53,7 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 
 ### Tests (write first, see them fail)
 
-- [ ] T006 [P] [US1] Write `tests/registry/unit/place-roles.test.ts` with valid and invalid fixtures. Each invalid case reports its rule and its field:
+- [x] T006 [P] [US1] Write `tests/registry/unit/place-roles.test.ts` with valid and invalid fixtures. Each invalid case reports its rule and its field:
   - one `produced_at` plus two `held_at` passes;
   - a second `produced_at` gives `PLACE-ROLE-PRODUCED`;
   - a `held_at` without `holder`, or without `valid_from`, gives `PLACE-ROLE-HOLDING`;
@@ -62,14 +62,14 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
   - a place role without `evidence` gives `PLACE-ROLE-EVIDENCE`, a warning before `ready_for_build` and an error from it;
   - `place` pointing at a non-place gives `REF-FAMILY`;
   - a place role rated `secure` whose Evidence records all carry pending locators gives `PLACE-ROLE-SECURE` (FR-011); the same role citing one verified locator passes.
-- [ ] T007 [P] [US1] Add named mutations for each new rule to `tests/registry/support/mutations.ts`: `PLACE-ROLE-PRODUCED`, `PLACE-ROLE-HOLDING`, `PLACE-ROLE-FAMILY`, `PLACE-ROLE-EVIDENCE`, `PLACE-ROLE-SECURE`.
-- [ ] T008 [P] [US1] Add cases to `tests/registry/unit/citations.test.ts` (ADR 0014 amended):
+- [x] T007 [P] [US1] Add named mutations for each new rule to `tests/registry/support/mutations.ts`: `PLACE-ROLE-PRODUCED`, `PLACE-ROLE-HOLDING`, `PLACE-ROLE-FAMILY`, `PLACE-ROLE-EVIDENCE`, `PLACE-ROLE-SECURE`.
+- [x] T008 [P] [US1] Add cases to `tests/bibliography/unit/entry-public.test.ts` (there is no `citations.test.ts`; `publicEntries` is where `publicEntryIds` is tested) (ADR 0014 amended):
   - a published, released entry with `place_roles` and no citing record is in `publicEntryIds`;
   - the same entry without `place_roles` is not;
   - a held entry with `place_roles` never is.
-- [ ] T009 [P] [US1] Add cases to `tests/registry/unit/references.test.ts`: `place_roles[].place` and `place_roles[].evidence[]`, and `attribution_history[].place` and `.source`, appear in `referenceFields`, with the expected families from `expectedFamily`.
-- [ ] T010 [P] [US1] Add a case to `tests/registry/unit/dependents.test.ts`: an edition with a place role is a direct dependent of that place through `place_roles[0].place`.
-- [ ] T011 [P] [US1] Add cases to `tests/bibliography/build/entry-page.test.ts` for the section **Where it was made and where it is kept** (`contracts/pages.md`):
+- [x] T009 [P] [US1] Add cases to `tests/registry/unit/references.test.ts`: `place_roles[].place` and `place_roles[].evidence[]`, and `attribution_history[].place` and `.source`, appear in `referenceFields`, with the expected families from `expectedFamily`.
+- [x] T010 [P] [US1] Add a case to `tests/registry/unit/dependents.test.ts`: an edition with a place role is a direct dependent of that place through `place_roles[0].place`.
+- [x] T011 [P] [US1] Add cases to `tests/bibliography/build/entry-page.test.ts` for the section **Where it was made and where it is kept** (`contracts/pages.md`):
   - shown only when the entry has place roles;
   - the production place, with its basis and confidence in words;
   - holdings, current then former, each with holder and shelfmark;
@@ -79,19 +79,21 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 
 ### Implementation
 
-- [ ] T012 [US1] Extend `BibliographyEntrySchema` in `src/registry/schemas/families.ts` with `place_roles`, `attribution_history` and `survival`. Every key is optional and typed only, so the rules judge the values. The Place role shape is `{ place, role, basis, confidence, valid_from, valid_to, holder, shelfmark, evidence[] }`.
-- [ ] T013 [US1] Add the reference paths to `src/registry/schemas/references.ts`:
+- [x] T012 [US1] Extend `BibliographyEntrySchema` in `src/registry/schemas/families.ts` with `place_roles`, `attribution_history` and `survival`. Every key is optional and typed only, so the rules judge the values. The Place role shape is `{ place, role, basis, confidence, valid_from, valid_to, holder, shelfmark, evidence[] }`.
+- [x] T013 [US1] Add the reference paths to `src/registry/schemas/references.ts`:
   - `LISTS` and `POINTS_AT`: `place_roles[].place` → place, `place_roles[].evidence` → evidence;
   - `attribution_history[].place` → place, `attribution_history[].source` → source.
   
   Handle list-of-object paths as the existing `rooms.secondary` does, or extend `valueAt` for `[]` paths. T009 and T010 go green.
-- [ ] T014 [US1] Add `place_roles[].role`, `.basis` and `.confidence` to the enumerated fields checked by `src/registry/rules/enums.ts`.
-- [ ] T015 [US1] Implement `PLACE-ROLE-PRODUCED`, `PLACE-ROLE-HOLDING`, `PLACE-ROLE-FAMILY`, `PLACE-ROLE-EVIDENCE` and `PLACE-ROLE-SECURE` (reading each cited Evidence record's locator state as `LOC-SECURE-PENDING` does) in a new `src/registry/rules/place-roles.ts`. Declare `requires` where a field is demanded (spec 010 R1), and register them in `src/registry/rules/index.ts`. T006 and T007 go green, and `rules-not-weakened` still passes.
-- [ ] T016 [US1] Widen `publicEntryIds` in `src/registry/citations.ts`: a published, released entry with one or more `place_roles` is public. T008 goes green, and the existing citation and reverse tests stay green.
-- [ ] T017 [US1] Project `place_roles` (without evidence IDs of held Evidence), `attribution_history` and `survival` for public entries in `src/registry/project.ts`. Extend the leak-scan fixtures so a held place or held Evidence named in a public edition's roles is caught.
-- [ ] T018 [US1] Render the section in `src/pages/bibliography/[slug].astro` as in `contracts/pages.md`, reading the projected `place_roles` and `attribution_history`. T011 goes green.
-- [ ] T019 [P] [US1] Add the rule rows to `specs/001-scholarly-registry/contracts/rule-ids.md` and the fields to `specs/001-scholarly-registry/data-model.md`. Run `npm run status -- --write`.
-- [ ] T020 [US1] Mint the place **Dealu Monastery** (`registry new place "Dealu Monastery"`), distinct from Târgoviște, with its location and `geometry_provenance`. Held.
+- [x] T014 [US1] Add `place_roles[].role`, `.basis` and `.confidence` to the enumerated fields checked by `src/registry/rules/enums.ts`.
+- [x] T015 [US1] Implement `PLACE-ROLE-PRODUCED`, `PLACE-ROLE-HOLDING`, `PLACE-ROLE-FAMILY`, `PLACE-ROLE-EVIDENCE` and `PLACE-ROLE-SECURE` (reading each cited Evidence record's locator state as `LOC-SECURE-PENDING` does) in a new `src/registry/rules/place-roles.ts`. Declare `requires` where a field is demanded (spec 010 R1), and register them in `src/registry/rules/index.ts`. T006 and T007 go green, and `rules-not-weakened` still passes.
+  - *Done 2026-11-22:* a sixth rule, `PLACE-ROLE-LINK`, was added: `place_roles` is a list of objects, and each item names its place, role, basis and confidence, with EDTF dates in order. It gives a missing value one rule; ENUM-INVALID judges only a value that is present. Contracts updated.
+- [x] T016 [US1] Widen `publicEntryIds` in `src/registry/citations.ts`: a published, released entry with one or more `place_roles` is public. T008 goes green, and the existing citation and reverse tests stay green.
+- [x] T017 [US1] Project `place_roles` (without evidence IDs of held Evidence), `attribution_history` and `survival` for public entries in `src/registry/project.ts`. Extend the leak-scan fixtures so a held place or held Evidence named in a public edition's roles is caught.
+- [x] T018 [US1] Render the section in `src/pages/bibliography/[slug].astro` as in `contracts/pages.md`, reading the projected `place_roles` and `attribution_history`. T011 goes green.
+- [x] T019 [P] [US1] Add the rule rows to `specs/001-scholarly-registry/contracts/rule-ids.md` and the fields to `specs/001-scholarly-registry/data-model.md`. Run `npm run status -- --write`.
+- [x] T020 [US1] Mint the place **Dealu Monastery** (`registry new place "Dealu Monastery"`), distinct from Târgoviște, with its location and `geometry_provenance`. Held.
+  - *Done 2026-11-22:* `tc:tc:place:place-000001`, researching and held, with its Romanian name. No location yet: none has been read from a cited source, and none is guessed. The location and its `geometry_provenance` are added before `publishable` (FAM-REQUIRED asks for them there).
 - [ ] T021 [US1] Mint the 1508 Liturghier as a bibliography entry (`registry new bibliography_entry`), with its CSL file. Give it:
   - `produced_at` Dealu, `basis: attributed`, `confidence: probable` (the literature's "high confidence"; `secure` only once a cited locator is verified, `PLACE-ROLE-SECURE`);
   - a date stated by the epilogue;
@@ -99,8 +101,22 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
   - one `held_at` per copy located in the literature, each with its holder (locators pending).
   
   Each claim gets an Evidence record citing the sources in `docs/research/transylvania/bibliography-verification.md`, with its `analytical_dimensions` (FR-013). Held.
-- [ ] T022 [US1] Record in this file how many copies were located against the "twelve" reported (SC-002), and why any differ
-- [ ] T023 [US1] Full checks green (`npm test`, `typecheck`, gate, `status --check`). Update the dossier and Build Log rows. Move TCX-82 to In Review when the PR opens.
+  - *Progress 2026-11-22:* `bibliography_entry-000050` minted, with its CSL file:
+    - `produced_at` Dealu, `attributed`, `probable`, dated `1508-11-10`;
+    - `survival: surviving`;
+    - Evidence 16 (the epilogue's date) and 17 (the attribution), each citing Source 1 (Panaitescu's 1961 facsimile, `bibliography_entry-000051`), both locators pending. BRV I is `bibliography_entry-000052`, with Source 2.
+
+    **Still open:**
+    - the holdings (see T022);
+    - `attribution_history`: each superseded place needs the source that names it, read, and a place record (`tc:tc:place:venice` exists; Bistrița, Snagov, Govora and Cetinje do not).
+- [x] T022 [US1] Record in this file how many copies were located against the "twelve" reported (SC-002), and why any differ
+  - *Recorded 2026-11-22:* **0 located of 12 reported** (5 in Romania, 7 abroad; Stage III note §5). No source naming an institution has been read:
+    - The Princeton article (Negoiță) could not be fetched from this session; its host is outside the network policy.
+    - BRV I and the Panaitescu facsimile are not online here.
+
+    No holding is written until a source naming the holder is read. **(author)**
+- [x] T023 [US1] Full checks green (`npm test`, `typecheck`, gate, `status --check`). Update the dossier and Build Log rows. Move TCX-82 to In Review when the PR opens.
+  - *Done 2026-11-22:* `npm test` (3,162 passed), `typecheck`, `lint`, the gate (PASS, 324 entities after merging `main`), `status --check`, and `test:e2e:bibliography` with axe on fixture entry 15. TCX-82 stays In Progress: it is the story for the whole spec, and US2–US5 are open.
 
 ---
 

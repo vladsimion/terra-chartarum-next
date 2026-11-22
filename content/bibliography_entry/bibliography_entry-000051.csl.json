@@ -1,0 +1,23 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000051",
+  "type": "book",
+  "title": "Liturghierul lui Macarie, 1508",
+  "editor": [
+    {
+      "family": "Panaitescu",
+      "given": "P. P."
+    }
+  ],
+  "publisher": "Editura Academiei Republicii Populare Române",
+  "publisher-place": "Bucharest",
+  "issued": {
+    "date-parts": [
+      [
+        1961
+      ]
+    ]
+  },
+  "number-of-pages": "274",
+  "language": "ro",
+  "note": "Facsimile, with an introductory study by P. P. Panaitescu and an index by Angela and Alexandru Duțu. Reprinted in Liturghierul lui Macarie, 1508/2008, 2 vols (Târgoviște, 2008)."
+}

@@ -178,6 +178,19 @@ describe('ID suggestions (scenario 4)', () => {
     expect((primary.primary?.anyOf as Schema[]).some((s) => s.const === 'tc:tc:room:earth')).toBe(true);
   });
 
+  it('reaches into a list of objects: an edition’s place roles (spec 012)', () => {
+    const roles = (schemas.bibliography_entry?.properties as Record<string, Schema>).place_roles as Schema;
+    const item = (roles.items as Schema).properties as Record<string, Schema>;
+    expect(item.role?.enum).toEqual(['produced_at', 'held_at']);
+    expect(item.basis?.enum).toEqual(['stated', 'attributed']);
+    expect(item.confidence?.enum).toContain('probable');
+    expect((item.role?.markdownEnumDescriptions as string[])[0]).toBe(definitions.place_role?.produced_at);
+    expect((item.place?.anyOf as Schema[]).some((s) => typeof s.const === 'string' && (s.const as string).includes(':place:'))).toBe(true);
+    expect(((item.evidence?.items as Schema).anyOf as Schema[]).some((s) => typeof s.const === 'string' && (s.const as string).includes(':evidence:'))).toBe(true);
+    const survival = (schemas.bibliography_entry?.properties as Record<string, Schema>).survival as Schema;
+    expect(survival.enum).toEqual(['surviving', 'none_known', 'unknown']);
+  });
+
   it('suggests any record for an untyped reference (relations[])', () => {
     const relations = ((schemas.place?.properties as Record<string, Schema>).relations as Schema).items as Schema;
     const families = new Set((relations.anyOf as Schema[]).filter((s) => 'const' in s).map((s) => (s.const as string).split(':')[2]));

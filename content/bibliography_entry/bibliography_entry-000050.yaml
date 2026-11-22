@@ -1,0 +1,25 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000050
+family: bibliography_entry
+origin: minted
+title: Liturghier, 1508 (Macarie)
+slug: liturghier-1508-macarie
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+csl: content/bibliography_entry/bibliography_entry-000050.csl.json
+section: primary_sources
+# 12 copies are reported (5 in Romania, 7 abroad; Stage III note §5). None is a holding yet: no institution has been
+# read in the literature (spec 012 T022), so no held_at is written and none is guessed.
+survival: surviving
+place_roles:
+  # the epilogue gives patron, typographer and date, not the place; Dealu is the scholarly attribution
+  - place: tc:tc:place:place-000001
+    role: produced_at
+    basis: attributed
+    confidence: probable
+    valid_from: "1508-11-10"
+    evidence:
+      - tc:tc:evidence:evidence-000016
+      - tc:tc:evidence:evidence-000017
+# attribution_history (Venice, Bistrița, Snagov, Govora, Cetinje): to add when the source naming each is read; each needs a place record.

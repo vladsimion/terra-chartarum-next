@@ -1,0 +1,26 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000052",
+  "type": "book",
+  "title": "Bibliografia românească veche, 1508–1830",
+  "volume": "I: 1508–1716",
+  "author": [
+    {
+      "family": "Bianu",
+      "given": "Ioan"
+    },
+    {
+      "family": "Hodoș",
+      "given": "Nerva"
+    }
+  ],
+  "publisher": "Academia Română / Socec",
+  "publisher-place": "Bucharest",
+  "issued": {
+    "date-parts": [
+      [
+        1903
+      ]
+    ]
+  },
+  "language": "ro"
+}

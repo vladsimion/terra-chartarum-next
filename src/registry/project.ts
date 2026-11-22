@@ -54,13 +54,16 @@ const BY_FAMILY: Record<string, Allow> = {
   period: { fields: DATES },
   // the long description is the Markdown beside the record (spec 007 data-model.md)
   room: { fields: ['order', 'short_description', 'copy_status', 'body'] },
-  bibliography_entry: { fields: ['csl', 'section', 'digital_copy'], scalarRefs: ['edition_of', 'translation_of'] },
+  bibliography_entry: { fields: ['csl', 'section', 'digital_copy', 'survival'], scalarRefs: ['edition_of', 'translation_of'] },
   attestation: { fields: ['form', 'silence_state', 'confidence'], scalarRefs: ['place', 'source'] },
   evidence: {
     fields: ['evidence_type', 'geometry_provenance', 'reconstruction', 'confidence', 'rights', 'last_verified', ...DATES],
     scalarRefs: ['source'],
   },
 };
+
+/** The parts of a place role readers may see (spec 012); the place must be public, and only public evidence is named. */
+const PLACE_ROLE_FIELDS = ['role', 'basis', 'confidence', 'valid_from', 'valid_to', 'holder', 'shelfmark'];
 
 /** The parts of a locator that readers may see. */
 const LOCATOR_FIELDS = ['value', 'state', 'consulted_copy', 'verified_by', 'verified_on'];
@@ -124,6 +127,22 @@ export function projectPublic(records: readonly RegistryRecord[]): PublicRecord[
             ...pick(i, ['id', 'component', 'question', 'interpretation']),
             evidence: Array.isArray(i.evidence) ? i.evidence.filter((id) => typeof id === 'string' && publicIds.has(id)) : [],
           }));
+      }
+    }
+    if (record.family === 'bibliography_entry') {
+      const objects = (value: unknown) => (Array.isArray(value) ? value.filter((i): i is Record<string, unknown> => i !== null && typeof i === 'object') : []);
+      const isPublicId = (id: unknown): id is string => typeof id === 'string' && publicIds.has(id);
+      if (record.place_roles !== undefined) {
+        // a role on a held place is dropped whole: it cannot be drawn or named (spec 012 FR-005)
+        projected.place_roles = objects(record.place_roles)
+          .filter((r) => isPublicId(r.place))
+          .map((r) => ({ place: r.place, ...pick(r, PLACE_ROLE_FIELDS), evidence: Array.isArray(r.evidence) ? r.evidence.filter(isPublicId) : [] }));
+      }
+      if (record.attribution_history !== undefined) {
+        // a note on a held place or held source is dropped, note and all, so its text cannot describe held material
+        projected.attribution_history = objects(record.attribution_history)
+          .filter((n) => isPublicId(n.place) && (n.source === undefined || isPublicId(n.source)))
+          .map((n) => pick(n, ['place', 'source', 'note']));
       }
     }
     if (record.family === 'layer' && record.georef && typeof record.georef === 'object') {

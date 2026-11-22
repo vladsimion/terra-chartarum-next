@@ -1,0 +1,7 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000015",
+  "type": "book",
+  "title": "A fixture liturgy",
+  "author": [{ "literal": "Fixture Printer" }],
+  "issued": { "date-parts": [[1508]] }
+}

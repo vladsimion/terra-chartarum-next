@@ -53,3 +53,53 @@ describe('bibliography[] on a dataset and a layer', () => {
     expect(out.find((r) => r.id === d.id)!.bibliography).toEqual([entry(1).id]);
   });
 });
+
+/*
+ * Spec 012 T017 (FR-014; Constitution V): an edition's place roles, its historiography note and its
+ * survival reach pages, but never a held place, held Evidence or a held Source.
+ */
+describe('the public projection of an edition’s place roles', () => {
+  const pub = (family: string, n: number, o: Record<string, unknown> = {}) => record(family, n, { ...PUBLIC, ...o });
+  const dealu = pub('place', 1, { place_type: 'settlement' });
+  const heldPlace = record('place', 2, { ...HELD, place_type: 'settlement' });
+  const evPublic = pub('evidence', 1);
+  const evHeld = record('evidence', 2, HELD);
+  const srcPublic = pub('source', 1);
+  const srcHeld = record('source', 2, HELD);
+  const edition = entry(9, {
+    ...PUBLIC,
+    section: 'primary_sources',
+    survival: 'surviving',
+    place_roles: [
+      { place: dealu.id, role: 'produced_at', basis: 'attributed', confidence: 'probable', evidence: [evPublic.id, evHeld.id], private_note: 'x' },
+      { place: heldPlace.id, role: 'held_at', basis: 'stated', confidence: 'probable', holder: 'A Library', valid_from: '1900', evidence: [] },
+      { place: dealu.id, role: 'held_at', basis: 'stated', confidence: 'possible', holder: 'Dealu Monastery', shelfmark: 'D 1', valid_from: '1508', valid_to: '1821', evidence: [evPublic.id] },
+    ],
+    attribution_history: [
+      { place: dealu.id, source: srcPublic.id, note: 'Venice, after older catalogues.' },
+      { place: heldPlace.id, source: srcHeld.id, note: 'A held lead.' },
+    ],
+  });
+  // evidence targets the edition, so the projection keeps the public one
+  evPublic.target = { entity: edition.id };
+  const projected = () => projectPublic([dealu, heldPlace, evPublic, evHeld, srcPublic, srcHeld, edition]).find((r) => r.id === edition.id)!;
+
+  it('keeps each role whose place is public, with only its allowlisted parts and public evidence', () => {
+    expect(projected().place_roles).toEqual([
+      { place: dealu.id, role: 'produced_at', basis: 'attributed', confidence: 'probable', evidence: [evPublic.id] },
+      { place: dealu.id, role: 'held_at', basis: 'stated', confidence: 'possible', holder: 'Dealu Monastery', shelfmark: 'D 1', valid_from: '1508', valid_to: '1821', evidence: [evPublic.id] },
+    ]);
+  });
+
+  it('keeps the historiography note, dropping an item whose place or source is held, note and all', () => {
+    expect(projected().attribution_history).toEqual([{ place: dealu.id, source: srcPublic.id, note: 'Venice, after older catalogues.' }]);
+    expect(JSON.stringify(projected())).not.toContain('A held lead');
+  });
+
+  it('carries survival, and names no held record anywhere', () => {
+    expect(projected().survival).toBe('surviving');
+    const text = JSON.stringify(projected());
+    for (const held of [heldPlace, evHeld, srcHeld]) expect(text).not.toContain(held.id);
+    expect(text).not.toContain('private_note');
+  });
+});

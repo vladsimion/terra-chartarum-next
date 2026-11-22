@@ -189,5 +189,33 @@ One table per shared vocabulary, one row per value. The editor schemas (spec 010
 | `archival` | An administrative record kept in an archive: census, tax register, cadastre, court record. |
 | `other` | A witness of a kind not listed; the record says what it is. |
 
+### `place_role`
+
+| value | definition |
+|---|---|
+| `produced_at` | Where the edition was made (printed). At most one per record (ADR 0021). |
+| `held_at` | Where one copy is kept, by a named holder, for a dated interval. A closed interval reads "formerly kept here". Custody, never production. |
+
+### `basis`
+
+| value | definition |
+|---|---|
+| `stated` | The book or document itself says so: a colophon, an epilogue, an inscription. |
+| `attributed` | Inferred by scholars from other evidence; the book itself does not say so. |
+
+### `person_role`
+
+| value | definition |
+|---|---|
+| `printer` | The person who printed the edition, named in it or attributed to it (ADR 0023). |
+
+### `survival`
+
+| value | definition |
+|---|---|
+| `surviving` | At least one copy is known to survive. |
+| `none_known` | No copy is known to survive. Stated as a value, never read from an empty list of holdings. |
+| `unknown` | Whether any copy survives has not been assessed. |
+
 ## Rule of thumb
 *The essay interprets; the Atlas spatialises; the Handbook documents; the dataset substantiates.*

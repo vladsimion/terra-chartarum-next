@@ -6,6 +6,7 @@ These rules are added to `specs/001-scholarly-registry/contracts/rule-ids.md` in
 |---|---|---|---|
 | `PLACE-ROLE-PRODUCED` | at most one `produced_at` on a record | FR-001, ADR 0021 §3 | always |
 | `PLACE-ROLE-HOLDING` | a `held_at` names its `holder` and a `valid_from` (EDTF, may be uncertain) | FR-002, FR-003 | always |
+| `PLACE-ROLE-LINK` | `place_roles` is a list of objects; each names its `place`, `role`, `basis` and `confidence`, and any date it gives is EDTF, `valid_to` not before `valid_from` (added at US1, so a missing value has one rule; ENUM-INVALID judges only a value that is present) | FR-001, FR-002 | always |
 | `PLACE-ROLE-FAMILY` | `place_roles` only on `bibliography_entry`; refused on maps until their migration | FR-002, ADR 0021 §6 | always |
 | `PLACE-ROLE-EVIDENCE` | every place role and person link cites one or more Evidence records | FR-011, Principle VI | `ready_for_build` |
 | `PLACE-ROLE-SECURE` | a place role or person link rated `secure` cites at least one Evidence record whose locator is `verified` | FR-011, SC-005, Principle VI | always |

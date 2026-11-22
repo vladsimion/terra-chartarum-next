@@ -23,7 +23,7 @@ const chicago = (n: number): string => {
 
 describe('which entries have a page', () => {
   it('gives a page to each public entry', () => {
-    for (const n of [1, 2, 3, 4, 5, 6, 10, 11, 12, 13]) expect(hasFile(dir, entry(n)), `entry ${n}`).toBe(true);
+    for (const n of [1, 2, 3, 4, 5, 6, 10, 11, 12, 13, 15]) expect(hasFile(dir, entry(n)), `entry ${n}`).toBe(true);
   });
 
   it('gives none to a held entry, one cited only by the held essay, or one cited by nothing', () => {
@@ -154,5 +154,68 @@ describe('sections and finding aids (US3)', () => {
   it('shows a finding aid under no "Cited as evidence" group', () => {
     expect(page(13).querySelector('section.cited-evidence')).toBeNull();
     expect(readHtml(dir, entry(13))).not.toContain('Cited as evidence');
+  });
+});
+
+/*
+ * Spec 012 T011 (FR-001, FR-004, FR-006, FR-011, FR-014; contracts/pages.md "Edition"): an edition
+ * with place roles has a page of its own, uncited, and a section that says in words where it was
+ * made and where its copies are kept. Fixture entry 15: made at the Fixture Monastery (attributed,
+ * probable), one current and one former copy, a third copy at a held place, and an earlier
+ * attribution to Venice. Every locator is pending.
+ */
+describe('Where it was made and where it is kept (spec 012)', () => {
+  const edition = () => page(15);
+  const section = () => edition().querySelector('section#where-made-kept');
+
+  it('gives an uncited edition with place roles its page (ADR 0014 amended)', () => {
+    expect(hasFile(dir, entry(15))).toBe(true);
+  });
+
+  it('is shown only when the entry has place roles', () => {
+    expect(section()).not.toBeNull();
+    expect(textOf(section()?.querySelector('h2'))).toBe('Where it was made and where it is kept');
+    expect(page(4).querySelector('section#where-made-kept')).toBeNull();
+  });
+
+  it('says where it was made, with basis, confidence and date in words', () => {
+    const made = textOf(section()?.querySelector('.made-at'));
+    expect(made).toContain('Made at Fixture Monastery');
+    expect(made).toContain('attributed by scholarship');
+    expect(made).toContain('probable');
+    expect(made).toContain('1508-11-10');
+  });
+
+  it('lists the current copies, then the former ones, each with holder and dates', () => {
+    const current = section()?.querySelectorAll('.copies-kept li').map((li) => textOf(li)) ?? [];
+    expect(current).toHaveLength(1);
+    expect(current[0]).toContain('Fixture Library');
+    expect(current[0]).toContain('CRV 1');
+    expect(current[0]).toContain('since 1950');
+    const former = section()?.querySelectorAll('.formerly-kept li').map((li) => textOf(li)) ?? [];
+    expect(former).toHaveLength(1);
+    expect(former[0]).toContain('Fixture Monastery library');
+    expect(former[0]).toContain('1508 to 1821');
+  });
+
+  it('names no held place or holder', () => {
+    const html = readHtml(dir, entry(15));
+    expect(html).not.toContain('A held holder');
+    expect(html).not.toContain('A held library town');
+  });
+
+  it('gives the earlier attributions as a note with their source, never as a place it was made', () => {
+    const earlier = textOf(section()?.querySelector('.earlier-attributions'));
+    expect(earlier).toContain('Fixture Venice');
+    expect(earlier).toContain('Older catalogues placed it at Venice');
+    expect(textOf(section()?.querySelector('.made-at'))).not.toContain('Venice');
+  });
+
+  it('marks a claim on a pending locator as pending (FR-011)', () => {
+    expect(textOf(section()?.querySelector('.made-at'))).toMatch(/locator pending/);
+  });
+
+  it('has no map link until the network layer is public (US2 adds it)', () => {
+    expect(section()?.querySelector('a.see-on-map')).toBeNull();
   });
 });

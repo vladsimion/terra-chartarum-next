@@ -28,6 +28,12 @@ function chain() {
 }
 
 describe('dependentsOf (US2)', () => {
+  it('makes an edition a direct dependent of the place its role names (spec 012 T010)', () => {
+    const dealu = record('place', 1);
+    const edition = record('bibliography_entry', 2, { place_roles: [{ place: dealu.id, role: 'produced_at', basis: 'attributed', confidence: 'probable' }] });
+    expect(dependentsOf(buildDependents([dealu, edition]), dealu.id).direct).toEqual([{ id: edition.id, field: 'place_roles[0].place', held: true }]);
+  });
+
   it('gives the direct referrers with their field, and the indirect ones with their path', () => {
     const result = dependentsOf(buildDependents(chain()), ENTRY);
     expect(result.id).toBe(ENTRY);

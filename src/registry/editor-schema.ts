@@ -34,12 +34,24 @@ const PLAIN_ENUMS: Record<string, readonly string[]> = {
   'locator.proposed_by': PROPOSED_BY_VALUES,
 };
 
-/** The schema of a property at a dotted path, or undefined when the family has no such property. */
+/** Glossary vocabularies that apply inside the items of a list of objects (spec 012), path → vocabulary. */
+const ITEM_VOCABULARIES: Record<string, string> = {
+  'place_roles[].role': 'place_role',
+  'place_roles[].basis': 'basis',
+  'place_roles[].confidence': 'confidence',
+};
+
+/**
+ * The schema of a property at a dotted path, or undefined when the family has no such property. A
+ * part ending in `[]` steps into the items of a list: `place_roles[].place`.
+ */
 function propertyAt(schema: JsonSchema, dotted: string): JsonSchema | undefined {
   let current: JsonSchema | undefined = schema;
   for (const part of dotted.split('.')) {
+    const name = part.endsWith('[]') ? part.slice(0, -2) : part;
     const properties = current?.properties as Record<string, JsonSchema> | undefined;
-    current = properties?.[part];
+    current = properties?.[name];
+    if (current !== undefined && part.endsWith('[]')) current = current.items as JsonSchema | undefined;
     if (current === undefined) return undefined;
   }
   return current;
@@ -101,6 +113,11 @@ function editorSchema(family: string, records: readonly RegistryRecord[], defini
   for (const [vocabulary, values] of Object.entries(GLOSSARY_VOCABULARIES)) {
     const target = propertyAt(schema, vocabulary);
     if (target) setEnum(target, values, definitions[vocabulary]);
+  }
+  for (const [path, vocabulary] of Object.entries(ITEM_VOCABULARIES)) {
+    const target = propertyAt(schema, path);
+    const values = GLOSSARY_VOCABULARIES[vocabulary];
+    if (target && values) setEnum(target, values, definitions[vocabulary]);
   }
   allowSpecialistTerms(schema, vocabularies);
   for (const [path, values] of Object.entries(PLAIN_ENUMS)) {
