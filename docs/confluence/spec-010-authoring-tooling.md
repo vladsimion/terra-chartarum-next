@@ -5,7 +5,7 @@ Programme dossier for spec 010, written against the fourteen-point contract in [
 | | |
 |---|---|
 | Programme type | Tooling: four maintainer tools that remove authoring friction without weakening a validation rule; no automation writes a canonical record |
-| Status | **Under way.** Grilled (#122, ADR 0018 and ADR 0019), specified (#125), planned and tasked (#126), analysed and amended (#127). **US1, `registry new <family>`, merged with #127 (21 November 2026; TCX-62 Done). US2, the dependents graph and `registry deps`, merged with #136 (22 November 2026).** US3 and US4 not started. |
+| Status | **Under way.** Grilled (#122, ADR 0018 and ADR 0019), specified (#125), planned and tasked (#126), analysed and amended (#127). **US1, `registry new <family>`, merged with #127 (21 November 2026; TCX-62 Done). US2, the dependents graph and `registry deps`, merged with #136 (22 November 2026). US3, editor schemas, built on #138 and carried to `main` by #140.** US4 not started. |
 | Jira | **TCX-59** epic (In Progress); stories **TCX-62** (US1 scaffolding), **TCX-63** (US2 dependents), **TCX-61** (US3 editor schemas), **TCX-64** (US4 link and manifest checker); **TCX-65** (the grill's carried checks, Done, #125); TCX-60 (the grill, Done) |
 | Canonical parent | A standalone page at the root of the space, as for specs 001 to 009 |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). Spec `specs/010-authoring-tooling/`; code so far `src/registry/{checklist,new-record,scaffold}.ts` and the `requires` declarations on the rules; decisions `docs/adr/0018`, `docs/adr/0019` |
@@ -82,6 +82,8 @@ SC-001 to SC-008 of the spec. Met so far: SC-002 (the checklist test, 12 familie
 | 2026-11-22 | `dependents.test.ts`, `dependents-html.test.ts`, `deps-cli.test.ts` (US2 scenarios 1 to 6) | chain, held, cycle, unknown target, `same_as[]` and edges equal to `referenceFields` over 200 synthetic records; `deps` exit 1 on an unknown id; `check --out` writes both files, schema-valid, pass or fail |
 | 2026-11-22 | SC-004 on the real registry (at 0ea65b2) | 311 nodes, 389 edges; `tc:tc:map:hereford` 10 direct, 15 indirect, 2 ms |
 | 2026-11-22 | `npm run build`, then `registry scan dist` | PASS; no `dependents.*` in `dist/` |
+| 2026-11-22 | `glossary.test.ts`, `editor-schema.test.ts` (US3 scenarios 1 to 5, SC-005) | every vocabulary value defined both ways; the real registry validates; ten seeded typos rejected by schema and gate; suggestions end in a plain string; VS Code mapping for all 15 families |
+| 2026-11-22 | T038, one glossary row removed | `npm ci` exit 0 with the value named; `npm run build` exit 1 with the value named |
 
 ## 13. Canonical ownership and propagation
 
@@ -89,4 +91,4 @@ The repository is canonical (CLAUDE.md step 4). This dossier, Build Log section 
 
 ## 14. Current checkpoint and delivery authority
 
-US1 and US2 are merged (#127 on 21 November 2026, #136 on 22 November 2026). Next: US3 (editor schemas, TCX-61). Author inputs outstanding: the vocabulary definitions (T033, US3) and the Jira Actions secrets (T061, US4).
+US1 and US2 are merged (#127 on 21 November 2026, #136 on 22 November 2026). US3 (editor schemas, TCX-61) is built and under review on #140 (first reviewed as #138); the author confirms the new Vocabulary values definitions (T033) and checks the editor by hand (T039). Next: US4 (link and manifest checker, TCX-64). Author inputs outstanding: the vocabulary definitions (T033, US3) and the Jira Actions secrets (T061, US4).
