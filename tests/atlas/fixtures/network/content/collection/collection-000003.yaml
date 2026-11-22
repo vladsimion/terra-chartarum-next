@@ -1,0 +1,13 @@
+id: tc:tc:collection:collection-000003
+family: collection
+origin: minted
+title: The printing network fixtures
+slug: printing-network-fixtures
+lifecycle: published
+release: released
+members:
+  - tc:tc:layer:layer-000008
+  - tc:tc:layer:layer-000002
+default_layers:
+  - tc:tc:layer:layer-000008
+  - tc:tc:layer:layer-000002

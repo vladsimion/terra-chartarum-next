@@ -1,3 +1,4 @@
+import { DERIVED_ASSETS } from '../schemas/atlas-values.js';
 import { LIFECYCLE_VALUES, RELEASE_VALUES, SIDE_STATES } from '../schemas/shared.js';
 import { ESSAY_STAGES, isEssayStage, lifecycleFor } from '../stages.js';
 import { defineRule, type Finding } from './framework.js';
@@ -62,6 +63,7 @@ export const lifeAvailability = defineRule({
     if (!options.assetIndex) return findings;
     for (const record of records) {
       if (record.family !== 'layer' || typeof record.asset !== 'string') continue;
+      if ((DERIVED_ASSETS as readonly string[]).includes(record.asset)) continue; // built from the registry (spec 012 R4)
       if (!options.assetIndex.has(record.asset)) {
         findings.push({ record, field: 'asset', value: record.asset, expected: 'a runnable asset that exists in the repository' });
       }

@@ -1,0 +1,33 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000008
+family: bibliography_entry
+origin: minted
+title: A fixture liturgy
+slug: fixture-entry-8
+lifecycle: published
+release: released
+csl: content/bibliography_entry/bibliography_entry-000008.csl.json
+section: primary_sources
+survival: surviving
+place_roles:
+  - place: tc:tc:place:place-000004
+    role: produced_at
+    basis: attributed
+    confidence: probable
+    valid_from: "1510"
+    evidence: [tc:tc:evidence:evidence-000001]
+  - place: tc:tc:place:place-000005
+    role: held_at
+    basis: stated
+    confidence: probable
+    holder: Fixture Library
+    shelfmark: FL 1
+    valid_from: "1950"
+    evidence: [tc:tc:evidence:evidence-000001]
+  - place: tc:tc:place:place-000004
+    role: held_at
+    basis: stated
+    confidence: possible
+    holder: Fixture press library
+    valid_from: "1510"
+    valid_to: "1800"
+    evidence: [tc:tc:evidence:evidence-000001]

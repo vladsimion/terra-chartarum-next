@@ -5,11 +5,20 @@ import { fileURLToPath } from 'node:url';
 import { parse, stringify } from 'yaml';
 
 export const FIXTURE = fileURLToPath(new URL('../fixtures/registry', import.meta.url));
+/** The printing-network records (spec 012), laid over a copy of the Atlas fixture so its other tests keep their counts. */
+export const NETWORK_OVERLAY = fileURLToPath(new URL('../fixtures/network', import.meta.url));
 
 /** A copy of the Atlas fixture registry that a test may change without touching the original. */
 export function copyFixture(): string {
   const root = mkdtempSync(path.join(tmpdir(), 'atlas-variant-'));
   cpSync(FIXTURE, root, { recursive: true });
+  return root;
+}
+
+/** A copy of the Atlas fixture with the printing-network overlay added (spec 012 US2). */
+export function networkFixture(): string {
+  const root = copyFixture();
+  cpSync(NETWORK_OVERLAY, root, { recursive: true });
   return root;
 }
 

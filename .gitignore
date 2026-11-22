@@ -27,6 +27,7 @@ test-results/
 reports-completeness/
 .lighthouseci/
 tests/atlas/.perf-registry/
+tests/atlas/.network-registry/
 .claude/worktrees/
 sdd-confluence/
 

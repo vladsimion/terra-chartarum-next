@@ -17,6 +17,7 @@ import { buildPlaceIndex } from '../place-index.js';
 import { geojson } from 'flatgeobuf';
 import { maplibreFiles } from './vendor.js';
 import { convertGeoJson, convertPmtiles, type AtlasFailure, type Converted, type LayerSource } from './convert-assets.js';
+import { DERIVED_PLACE_ROLES, networkFeatures } from './network-features.js';
 
 /*
  * The Atlas build (spec 005 contracts/build-outputs.md): for each public layer, convert its source
@@ -79,7 +80,16 @@ export async function buildAtlas(options: AtlasBuildOptions): Promise<AtlasBuild
       timeMode: text(record.time_mode),
       facets: (Array.isArray(record.facets) ? record.facets : []).filter(isObject).map((f) => ({ property: text(f.property), label: text(f.label), kind: text(f.kind) })),
     };
-    const bytes = await readIfThere(path.join(options.root, text(record.asset)));
+    let bytes: Buffer | null;
+    if (record.asset === DERIVED_PLACE_ROLES) {
+      // built from the registry, not read from a file (spec 012 R4): then converted like any GeoJSON source
+      const network = networkFeatures(records, slug);
+      failures.push(...network.failures);
+      if (network.failures.length > 0) continue;
+      bytes = Buffer.from(JSON.stringify({ type: 'FeatureCollection', features: network.features }));
+    } else {
+      bytes = await readIfThere(path.join(options.root, text(record.asset)));
+    }
     if (!bytes) {
       failures.push({ check: 'ATLAS-ASSET-MISSING', layer: slug, message: 'the source named by the layer cannot be read' });
       continue;

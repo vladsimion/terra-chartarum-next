@@ -1,0 +1,10 @@
+id: tc:tc:dataset:dataset-000002
+family: dataset
+origin: minted
+title: Fixture place roles of editions
+slug: fixture-place-roles
+lifecycle: published
+release: released
+version: 1.0.0
+rights:
+  licence: CC BY 4.0

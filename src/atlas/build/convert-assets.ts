@@ -18,7 +18,9 @@ export type AtlasCheck =
   | 'ATLAS-FACET-PROPERTY'
   | 'ATLAS-PLACE-REF'
   | 'ATLAS-OVERLAY-ANNOTATION'
-  | 'ATLAS-LEAK';
+  | 'ATLAS-LEAK'
+  | 'ATLAS-ROLE-PLACE-HELD'
+  | 'ATLAS-ROLE-PLACE-LOCATION';
 
 /** A build-time failure. It names the layer by slug and, for a feature, by its index; it never repeats a value. */
 export interface AtlasFailure {

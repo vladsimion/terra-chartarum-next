@@ -10,7 +10,7 @@ import { scanOutput } from '../../../src/registry/leak-scan.js';
 import { projectPublic } from '../../../src/registry/project.js';
 import { initialState } from '../../../src/atlas/view-state.js';
 import { atlasSite } from '../support/build.js';
-import { copyFixture, editRecord, FIXTURE, tempDir } from '../support/variant.js';
+import { copyFixture, editRecord, FIXTURE, networkFixture, tempDir } from '../support/variant.js';
 
 /*
  * Spec 005 T064 (SC-005, ADR 0013): no id, slug or title of a layer, essay, place or collection that
@@ -45,6 +45,31 @@ describe('the built Atlas', () => {
     expect(await scan(outDir, root)).toEqual([]);
     expect(written.join(' ')).not.toMatch(/held-frontier-sheets/);
     expect(readFileSync(path.join(outDir, 'data/atlas-index.json'), 'utf8')).not.toMatch(/held-frontier-sheets|A held collection|collection-000009/);
+  });
+
+  // Spec 012 T026: the derived network names no held edition, held place or held holder.
+  it('has none in the derived printing network, with a held edition and a held holder added', async () => {
+    const root = networkFixture();
+    const edition = parse(readFileSync(path.join(root, 'content/bibliography_entry/bibliography_entry-000008.yaml'), 'utf8')) as Record<string, unknown>;
+    Object.assign(edition, {
+      id: 'tc:tc:bibliography_entry:bibliography_entry-000009',
+      title: 'A held edition of secret psalms',
+      slug: 'held-secret-psalms',
+      lifecycle: 'researching',
+      release: 'held',
+      csl: 'content/bibliography_entry/bibliography_entry-000009.csl.json',
+      place_roles: [{ place: 'tc:tc:place:place-000005', role: 'held_at', basis: 'stated', confidence: 'probable', holder: 'Hidden Holder Library', valid_from: '1900', evidence: [] }],
+    });
+    writeFileSync(path.join(root, 'content/bibliography_entry/bibliography_entry-000009.yaml'), stringify(edition));
+    writeFileSync(path.join(root, 'content/bibliography_entry/bibliography_entry-000009.csl.json'), JSON.stringify({ id: edition.id, type: 'book', title: 'A held edition of secret psalms' }));
+
+    const outDir = tempDir('atlas-network-leak');
+    const { failures } = await buildAtlas({ root, outDir });
+    expect(failures).toEqual([]);
+    expect(await scan(outDir, root)).toEqual([]);
+    const layer = readFileSync(path.join(outDir, 'data/layers/printing-network.fgb')).toString('latin1');
+    expect(layer).toContain('Fixture Library');
+    expect(layer).not.toMatch(/secret psalms|Hidden Holder Library|bibliography_entry-000009/);
   });
 
   it('puts no held slug in an address, and does not confirm that it exists', async () => {
