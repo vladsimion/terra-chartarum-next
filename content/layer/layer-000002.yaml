@@ -11,10 +11,10 @@ role: historical
 asset: data/layers/layer-000002.geojson
 dataset: tc:tc:dataset:dataset-000002
 description: Where the princes of Wallachia and Moldavia resided, over time.
-  This first slice holds the Wallachian seats (Argeș, Târgoviște, Bucharest)
-  as envelopes, the span within which a place served as a seat, not yet the
-  dated residence intervals the layer is for. Each envelope is replaced by
-  intervals traced to charters. Moldavia (Siret, Suceava, Iași) follows.
+  It holds the Wallachian seats (Argeș, Târgoviște, Bucharest) and the
+  Moldavian seats (Siret, Suceava, Iași) as envelopes, the span within which a
+  place served as a seat, not yet the dated residence intervals the layer is
+  for. Each envelope is replaced by intervals traced to charters.
 theme: places-settlements
 tags:
   - wallachia

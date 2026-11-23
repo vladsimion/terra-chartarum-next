@@ -72,6 +72,78 @@
     "note": "Starts at the first attestation, a 1459 charter of Vlad III (programme, corrected against the external drafts); capital of Romania from 1862. Residence alternated with Târgoviște before; the intervals are pending (TCX-85). The point marks the town, not the site of the residence.",
     "citation": "Charter of Vlad III, 1459 (locator pending); research programme, Stage III"
    }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     26.07,
+     47.95
+    ]
+   },
+   "properties": {
+    "id": "seat-siret",
+    "name": "Siret",
+    "place_id": "tc:tc:place:place-000002",
+    "principality": "moldavia",
+    "interval_kind": "envelope",
+    "valid_from": 1360,
+    "valid_to": 1388,
+    "geometry_provenance": "generalized_editorial",
+    "confidence": "low",
+    "review_status": "candidate",
+    "note": "Envelope for Siret as the seat of the early Moldavian princes, before the move to Suceava. Not a dated residence interval: pending until traced to charters (TCX-85). The point marks the town, not the site of the residence.",
+    "citation": "Envelope only; no source yet"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     26.25,
+     47.65
+    ]
+   },
+   "properties": {
+    "id": "seat-suceava",
+    "name": "Suceava",
+    "place_id": "tc:tc:place:plc-suceava",
+    "principality": "moldavia",
+    "interval_kind": "envelope",
+    "valid_from": 1388,
+    "valid_to": 1565,
+    "geometry_provenance": "generalized_editorial",
+    "confidence": "low",
+    "review_status": "candidate",
+    "note": "Envelope for Suceava as the seat from the late 14th century until the move to Iași in the 1560s. Pending until traced to charters (TCX-85). The point marks the town, not the site of the residence.",
+    "citation": "Envelope only; no source yet"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     27.6,
+     47.16
+    ]
+   },
+   "properties": {
+    "id": "seat-iasi",
+    "name": "Iași",
+    "place_id": "tc:tc:place:plc-iasi",
+    "principality": "moldavia",
+    "interval_kind": "envelope",
+    "valid_from": 1565,
+    "valid_to": 1862,
+    "geometry_provenance": "generalized_editorial",
+    "confidence": "low",
+    "review_status": "candidate",
+    "note": "Envelope for Iași as the seat from the 1560s until the union of the principalities' governments in 1862. Pending until traced to charters (TCX-85). The point marks the town, not the site of the residence.",
+    "citation": "Envelope only; no source yet"
+   }
   }
  ]
 }
