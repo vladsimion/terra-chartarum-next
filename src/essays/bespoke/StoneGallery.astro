@@ -3,10 +3,17 @@
  * The lapidarium wall (spec 009, contracts/components.md): it wraps the stone plates and offers one
  * control, a native checkbox labelled "Show as squeeze", which turns every plate from a drawing into
  * an epigrapher's squeeze: the stone's negative, ink and paper exchanged. The checkbox is visually
- * hidden and its label is the visible control, so there is no custom widget and no script (FR-005);
- * the flip is `:has()` rewriting the four `--plate-*` properties the plates read, inside `@supports`,
- * so a browser without `:has()` shows every plate as a drawing and loses nothing. The legacy
- * treatment used CSS filters, which the shell forbids; the tokens carry it instead.
+ * hidden and its label is the visible control, so there is no custom widget and no script (FR-005).
+ *
+ * The flip is a sibling combinator: the checkbox is the gallery's first child and the stones follow
+ * it in `.lapidarium-stones`, so `:checked ~ .lapidarium-stones` rewrites the four `--plate-*`
+ * properties the plates read. An earlier version flipped them with `.lapidarium:has(:checked)`,
+ * which passed in desktop Chrome but did nothing on an iPhone (reported 2026-11-22); the sibling
+ * selector needs no `:has()` and no `@supports`, so every browser that has the checkbox has the
+ * squeeze. The legacy treatment used CSS filters, which the shell forbids; the tokens carry it.
+ *
+ * The label also shows its own state (an empty box, then a filled one), because on a phone the
+ * plates sit below the fold and the reader would otherwise see no change where they tapped.
  *
  * One gallery to a page (the essay has one wall), so the checkbox's id is fixed.
  */
@@ -14,44 +21,52 @@ const ID = 'lapidarium-squeeze';
 ---
 
 <div class="lapidarium">
+  <input class="lapidarium-switch" type="checkbox" id={ID} />
   <div class="lapidarium-bar">
-    <input class="lapidarium-switch" type="checkbox" id={ID} />
     <label class="lapidarium-switch-label" for={ID}>Show as squeeze</label>
   </div>
-  <slot />
+  <div class="lapidarium-stones">
+    <slot />
+  </div>
 </div>
 
 <style>
   .lapidarium {
+    position: relative;
+    margin: var(--space-6) 0;
+  }
+
+  .lapidarium-stones {
     /* What a plate inks itself with; the squeeze below exchanges them. */
     --plate-paper: var(--panel-raised);
     --plate-ink: var(--ink);
     --plate-ink-muted: var(--ink-muted);
     --plate-water: var(--accent-verdigris);
     --plate-mark: var(--accent-madder);
-
-    margin: var(--space-6) 0;
   }
 
   .lapidarium-bar {
-    position: relative;
     display: flex;
     justify-content: flex-end;
     padding-bottom: var(--space-3);
     border-bottom: 1px solid var(--line);
   }
 
-  /* Visually hidden, never unfocusable: the label beside it is the control the reader sees. */
+  /* Visually hidden, never unfocusable: the label after it is the control the reader sees. */
   .lapidarium-switch {
     position: absolute;
+    top: 0;
+    right: 0;
     width: var(--space-1);
     height: var(--space-1);
+    margin: 0;
     overflow: hidden;
     clip-path: inset(50%);
   }
 
   .lapidarium-switch-label {
     display: inline-flex;
+    gap: var(--space-2);
     align-items: center;
     min-height: var(--target-min);
     padding: var(--space-2) var(--space-3);
@@ -60,25 +75,40 @@ const ID = 'lapidarium-squeeze';
     color: var(--ink);
     font-family: var(--font-mono);
     font-size: var(--step--1);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .lapidarium-switch:focus-visible + .lapidarium-switch-label {
+  /* The state mark: an empty box when the plates are drawings, a filled one in the squeeze. */
+  .lapidarium-switch-label::before {
+    content: '';
+    flex: none;
+    width: var(--space-3);
+    height: var(--space-3);
+    border: 1px solid currentcolor;
+    border-radius: var(--radius);
+  }
+
+  .lapidarium-switch:focus-visible + .lapidarium-bar .lapidarium-switch-label {
     outline: 2px solid var(--focus);
     outline-offset: 2px;
   }
 
-  .lapidarium-switch:checked + .lapidarium-switch-label {
+  .lapidarium-switch:checked + .lapidarium-bar .lapidarium-switch-label {
     border-color: var(--accent);
     color: var(--accent);
   }
 
-  @supports selector(:has(*)) {
-    .lapidarium:has(.lapidarium-switch:checked) {
-      --plate-paper: var(--ink-muted);
-      --plate-ink: var(--canvas);
-      --plate-ink-muted: var(--canvas);
-      --plate-water: var(--canvas);
-      --plate-mark: var(--canvas);
-    }
+  .lapidarium-switch:checked + .lapidarium-bar .lapidarium-switch-label::before {
+    background: currentcolor;
+    box-shadow: inset 0 0 0 2px var(--canvas);
+  }
+
+  .lapidarium-switch:checked ~ .lapidarium-stones {
+    --plate-paper: var(--ink-muted);
+    --plate-ink: var(--canvas);
+    --plate-ink-muted: var(--canvas);
+    --plate-water: var(--canvas);
+    --plate-mark: var(--canvas);
   }
 </style>
