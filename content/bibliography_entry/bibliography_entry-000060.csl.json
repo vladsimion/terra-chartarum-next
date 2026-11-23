@@ -1,0 +1,22 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000060",
+  "type": "webpage",
+  "title": "Wallachia, Serbia, Bulgaria, Romania",
+  "author": [
+    {
+      "literal": "Library of Congress"
+    }
+  ],
+  "container-title": "Library of Congress, World Digital Library collection",
+  "URL": "https://www.loc.gov/item/2021668532/",
+  "accessed": {
+    "date-parts": [
+      [
+        2026,
+        11,
+        23
+      ]
+    ]
+  },
+  "language": "en"
+}

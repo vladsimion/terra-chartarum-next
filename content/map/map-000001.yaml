@@ -1,0 +1,54 @@
+id: tc:tc:map:map-000001
+family: map
+origin: minted
+title: Walachia, Servia, Bulgaria, Romania (Mercator, 1589)
+slug: walachia-servia-bulgaria-romania-mercator-1589
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+record_scope: object
+witness_kind: institutional
+makers:
+  - tc:tc:cartographer:mercator
+title_original: Walachia, Servia, Bulgaria, Romania
+date_published: "1589"
+repository: National and University Library "St Kliment Ohridski", Skopje
+dimensions:
+  height_mm: 570
+  width_mm: 490
+language: la
+bibliography:
+  - tc:tc:bibliography_entry:bibliography_entry-000060
+images:
+  # the Library of Congress IIIF service for the World Digital Library copy, read on 2026-11-23
+  - type: iiif
+    url: https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:11:81:1:wdl_11811:KKR-11/info.json
+    static_url: https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:11:81:1:wdl_11811:KKR-11/full/pct:25/0/default.jpg
+    attribution: National and University Library "St Kliment Ohridski", Skopje, via the World Digital Library and the Library of Congress
+    licence: No known copyright restrictions
+    alt: Mercator's 1589 map of Wallachia, Serbia, Bulgaria and Romania
+    reproduction_cleared: false
+    witness_kind: institutional
+rights:
+  licence: No known copyright restrictions
+# The record names Duisburg and the regions Wallachia, Serbia, Bulgaria and Romania (Thrace); no
+# place records exist for them yet, so publication_place and coverage wait (they take place ids).
+field_status:
+  publication_place: not_yet_verified
+  coverage: not_yet_verified
+  edition_state: not_yet_verified
+  atlas_context: not_yet_verified
+  significance: not_yet_verified
+  provenance: not_yet_verified
+  georeferencing_status: not_yet_verified
+open_questions:
+  - field: coverage
+    question: Whether the sheet names Târgoviște, and under which form, is not yet
+      read from the image. The Library of Congress record lists only the regions.
+    would_resolve: Reading the place names on the IIIF image.
+  - field: edition_state
+    question: Which state and which atlas issue the Skopje copy belongs to is not
+      recorded; the catalogue says only Duisburg, 1589.
+    would_resolve: A cartobibliography of Mercator's atlas (for example Van der
+      Krogt, Koeman's Atlantes Neerlandici).

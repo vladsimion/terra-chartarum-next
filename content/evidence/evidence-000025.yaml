@@ -1,0 +1,27 @@
+id: tc:tc:evidence:evidence-000025
+family: evidence
+origin: minted
+title: The Library of Congress describes Mercator's 1589 map of Wallachia
+slug: the-library-of-congress-describes-mercator-s-1589-map-of-wallachia
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+target:
+  entity: tc:tc:map:map-000001
+source: tc:tc:source:source-000007
+# read on 2026-11-23 from the Library of Congress record (from the World Digital Library):
+# "Duisburg : [publisher not identified], 1589", Mercator, Gerhard, cartographer, "1 map ; 57 x 49
+# centimeters", content in Latin, original at the National and University Library "St Kliment
+# Ohridski", Skopje. Proposed by Claude; a person verifies it.
+locator:
+  value: "Created / Published: 'Duisburg : [publisher not identified], 1589.'; Notes: 'Original resource at: National and University Library \"St Kliment Ohridski\" -- Skopje.'"
+  state: pending
+  proposed_by: ai
+evidence_type: textual
+confidence: probable
+analytical_dimensions:
+  - geographical
+  - methodological
+rights:
+  licence: No known copyright restrictions
