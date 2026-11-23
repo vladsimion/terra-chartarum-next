@@ -30,6 +30,9 @@ export function pageType(file: string, page: HTMLElement): string {
   if (file.startsWith('atlas/handbook/')) return 'handbook-topic';
   if (file === 'rooms/index.html' && page.querySelector('ol.rooms')) return 'rooms-index';
   if (file.startsWith('rooms/') && page.querySelector('[data-introduction]')) return 'room';
+  // spec 012: the people index, and a person's page once one is public
+  if (file === 'people/index.html') return 'people-index';
+  if (file.startsWith('people/') && page.querySelector('article.person')) return 'person';
   if (file === 'about/index.html') return 'about';
   if (file === 'colophon/index.html') return 'colophon';
   return 'unknown';

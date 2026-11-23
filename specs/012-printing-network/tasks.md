@@ -234,7 +234,12 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
     **Still open (author):** Coresi's first Târgoviște and Brașov editions. Which editions they are, and their dates, wait for BRV I and the colophons, and nothing is minted for them until then.
 
 - [x] T045 [P] [US3] Spec amendment (ADR 0023): add `person` to the family table in `specs/001-scholarly-registry/spec.md` and `data-model.md`, and the rules to `contracts/rule-ids.md`. Run `npm run status -- --write`.
-- [ ] T046 [US3] Full checks green. Update the dossier and Build Log rows.
+- [x] T046 [US3] Full checks green. Update the dossier and Build Log rows.
+  - *Done 2026-11-23:* the checks pass:
+    - `npm test` (3,215), `typecheck`, `lint`, the gate (PASS, 335 entities) and `status --check`;
+    - `test:e2e:bibliography` (26, with axe on a person page and the people index).
+
+    The shell's CI template list gains `people-index`, since the build makes a new kind of page. `accents.test.ts` failed once in the first full run, then passed alone and in a full rerun with no change that touches it; the cause is not identified.
 
 ---
 

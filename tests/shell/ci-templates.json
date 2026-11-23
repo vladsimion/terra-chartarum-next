@@ -10,6 +10,7 @@
     { "name": "cartographer-profile", "path": "/cartographers/fixture-cartographer/" },
     { "name": "bibliography-index", "path": "/bibliography/" },
     { "name": "bibliography-entry", "path": "/bibliography/fixture-book/" },
+    { "name": "people-index", "path": "/people/" },
     { "name": "rooms-index", "path": "/rooms/" },
     { "name": "room", "path": "/rooms/earth/" },
     { "name": "atlas", "path": "/atlas/" },
