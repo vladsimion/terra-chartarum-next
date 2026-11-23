@@ -1,0 +1,25 @@
+id: tc:tc:evidence:evidence-000023
+family: evidence
+origin: minted
+title: The Marciana dates the Fra Mauro map c. 1450 and keeps it
+slug: the-marciana-dates-the-fra-mauro-map-c-1450-and-keeps-it
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+target:
+  entity: tc:tc:map:fra-mauro
+source: tc:tc:source:source-000005
+# read on 2026-11-23 from the holder's page: "databile all'anno 1450 ca.", manuscript on parchment
+# sheets glued to a wooden support, "cm 230 x 230 ca.". Proposed by Claude; a person verifies it.
+locator:
+  value: "first paragraph: 'Il Mappamondo di Fra' Mauro, databile all'anno 1450 ca.'"
+  state: pending
+  proposed_by: ai
+evidence_type: textual
+confidence: probable
+analytical_dimensions:
+  - historical
+  - methodological
+rights:
+  licence: CC BY 4.0
