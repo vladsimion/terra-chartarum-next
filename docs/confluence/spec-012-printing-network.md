@@ -5,8 +5,8 @@ This is the programme dossier for spec 012. It follows the fourteen-point contra
 | | |
 |---|---|
 | Programme type | Research capability: the first Stage III slice (Wallachia and Moldavia). It adds place roles on editions, a `person` family and a network layer derived from the records. |
-| Status | **Under way.** Specified, planned and tasked; `/speckit-analyze` found two high findings and six smaller ones, all fixed (#152, merged 2026-11-22). **US1** (place roles, the rules, publicity, the edition section, the 1508 edition) merged with #153 on 2026-11-22. **US2** (the derived network layer, its collection and the map) merged with #154 on 2026-11-22. **US3** (the `person` family, person links on editions, and the person pages) merged with #156 on 2026-11-23. **US4** (survival stated, pending claims shown) merged with #157 on 2026-11-23. **US5** (paper through Evidence) merged with #158 on 2026-11-23. **Polish** (quickstart, code review, rule guard) is built and under review on #159; T060 (five readers) and T062 (the edition's map link) stay open. |
-| Jira | **TCX-79** is the Stage III epic. **TCX-82** (III-1, the printing network) is In Progress. The grill that preceded it is TCX-80 and TCX-81. |
+| Status | **Code complete (2026-11-23).** Specified, planned and tasked; `/speckit-analyze` found two high findings and six smaller ones, all fixed (#152, merged 2026-11-22). **US1** (place roles, the rules, publicity, the edition section, the 1508 edition) merged with #153 on 2026-11-22. **US2** (the derived network layer, its collection and the map) merged with #154 on 2026-11-22. **US3** (the `person` family, person links on editions, and the person pages) merged with #156 on 2026-11-23. **US4** (survival stated, pending claims shown) merged with #157 on 2026-11-23. **US5** (paper through Evidence) merged with #158 on 2026-11-23. **Polish** (quickstart, code review, rule guard) merged with #159 on 2026-11-23; T060 (five readers) and T062 (the edition's map link) stay open. |
+| Jira | **TCX-79** is the Stage III epic. **TCX-82** (III-1, the printing network) is Done (2026-11-23, at the author's request, once #159 merged). The grill that preceded it is TCX-80 and TCX-81. |
 | Canonical parent | A standalone page at the root of the space, like specs 001 to 010. It is linked from the Stage III programme note (page 47120387). |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). The spec is in `specs/012-printing-network/`. The decisions are `docs/adr/0021` (place roles), `docs/adr/0023` (person records) and `docs/adr/0014` as amended on 2026-11-22. |
 | Last reconciliation | 2026-11-22, on `012-printing-network`. The counts this spec does not own are generated below. |
@@ -111,8 +111,9 @@ The agreed test seams (T001, 2026-11-22) are:
   - `secure` was not blocked on pending locators for place roles.
 
   Six smaller findings were also fixed. FR-003 (consecutive holdings for a copy that moved) became an authoring convention.
-- 2026-11-22 to 2026-11-23: the stories merged one PR each, with `gate` green: US1 #153, US2 #154, US3 #156, US4 #157 and US5 #158. TCX-82 stays In Progress until Polish merges.
+- 2026-11-22 to 2026-11-23: the stories merged one PR each, with `gate` green: US1 #153, US2 #154, US3 #156, US4 #157 and US5 #158.
 - 2026-11-23: Polish. The quickstart ran green on `main`. The code review (standards and spec) found one bug: any point with a `role` property was drawn as a copy, which would have mislabelled the hanseatic places once published. It also found two spec gaps: an attributed copy was not marked, and printer links never said "pending". All three are fixed in the Polish PR. The edition page's map link (FR-014) was found missing and is now T062.
+- 2026-11-23: Polish merged (#159), with `gate` green. TCX-82 moved to Done at the author's request. T060 (five readers), T062 (the edition's map link) and the author's readings stay open in `tasks.md`.
 
 ## 11. Programme acceptance criteria
 
@@ -143,7 +144,7 @@ The repository is canonical (CLAUDE.md step 4). This dossier and the Build Log s
 
 ## 14. Current checkpoint and delivery authority
 
-All five stories are merged (#153, #154, #156, #157, #158), and the Polish PR is under review. When it merges, TCX-82 can move to Done for the code. The research below is the author's, and does not hold the story open.
+All five stories and Polish are merged (#153, #154, #156, #157, #158, #159), and TCX-82 is Done. The items below stay open in `tasks.md` and no longer hold the story.
 
 The author's open items for this spec:
 - **Readings** that turn locators from `pending` to `verified`:
