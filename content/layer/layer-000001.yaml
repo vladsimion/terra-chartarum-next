@@ -10,15 +10,17 @@ relations: []
 role: historical
 asset: data/layers/layer-000001.geojson
 dataset: tc:tc:dataset:dataset-000001
-description: The routes across the Carpathians that joined Sibiu and Brașov to
-  the Wallachian seats, drawn as editorial corridors through named towns and
-  passes. They show that a connection ran this way, not the line a road took;
-  no segment is surveyed or traced from a map. Thin slice for the printing
-  network (spec 012); the Oituz pass and the Brăila road follow.
+description: The routes across the Carpathians that joined Transylvania to
+  Wallachia and Moldavia, drawn as editorial corridors through named towns and
+  passes. Sibiu by the Red Tower pass and Brașov by Bran–Rucăr lead to the
+  Wallachian seats, Târgoviște across the plain to the Danube at Brăila, and
+  Brașov by the Oituz pass into Moldavia. They show that a connection ran this
+  way, not the line a road took; no segment is surveyed or traced from a map.
 theme: networks-circulation
 tags:
   - transylvania
   - wallachia
+  - moldavia
   - carpathians
   - passes
   - corridors
