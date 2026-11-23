@@ -6,7 +6,7 @@ import type { FacetSelection } from './types.js';
  * an attributed production place has a dashed outline and a former holding is hollow, so none is
  * told by colour alone (ADR 0004). The legend and the facet say the same in words. Pure.
  */
-export type RoleSymbol = 'made' | 'made-attributed' | 'kept' | 'formerly';
+export type RoleSymbol = 'made' | 'made-attributed' | 'kept' | 'kept-attributed' | 'formerly' | 'formerly-attributed';
 
 export interface RoleSymbolStyle {
   label: string;
@@ -22,17 +22,39 @@ export const ROLE_SYMBOLS: Record<RoleSymbol, RoleSymbolStyle> = {
   made: { label: 'Made here', description: 'filled square', shape: 'square', outline: 'solid', filled: true },
   'made-attributed': { label: 'Made here, attributed', description: 'filled square with a dashed outline: scholars attribute it, the book does not say', shape: 'square', outline: 'dashed', filled: true },
   kept: { label: 'A copy is kept here', description: 'filled circle', shape: 'circle', outline: 'solid', filled: true },
+  'kept-attributed': { label: 'A copy is kept here, attributed', description: 'filled circle with a dashed outline: scholars attribute it, no catalogue states it', shape: 'circle', outline: 'dashed', filled: true },
   formerly: { label: 'Formerly kept here', description: 'hollow circle', shape: 'circle', outline: 'solid', filled: false },
+  'formerly-attributed': { label: 'Formerly kept here, attributed', description: 'hollow circle with a dashed outline', shape: 'circle', outline: 'dashed', filled: false },
 };
+
+const PLACE_ROLES = ['produced_at', 'held_at'];
+
+/**
+ * Which map features are place roles: a network feature names its edition and has one of the two
+ * roles. Another layer's own `role` property (a Hanseatic town's `kontor`) is not one, and keeps its
+ * provenance dot. The MapLibre filter and `symbolOf` say the same thing.
+ */
+export const PLACE_ROLE_FILTER = ['all', ['has', 'edition'], ['in', ['get', 'role'], ['literal', PLACE_ROLES]]] as const;
 
 const ORDER = Object.keys(ROLE_SYMBOLS) as RoleSymbol[];
 
 /** The symbol of a feature with a place role, or null for one without (other layers draw as before). */
 export function symbolOf(properties: Record<string, unknown>): RoleSymbol | null {
-  if (properties.role === 'produced_at') return properties.basis === 'attributed' ? 'made-attributed' : 'made';
-  if (properties.role === 'held_at') return properties.formerly === true ? 'formerly' : 'kept';
-  return null;
+  if (typeof properties.edition !== 'string' || !PLACE_ROLES.includes(String(properties.role))) return null;
+  const attributed = properties.basis === 'attributed' ? '-attributed' : '';
+  if (properties.role === 'produced_at') return `made${attributed}` as RoleSymbol;
+  return `${properties.formerly === true ? 'formerly' : 'kept'}${attributed}` as RoleSymbol;
 }
+
+/** Every symbol with the feature properties that select it, for the map's `case` expression. */
+export const SYMBOL_CASES: { symbol: RoleSymbol; role: string; formerly: boolean; attributed: boolean }[] = [
+  { symbol: 'made', role: 'produced_at', formerly: false, attributed: false },
+  { symbol: 'made-attributed', role: 'produced_at', formerly: false, attributed: true },
+  { symbol: 'kept', role: 'held_at', formerly: false, attributed: false },
+  { symbol: 'kept-attributed', role: 'held_at', formerly: false, attributed: true },
+  { symbol: 'formerly', role: 'held_at', formerly: true, attributed: false },
+  { symbol: 'formerly-attributed', role: 'held_at', formerly: true, attributed: true },
+];
 
 /** The legend lines for the roles among `drawn`, and only those. */
 export function roleLegend(drawn: readonly Record<string, unknown>[]): { label: string; description: string }[] {

@@ -290,11 +290,39 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 
 ## Phase 8: Polish & cross-cutting concerns
 
-- [ ] T057 [P] Run `quickstart.md` end to end and fix anything it exposes
-- [ ] T058 Run the `code-review` skill (standards and spec axes) against the spec 012 PRs and address the findings
-- [ ] T059 [P] Re-run `rules-not-weakened`, and record the rules spec 012 added
+- [x] T057 [P] Run `quickstart.md` end to end and fix anything it exposes
+  - *Done 2026-11-23:* run on `main` at `dfb134c`. All passed: the gate (PASS, 342 entities), `npm test` (3,228), the build and `registry scan dist` (0 leaks), `test:e2e:atlas` (207) and `test:e2e:network` (10). `npm ci` was not re-run, since no dependency changed in spec 012.
+
+    The quickstart had drifted: the e2e spec path, the publicity test path, the page tests, and the US4.2 rule (now `PLACE-ROLE-SECURE`, plus the shown "pending"). All are corrected.
+
+- [x] T058 Run the `code-review` skill (standards and spec axes) against the spec 012 PRs and address the findings
+  - *Done 2026-11-23:* the `code-review` skill was run on `60e8a33...dfb134c`, leaving out #155. It found no breach of a documented standard.
+
+    **Fixed in the Polish PR:**
+    - (spec, bug) A point with any `role` property was drawn as a copy. The hanseatic places layer uses `role: kontor` and similar, so its 60 points would have been mislabelled once published. A place role must now name its `edition`; `PLACE_ROLE_FILTER` and `symbolOf` share the rule, and the map's symbol choice is built from one table, `SYMBOL_CASES`.
+    - (spec, FR-007) An attributed copy is now dashed, current or former, and every pin's label states its basis and confidence.
+    - (spec, contracts/pages.md) The printer line and the person page say "locator pending" where a printer link rests on pending locators.
+    - (standards) Stale comments in `citations.ts` and `place-roles.ts`, including the `held_at` against held-record sense; the misplaced doc comment in `map.ts`; `roles()` reduced to `itemsOf`; one `restsOnPending` helper and one `Printers.astro` in place of the copies.
+
+    **Not changed:**
+    - (judgement) The remaining duplication: `text` and `objects` helpers, the `place_roles` and `people` projection, and the rules' shape.
+    - (judgement) The person and survival rules living in `place-roles.ts`.
+    - (judgement) The test hook `data-role-symbols`.
+    - (author, glossary) "Edition" is not a glossary term, and "held" names two things (an unreleased record, and `held_at`).
+    - The missing map link on the edition page is now T062.
+
+- [x] T059 [P] Re-run `rules-not-weakened`, and record the rules spec 012 added
+  - *Done 2026-11-23:* `rules-not-weakened` passes. Spec 012 added nine rules, and none was removed or relaxed:
+    - `PLACE-ROLE-PRODUCED`, `PLACE-ROLE-HOLDING`, `PLACE-ROLE-LINK`, `PLACE-ROLE-FAMILY`, `PLACE-ROLE-EVIDENCE` and `PLACE-ROLE-SECURE`;
+    - `PERSON-LINK` and `PERSON-NAMES`;
+    - `EDITION-SURVIVAL`.
+
+    `DATE-INVALID` and `ENUM-INVALID` were widened, to a person's `life_dates` and to the link vocabularies. `LIFE-AVAILABILITY` accepts the derived asset kind. The rule framework gained the threshold `never`.
+
 - [ ] T060 **(author)** Run the SC-003 check: five readers, the 1508 edition in the default map view, asked "where was this book made?". Record the answers in the dossier
-- [ ] T061 Update Jira (TCX-82 and epic TCX-79), the dossier, Build Log and any Decision Log draft (workflow step 4)
+- [x] T061 Update Jira (TCX-82 and epic TCX-79), the dossier, Build Log and any Decision Log draft (workflow step 4)
+  - *Done 2026-11-23:* updated in the Polish PR (#159): the dossier (status, reconciliation history, the acceptance criteria stated, and the checkpoint with the author's open items) and the Build Log draft. Jira: TCX-82 has a comment per PR and the Polish summary. No Decision Log entry was drafted: every decision of spec 012 is an ADR (0021, 0023, 0014 amended) or a recorded contract amendment.
+- [ ] T062 Add the edition page's **See on the map** link (FR-014; contracts/pages.md item 7): a link to the network collection, centred on the production place. Found missing at the Polish review (T058). It needs the Atlas address (`src/atlas/view-url.ts`, spec 005 view-address contract) to carry a centre or a place. It can only be tested on a site with a public network layer. Until then the page names the places in words, and `entry-page.test.ts` holds that no map link appears.
 
 ---
 

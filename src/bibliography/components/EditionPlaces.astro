@@ -1,5 +1,7 @@
 ---
 import type { PlaceLine, PlacesView } from '../places-view.js';
+import type { Printer } from '../person-view.js';
+import Printers from './Printers.astro';
 
 /*
  * Spec 012 contracts/pages.md "Edition": where the edition was made and where its copies are kept,
@@ -7,7 +9,7 @@ import type { PlaceLine, PlacesView } from '../places-view.js';
  */
 interface Props {
   view: PlacesView;
-  printers: { name: string; href: string; basis: string; confidence: string }[];
+  printers: Printer[];
 }
 
 const { view, printers } = Astro.props;
@@ -23,11 +25,7 @@ const qualifiers = (l: PlaceLine) => `${l.basis}, confidence: ${l.confidence}`;
     </p>
   )}
 
-  {printers.length > 0 && (
-    <p class="printers">
-      {printers.map((p, i) => <>{i === 0 ? 'Printed by ' : '; '}<a href={p.href}>{p.name}</a> ({p.basis}, confidence: {p.confidence})</>)}.
-    </p>
-  )}
+  <Printers printers={printers} />
 
   {view.noneKnown && <p class="no-copy-known"><strong>No copy is known</strong> to survive.</p>}
 

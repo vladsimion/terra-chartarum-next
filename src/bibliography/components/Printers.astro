@@ -1,0 +1,26 @@
+---
+import type { Printer } from '../person-view.js';
+
+/*
+ * "Printed by …" on an edition (spec 012 US3, ADR 0023): each printer linked to their page, with the
+ * link's basis and confidence in words, and "locator pending" where the link rests on one (FR-011).
+ */
+interface Props {
+  printers: Printer[];
+}
+
+const { printers } = Astro.props;
+---
+
+{printers.length > 0 && (
+  <p class="printers">
+    {printers.map((p, i) => <>{i === 0 ? 'Printed by ' : '; '}<a href={p.href}>{p.name}</a> ({p.basis}, confidence: {p.confidence}{p.pending && <span class="pending">, locator pending</span>})</>)}.
+  </p>
+)}
+
+<style>
+  /* pending is said in words and set in italic, never shown by colour alone */
+  .pending {
+    font-style: italic;
+  }
+</style>

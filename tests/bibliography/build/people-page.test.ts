@@ -61,8 +61,23 @@ describe('the edition page names its printer', () => {
   it('links the printer to their page, with role, basis and confidence, and names no held person', () => {
     const section = readPage(dir, 'bibliography/fixture-entry-15/index.html').querySelector('section#where-made-kept');
     const printer = section?.querySelector('.printers');
-    expect(textOf(printer)).toMatch(/Printed by Fixture Printer \(stated in the book, confidence: probable\)/);
+    expect(textOf(printer)).toMatch(/Printed by Fixture Printer \(stated in the book, confidence: probable(, locator pending)?\)/);
     expect(printer?.querySelector('a[href="/people/fixture-printer/"]')).not.toBeNull();
     expect(readHtml(dir, 'bibliography/fixture-entry-15/index.html')).not.toMatch(/held-apprentice|A held apprentice/);
+  });
+});
+
+/*
+ * Code review, spec 012 Polish (contracts/pages.md: "Pending locators are marked pending"): a printer
+ * named on the strength of a pending locator says so, on the edition and on the person's page.
+ */
+describe('a printer resting on a pending locator', () => {
+  it('is marked pending on the edition page', () => {
+    const printer = readPage(dir, 'bibliography/fixture-entry-15/index.html').querySelector('section#where-made-kept .printers');
+    expect(textOf(printer)).toMatch(/locator pending/);
+  });
+
+  it('is marked pending on the person page, edition by edition', () => {
+    for (const item of person().querySelectorAll('.editions li').map((li) => textOf(li))) expect(item).toMatch(/locator pending/);
   });
 });

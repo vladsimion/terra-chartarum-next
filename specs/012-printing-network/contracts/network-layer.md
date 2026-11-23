@@ -41,8 +41,9 @@ The features are then converted to FlatGeobuf as any GeoJSON source is. Build fa
 - **Styles:**
   - `produced_at` and `held_at` differ by symbol;
   - `formerly: true` is a hollow symbol;
-  - `basis: attributed` is a dashed outline.
+  - `basis: attributed` is a dashed outline, on a production place and on a copy, current or former (made explicit at the Polish review).
+  - Only a feature that names its `edition` and has `role` `produced_at` or `held_at` is a place role. Another layer's own `role` property (a Hanseatic town's `kontor`) is drawn as before, by its provenance (`PLACE_ROLE_FILTER`, `src/atlas/roles.ts`).
   
   None of these is told by colour alone (ADR 0004).
-- **Text:** every pin's accessible name and inspector heading state the role in words, for example: "Made here (attributed, high confidence)", "A copy is kept here: Library of the Romanian Academy", "Formerly kept here: … until 1890".
+- **Text:** every pin's accessible name and inspector heading state the role in words, with its basis and confidence, for example: "Made here (attributed, probable): Liturghier, 1508", "A copy is kept here (stated, probable): Library of the Romanian Academy (…)", "Formerly kept here (stated, possible): …, until 1890 (…)".
 - **Legend:** lists only the roles drawn.

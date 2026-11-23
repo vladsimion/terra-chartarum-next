@@ -2,6 +2,7 @@ import type { CslItem } from '../essays/citations.js';
 import type { PublicRecord } from '../registry/project.js';
 import { publicEntryIds } from '../registry/citations.js';
 import { parseDate } from '../registry/dates.js';
+import { restsOnPending } from './places-view.js';
 
 /*
  * A person's page (spec 012 contracts/pages.md "Person"; ADR 0023): names, life dates, and the
@@ -19,6 +20,8 @@ export interface PersonEdition {
   role: string;
   basis: string;
   confidence: string;
+  /** The link rests on pending locators only (FR-011). */
+  pending: boolean;
 }
 
 export interface PersonView {
@@ -62,6 +65,7 @@ export function personView(person: PublicRecord, records: readonly PublicRecord[
         role: String(link.role),
         basis: BASIS[String(link.basis)] ?? String(link.basis),
         confidence: String(link.confidence),
+        pending: restsOnPending(link.evidence, byId),
       });
     }
   }
@@ -75,13 +79,21 @@ export function personView(person: PublicRecord, records: readonly PublicRecord[
 }
 
 /** The printers an edition names, said in words, each linked to their page. */
-export function printersOf(edition: PublicRecord, records: readonly PublicRecord[]): { name: string; href: string; basis: string; confidence: string }[] {
+export interface Printer {
+  name: string;
+  href: string;
+  basis: string;
+  confidence: string;
+  pending: boolean;
+}
+
+export function printersOf(edition: PublicRecord, records: readonly PublicRecord[]): Printer[] {
   const byId = new Map(records.map((r) => [r.id, r]));
   return objects(edition.people)
     .filter((l) => l.role === 'printer')
     .flatMap((l) => {
       const person = byId.get(String(l.person));
       if (!person || person.family !== 'person') return [];
-      return [{ name: text(person.title) ?? person.id, href: `/people/${String(person.slug)}/`, basis: BASIS[String(l.basis)] ?? String(l.basis), confidence: String(l.confidence) }];
+      return [{ name: text(person.title) ?? person.id, href: `/people/${String(person.slug)}/`, basis: BASIS[String(l.basis)] ?? String(l.basis), confidence: String(l.confidence), pending: restsOnPending(l.evidence, byId) }];
     });
 }

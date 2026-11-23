@@ -25,12 +25,13 @@ export interface NetworkFeature {
 const text = (value: unknown): string | undefined => (typeof value === 'string' && value.trim() !== '' ? value : undefined);
 const localId = (id: string): string => id.split(':').pop() ?? id;
 
-/** What a pin says, in words (FR-005, FR-007): its role, and for a production place its basis and confidence. */
+/** What a pin says, in words (FR-005, FR-007): its role, its basis and its confidence. */
 function labelOf(role: Record<string, unknown>, title: string): string {
-  if (role.role === 'produced_at') return `Made here (${String(role.basis)}, ${String(role.confidence)}): ${title}`;
+  const how = `(${String(role.basis)}, ${String(role.confidence)})`;
+  if (role.role === 'produced_at') return `Made here ${how}: ${title}`;
   const holder = text(role.holder) ?? 'an unnamed holder';
-  if (text(role.valid_to)) return `Formerly kept here: ${holder}, until ${String(role.valid_to)} (${title})`;
-  return `A copy is kept here: ${holder} (${title})`;
+  if (text(role.valid_to)) return `Formerly kept here ${how}: ${holder}, until ${String(role.valid_to)} (${title})`;
+  return `A copy is kept here ${how}: ${holder} (${title})`;
 }
 
 function locationOf(place: Record<string, unknown> | undefined): [number, number] | null {

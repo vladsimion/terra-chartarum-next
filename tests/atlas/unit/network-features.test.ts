@@ -57,8 +57,8 @@ describe('networkFeatures', () => {
     });
     // the no-WebGL feature table reads `name`: it says the same as the pin
     for (const feature of [m, c, f]) expect(feature?.properties.name).toBe(feature?.properties.label);
-    expect(c?.properties).toMatchObject({ holder: 'Library of the Academy', shelfmark: 'CRV 1', held_from: '1950', formerly: false, label: 'A copy is kept here: Library of the Academy (Liturghier, 1508)' });
-    expect(f?.properties).toMatchObject({ held_from: '1508', held_to: '1821', formerly: true, label: 'Formerly kept here: Dealu Monastery library, until 1821 (Liturghier, 1508)' });
+    expect(c?.properties).toMatchObject({ holder: 'Library of the Academy', shelfmark: 'CRV 1', held_from: '1950', formerly: false, label: 'A copy is kept here (stated, probable): Library of the Academy (Liturghier, 1508)' });
+    expect(f?.properties).toMatchObject({ held_from: '1508', held_to: '1821', formerly: true, label: 'Formerly kept here (stated, possible): Dealu Monastery library, until 1821 (Liturghier, 1508)' });
   });
 
   it('never gives a holding the network’s own time: custody dates are text only', () => {
