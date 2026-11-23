@@ -1,0 +1,26 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000055",
+  "type": "book",
+  "title": "Carte, tipar și societate la români în secolul al XVI-lea: studii, articole, comunicări",
+  "author": [
+    {
+      "family": "Demény",
+      "given": "Lajos"
+    },
+    {
+      "family": "Demény",
+      "given": "Lidia A."
+    }
+  ],
+  "publisher": "Kriterion",
+  "publisher-place": "Bucharest",
+  "issued": {
+    "date-parts": [
+      [
+        1986
+      ]
+    ]
+  },
+  "language": "ro",
+  "note": "Introduction by Dan Simonescu."
+}

@@ -548,6 +548,7 @@ const PLACE_ROLE_MUTATIONS: Mutation[] = [
   { name: 'a ready edition’s place role cites no evidence', rule: 'PLACE-ROLE-EVIDENCE', apply: withRoles((rs) => [roleOf(rs, { evidence: [] })], { lifecycle: READY }) },
   { name: 'a person link has no role', rule: 'PERSON-LINK', apply: (rs) => [...rs, build('person', 90, { names: [{ name: 'Coresi', language: 'ro', kind: 'historic' }] }), entryOf(91, { people: [{ person: 'tc:tc:person:person-000090', basis: 'stated', confidence: 'probable' }] })] },
   { name: 'a person link names a role outside its vocabulary', rule: 'PERSON-LINK', apply: (rs) => [...rs, build('person', 90, { names: [{ name: 'Coresi', language: 'ro', kind: 'historic' }] }), entryOf(91, { people: [{ person: 'tc:tc:person:person-000090', role: 'author', basis: 'stated', confidence: 'probable' }] })] },
+  { name: 'an edition with no copy known has one kept now', rule: 'EDITION-SURVIVAL', apply: withRoles((rs) => [roleOf(rs, { role: 'held_at', holder: 'A Library', valid_from: '1900' })], { survival: 'none_known' }) },
   { name: 'a ready person has no names', rule: 'PERSON-NAMES', apply: (rs) => [...rs, build('person', 90, { lifecycle: READY })] },
   { name: 'a secure place role rests on pending locators only', rule: 'PLACE-ROLE-SECURE', apply: withRoles((rs) => [roleOf(rs, { confidence: 'secure', evidence: [nth(rs, 'evidence', PLAIN).id] })]) },
 ];

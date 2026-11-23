@@ -1,7 +1,7 @@
 import { parseDate } from '../dates.js';
 import { PERSON_ROLE_VALUES } from '../schemas/shared.js';
 import type { RegistryRecord } from '../types.js';
-import { defineRule, type Finding } from './framework.js';
+import { defineRule, severityFor, type Finding } from './framework.js';
 
 /*
  * Place roles on an edition (ADR 0021; spec 012 contracts/rule-ids.md). An edition says where it
@@ -238,4 +238,30 @@ export const personNames = defineRule({
   },
 });
 
-export const PLACE_ROLE_RULES = [placeRoleProduced, placeRoleHolding, placeRoleLink, placeRoleFamily, placeRoleEvidence, placeRoleSecure, personLink, personNames];
+/**
+ * FR-010: survival is stated, never read from an empty list of holdings. "No copy is known" with a
+ * copy kept now is a contradiction (an error at any lifecycle). "Surviving" with no holding is a gap
+ * the editor should see from ready_for_build: always a warning, because copies are often reported
+ * before any institution is located (the 1508 Liturghier's twelve, spec 012 SC-002).
+ */
+export const editionSurvival = defineRule({
+  id: 'EDITION-SURVIVAL',
+  from: 'always',
+  check: ({ records }) => {
+    const findings: Finding[] = [];
+    for (const record of editions(records)) {
+      const holdings = roles(record).filter(({ item }) => item.role === 'held_at');
+      if (record.survival === 'none_known') {
+        const current = holdings.filter(({ item }) => blank(item.valid_to));
+        if (current.length > 0) {
+          findings.push({ record, field: 'survival', value: 'none_known', expected: `no copy held now: place_roles[${current.map((c) => c.i).join(', ')}] says one is kept; close it with valid_to, or state the survival as surviving` });
+        }
+      } else if (record.survival === 'surviving' && holdings.length === 0 && severityFor('ready_for_build', record.lifecycle) === 'error') {
+        findings.push({ record, from: 'never', field: 'survival', value: 'surviving', expected: 'a held_at for each copy located; until one is, the survival is reported but no holder is named' });
+      }
+    }
+    return findings;
+  },
+});
+
+export const PLACE_ROLE_RULES = [placeRoleProduced, placeRoleHolding, placeRoleLink, placeRoleFamily, placeRoleEvidence, placeRoleSecure, personLink, personNames, editionSurvival];

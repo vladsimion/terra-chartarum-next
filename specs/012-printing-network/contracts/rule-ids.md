@@ -12,6 +12,6 @@ These rules are added to `specs/001-scholarly-registry/contracts/rule-ids.md` in
 | `PLACE-ROLE-SECURE` | a place role or person link rated `secure` cites at least one Evidence record whose locator is `verified` | FR-011, SC-005, Principle VI | always |
 | `PERSON-LINK` | a person link has `person`, `role`, `basis` and `confidence`; the role is from `PERSON_ROLE_VALUES` | FR-009 | always |
 | `PERSON-NAMES` | a person record has one or more names, each with language and kind | FR-015 | `ready_for_build` |
-| `EDITION-SURVIVAL` | `survival: none_known` with a current `held_at` is an error; `surviving` with no `held_at` is a warning | FR-010 | always (error) / `ready_for_build` (warning) |
+| `EDITION-SURVIVAL` | `survival: none_known` with a current `held_at` is an error; `surviving` with no `held_at` is a warning from `ready_for_build` that never becomes an error (threshold `never`, added at US4: copies are often reported before any is located) | FR-010 | always (error) / `ready_for_build` (warning) |
 
 The enumerated values (`role`, `basis`, `person_role`, `survival`) are added to `ENUM_FIELDS` in `src/registry/rules/enums.ts`, so `ENUM-INVALID` reports them. The references (`place_roles[].place`, `place_roles[].evidence[]`, `people[].person`, `attribution_history[].place` and `.source`) are added to `src/registry/schemas/references.ts`, so `REF-UNKNOWN` and `REF-FAMILY` cover them.
