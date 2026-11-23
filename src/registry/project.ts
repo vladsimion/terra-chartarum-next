@@ -1,4 +1,5 @@
 import { isPublic } from './publication.js';
+import { DERIVED_ASSETS } from './schemas/atlas-values.js';
 import type { RegistryRecord } from './types.js';
 
 export type PublicRecord = { id: string; family: string } & Record<string, unknown>;
@@ -153,6 +154,9 @@ export function projectPublic(records: readonly RegistryRecord[]): PublicRecord[
           .map((n) => pick(n, ['place', 'source', 'note']));
       }
     }
+    // a derived asset names how the layer is built, never a file, so the edition page can find the
+    // network layer (spec 012 T062); a source path stays private
+    if (record.family === 'layer' && typeof record.asset === 'string' && (DERIVED_ASSETS as readonly string[]).includes(record.asset)) projected.asset = record.asset;
     if (record.family === 'layer' && record.georef && typeof record.georef === 'object') {
       const georef = record.georef as Record<string, unknown>;
       const projectedGeoref = pick(georef, ['annotation', 'transformation', 'residual_error_m', 'control_points', 'confidence']);

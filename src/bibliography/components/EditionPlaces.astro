@@ -10,9 +10,11 @@ import Printers from './Printers.astro';
 interface Props {
   view: PlacesView;
   printers: Printer[];
+  /** The network collection in the Atlas, marked at the production place; null while it cannot be opened. */
+  mapLink: string | null;
 }
 
-const { view, printers } = Astro.props;
+const { view, printers, mapLink } = Astro.props;
 const qualifiers = (l: PlaceLine) => `${l.basis}, confidence: ${l.confidence}`;
 ---
 
@@ -23,6 +25,10 @@ const qualifiers = (l: PlaceLine) => `${l.basis}, confidence: ${l.confidence}`;
     <p class="made-at">
       <strong>Made at {view.made.place}</strong>{view.made.from && <>, {view.made.from}</>} ({qualifiers(view.made)}){view.made.pending && <span class="pending"> (locator pending)</span>}.
     </p>
+  )}
+
+  {mapLink && view.made && (
+    <p class="see-on-map-line"><a class="see-on-map" href={mapLink}>See on the map</a>, marked at {view.made.place}.</p>
   )}
 
   <Printers printers={printers} />

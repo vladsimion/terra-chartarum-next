@@ -1,7 +1,7 @@
 import { knownClaims, placesView, type KnownClaim, type PlacesView } from './places-view.js';
 import { printersOf, type Printer } from './person-view.js';
 import { formatBibliographyItem, type CslItem } from '../essays/citations.js';
-import { layerAddress } from './addresses.js';
+import { editionMapLink, layerAddress } from './addresses.js';
 import type { PublicRecord } from '../registry/project.js';
 import { BIBLIOGRAPHY_SECTIONS, BIBLIOGRAPHY_SECTION_LABELS, type BibliographySection } from '../registry/schemas/bibliography-section.js';
 import { PAGE_ROUTES } from '../registry/routes.js';
@@ -106,6 +106,8 @@ export interface EntryView {
   editions: { relation: EditionRelation; label: string; title: string; href: string }[];
   /** Where it was made and where it is kept (spec 012); null when the entry has no place roles. */
   places: PlacesView | null;
+  /** "See on the map": the network collection marked at the production place (spec 012 T062); null while nothing public can be opened. */
+  mapLink: string | null;
   /** The printers the edition names, each linked to their page (spec 012 US3, ADR 0023). */
   printers: Printer[];
   /** Evidence about the edition that no place role or printer cites (spec 012 US5), never drawn. */
@@ -145,6 +147,7 @@ export function entryView(entry: PublicRecord, records: readonly PublicRecord[],
     digitalCopy: typeof entry.digital_copy === 'string' ? entry.digital_copy : null,
     editions: editionsOf(entry.id, publicEntries(records)).map((e) => ({ relation: e.relation, label: RELATION_LABELS[e.relation], title: e.entry.title, href: address(e.entry.slug) })),
     places: placesView(entry, records),
+    mapLink: editionMapLink(entry, records),
     printers: printersOf(entry, records),
     known: knownClaims(entry, records),
     evidence: mine.filter((c) => c.route === 'evidence').map(cited),

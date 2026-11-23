@@ -69,3 +69,28 @@ test('the page passes axe with the network, its copies and the legend showing', 
   const violations = (await new AxeBuilder({ page }).analyze()).violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`);
   expect(violations).toEqual([]);
 });
+
+/*
+ * Spec 012 T062 (FR-014; contracts/pages.md "Edition" item 7): the edition page's "See on the map"
+ * opens the network collection on the year the edition was made, marked at its production place,
+ * and the address is the whole state, so removing the marker takes the place out of it.
+ */
+test('the edition page opens the network, marked at the place the edition was made', async ({ page }) => {
+  await page.goto('/bibliography/fixture-entry-8/');
+  await page.getByRole('link', { name: 'See on the map' }).click();
+  await expect(page).toHaveURL(/\/atlas\/\?y=1510&l=printing-network[^&]*&lens=collection&c=printing-network-fixtures&p=fixture-press-monastery$/);
+  await expect(page.locator('[data-atlas]')).toHaveAttribute('data-map-ready', 'true');
+  await expect(page.locator('[data-active] .title').first()).toHaveText('The printing network');
+  const marker = page.getByRole('button', { name: 'Remove marker for Fixture Press Monastery' });
+  await expect(marker).toBeVisible();
+  await expect(page.locator('.map-canvas')).toHaveAttribute('data-zoom', '9');
+  await expect(page.locator('[data-place-status]')).toHaveText('Map centred on Fixture Press Monastery.');
+  await marker.click();
+  await expect(page).not.toHaveURL(/p=/);
+});
+
+test('a place the Atlas cannot mark is left out of the address, and the notice says so', async ({ page }) => {
+  await page.goto('/atlas/?p=no-such-place');
+  await expect(page.locator('[data-notice]')).toContainText('The place in the address is not one the Atlas can mark, so no place is marked.');
+  await expect(page).toHaveURL(/\/atlas\/$/);
+});

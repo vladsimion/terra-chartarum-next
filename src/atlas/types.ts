@@ -52,6 +52,8 @@ export interface AtlasState {
   /** The layer the inspector shows; always one of `active`. */
   focused?: string;
   relevantOnly: boolean;
+  /** A public place marked on the map, by slug (spec 012 T062); resolved against the place index when the Atlas loads. */
+  place?: string;
   /** Per layer slug, per property. */
   facets: Record<string, Record<string, FacetSelection>>;
 }
