@@ -283,7 +283,8 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
     - **Source:** Negoiță's Princeton article (`bibliography_entry-000057`, Source 4). Its URL and access date are to be added when the page is read again, since its host is outside the session's network.
     - **Locator:** pending. Held.
 
-- [ ] T056 [US5] Full checks green. Update the dossier and Build Log rows.
+- [x] T056 [US5] Full checks green. Update the dossier and Build Log rows.
+  - *Done 2026-11-23:* the checks pass: `npm test` (3,228), `typecheck`, `lint`, the gate (PASS, 342 entities), `status --check` and `test:e2e:bibliography` (26).
 
 ---
 
