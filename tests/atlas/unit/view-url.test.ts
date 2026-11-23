@@ -48,6 +48,26 @@ const parse = (search: string) => parseView(search, INDEX, SLUGS);
 const base = (): AtlasState => initialState(INDEX);
 const cat = (...values: string[]): FacetSelection => ({ kind: 'category', values });
 
+describe('the place in the address (spec 012 T062)', () => {
+  it('writes `p` after `rel` and before the facets', () => {
+    const state: AtlasState = { ...base(), active: ['roads'], relevantOnly: true, place: 'targoviste', facets: { roads: { status: cat('attested') } } };
+    expect(serialiseView(state, INDEX)).toBe('l=roads&rel=1&p=targoviste&facet.roads=status:attested');
+  });
+
+  it('reads it back, so the round trip holds', () => {
+    const { state, report } = parse('l=roads&p=targoviste');
+    expect(state.place).toBe('targoviste');
+    expect(report.dropped).toEqual([]);
+    expect(serialiseView(state, INDEX)).toBe('l=roads&p=targoviste');
+  });
+
+  it('leaves out a place that is not a slug, and says so', () => {
+    const { state, report } = parse('p=%3Cscript%3E');
+    expect(state.place).toBeUndefined();
+    expect(report.dropped).toEqual(['The place in the address could not be read, so no place is marked.']);
+  });
+});
+
 describe('serialiseView', () => {
   it('writes nothing for the opening state', () => {
     expect(serialiseView(base(), INDEX)).toBe('');

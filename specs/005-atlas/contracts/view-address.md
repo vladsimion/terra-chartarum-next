@@ -13,6 +13,7 @@ The Atlas view lives in the query string of `/atlas/`. One module, `src/atlas/vi
 | `lens` | discovery lens | `theme`, `collection` or `room` |
 | `c` | collection context | one public collection slug, meaningful with `lens=collection` |
 | `rel` | year-relevance toggle | `1` when on; absent when off |
+| `p` | a place marked on the map (added by spec 012 T062) | one public place slug; the map is centred on it with a labelled marker instead of fitting the layers |
 | `facet.<slug>` | a layer's facet selection | `property:value1\|value2` for a category, `property:min..max` for a range; several properties separated by `;` |
 
 Values are percent-encoded. Parameters are written in the order above; defaults are omitted (no `y` when the year equals the default year, no `lens` for `theme`, no `rel` when off), so the same state always serialises to the same address.
@@ -25,6 +26,8 @@ Values are percent-encoded. Parameters are written in the order above; defaults 
 - A focused layer that is not active is dropped from the state and reported.
 - A facet whose layer, property or value does not exist is dropped and reported.
 - An unparseable `y` is replaced by the default year and reported.
+- A `p` that is not slug-shaped is dropped and reported. A slug that names no place in the place index (held, without a location, or non-existent) is dropped and reported in the same words for all three.
+- Removing the marker takes `p` out of the address. A place found with the place search is not written to the address (FR-009 leaves the address unchanged by a search); it replaces the address's place.
 - Nothing is read from or written to `localStorage` or cookies.
 
 ## Round trip

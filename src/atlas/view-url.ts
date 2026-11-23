@@ -47,7 +47,7 @@ function facetText(facets: Readonly<Record<string, FacetSelection>>): string {
     .join(';');
 }
 
-/** The query string (no `?`) of a state: `y`, `l`, `hide`, `f`, `lens`, `c`, `rel`, then `facet.<slug>` in activation order. */
+/** The query string (no `?`) of a state: `y`, `l`, `hide`, `f`, `lens`, `c`, `rel`, `p`, then `facet.<slug>` in activation order. */
 export function serialiseView(state: AtlasState, index: AtlasIndex): string {
   const parts: string[] = [];
   if (state.year !== defaultYear(index)) parts.push(`y=${state.year}`);
@@ -58,6 +58,7 @@ export function serialiseView(state: AtlasState, index: AtlasIndex): string {
   if (state.lens !== 'theme') parts.push(`lens=${state.lens}`);
   if (state.lens === 'collection' && state.collection) parts.push(`c=${encodeURIComponent(state.collection)}`);
   if (state.relevantOnly) parts.push('rel=1');
+  if (state.place) parts.push(`p=${encodeURIComponent(state.place)}`);
   for (const slug of state.active) {
     const text = facetText(state.facets[slug] ?? {});
     if (text !== '') parts.push(`facet.${encodeURIComponent(slug)}=${urlEncode(text)}`);
@@ -158,6 +159,13 @@ export function parseView(search: string, index: AtlasIndex, slugs: SlugTable): 
   }
 
   if (params.get('rel') === '1') state.relevantOnly = true;
+
+  // a place is a slug; whether it is a public place with a location is known only to the place index
+  const place = params.get('p');
+  if (place !== null) {
+    if (/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(place)) state.place = place;
+    else report.dropped.push('The place in the address could not be read, so no place is marked.');
+  }
 
   for (const [key, value] of params) {
     if (!key.startsWith('facet.')) continue;

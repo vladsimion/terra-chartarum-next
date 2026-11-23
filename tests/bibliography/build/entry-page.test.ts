@@ -215,7 +215,7 @@ describe('Where it was made and where it is kept (spec 012)', () => {
     expect(textOf(section()?.querySelector('.made-at'))).toMatch(/locator pending/);
   });
 
-  it('has no map link until the network layer is public (US2 adds it)', () => {
+  it('has no map link while the site has no public network layer (T062; the network e2e follows the link)', () => {
     expect(section()?.querySelector('a.see-on-map')).toBeNull();
   });
 });
