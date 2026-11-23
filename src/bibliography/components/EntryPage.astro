@@ -44,7 +44,12 @@ const groups: { name: 'evidence' | 'listed'; heading: string; items: CitedItem[]
     </dl>
   )}
 
-  {view.places && <EditionPlaces view={view.places} />}
+  {view.places && <EditionPlaces view={view.places} printers={view.printers} />}
+  {!view.places && view.printers.length > 0 && (
+    <p class="printers">
+      {view.printers.map((p, i) => <>{i === 0 ? 'Printed by ' : '; '}<a href={p.href}>{p.name}</a> ({p.basis}, confidence: {p.confidence})</>)}.
+    </p>
+  )}
 
   {view.editions.length > 0 && (
     <section class="editions" aria-labelledby="editions-heading">

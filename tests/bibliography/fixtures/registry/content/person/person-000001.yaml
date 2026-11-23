@@ -1,0 +1,11 @@
+id: tc:tc:person:person-000001
+family: person
+origin: minted
+title: Fixture Printer
+slug: fixture-printer
+lifecycle: published
+release: released
+names:
+  - { name: Fixture Printer, language: en, kind: modern }
+  - { name: Tipograful, language: ro, kind: historic }
+life_dates: "1480?/1540?"

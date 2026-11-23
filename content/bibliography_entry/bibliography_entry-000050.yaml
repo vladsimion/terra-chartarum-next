@@ -22,4 +22,12 @@ place_roles:
     evidence:
       - tc:tc:evidence:evidence-000016
       - tc:tc:evidence:evidence-000017
+people:
+  # the epilogue names the typographer, Macarie (Stage III note §5)
+  - person: tc:tc:person:person-000001
+    role: printer
+    basis: stated
+    confidence: probable
+    evidence:
+      - tc:tc:evidence:evidence-000018
 # attribution_history (Venice, Bistrița, Snagov, Govora, Cetinje): to add when the source naming each is read; each needs a place record.

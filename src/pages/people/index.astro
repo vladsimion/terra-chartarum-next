@@ -1,0 +1,21 @@
+---
+import { loadEssaySite } from '../../essays/site-data.js';
+import Base from '../../shell/layouts/Base.astro';
+
+/*
+ * The public people (spec 012 US3, ADR 0023): reached from the editions that name them. Whether this
+ * index joins the header lenses is the shell's question (spec 002), left for later (research R6).
+ */
+const { records } = await loadEssaySite();
+const people = records.filter((r) => r.family === 'person').sort((a, b) => String(a.title).localeCompare(String(b.title)));
+---
+
+<Base title="People | Terra Chartarum" crumb="People">
+  <h1>People</h1>
+  <p>The printers and others named by the editions in the registry.</p>
+  {people.length === 0 ? <p>No person is public yet.</p> : (
+    <ul class="people-list">
+      {people.map((p) => <li><a href={`/people/${String(p.slug)}/`}>{String(p.title)}</a></li>)}
+    </ul>
+  )}
+</Base>

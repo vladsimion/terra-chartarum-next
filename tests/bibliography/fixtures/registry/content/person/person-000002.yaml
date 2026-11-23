@@ -1,0 +1,9 @@
+id: tc:tc:person:person-000002
+family: person
+origin: minted
+title: A held apprentice
+slug: held-apprentice
+lifecycle: researching
+release: held
+names:
+  - { name: A held apprentice, language: en, kind: modern }

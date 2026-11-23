@@ -177,6 +177,15 @@ export const PlaceRoleSchema = z.looseObject({
   evidence: z.array(z.string()).optional(),
 });
 
+/** A person linked to an edition, by role (ADR 0023, spec 012 data-model.md). Typed only: PERSON-LINK judges the values. */
+export const PersonLinkSchema = z.looseObject({
+  person: z.string().optional(),
+  role: z.string().optional(),
+  basis: z.string().optional(),
+  confidence: z.string().optional(),
+  evidence: z.array(z.string()).optional(),
+});
+
 /** A superseded attribution of an edition (FR-004): a historiography note, never a place role and never drawn. */
 const AttributionNote = z.looseObject({ place: z.string().optional(), source: z.string().optional(), note: z.string().optional() });
 
@@ -187,6 +196,7 @@ export const BibliographyEntrySchema = EntityBase.extend({
   translation_of: z.string().optional(),
   digital_copy: HttpsUrl.optional(),
   place_roles: z.array(PlaceRoleSchema).optional(),
+  people: z.array(PersonLinkSchema).optional(),
   attribution_history: z.array(AttributionNote).optional(),
   survival: z.string().optional(),
 });
@@ -199,3 +209,14 @@ export const CollectionSchema = EntityBase.extend({
 
 /** Route, event and period carry dates and nothing else beyond the entity base. */
 export const DatedSchema = EntityBase.extend({ ...DATE_FIELDS });
+
+/**
+ * A person (ADR 0023, spec 012): one record per person, linked from editions by role. Names as a
+ * place has them; life dates as one EDTF value (DATE-INVALID); editions about the person listed in
+ * `bibliography[]`. Not a Cartographer profile, which stays the maker of maps.
+ */
+export const PersonSchema = EntityBase.extend({
+  names: z.array(z.looseObject({ name: z.string().optional(), language: z.string().optional(), kind: z.string().optional() })).optional(),
+  life_dates: z.string().optional(),
+  bibliography: z.array(z.string()).optional(),
+});

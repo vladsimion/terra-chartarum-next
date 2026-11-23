@@ -1,0 +1,12 @@
+id: tc:tc:person:person-000002
+family: person
+origin: minted
+title: Dimitrije Ljubavić
+slug: dimitrije-ljubavic
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+names:
+  - { name: Dimitrije Ljubavić, language: sr, kind: modern }
+  - { name: Dimitrie Liubavici, language: ro, kind: modern }

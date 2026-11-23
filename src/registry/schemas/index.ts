@@ -11,6 +11,7 @@ import {
   DatasetSchema,
   LayerSchema,
   MapSchema,
+  PersonSchema,
   PlaceSchema,
   RoomSchema,
   SourceSchema,
@@ -32,6 +33,7 @@ const BY_FAMILY: Record<string, ZodObject> = {
   route: DatedSchema,
   event: DatedSchema,
   period: DatedSchema,
+  person: PersonSchema,
 };
 
 /**

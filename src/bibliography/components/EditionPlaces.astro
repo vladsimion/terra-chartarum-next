@@ -7,9 +7,10 @@ import type { PlaceLine, PlacesView } from '../places-view.js';
  */
 interface Props {
   view: PlacesView;
+  printers: { name: string; href: string; basis: string; confidence: string }[];
 }
 
-const { view } = Astro.props;
+const { view, printers } = Astro.props;
 const qualifiers = (l: PlaceLine) => `${l.basis}, confidence: ${l.confidence}`;
 ---
 
@@ -19,6 +20,12 @@ const qualifiers = (l: PlaceLine) => `${l.basis}, confidence: ${l.confidence}`;
   {view.made && (
     <p class="made-at">
       <strong>Made at {view.made.place}</strong>{view.made.from && <>, {view.made.from}</>} ({qualifiers(view.made)}){view.made.pending && <span class="pending"> (locator pending)</span>}.
+    </p>
+  )}
+
+  {printers.length > 0 && (
+    <p class="printers">
+      {printers.map((p, i) => <>{i === 0 ? 'Printed by ' : '; '}<a href={p.href}>{p.name}</a> ({p.basis}, confidence: {p.confidence})</>)}.
     </p>
   )}
 

@@ -79,9 +79,11 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `PLACE-ROLE-PRODUCED` | an edition has at most one `produced_at` place role; a superseded place goes to `attribution_history` | spec 012 FR-001, ADR 0021 | always |
 | `PLACE-ROLE-HOLDING` | a `held_at` place role names its `holder` and its `valid_from` (EDTF; an uncertain date is fine, a blank is not) | spec 012 FR-002, FR-003 | always |
 | `PLACE-ROLE-LINK` | `place_roles` is a list of objects, each naming its `place`, `role`, `basis` and `confidence`, with EDTF dates in order | spec 012 FR-001, FR-002 | always |
-| `PLACE-ROLE-FAMILY` | `place_roles` only on a bibliography entry; a map is refused until its own migration | spec 012 FR-002, ADR 0021 decision 6 | always |
-| `PLACE-ROLE-EVIDENCE` | every place role cites one or more Evidence records | spec 012 FR-011, Principle VI | `ready_for_build` |
-| `PLACE-ROLE-SECURE` | a place role rated `secure` cites at least one Evidence record whose locator is `verified` | spec 012 FR-011, SC-005 | always |
+| `PLACE-ROLE-FAMILY` | `place_roles` and `people` only on a bibliography entry; a map is refused until its own migration | spec 012 FR-002, ADR 0021 decision 6, ADR 0023 | always |
+| `PLACE-ROLE-EVIDENCE` | every place role and person link cites one or more Evidence records | spec 012 FR-011, Principle VI | `ready_for_build` |
+| `PLACE-ROLE-SECURE` | a place role or person link rated `secure` cites at least one Evidence record whose locator is `verified` | spec 012 FR-011, SC-005 | always |
+| `PERSON-LINK` | `people` on an edition is a list of objects, each naming its `person`, a `role` from the person-role vocabulary, a `basis` and a `confidence` | spec 012 FR-009, ADR 0023 | always |
+| `PERSON-NAMES` | a person record has one or more names, each with its name, language and kind | spec 012 FR-015, ADR 0023 | `ready_for_build` |
 | `RIGHTS-MISSING` | rights/licence present | US2.3 | `ready_for_build` |
 | `RIGHTS-CLEARED` | reproduction rights cleared for images | ADR 0003 §5 | `publishable` |
 | `SIL-STATE` | silence attestation has exactly one silence state | US2.4 | always |

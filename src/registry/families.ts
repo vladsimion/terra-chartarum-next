@@ -15,6 +15,8 @@ export const FAMILIES = [
   'room',
   'bibliography_entry',
   'evidence',
+  // spec 012, ADR 0023: printers and other people linked to editions, by role (spec 001 amended)
+  'person',
 ] as const;
 
 export type Family = (typeof FAMILIES)[number];

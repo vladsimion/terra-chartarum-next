@@ -1,0 +1,28 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000053
+family: bibliography_entry
+origin: minted
+title: Molitvenic, Târgoviște, 1545 (Ljubavić)
+slug: molitvenic-targoviste-1545-ljubavic
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+csl: content/bibliography_entry/bibliography_entry-000053.csl.json
+section: primary_sources
+survival: unknown
+place_roles:
+  # reported as among the first Wallachian prints to name their place; attributed until the colophon is read
+  - place: tc:tc:place:plc-targoviste
+    role: produced_at
+    basis: attributed
+    confidence: probable
+    valid_from: "1545"
+    evidence:
+      - tc:tc:evidence:evidence-000019
+people:
+  - person: tc:tc:person:person-000002
+    role: printer
+    basis: attributed
+    confidence: probable
+    evidence:
+      - tc:tc:evidence:evidence-000019

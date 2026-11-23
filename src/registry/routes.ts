@@ -13,6 +13,8 @@ export const PAGE_ROUTES: Readonly<Record<string, string>> = {
   cartographer: 'cartographers',
   // spec 006: the bibliography
   bibliography_entry: 'bibliography',
+  // spec 012: a person's page is /people/<slug>/
+  person: 'people',
 };
 
 export function routeSection(family: string): string {

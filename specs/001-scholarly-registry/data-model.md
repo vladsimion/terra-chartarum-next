@@ -24,7 +24,7 @@ Terms follow `GLOSSARY.md`. Rules cite the spec (FR-/US-) and ADR 0006. `*` mark
 | Field | Rule |
 |---|---|
 | `id*` | `StableId`; must match filename and `family` directory (US1.1, 1.4) |
-| `family*` | closed list: essay, map, cartographer, place, source, attestation, dataset, layer, collection, route, event, period, room, bibliography_entry, evidence (FR-001) |
+| `family*` | closed list: essay, map, cartographer, place, source, attestation, dataset, layer, collection, route, event, period, room, bibliography_entry, evidence, person (FR-001; `person` added by spec 012, ADR 0023) |
 | `origin*` | `Origin` |
 | `title*`, `slug*` | mutable; slug unique among live slugs |
 | `slug_history[]` | former slugs; none may equal a live slug (FR-013) |
@@ -73,7 +73,8 @@ Every field that points at another record. `referenceFields(record)` returns the
 | map | `makers[]` (cartographer IDs), `coverage[]` and `publication_place` (place), `attribution_evidence[]` (evidence), `bibliography[]` (bibliography entry) |
 | layer | `dataset`, `georef.map` (an overlay's map, spec 005) |
 | essay | `evidence[]`, `maps[]`, `places[]`, `sources[]` |
-| bibliography_entry | `edition_of`, `translation_of`; inside each item of `place_roles[]`: `place` and `evidence[]`; of `attribution_history[]`: `place` and `source` (spec 012) |
+| bibliography_entry | `edition_of`, `translation_of`; inside each item of `place_roles[]`: `place` and `evidence[]`; of `attribution_history[]`: `place` and `source`; of `people[]`: `person` and `evidence[]` (spec 012) |
+| person | `bibliography[]` (bibliography entries; spec 012) |
 
 Typed references must point at the right family (`REF-FAMILY`): essay `maps[]` → map, `places[]` → place, `sources[]` → source, `evidence[]` → evidence; collection `members[]` and `default_layers[]` → layer; map `makers[]` → cartographer, `coverage[]` and `publication_place` → place, `attribution_evidence[]` → evidence, `bibliography[]` → bibliography entry; cartographer, dataset and layer `bibliography[]` → bibliography entry; source `entry`, bibliography entry `edition_of` and `translation_of` → bibliography entry; layer `dataset` → dataset and `georef.map` → map; evidence `source` → source; attestation `place` → place and `source` → source; bibliography entry `place_roles[].place` and `attribution_history[].place` → place, `place_roles[].evidence[]` → evidence, `attribution_history[].source` → source (a field in a list of objects names the item: `place_roles[0].place`); `superseded_by` → the record's own family. `relations[]` and an evidence `target.entity` may point at anything.
 
@@ -90,7 +91,8 @@ Minimum fields per family beyond the Entity base. Everything not listed is optio
 | dataset | `version` (the project's own label for the dataset) | `licence`, `bibliography[]` (spec 006), `upstream` (`url`, `pin`: the release of someone else's data the dataset was built from, as a DOI, release tag or sha256; `DATASET-PIN`, TCX-65) |
 | layer | `role` (`context, historical, evidence, map-overlay`), `asset` (path), `dataset` | `geometry_provenance`, and from [spec 005's data model](../005-atlas/data-model.md) `theme`, `tags`, `synonyms`, `envelope`, `time_mode`, `facets`, `documentation`, `georef` (judged by the `LAYER-*` rules; the layer's source path is never projected), and `bibliography[]` (spec 006) |
 | route, event, period | none | `valid_from`, `valid_to`, `date_label` |
-| bibliography_entry | `csl` (path to CSL-JSON) | `section` (spec 003), `edition_of`, `translation_of` (entries; `BIB-EDITION`) and `digital_copy` (an `https` URL); the CSL-JSON is one item whose `id` is the entry's stable ID (`BIB-CSL`); identifiers and keywords live there, not in the YAML ([spec 006's data model](../006-bibliography/data-model.md)). An edition may also carry `place_roles[]` (ADR 0021: at most one `produced_at`, dated `held_at` with holder; each with `basis`, `confidence` and `evidence[]`; `PLACE-ROLE-*`), `attribution_history[]` (superseded attributions, each `place`, `source`, `note`; never drawn) and `survival` (`surviving`, `none_known`, `unknown`) ([spec 012's data model](../012-printing-network/data-model.md)) |
+| bibliography_entry | `csl` (path to CSL-JSON) | `section` (spec 003), `edition_of`, `translation_of` (entries; `BIB-EDITION`) and `digital_copy` (an `https` URL); the CSL-JSON is one item whose `id` is the entry's stable ID (`BIB-CSL`); identifiers and keywords live there, not in the YAML ([spec 006's data model](../006-bibliography/data-model.md)). An edition may also carry `place_roles[]` (ADR 0021: at most one `produced_at`, dated `held_at` with holder; each with `basis`, `confidence` and `evidence[]`; `PLACE-ROLE-*`), `attribution_history[]` (superseded attributions, each `place`, `source`, `note`; never drawn) and `survival` (`surviving`, `none_known`, `unknown`), and `people[]` (person links: `person`, `role` from `person_role`, `basis`, `confidence`, `evidence[]`; `PERSON-LINK`, ADR 0023) ([spec 012's data model](../012-printing-network/data-model.md)) |
+| person | — | `names[]` (`name`, `language`, `kind`; one or more from `ready_for_build`, `PERSON-NAMES`), `life_dates` (EDTF, `DATE-INVALID`), `bibliography[]` (ADR 0023; [spec 012's data model](../012-printing-network/data-model.md)) |
 
 Modern reference geometry is context only: a layer whose `geometry_provenance` is `modern_reference` MUST have role `context`, and an evidence record MUST NOT have geometry provenance `modern_reference` (`PROV-MODERN-AS-EVIDENCE`, Constitution III).
 

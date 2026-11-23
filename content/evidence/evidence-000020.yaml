@@ -1,0 +1,25 @@
+id: tc:tc:evidence:evidence-000020
+family: evidence
+origin: minted
+title: The 1547 Apostol was printed at Târgoviște by Ljubavić
+slug: the-1547-apostol-was-printed-at-targoviste-by-ljubavic
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+target:
+  entity: tc:tc:bibliography_entry:bibliography_entry-000054
+source: tc:tc:source:source-000002
+locator:
+  value: "the BRV I entry for the 1547 Apostol (number to read); the colophon is to be read for the place"
+  state: pending
+  proposed_by: person
+evidence_type: textual
+confidence: probable
+analytical_dimensions:
+  - historical
+  - geographical
+  - social_demographic
+
+rights:
+  licence: CC BY 4.0

@@ -193,30 +193,53 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 
 ### Tests (write first, see them fail)
 
-- [ ] T036 [P] [US3] Write `tests/registry/unit/person.test.ts`:
+- [x] T036 [P] [US3] Write `tests/registry/unit/person.test.ts`:
   - a person record with names and life dates passes;
   - with no names from `ready_for_build` it gives `PERSON-NAMES`;
   - a person link missing role, basis or confidence, or with a role outside `PERSON_ROLE_VALUES`, gives `PERSON-LINK`;
   - `people[].person` pointing at a non-person gives `REF-FAMILY`;
   - a person link without Evidence gives `PLACE-ROLE-EVIDENCE` from `ready_for_build`, and one rated `secure` on pending locators only gives `PLACE-ROLE-SECURE`;
   - `person` is in `FAMILIES`.
-- [ ] T037 [P] [US3] Add named mutations for `PERSON-NAMES` and `PERSON-LINK` to `tests/registry/support/mutations.ts`
-- [ ] T038 [P] [US3] Write `tests/registry/integration/new-record.test.ts` cases for `registry new person "Coresi"`: one stub, held, with its checklist (spec 010 FR-001)
-- [ ] T039 [P] [US3] Write a page test for `src/pages/people/[slug].astro`, following the existing page tests:
+- [x] T037 [P] [US3] Add named mutations for `PERSON-NAMES` and `PERSON-LINK` to `tests/registry/support/mutations.ts`
+- [x] T038 [P] [US3] Write `tests/registry/integration/new-record.test.ts` cases for `registry new person "Coresi"`: one stub, held, with its checklist (spec 010 FR-001)
+  - *Done 2026-11-23:* no new case was needed. `new-record.test.ts` and `checklist.test.ts` iterate `FAMILIES`, so they now cover `person`: one held stub, with `names` under its `ready_for_build` checklist (read from `PERSON-NAMES`'s `requires`).
+
+- [x] T039 [P] [US3] Write a page test for `src/pages/people/[slug].astro`, following the existing page tests:
   - editions listed in date order with their production place and date;
   - only public editions listed;
   - no path element on the page;
   - the edition page links back to the person.
+  - *Done 2026-11-23:* `tests/bibliography/build/people-page.test.ts`, on the bibliography fixture. Two people were added and linked from existing entries (15, 10 and the held 7), so no other fixture count moves. Axe now runs on a person page and the people index (`filters.spec.ts`).
 
 ### Implementation
 
-- [ ] T040 [US3] Add `person` to `FAMILIES` (`src/registry/families.ts`) and `PersonSchema` to `src/registry/schemas/families.ts` and `index.ts`: `names[]` of `{ name, language, kind }`, `life_dates`, `bibliography[]`.
-- [ ] T041 [US3] Add `people` to `BibliographyEntrySchema`: `{ person, role, basis, confidence, evidence[] }`. Add its reference paths (`people[].person` → person, `people[].evidence` → evidence) and enum fields.
-- [ ] T042 [US3] Implement `PERSON-NAMES` and `PERSON-LINK` in `src/registry/rules/place-roles.ts`, with `requires` declarations, and apply `PLACE-ROLE-EVIDENCE` and `PLACE-ROLE-SECURE` to `people[]` links. Project `person` and `people` in `src/registry/project.ts`. T036–T038 go green.
-- [ ] T043 [US3] Build `src/pages/people/[slug].astro` and `src/pages/people/index.astro` as in `contracts/pages.md`, and add the printer line to the edition section. T039 goes green.
+- [x] T040 [US3] Add `person` to `FAMILIES` (`src/registry/families.ts`) and `PersonSchema` to `src/registry/schemas/families.ts` and `index.ts`: `names[]` of `{ name, language, kind }`, `life_dates`, `bibliography[]`.
+- [x] T041 [US3] Add `people` to `BibliographyEntrySchema`: `{ person, role, basis, confidence, evidence[] }`. Add its reference paths (`people[].person` → person, `people[].evidence` → evidence) and enum fields.
+- [x] T042 [US3] Implement `PERSON-NAMES` and `PERSON-LINK` in `src/registry/rules/place-roles.ts`, with `requires` declarations, and apply `PLACE-ROLE-EVIDENCE` and `PLACE-ROLE-SECURE` to `people[]` links. Project `person` and `people` in `src/registry/project.ts`. T036–T038 go green.
+  - *Done 2026-11-23:* life dates are checked by `DATE-INVALID`, extended to a person's `life_dates`. A person link's role is `PERSON-LINK`'s; its basis and confidence are `ENUM-INVALID`'s. `PLACE-ROLE-FAMILY` refuses `people` off an edition.
+  - **Projection:** a person shows `names` and `life_dates`. A link to a held person is dropped whole, and held evidence is dropped from a link.
+  - **Wiring:** `person` joins `LISTING_FAMILIES` (its `bibliography[]` lists entries, ADR 0014), `PAGE_ROUTES` (`/people/`) and the VS Code schema mapping.
+
+- [x] T043 [US3] Build `src/pages/people/[slug].astro` and `src/pages/people/index.astro` as in `contracts/pages.md`, and add the printer line to the edition section. T039 goes green.
+  - *Done 2026-11-23:* `src/bibliography/person-view.ts` (pure), `src/pages/people/[slug].astro` and `index.astro`. The edition section gains "Printed by …". An edition without place roles shows the same line on its own.
+
 - [ ] T044 [US3] Mint Macarie, Ljubavić and Coresi (`registry new person`), and link them from their editions, with basis and confidence. Mint the 1545 Molitvenic and 1547 Apostol (`produced_at` Târgoviște; locators pending until the colophons are read), and Coresi's first Târgoviște and Brașov editions. All held, with Evidence carrying its `analytical_dimensions`.
-- [ ] T045 [P] [US3] Spec amendment (ADR 0023): add `person` to the family table in `specs/001-scholarly-registry/spec.md` and `data-model.md`, and the rules to `contracts/rule-ids.md`. Run `npm run status -- --write`.
-- [ ] T046 [US3] Full checks green. Update the dossier and Build Log rows.
+  - *Progress 2026-11-23:*
+    - **People:** Macarie (`person-000001`), Dimitrije Ljubavić (`person-000002`) and Coresi (`person-000003`), with names and no life dates (none has been read from a cited source).
+    - **1508 edition:** it now names Macarie as printer (`stated`, from the epilogue; Evidence 18).
+    - **Ljubavić's editions:** the 1545 Molitvenic (`bibliography_entry-000053`) and 1547 Apostol (`-000054`). Each has `produced_at` Târgoviște (`plc-targoviste`) and Ljubavić as printer, both `attributed` and `probable` until the colophons are read, with Evidence 19 and 20 citing BRV I (pending).
+
+    All held.
+
+    **Still open (author):** Coresi's first Târgoviște and Brașov editions. Which editions they are, and their dates, wait for BRV I and the colophons, and nothing is minted for them until then.
+
+- [x] T045 [P] [US3] Spec amendment (ADR 0023): add `person` to the family table in `specs/001-scholarly-registry/spec.md` and `data-model.md`, and the rules to `contracts/rule-ids.md`. Run `npm run status -- --write`.
+- [x] T046 [US3] Full checks green. Update the dossier and Build Log rows.
+  - *Done 2026-11-23:* the checks pass:
+    - `npm test` (3,215), `typecheck`, `lint`, the gate (PASS, 335 entities) and `status --check`;
+    - `test:e2e:bibliography` (26, with axe on a person page and the people index).
+
+    The shell's CI template list gains `people-index`, since the build makes a new kind of page. `accents.test.ts` failed once in the first full run, then passed alone and in a full rerun with no change that touches it; the cause is not identified.
 
 ---
 

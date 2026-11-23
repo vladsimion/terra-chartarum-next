@@ -115,6 +115,11 @@ test('the list page and an entry page have no accessibility violations', async (
     await page.goto(`/bibliography/fixture-entry-${n}/`);
     expect(await violations(), `entry ${n}`).toEqual([]);
   }
+  // spec 012: a person's page and the people index
+  for (const path of ['/people/fixture-printer/', '/people/']) {
+    await page.goto(path);
+    expect(await violations(), path).toEqual([]);
+  }
 });
 
 test('a finding aid says so, in words, on its page', async ({ page }) => {
