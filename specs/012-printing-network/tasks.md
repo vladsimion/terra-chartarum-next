@@ -272,9 +272,17 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 
 **Goal**: the paper claim exists only as Evidence. **Independent test**: the edition shows the paper claim with its source, locator state and confidence, and nothing about paper is drawn without it.
 
-- [ ] T053 [P] [US5] Add a case to `tests/atlas/unit/network-features.test.ts`: no feature or property is produced for paper. Add an edition page test: an Evidence record about the paper, targeting the edition, is listed with its source, locator state and confidence.
-- [ ] T054 [US5] List Evidence about the edition (other than place roles) on the edition section, under "What else is known". T053 goes green.
-- [ ] T055 [US5] Add the paper Evidence for the 1508 edition: Venetian paper through Sibiu merchants, `analytical_dimensions` including `economic`, `relations[]` to the corridors layer, locator pending until read. Held.
+- [x] T053 [P] [US5] Add a case to `tests/atlas/unit/network-features.test.ts`: no feature or property is produced for paper. Add an edition page test: an Evidence record about the paper, targeting the edition, is listed with its source, locator state and confidence.
+  - *Done 2026-11-23:* the page test was seen failing first. The builder case passed at once, because `networkFeatures` reads only place roles; it stays as a guard. The bibliography fixture gains Evidence 6 (Venetian paper, pending, `possible`) about entry 15.
+
+- [x] T054 [US5] List Evidence about the edition (other than place roles) on the edition section, under "What else is known". T053 goes green.
+  - *Done 2026-11-23:* `knownClaims` (`src/bibliography/places-view.ts`) lists the public Evidence about an edition that no place role or person link cites, each with its source, locator, pending state and confidence. It is a section of its own, `#what-else-known`, on the entry page.
+
+- [x] T055 [US5] Add the paper Evidence for the 1508 edition: Venetian paper through Sibiu merchants, `analytical_dimensions` including `economic`, `relations[]` to the corridors layer, locator pending until read. Held.
+  - *Done 2026-11-23:* Evidence 22 targets the 1508 Liturghier, with `relations` to the corridors (`layer-000001`), dimensions `economic` and `geographical`, and confidence `possible` (the Stage III note says "reportedly").
+    - **Source:** Negoiță's Princeton article (`bibliography_entry-000057`, Source 4). Its URL and access date are to be added when the page is read again, since its host is outside the session's network.
+    - **Locator:** pending. Held.
+
 - [ ] T056 [US5] Full checks green. Update the dossier and Build Log rows.
 
 ---
