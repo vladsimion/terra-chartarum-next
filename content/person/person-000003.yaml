@@ -1,0 +1,13 @@
+id: tc:tc:person:person-000003
+family: person
+origin: minted
+title: Coresi
+slug: coresi
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+names:
+  - { name: Coresi, language: ro, kind: historic }
+# Coresi's first Târgoviște and Brașov editions are not minted yet: which editions they are, and
+# their dates, wait for BRV I and the colophons to be read (spec 012 T044, author).

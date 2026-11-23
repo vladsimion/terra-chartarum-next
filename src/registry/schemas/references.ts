@@ -29,6 +29,7 @@ const LISTS: Record<string, string[]> = {
   cartographer: ['bibliography'],
   dataset: ['bibliography'],
   layer: ['bibliography'],
+  person: ['bibliography'],
   essay: ['evidence', 'maps', 'places', 'sources', 'layers', 'bibliography', 'rooms.secondary'],
 };
 
@@ -41,6 +42,7 @@ const NESTED: Record<string, { list: string; scalars: string[]; lists: string[] 
   bibliography_entry: [
     { list: 'place_roles', scalars: ['place'], lists: ['evidence'] },
     { list: 'attribution_history', scalars: ['place', 'source'], lists: [] },
+    { list: 'people', scalars: ['person'], lists: ['evidence'] },
   ],
 };
 
@@ -72,7 +74,10 @@ const POINTS_AT: Record<string, Record<string, string>> = {
     'place_roles[].evidence': 'evidence',
     'attribution_history[].place': 'place',
     'attribution_history[].source': 'source',
+    'people[].person': 'person',
+    'people[].evidence': 'evidence',
   },
+  person: { bibliography: 'bibliography_entry' },
   evidence: { source: 'source' },
   source: { entry: 'bibliography_entry' },
   attestation: { place: 'place', source: 'source' },

@@ -103,3 +103,36 @@ describe('the public projection of an edition’s place roles', () => {
     expect(text).not.toContain('private_note');
   });
 });
+
+/*
+ * Spec 012 T042 (FR-009, FR-015; ADR 0023): a public person carries their names, life dates and
+ * public bibliography; an edition's person links reach pages only for a public person, and name only
+ * public evidence.
+ */
+describe('the public projection of people and person links', () => {
+  const coresi = record('person', 1, { ...PUBLIC, title: 'Coresi', names: [{ name: 'Coresi', language: 'ro', kind: 'historic' }], life_dates: '1510?/1583?', bibliography: [entry(8).id], private: { note: 'secret' } });
+  const heldPerson = record('person', 2, { ...HELD, title: 'A held printer' });
+  const ev = record('evidence', 1, { ...PUBLIC });
+  const edition = entry(9, {
+    ...PUBLIC,
+    section: 'primary_sources',
+    people: [
+      { person: coresi.id, role: 'printer', basis: 'stated', confidence: 'probable', evidence: [ev.id, 'tc:tc:evidence:evidence-000099'] },
+      { person: heldPerson.id, role: 'printer', basis: 'attributed', confidence: 'possible', evidence: [] },
+    ],
+  });
+  ev.target = { entity: edition.id };
+  const world = [coresi, heldPerson, ev, edition, entry(8, PUBLIC)];
+
+  it('projects a public person with only its allowlisted fields', () => {
+    const out = projectPublic(world).find((r) => r.id === coresi.id)!;
+    expect(Object.keys(out).sort()).toEqual(['bibliography', 'family', 'id', 'life_dates', 'lifecycle', 'names', 'relations', 'release', 'slug', 'title']);
+    expect(JSON.stringify(out)).not.toMatch(/secret/);
+  });
+
+  it('keeps a link to a public person, with public evidence only, and drops a held person whole', () => {
+    const out = projectPublic(world).find((r) => r.id === edition.id)!;
+    expect(out.people).toEqual([{ person: coresi.id, role: 'printer', basis: 'stated', confidence: 'probable', evidence: [ev.id] }]);
+    expect(JSON.stringify(out)).not.toMatch(/person-000002|A held printer/);
+  });
+});

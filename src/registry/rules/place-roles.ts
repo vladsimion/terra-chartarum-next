@@ -1,4 +1,5 @@
 import { parseDate } from '../dates.js';
+import { PERSON_ROLE_VALUES } from '../schemas/shared.js';
 import type { RegistryRecord } from '../types.js';
 import { defineRule, type Finding } from './framework.js';
 
@@ -23,6 +24,16 @@ function roles(record: RegistryRecord): { item: Item; i: number }[] {
 }
 
 const editions = (records: readonly RegistryRecord[]) => records.filter((r) => FAMILIES_WITH_PLACE_ROLES.includes(r.family));
+
+/** The links of an edition that carry their own evidence and confidence: place roles and person links (ADR 0021, ADR 0023). */
+const LINK_LISTS = ['place_roles', 'people'] as const;
+
+/** The object items of one link list, with their index; non-objects are PLACE-ROLE-LINK's and PERSON-LINK's. */
+function itemsOf(record: RegistryRecord, list: string): { item: Item; i: number }[] {
+  const value = record[list];
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((item, i) => (item !== null && typeof item === 'object' && !Array.isArray(item) ? [{ item: item as Item, i }] : []));
+}
 
 /** ADR 0021 §3: an edition was made in one place. A later claim is a historiography note, not a second role. */
 export const placeRoleProduced = defineRule({
@@ -109,31 +120,36 @@ export const placeRoleLink = defineRule({
   },
 });
 
-/** ADR 0021 decision 6: only an edition carries place roles; a map is refused until its own migration. */
+/** ADR 0021 decision 6, ADR 0023: only an edition carries place roles and person links; a map is refused until its own migration. */
 export const placeRoleFamily = defineRule({
   id: 'PLACE-ROLE-FAMILY',
   from: 'always',
   check: ({ records }) => {
     const findings: Finding[] = [];
     for (const record of records) {
-      if (record.place_roles === undefined || FAMILIES_WITH_PLACE_ROLES.includes(record.family)) continue;
-      findings.push({ record, field: 'place_roles', value: record.family, expected: `place roles only on ${FAMILIES_WITH_PLACE_ROLES.join(', ')} (ADR 0021 decision 6)` });
+      if (FAMILIES_WITH_PLACE_ROLES.includes(record.family)) continue;
+      for (const list of LINK_LISTS) {
+        if (record[list] === undefined) continue;
+        findings.push({ record, field: list, value: record.family, expected: `${list} only on ${FAMILIES_WITH_PLACE_ROLES.join(', ')} (ADR 0021 decision 6, ADR 0023)` });
+      }
     }
     return findings;
   },
 });
 
-/** Principle VI: every link cites its evidence; an error from ready_for_build. Person links are added with the person family (US3). */
+/** Principle VI: every place role and person link cites its evidence; an error from ready_for_build. */
 export const placeRoleEvidence = defineRule({
   id: 'PLACE-ROLE-EVIDENCE',
   from: 'ready_for_build',
   check: ({ records }) => {
     const findings: Finding[] = [];
     for (const record of editions(records)) {
-      for (const { item, i } of roles(record)) {
-        const evidence = item.evidence;
-        if (!Array.isArray(evidence) || evidence.length === 0) {
-          findings.push({ record, field: `place_roles[${i}].evidence`, value: evidence, expected: 'one or more Evidence records for this place role' });
+      for (const list of LINK_LISTS) {
+        for (const { item, i } of itemsOf(record, list)) {
+          const evidence = item.evidence;
+          if (!Array.isArray(evidence) || evidence.length === 0) {
+            findings.push({ record, field: `${list}[${i}].evidence`, value: evidence, expected: `one or more Evidence records for this ${list === 'people' ? 'person link' : 'place role'}` });
+          }
         }
       }
     }
@@ -153,11 +169,13 @@ export const placeRoleSecure = defineRule({
       return locator?.state === 'verified';
     };
     for (const record of editions(records)) {
-      for (const { item, i } of roles(record)) {
-        if (item.confidence !== 'secure') continue;
-        const evidence = Array.isArray(item.evidence) ? item.evidence : [];
-        if (!evidence.some(verified)) {
-          findings.push({ record, field: `place_roles[${i}].confidence`, value: 'secure', expected: 'a cited Evidence record with a verified locator, or a lower confidence' });
+      for (const list of LINK_LISTS) {
+        for (const { item, i } of itemsOf(record, list)) {
+          if (item.confidence !== 'secure') continue;
+          const evidence = Array.isArray(item.evidence) ? item.evidence : [];
+          if (!evidence.some(verified)) {
+            findings.push({ record, field: `${list}[${i}].confidence`, value: 'secure', expected: 'a cited Evidence record with a verified locator, or a lower confidence' });
+          }
         }
       }
     }
@@ -165,4 +183,59 @@ export const placeRoleSecure = defineRule({
   },
 });
 
-export const PLACE_ROLE_RULES = [placeRoleProduced, placeRoleHolding, placeRoleLink, placeRoleFamily, placeRoleEvidence, placeRoleSecure];
+/** ADR 0023: a person link names its person, a role from the person-role vocabulary, a basis and a confidence. */
+export const personLink = defineRule({
+  id: 'PERSON-LINK',
+  from: 'always',
+  check: ({ records }) => {
+    const findings: Finding[] = [];
+    for (const record of editions(records)) {
+      const list = record.people;
+      if (list === undefined) continue;
+      if (!Array.isArray(list)) {
+        findings.push({ record, field: 'people', value: list, expected: 'a list of person links' });
+        continue;
+      }
+      list.forEach((item, i) => {
+        if (item === null || typeof item !== 'object' || Array.isArray(item)) {
+          findings.push({ record, field: `people[${i}]`, value: item, expected: 'a person link: person, role, basis, confidence' });
+        }
+      });
+      for (const { item, i } of itemsOf(record, 'people')) {
+        for (const name of ['person', 'role', 'basis', 'confidence']) {
+          if (blank(item[name])) findings.push({ record, field: `people[${i}].${name}`, value: item[name], expected: `the person link's ${name}` });
+        }
+        if (!blank(item.role) && !(PERSON_ROLE_VALUES as readonly string[]).includes(String(item.role))) {
+          findings.push({ record, field: `people[${i}].role`, value: item.role, expected: `one of ${PERSON_ROLE_VALUES.join(' | ')}` });
+        }
+      }
+    }
+    return findings;
+  },
+});
+
+/** ADR 0023: a person is named, each name with its language and kind, from ready_for_build. */
+export const personNames = defineRule({
+  id: 'PERSON-NAMES',
+  from: 'ready_for_build',
+  requires: [{ family: 'person', field: 'names' }],
+  check: ({ records }) => {
+    const findings: Finding[] = [];
+    for (const record of records.filter((r) => r.family === 'person')) {
+      const names = record.names;
+      if (!Array.isArray(names) || names.length === 0) {
+        findings.push({ record, field: 'names', value: names, expected: 'one or more names, each with its language and kind' });
+        continue;
+      }
+      names.forEach((n, i) => {
+        const name = n !== null && typeof n === 'object' ? (n as Item) : {};
+        for (const part of ['name', 'language', 'kind']) {
+          if (blank(name[part])) findings.push({ record, field: `names[${i}].${part}`, value: name[part], expected: `the name's ${part}` });
+        }
+      });
+    }
+    return findings;
+  },
+});
+
+export const PLACE_ROLE_RULES = [placeRoleProduced, placeRoleHolding, placeRoleLink, placeRoleFamily, placeRoleEvidence, placeRoleSecure, personLink, personNames];

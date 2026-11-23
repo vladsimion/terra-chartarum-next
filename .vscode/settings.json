@@ -14,6 +14,7 @@
     "./.schemas/period.json": "content/period/*.yaml",
     "./.schemas/room.json": "content/room/*.yaml",
     "./.schemas/bibliography_entry.json": "content/bibliography_entry/*.yaml",
-    "./.schemas/evidence.json": "content/evidence/*.yaml"
+    "./.schemas/evidence.json": "content/evidence/*.yaml",
+    "./.schemas/person.json": "content/person/*.yaml"
   }
 }

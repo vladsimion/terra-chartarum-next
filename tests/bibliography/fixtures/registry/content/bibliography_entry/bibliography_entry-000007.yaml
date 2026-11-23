@@ -7,3 +7,9 @@ lifecycle: published
 release: released
 csl: content/bibliography_entry/bibliography_entry-000007.csl.json
 section: further_reading
+people:
+  - person: tc:tc:person:person-000001
+    role: printer
+    basis: stated
+    confidence: probable
+    evidence: [tc:tc:evidence:evidence-000005]

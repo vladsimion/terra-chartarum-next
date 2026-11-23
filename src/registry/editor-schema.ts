@@ -39,6 +39,9 @@ const ITEM_VOCABULARIES: Record<string, string> = {
   'place_roles[].role': 'place_role',
   'place_roles[].basis': 'basis',
   'place_roles[].confidence': 'confidence',
+  'people[].role': 'person_role',
+  'people[].basis': 'basis',
+  'people[].confidence': 'confidence',
 };
 
 /**

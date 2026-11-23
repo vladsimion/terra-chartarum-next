@@ -1,0 +1,24 @@
+id: tc:tc:evidence:evidence-000018
+family: evidence
+origin: minted
+title: Macarie is named as typographer in the 1508 epilogue
+slug: macarie-is-named-as-typographer-in-the-1508-epilogue
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+target:
+  entity: tc:tc:bibliography_entry:bibliography_entry-000050
+source: tc:tc:source:source-000001
+locator:
+  value: "the epilogue, in the 1961 facsimile (folio to read)"
+  state: pending
+  proposed_by: person
+evidence_type: textual
+confidence: probable
+analytical_dimensions:
+  - historical
+  - social_demographic
+
+rights:
+  licence: CC BY 4.0

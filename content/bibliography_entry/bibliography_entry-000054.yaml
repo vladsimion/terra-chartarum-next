@@ -1,0 +1,28 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000054
+family: bibliography_entry
+origin: minted
+title: Apostol, Târgoviște, 1547 (Ljubavić)
+slug: apostol-targoviste-1547-ljubavic
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+csl: content/bibliography_entry/bibliography_entry-000054.csl.json
+section: primary_sources
+survival: unknown
+place_roles:
+  # reported as among the first Wallachian prints to name their place; attributed until the colophon is read
+  - place: tc:tc:place:plc-targoviste
+    role: produced_at
+    basis: attributed
+    confidence: probable
+    valid_from: "1547"
+    evidence:
+      - tc:tc:evidence:evidence-000020
+people:
+  - person: tc:tc:person:person-000002
+    role: printer
+    basis: attributed
+    confidence: probable
+    evidence:
+      - tc:tc:evidence:evidence-000020

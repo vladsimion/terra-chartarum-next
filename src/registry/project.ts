@@ -56,6 +56,8 @@ const BY_FAMILY: Record<string, Allow> = {
   room: { fields: ['order', 'short_description', 'copy_status', 'body'] },
   bibliography_entry: { fields: ['csl', 'section', 'digital_copy', 'survival'], scalarRefs: ['edition_of', 'translation_of'] },
   attestation: { fields: ['form', 'silence_state', 'confidence'], scalarRefs: ['place', 'source'] },
+  // spec 012, ADR 0023: what a person's page shows
+  person: { fields: ['names', 'life_dates'], listRefs: ['bibliography'] },
   evidence: {
     fields: ['evidence_type', 'geometry_provenance', 'reconstruction', 'confidence', 'rights', 'last_verified', ...DATES],
     scalarRefs: ['source'],
@@ -137,6 +139,12 @@ export function projectPublic(records: readonly RegistryRecord[]): PublicRecord[
         projected.place_roles = objects(record.place_roles)
           .filter((r) => isPublicId(r.place))
           .map((r) => ({ place: r.place, ...pick(r, PLACE_ROLE_FIELDS), evidence: Array.isArray(r.evidence) ? r.evidence.filter(isPublicId) : [] }));
+      }
+      if (record.people !== undefined) {
+        // a link to a held person is dropped whole: the page cannot name them (ADR 0023)
+        projected.people = objects(record.people)
+          .filter((l) => isPublicId(l.person))
+          .map((l) => ({ person: l.person, ...pick(l, ['role', 'basis', 'confidence']), evidence: Array.isArray(l.evidence) ? l.evidence.filter(isPublicId) : [] }));
       }
       if (record.attribution_history !== undefined) {
         // a note on a held place or held source is dropped, note and all, so its text cannot describe held material

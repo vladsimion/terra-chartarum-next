@@ -59,6 +59,14 @@ const ITEM_ENUM_FIELDS: { list: string; fields: { name: string; values: readonly
       { name: 'confidence', values: CONFIDENCE_VALUES },
     ],
   },
+  // a person link's role is PERSON-LINK's (the role vocabulary is the link's own); basis and confidence are shared
+  {
+    list: 'people',
+    fields: [
+      { name: 'basis', values: BASIS_VALUES },
+      { name: 'confidence', values: CONFIDENCE_VALUES },
+    ],
+  },
 ];
 
 function itemMembers(record: RegistryRecord): Finding[] {

@@ -19,7 +19,7 @@ import { list } from './values.js';
  * not count.
  */
 /** The families whose `bibliography[]` lists entries (FR-003). */
-export const LISTING_FAMILIES = ['essay', 'map', 'cartographer', 'dataset', 'layer'];
+export const LISTING_FAMILIES = ['essay', 'map', 'cartographer', 'dataset', 'layer', 'person'];
 
 export interface ListedCitation {
   entry: string;

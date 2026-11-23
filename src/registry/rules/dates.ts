@@ -8,7 +8,9 @@ export const dateInvalid = defineRule({
   check: ({ records }) => {
     const findings: Finding[] = [];
     for (const record of records) {
-      for (const field of ['valid_from', 'valid_to'] as const) {
+      // a person's life dates are one EDTF value too (spec 012, ADR 0023)
+      const fields = record.family === 'person' ? (['valid_from', 'valid_to', 'life_dates'] as const) : (['valid_from', 'valid_to'] as const);
+      for (const field of fields) {
         const value = record[field];
         if (value !== undefined && parseDate(value) === null) {
           findings.push({

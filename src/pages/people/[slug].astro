@@ -1,0 +1,66 @@
+---
+import { personView } from '../../bibliography/person-view.js';
+import { loadEssaySite } from '../../essays/site-data.js';
+import Base from '../../shell/layouts/Base.astro';
+
+/*
+ * One page for every public person (spec 012 US3, ADR 0023), from the public projection only: a held
+ * person is not in it, so gets no page. The editions are derived from the public editions' `people[]`;
+ * a printer's movement is read from their dates and places, and no path is drawn between them.
+ */
+export async function getStaticPaths() {
+  const { records } = await loadEssaySite();
+  return records.filter((r) => r.family === 'person').map((p) => ({ params: { slug: String(p.slug) }, props: { id: p.id } }));
+}
+
+const { id } = Astro.props;
+const { records, cslFor } = await loadEssaySite();
+const view = personView(records.find((r) => r.id === id)!, records, cslFor);
+---
+
+<Base title={`${view.name} | Terra Chartarum`} crumb={view.name}>
+  <article class="person">
+    <h1>{view.name}</h1>
+    {view.names.length > 0 && (
+      <ul class="names">
+        {view.names.map((n) => <li>{n.name} <span class="name-meta">({n.language}, {n.kind})</span></li>)}
+      </ul>
+    )}
+    <p class="life-dates">{view.lifeDates ? `Life dates: ${view.lifeDates}` : 'Dates unknown'}</p>
+
+    <section class="editions" aria-labelledby="editions-heading">
+      <h2 id="editions-heading">Editions</h2>
+      {view.editions.length === 0 ? (
+        <p>No public edition names this person yet.</p>
+      ) : (
+        <ol>
+          {view.editions.map((e) => (
+            <li>
+              <a href={e.href}>{e.title}</a>, {e.place ?? 'place not recorded'}, {e.date ?? 'date not recorded'} <span class="link-meta">({e.role}, {e.basis}, confidence: {e.confidence})</span>
+            </li>
+          ))}
+        </ol>
+      )}
+      <p class="no-path">The editions are listed by date. Where the person worked is read from them; no route between the places is drawn.</p>
+    </section>
+  </article>
+</Base>
+
+<style>
+  .names,
+  ol {
+    margin: 0 0 var(--space-4);
+    padding-inline-start: var(--space-5);
+  }
+
+  li {
+    margin-bottom: var(--space-2);
+  }
+
+  .name-meta,
+  .link-meta,
+  .no-path,
+  .life-dates {
+    color: var(--ink-muted);
+  }
+</style>

@@ -46,3 +46,14 @@ attribution_history:
   - place: tc:tc:place:place-000003
     source: tc:tc:source:source-000001
     note: Older catalogues placed it at Venice, from the type alone.
+people:
+  - person: tc:tc:person:person-000001
+    role: printer
+    basis: stated
+    confidence: probable
+    evidence: [tc:tc:evidence:evidence-000005]
+  - person: tc:tc:person:person-000002
+    role: printer
+    basis: attributed
+    confidence: possible
+    evidence: [tc:tc:evidence:evidence-000005]

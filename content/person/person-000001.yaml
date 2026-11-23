@@ -1,0 +1,12 @@
+id: tc:tc:person:person-000001
+family: person
+origin: minted
+title: Macarie
+slug: macarie
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+names:
+  - { name: Macarie, language: ro, kind: historic }
+# life dates: none read from a cited source yet, so none is written (the page says "dates unknown")
