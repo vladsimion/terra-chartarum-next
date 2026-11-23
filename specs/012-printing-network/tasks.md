@@ -320,7 +320,8 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
     `DATE-INVALID` and `ENUM-INVALID` were widened, to a person's `life_dates` and to the link vocabularies. `LIFE-AVAILABILITY` accepts the derived asset kind. The rule framework gained the threshold `never`.
 
 - [ ] T060 **(author)** Run the SC-003 check: five readers, the 1508 edition in the default map view, asked "where was this book made?". Record the answers in the dossier
-- [ ] T061 Update Jira (TCX-82 and epic TCX-79), the dossier, Build Log and any Decision Log draft (workflow step 4)
+- [x] T061 Update Jira (TCX-82 and epic TCX-79), the dossier, Build Log and any Decision Log draft (workflow step 4)
+  - *Done 2026-11-23:* updated in the Polish PR (#159): the dossier (status, reconciliation history, the acceptance criteria stated, and the checkpoint with the author's open items) and the Build Log draft. Jira: TCX-82 has a comment per PR and the Polish summary. No Decision Log entry was drafted: every decision of spec 012 is an ADR (0021, 0023, 0014 amended) or a recorded contract amendment.
 - [ ] T062 Add the edition page's **See on the map** link (FR-014; contracts/pages.md item 7): a link to the network collection, centred on the production place. Found missing at the Polish review (T058). It needs the Atlas address (`src/atlas/view-url.ts`, spec 005 view-address contract) to carry a centre or a place. It can only be tested on a site with a public network layer. Until then the page names the places in words, and `entry-page.test.ts` holds that no map link appears.
 
 ---
