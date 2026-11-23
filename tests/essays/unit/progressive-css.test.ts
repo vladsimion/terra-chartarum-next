@@ -39,6 +39,17 @@ describe('the interaction components enhance progressively', () => {
     for (const name of ['Timeline', 'CompareSlider', 'Scrollytelling']) expect(files, `${name}.astro`).toContain(path.join('src/essays/components', `${name}.astro`));
   });
 
+  /*
+   * The squeeze is the lapidarium's one control, so it must not be an enhancement: flipped by
+   * `:has()`, it did nothing on an iPhone while passing in desktop Chrome (reported 2026-11-22).
+   * The checkbox's sibling does the flip, which every browser with a checkbox supports.
+   */
+  it('flips the squeeze with a sibling selector, not :has()', () => {
+    const css = styles(readFileSync('src/essays/bespoke/StoneGallery.astro', 'utf8'));
+    expect(css).not.toMatch(/:has\(/);
+    expect(css).toMatch(/\.lapidarium-switch:checked\s*~\s*\.lapidarium-stones\s*\{[^}]*--plate-paper/);
+  });
+
   for (const file of files) {
     describe(file, () => {
       const css = styles(readFileSync(file, 'utf8'));

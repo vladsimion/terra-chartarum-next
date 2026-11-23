@@ -82,6 +82,21 @@ for (const tag of ['', ' @nojs']) {
       await page.keyboard.press('Enter');
       await expect(page).toHaveURL(/#first-sheet$/);
     });
+
+    test(`on a phone, keeps both ticks on screen and stacks the events without overlap${tag}`, async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.goto(PAGE);
+      for (const tick of await page.locator('.timeline-tick').all()) {
+        const box = (await tick.boundingBox())!;
+        expect(box.x, 'the tick starts on screen').toBeGreaterThanOrEqual(0);
+        expect(box.x + box.width, 'the tick ends on screen').toBeLessThanOrEqual(375);
+        expect(await tick.evaluate((el) => el.getClientRects().length), 'the tick stays on one line').toBe(1);
+      }
+      const boxes = await Promise.all((await page.locator('.timeline a').all()).map(async (a) => (await a.boundingBox())!));
+      for (let i = 1; i < boxes.length; i++) {
+        expect(boxes[i]!.y, `event ${i + 1} sits below event ${i}`).toBeGreaterThanOrEqual(boxes[i - 1]!.y + boxes[i - 1]!.height - 0.5);
+      }
+    });
   });
 
   test.describe(`StoneGallery${tag}`, () => {
@@ -105,6 +120,18 @@ for (const tag of ['', ' @nojs']) {
       await page.keyboard.press('Space');
       await expect(squeeze).not.toBeChecked();
       expect(await stroke()).toBe(drawing);
+    });
+
+    test(`switches to the squeeze when the label is tapped on a phone${tag}`, async ({ page }) => {
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.goto(BESPOKE);
+      const squeeze = page.getByRole('checkbox', { name: 'Show as squeeze' });
+      const rule = page.locator('.stela-plate .plate-rule').first();
+      const stroke = () => rule.evaluate((el) => getComputedStyle(el).stroke);
+      const drawing = await stroke();
+      await page.locator('.lapidarium-switch-label').click();
+      await expect(squeeze).toBeChecked();
+      expect(await stroke(), 'the plates are inked the other way round in the squeeze').not.toBe(drawing);
     });
 
     test(`keeps both plates and their labels in the page either way${tag}`, async ({ page }) => {

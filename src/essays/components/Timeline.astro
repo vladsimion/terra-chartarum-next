@@ -109,39 +109,6 @@ const positions = [
     top: 50%;
   }
 
-  /*
-   * Thirteen events placed by year overlap each other on a phone, and overlapping links fail the
-   * target-size rule however large each one is (WCAG 2.5.8, and Lighthouse reports it on the real
-   * essay). Below the breakpoint the events stop being placed and flow as a list instead: the same
-   * links in the same order, each with room to be hit. The axis keeps its two ticks, which still
-   * read as the span the essay covers, and stops being the line the events hang from.
-   */
-  @media (max-width: 47rem) {
-    .timeline-band {
-      height: auto;
-      margin: 0;
-      padding-block-start: var(--space-5);
-    }
-
-    .timeline-axis {
-      inset: 0 0 auto;
-    }
-
-    .timeline-events {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-2) var(--space-4);
-    }
-
-    .timeline-event,
-    .timeline-event.above,
-    .timeline-event.below {
-      position: static;
-      inset: auto;
-      transform: none;
-    }
-  }
-
   .timeline-event a {
     display: inline-flex;
     flex-direction: column;
@@ -178,6 +145,79 @@ const positions = [
     color: var(--ink-muted);
     font-family: var(--font-mono);
     font-size: var(--step--2);
+  }
+
+  /*
+   * Thirteen events placed by year overlap each other on a phone, and overlapping links fail the
+   * target-size rule however large each one is (WCAG 2.5.8, and Lighthouse reports it on the real
+   * essay). Below the breakpoint the axis turns upright: the events stop being placed and hang in
+   * order from a vertical rule, each a full-width row with its dot on the rule, its year and its
+   * name, the same links in the same order with room to be hit. The two ticks stand at the top and
+   * the foot of the rule, inside the column, so neither is clipped at the screen's edge (an earlier
+   * version kept them centred on the horizontal ends, which cut "AD 100" off and broke "AD 2026"
+   * onto two lines, and alternated dots above and below each name; reported 2026-11-22).
+   */
+  @media (max-width: 47rem) {
+    .timeline-band {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      margin: 0 0 0 var(--space-2);
+      border-left: 1px solid var(--line);
+    }
+
+    .timeline-axis {
+      display: contents;
+    }
+
+    .timeline-tick {
+      position: static;
+      padding: var(--space-1) var(--space-3);
+      transform: none;
+      white-space: nowrap;
+    }
+
+    .timeline-tick:first-child {
+      order: -1;
+    }
+
+    .timeline-tick:last-child {
+      order: 1;
+    }
+
+    .timeline-events {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .timeline-event,
+    .timeline-event.above,
+    .timeline-event.below {
+      position: static;
+      inset: auto;
+      transform: none;
+    }
+
+    .timeline-event a,
+    .timeline-event.above a {
+      display: flex;
+      flex-direction: row;
+      gap: var(--space-3);
+      align-items: center;
+      padding: var(--space-1) 0;
+      text-align: start;
+    }
+
+    /* the dot sits on the rule: pulled left by half its own width */
+    .timeline-event a::before {
+      flex: none;
+      margin-left: calc(var(--space-2) / -2);
+    }
+
+    .timeline-year {
+      flex: none;
+      inline-size: 7.5ch;
+    }
   }
 
   figcaption {
