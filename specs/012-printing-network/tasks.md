@@ -263,7 +263,8 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 - [x] T051 [US4] Mint the 1544 Sibiu catechism with `produced_at` Sibiu and `survival: none_known`, with Evidence carrying its `analytical_dimensions`. Held.
   - *Done 2026-11-23:* `bibliography_entry-000056`, with `produced_at` Sibiu (`plc-sibiu`, attributed, probable, 1544) and `survival: none_known`. Evidence 21 cites Demény and Demény (1986; `bibliography_entry-000055`, Source 3), with its locator pending. Held.
 
-- [ ] T052 [US4] Full checks green. Update the dossier and Build Log rows.
+- [x] T052 [US4] Full checks green. Update the dossier and Build Log rows.
+  - *Done 2026-11-23:* the checks pass: `npm test` (3,224), `typecheck`, `lint`, the gate (PASS, 339 entities), `status --check` and `test:e2e:bibliography` (26).
 
 ---
 
