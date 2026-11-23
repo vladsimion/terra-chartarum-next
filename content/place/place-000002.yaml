@@ -1,0 +1,21 @@
+id: tc:tc:place:place-000002
+family: place
+origin: minted
+title: Siret
+slug: siret
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+place_type: settlement
+location_status: located
+names:
+  - name: Siret
+    language: ro
+    kind: modern
+# the town centre, to two decimals like the legacy places; a modern reference point, not the site
+# of the princely residence (TCX-85). For the author to confirm.
+location:
+  lon: 26.07
+  lat: 47.95
+geometry_provenance: modern_reference

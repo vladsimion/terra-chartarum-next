@@ -45,7 +45,7 @@ const groups: { name: 'evidence' | 'listed'; heading: string; items: CitedItem[]
     </dl>
   )}
 
-  {view.places && <EditionPlaces view={view.places} printers={view.printers} />}
+  {view.places && <EditionPlaces view={view.places} printers={view.printers} mapLink={view.mapLink} />}
   {!view.places && <Printers printers={view.printers} />}
 
   {view.known.length > 0 && (

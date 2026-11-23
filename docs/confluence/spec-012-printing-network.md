@@ -5,8 +5,8 @@ This is the programme dossier for spec 012. It follows the fourteen-point contra
 | | |
 |---|---|
 | Programme type | Research capability: the first Stage III slice (Wallachia and Moldavia). It adds place roles on editions, a `person` family and a network layer derived from the records. |
-| Status | **Under way.** Specified, planned and tasked; `/speckit-analyze` found two high findings and six smaller ones, all fixed (#152, merged 2026-11-22). **US1** (place roles, the rules, publicity, the edition section, the 1508 edition) merged with #153 on 2026-11-22. **US2** (the derived network layer, its collection and the map) merged with #154 on 2026-11-22. **US3** (the `person` family, person links on editions, and the person pages) merged with #156 on 2026-11-23. **US4** (survival stated, pending claims shown) merged with #157 on 2026-11-23. **US5** (paper through Evidence) merged with #158 on 2026-11-23. **Polish** (quickstart, code review, rule guard) is built and under review on #159; T060 (five readers) and T062 (the edition's map link) stay open. |
-| Jira | **TCX-79** is the Stage III epic. **TCX-82** (III-1, the printing network) is In Progress. The grill that preceded it is TCX-80 and TCX-81. |
+| Status | **Code complete (2026-11-23).** Specified, planned and tasked; `/speckit-analyze` found two high findings and six smaller ones, all fixed (#152, merged 2026-11-22). **US1** (place roles, the rules, publicity, the edition section, the 1508 edition) merged with #153 on 2026-11-22. **US2** (the derived network layer, its collection and the map) merged with #154 on 2026-11-22. **US3** (the `person` family, person links on editions, and the person pages) merged with #156 on 2026-11-23. **US4** (survival stated, pending claims shown) merged with #157 on 2026-11-23. **US5** (paper through Evidence) merged with #158 on 2026-11-23. **Polish** (quickstart, code review, rule guard) merged with #159 on 2026-11-23. **T062** (the edition's "See on the map" link) is built on #164. T060 (five readers) stays open. |
+| Jira | **TCX-79** is the Stage III epic. **TCX-82** (III-1, the printing network) is Done (2026-11-23, at the author's request, once #159 merged). The grill that preceded it is TCX-80 and TCX-81. |
 | Canonical parent | A standalone page at the root of the space, like specs 001 to 010. It is linked from the Stage III programme note (page 47120387). |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). The spec is in `specs/012-printing-network/`. The decisions are `docs/adr/0021` (place roles), `docs/adr/0023` (person records) and `docs/adr/0014` as amended on 2026-11-22. |
 | Last reconciliation | 2026-11-22, on `012-printing-network`. The counts this spec does not own are generated below. |
@@ -14,7 +14,7 @@ This is the programme dossier for spec 012. It follows the fourteen-point contra
 <!-- status:begin -->
 - Registry rules: 105
 - Named mutations: 138
-- Entities: 345 (0 errors, 112 warnings)
+- Entities: 346 (0 errors, 112 warnings)
 <!-- status:end -->
 
 ## 2. Purpose / thesis
@@ -111,8 +111,10 @@ The agreed test seams (T001, 2026-11-22) are:
   - `secure` was not blocked on pending locators for place roles.
 
   Six smaller findings were also fixed. FR-003 (consecutive holdings for a copy that moved) became an authoring convention.
-- 2026-11-22 to 2026-11-23: the stories merged one PR each, with `gate` green: US1 #153, US2 #154, US3 #156, US4 #157 and US5 #158. TCX-82 stays In Progress until Polish merges.
+- 2026-11-22 to 2026-11-23: the stories merged one PR each, with `gate` green: US1 #153, US2 #154, US3 #156, US4 #157 and US5 #158.
 - 2026-11-23: Polish. The quickstart ran green on `main`. The code review (standards and spec) found one bug: any point with a `role` property was drawn as a copy, which would have mislabelled the hanseatic places once published. It also found two spec gaps: an attributed copy was not marked, and printer links never said "pending". All three are fixed in the Polish PR. The edition page's map link (FR-014) was found missing and is now T062.
+- 2026-11-23: Polish merged (#159), with `gate` green. TCX-82 moved to Done at the author's request. T060 (five readers), T062 (the edition's map link) and the author's readings stay open in `tasks.md`.
+- 2026-11-23: T062 built. The Atlas address gains `p`, a public place slug, so a link can open the map on a place (spec 005 `contracts/view-address.md` amended). The public projection names a layer's derived asset, never a file path, so an edition page can find the network layer. The link appears only when the network layer, a collection holding it and the production place are all public, so nothing changes on the live site until then.
 
 ## 11. Programme acceptance criteria
 
@@ -135,6 +137,8 @@ SC-001 to SC-006 of the spec, as of 2026-11-23. All the records are held, so not
 | 2026-11-22 | `registry check` on the real registry | PASS, 324 entities after merging `main`, 0 errors; the eight new records add no warning |
 | 2026-11-22 | `network-features.test.ts`, `roles.test.ts` (US2; FR-004 to FR-007, FR-012) | one point per public edition and place role at the place's location, labelled in words; nothing for a held edition or an earlier attribution; a held place or a place without a location fails the build by name; each role its own symbol; the legend only the roles drawn; the role facet in words, opening on production places |
 | 2026-11-22 | `convert.test.ts`, `leak.test.ts` on the network overlay | `derived:place-roles` is built into a FlatGeobuf with role, basis and confidence facets; a held place writes nothing; the size limit applies; no held edition, holder or place reaches the built layer |
+| 2026-11-23 | `map-link.test.ts`, `view-url.test.ts`, `atlas-project.test.ts` (T062; FR-014) | the link opens the network collection on the edition's year, marked at its production place; no link while the layer, its collection or the place is held, or when the place has no location; a layer whose asset is a file is never taken for the network; `p` is written after `rel`, read back, and dropped with a notice when it is not a slug; a derived asset is projected, a file path is not |
+| 2026-11-23 | `test:e2e:network`, two new specs (T062) | 14 passed in both colour schemes: the fixture edition's "See on the map" opens the Atlas at its year with the network on the map, centred on the press monastery at zoom 9 with its marker; removing the marker takes `p` out of the address; an unknown place is left out and said. Both specs fail with the client and page changes stashed |
 | 2026-11-22 | `test:e2e:network` (US2 scenarios 1 to 4; SC-004) | 10 passed in both colour schemes: production places by default, copies by one checkbox, the legend in words, the keyboard alone, axe clean; with the client changes stashed, all five specs fail |
 
 ## 13. Canonical ownership and propagation
@@ -143,7 +147,7 @@ The repository is canonical (CLAUDE.md step 4). This dossier and the Build Log s
 
 ## 14. Current checkpoint and delivery authority
 
-All five stories are merged (#153, #154, #156, #157, #158), and the Polish PR is under review. When it merges, TCX-82 can move to Done for the code. The research below is the author's, and does not hold the story open.
+All five stories and Polish are merged (#153, #154, #156, #157, #158, #159), and TCX-82 is Done. The items below stay open in `tasks.md` and no longer hold the story.
 
 The author's open items for this spec:
 - **Readings** that turn locators from `pending` to `verified`:
@@ -158,5 +162,5 @@ The author's open items for this spec:
   - the printers' life dates.
 - **Confirmations:** the new Vocabulary values definitions (T005), and the glossary questions from the code review (see below).
 - **The SC-003 five-reader check (T060).**
-- **The edition page's map link (T062)**, once the network layer is public.
+- **The edition page's map link (T062)** is built and tested on the fixture. It appears on the live site by itself once the network layer, its collection and Dealu are released.
 - **Glossary questions** raised at the review: "Edition" is not a glossary term, and "held" names two things (an unreleased record, and `held_at`, a copy kept).

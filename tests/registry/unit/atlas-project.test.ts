@@ -22,6 +22,11 @@ describe('the public layer', () => {
     expect(layer).not.toHaveProperty('asset');
   });
 
+  it('names a derived asset, which is no path, so a page can find the network layer (spec 012 T062)', () => {
+    const [network] = project(validLayer(2, { ...PUBLIC, asset: 'derived:place-roles' })).filter((r) => r.family === 'layer');
+    expect(network?.asset).toBe('derived:place-roles');
+  });
+
   it('keeps the dataset only when the dataset is public', () => {
     expect(layer).not.toHaveProperty('dataset');
   });

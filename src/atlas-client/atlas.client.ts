@@ -16,7 +16,7 @@ import { parseView, resolveFacets, viewUrl, type SlugTable, type ViewReport } fr
 import { DEFAULT_OVERLAY_OPACITY } from '../atlas/overlay.js';
 import { renderInspector } from './inspector.js';
 import { bindPlaceSearch } from './search.js';
-import type { PlaceIndex } from '../atlas/place-index.js';
+import type { IndexedPlace, PlaceIndex } from '../atlas/place-index.js';
 import { MAPLIBRE_URL } from '../atlas/build/vendor-url.js';
 import { createStore } from './store.js';
 
@@ -117,6 +117,20 @@ async function start(): Promise<void> {
 
   // the map and the features of each active layer, once loaded
   let controller: MapController | null = null;
+  let placeIndex: Promise<PlaceIndex | null> | null = null;
+  /** The place the address names, until it is shown (spec 012 T062). */
+  let addressPlace: IndexedPlace | null = null;
+  const withoutPlace = (state: AtlasState): AtlasState => {
+    const { place: _place, ...rest } = state;
+    return rest;
+  };
+  function showAddressPlace(map: MapController, place: IndexedPlace): void {
+    addressPlace = null;
+    // removing the marker takes the place out of the address too
+    map.showPlace(place.title, place.location.lon, place.location.lat, () => store.set(withoutPlace(store.get())));
+    const status = $<HTMLElement>('[data-place-status]');
+    if (status) status.textContent = `Map centred on ${place.title}.`;
+  }
   let mapLoading: Promise<MapController | null> | null = null;
   const features = new Map<string, LoadedFeature[]>();
   const colours = new Map<string, number>();
@@ -462,7 +476,9 @@ async function start(): Promise<void> {
           render(store.get());
         }
         map.setYear(store.get().year);
-        map.fitTo(added);
+        // a place the address names is shown instead of fitting the layers, once, so the link lands on it
+        if (addressPlace) showAddressPlace(map, addressPlace);
+        else map.fitTo(added);
         await map.idle();
         root.dataset.mapReady = 'true';
         say('Map ready.');
@@ -480,6 +496,16 @@ async function start(): Promise<void> {
     const named = index.layers.find((l) => l.slug === slug);
     if (named) void fetchFeatures(slug, named.provenance).catch(() => undefined);
   }
+  // the place the address names (spec 012 T062): a public place with a location, or a notice
+  const placeIndexRequest = () => (placeIndex ??= fetchJson<PlaceIndex>('/data/place-index.json'));
+  if (parsed.state.place) {
+    const named = (await placeIndexRequest())?.places.find((p) => p.slug === parsed.state.place);
+    if (named) addressPlace = named;
+    else {
+      delete parsed.state.place;
+      parsed.report.dropped.push('The place in the address is not one the Atlas can mark, so no place is marked.');
+    }
+  }
   const summaries: Record<string, FacetSummary[]> = {};
   await Promise.all(Object.keys(parsed.state.facets).map(async (slug) => (summaries[slug] = (await fetchJson<{ facets: FacetSummary[] }>(`/data/layers/${slug}.facets.json`))?.facets ?? [])));
   const resolved = resolveFacets(parsed.state, summaries);
@@ -488,17 +514,28 @@ async function start(): Promise<void> {
   const writeAddress = (state: AtlasState) => window.history.replaceState(null, '', viewUrl(state, index));
   writeAddress(store.get());
   store.subscribe(writeAddress);
+  // with no layer to draw, the place is shown on its own
+  if (addressPlace && store.get().active.length === 0) {
+    const place = addressPlace;
+    void ensureMap().then(async (map) => {
+      if (!map) return;
+      showAddressPlace(map, place);
+      await map.idle();
+      root.dataset.mapReady = 'true';
+    });
+  }
 
   const placeRoot = $<HTMLElement>('[data-place-search]');
-  let placeIndex: Promise<PlaceIndex | null> | null = null;
   if (placeRoot) {
     bindPlaceSearch({
       root: placeRoot,
-      load: () => (placeIndex ??= fetchJson<PlaceIndex>('/data/place-index.json')),
+      load: placeIndexRequest,
       year: () => store.get().year,
       show: async (place, onRemoved) => {
         const map = await ensureMap();
         if (!map) return false;
+        // a place found by search is not the address's: the address marks only the place it was opened on
+        if (store.get().place) store.set(withoutPlace(store.get()));
         map.showPlace(place.title, place.location.lon, place.location.lat, onRemoved);
         await map.idle();
         root.dataset.mapReady = 'true';
