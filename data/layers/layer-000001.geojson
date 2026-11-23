@@ -82,6 +82,84 @@
     "note": "Schematic: the Bran–Rucăr crossing and Câmpulung, one route between Brașov and Târgoviște (the Prahova valley is another, not drawn yet). The line joins named places; it is not the road's course.",
     "citation": "Editorial corridor, Stage III thin slice (TCX-86); route evidence to be added as Evidence records"
    }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      25.6,
+      45.65
+     ],
+     [
+      26.14,
+      46.0
+     ],
+     [
+      26.41,
+      46.07
+     ],
+     [
+      26.77,
+      46.25
+     ],
+     [
+      26.91,
+      46.57
+     ]
+    ]
+   },
+   "properties": {
+    "id": "cor-oituz",
+    "name": "Brașov to Bacău by the Oituz pass",
+    "corridor": "oituz",
+    "geometry_provenance": "generalized_editorial",
+    "confidence": "low",
+    "review_status": "candidate",
+    "valid_from": 1400,
+    "valid_to": 1700,
+    "via": "Brașov | Târgu Secuiesc | Oituz pass | Onești | Bacău",
+    "note": "Schematic: east from Brașov across the Székely land to the Oituz pass, then down the Trotuș valley into Moldavia. The line joins named towns and the pass; it is not the road's course.",
+    "citation": "Editorial corridor, Stage III (TCX-86); route evidence to be added as Evidence records"
+   }
+  },
+  {
+   "type": "Feature",
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      25.46,
+      44.93
+     ],
+     [
+      26.02,
+      44.94
+     ],
+     [
+      26.82,
+      45.15
+     ],
+     [
+      27.98,
+      45.27
+     ]
+    ]
+   },
+   "properties": {
+    "id": "cor-targoviste-braila",
+    "name": "Târgoviște to Brăila across the Wallachian plain",
+    "corridor": "targoviste-braila",
+    "geometry_provenance": "generalized_editorial",
+    "confidence": "low",
+    "review_status": "candidate",
+    "valid_from": 1400,
+    "valid_to": 1700,
+    "via": "Târgoviște | Ploiești | Buzău | Brăila",
+    "note": "Schematic: from the princely seat east across the plain to the Danube port of Brăila. With the Bran–Rucăr corridor it completes the Brașov–Târgoviște–Brăila route. The line joins named towns; it is not the road's course.",
+    "citation": "Editorial corridor, Stage III (TCX-86); route evidence to be added as Evidence records"
+   }
   }
  ]
 }
