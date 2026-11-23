@@ -1,0 +1,26 @@
+id: tc:tc:evidence:evidence-000024
+family: evidence
+origin: minted
+title: The Library of Congress dates its portolan chart between 1320 and 1350
+slug: the-library-of-congress-dates-its-portolan-chart-between-1320-and-1350
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+target:
+  entity: tc:tc:map:trade-loc-portolan
+source: tc:tc:source:source-000006
+# read on 2026-11-23 from the holder's catalogue record: "[between 1320 and 1350]", call number
+# G5672.M4P5 13-- .P6, "1 ms. map : vellum ; 43 x 59 cm.", "probably drawn in Genoa", purchased from
+# Ludwig Rosenthal, Munich, 1914. Proposed by Claude; a person verifies it.
+locator:
+  value: "Created / Published: '[between 1320 and 1350]'; Medium: '1 ms. map : vellum ; 43 x 59 cm.'"
+  state: pending
+  proposed_by: ai
+evidence_type: textual
+confidence: probable
+analytical_dimensions:
+  - historical
+  - methodological
+rights:
+  licence: Public domain

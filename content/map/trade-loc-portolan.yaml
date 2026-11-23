@@ -9,16 +9,31 @@ release: held
 relations:
   - tc:tc:map:carta-pisana
 record_scope: object
-date_published: "1335"
+# the holder dates it "[between 1320 and 1350]" (evidence-000024); the earlier "1335" was a midpoint
+date_published: "1320/1350"
+repository: Library of Congress, Geography and Map Division, Washington (G5672.M4P5 13-- .P6)
+dimensions:
+  height_mm: 430
+  width_mm: 590
 significance: An anonymous vellum chart turns the Mediterranean and Black Seas
   into a continuous field of named coasts and bearings.
 bibliography:
   - tc:tc:bibliography_entry:bibliography_entry-000005
   - tc:tc:bibliography_entry:bibliography_entry-000001
+  - tc:tc:bibliography_entry:bibliography_entry-000059
 images:
   - type: static
     url: https://commons.wikimedia.org/wiki/Special:FilePath/Portolan%20chart%20of%20the%20Mediterranean%20Sea%20ca.%201320-1350%20-%20manuscript%20chart%20of%20the%20Mediterranean%20and%20Black%20seas%20on%20vellum.%20LOC%202003630429.jpg?width=1600
     static_url: https://commons.wikimedia.org/wiki/Special:FilePath/Portolan%20chart%20of%20the%20Mediterranean%20Sea%20ca.%201320-1350%20-%20manuscript%20chart%20of%20the%20Mediterranean%20and%20Black%20seas%20on%20vellum.%20LOC%202003630429.jpg?width=1600
+    attribution: Library of Congress, Geography and Map Division
+    licence: Public domain
+    alt: Anonymous portolan chart of the Mediterranean and Black Seas
+    reproduction_cleared: false
+    witness_kind: institutional
+  # the holder's IIIF image service, read on 2026-11-23; the collection is "free to use and reuse"
+  - type: iiif
+    url: https://tile.loc.gov/image-services/iiif/service:gmd:gmd5:g5672:g5672m:ct000821/info.json
+    static_url: https://tile.loc.gov/image-services/iiif/service:gmd:gmd5:g5672:g5672m:ct000821/full/pct:25/0/default.jpg
     attribution: Library of Congress, Geography and Map Division
     licence: Public domain
     alt: Anonymous portolan chart of the Mediterranean and Black Seas
@@ -30,5 +45,5 @@ field_status:
   title_original: not_yet_verified
   coverage: not_yet_verified
   makers: not_yet_verified
-  dimensions: not_yet_verified
+  dimensions: recorded
 witness_kind: institutional

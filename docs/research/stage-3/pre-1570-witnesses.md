@@ -78,9 +78,19 @@ What changed in the registry:
 | `fra-mauro` | Biblioteca Nazionale Marciana (page above) | Public domain |
 | `trade-roselli-1466` | University of Minnesota (cartographic-images.net) | Public domain |
 
+## Checked again on 23 November 2026 (evening)
+
+**`trade-loc-portolan` (items 2 to 4, settled).** The Library of Congress record ([item 2003630429](https://www.loc.gov/item/2003630429/)) now answers. It dates the chart "[between 1320 and 1350]", calls it "probably drawn in Genoa", gives call number G5672.M4P5 13-- .P6 and "1 ms. map : vellum ; 43 x 59 cm.", and records its purchase from Ludwig Rosenthal, Munich, in 1914. The Geography and Map Division's digitized collections are "free to use and reuse unless a Rights Advisory statement is present", and none is.
+
+What changed in the registry:
+- `trade-loc-portolan` now has `date_published: "1320/1350"` (was "1335", a midpoint), `repository` with the call number, and `dimensions` (430 × 590 mm, `recorded`).
+- It gains a second image, the holder's IIIF image service, after the Commons file it already showed. `reproduction_cleared` stays `false` on both.
+- Evidence `evidence-000024` cites the record through `bibliography_entry-000059` and Source `source-000006`, with a `pending` locator proposed by AI.
+
+**A Wallachian map for Stage III (not a pre-1570 witness).** Searching the Library of Congress for maps of Wallachia found Mercator's *Walachia, Servia, Bulgaria, Romania* (Duisburg, 1589; [item 2021668532](https://www.loc.gov/item/2021668532/)). The original is in the National and University Library "St Kliment Ohridski", Skopje, digitised by the World Digital Library. The Library of Congress knows of no restriction on it. It is minted held as `map-000001`, with its IIIF image and Evidence `evidence-000025`. Whether it names Târgoviște is not yet read. It is offered to the Târgoviște essay as a corpus candidate (`docs/essays/targoviste.md`).
+
 **Still blocked:**
-- **The Library of Congress record** (`www.loc.gov/item/2003630429/`) returned HTTP 503 twice. Its title, date, rights and IIIF manifest are unread.
-- **IIIF manifests (item 4)** are not checked yet for any record.
+- **IIIF (item 4)** is recorded for `trade-loc-portolan` only (below). The BnF's Gallica answered with a Cloudflare challenge, and Commons refused the request for rate, so the other records' sources stay unread.
 - **Holding institution and shelfmark (item 2)** for the other seven need each institution's own catalogue. The Commons credits above say where to look.
 - **`trade-bianco-1436` and `trade-agnese-1544` (item 5)** stay incomplete. The Agnese workshop made many atlases, so the record must first say which copy it means, and that is the author's call, made from the bibliography it cites.
 - **Ruscelli (item 7)** is the author's acquisition decision.
