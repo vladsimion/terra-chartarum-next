@@ -1,0 +1,22 @@
+{
+  "id": "tc:tc:bibliography_entry:bibliography_entry-000058",
+  "type": "webpage",
+  "title": "Il Mappamondo di Fra' Mauro",
+  "author": [
+    {
+      "literal": "Biblioteca Nazionale Marciana"
+    }
+  ],
+  "container-title": "Biblioteca Nazionale Marciana",
+  "URL": "https://bibliotecanazionalemarciana.cultura.gov.it/patrimonio/patrimonio-librario/il-mappamondo-di-fra-mauro/",
+  "accessed": {
+    "date-parts": [
+      [
+        2026,
+        11,
+        23
+      ]
+    ]
+  },
+  "language": "it"
+}

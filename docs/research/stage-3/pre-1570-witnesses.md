@@ -49,7 +49,39 @@ The places the programme names already exist: Chilia (`plc-chilia`) and Cetatea 
 - [ ] Image terms and `reproduction_cleared` for all ten, starting with the three published ones (item 3).
 - [ ] IIIF manifests where published: portolans and Fra Mauro first (item 4).
 - [ ] Complete `trade-bianco-1436` and `trade-agnese-1544` (item 5).
-- [ ] Settle the Fra Mauro date (item 6).
+- [x] Settle the Fra Mauro date (item 6). Settled 2026-11-23: `1450~`, from its holder (see below).
 - [ ] Coverage and its Attestations, read from each image (item 1). This is last, because it needs the images and a person reading them.
 
 None of these can be completed from this session. The institutions' catalogues and image terms are online pages that need checking one by one, and coverage needs a person to look at each map. This file is the audit and the plan, and it says where each fact will come from.
+
+## Checked on 23 November 2026
+
+The session's network was opened to the institutions' and Commons' hosts on 23 November 2026, and these were read.
+
+**Fra Mauro (item 6, settled).** The Biblioteca Nazionale Marciana, which holds the map, dates it "databile all'anno 1450 ca." It describes it as a manuscript on parchment sheets glued to a wooden support, "cm 230 x 230 ca." ([Il Mappamondo di Fra' Mauro](https://bibliotecanazionalemarciana.cultura.gov.it/patrimonio/patrimonio-librario/il-mappamondo-di-fra-mauro/)).
+
+What changed in the registry:
+- The record `fra-mauro` now has `date_published: "1450~"` and `repository: Biblioteca Nazionale Marciana, Venice`.
+- Evidence `evidence-000023` cites the page, through `bibliography_entry-000058` and Source `source-000005`. Its locator is `pending` and `proposed_by: ai` until a person verifies it.
+- The page gives no shelfmark, and its dimensions are approximate, so `dimensions` stays `not_yet_verified`.
+
+**Where each image comes from (item 2 and item 3, leads only).** The image each record shows is a Wikimedia Commons file. Commons names the institution the file came from and the licence it gives, as below (Commons API, `extmetadata`, read 2026-11-23). These are leads for the holding institution, not catalogue facts. A Commons "Public domain" licence is also not the institution's reproduction terms, so `reproduction_cleared` stays `false`.
+
+| Record | Commons file credits | Commons licence |
+|---|---|---|
+| `ptolemy` | "Medieval book" (no institution named) | Public domain |
+| `peutinger` | Austrian National Library | Public domain |
+| `carta-pisana` | BnF | Public domain |
+| `trade-vesconte-1311` | Archivio di Stato di Firenze | Public domain |
+| `trade-vesconte-1321` | Bibliothèque municipale de Lyon | Public domain |
+| `trade-loc-portolan` | Library of Congress, item 2003630429 | Public domain |
+| `fra-mauro` | Biblioteca Nazionale Marciana (page above) | Public domain |
+| `trade-roselli-1466` | University of Minnesota (cartographic-images.net) | Public domain |
+
+**Still blocked:**
+- **The Library of Congress record** (`www.loc.gov/item/2003630429/`) returned HTTP 503 twice. Its title, date, rights and IIIF manifest are unread.
+- **IIIF manifests (item 4)** are not checked yet for any record.
+- **Holding institution and shelfmark (item 2)** for the other seven need each institution's own catalogue. The Commons credits above say where to look.
+- **`trade-bianco-1436` and `trade-agnese-1544` (item 5)** stay incomplete. The Agnese workshop made many atlases, so the record must first say which copy it means, and that is the author's call, made from the bibliography it cites.
+- **Ruscelli (item 7)** is the author's acquisition decision.
+

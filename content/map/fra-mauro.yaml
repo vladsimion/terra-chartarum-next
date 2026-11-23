@@ -8,7 +8,9 @@ lifecycle: researching
 release: held
 relations: []
 record_scope: object
-date_published: "1459"
+# the holder dates it c. 1450 (evidence-000023). The research note (pre-1570-witnesses.md, item 6) gives 1459 as the date of the lost copy sent to Portugal.
+date_published: "1450~"
+repository: Biblioteca Nazionale Marciana, Venice
 significance: Venice's encyclopaedic world, drawn south-up.
 makers:
   - tc:tc:cartographer:fra-mauro
