@@ -30,6 +30,8 @@ The collection holds no map of Târgoviște before c. 1570. The candidates come 
 |---|---|---|---|
 | (none yet) | | | |
 
+**Next step, checked 23 November 2026:** the essay is at Concept, and the only stage it can move to is Corpus (stages are never skipped). `npm run registry -- promote tc:tc:essay:essay-000002 Corpus --by <person> --check` fails on one check: `ESSAY-CORPUS`, *maps: at least one map in the corpus*. It needs a map record with a rights state in the essay's `maps`. No Wallachian map has a record yet. The Cantacuzino map's rights could not be read on Commons that day (the API refused the request for rate), so no rights state was written. Once the author chooses the corpus and its records exist with rights, the promotion is the author's to run. The open questions are now on the record too (`open_questions`), as Research will require.
+
 ## Interactions
 
 | Interaction id | Component | Question it answers | Evidence |
