@@ -247,17 +247,24 @@ description: "Task list for 012 The Printing Network, 1508–1560s"
 
 **Goal**: absence is stated, and pending readings are shown as pending. **Independent test**: the 1544 catechism shows its production place and "no copy is known"; the 1545 place-naming claim is marked pending.
 
-- [ ] T047 [P] [US4] Write `tests/registry/unit/edition-survival.test.ts`:
+- [x] T047 [P] [US4] Write `tests/registry/unit/edition-survival.test.ts`:
   - `survival: none_known` with a current `held_at` gives `EDITION-SURVIVAL` (error);
   - `surviving` with no `held_at` warns from `ready_for_build`;
   - `unknown` with none passes.
   
   Add the named mutation.
-- [ ] T048 [P] [US4] Add an edition page test: `survival: none_known` renders "No copy is known" and no holdings list, and a claim on a pending locator renders as pending.
-- [ ] T049 [US4] Implement `EDITION-SURVIVAL` in `src/registry/rules/place-roles.ts`. T047 goes green.
-- [ ] T050 [US4] Render survival and pending states in the edition section (`src/pages/bibliography/[slug].astro`). T048 goes green.
-- [ ] T051 [US4] Mint the 1544 Sibiu catechism with `produced_at` Sibiu and `survival: none_known`, with Evidence carrying its `analytical_dimensions`. Held.
-- [ ] T052 [US4] Full checks green. Update the dossier and Build Log rows.
+- [x] T048 [P] [US4] Add an edition page test: `survival: none_known` renders "No copy is known" and no holdings list, and a claim on a pending locator renders as pending.
+- [x] T049 [US4] Implement `EDITION-SURVIVAL` in `src/registry/rules/place-roles.ts`. T047 goes green.
+  - *Done 2026-11-23:* the rule framework gains a threshold `never`, for a finding that stays a warning at every lifecycle. "Surviving" with no holding is a gap to see, not a block: the 1508 Liturghier reports twelve copies, none of them located yet. The contracts were updated.
+
+- [x] T050 [US4] Render survival and pending states in the edition section (`src/pages/bibliography/[slug].astro`). T048 goes green.
+  - *Done 2026-11-23:* no new code. US1 already rendered "No copy is known" and "locator pending" (`EditionPlaces.astro`). T048's tests passed at once and now pin that behaviour.
+
+- [x] T051 [US4] Mint the 1544 Sibiu catechism with `produced_at` Sibiu and `survival: none_known`, with Evidence carrying its `analytical_dimensions`. Held.
+  - *Done 2026-11-23:* `bibliography_entry-000056`, with `produced_at` Sibiu (`plc-sibiu`, attributed, probable, 1544) and `survival: none_known`. Evidence 21 cites Demény and Demény (1986; `bibliography_entry-000055`, Source 3), with its locator pending. Held.
+
+- [x] T052 [US4] Full checks green. Update the dossier and Build Log rows.
+  - *Done 2026-11-23:* the checks pass: `npm test` (3,224), `typecheck`, `lint`, the gate (PASS, 339 entities), `status --check` and `test:e2e:bibliography` (26).
 
 ---
 

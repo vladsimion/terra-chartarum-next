@@ -1,0 +1,24 @@
+id: tc:tc:evidence:evidence-000021
+family: evidence
+origin: minted
+title: A Romanian catechism was printed at Sibiu in 1544; no copy is known
+slug: a-romanian-catechism-was-printed-at-sibiu-in-1544-no-copy-is-known
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+target:
+  entity: tc:tc:bibliography_entry:bibliography_entry-000056
+source: tc:tc:source:source-000003
+locator:
+  value: "the chapter on the 1544 Sibiu catechism (page to read)"
+  state: pending
+  proposed_by: person
+evidence_type: textual
+confidence: probable
+analytical_dimensions:
+  - historical
+  - linguistic
+  - religious
+rights:
+  licence: CC BY 4.0

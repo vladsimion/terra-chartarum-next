@@ -1,0 +1,22 @@
+id: tc:tc:bibliography_entry:bibliography_entry-000056
+family: bibliography_entry
+origin: minted
+title: Catechism, Sibiu, 1544
+slug: catechism-sibiu-1544
+slug_history: []
+lifecycle: researching
+release: held
+relations: []
+csl: content/bibliography_entry/bibliography_entry-000056.csl.json
+section: primary_sources
+# lost: reported in the literature, no copy known (Stage III note §5). Stated as a value, never read
+# from an empty list of holdings (spec 012 FR-010).
+survival: none_known
+place_roles:
+  - place: tc:tc:place:plc-sibiu
+    role: produced_at
+    basis: attributed
+    confidence: probable
+    valid_from: "1544"
+    evidence:
+      - tc:tc:evidence:evidence-000021

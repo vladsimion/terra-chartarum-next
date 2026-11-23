@@ -82,6 +82,7 @@ Stable string IDs. Tests and CI assert on these, never on message text. "From" i
 | `PLACE-ROLE-FAMILY` | `place_roles` and `people` only on a bibliography entry; a map is refused until its own migration | spec 012 FR-002, ADR 0021 decision 6, ADR 0023 | always |
 | `PLACE-ROLE-EVIDENCE` | every place role and person link cites one or more Evidence records | spec 012 FR-011, Principle VI | `ready_for_build` |
 | `PLACE-ROLE-SECURE` | a place role or person link rated `secure` cites at least one Evidence record whose locator is `verified` | spec 012 FR-011, SC-005 | always |
+| `EDITION-SURVIVAL` | an edition's `survival: none_known` has no copy held now (a `held_at` without `valid_to`); `surviving` with no `held_at` is a warning from `ready_for_build` that never becomes an error | spec 012 FR-010 | always |
 | `PERSON-LINK` | `people` on an edition is a list of objects, each naming its `person`, a `role` from the person-role vocabulary, a `basis` and a `confidence` | spec 012 FR-009, ADR 0023 | always |
 | `PERSON-NAMES` | a person record has one or more names, each with its name, language and kind | spec 012 FR-015, ADR 0023 | `ready_for_build` |
 | `RIGHTS-MISSING` | rights/licence present | US2.3 | `ready_for_build` |

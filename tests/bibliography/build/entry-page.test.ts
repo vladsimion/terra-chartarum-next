@@ -219,3 +219,30 @@ describe('Where it was made and where it is kept (spec 012)', () => {
     expect(section()?.querySelector('a.see-on-map')).toBeNull();
   });
 });
+
+/*
+ * Spec 012 T048 (US4; FR-010, FR-011): absence is stated, and an unread claim says so. Fixture entry
+ * 12 states that no copy is known, with one copy formerly kept; entry 15's production place rests on
+ * a pending locator.
+ */
+describe('survival and pending claims (spec 012 US4)', () => {
+  const section = (n: number) => page(n).querySelector('section#where-made-kept');
+
+  it('says "No copy is known" in words, and lists no current copy', () => {
+    expect(textOf(section(12)?.querySelector('.no-copy-known'))).toBe('No copy is known to survive.');
+    expect(section(12)?.querySelector('.copies-kept')).toBeNull();
+  });
+
+  it('still lists where a lost copy was formerly kept', () => {
+    expect(textOf(section(12)?.querySelector('.formerly-kept li'))).toContain('1700 to 1916');
+  });
+
+  it('says nothing about survival for an edition with copies', () => {
+    expect(section(15)?.querySelector('.no-copy-known')).toBeNull();
+  });
+
+  it('marks a claim resting on a pending locator as pending, in words, on every line it applies to', () => {
+    expect(textOf(section(15)?.querySelector('.made-at'))).toMatch(/locator pending/);
+    for (const li of section(15)?.querySelectorAll('.copies-kept li, .formerly-kept li') ?? []) expect(textOf(li)).toMatch(/locator pending/);
+  });
+});

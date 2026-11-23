@@ -5,7 +5,8 @@ import type { Vocabulary } from '../vocab-map.js';
 import type { RegistryRecord } from '../types.js';
 
 /** Lowest lifecycle at which a rule is an error; below it the same finding is a warning (research R6). */
-export type Threshold = 'always' | 'ready_for_build' | 'publishable' | 'published';
+/** `never` is a finding that stays a warning at every lifecycle: a gap to see, never a block (spec 012 EDITION-SURVIVAL). */
+export type Threshold = 'always' | 'ready_for_build' | 'publishable' | 'published' | 'never';
 
 /*
  * Position of every lifecycle value, typed against the vocabulary so that adding or misspelling a
@@ -34,6 +35,7 @@ const THRESHOLD_RANK: Record<Threshold, number> = {
   ready_for_build: 3,
   publishable: 6,
   published: 7,
+  never: Number.POSITIVE_INFINITY,
 };
 
 /** A missing or unknown lifecycle ranks lowest; LIFE-VALUE reports it as an error of its own. */
