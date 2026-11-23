@@ -73,3 +73,36 @@ export function placesView(entry: PublicRecord, records: readonly PublicRecord[]
     noneKnown: entry.survival === 'none_known',
   };
 }
+
+/** A claim about the edition held only as Evidence (spec 012 FR-012): what it says, where, and how sure. */
+export interface KnownClaim {
+  claim: string;
+  source: string | null;
+  locator: string | null;
+  pending: boolean;
+  confidence: string;
+}
+
+/**
+ * "What else is known" (spec 012 US5): the public Evidence about an edition that no place role or
+ * person link already cites, such as where its paper came from. Nothing here is drawn on a map.
+ */
+export function knownClaims(entry: PublicRecord, records: readonly PublicRecord[]): KnownClaim[] {
+  const cited = new Set(
+    [...objects(entry.place_roles), ...objects(entry.people)].flatMap((link) => (Array.isArray(link.evidence) ? link.evidence.map(String) : [])),
+  );
+  const byId = new Map(records.map((r) => [r.id, r]));
+  return records
+    .filter((r) => r.family === 'evidence' && (r.target as { entity?: unknown } | undefined)?.entity === entry.id && !cited.has(r.id))
+    .sort((a, b) => a.id.localeCompare(b.id))
+    .map((r) => {
+      const locator = r.locator as { value?: unknown; state?: unknown } | undefined;
+      return {
+        claim: text(r.title) ?? r.id,
+        source: typeof r.source === 'string' ? (text(byId.get(r.source)?.title) ?? null) : null,
+        locator: text(locator?.value),
+        pending: locator?.state !== 'verified',
+        confidence: String(r.confidence ?? 'unknown'),
+      };
+    });
+}

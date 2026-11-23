@@ -1,0 +1,28 @@
+id: tc:tc:evidence:evidence-000022
+family: evidence
+origin: minted
+title: The 1508 Liturghier is printed on Venetian paper, brought through Sibiu
+  merchants
+slug: the-1508-liturghier-is-printed-on-venetian-paper-brought-through-sibiu-merchants
+slug_history: []
+lifecycle: researching
+release: held
+# Spec 012 US5 (FR-012): a material claim exists only as Evidence. Nothing about paper is drawn; the
+# link to the corridors says which route the claim concerns, and is not a drawn path.
+relations:
+  - tc:tc:layer:layer-000001
+target:
+  entity: tc:tc:bibliography_entry:bibliography_entry-000050
+source: tc:tc:source:source-000004
+locator:
+  value: "the passage on the paper and the Sibiu merchants (section to read)"
+  state: pending
+  proposed_by: person
+evidence_type: textual
+# "reportedly" in the Stage III note (§5): possible until the source is read again and the paper examined
+confidence: possible
+analytical_dimensions:
+  - economic
+  - geographical
+rights:
+  licence: CC BY 4.0

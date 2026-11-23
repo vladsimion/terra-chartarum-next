@@ -93,6 +93,13 @@ describe('networkFeatures', () => {
     expect(failures.map((f) => f.check)).toEqual(['ATLAS-ROLE-PLACE-LOCATION', 'ATLAS-ROLE-PLACE-LOCATION']);
   });
 
+  it('draws nothing for paper or any other claim held only as Evidence (FR-012, spec 012 T053)', () => {
+    const paper = record('evidence', 9, { ...PUBLIC, title: 'Venetian paper, through Sibiu merchants', target: { entity: entry(1).id }, analytical_dimensions: ['economic'], relations: [venice.id] });
+    const { features } = build([dealu, library, venice, edition(), paper]);
+    expect(features).toHaveLength(3);
+    expect(JSON.stringify(features)).not.toMatch(/paper|evidence-000009|economic/i);
+  });
+
   it('yields an empty network for a registry with no editions', () => {
     expect(build([dealu])).toEqual({ features: [], failures: [] });
   });

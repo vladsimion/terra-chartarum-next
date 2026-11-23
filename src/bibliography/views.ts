@@ -1,4 +1,4 @@
-import { placesView, type PlacesView } from './places-view.js';
+import { knownClaims, placesView, type KnownClaim, type PlacesView } from './places-view.js';
 import { printersOf } from './person-view.js';
 import { formatBibliographyItem, type CslItem } from '../essays/citations.js';
 import { layerAddress } from './addresses.js';
@@ -108,6 +108,8 @@ export interface EntryView {
   places: PlacesView | null;
   /** The printers the edition names, each linked to their page (spec 012 US3, ADR 0023). */
   printers: { name: string; href: string; basis: string; confidence: string }[];
+  /** Evidence about the edition that no place role or printer cites (spec 012 US5), never drawn. */
+  known: KnownClaim[];
   evidence: CitedItem[];
   listed: CitedItem[];
 }
@@ -144,6 +146,7 @@ export function entryView(entry: PublicRecord, records: readonly PublicRecord[],
     editions: editionsOf(entry.id, publicEntries(records)).map((e) => ({ relation: e.relation, label: RELATION_LABELS[e.relation], title: e.entry.title, href: address(e.entry.slug) })),
     places: placesView(entry, records),
     printers: printersOf(entry, records),
+    known: knownClaims(entry, records),
     evidence: mine.filter((c) => c.route === 'evidence').map(cited),
     listed: mine.filter((c) => c.route === 'listed').map(cited),
   };

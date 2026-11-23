@@ -51,6 +51,20 @@ const groups: { name: 'evidence' | 'listed'; heading: string; items: CitedItem[]
     </p>
   )}
 
+  {view.known.length > 0 && (
+    <section id="what-else-known" class="what-else-known" aria-labelledby="what-else-known-heading">
+      <h2 id="what-else-known-heading">What else is known</h2>
+      <ul>
+        {view.known.map((k) => (
+          <li>
+            {k.claim}{k.source && <span class="source">. Source: {k.source}</span>}{k.locator && <span class="locator">, {k.locator}</span>}
+            {k.pending && <span class="pending"> (locator pending)</span>}<span class="confidence">; confidence: {k.confidence}</span>.
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
   {view.editions.length > 0 && (
     <section class="editions" aria-labelledby="editions-heading">
       <h2 id="editions-heading">Other editions and translations</h2>

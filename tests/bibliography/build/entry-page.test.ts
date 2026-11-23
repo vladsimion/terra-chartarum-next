@@ -246,3 +246,32 @@ describe('survival and pending claims (spec 012 US4)', () => {
     for (const li of section(15)?.querySelectorAll('.copies-kept li, .formerly-kept li') ?? []) expect(textOf(li)).toMatch(/locator pending/);
   });
 });
+
+/*
+ * Spec 012 T053 (US5; FR-012): a claim about materials or trade exists only as Evidence. The edition
+ * lists the Evidence about it that no place role or printer cites, under "What else is known", each
+ * with its source, locator state and confidence. Fixture: evidence 6 (Venetian paper, pending,
+ * possible) targets entry 15; evidence 5, cited by entry 15's roles, is not repeated there.
+ */
+describe('What else is known (spec 012 US5)', () => {
+  const known = () => page(15).querySelector('section#what-else-known');
+
+  it('lists the paper claim, with its source, locator state and confidence', () => {
+    expect(textOf(known()?.querySelector('h2'))).toBe('What else is known');
+    const items = known()?.querySelectorAll('li').map((li) => textOf(li)) ?? [];
+    expect(items).toHaveLength(1);
+    expect(items[0]).toContain('The paper is Venetian, brought through Sibiu merchants');
+    expect(items[0]).toContain('A fixture source 1');
+    expect(items[0]).toContain('p. 45');
+    expect(items[0]).toMatch(/locator pending/);
+    expect(items[0]).toContain('confidence: possible');
+  });
+
+  it('does not repeat the evidence the place roles and printers already cite', () => {
+    expect(textOf(known())).not.toContain('The epilogue');
+  });
+
+  it('is absent when nothing else is known', () => {
+    expect(page(12).querySelector('section#what-else-known')).toBeNull();
+  });
+});
