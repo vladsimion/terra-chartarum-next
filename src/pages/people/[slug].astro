@@ -36,7 +36,7 @@ const view = personView(records.find((r) => r.id === id)!, records, cslFor);
         <ol>
           {view.editions.map((e) => (
             <li>
-              <a href={e.href}>{e.title}</a>, {e.place ?? 'place not recorded'}, {e.date ?? 'date not recorded'} <span class="link-meta">({e.role}, {e.basis}, confidence: {e.confidence})</span>
+              <a href={e.href}>{e.title}</a>, {e.place ?? 'place not recorded'}, {e.date ?? 'date not recorded'} <span class="link-meta">({e.role}, {e.basis}, confidence: {e.confidence}){e.pending && <span class="pending">, locator pending</span>})</span>
             </li>
           ))}
         </ol>

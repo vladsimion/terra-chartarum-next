@@ -3,6 +3,7 @@ import { citeFiles } from '../cite-inputs.js';
 import type { CitedItem, EntryView } from '../views.js';
 import CiteLinks from './CiteLinks.astro';
 import EditionPlaces from './EditionPlaces.astro';
+import Printers from './Printers.astro';
 
 interface Props {
   view: EntryView;
@@ -45,11 +46,7 @@ const groups: { name: 'evidence' | 'listed'; heading: string; items: CitedItem[]
   )}
 
   {view.places && <EditionPlaces view={view.places} printers={view.printers} />}
-  {!view.places && view.printers.length > 0 && (
-    <p class="printers">
-      {view.printers.map((p, i) => <>{i === 0 ? 'Printed by ' : '; '}<a href={p.href}>{p.name}</a> ({p.basis}, confidence: {p.confidence})</>)}.
-    </p>
-  )}
+  {!view.places && <Printers printers={view.printers} />}
 
   {view.known.length > 0 && (
     <section id="what-else-known" class="what-else-known" aria-labelledby="what-else-known-heading">

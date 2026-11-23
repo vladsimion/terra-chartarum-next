@@ -41,16 +41,21 @@ const text = (value: unknown): string | null => (typeof value === 'string' && va
 const objects = (value: unknown): Record<string, unknown>[] =>
   Array.isArray(value) ? value.filter((i): i is Record<string, unknown> => i !== null && typeof i === 'object') : [];
 
+/**
+ * True when no cited public Evidence has a verified locator (FR-011): the claim is shown as pending.
+ * The one reading of "pending" for place roles, person links and other claims on the pages.
+ */
+export function restsOnPending(evidence: unknown, byId: ReadonlyMap<string, PublicRecord>): boolean {
+  const verified = (id: unknown) => typeof id === 'string' && (byId.get(id)?.locator as { state?: unknown } | undefined)?.state === 'verified';
+  return !(Array.isArray(evidence) && evidence.some(verified));
+}
+
 /** The section's content, or null when the edition has no place roles (the section is then not shown). */
 export function placesView(entry: PublicRecord, records: readonly PublicRecord[]): PlacesView | null {
   const roles = objects(entry.place_roles);
   if (roles.length === 0) return null;
   const byId = new Map(records.map((r) => [r.id, r]));
   const title = (id: unknown): string => (typeof id === 'string' ? (text(byId.get(id)?.title) ?? id) : '');
-  const verified = (id: unknown): boolean => {
-    const locator = typeof id === 'string' ? (byId.get(id)?.locator as { state?: unknown } | undefined) : undefined;
-    return locator?.state === 'verified';
-  };
 
   const line = (role: Record<string, unknown>): PlaceLine => ({
     place: title(role.place),
@@ -60,7 +65,7 @@ export function placesView(entry: PublicRecord, records: readonly PublicRecord[]
     shelfmark: text(role.shelfmark),
     from: text(role.valid_from),
     to: text(role.valid_to),
-    pending: !(Array.isArray(role.evidence) && role.evidence.some(verified)),
+    pending: restsOnPending(role.evidence, byId),
   });
 
   const produced = roles.find((r) => r.role === 'produced_at');

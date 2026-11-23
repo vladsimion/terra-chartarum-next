@@ -1,14 +1,14 @@
 import { describe, expect, it } from 'vitest';
-import { defaultRoleSelection, ROLE_SYMBOLS, roleLegend, roleValueLabel, symbolOf } from '../../../src/atlas/roles.js';
+import { defaultRoleSelection, PLACE_ROLE_FILTER, ROLE_SYMBOLS, roleLegend, roleValueLabel, symbolOf } from '../../../src/atlas/roles.js';
 
 /*
  * Spec 012 T030 (FR-005 to FR-007; contracts/network-layer.md "Drawing"): how a place role is drawn
  * and said. Each role has its own symbol, never told by colour alone; the legend lists only the
  * roles drawn; the role facet speaks in words and opens on production places.
  */
-const made = (basis: string) => ({ role: 'produced_at', basis, formerly: false });
-const kept = { role: 'held_at', basis: 'stated', formerly: false };
-const formerly = { role: 'held_at', basis: 'stated', formerly: true };
+const made = (basis: string) => ({ edition: 'e1', role: 'produced_at', basis, formerly: false });
+const kept = { edition: 'e1', role: 'held_at', basis: 'stated', formerly: false };
+const formerly = { edition: 'e1', role: 'held_at', basis: 'stated', formerly: true };
 
 describe('symbolOf', () => {
   it('gives each role its own symbol, an attributed production place a dashed one, a former holding a hollow one', () => {
@@ -20,6 +20,22 @@ describe('symbolOf', () => {
 
   it('gives nothing to a feature without a role, so other layers draw as before', () => {
     expect(symbolOf({ name: 'Apulum' })).toBeNull();
+  });
+
+  it('gives nothing to another layer’s own `role` property, which is not a place role (code review, spec 012 Polish)', () => {
+    expect(symbolOf({ name: 'Lübeck', role: 'kontor' })).toBeNull();
+    expect(symbolOf({ name: 'Bruges', role: 'active_city' })).toBeNull();
+    // a place role is a network feature's: it names its edition
+    expect(symbolOf({ role: 'produced_at' })).toBeNull();
+  });
+
+  it('dashes an attributed copy too, current or former (FR-007)', () => {
+    expect(symbolOf({ ...kept, basis: 'attributed' })).toBe('kept-attributed');
+    expect(symbolOf({ ...formerly, basis: 'attributed' })).toBe('formerly-attributed');
+  });
+
+  it('matches the map filter: the same features are place roles in both', () => {
+    expect(PLACE_ROLE_FILTER).toEqual(['all', ['has', 'edition'], ['in', ['get', 'role'], ['literal', ['produced_at', 'held_at']]]]);
   });
 
   it('describes every symbol in words: shape, outline and fill, never colour', () => {

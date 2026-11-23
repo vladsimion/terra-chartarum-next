@@ -4,7 +4,7 @@ import { geojson } from 'flatgeobuf';
 import { clampOpacity } from '../atlas/overlay.js';
 import { DATE_UNCERTAIN, STYLE_CLASSES, lineDash, styleFor, type StyleClass } from '../atlas/provenance-style.js';
 import { fetchFeatures, type LoadedFeature } from './features.js';
-import { ROLE_SYMBOLS, type RoleSymbol } from '../atlas/roles.js';
+import { PLACE_ROLE_FILTER, ROLE_SYMBOLS, SYMBOL_CASES, symbolOf, type RoleSymbol } from '../atlas/roles.js';
 
 /*
  * The map (spec 005 US1, research R1, R4, R7): MapLibre, loaded only when the first layer is added,
@@ -42,7 +42,6 @@ const PALETTE = ['--accent-gold', '--accent-verdigris', '--accent-madder', '--ac
 const css = (name: string): string => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 const colourFor = (index: number): string => css(PALETTE[index % PALETTE.length] ?? PALETTE[0]!);
 
-/** A repeating hatch tile in one colour, as the image a polygon fill uses. */
 /** A place-role symbol (spec 012): its shape, outline and fill as `roles.ts` describes them in words. */
 function roleImage(symbol: RoleSymbol, colour: string, panel: string): { width: number; height: number; data: Uint8Array } {
   const style = ROLE_SYMBOLS[symbol];
@@ -72,6 +71,7 @@ function roleImage(symbol: RoleSymbol, colour: string, panel: string): { width: 
   return { width, height, data: new Uint8Array(data.buffer) };
 }
 
+/** A repeating hatch tile in one colour, as the image a polygon fill uses. */
 function hatchImage(kind: 'diagonal-hatch' | 'cross-hatch', colour: string): { width: number; height: number; data: Uint8Array } {
   const size = 16;
   const canvas = document.createElement('canvas');
@@ -267,7 +267,7 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
       // a point cannot be dashed: a documentary point is solid, the other classes are a ring, wider for the generalised
       const hollow = cls.id !== 'documentary';
       // a point with a place role is drawn by its role's symbol below, never as a plain dot (spec 012 FR-005)
-      const pointWhere: ExpressionSpecification = ['all', forClass(isPoint), ['!', ['has', 'role']]];
+      const pointWhere: ExpressionSpecification = ['all', forClass(isPoint), ['!', PLACE_ROLE_FILTER as unknown as ExpressionSpecification]];
       map.addLayer({
         id: id('point'),
         type: 'circle',
@@ -284,29 +284,27 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
       });
       styleLayers.push({ id: id('point'), property: 'circle-opacity', base: hollow ? 0.1 : 1, where: pointWhere });
     }
-    if (features.some((f) => typeof f.properties.role === 'string')) {
+    if (features.some((f) => symbolOf(f.properties as Record<string, unknown>) !== null)) {
       const panel = css('--panel') || '#0e0c08';
       const image = (symbol: RoleSymbol) => {
         const name = `role:${symbol}:${colour}`;
         if (!map.hasImage(name)) map.addImage(name, roleImage(symbol, colour, panel), { pixelRatio: 2 });
         return name;
       };
-      const roleWhere: ExpressionSpecification = ['all', isPoint, ['has', 'role']];
+      const roleWhere: ExpressionSpecification = ['all', isPoint, PLACE_ROLE_FILTER as unknown as ExpressionSpecification];
       const symbolId = `atlas:${slug}:roles`;
+      // one branch per symbol, from the same table symbolOf reads (roles.ts), so the map and the legend agree
+      const branches = SYMBOL_CASES.flatMap((c) => [
+        ['all', ['==', ['get', 'role'], c.role], ['==', ['==', ['get', 'formerly'], true], c.formerly], ['==', ['==', ['get', 'basis'], 'attributed'], c.attributed]],
+        image(c.symbol),
+      ]);
       map.addLayer({
         id: symbolId,
         type: 'symbol',
         source: `atlas:${slug}`,
         filter: filterOf(slug, roleWhere),
         layout: {
-          'icon-image': [
-            'case',
-            ['==', ['get', 'role'], 'produced_at'],
-            ['case', ['==', ['get', 'basis'], 'attributed'], image('made-attributed'), image('made')],
-            ['==', ['get', 'formerly'], true],
-            image('formerly'),
-            image('kept'),
-          ],
+          'icon-image': ['case', ...branches, image('kept')] as unknown as ExpressionSpecification,
           'icon-allow-overlap': true,
           'icon-ignore-placement': true,
         },

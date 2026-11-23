@@ -6,9 +6,12 @@ import { defineRule, severityFor, type Finding } from './framework.js';
 /*
  * Place roles on an edition (ADR 0021; spec 012 contracts/rule-ids.md). An edition says where it
  * was made (`produced_at`, at most one) and where a copy is kept for a dated interval (`held_at`,
- * with its holder); each link has a basis, a confidence and its evidence. Values outside a
- * vocabulary are ENUM-INVALID's; references are REF-UNKNOWN's and REF-FAMILY's. Each rule here
- * reports one kind of failure, with the item's index in the field.
+ * with its holder); each link has a basis, a confidence and its evidence. Person links (ADR 0023)
+ * and an edition's survival are judged here too. A place role's role, and every link's basis and
+ * confidence, outside its vocabulary are ENUM-INVALID's; a person link's role is PERSON-LINK's,
+ * because that vocabulary belongs to the link. References are REF-UNKNOWN's and REF-FAMILY's. Each
+ * rule reports one kind of failure, with the item's index in the field. "Held" in `held_at` means a
+ * copy kept by an institution, not a held (unreleased) record.
  */
 const FAMILIES_WITH_PLACE_ROLES = ['bibliography_entry'];
 
@@ -18,9 +21,7 @@ const blank = (value: unknown) => typeof value !== 'string' || value.trim() === 
 
 /** The place roles of a record that are objects, with their index; non-objects are PLACE-ROLE-LINK's. */
 function roles(record: RegistryRecord): { item: Item; i: number }[] {
-  const list = record.place_roles;
-  if (!Array.isArray(list)) return [];
-  return list.flatMap((item, i) => (item !== null && typeof item === 'object' && !Array.isArray(item) ? [{ item: item as Item, i }] : []));
+  return itemsOf(record, 'place_roles');
 }
 
 const editions = (records: readonly RegistryRecord[]) => records.filter((r) => FAMILIES_WITH_PLACE_ROLES.includes(r.family));

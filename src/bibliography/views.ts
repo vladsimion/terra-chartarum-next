@@ -1,5 +1,5 @@
 import { knownClaims, placesView, type KnownClaim, type PlacesView } from './places-view.js';
-import { printersOf } from './person-view.js';
+import { printersOf, type Printer } from './person-view.js';
 import { formatBibliographyItem, type CslItem } from '../essays/citations.js';
 import { layerAddress } from './addresses.js';
 import type { PublicRecord } from '../registry/project.js';
@@ -107,7 +107,7 @@ export interface EntryView {
   /** Where it was made and where it is kept (spec 012); null when the entry has no place roles. */
   places: PlacesView | null;
   /** The printers the edition names, each linked to their page (spec 012 US3, ADR 0023). */
-  printers: { name: string; href: string; basis: string; confidence: string }[];
+  printers: Printer[];
   /** Evidence about the edition that no place role or printer cites (spec 012 US5), never drawn. */
   known: KnownClaim[];
   evidence: CitedItem[];

@@ -10,7 +10,7 @@ import { list } from './values.js';
  * modules build on it. Public records in, plain data out: a held record is not in the projection,
  * so it cannot cite anything here.
  *
- *   listed    a public record's `bibliography[]`: essay, map, cartographer, dataset, layer
+ *   listed    a public record's `bibliography[]`: essay, map, cartographer, dataset, layer, person
  *   evidence  a public essay's `evidence[]` -> Evidence -> Source (not a finding aid) -> `entry`
  *
  * And one route that is not a citation (ADR 0014 as amended 2026-11-22, spec 012 FR-014): an

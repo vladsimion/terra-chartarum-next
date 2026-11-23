@@ -5,7 +5,7 @@ This is the programme dossier for spec 012. It follows the fourteen-point contra
 | | |
 |---|---|
 | Programme type | Research capability: the first Stage III slice (Wallachia and Moldavia). It adds place roles on editions, a `person` family and a network layer derived from the records. |
-| Status | **Under way.** Specified, planned and tasked; `/speckit-analyze` found two high findings and six smaller ones, all fixed (#152, merged 2026-11-22). **US1** (place roles, the rules, publicity, the edition section, the 1508 edition) merged with #153 on 2026-11-22. **US2** (the derived network layer, its collection and the map) merged with #154 on 2026-11-22. **US3** (the `person` family, person links on editions, and the person pages) merged with #156 on 2026-11-23. **US4** (survival stated, pending claims shown) merged with #157 on 2026-11-23. **US5** (paper through Evidence) is built and under review on #158. |
+| Status | **Under way.** Specified, planned and tasked; `/speckit-analyze` found two high findings and six smaller ones, all fixed (#152, merged 2026-11-22). **US1** (place roles, the rules, publicity, the edition section, the 1508 edition) merged with #153 on 2026-11-22. **US2** (the derived network layer, its collection and the map) merged with #154 on 2026-11-22. **US3** (the `person` family, person links on editions, and the person pages) merged with #156 on 2026-11-23. **US4** (survival stated, pending claims shown) merged with #157 on 2026-11-23. **US5** (paper through Evidence) merged with #158 on 2026-11-23. **Polish** (quickstart, code review, rule guard) is built and under review; T060 (five readers) and T062 (the edition's map link) stay open. |
 | Jira | **TCX-79** is the Stage III epic. **TCX-82** (III-1, the printing network) is In Progress. The grill that preceded it is TCX-80 and TCX-81. |
 | Canonical parent | A standalone page at the root of the space, like specs 001 to 010. It is linked from the Stage III programme note (page 47120387). |
 | Repository | https://github.com/vladsimion/terra-chartarum-next (public). The spec is in `specs/012-printing-network/`. The decisions are `docs/adr/0021` (place roles), `docs/adr/0023` (person records) and `docs/adr/0014` as amended on 2026-11-22. |
@@ -111,10 +111,19 @@ The agreed test seams (T001, 2026-11-22) are:
   - `secure` was not blocked on pending locators for place roles.
 
   Six smaller findings were also fixed. FR-003 (consecutive holdings for a copy that moved) became an authoring convention.
+- 2026-11-22 to 2026-11-23: the stories merged one PR each, with `gate` green: US1 #153, US2 #154, US3 #156, US4 #157 and US5 #158. TCX-82 stays In Progress until Polish merges.
+- 2026-11-23: Polish. The quickstart ran green on `main`. The code review (standards and spec) found one bug: any point with a `role` property was drawn as a copy, which would have mislabelled the hanseatic places once published. It also found two spec gaps: an attributed copy was not marked, and printer links never said "pending". All three are fixed in the Polish PR. The edition page's map link (FR-014) was found missing and is now T062.
 
 ## 11. Programme acceptance criteria
 
-SC-001 to SC-006 of the spec. None are met yet. SC-003 (five readers) is the author's.
+SC-001 to SC-006 of the spec, as of 2026-11-23. All the records are held, so nothing is public yet.
+
+- **SC-001 (the anchor editions, each with one production place, the gate passing): partly met.** The 1508, 1544, 1545 and 1547 editions are recorded. Coresi's first Târgoviște and Brașov editions wait for BRV I and the colophons.
+- **SC-002 (every located copy a holding): not met.** None of the 12 reported copies is located (tasks.md T022).
+- **SC-003 (five readers): the author's (T060).**
+- **SC-004 (every pin states its role in words, none without one): met and tested.** It is tested over the whole layer (`network-features.test.ts`, `roles.test.ts`, the network e2e).
+- **SC-005 (no `secure` on pending locators; every claim carries its dimensions): met by the gate.** `PLACE-ROLE-SECURE` and `LOC-SECURE-PENDING` check the first part, `DIM-MISSING` the second.
+- **SC-006 (the ADR 0004 budgets): axe is met on every new page and on the network** (in both colour schemes). Lighthouse on the network waits for a public edition (T033).
 
 ## 12. Verification ledger
 
@@ -134,9 +143,20 @@ The repository is canonical (CLAUDE.md step 4). This dossier and the Build Log s
 
 ## 14. Current checkpoint and delivery authority
 
-The claim PR #152 holds the spec documents and the analysis fixes. US1 (TCX-82) starts next, on its own branch, red → green.
+All five stories are merged (#153, #154, #156, #157, #158), and the Polish PR is under review. When it merges, TCX-82 can move to Done for the code. The research below is the author's, and does not hold the story open.
 
 The author's open items for this spec:
-- the readings that turn locators from `pending` to `verified`;
-- confirming the new Vocabulary values definitions (T005);
-- the SC-003 five-reader check (T060).
+- **Readings** that turn locators from `pending` to `verified`:
+  - the 1508 epilogue and Panaitescu's introduction;
+  - BRV I for the 1545 and 1547 prints and for Coresi's editions;
+  - Demény and Demény on the 1544 catechism;
+  - Negoiță on the paper.
+- **Missing records:**
+  - the 12 copies of the 1508 edition (SC-002);
+  - the earlier attributions (Venice, Bistrița, Snagov, Govora, Cetinje);
+  - a cited location for Dealu;
+  - the printers' life dates.
+- **Confirmations:** the new Vocabulary values definitions (T005), and the glossary questions from the code review (see below).
+- **The SC-003 five-reader check (T060).**
+- **The edition page's map link (T062)**, once the network layer is public.
+- **Glossary questions** raised at the review: "Edition" is not a glossary term, and "held" names two things (an unreleased record, and `held_at`, a copy kept).
