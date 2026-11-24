@@ -170,7 +170,7 @@ Where a dispute can be measured, it is measured: proportions, densities, attesta
 ### Bias audit
 Every secondary source is scored on a defined rubric rather than an impression: the author's institution and country, funding, date, the share of claims supported by citations, use of primary sources, engagement with opposing scholarship, and tone. Scores are recorded with their evidence so others can contest a rating.
 
-**Status: draft for the author's approval (TCX-77, 22 November 2026; amended 24 November 2026 after the ET1986 test sheet).** Until it is approved, no score from it enters the evidence register.
+**Status: approved by the author on 24 November 2026 (TCX-77).** It was drafted on 22 November 2026 and amended on 24 November 2026 after the ET1986 test sheet. Scores enter the evidence register only from a sheet a person has scored and dated.
 
 The rubric has two parts that are never added together. **Context** describes where a text comes from: it raises questions, but it is not a verdict on the text. **Practice** scores what the text does on the page. A well-funded state project can practise well, and an independent author can practise badly, so a single total would hide exactly what the audit is for.
 

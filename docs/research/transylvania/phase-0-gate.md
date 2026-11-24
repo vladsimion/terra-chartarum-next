@@ -4,7 +4,7 @@ Stage II Phase 0 (TCX-67). This checks each Phase 0 story against its acceptance
 
 **The gate (TCX-67):** edition register complete; bibliography verified; schema and bias-audit rubric approved; hypotheses written with what would weaken them.
 
-**Result: not passed yet.** TCX-76 (accepted 24 November 2026) and TCX-78 (23 November 2026) are complete. One needs only the author's decision (the rubric half of TCX-77). The reading has started (24 November 2026): the online copies of ET1986, ERT1989, HT1994 and HT2001 were read for their title pages, and the ET1986 test sheet is drafted. What remains is a person's confirmation of both, and the IT2003 test sheet, which needs a copy that is not online.
+**Result: not passed yet.** TCX-76 (accepted 24 November 2026) and TCX-78 (23 November 2026) are complete. The rubric (TCX-77) was approved on 24 November 2026. The reading has started (24 November 2026): the online copies of ET1986, ERT1989, HT1994 and HT2001 were read for their title pages, and the ET1986 test sheet is drafted. What remains is a person's confirmation of both, and the IT2003 test sheet, which needs a copy that is not online.
 
 ## Story by story
 
