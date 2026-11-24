@@ -188,7 +188,7 @@ The rubric has two parts that are never added together. **Context** describes wh
 
 | Code | Criterion | How measured | 0 | 1 | 2 | 3 |
 |---|---|---|---|---|---|---|
-| P1 | Claims supported by citations | Share of the sampled factual claims with a citation that, when followed, supports that claim. A citation is either attached to the claim (a note) or, in a text that cites by section, a work that the section's bibliography names for that point. The sheet says which kind each is. | under 25% | 25–49% | 50–74% | 75% or more |
+| P1 | Claims supported by citations | Share of the sampled factual claims with a citation that, when followed, supports that claim. A citation is either attached to the claim (a note) or, in a text that cites by section, a work that the section's bibliography names for that point. The sheet says which kind each is. A claim the followed citation supports only in part counts as half (decided 24 November 2026). | under 25% | 25–49% | 50–74% | 75% or more |
 | P2 | Use of primary sources | Share of the citations counted for P1 that reach tiers A–F of the evidence hierarchy, directly or through a named edition | under 25% | 25–49% | 50–74% | 75% or more |
 | P3 | Engagement with opposing scholarship | Whether the main works of the other tradition on the chapter's question are cited, stated fairly, and answered with evidence, in the text or in its notes and bibliography (the sheet says where) | not cited | cited, not engaged, or stated in a form its authors would not recognise | engaged on some points | stated fairly and answered on the main points, with evidence |
 | P4 | Tone | Evaluative or loaded terms about peoples, scholars or traditions, per 1,000 words of the sample, plus the use of national "we" or "our" for a past population | more than 5, or national "we" throughout | 2–5, or national "we" in places | under 2 | none, and contested terms named as contested |
@@ -203,6 +203,8 @@ The rubric has two parts that are never added together. **Context** describes wh
 **Engagement (P3).** List first, before scoring, the three to five works of the opposing tradition that any specialist would expect this chapter to answer. Use the bibliography and the comparative control text. Then score against that list.
 
 **Symmetry.** The rule of comparative control applies. Both texts are audited on the same period, with the same sample rule and the same list length for P3, and by the same scorer in the same week. Where two scorers are available, each scores alone, and differences of more than one point are discussed and recorded.
+
+**Partial support (decided by the author, 24 November 2026).** For P1 and P2, a claim whose followed citation supports it only in part counts as half a claim, and a citation from outside the text's own bibliography counts for neither. The rule applies to every sheet, so both traditions are scored the same way.
 
 **Why these rules (amended 24 November 2026).** The ET1986 test sheet (`docs/research/transylvania/bias-audit/test-et1986-271-900.md`) showed that a rubric counting only claim-level notes scores 0 for any text that cites by section bibliography, as all four editions of the 1986 synthesis do. That says nothing about the text's practice. The same test found its engagement with the opposing works only in the notes, and funding that differs from one edition to the next.
 
