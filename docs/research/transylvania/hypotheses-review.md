@@ -1,6 +1,6 @@
 # Review of the competing hypotheses register (TCX-78)
 
-Prepared on 23 November 2026 for the author's three open questions in `hypotheses.md` ("Open for the author"). These are **proposals**: `hypotheses.md` is unchanged, and each item below is the author's to accept, change or reject. Nothing here is a finding, and nothing has been graded.
+Prepared on 23 November 2026 for the author's three open questions in `hypotheses.md` ("Open for the author"). These were **proposals**. **The author accepted all of them on 23 November 2026**, and `hypotheses.md` now carries them. Nothing here is a finding, and nothing has been graded.
 
 The programme's named tests ("Quantitative methods") are abbreviated as follows:
 
