@@ -4,7 +4,9 @@ Stage II Phase 0 (TCX-67), story TRANS-0-US3 (TCX-76). Research programme: "Tran
 
 **Rule (programme, "Risks and open questions"):** a catalogue check comes before any citation enters the register. This file records each check. Nothing here has been read from the book itself, so where it says *confirmed*, a library or repository record says so, not the title page.
 
-**Result, 22 November 2026:** the programme doc had four entries marked *verify*. Three are now confirmed as written, with details added; one (Pârvan) is confirmed for the 1937 Romanian edition and corrected for the later ones. Each corrected citation is below; the doc's markers can be removed once these are accepted. One residual question, the exact number of the 1967 edition, is noted against Pârvan.
+**Result, 22 November 2026:** the programme doc had four entries marked *verify*. Three are now confirmed as written, with details added; one (Pârvan) is confirmed for the 1937 Romanian edition and corrected for the later ones. Each corrected citation is below; the doc's markers can be removed once these are accepted.
+
+**Accepted by the author on 24 November 2026.** The corrected citations above stand. Their replacements of the four *verify* markers wait as suggestion cards in the programme doc, for the author to accept there. One residual question, the exact number of the 1967 edition, is noted against Pârvan.
 
 A fifth "(to verify)" in the doc is not a bibliography entry: it is a timeline fact in the Iorga case study ("Crown Council accepts Axis arbitration; Iorga among the opponents"). It is out of scope here and stays open.
 
