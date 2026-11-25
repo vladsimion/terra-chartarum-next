@@ -1,0 +1,17 @@
+# Line endings: text is stored with LF, so a checkout on Windows cannot change what the integrity gate,
+# the leak scan or the snapshot hashes read. Binary geodata and images are never diffed or converted.
+* text=auto eol=lf
+
+*.fgb      binary
+*.pmtiles  binary
+*.png      binary
+*.jpg      binary
+*.webp     binary
+*.woff     binary
+*.woff2    binary
+
+# A review export kept byte for byte as it was received (CRLF).
+docs/review/*.csv -text
+
+# The lockfile is generated: GitHub collapses it in pull request diffs.
+package-lock.json linguist-generated=true

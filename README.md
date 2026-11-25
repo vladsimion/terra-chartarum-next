@@ -18,6 +18,9 @@ docs/adr/                         0001 successor & cutover · 0002 v1 anchor (Da
                                   0010 editorial pipeline · 0011 map record model
                                   0012 hosting as a Worker · 0013 Atlas contracts · 0014 bibliography
                                   0015 rooms · 0016 migration · 0017 anchor essay
+                                  0018 record scaffolding · 0019 authoring tooling
+                                  0020 one analytical framework · 0021 place roles
+                                  0022 term records · 0023 person records · 0024 security headers
 src/registry/                     the registry module and integrity gate (spec 001)
 src/shell/, src/pages/            the shell, design tokens and pages (spec 002)
 src/integrations/                 the Astro integration that runs the gate in the build
