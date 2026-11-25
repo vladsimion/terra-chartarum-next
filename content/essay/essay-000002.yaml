@@ -4,10 +4,12 @@ origin: minted
 title: "Târgoviște: seat, press and frontier"
 slug: targoviste-seat-press-and-frontier
 slug_history: []
-stage: Concept
-lifecycle: proposed
+stage: Corpus
+lifecycle: researching
 release: held
 relations: []
+maps:
+  - tc:tc:map:map-000001
 question: What made Târgoviște, for three centuries the princely seat of
   Wallachia, a place where the three Romanian lands met, and how much of its
   later image as a national capital is evidence, contemporary representation or
@@ -20,13 +22,17 @@ stage_history:
   - stage: Concept
     on: 2026-11-22
     by: Vlad Simion
+  - stage: Corpus
+    on: 2026-11-25
+    by: Vlad Simion
 # Carried over from docs/essays/targoviste.md "Open questions" (23 November 2026), so the record
 # holds them before Research, where ESSAY-RESEARCH wants the list. The author answers them.
 open_questions:
-  - "Which maps form the corpus? ESSAY-CORPUS wants at least one map record with
-    a rights state before the essay can move to Corpus, and the collection has
-    no map of Wallachia yet. The candidates are the Stolnic Cantacuzino map
-    (Padua, 1700) and Specht's Austrian military survey; neither has a record."
+  - "What else joins the corpus beyond Mercator 1589 (map-000001, taken in by
+    the author on 25 November 2026)? The candidates are the Stolnic Cantacuzino
+    map (Padua, 1700) and Specht's Austrian military survey; neither has a
+    record."
+  - "Does Mercator's 1589 sheet name Târgoviște? Not yet read from the image."
   - "Opening: the walk from the town centre up to Dealu, or the 1508 epilogue?"
   - "Which after-1570 map is the essay's figure, and what are its rights?"
   - "Is \"seat, press and frontier\" the final title?"
