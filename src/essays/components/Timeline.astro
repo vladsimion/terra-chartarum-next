@@ -37,9 +37,6 @@ const positions = [
   at('.timeline-tick:nth-child(2)', 1),
   ...placed.map((event, i) => at(`.timeline-event:nth-child(${i + 1})`, event.position)),
 ].join('\n');
-// The site's Content-Security-Policy admits inline styles by hash only (ADR 0024), and Astro hashes the
-// styles it compiles, not one written with set:html, so this instance adds the hash of its own.
-Astro.csp?.insertStyleHash(`sha256-${createHash('sha256').update(positions).digest('base64')}`);
 ---
 
 <figure class="timeline" data-timeline={id}>

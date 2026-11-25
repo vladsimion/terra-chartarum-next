@@ -211,7 +211,7 @@ export async function createMap(container: HTMLElement, initialYear: number): Pr
     const annotation: unknown = await response.json();
     // loaded only for an overlay: the plugin and its renderer are not in the first load. The plugin
     // validates annotations with Zod, which probes `new Function` when it builds a schema; under the
-    // site's Content-Security-Policy (ADR 0024) the probe is reported as a violation even though Zod
+    // site's Content-Security-Policy (src/security/headers.ts, no 'unsafe-eval') the probe is reported as a violation even though Zod
     // catches it. Zod reads its settings from `globalThis.__zod_globalConfig` (shared on purpose by
     // every copy of Zod), so `jitless` is set there before the plugin builds its schemas.
     const zod = globalThis as { __zod_globalConfig?: { jitless?: boolean } };

@@ -1,26 +1,24 @@
 # Confluence entry: Decision Log (page 12648509)
 
-Pending: not yet published. Number it when it is appended (see `docs/confluence/README.md`).
+Pending. Not yet published; the number is assigned from the live page when it is (docs/confluence/README.md).
 
-### TC-D??? — Security headers: a per-page Content-Security-Policy built by Astro, the rest in `_headers`
+### TC-D??? — the build writes the site's security headers, with a Content Security Policy derived from its own output
 
-**Date:** 25 November 2026 (ADR 0024)    
-**Status:** Accepted
+**Date:** 25 November 2026    
+**Status:** Proposed · **Amends:** ADR 0012
 
-**Decision:**
-- **Per-page policy:** Astro writes each page's Content-Security-Policy into a `<meta>` tag, with the hashes of that page's inline scripts and styles. There is no `'unsafe-inline'` and no `'unsafe-eval'`. WebAssembly is allowed for the map decoders, and images and fetches over HTTPS are allowed for IIIF.
-- **`public/_headers`:** adds framing refusal (`frame-ancestors 'none'`, `X-Frame-Options`), HSTS for one year, `nosniff`, a referrer policy, a `Permissions-Policy` and `Cross-Origin-Opener-Policy`.
-- **Enforced in tests:** the shell, Atlas, collection and anchor-essay end-to-end suites each fail on any policy violation.
+**Decision:** an Astro integration (`src/integrations/security-headers.ts`, logic in `src/security/headers.ts`) runs last in the build and writes `_headers` for every path: a Content Security Policy, `Strict-Transport-Security: max-age=31536000`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, a `Permissions-Policy` that turns off camera, microphone, geolocation, payment and USB, and `Cross-Origin-Opener-Policy: same-origin`. The policy allows inline scripts only by the SHA-256 hash of each one the build produced, so it is never typed and cannot go stale.
 
-**Context:** a pre-cutover repository review found that no security headers were sent. ADR 0012 expected a `_headers` file, but none was ever added.
+**Context:** Cloudflare Security Insights flagged the production zone after cutover. Seen from outside on 25 November 2026, `terra-chartarum.org` sent none of these headers, while the frozen archive at `terra-chartarum.pages.dev` already sent `nosniff` and a referrer policy. ADR 0012 and TC-D043 record that no `public/_headers` file was ever added.
 
-**Alternatives considered:**
-- the whole policy in `_headers` with `'unsafe-inline'`;
-- hand-maintained hashes;
-- a report-only policy;
-- an allow-list of IIIF hosts.
+**What the policy allows, and why:** `script-src 'self'`, the inline-script hashes, and `'wasm-unsafe-eval'`, which the seekable-zstd reader of the Atlas layers needs to compile WebAssembly. Nothing in the build needs `eval`, so `'unsafe-eval'` is never granted. `worker-src 'self' blob: data:`, because MapLibre and Allmaps start their workers from blob: URLs and Allmaps falls back to data:. `img-src` and `connect-src` allow any HTTPS host, because IIIF viewers and georeferenced overlays fetch from the holding institution, and a new record can name a new one. `style-src` allows inline styles, because Astro inlines small stylesheets. `object-src 'none'`, `frame-ancestors 'none'`, `base-uri 'self'`, `form-action 'self'` and `upgrade-insecure-requests` complete it.
+
+**Alternatives considered:** a hand-written `public/_headers`. Rejected because Astro inlines small client scripts, so their hashes change with the code, and a typed policy would either break the Collection and Bibliography filters or need `'unsafe-inline'`. Turning off Astro's script inlining. Rejected because it changes the shipped output and the performance budgets for a header. An allowlist of image hosts. Deferred: it would have to be derived from the records' IIIF and annotation URLs, or a new record would break silently.
 
 **Consequences:**
-- a library that injects a style or starts a worker in a new way fails its suite;
-- HSTS `includeSubDomains` and `preload` wait until every subdomain is known to serve HTTPS;
-- framing by other sites is refused until an ADR names allowed ancestors.
+
+- the HTTP→HTTPS redirect ("Always Use HTTPS"), the minimum TLS version, DNSSEC and the email records (SPF, DMARC) are zone settings in the Cloudflare dashboard, outside the repository; this decision does not cover them;
+- HSTS is sent without `includeSubDomains` or `preload`, so `www.terra-chartarum.org` (TC-D043, consequence four) is not committed to HTTPS by it;
+- a new third-party script, frame or plain-HTTP resource now fails in the browser until the policy in `src/security/headers.ts` is changed on purpose.
+
+**Evidence:** `tests/shell/unit/security-headers.test.ts`. Every page of the production build and of the Atlas fixture was loaded under the policy with no violation; removing one hash was caught. The full Atlas end-to-end suite (207 tests, overlays included) passed against a server that enforced the policy. Since then, a `csp.spec.ts` in the shell, Atlas, collection and anchor-essay suites applies the built policy in every browser CI runs and fails on any violation (`tests/shared/csp-guard.ts`); it led the Atlas to switch off Zod's `new Function` probe before Allmaps loads.
