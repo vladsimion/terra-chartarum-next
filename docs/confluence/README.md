@@ -14,12 +14,12 @@ The files here are the repository copies of Confluence pages and entries. A file
 | `spec-008-migration.md` | Spec 008 programme dossier, page 39321601 (whole page; keep identical; version 2 has the same body as version 1, left over from a first attempt to move the page to the root; version 3 is the refresh after T042 and the stories reaching Done; version 4, published 2026-11-17 from `main` at 73affea, carries the map-review refresh (#102) and TCX-44's closure (#112); version 5, published 2026-11-22 from `main` at 0ea65b2, carries §14 as it stands, the custom-domain re-ordering and the closed epic) |
 | `spec-009-anchor-essay.md` | Spec 009 programme dossier, page 47120430 (whole page; keep identical; published 2026-11-22) |
 | `spec-010-authoring-tooling.md` | Spec 010 programme dossier, page 47120410 (whole page; keep identical; published 2026-11-22) |
-| `spec-012-printing-network.md` | Spec 012 programme dossier (not yet published; a new root page when it is) |
+| `spec-012-printing-network.md` | Spec 012 programme dossier, page 47972364 (whole page; keep identical; published 2026-11-25 from `main` at f573965) |
 | `stage-3-wallachia-moldavia.md` | Stage III (Wallachia and Moldavia) programme note, page 47120387 under Projects (whole page; keep identical; published 2026-11-22; Jira epic TCX-79) |
-| `build-log-*.md` | One section of the Build Log, page 2490370 (sections AC and AD, `build-log-spec-009.md` and `build-log-spec-010.md`, published 2026-11-22 in page version 136) |
+| `build-log-*.md` | One section of the Build Log, page 2490370 (sections AC and AD, `build-log-spec-009.md` and `build-log-spec-010.md`, published 2026-11-22 in page version 136; AD's #138 and #141 rows and section AE, `build-log-spec-012.md`, published 2026-11-25 in page versions 138 and 139) |
 | `decision-log-tc-dNNN.md` | One published Decision Log entry, page 12648509 |
 | `decision-log-pending-<slug>.md` | A Decision Log entry not yet published |
-| (generated, not stored) `npm run sdd:pages` → `sdd-confluence/` | The `[SDD]` pages: an index page under page 2457601 and one child page per spec, holding the Spec Kit artefacts of `specs/` at a commit. Regenerate and publish after the specs change (see below); never edit them in Confluence by hand. The index is page 46333953 |
+| (generated, not stored) `npm run sdd:pages` → `sdd-confluence/` | The `[SDD]` pages: an index page under page 2457601 and one child page per spec, holding the Spec Kit artefacts of `specs/` at a commit. Regenerate and publish after the specs change (see below); never edit them in Confluence by hand. The index is page 46333953; spec 012's page is 48103436. Last regenerated from `main` at f573965 on 2026-11-25 for the index and specs 001, 005, 010 and 012; the other spec pages are at the commit their banner names, their specs unchanged since |
 
 ## Pending Decision Log entries have no number
 

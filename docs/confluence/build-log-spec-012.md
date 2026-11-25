@@ -1,8 +1,8 @@
 # Confluence entry: Build Log (page 2490370)
 
-Not yet published. This will become a new section after the last published one (AD, spec 010). Its letter is assigned when it is published, so that it does not collide with sections drafted in parallel. The section grows by one row per merged slice and is republished whole.
+Published 2026-11-25 in page version 139 as section AE, directly after AD (spec 010); the rest of the page was left unchanged. The text below is what was published; it grows by one row per merged slice and is republished whole.
 
-## A?. The successor build: the printing network (spec 012)
+## AE. The successor build: the printing network (spec 012)
 
 Under way on [github.com/vladsimion/terra-chartarum-next](https://github.com/vladsimion/terra-chartarum-next) since 22 November 2026. Jira epic TCX-79, story TCX-82. The spec is `specs/012-printing-network/spec.md`. The decisions are ADR 0021, ADR 0023 and ADR 0014 as amended.
 

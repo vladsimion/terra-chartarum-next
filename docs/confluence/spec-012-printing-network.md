@@ -1,4 +1,4 @@
-This is the programme dossier for spec 012. It follows the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169), like the dossiers for specs 001 to 010. It has not been published yet.
+This is the programme dossier for spec 012. It follows the fourteen-point contract in [Programme Dossier Contract & Reconciliation Register](https://vladsimion.atlassian.net/wiki/spaces/~7012186ee7d7085f34fff9bc2bf8fbe8de309/pages/18481169), like the dossiers for specs 001 to 010.
 
 ## 1. Programme metadata
 
