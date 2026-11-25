@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import { allmapsMaplibre } from './src/atlas/build/allmaps-vite.ts';
 import { atlasIntegration } from './src/integrations/atlas.ts';
 import { registryIntegration } from './src/integrations/registry.ts';
+import { securityHeadersIntegration } from './src/integrations/security-headers.ts';
 
 /*
  * Static output only (Constitution VII, spec 002 FR-008): every page is generated at build time and
@@ -26,7 +27,7 @@ export default defineConfig({
   site: 'https://terra-chartarum.org',
   trailingSlash: 'always',
   build: { format: 'directory' },
-  integrations: [registryIntegration(), atlasIntegration(), mdx()],
+  integrations: [registryIntegration(), atlasIntegration(), mdx(), securityHeadersIntegration()],
   vite: {
     // the overlay plugin imports MapLibre from the copy the Atlas serves, not a second one (src/atlas/build/allmaps-vite.ts)
     plugins: [allmapsMaplibre()],
