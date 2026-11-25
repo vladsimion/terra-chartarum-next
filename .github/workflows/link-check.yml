@@ -9,11 +9,8 @@ on:
     - cron: '17 3 * * 1'
   workflow_dispatch:
 
-permissions:
-  contents: write
-  pull-requests: write
-  # to start the registry workflow (the gate) on the archived-copy branch; see GitHubClient.runGate
-  actions: write
+# Nothing by default; the one job below asks for what it uses.
+permissions: {}
 
 concurrency:
   group: link-check
@@ -23,15 +20,24 @@ jobs:
   link-check:
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    # The token is handed only to the check step (not to `npm ci`), and checkout does not keep it.
+    permissions:
+      # to create the archived-copy branch through the API (src/linkcheck/pull-request.ts)
+      contents: write
+      pull-requests: write
+      # to start the registry workflow (the gate) on the archived-copy branch; see GitHubClient.runGate
+      actions: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
       - name: Restore the previous runs' state
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: linkcheck-state.json
           key: linkcheck-state-${{ github.run_id }}
@@ -45,7 +51,7 @@ jobs:
         run: npx tsx scripts/link-check.ts --dir . --state linkcheck-state.json
       - name: Save this run's state
         if: always() && hashFiles('linkcheck-state.json') != ''
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: linkcheck-state.json
           key: linkcheck-state-${{ github.run_id }}
