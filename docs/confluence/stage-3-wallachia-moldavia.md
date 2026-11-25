@@ -1,6 +1,6 @@
 Programme note for Stage III, published 2026-11-22 as page 47120387 under Projects — Active Research & Implementation Programmes. The text below is what was published (the page opens with an info panel holding the first two paragraphs).
 
-**Status:** pre-grill working note, not started. **Owner:** Vlad. **Jira:** epic TCX-79 (stories TCX-80 to TCX-86). **Updated:** 22 November 2026.
+**Status:** in progress. Grilled on 22 November 2026 (TCX-80; ADR 0021 place roles, ADR 0022 term records); ranks 1 (TCX-82, spec 012) and 5 (TCX-86) are Done, ranks 2 to 4 (TCX-83, TCX-84, TCX-85) In Progress. **Owner:** Vlad. **Jira:** epic TCX-79 (stories TCX-80 to TCX-86). **Updated:** 25 November 2026.
 
 Current focus is unchanged: the Terra Sigillata cutover, then Stage II (Transylvania, TCX-67). This page supports the order Vlad sets on evidence, context and resources; it does not set it. All locators below are `pending` unless marked otherwise (constitution Principle VI).
 
