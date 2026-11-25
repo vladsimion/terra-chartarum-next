@@ -1,0 +1,31 @@
+# Dependency updates. Every pull request runs `gate` like any other and is merged by hand.
+# Most dependencies are pinned to exact versions (wrangler by ADR 0012), so each production one gets
+# its own pull request, to be read against its changelog; development tools are batched weekly.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '05:23'
+    open-pull-requests-limit: 10
+    labels: [dependencies]
+    commit-message:
+      prefix: deps
+    groups:
+      dev-tooling:
+        dependency-type: development
+        update-types: [minor, patch]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '05:23'
+    labels: [dependencies]
+    commit-message:
+      prefix: ci
+    groups:
+      actions:
+        patterns: ['*']
