@@ -12,7 +12,7 @@ import type { Page } from '@playwright/test';
  * were none.
  */
 export interface CspGuard {
-  /** The policy being enforced, as read from the build's `_headers`. */
+  /** The policy being enforced: the build's, less upgrade-insecure-requests (see guardCsp). */
   policy: string;
   /** Every violation seen so far, as "directive blocked-uri" strings or console reports. */
   violations(): Promise<string[]>;
@@ -27,7 +27,14 @@ export function builtPolicy(outDir: string): string {
 }
 
 export async function guardCsp(page: Page, outDir: string): Promise<CspGuard> {
-  const policy = builtPolicy(outDir);
+  // The test server is plain http://localhost. WebKit, unlike Chromium and Firefox, applies
+  // upgrade-insecure-requests to localhost, rewriting every request to https:// where nothing answers,
+  // so that one directive is left out here; on the HTTPS site it changes nothing for same-origin loads.
+  const policy = builtPolicy(outDir)
+    .split(';')
+    .map((d) => d.trim())
+    .filter((d) => d !== '' && d !== 'upgrade-insecure-requests')
+    .join('; ');
   await page.route('**/*', async (route) => {
     const request = route.request();
     if (request.resourceType() !== 'document' || !request.url().startsWith('http://localhost')) return route.fallback();
