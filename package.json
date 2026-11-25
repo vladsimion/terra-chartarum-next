@@ -63,18 +63,18 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@axe-core/playwright": "4.13.0",
-    "@playwright/test": "1.63.0",
-    "@types/node": "^26.6.5",
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.65.1",
+    "@types/node": "^26.6.6",
     "ajv": "^8.20.0",
-    "node-html-parser": "9.0.4",
-    "playwright-core": "1.63.0",
-    "postcss": "8.5.28",
-    "postcss-html": "2.0.0",
+    "node-html-parser": "9.0.7",
+    "playwright-core": "1.65.1",
+    "postcss": "8.5.33",
+    "postcss-html": "2.0.1",
     "stylelint": "17.16.0",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.5",
-    "wrangler": "4.151.1"
+    "vitest": "^5.1.1",
+    "wrangler": "4.166.0"
   }
 }
