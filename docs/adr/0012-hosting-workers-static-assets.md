@@ -28,3 +28,7 @@ Two things follow, and one of them revises consequence two:
 
 - Declaring routes makes Wrangler infer `workers_dev = false`. The `*.workers.dev` hostname therefore stops serving at cutover rather than carrying `noindex`, which is the stronger form of what consequence two asked for and what spec 008 wanted; no `public/_headers` file was ever added for it. Branch Preview URLs and Version URLs are not affected, so Workers Builds previews keep working.
 - The configuration cannot be merged before the zone is active on Cloudflare. A Custom Domain cannot be created on a zone the account does not own, and terra-chartarum.org was delegated to Wix (`ns0`/`ns1.wixdns.net`) until cutover, so an early merge would fail the Workers Build on `main`.
+
+## Amendment, 25 November 2026: security headers
+
+The `public/_headers` file this ADR expected now exists, carrying the security headers decided in ADR 0024 (not the `noindex` header, which the amendment above made unnecessary).

@@ -1,0 +1,13 @@
+# Response headers for every path, served by Workers static assets (ADR 0012, ADR 0024).
+# The page's own Content-Security-Policy (scripts, styles, images, fetches, workers) is written by
+# Astro into each page as a <meta> tag with the hashes of that page's inline code (astro.config.mjs,
+# `security.csp`). The policy below adds only what a <meta> tag cannot carry, and has no fetch
+# directives, so it never narrows the per-page one. Checked by tests/shell/unit/security-headers.test.ts.
+/*
+  Content-Security-Policy: frame-ancestors 'none'; object-src 'none'; base-uri 'self'
+  X-Frame-Options: DENY
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()
+  Cross-Origin-Opener-Policy: same-origin
