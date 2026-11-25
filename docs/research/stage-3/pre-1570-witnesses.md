@@ -35,7 +35,7 @@ The places the programme names already exist: Chilia (`plc-chilia`) and Cetatea 
 4. **No IIIF images.** All images are static. The ticket asks for IIIF checks for the portolans and Fra Mauro: where the institution publishes a IIIF manifest, the record should point at it. The weekly link check (spec 010) then watches it.
 5. **Two records are incomplete:** `trade-bianco-1436` and `trade-agnese-1544` have no witness kind, image or rights.
 6. **One date to check:** Fra Mauro is recorded as 1459. The ticket says c. 1450, the usual date for the Venice map. 1459 is the date of the copy sent to Portugal, which is lost. Settle it from the Marciana's record, and give the record the EDTF date it supports (for example `1450~` or `1448/1459`).
-7. **No Ruscelli Tabula Europae IX.** It is on the acquisition list. Recording it needs Vlad's acquisition decision first: as a held witness if bought, otherwise as an institutional witness.
+7. **No Ruscelli Tabula Europae IX.** It was on the acquisition list. **Decided by Vlad on 25 November 2026: not bought.** It is recorded as an institutional witness: a library's copy of Ruscelli's *La Geografia di Claudio Tolomeo* (Venice, 1561), with its holder, shelfmark and image terms read from that library's catalogue. The record waits for that reading. On 25 November 2026 the Library of Congress catalogue refused automated requests, so no holder was read.
 
 ## Out of scope for these records
 
@@ -44,7 +44,8 @@ The places the programme names already exist: Chilia (`plc-chilia`) and Cetatea 
 
 ## Work list for TCX-83
 
-- [ ] Vlad decides: buy the Ruscelli Tabula IX or not (item 7).
+- [x] Vlad decides: buy the Ruscelli Tabula IX or not (item 7). Decided 2026-11-25: not bought; recorded as an institutional witness.
+- [ ] Ruscelli Tabula IX map record: holder, shelfmark and image terms from one library's catalogue (item 7).
 - [ ] Holding institution and shelfmark for the eight institutional witnesses, from each institution's catalogue (item 2).
 - [ ] Image terms and `reproduction_cleared` for all ten, starting with the three published ones (item 3).
 - [ ] IIIF manifests where published: portolans and Fra Mauro first (item 4).
@@ -93,5 +94,5 @@ What changed in the registry:
 - **IIIF (item 4)** is recorded for `trade-loc-portolan` only (below). The BnF's Gallica answered with a Cloudflare challenge, and Commons refused the request for rate, so the other records' sources stay unread.
 - **Holding institution and shelfmark (item 2)** for the other seven need each institution's own catalogue. The Commons credits above say where to look.
 - **`trade-bianco-1436` and `trade-agnese-1544` (item 5)** stay incomplete. The Agnese workshop made many atlases, so the record must first say which copy it means, and that is the author's call, made from the bibliography it cites.
-- **Ruscelli (item 7)** is the author's acquisition decision.
+- **Ruscelli (item 7)**: not bought (the author, 25 November 2026). Its institutional record needs a holder read from a catalogue.
 

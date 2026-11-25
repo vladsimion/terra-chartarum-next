@@ -1,6 +1,6 @@
 # Essay: Târgoviște: seat, press and frontier
 
-**Essay record**: `content/essay/essay-000002.yaml` (at Concept, held; minted 22 November 2026)
+**Essay record**: `content/essay/essay-000002.yaml` (at Corpus, held; minted 22 November 2026, promoted to Corpus 25 November 2026)
 
 **Jira**: TCX-84 (Stage III rank 3, epic TCX-79)
 
@@ -28,9 +28,9 @@ The collection holds no map of Târgoviște before c. 1570. The candidates come 
 
 | Map record | Shown or source-only | Rights state | Blocking? |
 |---|---|---|---|
-| `map-000001`, Mercator, *Walachia, Servia, Bulgaria, Romania* (Duisburg, 1589), held | candidate, the author's choice | No known copyright restrictions (Library of Congress, World Digital Library); `reproduction_cleared: false` | No: it has a rights state, which is all `ESSAY-CORPUS` needs |
+| `map-000001`, Mercator, *Walachia, Servia, Bulgaria, Romania* (Duisburg, 1589), held | in the corpus (the author's choice, 25 November 2026); shown or source-only not yet decided | No known copyright restrictions (Library of Congress, World Digital Library); `reproduction_cleared: false` | No: it has a rights state, which is all `ESSAY-CORPUS` needs |
 
-**Next step, checked 23 November 2026:** the essay is at Concept, and the only stage it can move to is Corpus (stages are never skipped). `npm run registry -- promote tc:tc:essay:essay-000002 Corpus --by <person> --check` fails on one check: `ESSAY-CORPUS`, *maps: at least one map in the corpus*. It needs a map record with a rights state in the essay's `maps`. No Wallachian map has a record yet. The Cantacuzino map's rights could not be read on Commons that day (the API refused the request for rate), so no rights state was written. Once the author chooses the corpus and its records exist with rights, the promotion is the author's to run. **Update (23 November 2026, evening):** Mercator's 1589 map of Wallachia now has a held record with a rights state (`map-000001`, from the Library of Congress). If the author takes it into the corpus by adding it to the essay's `maps`, `ESSAY-CORPUS` passes. Whether the sheet names Târgoviște is not yet read. The Cantacuzino map is still without a record: the Library of Congress holds no copy, and Commons refused the request. The open questions are now on the record too (`open_questions`), as Research will require.
+**Next step, checked 23 November 2026:** the essay is at Concept, and the only stage it can move to is Corpus (stages are never skipped). `npm run registry -- promote tc:tc:essay:essay-000002 Corpus --by <person> --check` fails on one check: `ESSAY-CORPUS`, *maps: at least one map in the corpus*. It needs a map record with a rights state in the essay's `maps`. No Wallachian map has a record yet. The Cantacuzino map's rights could not be read on Commons that day (the API refused the request for rate), so no rights state was written. Once the author chooses the corpus and its records exist with rights, the promotion is the author's to run. **Update (23 November 2026, evening):** Mercator's 1589 map of Wallachia now has a held record with a rights state (`map-000001`, from the Library of Congress). If the author takes it into the corpus by adding it to the essay's `maps`, `ESSAY-CORPUS` passes. Whether the sheet names Târgoviște is not yet read. The Cantacuzino map is still without a record: the Library of Congress holds no copy, and Commons refused the request. The open questions are now on the record too (`open_questions`), as Research will require. **Done (25 November 2026):** the author took Mercator 1589 into the corpus, and the essay was promoted to Corpus by Vlad Simion with every entry check passing. **Next, Research:** `ESSAY-RESEARCH` needs Evidence records for the argument, each with a locator, and the `open_questions` list (already present).
 
 ## Interactions
 
