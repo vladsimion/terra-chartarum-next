@@ -13,7 +13,8 @@ import path from 'node:path';
  * institution, any HTTPS host. Nothing needs eval, so 'unsafe-eval' is never granted.
  */
 
-const INLINE_SCRIPT = /<script(?![^>]*\bsrc=)([^>]*)>([\s\S]*?)<\/script>/gi;
+const WEB_ANALYTICS_BEACON = 'https://static.cloudflareinsights.com';
+const INLINE_SCRIPT =/<script(?![^>]*\bsrc=)([^>]*)>([\s\S]*?)<\/script>/gi;
 const DATA_BLOCK = /\btype\s*=\s*["']?application\/(ld\+)?json/i;
 
 /** The CSP source of every inline script in a page, in document order. */
@@ -29,7 +30,8 @@ export function inlineScriptHashes(html: string): string[] {
 export function contentSecurityPolicy(scriptHashes: readonly string[]): string {
   return [
     "default-src 'self'",
-    ['script-src', "'self'", "'wasm-unsafe-eval'", ...scriptHashes].join(' '),
+    // Cloudflare Web Analytics injects its beacon at the edge; it reports to cloudflareinsights.com, which connect-src covers
+    ['script-src', "'self'", "'wasm-unsafe-eval'", WEB_ANALYTICS_BEACON, ...scriptHashes].join(' '),
     // Astro inlines small stylesheets as <style> elements
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https:",

@@ -23,8 +23,8 @@ describe('contentSecurityPolicy', () => {
   const csp = contentSecurityPolicy([sha('x')]);
   const directive = (name: string) => csp.split('; ').find((d) => d === name || d.startsWith(`${name} `));
 
-  it('allows only this site and the listed inline scripts to run, never eval', () => {
-    expect(directive('script-src')).toBe(`script-src 'self' 'wasm-unsafe-eval' ${sha('x')}`);
+  it('allows only this site, the Cloudflare Web Analytics beacon and the listed inline scripts to run, never eval', () => {
+    expect(directive('script-src')).toBe(`script-src 'self' 'wasm-unsafe-eval' https://static.cloudflareinsights.com ${sha('x')}`);
     expect(csp).not.toContain("'unsafe-eval'");
     expect(directive('script-src')).not.toContain("'unsafe-inline'");
   });
